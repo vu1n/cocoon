@@ -25,14 +25,13 @@ cocoon runs as a single MCP server registered with the host agent (Claude Code, 
 Install and register with your host:
 
 ```sh
-uvx cocoon init --host claude-code      # writes ~/.claude/mcp.json
-uvx cocoon init --host codex            # writes ~/.codex/mcp.json
-uvx cocoon init --print                 # print the snippet for manual install
+uvx cocoon init                         # registers via `claude mcp add` (user scope)
+uvx cocoon init --print                 # show the registration command instead of running it
 # For non-PyPI local installs, override with --command:
-cocoon init --host claude-code --command "$(which cocoon) serve"
+cocoon init --command "$(which cocoon) serve"
 ```
 
-Restart the host agent after `init` and the `cocoon` tool appears.
+Restart Claude Code after `init` and the `cocoon` tool appears.
 
 ## The single tool: `cocoon(action, ...)`
 

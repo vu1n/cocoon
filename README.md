@@ -30,7 +30,7 @@ cocoon list --filter payments
 ## Install
 
 ```sh
-uvx cocoon init --host claude-code   # writes ~/.claude/mcp.json
+uvx cocoon init                      # registers via `claude mcp add` (user scope)
 uvx cocoon doctor                    # check sandbox + Go + catalog
 uvx cocoon auth linear --token lin_… # write per-API credentials (mode 0600)
 ```
@@ -38,12 +38,14 @@ uvx cocoon auth linear --token lin_… # write per-API credentials (mode 0600)
 For a local install pointing at a checkout instead of PyPI:
 
 ```sh
-cocoon init --host claude-code --command "$(which cocoon) serve"
+cocoon init --command "$(which cocoon) serve"
 # or, running from the repo:
-cocoon init --host claude-code --command "uv run --directory /path/to/cocoon cocoon serve"
+cocoon init --command "uv run --directory /path/to/cocoon cocoon serve"
 ```
 
-**Requirements**: Python 3.11+, Go 1.26+ (so cocoon can `go install` the printing-press CLIs), and `bubblewrap` (Linux) or `sandbox-exec` (built-in macOS) for execution sandboxing.
+`cocoon init` shells out to `claude mcp add cocoon --scope user`, which writes the user-scope entry to `~/.claude.json`. (Older `~/.claude/mcp.json` is not read by modern Claude Code.) For other MCP hosts, use `cocoon init --print` to get both a shell command and a JSON snippet.
+
+**Requirements**: Python 3.11+, Go 1.26+ (so cocoon can `go install` the printing-press CLIs), and `bubblewrap` (Linux) or `sandbox-exec` (built-in macOS) for execution sandboxing. `cocoon init` additionally needs the `claude` CLI on PATH.
 
 ## Layout
 

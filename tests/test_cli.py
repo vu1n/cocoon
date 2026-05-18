@@ -1,76 +1,85 @@
 """Black-box tests for the CLI: invoke `main()` with argv lists and assert
-on stdout / filesystem state. Avoids spinning up subprocesses."""
+on stdout / filesystem state. Subprocess calls (the `claude mcp add` shell-out
+in `init`) are monkeypatched, not actually spawned."""
 
 import json
+import subprocess
 from pathlib import Path
-
-import pytest
 
 from cocoon.cli import main
 
 
-@pytest.fixture(autouse=True)
-def _isolate_cache(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("COCOON_CACHE_DIR", str(tmp_path))
-
-
-def test_init_print_emits_snippet(capsys) -> None:
+def test_init_print_emits_shell_command_and_snippet(capsys) -> None:
     assert main(["init", "--print"]) == 0
     out = capsys.readouterr().out
-    parsed = json.loads(out)
-    assert "cocoon" in parsed["mcpServers"]
-    assert parsed["mcpServers"]["cocoon"]["args"] == ["cocoon", "serve"]
+    assert "claude mcp add cocoon --scope user -- uvx cocoon serve" in out
+    parsed = json.loads(out[out.index("{"):])
+    assert parsed["mcpServers"]["cocoon"] == {"command": "uvx", "args": ["cocoon", "serve"]}
 
 
-def test_init_writes_into_named_host(tmp_path: Path, monkeypatch, capsys) -> None:
-    monkeypatch.setattr(Path, "home", lambda: tmp_path / "home")
-    assert main(["init", "--host", "claude-code"]) == 0
-    cfg = tmp_path / "home" / ".claude" / "mcp.json"
-    data = json.loads(cfg.read_text())
-    assert data["mcpServers"]["cocoon"] == {"command": "uvx", "args": ["cocoon", "serve"]}
+def test_init_default_registers_via_claude_mcp_add(monkeypatch, capsys) -> None:
+    """No flags → registers with claude-code by shelling to `claude mcp add`."""
+    calls: list[list[str]] = []
+
+    def fake_which(name: str) -> str | None:
+        return "/fake/claude" if name == "claude" else None
+
+    def fake_run(cmd, **kwargs):
+        calls.append(cmd)
+        return subprocess.CompletedProcess(cmd, 0, stdout="", stderr="")
+
+    monkeypatch.setattr("cocoon.cli.shutil.which", fake_which)
+    monkeypatch.setattr("cocoon.cli.subprocess.run", fake_run)
+
+    assert main(["init"]) == 0
+    # First call removes the existing entry; second call adds.
+    assert calls[0][:5] == ["/fake/claude", "mcp", "remove", "cocoon", "--scope"]
+    assert calls[1][:5] == ["/fake/claude", "mcp", "add", "cocoon", "--scope"]
+    # Command + args are appended after `--`.
+    sep = calls[1].index("--")
+    assert calls[1][sep + 1 :] == ["uvx", "cocoon", "serve"]
 
 
-def test_init_preserves_other_servers(tmp_path: Path, monkeypatch) -> None:
-    monkeypatch.setattr(Path, "home", lambda: tmp_path / "home")
-    cfg = tmp_path / "home" / ".claude" / "mcp.json"
-    cfg.parent.mkdir(parents=True)
-    cfg.write_text(json.dumps({"mcpServers": {"other": {"command": "echo"}}}))
-    assert main(["init", "--host", "claude-code"]) == 0
-    data = json.loads(cfg.read_text())
-    assert set(data["mcpServers"]) == {"other", "cocoon"}
+def test_init_propagates_custom_command_to_claude_mcp_add(monkeypatch) -> None:
+    calls: list[list[str]] = []
+
+    def fake_run(cmd, **kwargs):
+        calls.append(cmd)
+        return subprocess.CompletedProcess(cmd, 0, stdout="", stderr="")
+
+    monkeypatch.setattr("cocoon.cli.shutil.which", lambda name: "/fake/claude")
+    monkeypatch.setattr("cocoon.cli.subprocess.run", fake_run)
+
+    assert main(["init", "--command", "uv run --directory /repo cocoon serve"]) == 0
+    sep = calls[1].index("--")
+    assert calls[1][sep + 1 :] == ["uv", "run", "--directory", "/repo", "cocoon", "serve"]
 
 
-def test_init_requires_host_or_print(capsys) -> None:
-    with pytest.raises(SystemExit):
-        main(["init"])
+def test_init_fails_clearly_without_claude_cli(monkeypatch, capsys) -> None:
+    monkeypatch.setattr("cocoon.cli.shutil.which", lambda name: None)
+    assert main(["init"]) == 1
+    err = capsys.readouterr().err
+    assert "claude" in err and "PATH" in err
 
 
-def test_init_command_override_print(capsys) -> None:
-    assert main(["init", "--print", "--command", "/usr/local/bin/cocoon serve"]) == 0
-    parsed = json.loads(capsys.readouterr().out)
-    assert parsed["mcpServers"]["cocoon"] == {
-        "command": "/usr/local/bin/cocoon", "args": ["serve"],
-    }
+def test_init_surfaces_claude_mcp_add_failure(monkeypatch, capsys) -> None:
+    def fake_run(cmd, **kwargs):
+        if cmd[2] == "remove":
+            return subprocess.CompletedProcess(cmd, 0, stdout="", stderr="")
+        return subprocess.CompletedProcess(cmd, 3, stdout="", stderr="upstream said no")
+
+    monkeypatch.setattr("cocoon.cli.shutil.which", lambda name: "/fake/claude")
+    monkeypatch.setattr("cocoon.cli.subprocess.run", fake_run)
+
+    assert main(["init"]) == 3
+    assert "upstream said no" in capsys.readouterr().err
 
 
-def test_init_command_override_writes_into_host(tmp_path: Path, monkeypatch) -> None:
-    monkeypatch.setattr(Path, "home", lambda: tmp_path / "home")
-    assert main([
-        "init", "--host", "claude-code",
-        "--command", "uv run --directory /repo cocoon serve",
-    ]) == 0
-    data = json.loads((tmp_path / "home" / ".claude" / "mcp.json").read_text())
-    assert data["mcpServers"]["cocoon"] == {
-        "command": "uv",
-        "args": ["run", "--directory", "/repo", "cocoon", "serve"],
-    }
-
-
-def test_init_command_quoted_args_preserved(capsys) -> None:
-    """shlex handles quoted strings so a flag with spaces stays one arg."""
+def test_init_print_command_quoted_args_preserved(capsys) -> None:
+    """shlex.split + shlex.join keep `--tag 'group a'` as one shell token."""
     assert main(["init", "--print", "--command", "cocoon serve --tag 'group a'"]) == 0
-    parsed = json.loads(capsys.readouterr().out)
-    assert parsed["mcpServers"]["cocoon"]["args"] == ["serve", "--tag", "group a"]
+    out = capsys.readouterr().out
+    assert "claude mcp add cocoon --scope user -- cocoon serve --tag 'group a'" in out
 
 
 def test_init_empty_command_rejected(capsys) -> None:

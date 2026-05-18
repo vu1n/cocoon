@@ -2,10 +2,11 @@
 
 Subcommands:
   serve              Run the MCP server (stdio transport).
-  init --host NAME   Write cocoon into a host agent's MCP config (or --print).
+  init               Register cocoon with Claude Code via `claude mcp add`.
   auth API ...       Write per-API credentials to ~/.cache/cocoon/auth/.
-  doctor             Report bwrap/sandbox-exec/printing-press/catalog status.
+  doctor             Report sandbox / Go / catalog / auth status.
   catalog refresh    Force-refresh the on-disk catalog cache.
+  find/describe/call/list  Capability operations (mirror the MCP `cocoon` tool).
 """
 
 import argparse
@@ -13,8 +14,8 @@ import json
 import os
 import shlex
 import shutil
+import subprocess
 import sys
-from pathlib import Path
 from typing import Callable, Sequence
 
 from . import __version__
@@ -24,20 +25,10 @@ from .errors import CocoonError
 from .paths import auth_dir, cache_root, catalog_dir, ensure_dirs
 from .sandbox import probe as probe_sandbox
 
-HOST_CONFIG_SUFFIXES: dict[str, tuple[str, ...]] = {
-    "claude-code": (".claude", "mcp.json"),
-    "hermes": (".hermes", "mcp.json"),
-}
-
 COCOON_ENTRY = {
     "command": "uvx",
     "args": ["cocoon", "serve"],
 }
-
-
-def _host_config_path(host: str) -> Path:
-    """Resolve at call time so $HOME / Path.home() monkeypatching works."""
-    return Path.home().joinpath(*HOST_CONFIG_SUFFIXES[host])
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -67,15 +58,20 @@ def _build_parser() -> argparse.ArgumentParser:
     p_serve = subs.add_parser("serve", help="Run the cocoon MCP server (stdio).")
     p_serve.set_defaults(_handler=_cmd_serve)
 
-    p_init = subs.add_parser("init", help="Register cocoon with a host agent.")
-    group = p_init.add_mutually_exclusive_group(required=True)
-    group.add_argument(
-        "--host",
-        choices=sorted(HOST_CONFIG_SUFFIXES),
-        help="Write into this host's MCP config.",
+    p_init = subs.add_parser(
+        "init",
+        help="Register cocoon with Claude Code via `claude mcp add` (or --print).",
     )
-    group.add_argument("--print", dest="print_only", action="store_true",
-                       help="Print the MCP snippet without writing any file.")
+    p_init.add_argument(
+        "--host",
+        choices=["claude-code"],
+        default="claude-code",
+        help="Target host (default: claude-code).",
+    )
+    p_init.add_argument(
+        "--print", dest="print_only", action="store_true",
+        help="Print the registration command without running it.",
+    )
     p_init.add_argument(
         "--command",
         help=(
@@ -150,15 +146,51 @@ def _cmd_init(args: argparse.Namespace) -> int:
         print("error: --command must be a non-empty shell string", file=sys.stderr)
         return 2
 
-    snippet = {"mcpServers": {"cocoon": entry}}
     if args.print_only:
-        print(json.dumps(snippet, indent=2))
+        cmdline = shlex.join([entry["command"], *entry["args"]])
+        print(f"claude mcp add cocoon --scope user -- {cmdline}")
+        print()
+        print("Or, equivalent JSON snippet for hosts that read it directly:")
+        print(json.dumps({"mcpServers": {"cocoon": entry}}, indent=2))
         return 0
 
-    config_path = _host_config_path(args.host)
-    _merge_mcp_entry(config_path, "cocoon", entry)
-    print(f"registered cocoon with {args.host}: {config_path}")
+    return _register_claude_code(entry)
+
+
+def _register_claude_code(entry: dict) -> int:
+    """Register cocoon as a user-scope MCP server via `claude mcp add`.
+
+    `claude mcp add` is the supported registration path; writing JSON to
+    legacy locations like ~/.claude/mcp.json silently no-ops because modern
+    Claude Code reads ~/.claude.json instead. Idempotent: remove any
+    existing entry first so re-running `init` reflects the new --command.
+    """
+    claude = shutil.which("claude")
+    if claude is None:
+        print(
+            "error: `claude` CLI not on PATH. Install Claude Code, or run "
+            "`cocoon init --print` for the manual command.",
+            file=sys.stderr,
+        )
+        return 1
+
+    subprocess.run(
+        [claude, "mcp", "remove", "cocoon", "--scope", "user"],
+        capture_output=True,
+    )
+    result = subprocess.run(
+        [claude, "mcp", "add", "cocoon", "--scope", "user", "--",
+         entry["command"], *entry["args"]],
+        capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        print("error: `claude mcp add` failed:", file=sys.stderr)
+        print(result.stderr or result.stdout, file=sys.stderr)
+        return result.returncode
+
+    print("registered cocoon with Claude Code (user scope).")
     print(f"  command: {entry['command']} {' '.join(entry['args'])}")
+    print("Restart Claude Code to load the tool.")
     return 0
 
 
@@ -303,13 +335,6 @@ def _collect_call_args(args: argparse.Namespace) -> dict | None:
             return None
         return parsed
     return _parse_kv_pairs(args.arg, flag="--arg")
-
-
-def _merge_mcp_entry(config_path: Path, name: str, entry: dict) -> None:
-    data = json.loads(config_path.read_text(encoding="utf-8")) if config_path.exists() else {}
-    data.setdefault("mcpServers", {})[name] = entry
-    config_path.parent.mkdir(parents=True, exist_ok=True)
-    config_path.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":
