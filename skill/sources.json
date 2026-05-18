@@ -1,0 +1,22 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/mvanhorn/cli-printing-press/main/README.md",
+    "sha": "0f0e4de979c7427921dc626352c4d922dce3314da6f74a104637c6c5193cbfd1",
+    "took": "The catalog of generatable CLIs (45+ APIs); the dual CLI+MCP output model; the 35-100x token-efficiency claim (CLIs pre-format output, MCP servers dump raw JSON) that motivates wrapping CLIs as the execution engine while keeping MCP as the agent-facing interface; the default endpoint-mirror mode that produces ~30-50 tools per API and motivates the aggregation/facade design."
+  },
+  {
+    "url": "https://raw.githubusercontent.com/vu1n/pillbox/main/README.md",
+    "sha": "c66042b4ca25f3655c267155a9d22d86ce06edf1a33d7852ee1fa124d8c4f233",
+    "took": "Per-tool auth-isolation pattern (each sandboxed binary gets only its own credentials, never the full env); the 'one-command auth' UX shape; the idea of treating credential scoping as a first-class concern of the sandbox boundary rather than a deployment afterthought. Applied at per-call granularity in cocoon instead of pillbox's per-session granularity."
+  },
+  {
+    "url": "https://raw.githubusercontent.com/openai/codex/main/codex-rs/linux-sandbox/README.md",
+    "sha": "8d02981dced0cc6d81c87920aad277cf09df048d9dbbf478bd04fbfff8ff7d80",
+    "took": "The SandboxPolicy-over-OS-primitives abstraction: one declarative policy translated to bwrap+Landlock on Linux, Seatbelt on macOS, Restricted Tokens on Windows. The pattern of namespace isolation flags (--unshare-user, --unshare-pid, --unshare-net) and their tradeoffs. The arg0-based subprocess invocation pattern (which we noted but did not adopt — calling bwrap/Seatbelt directly avoids the Codex dependency)."
+  },
+  {
+    "url": "https://code.claude.com/docs/en/sandboxing",
+    "sha": "97d5358c4e51354821caa93fe96734cfab5e1e03e2ac7ae09fbae7f4d4e24020",
+    "took": "Layered permissions model (permission mode + sandbox + per-tool allow-list + hooks) as the right shape for an agent-facing sandbox. The proxy-based network egress allowlist via unix domain socket (queued for cocoon v1.1) — bwrap's --unshare-net is all-or-nothing, so per-host control requires an out-of-sandbox proxy. The observation that sandboxing reduces permission prompts ~84% in internal use, which validates the 'tight default, no prompts' shape rather than 'open default + prompt on each action'."
+  }
+]

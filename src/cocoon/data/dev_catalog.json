@@ -1,0 +1,160 @@
+[
+  {
+    "api": "linear",
+    "description": "Linear: issue tracking and project management",
+    "endpoints": [
+      {
+        "tool": "issues.create",
+        "summary": "Create a new issue in a team",
+        "params_schema": {
+          "title": "string",
+          "description": "string?",
+          "team_id": "string",
+          "assignee_id": "string?"
+        }
+      },
+      {
+        "tool": "issues.list",
+        "summary": "List issues, optionally filtered by team or assignee",
+        "params_schema": {
+          "team_id": "string?",
+          "assignee_id": "string?",
+          "state": "string?",
+          "limit": "integer?"
+        }
+      },
+      {
+        "tool": "issues.update",
+        "summary": "Update an existing issue's fields",
+        "params_schema": {
+          "issue_id": "string",
+          "title": "string?",
+          "state_id": "string?",
+          "assignee_id": "string?"
+        }
+      },
+      {
+        "tool": "comments.create",
+        "summary": "Add a comment to an issue",
+        "params_schema": {
+          "issue_id": "string",
+          "body": "string"
+        }
+      },
+      {
+        "tool": "teams.list",
+        "summary": "List all teams the user belongs to",
+        "params_schema": {}
+      }
+    ]
+  },
+  {
+    "api": "slack",
+    "description": "Slack: workspace messaging",
+    "endpoints": [
+      {
+        "tool": "chat.postMessage",
+        "summary": "Send a message to a channel or user",
+        "params_schema": {
+          "channel": "string",
+          "text": "string",
+          "thread_ts": "string?"
+        }
+      },
+      {
+        "tool": "conversations.list",
+        "summary": "List channels and DMs visible to the user",
+        "params_schema": {
+          "types": "string?",
+          "limit": "integer?"
+        }
+      },
+      {
+        "tool": "users.lookup",
+        "summary": "Look up a user by email or display name",
+        "params_schema": {
+          "email": "string?",
+          "name": "string?"
+        }
+      }
+    ]
+  },
+  {
+    "api": "github",
+    "description": "GitHub: source control, issues, pull requests",
+    "endpoints": [
+      {
+        "tool": "repos.get",
+        "summary": "Get a repository's metadata",
+        "params_schema": {
+          "owner": "string",
+          "repo": "string"
+        }
+      },
+      {
+        "tool": "issues.create",
+        "summary": "Open a new issue on a repository",
+        "params_schema": {
+          "owner": "string",
+          "repo": "string",
+          "title": "string",
+          "body": "string?"
+        }
+      },
+      {
+        "tool": "pull_requests.list",
+        "summary": "List pull requests for a repository",
+        "params_schema": {
+          "owner": "string",
+          "repo": "string",
+          "state": "string?"
+        }
+      }
+    ]
+  },
+  {
+    "api": "stripe",
+    "description": "Stripe: payments and billing",
+    "endpoints": [
+      {
+        "tool": "customers.create",
+        "summary": "Create a new customer",
+        "params_schema": {
+          "email": "string?",
+          "name": "string?",
+          "description": "string?"
+        }
+      },
+      {
+        "tool": "charges.create",
+        "summary": "Charge a customer or source",
+        "params_schema": {
+          "amount": "integer",
+          "currency": "string",
+          "customer": "string?",
+          "source": "string?"
+        }
+      }
+    ]
+  },
+  {
+    "api": "hackernews",
+    "description": "Hacker News read-only API",
+    "endpoints": [
+      {
+        "tool": "stories.top",
+        "summary": "Fetch the current top stories",
+        "params_schema": {
+          "limit": "integer?"
+        }
+      },
+      {
+        "tool": "item.get",
+        "summary": "Fetch a single item (story, comment, job) by id",
+        "params_schema": {
+          "id": "integer"
+        }
+      }
+    ]
+  }
+]
