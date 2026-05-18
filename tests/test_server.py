@@ -1,7 +1,3 @@
-from pathlib import Path
-
-import pytest
-
 from cocoon.server import _cap, _format_result, _try_json, cocoon as cocoon_tool
 
 
@@ -49,16 +45,10 @@ def test_cap_truncates_with_marker() -> None:
 
 
 # ---------------------------------------------------------------------------
-# Dispatcher tests for the single `cocoon` MCP tool. We call .fn to bypass
-# the @mcp.tool() wrapper while keeping the @_catch_cocoon_errors wrapper
-# in place, since that's the boundary contract.
+# Dispatcher tests for the single `cocoon` MCP tool. We call the decorated
+# function directly: the @_catch_cocoon_errors wrapper stays in place (that
+# being the boundary contract) but we skip the MCP transport layer.
 # ---------------------------------------------------------------------------
-
-@pytest.fixture(autouse=True)
-def _isolate_cache(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("COCOON_CACHE_DIR", str(tmp_path))
-    monkeypatch.delenv("COCOON_CATALOG_URL", raising=False)
-
 
 async def _call(**kwargs):
     return await cocoon_tool(**kwargs)
@@ -90,7 +80,12 @@ async def test_action_describe_unknown_returns_capability_not_found() -> None:
 async def test_action_describe_missing_args_returns_error() -> None:
     out = await _call(action="describe", api="hackernews")
     assert out["error"] == "cocoon_error"
-    assert "api and tool" in out["message"]
+    assert out["detail"]["missing"] == ["tool"]
+
+
+async def test_action_describe_missing_both_lists_both() -> None:
+    out = await _call(action="describe")
+    assert out["detail"]["missing"] == ["api", "tool"]
 
 
 async def test_action_list_returns_summaries() -> None:
@@ -113,4 +108,4 @@ async def test_unknown_action_returns_error() -> None:
 async def test_action_call_missing_api_returns_error() -> None:
     out = await _call(action="call", tool="doctor")
     assert out["error"] == "cocoon_error"
-    assert "api and tool" in out["message"]
+    assert out["detail"]["missing"] == ["api"]

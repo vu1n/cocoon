@@ -6,12 +6,6 @@ from cocoon import catalog
 from cocoon.errors import CapabilityNotFound
 
 
-@pytest.fixture(autouse=True)
-def _isolate_cache(tmp_path: Path, monkeypatch):
-    monkeypatch.setenv("COCOON_CACHE_DIR", str(tmp_path))
-    monkeypatch.delenv("COCOON_CATALOG_URL", raising=False)
-
-
 def test_load_catalog_returns_dev_fallback() -> None:
     data = catalog.load_catalog()
     apis = {entry["api"] for entry in data}

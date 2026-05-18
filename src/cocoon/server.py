@@ -85,28 +85,33 @@ async def cocoon(
     On error returns {error, message, detail} with a stable code
     (auth_missing, materialization_failed, capability_not_found, etc.).
     """
-    if action == "find":
-        if query is None:
-            raise CocoonError("'find' requires query", action=action)
-        return [catalog.to_dict(c) for c in catalog.find_capability(query, limit)]
-
-    if action == "describe":
-        if api is None or tool is None:
-            raise CocoonError("'describe' requires api and tool", action=action)
-        return catalog.to_dict(catalog.describe_capability(api, tool))
-
-    if action == "list":
-        return [catalog.to_dict(s) for s in catalog.list_apis(filter)]
-
-    if action == "call":
-        if api is None or tool is None:
-            raise CocoonError("'call' requires api and tool", action=action)
-        return await _do_call(api, tool, args, ctx)
-
-    raise CocoonError(f"unknown action '{action}'", action=action)
+    match action:
+        case "find":
+            _require(action, query=query)
+            return [catalog.to_dict(c) for c in catalog.find_capability(query, limit)]
+        case "describe":
+            _require(action, api=api, tool=tool)
+            return catalog.to_dict(catalog.describe_capability(api, tool))
+        case "list":
+            return [catalog.to_dict(s) for s in catalog.list_apis(filter)]
+        case "call":
+            _require(action, api=api, tool=tool)
+            return await do_call(api, tool, args, ctx)
+        case _:
+            raise CocoonError(f"unknown action '{action}'", action=action)
 
 
-async def _do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -> dict:
+def _require(action: str, **fields: Any) -> None:
+    missing = [name for name, value in fields.items() if value is None]
+    if missing:
+        raise CocoonError(
+            f"'{action}' requires {' and '.join(missing)}",
+            action=action,
+            missing=missing,
+        )
+
+
+async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -> dict:
     binary = cached_binary(api)
     if binary is None:
         if ctx is not None:

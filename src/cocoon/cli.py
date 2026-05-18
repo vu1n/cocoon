@@ -15,7 +15,7 @@ import shlex
 import shutil
 import sys
 from pathlib import Path
-from typing import Sequence
+from typing import Callable, Sequence
 
 from . import __version__
 from . import auth as auth_module
@@ -173,18 +173,30 @@ def _cmd_auth(args: argparse.Namespace) -> int:
     env: dict[str, str] = {}
     if args.token:
         env["TOKEN"] = args.token
-    for pair in args.env:
-        if "=" not in pair:
-            print(f"error: --env {pair!r} must be KEY=VALUE", file=sys.stderr)
-            return 2
-        key, value = pair.split("=", 1)
-        env[key.strip()] = value
+    parsed = _parse_kv_pairs(args.env, flag="--env")
+    if parsed is None:
+        return 2
+    env.update(parsed)
     if not env:
         print("error: provide --token and/or --env KEY=VALUE at least once", file=sys.stderr)
         return 2
     path = auth_module.write_token_env(args.api, env)
     print(f"wrote {path} (mode 0600, keys: {', '.join(sorted(env))})")
     return 0
+
+
+def _parse_kv_pairs(pairs: list[str], *, flag: str) -> dict[str, str] | None:
+    """Parse `["KEY=VALUE", ...]` to a dict. Returns None and prints to stderr
+    on malformed input; the flag name is included in the error so the user
+    knows which option was wrong."""
+    out: dict[str, str] = {}
+    for pair in pairs:
+        if "=" not in pair:
+            print(f"error: {flag} {pair!r} must be KEY=VALUE", file=sys.stderr)
+            return None
+        key, value = pair.split("=", 1)
+        out[key.strip()] = value
+    return out
 
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
@@ -221,37 +233,34 @@ def _cmd_catalog_refresh(args: argparse.Namespace) -> int:
 def _cmd_find(args: argparse.Namespace) -> int:
     results = [catalog_module.to_dict(c)
                for c in catalog_module.find_capability(args.query, args.limit)]
-    if args.as_json:
-        print(json.dumps(results, indent=2))
-        return 0
-    if not results:
-        print("(no matches)")
-        return 0
-    for r in results:
-        print(f"{r['api']}/{r['tool']}  —  {r['summary']}")
-        if r["params_schema"]:
-            print(f"    params: {r['params_schema']}")
-    return 0
+    def human() -> None:
+        if not results:
+            print("(no matches)")
+            return
+        for r in results:
+            print(f"{r['api']}/{r['tool']}  —  {r['summary']}")
+            if r["params_schema"]:
+                print(f"    params: {r['params_schema']}")
+    return _emit(results, args.as_json, human)
 
 
 def _cmd_describe(args: argparse.Namespace) -> int:
     cap = catalog_module.to_dict(catalog_module.describe_capability(args.api, args.tool))
-    if args.as_json:
-        print(json.dumps(cap, indent=2))
-        return 0
-    print(f"{cap['api']}/{cap['tool']}")
-    print(f"  summary: {cap['summary']}")
-    print(f"  params:  {cap['params_schema']}")
-    return 0
+    def human() -> None:
+        print(f"{cap['api']}/{cap['tool']}")
+        print(f"  summary: {cap['summary']}")
+        print(f"  params:  {cap['params_schema']}")
+    return _emit(cap, args.as_json, human)
 
 
 def _cmd_call(args: argparse.Namespace) -> int:
     import asyncio
-    from .server import _do_call
+    from .server import do_call
     call_args = _collect_call_args(args)
     if call_args is None:
         return 2
-    result = asyncio.run(_do_call(args.api, args.tool, call_args, ctx=None))
+    result = asyncio.run(do_call(args.api, args.tool, call_args, ctx=None))
+
     if args.as_json:
         print(json.dumps(result, indent=2))
     elif "json" in result:
@@ -260,17 +269,25 @@ def _cmd_call(args: argparse.Namespace) -> int:
         print(result["stdout"])
     if result.get("stderr"):
         print(result["stderr"], file=sys.stderr)
-    return result.get("exit_code", 0) if isinstance(result.get("exit_code"), int) else 1
+
+    exit_code = result.get("exit_code")
+    return exit_code if isinstance(exit_code, int) else 1
 
 
 def _cmd_list(args: argparse.Namespace) -> int:
     summaries = [catalog_module.to_dict(s)
                  for s in catalog_module.list_apis(args.filter)]
-    if args.as_json:
-        print(json.dumps(summaries, indent=2))
-        return 0
-    for s in summaries:
-        print(f"{s['api']:<20} {s['endpoint_count']:>3} endpoints  —  {s['description']}")
+    def human() -> None:
+        for s in summaries:
+            print(f"{s['api']:<20} {s['endpoint_count']:>3} endpoints  —  {s['description']}")
+    return _emit(summaries, args.as_json, human)
+
+
+def _emit(data: object, as_json: bool, format_human: Callable[[], None]) -> int:
+    if as_json:
+        print(json.dumps(data, indent=2))
+    else:
+        format_human()
     return 0
 
 
@@ -285,14 +302,7 @@ def _collect_call_args(args: argparse.Namespace) -> dict | None:
             print("error: --json-args must decode to a JSON object", file=sys.stderr)
             return None
         return parsed
-    out: dict = {}
-    for pair in args.arg:
-        if "=" not in pair:
-            print(f"error: --arg {pair!r} must be KEY=VALUE", file=sys.stderr)
-            return None
-        key, value = pair.split("=", 1)
-        out[key.strip()] = value
-    return out
+    return _parse_kv_pairs(args.arg, flag="--arg")
 
 
 def _merge_mcp_entry(config_path: Path, name: str, entry: dict) -> None:
