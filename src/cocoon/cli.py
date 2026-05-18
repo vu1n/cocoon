@@ -162,8 +162,14 @@ def _register_claude_code(entry: dict) -> int:
 
     `claude mcp add` is the supported registration path; writing JSON to
     legacy locations like ~/.claude/mcp.json silently no-ops because modern
-    Claude Code reads ~/.claude.json instead. Idempotent: remove any
-    existing entry first so re-running `init` reflects the new --command.
+    Claude Code reads ~/.claude.json instead.
+
+    `claude mcp add` errors with "already exists" on a duplicate name, so
+    we `remove` first to make `init` idempotent (re-runs pick up a new
+    --command). The remove's exit code is intentionally ignored — when no
+    entry exists, remove fails cleanly and the subsequent add still
+    succeeds; that's the case we *want* to be silent on. Any remove
+    failure that genuinely blocks add will surface as an add error below.
     """
     claude = shutil.which("claude")
     if claude is None:
@@ -185,7 +191,7 @@ def _register_claude_code(entry: dict) -> int:
     )
     if result.returncode != 0:
         print("error: `claude mcp add` failed:", file=sys.stderr)
-        print(result.stderr or result.stdout, file=sys.stderr)
+        print(result.stderr or result.stdout or "(no output)", file=sys.stderr)
         return result.returncode
 
     print("registered cocoon with Claude Code (user scope).")
