@@ -11,6 +11,7 @@ Subcommands:
 import argparse
 import json
 import os
+import shlex
 import shutil
 import sys
 from pathlib import Path
@@ -75,6 +76,15 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     group.add_argument("--print", dest="print_only", action="store_true",
                        help="Print the MCP snippet without writing any file.")
+    p_init.add_argument(
+        "--command",
+        help=(
+            "Override the MCP server invocation. Pass a shell-like string, e.g. "
+            "\"$(which cocoon) serve\" for a local install or "
+            "\"uv run --directory /path/to/cocoon cocoon serve\" for a checkout. "
+            "Default is `uvx cocoon serve`, which requires cocoon to be on PyPI."
+        ),
+    )
     p_init.set_defaults(_handler=_cmd_init)
 
     p_auth = subs.add_parser("auth", help="Write per-API credentials.")
@@ -106,15 +116,28 @@ def _cmd_serve(args: argparse.Namespace) -> int:
 
 
 def _cmd_init(args: argparse.Namespace) -> int:
-    snippet = {"mcpServers": {"cocoon": COCOON_ENTRY}}
+    entry = _entry_from_command(args.command) if args.command else COCOON_ENTRY
+    if entry is None:
+        print("error: --command must be a non-empty shell string", file=sys.stderr)
+        return 2
+
+    snippet = {"mcpServers": {"cocoon": entry}}
     if args.print_only:
         print(json.dumps(snippet, indent=2))
         return 0
 
     config_path = _host_config_path(args.host)
-    _merge_mcp_entry(config_path, "cocoon", COCOON_ENTRY)
+    _merge_mcp_entry(config_path, "cocoon", entry)
     print(f"registered cocoon with {args.host}: {config_path}")
+    print(f"  command: {entry['command']} {' '.join(entry['args'])}")
     return 0
+
+
+def _entry_from_command(command: str) -> dict | None:
+    parts = shlex.split(command)
+    if not parts:
+        return None
+    return {"command": parts[0], "args": parts[1:]}
 
 
 def _cmd_auth(args: argparse.Namespace) -> int:

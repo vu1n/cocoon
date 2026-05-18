@@ -45,6 +45,40 @@ def test_init_requires_host_or_print(capsys) -> None:
         main(["init"])
 
 
+def test_init_command_override_print(capsys) -> None:
+    assert main(["init", "--print", "--command", "/usr/local/bin/cocoon serve"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert parsed["mcpServers"]["cocoon"] == {
+        "command": "/usr/local/bin/cocoon", "args": ["serve"],
+    }
+
+
+def test_init_command_override_writes_into_host(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr(Path, "home", lambda: tmp_path / "home")
+    assert main([
+        "init", "--host", "claude-code",
+        "--command", "uv run --directory /repo cocoon serve",
+    ]) == 0
+    data = json.loads((tmp_path / "home" / ".claude" / "mcp.json").read_text())
+    assert data["mcpServers"]["cocoon"] == {
+        "command": "uv",
+        "args": ["run", "--directory", "/repo", "cocoon", "serve"],
+    }
+
+
+def test_init_command_quoted_args_preserved(capsys) -> None:
+    """shlex handles quoted strings so a flag with spaces stays one arg."""
+    assert main(["init", "--print", "--command", "cocoon serve --tag 'group a'"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert parsed["mcpServers"]["cocoon"]["args"] == ["serve", "--tag", "group a"]
+
+
+def test_init_empty_command_rejected(capsys) -> None:
+    assert main(["init", "--print", "--command", "   "]) == 2
+    err = capsys.readouterr().err
+    assert "non-empty" in err
+
+
 def test_auth_with_token_writes_file(tmp_path: Path, capsys) -> None:
     assert main(["auth", "linear", "--token", "lin_abc"]) == 0
     written = tmp_path / "auth" / "linear.json"
