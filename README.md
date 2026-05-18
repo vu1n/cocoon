@@ -1,64 +1,94 @@
 # cocoon
 
-MCP facade over the [printing-press](https://github.com/mvanhorn/cli-printing-press) CLI corpus.
-Registers as one MCP server, exposes four meta-tools (`find_capability`,
-`describe_capability`, `call_capability`, `list_apis`), lazily materializes
-per-API CLIs on first use, executes each call in a per-invocation sandbox
-with only that API's credentials scoped in.
+One MCP tool (and matching CLI) that lets an agent discover, auto-install, sandbox, and call any API in the [printing-press](https://github.com/mvanhorn/cli-printing-press) corpus — without per-API install steps, without per-API MCP server fan-out.
 
-The agent-facing protocol is documented in the
-[`cocoon` skill](https://github.com/vu1n/claude-skills/tree/main/skills/cocoon).
-This directory is the runtime.
+The agent-facing protocol is documented in [`skill/SKILL.md`](skill/SKILL.md). This repo holds both the runtime and the skill that ships with it.
+
+## What it does
+
+Register cocoon once with your MCP host. The agent then sees a **single tool**, `cocoon(action, ...)`, that multiplexes four operations:
+
+```python
+cocoon(action="find",     query="create a linear issue")
+cocoon(action="describe", api="linear", tool="issues.create")
+cocoon(action="call",     api="linear", tool="issues.create",
+                          args={"title": "x", "team_id": "y"})
+cocoon(action="list",     filter="payments")
+```
+
+On first `call` for any API, cocoon runs `go install <module>@latest` from the catalog entry, then executes the resulting `<api>-pp-cli` in a per-call sandbox (bubblewrap on Linux, Seatbelt on macOS) with only that API's credentials scoped into the environment. The agent never takes a separate install step.
+
+The CLI mirrors the same operations as subcommands for terminal use:
+
+```sh
+cocoon find "create a linear issue"
+cocoon describe linear issues.create
+cocoon call linear issues.create --arg title=x --arg team_id=y
+cocoon list --filter payments
+```
 
 ## Install
 
 ```sh
-uvx cocoon init --host claude-code   # register cocoon in ~/.claude/mcp.json
-uvx cocoon doctor                    # check bwrap/sandbox-exec/printing-press
-uvx cocoon auth linear --token lin_… # write per-API credentials
-uvx cocoon serve                     # run the MCP server (init wires this up)
+uvx cocoon init --host claude-code   # writes ~/.claude/mcp.json
+uvx cocoon doctor                    # check sandbox + Go + catalog
+uvx cocoon auth linear --token lin_… # write per-API credentials (mode 0600)
 ```
 
-Requires Python 3.11+. For execution sandboxing: `bubblewrap` on Linux,
-`sandbox-exec` (built-in) on macOS. For CLI materialization: `printing-press` on PATH.
+For a local install pointing at a checkout instead of PyPI:
+
+```sh
+cocoon init --host claude-code --command "$(which cocoon) serve"
+# or, running from the repo:
+cocoon init --host claude-code --command "uv run --directory /path/to/cocoon cocoon serve"
+```
+
+**Requirements**: Python 3.11+, Go 1.26+ (so cocoon can `go install` the printing-press CLIs), and `bubblewrap` (Linux) or `sandbox-exec` (built-in macOS) for execution sandboxing.
 
 ## Layout
 
 ```
 src/cocoon/
-  server.py         MCP server (official sdk); registers the four meta-tools
-  catalog.py        catalog fetch, parse, search dispatch, list/describe
+  server.py         MCP server: one `cocoon` tool dispatching on action
+  cli.py            cocoon {serve, init, auth, doctor, catalog, find, describe, call, list}
+  catalog.py        catalog fetch, BM25 search, list/describe, auth_type lookup
   search.py         BM25 ranker (vendored, ~30 lines)
-  materialize.py    printing-press subprocess + binary cache
+  materialize.py    seamless `go install` of the per-API CLI, with PATH plumbing
   auth.py           per-API JSON credential files at ~/.cache/cocoon/auth/
-  argv.py           dict -> CLI argv translation
+  argv.py           dict -> CLI argv translation (dotted tool names → cobra subcommands)
   paths.py          centralized cache-path resolution (no side effects)
   errors.py         structured error types matching the skill's failure modes
-  cli.py            cocoon {init,serve,auth,doctor,catalog}
   sandbox/
     policy.py       SandboxPolicy dataclass
     linux.py        bubblewrap execution
     macos.py        Seatbelt (sandbox-exec) execution
-    __init__.py     platform dispatch
+    __init__.py     platform dispatch + doctor probe
+
+skill/
+  SKILL.md          agent-facing protocol (what the model reads to learn cocoon)
+  sources.json      upstream attributions for drift tracking
+
+scripts/
+  e2e_smoke.py      4-scenario end-to-end test against the real installed CLI
+
+tests/              unit tests; no external deps (catalog/auth/sandbox/argv/CLI)
 ```
 
 ## Development
 
 ```sh
 uv sync --extra dev
-uv run pytest
+uv run pytest                                    # ~90 unit tests
+uv run python scripts/e2e_smoke.py               # end-to-end against hackernews
 ```
 
-Tests cover everything that runs without external dependencies (paths, auth,
-catalog parsing/search, sandbox argv/SBPL construction, argv translation,
-CLI doctor). End-to-end tests against real `printing-press` + `bwrap` are
-out of scope for v0.
+The e2e script installs `hackernews-pp-cli` if missing (~20s on first run), then exercises the four scenarios: installed/direct, installed-via-discovery, uninstalled-via-discovery, uninstalled-via-direct-call.
 
 ## Status
 
-v0.2 — runnable skeleton with a tightened design pass. Outstanding:
+v0.3 — single-tool MCP shape, seamless install, full CLI mirror, 91 unit tests, e2e proven against the real printing-press library. Outstanding:
 
-- Semantic search (BM25 today; embeddings index over endpoint descriptions later)
-- Egress allowlist via outbound proxy (Claude Code pattern) — v1.1
-- Bring-your-own-OpenAPI-spec registration — v1.1 with codegen sandboxing
-- Real catalog URL for the printing-press-library manifest (currently falls back to a small bundled dev catalog when `COCOON_CATALOG_URL` is unset)
+- Production catalog source: today cocoon ships a small bundled dev catalog (5 APIs). Production wants the live `registry.json` from printing-press-library plus per-CLI endpoint schemas derived via `<api>-pp-cli agent-context`. Tracked in [#follow-up].
+- Egress allowlist via outbound proxy (Claude Code pattern) — v1.1.
+- Bring-your-own-OpenAPI-spec registration — v1.1 with codegen sandboxing.
+- The `npx -y @mvanhorn/printing-press install` shortcut is upstream-broken (registry validation fails on a malformed entry); cocoon uses direct `go install` instead.
