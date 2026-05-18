@@ -1,76 +1,94 @@
-"""Lazy CLI materialization via printing-press.
+"""Seamless install + lookup of printing-press CLIs.
 
-On first call to any API, shells out to `printing-press <api>` to generate
-and build the Go CLI, then caches the binary under ~/.cache/cocoon/binaries/<api>/.
-Subsequent calls hit the cache directly.
+The agent never has to take a separate install step. When a capability is
+called and its binary (`<api>-pp-cli`) isn't on PATH, cocoon runs
+`go install <module>@latest` for the module declared in the catalog
+entry's `install_module` field. After install the binary lives at
+`$GOPATH/bin/<api>-pp-cli` (typically `~/go/bin`); cocoon extends PATH
+internally so callers don't need to remember this.
 
-The printing-press codegen itself is invoked unsandboxed in v0: it needs
-network access (to fetch the OpenAPI spec) and write access to the cache
-directory. v1.1 will sandbox the codegen step too once the bwrap profile
-for Go module fetch + compile is worked out.
-
-Optional `on_progress` callback lets the MCP server emit progress
-notifications while the build runs (the SKILL promises this so hosts
-can show a spinner during the tens-of-seconds first call).
+The install runs unsandboxed in v0 — `go install` needs network access
+plus write to $GOPATH. The curated catalog is the trust boundary for
+which modules can be installed. v1.1 will sandbox the install step too.
+Per-call execution (the load-bearing security boundary) is always
+sandboxed.
 """
 
+import os
 import shutil
 import subprocess
 from pathlib import Path
 from typing import Callable
 
+from . import catalog as catalog_module
 from .errors import MaterializationFailed
-from .paths import binaries_dir
 
 ProgressCallback = Callable[[str], None]
 
 
-def _binary_path(api: str) -> Path:
-    return binaries_dir() / api / f"{api}-pp-cli"
+def path_with_gobin() -> str:
+    """PATH extended with $HOME/go/bin (where `go install` drops binaries)."""
+    go_bin = str(Path.home() / "go" / "bin")
+    current = os.environ.get("PATH", "")
+    parts = current.split(os.pathsep)
+    return current if go_bin in parts else os.pathsep.join([*parts, go_bin])
+
+
+def _binary_name(api: str) -> str:
+    return f"{api}-pp-cli"
 
 
 def cached_binary(api: str) -> Path | None:
-    path = _binary_path(api)
-    return path if path.exists() else None
+    found = shutil.which(_binary_name(api), path=path_with_gobin())
+    return Path(found) if found else None
 
 
 def materialize(api: str, *, on_progress: ProgressCallback | None = None) -> Path:
-    binary = _binary_path(api)
-    if binary.exists():
-        return binary
+    existing = cached_binary(api)
+    if existing:
+        return existing
 
-    pp = shutil.which("printing-press")
-    if pp is None:
+    go = shutil.which("go", path=path_with_gobin())
+    if go is None:
         raise MaterializationFailed(
-            f"printing-press not installed; cannot materialize CLI for '{api}'. "
-            "See https://github.com/mvanhorn/cli-printing-press for install instructions.",
+            f"Go toolchain not installed; cannot install '{_binary_name(api)}'. "
+            "Install Go 1.26+ (https://go.dev/dl/) and ensure $GOPATH/bin is on PATH.",
             api=api,
         )
 
-    binary.parent.mkdir(parents=True, exist_ok=True)
+    module = catalog_module.install_module(api)
+    if module is None:
+        raise MaterializationFailed(
+            f"Catalog entry for '{api}' has no install_module; cannot auto-install. "
+            "Either run `go install <module>@latest` manually, or update the catalog.",
+            api=api,
+        )
 
     if on_progress:
-        on_progress(f"materializing {api} CLI (first call, ~30s)")
+        on_progress(f"installing {_binary_name(api)} via go install (first call, can take ~20s)")
 
     result = subprocess.run(
-        [pp, api, "--output", str(binary.parent)],
+        [go, "install", f"{module}@latest"],
         capture_output=True,
         text=True,
     )
     if result.returncode != 0:
         raise MaterializationFailed(
-            f"printing-press codegen failed for '{api}'",
+            f"go install failed for '{api}' ({module})",
             api=api,
+            module=module,
             stderr=_tail(result.stderr, 2000),
         )
-    if not binary.exists():
+
+    found = cached_binary(api)
+    if found is None:
         raise MaterializationFailed(
-            f"printing-press completed but expected binary not found at {binary}",
+            f"go install succeeded but {_binary_name(api)} not found on PATH. "
+            "Verify $GOPATH/bin is on $PATH.",
             api=api,
-            expected_path=str(binary),
+            search_path=path_with_gobin(),
         )
-    binary.chmod(0o755)
-    return binary
+    return found
 
 
 def _tail(text: str, limit: int) -> str:

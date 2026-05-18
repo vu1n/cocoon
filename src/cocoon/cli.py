@@ -136,9 +136,10 @@ def _cmd_auth(args: argparse.Namespace) -> int:
 
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
+    from .materialize import path_with_gobin
     ensure_dirs()
     sandbox_info = probe_sandbox()
-    pp_path = shutil.which("printing-press")
+    go_path = shutil.which("go", path=path_with_gobin())
     catalog_url = os.environ.get("COCOON_CATALOG_URL") or "(unset; using bundled dev catalog)"
     auth_count = sum(1 for _ in auth_dir().glob("*.json"))
     catalog_cached = (catalog_dir() / catalog_module.CACHE_FILE).exists()
@@ -149,12 +150,12 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
           f"({'ok' if sandbox_info['available'] else 'MISSING'})")
     if sandbox_info["available"]:
         print(f"                  {sandbox_info['path']}")
-    print(f"printing-press:   {pp_path or 'MISSING (install from cli-printing-press)'}")
+    print(f"go toolchain:     {go_path or 'MISSING (install Go 1.26+ from https://go.dev/dl/)'}")
     print(f"catalog url:      {catalog_url}")
     print(f"catalog cached:   {'yes' if catalog_cached else 'no'}")
     print(f"auth files:       {auth_count}")
 
-    if not sandbox_info["available"] or pp_path is None:
+    if not sandbox_info["available"] or go_path is None:
         return 1
     return 0
 

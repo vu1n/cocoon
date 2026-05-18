@@ -139,20 +139,32 @@
   },
   {
     "api": "hackernews",
-    "description": "Hacker News read-only API",
+    "description": "Hacker News from the terminal with a local SQLite store, search, and agent-native output",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/hackernews/cmd/hackernews-pp-cli",
+    "auth_type": "none",
     "endpoints": [
       {
-        "tool": "stories.top",
-        "summary": "Fetch the current top stories",
+        "tool": "doctor",
+        "summary": "Health check: HN API reachability, auth, cache state, config validity",
         "params_schema": {
-          "limit": "integer?"
+          "agent": "boolean?"
         }
       },
       {
-        "tool": "item.get",
-        "summary": "Fetch a single item (story, comment, job) by id",
+        "tool": "items",
+        "summary": "Get details for a specific story, comment, job, or poll by id",
         "params_schema": {
-          "id": "integer"
+          "id": "integer",
+          "agent": "boolean?"
+        }
+      },
+      {
+        "tool": "search",
+        "summary": "Search HN stories and comments live via the Algolia API",
+        "params_schema": {
+          "query": "string",
+          "limit": "integer?",
+          "agent": "boolean?"
         }
       }
     ]

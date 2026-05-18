@@ -103,7 +103,7 @@ async def call_capability(
             await ctx.info(f"materializing {api} CLI (first call, can take ~30s)")
         binary = await asyncio.to_thread(materialize, api)
 
-    env = load_token_env(api)
+    env = {} if catalog.auth_type(api) == "none" else load_token_env(api)
     policy = SandboxPolicy(
         binary=binary,
         argv=argv_module.tool_argv(tool, args),

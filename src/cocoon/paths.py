@@ -16,10 +16,6 @@ def cache_root() -> Path:
     return Path(override) if override else Path.home() / ".cache" / "cocoon"
 
 
-def binaries_dir() -> Path:
-    return cache_root() / "binaries"
-
-
 def auth_dir() -> Path:
     return cache_root() / "auth"
 
@@ -29,5 +25,5 @@ def catalog_dir() -> Path:
 
 
 def ensure_dirs() -> None:
-    for d in (binaries_dir(), auth_dir(), catalog_dir()):
+    for d in (auth_dir(), catalog_dir()):
         d.mkdir(parents=True, exist_ok=True)

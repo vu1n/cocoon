@@ -161,6 +161,30 @@ def describe_capability(api: str, tool: str) -> Capability:
     )
 
 
+def _entry_for(api: str) -> dict | None:
+    for entry in load_catalog():
+        if entry.get("api") == api:
+            return entry
+    return None
+
+
+def auth_type(api: str) -> str:
+    """Return the auth_type field for an api, defaulting to 'required'.
+
+    Mirrors the upstream printing-press registry schema. 'none' means
+    call_capability should skip token loading entirely.
+    """
+    entry = _entry_for(api)
+    return entry.get("auth_type", "required") if entry else "required"
+
+
+def install_module(api: str) -> str | None:
+    """Return the Go module path to install for an api, or None if absent."""
+    entry = _entry_for(api)
+    module = entry.get("install_module") if entry else None
+    return module if isinstance(module, str) else None
+
+
 def list_apis(filter: str = "") -> list[ApiSummary]:
     needle = filter.lower().strip()
     out: list[ApiSummary] = []
