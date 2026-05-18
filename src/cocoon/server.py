@@ -1,21 +1,25 @@
-"""MCP server: registers the four cocoon meta-tools.
+"""MCP server: registers a single `cocoon` tool that dispatches on `action`.
 
-Tools mirror the agent-facing protocol documented in the skill at
-skills/cocoon/SKILL.md. Internal CocoonErrors are caught at the tool
-boundary and returned as `to_dict()` payloads so MCP clients see a
-stable shape (`{error, message, detail}`) instead of opaque exceptions.
+Action-multiplexed shape keeps one tool definition in the agent's MCP
+context (vs four typed wrappers) while letting find / describe / call /
+list each take their natural fields. The same Python functions back the
+CLI subcommands, so MCP and CLI surfaces stay in lockstep.
 
-`call_capability` is async so it can emit an MCP log message before the
-slow first-time materialization and run the blocking subprocess in a
-worker thread. Hosts (Claude Code, etc.) surface those log messages as
-progress indicators.
+CocoonError raised anywhere downstream is caught at the tool boundary
+and returned as `{error, message, detail}` so MCP clients get a stable
+shape instead of opaque exceptions.
+
+`call` is async so the dispatcher can emit an MCP log notification
+before the slow first-time materialization and run the blocking
+subprocess in a worker thread. Hosts (Claude Code, etc.) surface those
+log messages as progress indicators.
 """
 
 import asyncio
 import functools
 import inspect
 import json
-from typing import Any, Callable
+from typing import Any, Callable, Literal
 
 from mcp.server.fastmcp import Context, FastMCP
 
@@ -54,49 +58,55 @@ def _catch_cocoon_errors(fn: Callable[..., Any]) -> Callable[..., Any]:
 
 @mcp.tool()
 @_catch_cocoon_errors
-def find_capability(query: str, limit: int = 5) -> list[dict] | dict:
-    """Search the printing-press catalog at the endpoint level.
-
-    Returns ranked matches, each with `api`, `tool`, `summary`, and
-    `params_schema`. The schema is included so the model can construct
-    the call on the first try without a follow-up describe step.
-    """
-    return [catalog.to_dict(cap) for cap in catalog.find_capability(query, limit)]
-
-
-@mcp.tool()
-@_catch_cocoon_errors
-def describe_capability(api: str, tool: str) -> dict:
-    """Return full schema, summary, and metadata for one capability.
-
-    Use when `find_capability`'s summary isn't enough — long-tail flags,
-    enum values, response paging semantics.
-    """
-    return catalog.to_dict(catalog.describe_capability(api, tool))
-
-
-@mcp.tool()
-@_catch_cocoon_errors
-def list_apis(filter: str = "") -> list[dict] | dict:
-    """Enumerate APIs in the catalog, optionally filtered by substring."""
-    return [catalog.to_dict(s) for s in catalog.list_apis(filter)]
-
-
-@mcp.tool()
-@_catch_cocoon_errors
-async def call_capability(
-    api: str,
-    tool: str,
+async def cocoon(
+    action: Literal["find", "describe", "call", "list"],
+    api: str | None = None,
+    tool: str | None = None,
     args: dict | None = None,
+    query: str | None = None,
+    limit: int = 5,
+    filter: str = "",
     ctx: Context | None = None,
-) -> dict:
-    """Execute a capability against the live API.
+) -> dict | list[dict]:
+    """Discover and call APIs from the printing-press corpus.
 
-    On first use for any `api`, materializes (codegen + build) the
-    underlying CLI via printing-press. Subsequent calls hit the cached
-    binary. Executes in a per-call sandbox with only this API's auth
-    token scoped into the environment.
+    action="find"      → search the catalog. Required: query. Optional: limit.
+                         Returns ranked [{api, tool, summary, params_schema}, ...].
+    action="describe"  → full schema for one capability. Required: api, tool.
+                         Returns {api, tool, summary, params_schema}.
+    action="call"      → execute a capability against the live API.
+                         Required: api, tool. Optional: args (dict of CLI flags).
+                         Auto-installs the underlying CLI via `go install` on first
+                         use (one-time, ~20s; surfaced as an MCP log notification).
+                         Returns {exit_code, json|stdout, stderr?}.
+    action="list"      → enumerate APIs. Optional: filter (substring).
+                         Returns [{api, description, endpoint_count}, ...].
+
+    On error returns {error, message, detail} with a stable code
+    (auth_missing, materialization_failed, capability_not_found, etc.).
     """
+    if action == "find":
+        if query is None:
+            raise CocoonError("'find' requires query", action=action)
+        return [catalog.to_dict(c) for c in catalog.find_capability(query, limit)]
+
+    if action == "describe":
+        if api is None or tool is None:
+            raise CocoonError("'describe' requires api and tool", action=action)
+        return catalog.to_dict(catalog.describe_capability(api, tool))
+
+    if action == "list":
+        return [catalog.to_dict(s) for s in catalog.list_apis(filter)]
+
+    if action == "call":
+        if api is None or tool is None:
+            raise CocoonError("'call' requires api and tool", action=action)
+        return await _do_call(api, tool, args, ctx)
+
+    raise CocoonError(f"unknown action '{action}'", action=action)
+
+
+async def _do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -> dict:
     binary = cached_binary(api)
     if binary is None:
         if ctx is not None:

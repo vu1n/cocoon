@@ -106,6 +106,35 @@ def _build_parser() -> argparse.ArgumentParser:
     cat_refresh = cat_sub.add_parser("refresh", help="Force-refresh the catalog cache.")
     cat_refresh.set_defaults(_handler=_cmd_catalog_refresh)
 
+    # Capability subcommands — mirror the MCP `cocoon` tool's actions.
+    p_find = subs.add_parser("find", help="Search the catalog for capabilities.")
+    p_find.add_argument("query", help="Natural-language description.")
+    p_find.add_argument("--limit", type=int, default=5)
+    p_find.add_argument("--json", dest="as_json", action="store_true",
+                        help="Emit raw JSON instead of human-formatted output.")
+    p_find.set_defaults(_handler=_cmd_find)
+
+    p_describe = subs.add_parser("describe", help="Print full schema for one capability.")
+    p_describe.add_argument("api")
+    p_describe.add_argument("tool")
+    p_describe.add_argument("--json", dest="as_json", action="store_true")
+    p_describe.set_defaults(_handler=_cmd_describe)
+
+    p_call = subs.add_parser("call", help="Execute a capability against the live API.")
+    p_call.add_argument("api")
+    p_call.add_argument("tool")
+    p_call.add_argument("--arg", action="append", default=[], metavar="KEY=VALUE",
+                        help="A single argument as KEY=VALUE (repeatable).")
+    p_call.add_argument("--json-args", help="All arguments at once as a JSON object.")
+    p_call.add_argument("--json", dest="as_json", action="store_true",
+                        help="Emit the raw result JSON instead of formatted output.")
+    p_call.set_defaults(_handler=_cmd_call)
+
+    p_list = subs.add_parser("list", help="Enumerate APIs in the catalog.")
+    p_list.add_argument("--filter", default="", help="Substring filter on name/description.")
+    p_list.add_argument("--json", dest="as_json", action="store_true")
+    p_list.set_defaults(_handler=_cmd_list)
+
     return parser
 
 
@@ -187,6 +216,83 @@ def _cmd_catalog_refresh(args: argparse.Namespace) -> int:
     data = catalog_module.refresh_catalog()
     print(f"refreshed catalog: {len(data)} apis")
     return 0
+
+
+def _cmd_find(args: argparse.Namespace) -> int:
+    results = [catalog_module.to_dict(c)
+               for c in catalog_module.find_capability(args.query, args.limit)]
+    if args.as_json:
+        print(json.dumps(results, indent=2))
+        return 0
+    if not results:
+        print("(no matches)")
+        return 0
+    for r in results:
+        print(f"{r['api']}/{r['tool']}  —  {r['summary']}")
+        if r["params_schema"]:
+            print(f"    params: {r['params_schema']}")
+    return 0
+
+
+def _cmd_describe(args: argparse.Namespace) -> int:
+    cap = catalog_module.to_dict(catalog_module.describe_capability(args.api, args.tool))
+    if args.as_json:
+        print(json.dumps(cap, indent=2))
+        return 0
+    print(f"{cap['api']}/{cap['tool']}")
+    print(f"  summary: {cap['summary']}")
+    print(f"  params:  {cap['params_schema']}")
+    return 0
+
+
+def _cmd_call(args: argparse.Namespace) -> int:
+    import asyncio
+    from .server import _do_call
+    call_args = _collect_call_args(args)
+    if call_args is None:
+        return 2
+    result = asyncio.run(_do_call(args.api, args.tool, call_args, ctx=None))
+    if args.as_json:
+        print(json.dumps(result, indent=2))
+    elif "json" in result:
+        print(json.dumps(result["json"], indent=2))
+    elif "stdout" in result:
+        print(result["stdout"])
+    if result.get("stderr"):
+        print(result["stderr"], file=sys.stderr)
+    return result.get("exit_code", 0) if isinstance(result.get("exit_code"), int) else 1
+
+
+def _cmd_list(args: argparse.Namespace) -> int:
+    summaries = [catalog_module.to_dict(s)
+                 for s in catalog_module.list_apis(args.filter)]
+    if args.as_json:
+        print(json.dumps(summaries, indent=2))
+        return 0
+    for s in summaries:
+        print(f"{s['api']:<20} {s['endpoint_count']:>3} endpoints  —  {s['description']}")
+    return 0
+
+
+def _collect_call_args(args: argparse.Namespace) -> dict | None:
+    if args.json_args:
+        try:
+            parsed = json.loads(args.json_args)
+        except json.JSONDecodeError as exc:
+            print(f"error: --json-args is not valid JSON: {exc}", file=sys.stderr)
+            return None
+        if not isinstance(parsed, dict):
+            print("error: --json-args must decode to a JSON object", file=sys.stderr)
+            return None
+        return parsed
+    out: dict = {}
+    for pair in args.arg:
+        if "=" not in pair:
+            print(f"error: --arg {pair!r} must be KEY=VALUE", file=sys.stderr)
+            return None
+        key, value = pair.split("=", 1)
+        out[key.strip()] = value
+    return out
 
 
 def _merge_mcp_entry(config_path: Path, name: str, entry: dict) -> None:

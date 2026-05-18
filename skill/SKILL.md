@@ -5,40 +5,47 @@ description: Discover and call APIs from the printing-press corpus (Linear, Slac
 
 <what-to-do>
 
-When you need to interact with a third-party API and no dedicated MCP tool exists for it:
+When you need to interact with a third-party API and no dedicated MCP tool exists for it, call the single `cocoon` MCP tool with one of four actions:
 
-1. **Search** for the capability you need: `find_capability("send a message to a slack channel")` returns ranked `(api, tool, params_schema)` matches.
-2. **Inspect** the match if the schema isn't already returned in detail: `describe_capability(api, tool)`.
-3. **Call** it: `call_capability(api, tool, args)`. cocoon materializes the underlying CLI on first use (one-time cost, tens of seconds — surfaced as an MCP log notification), caches it, executes in a per-call sandbox, and returns compressed output.
+1. **Search**: `cocoon(action="find", query="send a message to a slack channel")` returns ranked `(api, tool, summary, params_schema)` matches.
+2. **Inspect** (only if you need fuller schema than `find` returned): `cocoon(action="describe", api="slack", tool="chat.postMessage")`.
+3. **Call**: `cocoon(action="call", api="slack", tool="chat.postMessage", args={"channel": "#general", "text": "hi"})`. cocoon auto-installs the underlying CLI on first use via `go install` (one-time, ~20s — surfaced as an MCP log notification), executes in a per-call sandbox with only that API's token scoped in, and returns the result.
+4. **Enumerate**: `cocoon(action="list", filter="payments")` to browse the catalog without semantic search.
 
-You do not install printing-press CLIs ahead of time. You do not configure per-API MCP servers. The four meta-tools below are the entire interface.
+You do not install CLIs ahead of time. You do not configure per-API MCP servers. The single `cocoon` tool is the entire MCP interface; in a terminal, the same operations are `cocoon find/describe/call/list` subcommands.
 
 </what-to-do>
 
 <supporting-info>
 
-## The surface: the cocoon MCP server
+## The surface: one MCP tool, four actions
 
-cocoon runs as a single MCP server registered with the host agent (Claude Code, Hermes, opencode, any MCP-compatible host). The agent never sees per-API tool fan-out, never pays the context cost of N×50 tool definitions, never goes through an install step. cocoon is a small Python server; it shells out to printing-press's Go codegen toolchain to materialize each API's CLI on demand.
+cocoon runs as a single MCP server registered with the host agent (Claude Code, Codex desktop, Hermes, opencode, any MCP-compatible host). It exposes **one** tool — `cocoon` — that dispatches on an `action` field. The agent never sees per-API tool fan-out, never pays the context cost of N×50 tool definitions, never goes through an install step. cocoon is a small Python server; it shells out to `go install <module>@latest` to materialize each API's CLI on demand.
 
 Install and register with your host:
 
 ```sh
 uvx cocoon init --host claude-code      # writes ~/.claude/mcp.json
-uvx cocoon init --host hermes           # writes ~/.hermes/mcp.json
+uvx cocoon init --host codex            # writes ~/.codex/mcp.json
 uvx cocoon init --print                 # print the snippet for manual install
+# For non-PyPI local installs, override with --command:
+cocoon init --host claude-code --command "$(which cocoon) serve"
 ```
 
-Restart the host agent after `init` and `find_capability` etc. appear as tools.
+Restart the host agent after `init` and the `cocoon` tool appears.
 
-## The four meta-tools
+## The single tool: `cocoon(action, ...)`
 
-### `find_capability(query: str, limit: int = 5) -> list[Capability]`
+The action enum drives dispatch; per-action fields are validated server-side. All actions return either a structured result or `{error, message, detail}` with a stable error code.
 
-BM25 search across the printing-press catalog at the **endpoint level**, not the API level. Returns ranked matches with the schema the model needs to make the call. Each result is `{api, tool, summary, params_schema}`.
+### `action="find"` — search the catalog
+
+Fields: `query` (required), `limit` (default 5).
+
+BM25 ranking across the catalog at the **endpoint level**, not the API level. Returns matches with the schema you need to make the call — no follow-up describe needed in most cases.
 
 ```
-find_capability("create a linear issue with a title and description")
+cocoon(action="find", query="create a linear issue with a title and description")
 → [
     {"api": "linear", "tool": "issues.create", "summary": "Create a new issue",
      "params_schema": {"title": "string", "description": "string?",
@@ -47,15 +54,19 @@ find_capability("create a linear issue with a title and description")
   ]
 ```
 
-The schema comes back with the search result so the agent can construct the call on the first try. Discovery and schema lookup are one round-trip.
+### `action="describe"` — full schema for one capability
 
-### `describe_capability(api: str, tool: str) -> CapabilityDetail`
+Fields: `api` (required), `tool` (required).
 
-Full schema, summary, and metadata for one capability. Use when `find_capability`'s summary isn't enough — long-tail flags, enum values, response paging semantics.
+Use when `find`'s summary isn't enough — long-tail flags, enum values, response paging semantics.
 
-### `call_capability(api: str, tool: str, args: dict) -> Result`
+### `action="call"` — execute against the live API
 
-Execute the tool. If the underlying `<api>-pp-cli` binary isn't cached, cocoon runs `printing-press <api>` in a codegen sandbox, compiles, caches the binary, then executes in a per-call execution sandbox. Returns:
+Fields: `api` (required), `tool` (required), `args` (dict, optional).
+
+First call to any API auto-installs the underlying `<api>-pp-cli` via `go install` (one-time, ~20s for a fresh module — surfaced as an MCP log notification). Subsequent calls hit the binary on `$GOPATH/bin` directly. Every invocation runs in a per-call sandbox with only that API's credentials scoped in.
+
+Returns:
 
 ```
 {"exit_code": 0,
@@ -66,15 +77,19 @@ Execute the tool. If the underlying `<api>-pp-cli` binary isn't cached, cocoon r
 
 stdout/stderr capped at 64KB with a truncation marker.
 
-### `list_apis(filter: str = "") -> list[ApiSummary]`
+### `action="list"` — enumerate APIs
 
-Browse the catalog. Useful for enumeration without semantic search.
+Fields: `filter` (substring, optional).
 
-## Lazy materialization
+Browse the catalog. Useful when you want to see what's available without semantic search.
 
-First call to any API pays codegen + compile cost — tens of seconds for a Go binary. Subsequent calls exec the cached binary, single-digit-ms overhead. Cache lives at `~/.cache/cocoon/binaries/<api>/`, content-addressed by spec SHA so a spec update produces a new binary (old one stays until garbage-collected).
+## Seamless install
 
-cocoon emits an MCP log notification (`materializing <api> CLI (first call, ~30s)`) before the build starts, so the host can show progress. The agent should expect occasional slow first-calls and **not** retry on timeout — the build is in flight.
+The agent never takes a separate install step. When `action="call"` runs against an API whose binary isn't on PATH, cocoon runs `go install <module>@latest` for the module declared in the catalog entry, then executes. The cache is `$GOPATH/bin` (typically `~/go/bin`) — cocoon extends PATH internally so callers don't need to remember this.
+
+cocoon emits an MCP log notification (`materializing <api> CLI (first call, ~20s)`) before the build, so hosts can show progress. The agent should expect occasional slow first-calls and **not** retry on timeout — the build is in flight.
+
+The install runs unsandboxed in v0 (Go needs network + write to `$GOPATH`). The curated catalog is the trust boundary for which modules can be installed. v1.1 will sandbox the install step too.
 
 ## Auth scoping
 
@@ -84,7 +99,7 @@ Per-API credentials live at `~/.cache/cocoon/auth/<api>.json` as JSON:
 {"env": {"LINEAR_TOKEN": "lin_abc123"}}
 ```
 
-Files are mode 0600 (user-only). They are **never** loaded into the cocoon server's environment. Each `call_capability` reads the relevant API's file and passes only those env vars into the per-invocation sandbox. A compromised Linear CLI sees the Linear token and nothing else.
+Files are mode 0600 (user-only). They are **never** loaded into the cocoon server's environment. Each `action="call"` reads the relevant API's file and passes only those env vars into the per-invocation sandbox. A compromised Linear CLI sees the Linear token and nothing else.
 
 Configure with:
 
@@ -103,7 +118,7 @@ This pattern is borrowed from [pillbox](https://github.com/vu1n/pillbox)'s one-c
 cocoon doctor
 ```
 
-Reports sandbox backend availability, `printing-press` discoverability, catalog URL + cache status, and the number of configured auth files. Any `auth_missing` / `sandbox_unavailable` / `materialization_failed` error should send you here first.
+Reports sandbox backend availability, Go toolchain discoverability, catalog URL + cache status, and the number of configured auth files. Any `auth_missing` / `sandbox_unavailable` / `materialization_failed` error should send you here first.
 
 ## Sandbox
 
@@ -144,7 +159,9 @@ Do NOT use cocoon when:
 
 ## Design rationale
 
-**Why an MCP facade over the CLI fleet, not over the per-API MCP servers printing-press also emits?** Printing-press's per-API MCP servers default to endpoint-mirror mode — one tool per endpoint. With 134 APIs in the catalog and tens of endpoints each, registering all of them would put thousands of tool definitions into context. Per printing-press's own docs, MCP responses also dump raw API JSON (paging, nested fields, everything) while the CLI pre-formats. cocoon gets both wins: MCP's typed-schema-up-front benefit (agent sees four typed meta-tools), CLI's response compression (35-100× fewer tokens per call), zero context cost from unused APIs.
+**Why an MCP facade over the CLI fleet, not over the per-API MCP servers printing-press also emits?** Printing-press's per-API MCP servers default to endpoint-mirror mode — one tool per endpoint. With 134 APIs in the catalog and tens of endpoints each, registering all of them would put thousands of tool definitions into context. Per printing-press's own docs, MCP responses also dump raw API JSON (paging, nested fields, everything) while the CLI pre-formats. cocoon gets both wins: MCP's typed-schema-up-front benefit (the agent sees one `cocoon` tool with a small action enum), CLI's response compression (35-100× fewer tokens per call), zero context cost from unused APIs.
+
+**Why one MCP tool instead of four (find/describe/call/list)?** Four tools is four schema blobs the agent loads up-front for what's effectively four overloads on the same operation. Action-multiplexing keeps one tool definition in context, with the per-action fields validated server-side. The CLI exposes the same operations as separate subcommands (`cocoon find`, `cocoon call`, etc.) since shell argv is naturally one verb-per-command.
 
 **Why per-call sandbox instead of a long-lived sandboxed container?** A long-lived container is stateful infrastructure the host agent has to babysit (especially Hermes-style persistent agents). bwrap/Seatbelt invocation is millisecond-scale, so per-call gives equivalent ergonomics without lifecycle headaches and with a cleaner blast-radius boundary.
 
@@ -152,19 +169,19 @@ Do NOT use cocoon when:
 
 **Why BM25 search instead of embeddings?** Endpoint summaries are short (≤ ~15 tokens), the catalog is bounded, and BM25's term-rarity weighting maps well to "Stripe charges" picking the charges endpoint over a generic list endpoint. Embeddings get added when there's a real corpus to tune against; ad-hoc embeddings on hundreds of short summaries underperform what an honest reader expects.
 
-**Why not just register N printing-press MCP servers and call it done?** Context bloat (above) + every API needs separate auth config + the host UI shows thousands of tools instead of the four the agent actually needs + every spec update means a per-server restart. Aggregation into one meta-server isn't a stylistic choice; it's the only shape that scales past a handful of APIs.
+**Why not just register N printing-press MCP servers and call it done?** Context bloat (above) + every API needs separate auth config + the host UI shows thousands of tools instead of the one the agent actually needs + every spec update means a per-server restart. Aggregation into one meta-server isn't a stylistic choice; it's the only shape that scales past a handful of APIs.
 
 ## Failure modes (and what the agent should do)
 
 | Symptom | Probable cause | Agent should |
 |---|---|---|
-| `materialization_failed` error | printing-press codegen errored on spec, or Go build failed | Surface the error to the user with the API name. Don't retry blindly — same input will fail the same way. Run `cocoon doctor` if printing-press itself looks missing. |
+| `materialization_failed` error | `go install` failed (Go missing, module path wrong, network unreachable) | Surface the error to the user with the API and module. Don't retry blindly — same input fails the same way. Run `cocoon doctor` if Go itself looks missing. |
 | `auth_missing` error | No token configured for that API | Tell the user the exact `cocoon auth <api> --token …` command from the error payload. Don't proceed. |
 | `sandbox_unavailable` warning | bwrap not installed (Linux) or Seatbelt missing (macOS) | cocoon refuses to execute. The agent should NOT suggest disabling the sandbox — refuse the task instead. |
-| `capability_not_found` | Tool name doesn't exist for that API | Re-run `find_capability` or `list_apis` to confirm the exact name. |
+| `capability_not_found` | Tool name doesn't exist for that API | Re-run `cocoon(action="find", ...)` or `action="list"` to confirm the exact name. |
 | `catalog_unavailable` | `$COCOON_CATALOG_URL` set but unreachable | Suggest `cocoon catalog refresh` after the network is back, or unset the URL to use the bundled dev catalog. |
-| Empty result on a search that should match | Spec has sparse OpenAPI descriptions | Use `list_apis` to confirm the API is in the catalog, then call directly with the tool name you'd expect. |
-| Generated CLI returns a wall of Go stack trace | Spec drift or printing-press codegen bug | Report upstream; fall back to direct `curl` if the user is blocked. |
+| Empty result on a search that should match | Catalog entry has sparse summaries | Use `action="list"` to confirm the API is in the catalog, then call directly with the tool name you'd expect. |
+| Generated CLI returns a wall of Go stack trace | Spec drift or upstream printing-press bug | Report upstream; fall back to direct `curl` if the user is blocked. |
 
 </supporting-info>
 

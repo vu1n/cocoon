@@ -122,3 +122,47 @@ def test_no_subcommand_prints_help_and_returns_2(capsys) -> None:
     assert main([]) == 2
     out = capsys.readouterr().out
     assert "cocoon" in out
+
+
+def test_find_json_output(capsys) -> None:
+    assert main(["find", "hacker news", "--json"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert isinstance(parsed, list)
+    assert any(r["api"] == "hackernews" for r in parsed)
+
+
+def test_find_human_output(capsys) -> None:
+    assert main(["find", "linear issue"]) == 0
+    out = capsys.readouterr().out
+    assert "linear/" in out
+
+
+def test_describe_json(capsys) -> None:
+    assert main(["describe", "hackernews", "doctor", "--json"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert parsed["api"] == "hackernews"
+    assert parsed["tool"] == "doctor"
+
+
+def test_list_human(capsys) -> None:
+    assert main(["list"]) == 0
+    out = capsys.readouterr().out
+    assert "hackernews" in out
+
+
+def test_list_filter_json(capsys) -> None:
+    assert main(["list", "--filter", "payments", "--json"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert {s["api"] for s in parsed} == {"stripe"}
+
+
+def test_call_rejects_malformed_arg() -> None:
+    assert main(["call", "hackernews", "doctor", "--arg", "noequals"]) == 2
+
+
+def test_call_rejects_invalid_json_args() -> None:
+    assert main(["call", "hackernews", "doctor", "--json-args", "{not json"]) == 2
+
+
+def test_call_rejects_non_object_json_args() -> None:
+    assert main(["call", "hackernews", "doctor", "--json-args", "[1,2,3]"]) == 2

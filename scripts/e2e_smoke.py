@@ -70,48 +70,44 @@ async def _run(env: dict[str, str]) -> int:
             await session.initialize()
             tools = await session.list_tools()
             print(f"registered tools: {sorted(t.name for t in tools.tools)}")
+            assert [t.name for t in tools.tools] == ["cocoon"], \
+                f"expected single 'cocoon' tool, got {[t.name for t in tools.tools]}"
+
+            async def call(**kwargs):
+                return unwrap(await session.call_tool("cocoon", kwargs))
 
             # ---------------------------------------------------------------
             banner("Test 1 — direct call, binary already installed")
             if not HACKERNEWS_BIN.exists():
                 print("(install hackernews-pp-cli first via go install)")
                 return 1
-            res = await session.call_tool("call_capability", {
-                "api": "hackernews", "tool": "doctor", "args": {"agent": True},
-            })
-            parsed = unwrap(res)
+            parsed = await call(
+                action="call", api="hackernews", tool="doctor", args={"agent": True},
+            )
             print(json.dumps(parsed, indent=2)[:500])
             assert parsed.get("exit_code") == 0, f"test 1 failed: {parsed}"
 
             # ---------------------------------------------------------------
-            banner("Test 2 — find_capability then call, binary installed")
-            search = await session.call_tool("find_capability", {
-                "query": "hacker news health check",
-            })
-            hits = unwrap(search)
+            banner("Test 2 — find then call, binary installed")
+            hits = await call(action="find", query="hacker news health check")
             print("top hit:", json.dumps(hits[0], indent=2))
             assert hits[0]["api"] == "hackernews"
-            res = await session.call_tool("call_capability", {
-                "api": hits[0]["api"], "tool": hits[0]["tool"], "args": {"agent": True},
-            })
-            parsed = unwrap(res)
+            parsed = await call(
+                action="call", api=hits[0]["api"], tool=hits[0]["tool"], args={"agent": True},
+            )
             print(json.dumps(parsed, indent=2)[:300])
             assert parsed.get("exit_code") == 0
 
             # ---------------------------------------------------------------
-            banner("Test 3 — discovery then call, binary MISSING (seamless install)")
+            banner("Test 3 — find then call, binary MISSING (seamless install)")
             uninstall()
             assert not HACKERNEWS_BIN.exists(), "uninstall failed"
-            search = await session.call_tool("find_capability", {
-                "query": "search hacker news stories",
-            })
-            hits = unwrap(search)
+            hits = await call(action="find", query="search hacker news stories")
             print("top hit:", json.dumps(hits[0], indent=2))
             assert hits[0]["api"] == "hackernews"
-            res = await session.call_tool("call_capability", {
-                "api": "hackernews", "tool": "doctor", "args": {"agent": True},
-            })
-            parsed = unwrap(res)
+            parsed = await call(
+                action="call", api="hackernews", tool="doctor", args={"agent": True},
+            )
             print(json.dumps(parsed, indent=2)[:300])
             assert HACKERNEWS_BIN.exists(), "cocoon should have installed the binary"
             assert parsed.get("exit_code") == 0
@@ -120,10 +116,9 @@ async def _run(env: dict[str, str]) -> int:
             banner("Test 4 — direct call, binary MISSING (seamless install, no discovery)")
             uninstall()
             assert not HACKERNEWS_BIN.exists()
-            res = await session.call_tool("call_capability", {
-                "api": "hackernews", "tool": "doctor", "args": {"agent": True},
-            })
-            parsed = unwrap(res)
+            parsed = await call(
+                action="call", api="hackernews", tool="doctor", args={"agent": True},
+            )
             print(json.dumps(parsed, indent=2)[:300])
             assert HACKERNEWS_BIN.exists()
             assert parsed.get("exit_code") == 0

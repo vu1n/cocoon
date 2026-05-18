@@ -1,4 +1,8 @@
-from cocoon.server import _cap, _format_result, _try_json
+from pathlib import Path
+
+import pytest
+
+from cocoon.server import _cap, _format_result, _try_json, cocoon as cocoon_tool
 
 
 def test_try_json_parses_object() -> None:
@@ -42,3 +46,71 @@ def test_cap_truncates_with_marker() -> None:
     capped = _cap(long)
     assert "truncated" in capped
     assert capped.startswith("x" * 64)
+
+
+# ---------------------------------------------------------------------------
+# Dispatcher tests for the single `cocoon` MCP tool. We call .fn to bypass
+# the @mcp.tool() wrapper while keeping the @_catch_cocoon_errors wrapper
+# in place, since that's the boundary contract.
+# ---------------------------------------------------------------------------
+
+@pytest.fixture(autouse=True)
+def _isolate_cache(tmp_path: Path, monkeypatch):
+    monkeypatch.setenv("COCOON_CACHE_DIR", str(tmp_path))
+    monkeypatch.delenv("COCOON_CATALOG_URL", raising=False)
+
+
+async def _call(**kwargs):
+    return await cocoon_tool(**kwargs)
+
+
+async def test_action_find_returns_results() -> None:
+    out = await _call(action="find", query="hacker news")
+    assert isinstance(out, list)
+    assert any(r["api"] == "hackernews" for r in out)
+
+
+async def test_action_find_without_query_returns_error() -> None:
+    out = await _call(action="find")
+    assert out["error"] == "cocoon_error"
+    assert "query" in out["message"]
+
+
+async def test_action_describe_returns_capability() -> None:
+    out = await _call(action="describe", api="hackernews", tool="doctor")
+    assert out["api"] == "hackernews"
+    assert out["tool"] == "doctor"
+
+
+async def test_action_describe_unknown_returns_capability_not_found() -> None:
+    out = await _call(action="describe", api="hackernews", tool="nope")
+    assert out["error"] == "capability_not_found"
+
+
+async def test_action_describe_missing_args_returns_error() -> None:
+    out = await _call(action="describe", api="hackernews")
+    assert out["error"] == "cocoon_error"
+    assert "api and tool" in out["message"]
+
+
+async def test_action_list_returns_summaries() -> None:
+    out = await _call(action="list")
+    assert isinstance(out, list)
+    assert all("api" in s and "endpoint_count" in s for s in out)
+
+
+async def test_action_list_filter_applied() -> None:
+    out = await _call(action="list", filter="payments")
+    assert {s["api"] for s in out} == {"stripe"}
+
+
+async def test_unknown_action_returns_error() -> None:
+    out = await _call(action="bogus")  # type: ignore[arg-type]
+    assert out["error"] == "cocoon_error"
+    assert "unknown action" in out["message"]
+
+
+async def test_action_call_missing_api_returns_error() -> None:
+    out = await _call(action="call", tool="doctor")
+    assert out["error"] == "cocoon_error"
+    assert "api and tool" in out["message"]
