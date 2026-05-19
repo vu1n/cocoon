@@ -136,12 +136,15 @@ def _harvest_one(entry: dict) -> dict:
 
 
 def _manifest_to_agent_context(api: str, manifest: dict) -> dict:
-    """Translate upstream's tools-manifest.json shape into the same shape
-    a `<binary> agent-context` dump produces, so cocoon's runtime parser
-    works uniformly across local caches and the bundled aggregate."""
-    auth_type = (manifest.get("auth") or {}).get("type", "none")
-    commands = [_tool_to_command(t) for t in manifest.get("tools", [])]
+    """Translate tools-manifest.json into an agent-context-shaped dump so
+    cocoon's runtime parser is uniform across local caches and the bundle.
 
+    Reconstructs the cobra command tree from the flat tools list. Without
+    this, naive translation would emit each tool as a top-level command
+    named after its verb suffix (e.g. `get` instead of `items`), and any
+    runtime tree-walk would derive the wrong cobra invocation path.
+    """
+    auth_type = (manifest.get("auth") or {}).get("type", "none")
     return {
         "schema_version": "2",
         "source": "tools-manifest",
@@ -150,45 +153,87 @@ def _manifest_to_agent_context(api: str, manifest: dict) -> dict:
             "description": manifest.get("description", ""),
             "version": "unknown",
         },
-        "auth": {
-            "mode": auth_type,
-            "env_vars": [],
-        },
-        "commands": commands,
+        "auth": {"mode": auth_type, "env_vars": []},
+        "commands": _build_command_tree(manifest.get("tools", [])),
     }
 
 
-def _tool_to_command(tool: dict) -> dict:
-    """One tools-manifest entry → one flat agent-context command with the
-    `pp:endpoint` annotation set to the dotted form.
+# Suffixes that, when used as the right-hand side of a `<resource>_<verb>` tool
+# name, indicate the verb is a logical-name suffix on the bare resource
+# command (so `items_get` → cobra `items <itemId>`, not `items get <itemId>`).
+# Anything not in this set is a real nested cobra subcommand: `stories_top` →
+# cobra `stories top`. The set is small and stable; if upstream adopts a new
+# verb convention, an annotated endpoint here would get mis-emitted as a fake
+# subcommand — surfaceable as a `capability_not_found` at invocation time.
+_VERB_SUFFIXES = {"get", "list", "create", "update", "delete",
+                  "post", "put", "patch", "set"}
 
-    Naming convention: tools-manifest uses `<resource>_<verb>` (e.g.
-    `items_get`, `stories_top`); agent-context uses `<resource>.<verb>`
-    (e.g. `items.get`). Translation = first underscore → dot.
 
-    Multi-underscore names (rare; only 2 in the 96-API corpus at last
-    audit, both quirky PHP-style endpoints under `slickdeals`) keep
-    their inner underscores: `ajax_create_threadrate.php` →
-    `ajax.create_threadrate.php`. cocoon's runtime invokes by splitting
-    the dotted form into a cobra subcommand chain, so this preserves
-    invokability as long as upstream's annotation matches; if a future
-    multi-segment endpoint breaks this assumption we'll see it as a
-    `capability_not_found` error rather than a silent miscall."""
-    name = tool["name"]
-    endpoint = name.replace("_", ".", 1)
-    last_segment = endpoint.split(".")[-1]
+def _build_command_tree(tools: list[dict]) -> list[dict]:
+    """Group tools by their resource root, decide bare-root vs subcommand
+    per the verb-suffix heuristic, emit nested command tree."""
+    by_root: dict[str, list[tuple[str | None, dict]]] = {}
+    for tool in tools:
+        root, rest = _split_root(tool["name"])
+        by_root.setdefault(root, []).append((rest, tool))
 
-    positionals = [p for p in tool.get("params", []) if p.get("location") == "path"]
-    flags = [_param_to_flag(p) for p in tool.get("params", []) if p.get("location") != "path"]
+    return [_emit_root_command(root, children) for root, children in by_root.items()]
 
-    use_parts = [last_segment] + [f"<{p['name']}>" for p in positionals]
+
+def _split_root(name: str) -> tuple[str, str | None]:
+    parts = name.split("_", 1)
+    return parts[0], parts[1] if len(parts) > 1 else None
+
+
+def _emit_root_command(root: str, children: list[tuple[str | None, dict]]) -> dict:
+    # A "default action" is a verb-suffix child that, by upstream convention,
+    # invokes the bare root command (with positional if any). If present it
+    # gets folded onto the root; non-verb-suffix children stay as subcommands.
+    default_idx = next(
+        (i for i, (rest, _t) in enumerate(children) if rest in _VERB_SUFFIXES),
+        None,
+    )
+    if default_idx is not None:
+        default = children[default_idx]
+        others = children[:default_idx] + children[default_idx + 1:]
+    else:
+        default = None
+        others = children
+
+    root_cmd: dict = {"name": root}
+    if default is not None:
+        rest, tool = default
+        positionals = _positionals(tool)
+        root_cmd["use"] = " ".join([root] + [f"<{p['name']}>" for p in positionals])
+        root_cmd["short"] = tool.get("description", "")
+        root_cmd["annotations"] = {"pp:endpoint": f"{root}.{rest}"}
+        root_cmd["flags"] = _flags(tool)
+    else:
+        root_cmd["use"] = root
+
+    if others:
+        root_cmd["subcommands"] = [_emit_subcommand(root, rest, tool) for rest, tool in others]
+    return root_cmd
+
+
+def _emit_subcommand(root: str, rest: str | None, tool: dict) -> dict:
+    name = rest if rest is not None else tool["name"]
+    positionals = _positionals(tool)
     return {
-        "name": last_segment,
-        "use": " ".join(use_parts),
+        "name": name,
+        "use": " ".join([name] + [f"<{p['name']}>" for p in positionals]),
         "short": tool.get("description", ""),
-        "annotations": {"pp:endpoint": endpoint},
-        "flags": flags,
+        "annotations": {"pp:endpoint": f"{root}.{rest}" if rest else tool["name"]},
+        "flags": _flags(tool),
     }
+
+
+def _positionals(tool: dict) -> list[dict]:
+    return [p for p in tool.get("params", []) if p.get("location") == "path"]
+
+
+def _flags(tool: dict) -> list[dict]:
+    return [_param_to_flag(p) for p in tool.get("params", []) if p.get("location") != "path"]
 
 
 def _param_to_flag(param: dict) -> dict:

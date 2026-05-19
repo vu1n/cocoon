@@ -122,14 +122,27 @@ async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -
     binary = await asyncio.to_thread(materialize, api)
 
     env = {} if catalog.auth_type(api) == "none" else load_token_env(api)
+    positionals, argv_path = _invocation_for(api, tool)
     policy = SandboxPolicy(
         binary=binary,
-        argv=argv_module.tool_argv(tool, args),
+        argv=argv_module.tool_argv(tool, args, positionals=positionals, argv_path=argv_path),
         env=env,
         network=True,
     )
     result = await asyncio.to_thread(execute, policy)
     return _format_result(result.returncode, result.stdout, result.stderr)
+
+
+def _invocation_for(api: str, tool: str) -> tuple[tuple[str, ...], tuple[str, ...]]:
+    """Catalog-declared (positionals, argv_path) for this tool, both () if
+    the capability isn't in the catalog. Falling back to empty tuples
+    preserves the flags-only / dot-split path for ad-hoc tools like
+    `doctor` that work via cobra but aren't annotated `pp:endpoint`."""
+    try:
+        cap = catalog.describe_capability(api, tool)
+    except CocoonError:
+        return (), ()
+    return cap.positionals, cap.argv_path
 
 
 def _format_result(exit_code: int, stdout: str, stderr: str) -> dict[str, Any]:

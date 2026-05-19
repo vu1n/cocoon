@@ -79,6 +79,24 @@ def test_to_capabilities_walks_subcommand_tree() -> None:
     assert any(c["tool"] == "stories.top" for c in caps)
 
 
+def test_to_capabilities_carries_argv_path_for_nested_subcommand() -> None:
+    """`stories.top` is annotated at the leaf `top` under `stories`; the
+    cobra invocation path is `("stories", "top")`."""
+    caps = agent_context.to_capabilities("hackernews", HN_FIXTURE)
+    top = next(c for c in caps if c["tool"] == "stories.top")
+    assert top["argv_path"] == ("stories", "top")
+
+
+def test_to_capabilities_carries_argv_path_for_bare_root_with_verb_annotation() -> None:
+    """`items` is annotated at the ROOT level with `pp:endpoint=items.get`
+    (the `.get` is a verb suffix, not a real subcommand). The cobra
+    invocation path is just `("items",)` — splitting the dotted pp:endpoint
+    would incorrectly produce `("items", "get")`."""
+    caps = agent_context.to_capabilities("hackernews", HN_FIXTURE)
+    items = next(c for c in caps if c["tool"] == "items.get")
+    assert items["argv_path"] == ("items",)
+
+
 def test_to_capabilities_empty_on_no_commands() -> None:
     assert agent_context.to_capabilities("x", {"commands": []}) == []
     assert agent_context.to_capabilities("x", {}) == []

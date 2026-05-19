@@ -11,16 +11,46 @@ the dotted tool on `.` to produce the subcommand chain, then render args:
 - everything else -> `--flag=<str(value)>`
 
 Keys are kebab-cased: `team_id` -> `--team-id`.
+
+When the catalog tells us a tool takes positional args (e.g. `items <itemId>`),
+we pull those keys out of `args` first and emit them as bare argv elements in
+declared order, before any flags. Without this, `items.get` with
+`args={"itemId": "12345"}` would emit `items get --item-id=12345` (a flag
+cobra doesn't know about) instead of `items get 12345` (the positional).
 """
 
 import json
 from typing import Any
 
 
-def tool_argv(tool: str, args: dict[str, Any] | None = None) -> tuple[str, ...]:
-    """Render the full argv tail (subcommands + flags) for one tool call."""
-    chain = tuple(part for part in tool.split(".") if part)
-    return chain + args_to_argv(args or {})
+def tool_argv(
+    tool: str,
+    args: dict[str, Any] | None = None,
+    positionals: tuple[str, ...] = (),
+    argv_path: tuple[str, ...] = (),
+) -> tuple[str, ...]:
+    """Render the full argv tail (subcommands + positionals + flags) for one
+    tool call.
+
+    `argv_path` is the catalog's actual cobra invocation chain. When
+    provided, it overrides splitting `tool` on `.` — necessary because
+    pp:endpoint names like `items.get` can carry verb suffixes that don't
+    map to real cobra subcommands (real invocation: `items <itemId>`).
+    When empty (capability not in catalog), falls back to dot-split.
+
+    `positionals` is the catalog's declared list of positional arg names
+    for this tool, in order; matching keys in `args` get emitted as bare
+    argv elements and removed from the flag pass."""
+    chain = argv_path if argv_path else tuple(part for part in tool.split(".") if part)
+    remaining = dict(args or {})
+    pos_argv = []
+    for name in positionals:
+        if name in remaining:
+            value = remaining.pop(name)
+            if value is None:
+                continue
+            pos_argv.append(str(value))
+    return chain + tuple(pos_argv) + args_to_argv(remaining)
 
 
 def args_to_argv(args: dict[str, Any]) -> tuple[str, ...]:

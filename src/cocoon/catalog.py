@@ -39,6 +39,16 @@ class Capability:
     tool: str
     summary: str
     params_schema: dict[str, Any]
+    # Names of cobra-style positional args in declared order. Used by
+    # tool_argv to emit `items 12345` instead of `items --itemId=12345`
+    # for commands like `items <itemId>`.
+    positionals: tuple[str, ...] = ()
+    # Actual cobra subcommand chain to invoke this capability — derived
+    # from where the `pp:endpoint` annotation was found in the command
+    # tree. Distinct from `tool` because pp:endpoint names can carry verb
+    # suffixes (e.g. `items.get`) that don't correspond to real
+    # subcommands (the cobra invocation is just `items <itemId>`).
+    argv_path: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -151,7 +161,9 @@ def _merged_view() -> list[dict]:
         endpoints = [
             {"tool": cap["tool"],
              "summary": cap["summary"],
-             "params_schema": cap["params_schema"]}
+             "params_schema": cap["params_schema"],
+             "positionals": cap.get("positionals", ()),
+             "argv_path": cap.get("argv_path", ())}
             for cap in agent_context.to_capabilities(api, ctx)
         ]
         out.append({**entry, "endpoints": endpoints})
@@ -188,17 +200,23 @@ def find_capability(query: str, limit: int = 5) -> list[Capability]:
 
     scores = search.rank(query, docs)
     scored = [
-        (score, Capability(
-            api=api,
-            tool=endpoint["tool"],
-            summary=endpoint.get("summary", ""),
-            params_schema=endpoint.get("params_schema", {}) or {},
-        ))
+        (score, _capability_from_endpoint(api, endpoint))
         for score, (api, _desc, endpoint) in zip(scores, entries)
         if score > 0
     ]
     scored.sort(key=lambda pair: -pair[0])
     return [cap for _score, cap in scored[:limit]]
+
+
+def _capability_from_endpoint(api: str, endpoint: dict) -> Capability:
+    return Capability(
+        api=api,
+        tool=endpoint["tool"],
+        summary=endpoint.get("summary", ""),
+        params_schema=endpoint.get("params_schema", {}) or {},
+        positionals=tuple(endpoint.get("positionals", ())),
+        argv_path=tuple(endpoint.get("argv_path", ())),
+    )
 
 
 def describe_capability(api: str, tool: str) -> Capability:
@@ -207,12 +225,7 @@ def describe_capability(api: str, tool: str) -> Capability:
             continue
         for endpoint in entry.get("endpoints", []):
             if endpoint["tool"] == tool:
-                return Capability(
-                    api=api,
-                    tool=tool,
-                    summary=endpoint.get("summary", ""),
-                    params_schema=endpoint.get("params_schema", {}) or {},
-                )
+                return _capability_from_endpoint(api, endpoint)
     raise CapabilityNotFound(
         f"No capability '{tool}' found for api '{api}'",
         api=api,

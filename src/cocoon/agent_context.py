@@ -111,16 +111,18 @@ def capture(binary: Path, api: str) -> dict | None:
 
 def to_capabilities(api: str, ctx: dict) -> list[dict]:
     """Walk the agent-context command tree, emit a Capability dict for
-    every command annotated with `pp:endpoint`. Returns the same shape
-    catalog.find_capability et al. produce: {api, tool, summary, params_schema}.
-    """
+    every command annotated with `pp:endpoint`. Each capability carries
+    its actual cobra invocation path (`argv_path`) — derived from where
+    the annotation was found in the tree, not from splitting the dotted
+    pp:endpoint (which can include verb-suffix segments like `.get`/`.list`
+    that don't correspond to real cobra subcommands)."""
     out: list[dict] = []
     for cmd in ctx.get("commands", []):
-        _visit(api, cmd, out)
+        _visit(api, cmd, out, path=(cmd.get("name", ""),))
     return out
 
 
-def _visit(api: str, cmd: dict, out: list[dict]) -> None:
+def _visit(api: str, cmd: dict, out: list[dict], path: tuple[str, ...]) -> None:
     annotations = cmd.get("annotations") or {}
     endpoint = annotations.get("pp:endpoint")
     if endpoint:
@@ -129,9 +131,18 @@ def _visit(api: str, cmd: dict, out: list[dict]) -> None:
             "tool": endpoint,
             "summary": cmd.get("short", ""),
             "params_schema": _params_schema(cmd),
+            "positionals": _positional_names(cmd),
+            "argv_path": path,
         })
     for sub in cmd.get("subcommands", []) or []:
-        _visit(api, sub, out)
+        sub_name = sub.get("name", "")
+        _visit(api, sub, out, path + (sub_name,))
+
+
+def _positional_names(cmd: dict) -> tuple[str, ...]:
+    """Names of cobra positional args in declared order. Used by the catalog
+    so tool_argv can emit them positionally instead of as `--flag` values."""
+    return tuple(name for name, _required in _positional_tokens(cmd.get("use", "")))
 
 
 def _params_schema(cmd: dict) -> dict[str, str]:

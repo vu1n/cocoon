@@ -114,3 +114,32 @@ async def test_action_call_missing_api_returns_error() -> None:
     out = await _call(action="call", tool="doctor")
     assert out["error"] == "cocoon_error"
     assert out["detail"]["missing"] == ["api"]
+
+
+def test_invocation_for_returns_positionals_and_argv_path() -> None:
+    """The bundled hackernews aggregate marks `itemId` as a positional for
+    `items.get`, and the real cobra command is `items <itemId>` (the `.get`
+    verb suffix is a logical name, not a real subcommand). _invocation_for
+    must surface both pieces so do_call passes the right argv shape."""
+    from cocoon.server import _invocation_for
+    positionals, argv_path = _invocation_for("hackernews", "items.get")
+    assert positionals == ("itemId",)
+    assert argv_path == ("items",)
+
+
+def test_invocation_for_nested_subcommand_keeps_full_path() -> None:
+    """`stories.top` IS a real nested cobra subcommand. argv_path keeps both
+    segments; positionals is empty."""
+    from cocoon.server import _invocation_for
+    positionals, argv_path = _invocation_for("hackernews", "stories.top")
+    assert positionals == ()
+    assert argv_path == ("stories", "top")
+
+
+def test_invocation_for_returns_empty_for_unknown_tool() -> None:
+    """`doctor` is callable on hackernews-pp-cli but isn't `pp:endpoint`-
+    annotated upstream; the catalog raises CapabilityNotFound. We swallow
+    that and fall back to both (), which keeps tool_argv on the flags-only
+    + dot-split path."""
+    from cocoon.server import _invocation_for
+    assert _invocation_for("hackernews", "doctor") == ((), ())
