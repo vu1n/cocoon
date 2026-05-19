@@ -67,9 +67,13 @@ async def test_action_find_without_query_returns_error() -> None:
 
 
 async def test_action_describe_returns_capability() -> None:
-    out = await _call(action="describe", api="hackernews", tool="doctor")
+    # `stories.top` is a real `pp:endpoint`-annotated capability from the
+    # bundled hackernews agent-context. `doctor` was hand-curated in the
+    # old dev catalog but isn't actually marked as an endpoint upstream
+    # (it's a CLI health check, not an API operation).
+    out = await _call(action="describe", api="hackernews", tool="stories.top")
     assert out["api"] == "hackernews"
-    assert out["tool"] == "doctor"
+    assert out["tool"] == "stories.top"
 
 
 async def test_action_describe_unknown_returns_capability_not_found() -> None:

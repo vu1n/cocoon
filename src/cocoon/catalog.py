@@ -100,23 +100,53 @@ def refresh_catalog() -> list[dict]:
 
 
 def _merged_view() -> list[dict]:
-    """Catalog with per-API agent-context endpoints spliced over the
-    bundled/upstream entries.
+    """Combined catalog view: dev-catalog entries ∪ bundled-aggregate
+    entries, with per-API agent-context endpoints spliced in.
 
-    The local agent-context cache wins for installed APIs because it
-    reflects what's actually executable on this machine. Non-endpoint
-    fields (description, install_module) stay from the dev/upstream
-    catalog; agent-context only overrides `endpoints`. APIs absent from
-    the catalog stay invisible to find/describe even if a stray cache
-    exists — the catalog is the corpus boundary.
+    Three layers of priority for the endpoint list:
+    1. Local agent-context cache — what's installed on this machine.
+    2. Bundled aggregate — what upstream had at our last CI run.
+    3. Dev catalog stub — hand-curated fallback for the 5 dev APIs.
+
+    For non-endpoint fields (description, install_module) we use the
+    union of dev-catalog + bundled-aggregate registry data; dev catalog
+    wins on collision so tests that rely on the dev-catalog shape stay
+    stable.
     """
     from . import agent_context  # lazy: avoid loading at module import
-    merged: list[dict] = []
-    for entry in load_catalog():
-        api = entry.get("api")
-        ctx = agent_context.cached(api) if api else None
+
+    entries_by_api: dict[str, dict] = {}
+
+    # Bundled aggregate goes in first; dev catalog overlays.
+    for bundled_entry in agent_context.bundled_apis():
+        api = bundled_entry.get("name") or bundled_entry.get("api")
+        if not api:
+            continue
+        mcp = bundled_entry.get("mcp") or {}
+        path = bundled_entry.get("path", "")
+        entries_by_api[api] = {
+            "api": api,
+            "description": bundled_entry.get("description", ""),
+            "install_module": (
+                f"github.com/mvanhorn/printing-press-library/{path}/cmd/{api}-pp-cli"
+                if path else None
+            ),
+            "auth_type": mcp.get("auth_type") or "required",
+            "endpoints": [],
+        }
+
+    for dev_entry in load_catalog():
+        api = dev_entry.get("api")
+        if api:
+            entries_by_api[api] = dev_entry
+
+    # Splice in real endpoint schemas: prefer the local cache, fall back
+    # to the bundled aggregate's agent_context.
+    out: list[dict] = []
+    for api, entry in entries_by_api.items():
+        ctx = agent_context.lookup(api)
         if ctx is None:
-            merged.append(entry)
+            out.append(entry)
             continue
         endpoints = [
             {"tool": cap["tool"],
@@ -124,8 +154,8 @@ def _merged_view() -> list[dict]:
              "params_schema": cap["params_schema"]}
             for cap in agent_context.to_capabilities(api, ctx)
         ]
-        merged.append({**entry, "endpoints": endpoints})
-    return merged
+        out.append({**entry, "endpoints": endpoints})
+    return out
 
 
 def _capability_doc(api: str, api_desc: str, endpoint: dict) -> str:
@@ -191,7 +221,7 @@ def describe_capability(api: str, tool: str) -> Capability:
 
 
 def _entry_for(api: str) -> dict | None:
-    for entry in load_catalog():
+    for entry in _merged_view():
         if entry.get("api") == api:
             return entry
     return None

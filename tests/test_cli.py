@@ -147,10 +147,12 @@ def test_find_human_output(capsys) -> None:
 
 
 def test_describe_json(capsys) -> None:
-    assert main(["describe", "hackernews", "doctor", "--json"]) == 0
+    # `stories.top` is a real `pp:endpoint` capability from the bundled
+    # hackernews agent-context.
+    assert main(["describe", "hackernews", "stories.top", "--json"]) == 0
     parsed = json.loads(capsys.readouterr().out)
     assert parsed["api"] == "hackernews"
-    assert parsed["tool"] == "doctor"
+    assert parsed["tool"] == "stories.top"
 
 
 def test_list_human(capsys) -> None:

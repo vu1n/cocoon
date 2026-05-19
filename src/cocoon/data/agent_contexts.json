@@ -1,0 +1,776 @@
+{
+  "entries": {
+    "hackernews": {
+      "agent_context": {
+        "auth": {
+          "env_vars": [],
+          "mode": "none"
+        },
+        "available_profiles": [],
+        "cli": {
+          "description": "Hacker News from your terminal \u2014 with a local store, full-text search, and agent-native output no other HN tool has",
+          "name": "hackernews-pp-cli",
+          "version": "1.0.0"
+        },
+        "commands": [
+          {
+            "annotations": {
+              "mcp:read-only": "true"
+            },
+            "name": "api",
+            "short": "Browse all API endpoints by interface name",
+            "use": "api [interface]"
+          },
+          {
+            "name": "completion",
+            "short": "Generate the autocompletion script for the specified shell",
+            "subcommands": [
+              {
+                "flags": [
+                  {
+                    "default": "false",
+                    "name": "no-descriptions",
+                    "type": "bool",
+                    "usage": "disable completion descriptions"
+                  }
+                ],
+                "name": "bash",
+                "short": "Generate the autocompletion script for bash",
+                "use": "bash"
+              },
+              {
+                "flags": [
+                  {
+                    "default": "false",
+                    "name": "no-descriptions",
+                    "type": "bool",
+                    "usage": "disable completion descriptions"
+                  }
+                ],
+                "name": "fish",
+                "short": "Generate the autocompletion script for fish",
+                "use": "fish"
+              },
+              {
+                "flags": [
+                  {
+                    "default": "false",
+                    "name": "no-descriptions",
+                    "type": "bool",
+                    "usage": "disable completion descriptions"
+                  }
+                ],
+                "name": "powershell",
+                "short": "Generate the autocompletion script for powershell",
+                "use": "powershell"
+              },
+              {
+                "flags": [
+                  {
+                    "default": "false",
+                    "name": "no-descriptions",
+                    "type": "bool",
+                    "usage": "disable completion descriptions"
+                  }
+                ],
+                "name": "zsh",
+                "short": "Generate the autocompletion script for zsh",
+                "use": "zsh"
+              }
+            ],
+            "use": "completion"
+          },
+          {
+            "flags": [
+              {
+                "default": "10",
+                "name": "limit",
+                "type": "int",
+                "usage": "Maximum results to return"
+              },
+              {
+                "default": "25",
+                "name": "min-comments",
+                "type": "int",
+                "usage": "Floor on descendants count to avoid drive-by submissions"
+              },
+              {
+                "default": "10",
+                "name": "min-score",
+                "type": "int",
+                "usage": "Floor on points to avoid divide-by-zero noise"
+              },
+              {
+                "name": "window",
+                "type": "string",
+                "usage": "Only include stories from this recent duration (e.g., 7d, 24h, 12h, 30d)"
+              }
+            ],
+            "name": "controversial",
+            "short": "Find stories with the highest comment-to-point ratio (polarizing discussions)",
+            "use": "controversial"
+          },
+          {
+            "flags": [
+              {
+                "name": "fail-on",
+                "type": "string",
+                "usage": "Exit non-zero when a health level is reached: stale, error. Default is never."
+              }
+            ],
+            "name": "doctor",
+            "short": "Check CLI health",
+            "use": "doctor"
+          },
+          {
+            "name": "export",
+            "short": "Export data to JSONL or JSON for backup, migration, or analysis",
+            "use": "export <resource> [id]"
+          },
+          {
+            "flags": [
+              {
+                "default": "false",
+                "name": "send",
+                "type": "bool",
+                "usage": "POST to the configured feedback endpoint in addition to local write"
+              },
+              {
+                "default": "false",
+                "name": "stdin",
+                "type": "bool",
+                "usage": "Read feedback body from stdin rather than arguments"
+              }
+            ],
+            "name": "feedback",
+            "short": "Record feedback about this CLI (local by default; upstream opt-in)",
+            "subcommands": [
+              {
+                "flags": [
+                  {
+                    "default": "20",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Maximum number of recent entries to return"
+                  }
+                ],
+                "name": "list",
+                "short": "List recent feedback entries",
+                "use": "list"
+              }
+            ],
+            "use": "feedback [text]"
+          },
+          {
+            "name": "freelance",
+            "short": "Mine 'Ask HN: Freelancer? Seeking Freelancer?' threads",
+            "subcommands": [
+              {
+                "name": "filter",
+                "short": "Filter the latest 'Freelancer? Seeking freelancer?' thread by regex",
+                "use": "filter [regex]"
+              }
+            ],
+            "use": "freelance"
+          },
+          {
+            "name": "help",
+            "short": "Help about any command",
+            "use": "help [command]"
+          },
+          {
+            "name": "hiring",
+            "short": "Mine 'Ask HN: Who is hiring' threads (filter, stats, companies)",
+            "subcommands": [
+              {
+                "flags": [
+                  {
+                    "default": "1",
+                    "name": "min-posts",
+                    "type": "int",
+                    "usage": "Only show companies that posted in at least this many of the scanned months"
+                  },
+                  {
+                    "default": "3",
+                    "name": "months",
+                    "type": "int",
+                    "usage": "Number of recent monthly hiring threads to scan (1-12)"
+                  }
+                ],
+                "name": "companies",
+                "short": "Companies posting across the last N hiring threads \u2014 first-seen, last-seen, months count",
+                "use": "companies"
+              },
+              {
+                "name": "filter",
+                "short": "Filter the latest 'Ask HN: Who is hiring' thread by regex",
+                "use": "filter [regex]"
+              },
+              {
+                "annotations": {
+                  "mcp:read-only": "true"
+                },
+                "flags": [
+                  {
+                    "default": "1",
+                    "name": "months",
+                    "type": "int",
+                    "usage": "Number of recent monthly threads to scan (1-12)"
+                  }
+                ],
+                "name": "stats",
+                "short": "Aggregate Who's Hiring threads across N months \u2014 top languages, remote ratio, top companies",
+                "use": "stats"
+              }
+            ],
+            "use": "hiring"
+          },
+          {
+            "flags": [
+              {
+                "default": "1",
+                "name": "batch-size",
+                "type": "int",
+                "usage": "Records per batch (future: batch API support)"
+              },
+              {
+                "default": "false",
+                "name": "dry-run",
+                "type": "bool",
+                "usage": "Preview import without sending requests"
+              },
+              {
+                "name": "input",
+                "type": "string",
+                "usage": "Input JSONL file path (use - for stdin)"
+              }
+            ],
+            "name": "import",
+            "short": "Import data from JSONL file via API create/upsert calls",
+            "use": "import <resource>"
+          },
+          {
+            "annotations": {
+              "mcp:read-only": "true",
+              "pp:endpoint": "items.get"
+            },
+            "name": "items",
+            "short": "Get details for a specific story, comment, job, or poll",
+            "subcommands": [
+              {
+                "flags": [
+                  {
+                    "default": "false",
+                    "name": "hn",
+                    "type": "bool",
+                    "usage": "Use the HN thread URL even when the story has its own URL"
+                  },
+                  {
+                    "default": "false",
+                    "name": "launch",
+                    "type": "bool",
+                    "usage": "Actually open the URL in the default browser instead of just printing it"
+                  }
+                ],
+                "name": "open",
+                "short": "Print or launch a story URL or HN thread (--launch to open in browser)",
+                "use": "open <id>"
+              },
+              {
+                "flags": [
+                  {
+                    "name": "author",
+                    "type": "string",
+                    "usage": "Only include comments by this username"
+                  },
+                  {
+                    "default": "0",
+                    "name": "depth",
+                    "type": "int",
+                    "usage": "Maximum depth of replies to include (0 = no limit)"
+                  },
+                  {
+                    "default": "false",
+                    "name": "flat",
+                    "type": "bool",
+                    "usage": "Render comments as a flat list instead of a tree"
+                  },
+                  {
+                    "name": "match",
+                    "type": "string",
+                    "usage": "Only include comments whose text matches this regex"
+                  },
+                  {
+                    "name": "since",
+                    "type": "string",
+                    "usage": "Only include comments newer than this duration (e.g., 24h, 7d)"
+                  }
+                ],
+                "name": "thread",
+                "short": "Print a thread's comment tree using Algolia's one-shot fetch",
+                "use": "thread <id>"
+              }
+            ],
+            "use": "items <itemId>"
+          },
+          {
+            "annotations": {
+              "mcp:read-only": "true",
+              "pp:endpoint": "maxitem.get"
+            },
+            "name": "maxitem",
+            "short": "Returns the largest item ID currently assigned by Hacker News",
+            "use": "maxitem"
+          },
+          {
+            "name": "profile",
+            "short": "Named sets of flags saved for reuse",
+            "subcommands": [
+              {
+                "name": "delete",
+                "short": "Remove a profile",
+                "use": "delete <name>"
+              },
+              {
+                "name": "list",
+                "short": "List saved profiles",
+                "use": "list"
+              },
+              {
+                "flags": [
+                  {
+                    "name": "description",
+                    "type": "string",
+                    "usage": "Short description shown in 'profile list'"
+                  }
+                ],
+                "name": "save",
+                "short": "Save the current invocation's non-default flags as a named profile",
+                "use": "save <name> [--<flag> <value> ...]"
+              },
+              {
+                "name": "show",
+                "short": "Show a profile's values as JSON",
+                "use": "show <name>"
+              },
+              {
+                "name": "use",
+                "short": "Print the flag values a profile will apply (does not execute anything)",
+                "use": "use <name>"
+              }
+            ],
+            "use": "profile"
+          },
+          {
+            "flags": [
+              {
+                "default": "7",
+                "name": "days",
+                "type": "int",
+                "usage": "Window in days (1-180)"
+              },
+              {
+                "default": "100",
+                "name": "hits-per-page",
+                "type": "int",
+                "usage": "Max hits to fetch (capped at 1000 by Algolia)"
+              }
+            ],
+            "name": "pulse",
+            "short": "Show what HN is saying about a topic this week \u2014 score, comment, frequency by day",
+            "use": "pulse <topic>"
+          },
+          {
+            "flags": [
+              {
+                "default": "false",
+                "name": "include-comments",
+                "type": "bool",
+                "usage": "Also search comments for the URL (broader, noisier)"
+              }
+            ],
+            "name": "repost",
+            "short": "Has this URL been posted on HN before? Lists prior submissions with scores and dates",
+            "use": "repost <url>"
+          },
+          {
+            "flags": [
+              {
+                "default": "false",
+                "name": "by-date",
+                "type": "bool",
+                "usage": "Sort by date (newest first) instead of relevance"
+              },
+              {
+                "default": "20",
+                "name": "hits-per-page",
+                "type": "int",
+                "usage": "Results per page (max 100)"
+              },
+              {
+                "default": "0",
+                "name": "min-comments",
+                "type": "int",
+                "usage": "Only include items with at least this many comments"
+              },
+              {
+                "default": "0",
+                "name": "min-points",
+                "type": "int",
+                "usage": "Only include stories with at least this many points"
+              },
+              {
+                "default": "0",
+                "name": "page",
+                "type": "int",
+                "usage": "Page number (0-indexed)"
+              },
+              {
+                "name": "since",
+                "type": "string",
+                "usage": "Only include items newer than this duration (e.g., 7d, 24h)"
+              },
+              {
+                "name": "tag",
+                "type": "string",
+                "usage": "Algolia tag filter: story, comment, ask_hn, show_hn, job, poll, author_<name>"
+              },
+              {
+                "name": "until",
+                "type": "string",
+                "usage": "Only include items older than this duration ago"
+              }
+            ],
+            "name": "search",
+            "short": "Search Hacker News stories and comments live via the Algolia API",
+            "subcommands": [
+              {
+                "flags": [
+                  {
+                    "default": "20",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Maximum results to return"
+                  },
+                  {
+                    "name": "type",
+                    "type": "string",
+                    "usage": "Filter results to one resource type (stories, ask, show, jobs, users)"
+                  }
+                ],
+                "name": "local",
+                "short": "Full-text search across the local SQLite store of synced stories and comments",
+                "use": "local <query>"
+              }
+            ],
+            "use": "search <query>"
+          },
+          {
+            "annotations": {
+              "mcp:read-only": "true"
+            },
+            "flags": [
+              {
+                "default": "topstories",
+                "name": "list",
+                "type": "string",
+                "usage": "Front-page list to diff (topstories, beststories, newstories)"
+              }
+            ],
+            "name": "since",
+            "short": "Show what changed on the front page since last sync (added, removed, moved stories)",
+            "use": "since"
+          },
+          {
+            "name": "stories",
+            "short": "Browse top, new, and best Hacker News stories",
+            "subcommands": [
+              {
+                "annotations": {
+                  "mcp:read-only": "true",
+                  "pp:endpoint": "stories.ask"
+                },
+                "flags": [
+                  {
+                    "default": "30",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Maximum number of story IDs to return (max 200)"
+                  }
+                ],
+                "name": "ask",
+                "short": "Get the latest Ask HN posts",
+                "use": "ask"
+              },
+              {
+                "annotations": {
+                  "mcp:read-only": "true",
+                  "pp:endpoint": "stories.best"
+                },
+                "flags": [
+                  {
+                    "default": "30",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Maximum number of story IDs to return (max 200)"
+                  }
+                ],
+                "name": "best",
+                "short": "Get the highest-voted stories on Hacker News",
+                "use": "best"
+              },
+              {
+                "annotations": {
+                  "mcp:read-only": "true",
+                  "pp:endpoint": "stories.job"
+                },
+                "flags": [
+                  {
+                    "default": "30",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Maximum number of story IDs to return (max 200)"
+                  }
+                ],
+                "name": "job",
+                "short": "Get the latest Hacker News job postings",
+                "use": "job"
+              },
+              {
+                "annotations": {
+                  "mcp:read-only": "true",
+                  "pp:endpoint": "stories.new"
+                },
+                "flags": [
+                  {
+                    "default": "30",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Maximum number of story IDs to return (max 500)"
+                  }
+                ],
+                "name": "new",
+                "short": "Get the newest stories on Hacker News",
+                "use": "new"
+              },
+              {
+                "annotations": {
+                  "mcp:read-only": "true",
+                  "pp:endpoint": "stories.show"
+                },
+                "flags": [
+                  {
+                    "default": "30",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Maximum number of story IDs to return (max 200)"
+                  }
+                ],
+                "name": "show",
+                "short": "Get the latest Show HN posts",
+                "use": "show"
+              },
+              {
+                "annotations": {
+                  "mcp:read-only": "true",
+                  "pp:endpoint": "stories.top"
+                },
+                "flags": [
+                  {
+                    "default": "30",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Maximum number of story IDs to return (max 500)"
+                  }
+                ],
+                "name": "top",
+                "short": "Get the current top stories on Hacker News",
+                "use": "top"
+              }
+            ],
+            "use": "stories"
+          },
+          {
+            "flags": [
+              {
+                "default": "4",
+                "name": "concurrency",
+                "type": "int",
+                "usage": "Number of parallel sync workers"
+              },
+              {
+                "name": "db",
+                "type": "string",
+                "usage": "Database path (default: ~/.local/share/hackernews-pp-cli/data.db)"
+              },
+              {
+                "default": "false",
+                "name": "full",
+                "type": "bool",
+                "usage": "Full resync (ignore previous checkpoint)"
+              },
+              {
+                "default": "false",
+                "name": "latest-only",
+                "type": "bool",
+                "usage": "Refresh head of each resource only; clears resume cursor and caps pages at 1. Mutually exclusive with --since (--since wins)."
+              },
+              {
+                "default": "100",
+                "name": "max-pages",
+                "type": "int",
+                "usage": "Maximum pages to fetch per resource (0 = unlimited; cap-hit emits a sync_warning event)"
+              },
+              {
+                "default": "[]",
+                "name": "resources",
+                "type": "stringSlice",
+                "usage": "Comma-separated resource types to sync"
+              },
+              {
+                "name": "since",
+                "type": "string",
+                "usage": "Incremental sync duration (e.g. 7d, 24h, 1w, 30m)"
+              },
+              {
+                "default": "false",
+                "name": "strict",
+                "type": "bool",
+                "usage": "Exit non-zero on any per-resource failure (default: only critical failures or all-resource failure exit non-zero)."
+              }
+            ],
+            "name": "sync",
+            "short": "Sync API data to local SQLite for offline search and analysis",
+            "use": "sync"
+          },
+          {
+            "annotations": {
+              "mcp:read-only": "true",
+              "pp:endpoint": "updates.list"
+            },
+            "name": "updates",
+            "short": "Items and user profiles that have changed recently",
+            "use": "updates"
+          },
+          {
+            "annotations": {
+              "mcp:read-only": "true",
+              "pp:endpoint": "users.get"
+            },
+            "name": "users",
+            "short": "Get a user's profile including karma and submission history",
+            "subcommands": [
+              {
+                "annotations": {
+                  "mcp:read-only": "true"
+                },
+                "flags": [
+                  {
+                    "default": "50",
+                    "name": "limit",
+                    "type": "int",
+                    "usage": "Max submissions to consider (capped at 1000)"
+                  }
+                ],
+                "name": "stats",
+                "short": "Submission stats for a user: score buckets, traction rate, hour-of-day distribution",
+                "use": "stats <username>"
+              }
+            ],
+            "use": "users <userId>"
+          },
+          {
+            "name": "velocity",
+            "short": "Show a story's rank trajectory across local snapshots",
+            "use": "velocity <id>"
+          },
+          {
+            "name": "version",
+            "short": "Print version",
+            "use": "version"
+          },
+          {
+            "annotations": {
+              "pp:typed-exit-codes": "0,2"
+            },
+            "flags": [
+              {
+                "default": "3",
+                "name": "limit",
+                "type": "int",
+                "usage": "Maximum number of matches to return"
+              }
+            ],
+            "name": "which",
+            "short": "Find the command that implements a capability",
+            "use": "which [query]"
+          },
+          {
+            "name": "workflow",
+            "short": "Compound workflows that combine multiple API operations",
+            "subcommands": [
+              {
+                "flags": [
+                  {
+                    "name": "db",
+                    "type": "string",
+                    "usage": "Database path (default: ~/.local/share/hackernews-pp-cli/data.db)"
+                  },
+                  {
+                    "default": "false",
+                    "name": "full",
+                    "type": "bool",
+                    "usage": "Full re-archive (ignore previous sync state)"
+                  }
+                ],
+                "name": "archive",
+                "short": "Sync all resources to local store for offline access and search",
+                "use": "archive"
+              },
+              {
+                "annotations": {
+                  "mcp:read-only": "true"
+                },
+                "flags": [
+                  {
+                    "name": "db",
+                    "type": "string",
+                    "usage": "Database path"
+                  }
+                ],
+                "name": "status",
+                "short": "Show local archive status and sync state for all resources",
+                "use": "status"
+              }
+            ],
+            "use": "workflow"
+          }
+        ],
+        "feedback_endpoint_configured": false,
+        "schema_version": "2"
+      },
+      "registry": {
+        "api": "Hacker News",
+        "category": "media-and-entertainment",
+        "description": "Hacker News from your terminal \u2014 with a local SQLite store, snapshot history, and agent-native output no other HN tool has.",
+        "mcp": {
+          "auth_type": "none",
+          "binary": "hackernews-pp-mcp",
+          "env_vars": [],
+          "mcp_ready": "full",
+          "public_tool_count": 10,
+          "spec_format": "internal",
+          "tool_count": 10,
+          "transports": [
+            "stdio",
+            "http"
+          ]
+        },
+        "name": "hackernews",
+        "path": "library/media-and-entertainment/hackernews"
+      }
+    }
+  },
+  "schema_version": 1,
+  "source_registry": "https://raw.githubusercontent.com/mvanhorn/printing-press-library/main/registry.json"
+}

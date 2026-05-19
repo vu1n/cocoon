@@ -1,0 +1,65 @@
+name: Build agent-contexts aggregate
+
+# Nightly cron + manual trigger. Installs every CLI in printing-press-library's
+# registry.json, runs `<binary> agent-context` on each, aggregates the dumps
+# into src/cocoon/data/agent_contexts.json, and commits the result back to
+# main if it changed.
+#
+# This file is the lowest-priority catalog layer at runtime: cocoon prefers
+# the local agent-context cache (captured post-install on the user's
+# machine) and falls back to this bundle for pre-install discovery —
+# `cocoon find "<query>"` returns real endpoints across the full corpus
+# even before the user has installed anything.
+
+on:
+  schedule:
+    - cron: "17 6 * * *"   # 06:17 UTC daily — off the hour to avoid cron pile-up
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    concurrency:
+      group: build-agent-contexts
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version: "1.26.3"
+          cache: true
+
+      - name: Set up Python + uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install cocoon deps
+        run: uv sync --extra dev
+
+      - name: Build aggregate
+        run: |
+          uv run python scripts/build_agent_contexts.py --concurrency 4 \
+            2> >(tee /tmp/build.log >&2)
+          echo "---tail of build log---"
+          tail -50 /tmp/build.log
+          echo "---size---"
+          wc -c src/cocoon/data/agent_contexts.json
+
+      - name: Commit if changed
+        run: |
+          if git diff --quiet src/cocoon/data/agent_contexts.json; then
+            echo "no changes to agent_contexts.json"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/cocoon/data/agent_contexts.json
+          git commit -m "data: refresh agent_contexts aggregate [skip ci]"
+          git push

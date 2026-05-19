@@ -16,8 +16,10 @@ executable on this machine. Upstream/aggregated catalogs (when added)
 serve only the pre-install discovery case.
 """
 
+import importlib.resources
 import json
 import subprocess
+from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
@@ -30,6 +32,11 @@ def cache_path(api: str) -> Path:
 
 
 def cached(api: str) -> dict | None:
+    """Local agent-context cache for `api`, or None if absent.
+
+    Source of truth for what's actually executable on THIS machine —
+    captured post-install in materialize. Takes precedence over the
+    bundled aggregate (see `lookup`)."""
     path = cache_path(api)
     if not path.exists():
         return None
@@ -37,6 +44,46 @@ def cached(api: str) -> dict | None:
         return json.loads(path.read_text(encoding="utf-8"))
     except (json.JSONDecodeError, OSError):
         return None
+
+
+def bundled(api: str) -> dict | None:
+    """Aggregated upstream agent-context for `api`, shipped with the wheel.
+
+    Source: the CI workflow `build-agent-contexts.yml` runs nightly,
+    installs every CLI in the printing-press library, captures
+    agent-context, and commits the aggregated dump to
+    src/cocoon/data/agent_contexts.json. Used as a fallback for APIs
+    the user hasn't installed locally yet — enables pre-install
+    discovery (`find` returns real endpoints, not just API-level)."""
+    aggregated = _load_bundled()
+    entry = aggregated.get("entries", {}).get(api)
+    return entry.get("agent_context") if entry else None
+
+
+def lookup(api: str) -> dict | None:
+    """Authoritative agent-context for `api`: local cache wins, bundled
+    aggregate fills in for not-yet-installed APIs."""
+    return cached(api) or bundled(api)
+
+
+@lru_cache(maxsize=1)
+def _load_bundled() -> dict:
+    try:
+        data = importlib.resources.files(__package__).joinpath("data/agent_contexts.json")
+        return json.loads(data.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError, OSError):
+        return {"entries": {}}
+
+
+def bundled_apis() -> list[dict]:
+    """Return the list of registry-style entries for every API in the
+    bundled aggregate. Used by the catalog merge to expose the full
+    upstream corpus even when the user has installed nothing yet."""
+    return [
+        e["registry"]
+        for e in _load_bundled().get("entries", {}).values()
+        if isinstance(e.get("registry"), dict)
+    ]
 
 
 def capture(binary: Path, api: str) -> dict | None:
