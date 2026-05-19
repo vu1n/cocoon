@@ -23,7 +23,6 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from .errors import CocoonError
 from .paths import agent_context_dir
 
 
@@ -192,7 +191,3 @@ def auth_mode(ctx: dict | None) -> str | None:
         return None
     mode = auth.get("mode")
     return mode if isinstance(mode, str) else None
-
-
-class AgentContextError(CocoonError):
-    code = "agent_context_failed"

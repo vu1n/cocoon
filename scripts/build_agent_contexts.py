@@ -29,7 +29,7 @@ from pathlib import Path
 import httpx
 
 REGISTRY_URL = "https://raw.githubusercontent.com/mvanhorn/printing-press-library/main/registry.json"
-RAW_BASE = "https://raw.githubusercontent.com/mvanhorn/printing-press-library/main"
+RAW_BASE = REGISTRY_URL.rsplit("/", 1)[0]
 OUT_PATH = Path(__file__).parent.parent / "src" / "cocoon" / "data" / "agent_contexts.json"
 
 
@@ -164,7 +164,16 @@ def _tool_to_command(tool: dict) -> dict:
 
     Naming convention: tools-manifest uses `<resource>_<verb>` (e.g.
     `items_get`, `stories_top`); agent-context uses `<resource>.<verb>`
-    (e.g. `items.get`). Translation = first underscore → dot."""
+    (e.g. `items.get`). Translation = first underscore → dot.
+
+    Multi-underscore names (rare; only 2 in the 96-API corpus at last
+    audit, both quirky PHP-style endpoints under `slickdeals`) keep
+    their inner underscores: `ajax_create_threadrate.php` →
+    `ajax.create_threadrate.php`. cocoon's runtime invokes by splitting
+    the dotted form into a cobra subcommand chain, so this preserves
+    invokability as long as upstream's annotation matches; if a future
+    multi-segment endpoint breaks this assumption we'll see it as a
+    `capability_not_found` error rather than a silent miscall."""
     name = tool["name"]
     endpoint = name.replace("_", ".", 1)
     last_segment = endpoint.split(".")[-1]
