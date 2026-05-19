@@ -1,22 +1,20 @@
-"""Aggregate per-CLI agent-context dumps for every API in the printing-press
-library, write the result to src/cocoon/data/agent_contexts.json.
+"""Aggregate per-CLI capability info for every API in printing-press-library,
+write the result to src/cocoon/data/agent_contexts.json.
 
-Run locally for development or by .github/workflows/build-agent-contexts.yml
-on a cron. The resulting file ships with the wheel so a fresh cocoon
-install has pre-install discovery against the full corpus — `cocoon find
-"top hacker news stories"` returns the right tool before hackernews is
-installed.
+Source: each CLI's `tools-manifest.json` in the library source tree —
+upstream already generates it at codegen time, so we just `gh api` it.
+No binary execution, no Go toolchain, no upstream PR needed. Some
+hand-rolled CLIs don't have a manifest (~29% of the corpus); those get
+skipped for now (Phase 2 will add an `agent-context` runtime fallback).
 
-Failures (CLI doesn't build, agent-context not implemented yet, etc.) are
-logged to stderr and skipped — the aggregated file is best-effort over
-whatever the library currently has. Re-running on a warm Go cache picks
-up new entries cheaply.
+The output is shaped like a raw `<binary> agent-context` dump so cocoon's
+runtime code (agent_context.to_capabilities) is uniform across the
+local-cache and bundled-aggregate paths.
 
 Usage:
-  uv run python scripts/build_agent_contexts.py                    # all entries
-  uv run python scripts/build_agent_contexts.py --only hackernews espn  # subset
-  uv run python scripts/build_agent_contexts.py --check            # exit non-zero if file would change
-  uv run python scripts/build_agent_contexts.py --concurrency 4    # parallel builds
+  uv run python scripts/build_agent_contexts.py                       # all
+  uv run python scripts/build_agent_contexts.py --only hackernews ahrefs
+  uv run python scripts/build_agent_contexts.py --check               # drift check
 """
 
 from __future__ import annotations
@@ -24,9 +22,6 @@ from __future__ import annotations
 import argparse
 import concurrent.futures as cf
 import json
-import os
-import shutil
-import subprocess
 import sys
 import time
 from pathlib import Path
@@ -34,6 +29,7 @@ from pathlib import Path
 import httpx
 
 REGISTRY_URL = "https://raw.githubusercontent.com/mvanhorn/printing-press-library/main/registry.json"
+RAW_BASE = "https://raw.githubusercontent.com/mvanhorn/printing-press-library/main"
 OUT_PATH = Path(__file__).parent.parent / "src" / "cocoon" / "data" / "agent_contexts.json"
 
 
@@ -42,62 +38,52 @@ def main() -> int:
     parser.add_argument("--only", nargs="+", help="Limit to these api names.")
     parser.add_argument("--check", action="store_true",
                         help="Exit non-zero if the on-disk file would change.")
-    parser.add_argument("--concurrency", type=int, default=4,
-                        help="Parallel go-install workers (default 4).")
+    parser.add_argument("--concurrency", type=int, default=16,
+                        help="Parallel HTTP workers (default 16; tools-manifest fetch is I/O-bound).")
     args = parser.parse_args()
-
-    go = shutil.which("go")
-    if go is None:
-        print("error: Go toolchain not on PATH", file=sys.stderr)
-        return 1
 
     entries = _fetch_registry(REGISTRY_URL)
     if args.only:
         entries = [e for e in entries if e.get("name") in set(args.only)]
         if not entries:
-            print(f"error: --only filtered out all {len(args.only)} requested apis", file=sys.stderr)
+            print(f"error: --only filtered out all requested apis", file=sys.stderr)
             return 1
 
-    print(f"building agent-contexts for {len(entries)} apis "
-          f"(concurrency={args.concurrency}, output={OUT_PATH})", file=sys.stderr)
-
+    print(f"harvesting tools-manifest for {len(entries)} apis "
+          f"(concurrency={args.concurrency})", file=sys.stderr)
     started = time.monotonic()
+
     results: dict[str, dict] = {}
-    failures: list[tuple[str, str]] = []
+    skipped: list[tuple[str, str]] = []
 
     with cf.ThreadPoolExecutor(max_workers=args.concurrency) as pool:
-        futures = {pool.submit(_build_one, go, e): e for e in entries}
+        futures = {pool.submit(_harvest_one, e): e for e in entries}
         for fut in cf.as_completed(futures):
             entry = futures[fut]
             name = entry["name"]
             try:
                 ctx = fut.result()
-            except _BuildError as exc:
-                failures.append((name, str(exc)))
-                print(f"  [skip] {name}: {exc}", file=sys.stderr)
+            except _HarvestError as exc:
+                skipped.append((name, str(exc)))
                 continue
             results[name] = {
-                "registry": {
-                    "name": name,
-                    "category": entry.get("category", ""),
-                    "api": entry.get("api", ""),
-                    "description": entry.get("description", ""),
-                    "path": entry.get("path", ""),
-                    "mcp": entry.get("mcp"),
-                },
+                "registry": _registry_slim(entry),
                 "agent_context": ctx,
             }
-            print(f"  [ok]   {name}", file=sys.stderr)
 
     elapsed = time.monotonic() - started
-    print(f"done: {len(results)} ok, {len(failures)} skipped, {elapsed:.1f}s", file=sys.stderr)
+    print(f"done: {len(results)} ok, {len(skipped)} skipped, {elapsed:.1f}s", file=sys.stderr)
+    if skipped:
+        print(f"  skipped (no tools-manifest.json): "
+              f"{', '.join(sorted(n for n, _ in skipped[:8]))}"
+              f"{'...' if len(skipped) > 8 else ''}", file=sys.stderr)
 
     payload = {
         "schema_version": 1,
         "source_registry": REGISTRY_URL,
-        "entries": results,
+        "entries": dict(sorted(results.items())),
     }
-    encoded = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+    encoded = json.dumps(payload, indent=2) + "\n"
 
     if args.check:
         existing = OUT_PATH.read_text(encoding="utf-8") if OUT_PATH.exists() else ""
@@ -112,6 +98,17 @@ def main() -> int:
     return 0
 
 
+def _registry_slim(entry: dict) -> dict:
+    return {
+        "name": entry["name"],
+        "category": entry.get("category", ""),
+        "api": entry.get("api", ""),
+        "description": entry.get("description", ""),
+        "path": entry.get("path", ""),
+        "mcp": entry.get("mcp"),
+    }
+
+
 def _fetch_registry(url: str) -> list[dict]:
     response = httpx.get(url, timeout=30, follow_redirects=True)
     response.raise_for_status()
@@ -119,48 +116,82 @@ def _fetch_registry(url: str) -> list[dict]:
     return data["entries"] if isinstance(data, dict) else data
 
 
-def _build_one(go: str, entry: dict) -> dict:
+def _harvest_one(entry: dict) -> dict:
     name = entry["name"]
     path = entry.get("path", "")
     if not path:
-        raise _BuildError("no path in registry entry")
+        raise _HarvestError("no path in registry entry")
 
-    module = f"github.com/mvanhorn/printing-press-library/{path}/cmd/{name}-pp-cli"
-    install = subprocess.run(
-        [go, "install", f"{module}@latest"],
-        capture_output=True, text=True, timeout=180,
-    )
-    if install.returncode != 0:
-        raise _BuildError(f"go install failed: {_tail(install.stderr, 300)}")
-
-    binary = Path.home() / "go" / "bin" / f"{name}-pp-cli"
-    if not binary.exists():
-        raise _BuildError(f"binary not at {binary} after install")
-
-    # Some older CLIs may not implement agent-context yet; tolerate the
-    # `unknown command` failure mode by treating any non-zero exit as a
-    # skip. The agent-context subcommand is well-defined enough that real
-    # success vs missing-subcommand is unambiguous.
-    ctx_run = subprocess.run(
-        [str(binary), "agent-context"],
-        capture_output=True, text=True, timeout=30,
-        env={"PATH": "/usr/bin:/bin", "HOME": os.environ.get("HOME", "/tmp")},
-    )
-    if ctx_run.returncode != 0:
-        raise _BuildError(f"agent-context exit={ctx_run.returncode}: {_tail(ctx_run.stderr, 200)}")
-
+    url = f"{RAW_BASE}/{path}/tools-manifest.json"
+    response = httpx.get(url, timeout=15, follow_redirects=True)
+    if response.status_code == 404:
+        raise _HarvestError("no tools-manifest.json")
+    response.raise_for_status()
     try:
-        return json.loads(ctx_run.stdout)
+        manifest = response.json()
     except json.JSONDecodeError as exc:
-        raise _BuildError(f"agent-context returned non-JSON: {exc}") from exc
+        raise _HarvestError(f"manifest not JSON: {exc}") from exc
+
+    return _manifest_to_agent_context(name, manifest)
 
 
-def _tail(text: str, limit: int) -> str:
-    text = text.strip()
-    return text if len(text) <= limit else "…" + text[-limit:]
+def _manifest_to_agent_context(api: str, manifest: dict) -> dict:
+    """Translate upstream's tools-manifest.json shape into the same shape
+    a `<binary> agent-context` dump produces, so cocoon's runtime parser
+    works uniformly across local caches and the bundled aggregate."""
+    auth_type = (manifest.get("auth") or {}).get("type", "none")
+    commands = [_tool_to_command(t) for t in manifest.get("tools", [])]
+
+    return {
+        "schema_version": "2",
+        "source": "tools-manifest",
+        "cli": {
+            "name": f"{api}-pp-cli",
+            "description": manifest.get("description", ""),
+            "version": "unknown",
+        },
+        "auth": {
+            "mode": auth_type,
+            "env_vars": [],
+        },
+        "commands": commands,
+    }
 
 
-class _BuildError(Exception):
+def _tool_to_command(tool: dict) -> dict:
+    """One tools-manifest entry → one flat agent-context command with the
+    `pp:endpoint` annotation set to the dotted form.
+
+    Naming convention: tools-manifest uses `<resource>_<verb>` (e.g.
+    `items_get`, `stories_top`); agent-context uses `<resource>.<verb>`
+    (e.g. `items.get`). Translation = first underscore → dot."""
+    name = tool["name"]
+    endpoint = name.replace("_", ".", 1)
+    last_segment = endpoint.split(".")[-1]
+
+    positionals = [p for p in tool.get("params", []) if p.get("location") == "path"]
+    flags = [_param_to_flag(p) for p in tool.get("params", []) if p.get("location") != "path"]
+
+    use_parts = [last_segment] + [f"<{p['name']}>" for p in positionals]
+    return {
+        "name": last_segment,
+        "use": " ".join(use_parts),
+        "short": tool.get("description", ""),
+        "annotations": {"pp:endpoint": endpoint},
+        "flags": flags,
+    }
+
+
+def _param_to_flag(param: dict) -> dict:
+    return {
+        "name": param["name"],
+        "type": param.get("type", "string"),
+        "usage": param.get("description", ""),
+        "default": "",
+    }
+
+
+class _HarvestError(Exception):
     pass
 
 
