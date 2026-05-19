@@ -112,11 +112,14 @@ def _require(action: str, **fields: Any) -> None:
 
 
 async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -> dict:
-    binary = cached_binary(api)
-    if binary is None:
-        if ctx is not None:
-            await ctx.info(f"materializing {api} CLI (first call, can take ~30s)")
-        binary = await asyncio.to_thread(materialize, api)
+    # Always go through materialize: it returns fast when the binary is
+    # already on PATH, and only then triggers the slow install path. Going
+    # through it unconditionally ensures the agent-context cache stays in
+    # sync with the installed binary (post-install enrichment fires whether
+    # this is the first call or the user installed manually before cocoon).
+    if cached_binary(api) is None and ctx is not None:
+        await ctx.info(f"materializing {api} CLI (first call, can take ~30s)")
+    binary = await asyncio.to_thread(materialize, api)
 
     env = {} if catalog.auth_type(api) == "none" else load_token_env(api)
     policy = SandboxPolicy(

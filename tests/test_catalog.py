@@ -64,6 +64,53 @@ def test_list_apis_endpoint_count_matches() -> None:
         assert summary.endpoint_count > 0
 
 
+def test_agent_context_cache_overrides_endpoints_for_installed_api(tmp_path: Path) -> None:
+    """When a per-API agent-context cache exists, its endpoints replace the
+    dev catalog's hand-curated ones — discovery uses real data for any
+    installed CLI."""
+    import json
+    (tmp_path / "agent-context").mkdir()
+    (tmp_path / "agent-context" / "hackernews.json").write_text(json.dumps({
+        "auth": {"mode": "none"},
+        "commands": [
+            {"name": "stories", "use": "stories", "short": "...",
+             "subcommands": [
+                 {"name": "top", "use": "top",
+                  "short": "Get the current top stories",
+                  "annotations": {"pp:endpoint": "stories.top"},
+                  "flags": [{"name": "limit", "type": "int"}]},
+             ]},
+        ],
+    }))
+    results = catalog.find_capability("top stories on hacker news")
+    tools = [r.tool for r in results]
+    assert "stories.top" in tools
+
+
+def test_agent_context_cache_invisible_for_uncatalogued_api(tmp_path: Path) -> None:
+    """A stray agent-context cache for an API not in the catalog stays
+    invisible — the catalog is the corpus boundary."""
+    import json
+    (tmp_path / "agent-context").mkdir()
+    (tmp_path / "agent-context" / "ghost.json").write_text(json.dumps({
+        "commands": [{"name": "x", "use": "x", "short": "...",
+                      "annotations": {"pp:endpoint": "x.y"}}],
+    }))
+    results = catalog.find_capability("x")
+    assert all(r.api != "ghost" for r in results)
+
+
+def test_auth_type_prefers_agent_context_over_dev_catalog(tmp_path: Path) -> None:
+    """The local binary's self-reported auth mode is the source of truth."""
+    import json
+    (tmp_path / "agent-context").mkdir()
+    # Dev catalog says hackernews is auth_type=none. Override to api_key here.
+    (tmp_path / "agent-context" / "hackernews.json").write_text(json.dumps({
+        "auth": {"mode": "api_key"}, "commands": [],
+    }))
+    assert catalog.auth_type("hackernews") == "api_key"
+
+
 def test_refresh_catalog_rewrites_cache(tmp_path: Path) -> None:
     cache_file = tmp_path / "catalog" / catalog.CACHE_FILE
     catalog.load_catalog()

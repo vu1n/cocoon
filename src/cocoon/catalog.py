@@ -99,6 +99,35 @@ def refresh_catalog() -> list[dict]:
     return load_catalog(refresh=True)
 
 
+def _merged_view() -> list[dict]:
+    """Catalog with per-API agent-context endpoints spliced over the
+    bundled/upstream entries.
+
+    The local agent-context cache wins for installed APIs because it
+    reflects what's actually executable on this machine. Non-endpoint
+    fields (description, install_module) stay from the dev/upstream
+    catalog; agent-context only overrides `endpoints`. APIs absent from
+    the catalog stay invisible to find/describe even if a stray cache
+    exists — the catalog is the corpus boundary.
+    """
+    from . import agent_context  # lazy: avoid loading at module import
+    merged: list[dict] = []
+    for entry in load_catalog():
+        api = entry.get("api")
+        ctx = agent_context.cached(api) if api else None
+        if ctx is None:
+            merged.append(entry)
+            continue
+        endpoints = [
+            {"tool": cap["tool"],
+             "summary": cap["summary"],
+             "params_schema": cap["params_schema"]}
+            for cap in agent_context.to_capabilities(api, ctx)
+        ]
+        merged.append({**entry, "endpoints": endpoints})
+    return merged
+
+
 def _capability_doc(api: str, api_desc: str, endpoint: dict) -> str:
     """Render the searchable text for one endpoint."""
     parts = [
@@ -117,7 +146,7 @@ def find_capability(query: str, limit: int = 5) -> list[Capability]:
 
     entries: list[tuple[str, str, dict]] = []
     docs: list[str] = []
-    for entry in load_catalog():
+    for entry in _merged_view():
         api = entry["api"]
         api_desc = entry.get("description", "")
         for endpoint in entry.get("endpoints", []):
@@ -143,7 +172,7 @@ def find_capability(query: str, limit: int = 5) -> list[Capability]:
 
 
 def describe_capability(api: str, tool: str) -> Capability:
-    for entry in load_catalog():
+    for entry in _merged_view():
         if entry["api"] != api:
             continue
         for endpoint in entry.get("endpoints", []):
@@ -171,9 +200,16 @@ def _entry_for(api: str) -> dict | None:
 def auth_type(api: str) -> str:
     """Return the auth_type field for an api, defaulting to 'required'.
 
-    Mirrors the upstream printing-press registry schema. 'none' means
-    call_capability should skip token loading entirely.
+    Prefers the locally-installed CLI's own agent-context `.auth.mode` if
+    present (most authoritative — it's what the binary will actually do),
+    falling back to the dev/upstream catalog's `auth_type` field, and
+    finally to `"required"` (the safe default that forces an explicit auth
+    file rather than silently passing an empty env into the sandbox).
     """
+    from . import agent_context
+    mode = agent_context.auth_mode(agent_context.cached(api))
+    if mode is not None:
+        return mode
     entry = _entry_for(api)
     return entry.get("auth_type", "required") if entry else "required"
 
@@ -188,7 +224,7 @@ def install_module(api: str) -> str | None:
 def list_apis(filter: str = "") -> list[ApiSummary]:
     needle = filter.lower().strip()
     out: list[ApiSummary] = []
-    for entry in load_catalog():
+    for entry in _merged_view():
         api = entry["api"]
         description = entry.get("description", "")
         if needle and needle not in api.lower() and needle not in description.lower():

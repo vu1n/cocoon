@@ -24,6 +24,10 @@ def catalog_dir() -> Path:
     return cache_root() / "catalog"
 
 
+def agent_context_dir() -> Path:
+    return cache_root() / "agent-context"
+
+
 def ensure_dirs() -> None:
-    for d in (auth_dir(), catalog_dir()):
+    for d in (auth_dir(), catalog_dir(), agent_context_dir()):
         d.mkdir(parents=True, exist_ok=True)

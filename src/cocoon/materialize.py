@@ -46,6 +46,11 @@ def cached_binary(api: str) -> Path | None:
 def materialize(api: str, *, on_progress: ProgressCallback | None = None) -> Path:
     existing = cached_binary(api)
     if existing:
+        # Binary already on PATH (cached or installed manually). Make sure
+        # we still have its agent-context dump for catalog enrichment —
+        # users who installed before cocoon, or first-time cocoon users
+        # whose go cache is warm, would otherwise never get the schema.
+        _ensure_agent_context(existing, api)
         return existing
 
     go = shutil.which("go", path=path_with_gobin())
@@ -88,7 +93,18 @@ def materialize(api: str, *, on_progress: ProgressCallback | None = None) -> Pat
             api=api,
             search_path=path_with_gobin(),
         )
+
+    _ensure_agent_context(found, api)
     return found
+
+
+def _ensure_agent_context(binary: Path, api: str) -> None:
+    """Capture <binary> agent-context for catalog enrichment if not already
+    cached. Best-effort: failures here don't break the call path, they just
+    leave discovery API-level for this CLI."""
+    from . import agent_context
+    if agent_context.cached(api) is None:
+        agent_context.capture(binary, api)
 
 
 def _tail(text: str, limit: int) -> str:
