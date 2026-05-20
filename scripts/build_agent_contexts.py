@@ -1,20 +1,42 @@
 """Aggregate per-CLI capability info for every API in printing-press-library,
-write the result to src/cocoon/data/agent_contexts.json.
+write the result to `data/registry.json` at the repo root.
 
-Source: each CLI's `tools-manifest.json` in the library source tree —
-upstream already generates it at codegen time, so we just `gh api` it.
-No binary execution, no Go toolchain, no upstream PR needed. Some
-hand-rolled CLIs don't have a manifest (~29% of the corpus); those get
-skipped for now (Phase 2 will add an `agent-context` runtime fallback).
+This file is the cocoon-published catalog — fetched by cocoon's runtime at
+first need (default URL: raw.githubusercontent.com/vu1n/cocoon/main/data/registry.json),
+cached locally with 24h TTL. The wheel does NOT ship this; cocoon installs
+stay small and the catalog refreshes nightly without cocoon releases.
 
-The output is shaped like a raw `<binary> agent-context` dump so cocoon's
-runtime code (agent_context.to_capabilities) is uniform across the
-local-cache and bundled-aggregate paths.
+Source per API: each CLI's `tools-manifest.json` in the printing-press-library
+source tree (~109 of ~149 CLIs as of writing). Synthetic agent-context stub
+for the rest so they still surface in find/list and can self-bootstrap when
+called.
+
+Output shape (list-of-dicts, matches dev_catalog.json so catalog.py treats
+both uniformly):
+
+    [
+      {
+        "api": "hackernews",
+        "description": "...",
+        "install_module": "github.com/mvanhorn/printing-press-library/.../hackernews-pp-cli",
+        "auth_type": "none",
+        "endpoints": [
+          {"tool": "stories.top", "summary": "...", "params_schema": {...},
+           "positionals": [], "argv_path": ["stories", "top"]},
+          ...
+        ]
+      },
+      ...
+    ]
+
+Endpoints are pre-flattened by walking the synthetic agent-context tree
+(same logic cocoon's agent_context.to_capabilities uses for local caches),
+so cocoon runtime can iterate without re-walking.
 
 Usage:
-  uv run python scripts/build_agent_contexts.py                       # all
+  uv run python scripts/build_agent_contexts.py
   uv run python scripts/build_agent_contexts.py --only hackernews ahrefs
-  uv run python scripts/build_agent_contexts.py --check               # drift check
+  uv run python scripts/build_agent_contexts.py --check
 """
 
 from __future__ import annotations
@@ -28,9 +50,14 @@ from pathlib import Path
 
 import httpx
 
+# Import cocoon's tree-walker so manifest harvesting and local-cache
+# extraction produce identical capability shapes.
+sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
+from cocoon import agent_context  # noqa: E402
+
 REGISTRY_URL = "https://raw.githubusercontent.com/mvanhorn/printing-press-library/main/registry.json"
 RAW_BASE = REGISTRY_URL.rsplit("/", 1)[0]
-OUT_PATH = Path(__file__).parent.parent / "src" / "cocoon" / "data" / "agent_contexts.json"
+OUT_PATH = Path(__file__).parent.parent / "data" / "registry.json"
 
 
 def main() -> int:
@@ -46,59 +73,38 @@ def main() -> int:
     if args.only:
         entries = [e for e in entries if e.get("name") in set(args.only)]
         if not entries:
-            print(f"error: --only filtered out all requested apis", file=sys.stderr)
+            print("error: --only filtered out all requested apis", file=sys.stderr)
             return 1
 
     print(f"harvesting tools-manifest for {len(entries)} apis "
           f"(concurrency={args.concurrency})", file=sys.stderr)
     started = time.monotonic()
 
-    results: dict[str, dict] = {}
-    skipped: list[tuple[str, str]] = []
-    synthetic_skipped: list[tuple[str, str]] = []
+    catalog_entries: list[dict] = []
+    real_count = 0
+    synthetic_count = 0
 
     with cf.ThreadPoolExecutor(max_workers=args.concurrency) as pool:
-        futures = {pool.submit(_harvest_one, e): e for e in entries}
+        futures = {pool.submit(_build_catalog_entry, e): e for e in entries}
         for fut in cf.as_completed(futures):
             entry = futures[fut]
-            name = entry["name"]
             try:
-                ctx = fut.result()
-            except _HarvestError as exc:
-                # No tools-manifest.json upstream — include the entry anyway
-                # with a synthetic agent-context endpoint. find/list become
-                # aware of the API by its description; `call` can still hit
-                # the published prebuilt binary; the first agent-context
-                # invocation captures the real schema locally and replaces
-                # this stub. Better than dropping the entry entirely, which
-                # is how flight-goat went missing from v0.4.0a1's bundle
-                # despite being in the starter-pack.
-                synthetic_skipped.append((name, str(exc)))
-                results[name] = {
-                    "registry": _registry_slim(entry),
-                    "agent_context": _synthetic_context(name, entry),
-                }
+                cat_entry, source = fut.result()
+            except Exception as exc:
+                print(f"  [error] {entry['name']}: {exc}", file=sys.stderr)
                 continue
-            results[name] = {
-                "registry": _registry_slim(entry),
-                "agent_context": ctx,
-            }
+            catalog_entries.append(cat_entry)
+            if source == "manifest":
+                real_count += 1
+            else:
+                synthetic_count += 1
 
+    catalog_entries.sort(key=lambda e: e["api"])
     elapsed = time.monotonic() - started
-    real = len(results) - len(synthetic_skipped)
-    print(f"done: {real} with tools-manifest, {len(synthetic_skipped)} synthetic, "
-          f"{len(skipped)} dropped, {elapsed:.1f}s", file=sys.stderr)
-    if synthetic_skipped:
-        print(f"  synthetic stubs (no tools-manifest.json): "
-              f"{', '.join(sorted(n for n, _ in synthetic_skipped[:8]))}"
-              f"{'...' if len(synthetic_skipped) > 8 else ''}", file=sys.stderr)
+    print(f"done: {real_count} with tools-manifest, {synthetic_count} synthetic, "
+          f"{elapsed:.1f}s", file=sys.stderr)
 
-    payload = {
-        "schema_version": 1,
-        "source_registry": REGISTRY_URL,
-        "entries": dict(sorted(results.items())),
-    }
-    encoded = json.dumps(payload, indent=2) + "\n"
+    encoded = json.dumps(catalog_entries, indent=2) + "\n"
 
     if args.check:
         existing = OUT_PATH.read_text(encoding="utf-8") if OUT_PATH.exists() else ""
@@ -109,51 +115,54 @@ def main() -> int:
 
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUT_PATH.write_text(encoded, encoding="utf-8")
-    print(f"wrote {OUT_PATH} ({OUT_PATH.stat().st_size} bytes)", file=sys.stderr)
+    print(f"wrote {OUT_PATH} ({OUT_PATH.stat().st_size} bytes, "
+          f"{len(catalog_entries)} apis)", file=sys.stderr)
     return 0
 
 
-def _synthetic_context(name: str, entry: dict) -> dict:
-    """Minimal agent-context for CLIs that don't ship a tools-manifest.json.
-
-    Surfaces one synthetic `pp:endpoint`-annotated command — `agent-context`
-    itself, which every printing-press CLI implements by contract. find/list
-    can rank the API by its registry description; `call <api> agent-context`
-    downloads the binary, executes the subcommand, AND triggers cocoon's
-    post-install schema capture (so the next find sees real endpoints)."""
+def _build_catalog_entry(entry: dict) -> tuple[dict, str]:
+    """Translate one registry entry into the catalog shape cocoon consumes.
+    Returns (entry_dict, source) where source is "manifest" (real tools-manifest
+    harvested) or "synthetic" (stub with just the agent-context endpoint)."""
+    name = entry["name"]
+    path = entry.get("path", "")
+    install_module = (
+        f"github.com/mvanhorn/printing-press-library/{path}/cmd/{name}-pp-cli"
+        if path else None
+    )
     mcp = entry.get("mcp") or {}
-    return {
-        "schema_version": "2",
-        "source": "synthetic",
-        "cli": {
-            "name": f"{name}-pp-cli",
-            "description": entry.get("description", ""),
-            "version": "unknown",
-        },
-        "auth": {
-            "mode": mcp.get("auth_type", "none"),
-            "env_vars": mcp.get("env_vars", []),
-        },
-        "commands": [{
-            "name": "agent-context",
-            "use": "agent-context",
-            "short": entry.get("description", "") +
-                     " (no tools-manifest upstream; call agent-context to capture the real schema)",
-            "annotations": {"pp:endpoint": "agent-context"},
-            "flags": [],
-        }],
-    }
 
+    try:
+        manifest = _fetch_manifest(name, path)
+        ctx = _manifest_to_agent_context(name, manifest)
+        source = "manifest"
+        auth_type = (manifest.get("auth") or {}).get("type", "none")
+    except _HarvestError:
+        ctx = _synthetic_context(name, entry)
+        source = "synthetic"
+        auth_type = mcp.get("auth_type", "none")
 
-def _registry_slim(entry: dict) -> dict:
-    return {
-        "name": entry["name"],
-        "category": entry.get("category", ""),
-        "api": entry.get("api", ""),
+    # Flatten the cobra command tree into the endpoint dicts cocoon expects.
+    capabilities = agent_context.to_capabilities(name, ctx)
+    endpoints = [
+        {
+            "tool": cap["tool"],
+            "summary": cap["summary"],
+            "params_schema": cap["params_schema"],
+            "positionals": list(cap.get("positionals", ())),
+            "argv_path": list(cap.get("argv_path", ())),
+        }
+        for cap in capabilities
+    ]
+
+    cat_entry = {
+        "api": name,
         "description": entry.get("description", ""),
-        "path": entry.get("path", ""),
-        "mcp": entry.get("mcp"),
+        "install_module": install_module,
+        "auth_type": auth_type,
+        "endpoints": endpoints,
     }
+    return cat_entry, source
 
 
 def _fetch_registry(url: str) -> list[dict]:
@@ -163,67 +172,42 @@ def _fetch_registry(url: str) -> list[dict]:
     return data["entries"] if isinstance(data, dict) else data
 
 
-def _harvest_one(entry: dict) -> dict:
-    name = entry["name"]
-    path = entry.get("path", "")
+def _fetch_manifest(name: str, path: str) -> dict:
     if not path:
         raise _HarvestError("no path in registry entry")
-
     url = f"{RAW_BASE}/{path}/tools-manifest.json"
     response = httpx.get(url, timeout=15, follow_redirects=True)
     if response.status_code == 404:
         raise _HarvestError("no tools-manifest.json")
     response.raise_for_status()
     try:
-        manifest = response.json()
+        return response.json()
     except json.JSONDecodeError as exc:
         raise _HarvestError(f"manifest not JSON: {exc}") from exc
 
-    return _manifest_to_agent_context(name, manifest)
-
 
 def _manifest_to_agent_context(api: str, manifest: dict) -> dict:
-    """Translate tools-manifest.json into an agent-context-shaped dump so
-    cocoon's runtime parser is uniform across local caches and the bundle.
-
-    Reconstructs the cobra command tree from the flat tools list. Without
-    this, naive translation would emit each tool as a top-level command
-    named after its verb suffix (e.g. `get` instead of `items`), and any
-    runtime tree-walk would derive the wrong cobra invocation path.
-    """
+    """tools-manifest.json → agent-context shape (cobra command tree)."""
     auth_type = (manifest.get("auth") or {}).get("type", "none")
     return {
         "schema_version": "2",
         "source": "tools-manifest",
-        "cli": {
-            "name": f"{api}-pp-cli",
-            "description": manifest.get("description", ""),
-            "version": "unknown",
-        },
+        "cli": {"name": f"{api}-pp-cli", "description": manifest.get("description", ""),
+                "version": "unknown"},
         "auth": {"mode": auth_type, "env_vars": []},
         "commands": _build_command_tree(manifest.get("tools", [])),
     }
 
 
-# Suffixes that, when used as the right-hand side of a `<resource>_<verb>` tool
-# name, indicate the verb is a logical-name suffix on the bare resource
-# command (so `items_get` → cobra `items <itemId>`, not `items get <itemId>`).
-# Anything not in this set is a real nested cobra subcommand: `stories_top` →
-# cobra `stories top`. The set is small and stable; if upstream adopts a new
-# verb convention, an annotated endpoint here would get mis-emitted as a fake
-# subcommand — surfaceable as a `capability_not_found` at invocation time.
 _VERB_SUFFIXES = {"get", "list", "create", "update", "delete",
                   "post", "put", "patch", "set"}
 
 
 def _build_command_tree(tools: list[dict]) -> list[dict]:
-    """Group tools by their resource root, decide bare-root vs subcommand
-    per the verb-suffix heuristic, emit nested command tree."""
     by_root: dict[str, list[tuple[str | None, dict]]] = {}
     for tool in tools:
         root, rest = _split_root(tool["name"])
         by_root.setdefault(root, []).append((rest, tool))
-
     return [_emit_root_command(root, children) for root, children in by_root.items()]
 
 
@@ -233,9 +217,6 @@ def _split_root(name: str) -> tuple[str, str | None]:
 
 
 def _emit_root_command(root: str, children: list[tuple[str | None, dict]]) -> dict:
-    # A "default action" is a verb-suffix child that, by upstream convention,
-    # invokes the bare root command (with positional if any). If present it
-    # gets folded onto the root; non-verb-suffix children stay as subcommands.
     default_idx = next(
         (i for i, (rest, _t) in enumerate(children) if rest in _VERB_SUFFIXES),
         None,
@@ -289,6 +270,29 @@ def _param_to_flag(param: dict) -> dict:
         "type": param.get("type", "string"),
         "usage": param.get("description", ""),
         "default": "",
+    }
+
+
+def _synthetic_context(name: str, entry: dict) -> dict:
+    """Minimal agent-context for CLIs without a tools-manifest. find/list see
+    the API by description; `call <api> agent-context` downloads the binary
+    and triggers cocoon's post-install schema capture, which then replaces
+    this stub with the real command tree."""
+    mcp = entry.get("mcp") or {}
+    return {
+        "schema_version": "2",
+        "source": "synthetic",
+        "cli": {"name": f"{name}-pp-cli", "description": entry.get("description", ""),
+                "version": "unknown"},
+        "auth": {"mode": mcp.get("auth_type", "none"), "env_vars": mcp.get("env_vars", [])},
+        "commands": [{
+            "name": "agent-context",
+            "use": "agent-context",
+            "short": entry.get("description", "") +
+                     " (no tools-manifest upstream; call agent-context to capture the real schema)",
+            "annotations": {"pp:endpoint": "agent-context"},
+            "flags": [],
+        }],
     }
 
 

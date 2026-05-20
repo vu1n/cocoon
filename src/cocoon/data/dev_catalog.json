@@ -1,139 +1,30 @@
 [
   {
-    "api": "linear",
-    "description": "Linear: issue tracking and project management",
-    "endpoints": [
-      {
-        "tool": "issues.create",
-        "summary": "Create a new issue in a team",
-        "params_schema": {
-          "title": "string",
-          "description": "string?",
-          "team_id": "string",
-          "assignee_id": "string?"
-        }
-      },
-      {
-        "tool": "issues.list",
-        "summary": "List issues, optionally filtered by team or assignee",
-        "params_schema": {
-          "team_id": "string?",
-          "assignee_id": "string?",
-          "state": "string?",
-          "limit": "integer?"
-        }
-      },
-      {
-        "tool": "issues.update",
-        "summary": "Update an existing issue's fields",
-        "params_schema": {
-          "issue_id": "string",
-          "title": "string?",
-          "state_id": "string?",
-          "assignee_id": "string?"
-        }
-      },
-      {
-        "tool": "comments.create",
-        "summary": "Add a comment to an issue",
-        "params_schema": {
-          "issue_id": "string",
-          "body": "string"
-        }
-      },
-      {
-        "tool": "teams.list",
-        "summary": "List all teams the user belongs to",
-        "params_schema": {}
-      }
-    ]
-  },
-  {
-    "api": "slack",
-    "description": "Slack: workspace messaging",
-    "endpoints": [
-      {
-        "tool": "chat.postMessage",
-        "summary": "Send a message to a channel or user",
-        "params_schema": {
-          "channel": "string",
-          "text": "string",
-          "thread_ts": "string?"
-        }
-      },
-      {
-        "tool": "conversations.list",
-        "summary": "List channels and DMs visible to the user",
-        "params_schema": {
-          "types": "string?",
-          "limit": "integer?"
-        }
-      },
-      {
-        "tool": "users.lookup",
-        "summary": "Look up a user by email or display name",
-        "params_schema": {
-          "email": "string?",
-          "name": "string?"
-        }
-      }
-    ]
-  },
-  {
     "api": "github",
     "description": "GitHub: source control, issues, pull requests",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/dev/github/cmd/github-pp-cli",
+    "auth_type": "api_key",
     "endpoints": [
       {
         "tool": "repos.get",
         "summary": "Get a repository's metadata",
-        "params_schema": {
-          "owner": "string",
-          "repo": "string"
-        }
+        "params_schema": {"owner": "string", "repo": "string"},
+        "positionals": [],
+        "argv_path": ["repos", "get"]
       },
       {
         "tool": "issues.create",
         "summary": "Open a new issue on a repository",
-        "params_schema": {
-          "owner": "string",
-          "repo": "string",
-          "title": "string",
-          "body": "string?"
-        }
+        "params_schema": {"owner": "string", "repo": "string", "title": "string", "body": "string?"},
+        "positionals": [],
+        "argv_path": ["issues", "create"]
       },
       {
         "tool": "pull_requests.list",
         "summary": "List pull requests for a repository",
-        "params_schema": {
-          "owner": "string",
-          "repo": "string",
-          "state": "string?"
-        }
-      }
-    ]
-  },
-  {
-    "api": "stripe",
-    "description": "Stripe: payments and billing",
-    "endpoints": [
-      {
-        "tool": "customers.create",
-        "summary": "Create a new customer",
-        "params_schema": {
-          "email": "string?",
-          "name": "string?",
-          "description": "string?"
-        }
-      },
-      {
-        "tool": "charges.create",
-        "summary": "Charge a customer or source",
-        "params_schema": {
-          "amount": "integer",
-          "currency": "string",
-          "customer": "string?",
-          "source": "string?"
-        }
+        "params_schema": {"owner": "string", "repo": "string", "state": "string?"},
+        "positionals": [],
+        "argv_path": ["pull-requests", "list"]
       }
     ]
   },
@@ -144,28 +35,98 @@
     "auth_type": "none",
     "endpoints": [
       {
-        "tool": "doctor",
-        "summary": "Health check: HN API reachability, auth, cache state, config validity",
-        "params_schema": {
-          "agent": "boolean?"
-        }
+        "tool": "stories.top",
+        "summary": "Get the current top stories on Hacker News",
+        "params_schema": {"limit": "int?"},
+        "positionals": [],
+        "argv_path": ["stories", "top"]
       },
       {
-        "tool": "items",
-        "summary": "Get details for a specific story, comment, job, or poll by id",
-        "params_schema": {
-          "id": "integer",
-          "agent": "boolean?"
-        }
+        "tool": "items.get",
+        "summary": "Get details for a specific story, comment, job, or poll",
+        "params_schema": {"itemId": "string"},
+        "positionals": ["itemId"],
+        "argv_path": ["items"]
       },
       {
         "tool": "search",
-        "summary": "Search HN stories and comments live via the Algolia API",
-        "params_schema": {
-          "query": "string",
-          "limit": "integer?",
-          "agent": "boolean?"
-        }
+        "summary": "Search HN stories and comments via the Algolia API",
+        "params_schema": {"query": "string", "limit": "int?"},
+        "positionals": [],
+        "argv_path": ["search"]
+      }
+    ]
+  },
+  {
+    "api": "linear",
+    "description": "Linear: issue tracking and project management",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/dev/linear/cmd/linear-pp-cli",
+    "auth_type": "api_key",
+    "endpoints": [
+      {
+        "tool": "issues.create",
+        "summary": "Create a new issue in a team",
+        "params_schema": {"title": "string", "description": "string?", "team_id": "string", "assignee_id": "string?"},
+        "positionals": [],
+        "argv_path": ["issues", "create"]
+      },
+      {
+        "tool": "issues.list",
+        "summary": "List issues, optionally filtered by team or assignee",
+        "params_schema": {"team_id": "string?", "assignee_id": "string?", "state": "string?", "limit": "integer?"},
+        "positionals": [],
+        "argv_path": ["issues", "list"]
+      },
+      {
+        "tool": "comments.create",
+        "summary": "Add a comment to an issue",
+        "params_schema": {"issue_id": "string", "body": "string"},
+        "positionals": [],
+        "argv_path": ["comments", "create"]
+      }
+    ]
+  },
+  {
+    "api": "slack",
+    "description": "Slack: workspace messaging",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/messaging/slack/cmd/slack-pp-cli",
+    "auth_type": "oauth",
+    "endpoints": [
+      {
+        "tool": "chat.postMessage",
+        "summary": "Post a message to a Slack channel or DM",
+        "params_schema": {"channel": "string", "text": "string", "thread_ts": "string?"},
+        "positionals": [],
+        "argv_path": ["chat", "post-message"]
+      },
+      {
+        "tool": "users.list",
+        "summary": "List users in the workspace",
+        "params_schema": {"limit": "integer?"},
+        "positionals": [],
+        "argv_path": ["users", "list"]
+      }
+    ]
+  },
+  {
+    "api": "stripe",
+    "description": "Stripe: payments and billing",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/stripe/cmd/stripe-pp-cli",
+    "auth_type": "api_key",
+    "endpoints": [
+      {
+        "tool": "customers.create",
+        "summary": "Create a new customer",
+        "params_schema": {"email": "string?", "name": "string?", "description": "string?"},
+        "positionals": [],
+        "argv_path": ["customers", "create"]
+      },
+      {
+        "tool": "charges.create",
+        "summary": "Charge a customer or source",
+        "params_schema": {"amount": "integer", "currency": "string", "customer": "string?", "source": "string?"},
+        "positionals": [],
+        "argv_path": ["charges", "create"]
       }
     ]
   }

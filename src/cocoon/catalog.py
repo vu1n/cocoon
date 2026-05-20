@@ -1,18 +1,23 @@
-"""Catalog: fetch from printing-press, parse, search.
+"""Catalog: fetch the cocoon-published registry, parse, search.
 
-The printing-press-library publishes a machine-readable manifest of
-available APIs and their endpoints. The exact manifest URL is read at
-call time from $COCOON_CATALOG_URL; when unset, cocoon falls back to a
-small bundled dev catalog (5 APIs) so the server is exercisable before
-the upstream manifest is finalized.
+The cocoon repo runs a nightly GitHub Action that harvests
+printing-press-library's per-CLI manifests and publishes the aggregated
+result as a single JSON file. cocoon's runtime fetches that file on
+first need (URL configurable via $COCOON_CATALOG_URL; default points at
+raw.githubusercontent.com of cocoon's main branch) and caches it locally
+with a 24h TTL. Single source of truth, no wheel-bundled drift.
 
-Cached on disk at ~/.cache/cocoon/catalog/index.json with a 24h TTL.
-`refresh()` (and the `cocoon catalog refresh` CLI) force-evicts.
+When the network is unreachable on first run, cocoon falls back to a
+small bundled dev catalog (5 APIs) so the CLI is still exercisable.
 
-Search uses BM25 over a per-endpoint document = api + tool + summary +
-flag names. That's enough relevance that the model usually picks the
-right capability on the first round-trip; if not, `describe_capability`
-gets it the rest of the way.
+The published registry is a list of dicts, each carrying api name,
+description, install_module, auth_type, and pre-flattened endpoints
+with positionals + argv_path. The local agent-context cache (captured
+post-install from each installed binary) overrides any entry's
+endpoints — that's the most authoritative view for installed APIs.
+
+Search uses BM25 over per-endpoint docs = api + description + tool +
+summary + flag names. Stopwords filtered for query quality.
 """
 
 import importlib.resources
@@ -31,6 +36,11 @@ from .paths import catalog_dir
 
 CACHE_FILE = "index.json"
 CACHE_TTL_SECONDS = 24 * 60 * 60
+
+# Default published registry URL. Overridable via $COCOON_CATALOG_URL.
+# raw.githubusercontent.com is fine for the scale we're at; if rate
+# limits bite or we want better caching control, switch to GH Pages.
+DEFAULT_REGISTRY_URL = "https://raw.githubusercontent.com/vu1n/cocoon/main/data/registry.json"
 
 
 @dataclass(frozen=True)
@@ -63,9 +73,11 @@ class ApiSummary:
     endpoint_count: int
 
 
-def _catalog_url() -> str | None:
-    """Read at call time so env changes take effect without re-import."""
-    return os.environ.get("COCOON_CATALOG_URL")
+def _catalog_url() -> str:
+    """Read at call time so env changes take effect without re-import.
+    Defaults to the cocoon-published registry; users can pin a local file
+    or a fork via the env var."""
+    return os.environ.get("COCOON_CATALOG_URL") or DEFAULT_REGISTRY_URL
 
 
 def _cache_path() -> Path:
@@ -97,12 +109,22 @@ def _is_fresh(path: Path, ttl: int) -> bool:
 
 
 def load_catalog(*, refresh: bool = False) -> list[dict]:
+    """Return the canonical catalog list. On cache miss / expiry, fetches
+    the published registry. If the network is unreachable, falls back to
+    the bundled dev catalog (5 APIs) so the CLI still works offline."""
     cached = _cache_path()
     if not refresh and _is_fresh(cached, CACHE_TTL_SECONDS):
         return json.loads(cached.read_text(encoding="utf-8"))
 
     url = _catalog_url()
-    data = _fetch_remote(url) if url else _load_dev_catalog()
+    try:
+        data = _fetch_remote(url)
+    except CatalogUnavailable:
+        # Offline / first-run-with-no-network. Keep working against the
+        # 5-API dev catalog so users hit a useful "find" rather than a
+        # crash. NOT cached — we want the next attempt to re-try the
+        # network, not be stuck on this fallback for 24h.
+        return _load_dev_catalog()
 
     cached.parent.mkdir(parents=True, exist_ok=True)
     cached.write_text(json.dumps(data), encoding="utf-8")
@@ -115,59 +137,28 @@ def refresh_catalog() -> list[dict]:
 
 
 def _merged_view() -> list[dict]:
-    """Combined catalog view: dev-catalog entries ∪ bundled-aggregate
-    entries, with per-API agent-context endpoints spliced in.
+    """Catalog with local agent-context cache spliced over the published
+    registry's pre-flattened endpoints.
 
-    Three layers of priority for the endpoint list:
-    1. Local agent-context cache — what's installed on this machine.
-    2. Bundled aggregate — what upstream had at our last CI run.
-    3. Dev catalog stub — hand-curated fallback for the 5 dev APIs.
+    Two layers of priority for the endpoint list:
+    1. Local agent-context cache — what's installed on this machine. The
+       most authoritative view for any API the user has actually called.
+    2. Published catalog endpoints — pre-flattened by the build script
+       from upstream tools-manifests + synthetic stubs.
 
-    For non-endpoint fields (description, install_module) we use the
-    union of dev-catalog + bundled-aggregate registry data; dev catalog
-    wins on collision so tests that rely on the dev-catalog shape stay
-    stable.
+    Non-endpoint fields (api, description, install_module, auth_type)
+    come from the catalog entry as-is.
     """
     from . import agent_context  # lazy: avoid loading at module import
 
-    entries_by_api: dict[str, dict] = {}
-
-    # Bundled aggregate goes in first; dev catalog overlays.
-    for bundled_entry in agent_context.bundled_apis():
-        api = bundled_entry.get("name") or bundled_entry.get("api")
-        if not api:
-            continue
-        mcp = bundled_entry.get("mcp") or {}
-        path = bundled_entry.get("path", "")
-        entries_by_api[api] = {
-            "api": api,
-            "description": bundled_entry.get("description", ""),
-            "install_module": (
-                f"github.com/mvanhorn/printing-press-library/{path}/cmd/{api}-pp-cli"
-                if path else None
-            ),
-            "auth_type": mcp.get("auth_type") or "required",
-            "endpoints": [],
-        }
-
-    # Dev-catalog fields overlay the bundled metadata. Missing-or-None values
-    # in dev fall back to bundled (so stripe in dev — which doesn't carry
-    # install_module — inherits the derived module path from the bundled
-    # aggregate). Field-level merge instead of whole-entry replacement.
-    for dev_entry in load_catalog():
-        api = dev_entry.get("api")
-        if not api:
-            continue
-        existing = entries_by_api.get(api, {})
-        overlay = {k: v for k, v in dev_entry.items() if v is not None}
-        entries_by_api[api] = {**existing, **overlay}
-
-    # Splice in real endpoint schemas: prefer the local cache, fall back
-    # to the bundled aggregate's agent_context.
     out: list[dict] = []
-    for api, entry in entries_by_api.items():
-        ctx = agent_context.lookup(api)
-        if ctx is None:
+    for entry in load_catalog():
+        api = entry.get("api")
+        if not api:
+            continue
+        # Local cache wins if present; otherwise use the published endpoints.
+        local = agent_context.cached(api)
+        if local is None:
             out.append(entry)
             continue
         endpoints = [
@@ -176,7 +167,7 @@ def _merged_view() -> list[dict]:
              "params_schema": cap["params_schema"],
              "positionals": cap.get("positionals", ()),
              "argv_path": cap.get("argv_path", ())}
-            for cap in agent_context.to_capabilities(api, ctx)
+            for cap in agent_context.to_capabilities(api, local)
         ]
         out.append({**entry, "endpoints": endpoints})
     return out

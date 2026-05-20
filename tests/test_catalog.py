@@ -46,14 +46,10 @@ def test_find_capability_unmatched_query_returns_nothing() -> None:
 
 
 def test_describe_capability_returns_full_record() -> None:
-    """`agent-context` is a synthetic endpoint cocoon emits for every CLI
-    that lacks an upstream tools-manifest.json (slack is one of these).
-    The real slack chat-related endpoints get populated locally after the
-    first successful agent-context call against the installed binary;
-    until then, agent-context is the canonical discovery target."""
-    cap = catalog.describe_capability("slack", "agent-context")
+    cap = catalog.describe_capability("slack", "chat.postMessage")
     assert cap.api == "slack"
-    assert cap.tool == "agent-context"
+    assert cap.tool == "chat.postMessage"
+    assert "channel" in cap.params_schema
 
 
 def test_describe_capability_raises_for_unknown() -> None:
