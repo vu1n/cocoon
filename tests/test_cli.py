@@ -12,9 +12,11 @@ from cocoon.cli import main
 def test_init_print_emits_shell_command_and_snippet(capsys) -> None:
     assert main(["init", "--print"]) == 0
     out = capsys.readouterr().out
-    assert "claude mcp add cocoon --scope user -- uvx cocoon serve" in out
+    assert "claude mcp add cocoon --scope user -- uvx --from cocoon-mcp cocoon serve" in out
     parsed = json.loads(out[out.index("{"):])
-    assert parsed["mcpServers"]["cocoon"] == {"command": "uvx", "args": ["cocoon", "serve"]}
+    assert parsed["mcpServers"]["cocoon"] == {
+        "command": "uvx", "args": ["--from", "cocoon-mcp", "cocoon", "serve"],
+    }
 
 
 def test_init_default_registers_via_claude_mcp_add(monkeypatch, capsys) -> None:
@@ -37,7 +39,7 @@ def test_init_default_registers_via_claude_mcp_add(monkeypatch, capsys) -> None:
     assert calls[1][:5] == ["/fake/claude", "mcp", "add", "cocoon", "--scope"]
     # Command + args are appended after `--`.
     sep = calls[1].index("--")
-    assert calls[1][sep + 1 :] == ["uvx", "cocoon", "serve"]
+    assert calls[1][sep + 1 :] == ["uvx", "--from", "cocoon-mcp", "cocoon", "serve"]
 
 
 def test_init_propagates_custom_command_to_claude_mcp_add(monkeypatch) -> None:

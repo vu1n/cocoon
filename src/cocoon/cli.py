@@ -26,8 +26,11 @@ from .paths import auth_dir, cache_root, catalog_dir, ensure_dirs
 from .sandbox import probe as probe_sandbox
 
 COCOON_ENTRY = {
+    # PyPI distribution name is `cocoon-mcp`; the installed script is
+    # `cocoon`. uvx needs `--from <dist>` when distribution name differs
+    # from script name.
     "command": "uvx",
-    "args": ["cocoon", "serve"],
+    "args": ["--from", "cocoon-mcp", "cocoon", "serve"],
 }
 
 
@@ -137,7 +140,7 @@ def _build_parser() -> argparse.ArgumentParser:
             "Override the MCP server invocation. Pass a shell-like string, e.g. "
             "\"$(which cocoon) serve\" for a local install or "
             "\"uv run --directory /path/to/cocoon cocoon serve\" for a checkout. "
-            "Default is `uvx cocoon serve`, which requires cocoon to be on PyPI."
+            "Default is `uvx --from cocoon-mcp cocoon serve`, which requires the package to be on PyPI."
         ),
     )
     p_init.set_defaults(_handler=_cmd_init)

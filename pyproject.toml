@@ -1,6 +1,10 @@
 [project]
-name = "cocoon"
-version = "0.4.0"
+# `cocoon` was taken on PyPI (acegik's single-release 2021 placeholder).
+# We publish as `cocoon-mcp` while the Python package, the installed
+# script, and everything user-facing stays branded `cocoon`. PEP 541
+# reclaim of the bare name is a separate, slow track.
+name = "cocoon-mcp"
+version = "0.4.0a1"
 description = "MCP facade over the printing-press CLI corpus: one tool that discovers, auto-installs, sandboxes, and calls any API in the catalog."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -30,9 +30,10 @@ cocoon list --filter payments
 ## Install
 
 ```sh
-uvx cocoon init                      # registers via `claude mcp add` (user scope)
-uvx cocoon doctor                    # check sandbox + Go + catalog
-uvx cocoon auth linear --token lin_… # write per-API credentials (mode 0600)
+# `cocoon-mcp` is the PyPI distribution name; `cocoon` is the installed CLI.
+uvx --from cocoon-mcp cocoon init                      # register via `claude mcp add`
+uvx --from cocoon-mcp cocoon doctor                    # check sandbox + catalog state
+uvx --from cocoon-mcp cocoon auth linear --token lin_… # write per-API credentials
 ```
 
 For a local install pointing at a checkout instead of PyPI:

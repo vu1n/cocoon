@@ -25,8 +25,9 @@ cocoon runs as a single MCP server registered with the host agent (Claude Code, 
 Install and register with your host:
 
 ```sh
-uvx cocoon init                         # registers via `claude mcp add` (user scope)
-uvx cocoon init --print                 # show the registration command instead of running it
+# PyPI distribution is `cocoon-mcp`; installed CLI is `cocoon`.
+uvx --from cocoon-mcp cocoon init           # register via `claude mcp add` (user scope)
+uvx --from cocoon-mcp cocoon init --print   # show the registration command without running
 # For non-PyPI local installs, override with --command:
 cocoon init --command "$(which cocoon) serve"
 ```
