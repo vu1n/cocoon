@@ -136,6 +136,37 @@ def test_invocation_for_nested_subcommand_keeps_full_path() -> None:
     assert argv_path == ("stories", "top")
 
 
+async def test_action_find_passes_ready_only_through() -> None:
+    """ready_only=True filters gated APIs out at the MCP boundary."""
+    out = await _call(action="find", query="issue create", ready_only=True)
+    assert isinstance(out, list)
+    assert all(r["auth_status"] != "required" for r in out)
+
+
+async def test_action_list_passes_ready_only_through() -> None:
+    out = await _call(action="list", ready_only=True)
+    assert isinstance(out, list)
+    assert out  # hackernews is auth_type=none → always ready
+    assert all(s["auth_status"] != "required" for s in out)
+
+
+async def test_action_find_surfaces_auth_status() -> None:
+    """Every find result carries auth_status so the agent can decide."""
+    out = await _call(action="find", query="hacker news")
+    assert all("auth_status" in r for r in out)
+
+
+async def test_auth_missing_includes_auth_type() -> None:
+    """When a call lands on an auth-gated API with no local token, the
+    error payload carries auth_type so the agent (or a Phase 2 OAuth
+    negotiator) knows what kind of credential is needed. Auth resolution
+    happens before materialize, so this exercises the fast-fail path
+    without ever attempting a binary download."""
+    out = await _call(action="call", api="linear", tool="issues.list")
+    assert out["error"] == "auth_missing"
+    assert out["detail"]["auth_type"] == "api_key"
+
+
 def test_invocation_for_returns_empty_for_unknown_tool() -> None:
     """`doctor` is callable on hackernews-pp-cli but isn't `pp:endpoint`-
     annotated upstream; the catalog raises CapabilityNotFound. We swallow

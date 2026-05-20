@@ -168,6 +168,8 @@ def _build_parser() -> argparse.ArgumentParser:
     p_find = subs.add_parser("find", help="Search the catalog for capabilities.")
     p_find.add_argument("query", help="Natural-language description.")
     p_find.add_argument("--limit", type=int, default=5)
+    p_find.add_argument("--ready-only", dest="ready_only", action="store_true",
+                        help="Hide capabilities that require auth setup.")
     p_find.add_argument("--json", dest="as_json", action="store_true",
                         help="Emit raw JSON instead of human-formatted output.")
     p_find.set_defaults(_handler=_cmd_find)
@@ -190,8 +192,17 @@ def _build_parser() -> argparse.ArgumentParser:
 
     p_list = subs.add_parser("list", help="Enumerate APIs in the catalog.")
     p_list.add_argument("--filter", default="", help="Substring filter on name/description.")
+    p_list.add_argument("--ready-only", dest="ready_only", action="store_true",
+                        help="Hide APIs that require auth setup.")
     p_list.add_argument("--json", dest="as_json", action="store_true")
     p_list.set_defaults(_handler=_cmd_list)
+
+    p_ready = subs.add_parser(
+        "ready",
+        help="Show APIs that are callable right now (no auth needed, or auth configured).",
+    )
+    p_ready.add_argument("--json", dest="as_json", action="store_true")
+    p_ready.set_defaults(_handler=_cmd_ready)
 
     return parser
 
@@ -337,17 +348,27 @@ def _cmd_catalog_refresh(args: argparse.Namespace) -> int:
 
 
 def _cmd_find(args: argparse.Namespace) -> int:
-    results = [catalog_module.to_dict(c)
-               for c in catalog_module.find_capability(args.query, args.limit)]
+    results = [
+        catalog_module.to_dict(c)
+        for c in catalog_module.find_capability(
+            args.query, args.limit, ready_only=args.ready_only)
+    ]
     def human() -> None:
         if not results:
             print("(no matches)")
             return
         for r in results:
-            print(f"{r['api']}/{r['tool']}  —  {r['summary']}")
+            tag = _auth_tag(r.get("auth_status", "required"))
+            print(f"{tag} {r['api']}/{r['tool']}  —  {r['summary']}")
             if r["params_schema"]:
                 print(f"    params: {r['params_schema']}")
     return _emit(results, args.as_json, human)
+
+
+def _auth_tag(status: str) -> str:
+    """One-character readiness prefix for human output.
+    `*` = ready (no auth needed or configured), `!` = needs setup."""
+    return "*" if status in ("none", "configured") else "!"
 
 
 def _cmd_describe(args: argparse.Namespace) -> int:
@@ -381,12 +402,44 @@ def _cmd_call(args: argparse.Namespace) -> int:
 
 
 def _cmd_list(args: argparse.Namespace) -> int:
-    summaries = [catalog_module.to_dict(s)
-                 for s in catalog_module.list_apis(args.filter)]
+    summaries = [
+        catalog_module.to_dict(s)
+        for s in catalog_module.list_apis(args.filter, ready_only=args.ready_only)
+    ]
     def human() -> None:
         for s in summaries:
-            print(f"{s['api']:<20} {s['endpoint_count']:>3} endpoints  —  {s['description']}")
+            tag = _auth_tag(s.get("auth_status", "required"))
+            print(f"{tag} {s['api']:<20} {s['endpoint_count']:>3} endpoints  —  "
+                  f"{s['description']}")
     return _emit(summaries, args.as_json, human)
+
+
+def _cmd_ready(args: argparse.Namespace) -> int:
+    """Show APIs callable now, grouped by auth status."""
+    buckets: dict[str, list] = {"none": [], "configured": []}
+    for s in catalog_module.list_apis(ready_only=True):
+        buckets.setdefault(s.auth_status, []).append(s)
+    data = {
+        "no_auth": [catalog_module.to_dict(s) for s in buckets["none"]],
+        "configured": [catalog_module.to_dict(s) for s in buckets["configured"]],
+    }
+    def human() -> None:
+        if not buckets["none"] and not buckets["configured"]:
+            print("(no APIs ready — run `cocoon auth <api> --token …` to enable one)")
+            return
+        sections = [("No auth required", buckets["none"]),
+                    ("Auth configured", buckets["configured"])]
+        first = True
+        for label, items in sections:
+            if not items:
+                continue
+            if not first:
+                print()
+            first = False
+            print(f"{label} ({len(items)}):")
+            for s in items:
+                print(f"  {s.api:<20} {s.endpoint_count:>3} endpoints  —  {s.description}")
+    return _emit(data, args.as_json, human)
 
 
 def _emit(data: object, as_json: bool, format_human: Callable[[], None]) -> int:

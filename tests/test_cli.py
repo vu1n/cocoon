@@ -229,6 +229,52 @@ def test_agent_mode_no_subcommand_structured(monkeypatch, capsys) -> None:
     assert parsed["error"] == "invalid_arguments"
 
 
+def test_find_human_includes_auth_tag(capsys) -> None:
+    """The human-readable find output prefixes each row with a readiness
+    tag so the user can see at a glance which results are callable now."""
+    assert main(["find", "hacker news"]) == 0
+    out = capsys.readouterr().out
+    # hackernews is auth_type=none → ready marker.
+    assert any(line.startswith("* hackernews/") for line in out.splitlines())
+
+
+def test_find_ready_only_filters_human(capsys) -> None:
+    assert main(["find", "issue create", "--ready-only", "--json"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert all(r["auth_status"] != "required" for r in parsed)
+
+
+def test_list_ready_only_filters(capsys) -> None:
+    assert main(["list", "--ready-only", "--json"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert parsed and all(s["auth_status"] != "required" for s in parsed)
+
+
+def test_ready_subcommand_json_groups_by_status(capsys) -> None:
+    assert main(["ready", "--json"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert "no_auth" in parsed and "configured" in parsed
+    # Bundled dev catalog has hackernews under no_auth.
+    assert any(s["api"] == "hackernews" for s in parsed["no_auth"])
+
+
+def test_ready_subcommand_human(capsys) -> None:
+    assert main(["ready"]) == 0
+    out = capsys.readouterr().out
+    assert "No auth required" in out
+    assert "hackernews" in out
+
+
+def test_ready_after_auth_setup_lists_configured(tmp_path: Path, capsys) -> None:
+    """Writing an auth file should make the API show up under
+    `configured` in the `ready` output."""
+    assert main(["auth", "linear", "--token", "lin_test"]) == 0
+    capsys.readouterr()  # flush auth's stdout
+    assert main(["ready", "--json"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert any(s["api"] == "linear" for s in parsed["configured"])
+
+
 def test_non_agent_mode_argparse_error_human(capsys) -> None:
     """Non-agent mode keeps argparse-style human-readable error."""
     rc = main(["describe", "hackernews"])

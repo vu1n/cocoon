@@ -212,6 +212,69 @@ def test_dev_catalog_inherits_install_module_from_bundled() -> None:
     assert stripe_entries, "stripe should be visible in list (inherited install_module)"
 
 
+def test_capability_carries_auth_status() -> None:
+    """auth_status surfaces on every find result so the agent can decide
+    whether to attempt the call or defer for setup. hackernews is bundled
+    with auth_type=none, so its capabilities are "none"; linear is
+    api_key, so without a token file present it's "required"."""
+    hn = catalog.find_capability("top stories on hacker news")
+    assert hn and hn[0].auth_status == "none"
+    linear = catalog.find_capability("create a linear issue")
+    assert linear and linear[0].auth_status == "required"
+
+
+def test_find_sorts_ready_before_required() -> None:
+    """Ready capabilities (auth_status none/configured) sort before gated
+    ones, regardless of raw BM25 score. With the bundled corpus, an
+    auth-less HN endpoint should rank ahead of an auth-gated one on a
+    query that matches both."""
+    results = catalog.find_capability("create", limit=5)
+    if not any(r.auth_status == "required" for r in results):
+        return  # nothing to compare; query didn't surface gated APIs
+    # Find the first required and the last ready; ready must come first.
+    first_required = next(i for i, r in enumerate(results) if r.auth_status == "required")
+    last_ready = max((i for i, r in enumerate(results)
+                      if r.auth_status in ("none", "configured")), default=-1)
+    assert last_ready < first_required
+
+
+def test_find_ready_only_hides_gated() -> None:
+    results = catalog.find_capability("issue create", ready_only=True)
+    assert all(r.auth_status != "required" for r in results)
+
+
+def test_configured_token_promotes_to_configured(tmp_path: Path) -> None:
+    """An auth file existing under the per-test cache root should flip
+    auth_status from 'required' to 'configured' for that API."""
+    from cocoon import auth as auth_module
+    auth_module.write_token_env("linear", {"TOKEN": "lin_test"})
+    results = catalog.find_capability("create a linear issue")
+    linear = next(r for r in results if r.api == "linear")
+    assert linear.auth_status == "configured"
+
+
+def test_list_apis_includes_auth_status_and_sorts_ready_first() -> None:
+    summaries = catalog.list_apis()
+    statuses = [s.auth_status for s in summaries]
+    # The first ready entry must precede the first required entry.
+    if "required" in statuses and any(s in ("none", "configured") for s in statuses):
+        first_required = statuses.index("required")
+        first_ready = min(i for i, s in enumerate(statuses)
+                          if s in ("none", "configured"))
+        assert first_ready < first_required
+
+
+def test_list_apis_ready_only_filters() -> None:
+    summaries = catalog.list_apis(ready_only=True)
+    assert summaries  # bundled corpus has hackernews (auth_type=none)
+    assert all(s.auth_status != "required" for s in summaries)
+
+
+def test_describe_includes_auth_status() -> None:
+    cap = catalog.describe_capability("hackernews", "stories.top")
+    assert cap.auth_status == "none"
+
+
 def test_refresh_catalog_rewrites_cache(tmp_path: Path) -> None:
     cache_file = tmp_path / "catalog" / catalog.CACHE_FILE
     catalog.load_catalog()

@@ -43,6 +43,12 @@ CACHE_TTL_SECONDS = 24 * 60 * 60
 DEFAULT_REGISTRY_URL = "https://raw.githubusercontent.com/vu1n/cocoon/main/data/registry.json"
 
 
+# Readiness buckets for sort ordering. "none" and "configured" share a
+# bucket — both are callable now; "required" needs a setup step first.
+# Unknown statuses fall to the back via the default in _AUTH_RANK.get.
+_AUTH_RANK: dict[str, int] = {"none": 0, "configured": 0, "required": 1}
+
+
 @dataclass(frozen=True)
 class Capability:
     api: str
@@ -64,6 +70,10 @@ class Capability:
     # that reason about confidence can ignore weak matches even when
     # COCOON_FIND_MIN_SCORE isn't set.
     score: float = 0.0
+    # Readiness: "none" (no auth needed) | "configured" (auth needed and
+    # token file present) | "required" (auth needed, no token yet — agent
+    # should surface a setup step instead of attempting the call).
+    auth_status: str = "required"
 
 
 @dataclass(frozen=True)
@@ -71,6 +81,7 @@ class ApiSummary:
     api: str
     description: str
     endpoint_count: int
+    auth_status: str = "required"
 
 
 def _catalog_url() -> str:
@@ -138,7 +149,8 @@ def refresh_catalog() -> list[dict]:
 
 def _merged_view() -> list[dict]:
     """Catalog with local agent-context cache spliced over the published
-    registry's pre-flattened endpoints.
+    registry's pre-flattened endpoints, plus auth_status derived from
+    auth_type + presence of local credentials.
 
     Two layers of priority for the endpoint list:
     1. Local agent-context cache — what's installed on this machine. The
@@ -147,7 +159,10 @@ def _merged_view() -> list[dict]:
        from upstream tools-manifests + synthetic stubs.
 
     Non-endpoint fields (api, description, install_module, auth_type)
-    come from the catalog entry as-is.
+    come from the catalog entry as-is. `auth_status` is derived per-entry:
+      "none"       → auth_type=="none" (callable immediately)
+      "configured" → auth_type required AND ~/.cache/cocoon/auth/<api>.json exists
+      "required"   → auth needed but not yet configured (deferred until setup)
     """
     from . import agent_context  # lazy: avoid loading at module import
 
@@ -156,10 +171,11 @@ def _merged_view() -> list[dict]:
         api = entry.get("api")
         if not api:
             continue
+        auth_status = _derive_auth_status(api, entry.get("auth_type"))
         # Local cache wins if present; otherwise use the published endpoints.
         local = agent_context.cached(api)
         if local is None:
-            out.append(entry)
+            out.append({**entry, "auth_status": auth_status})
             continue
         endpoints = [
             {"tool": cap["tool"],
@@ -169,22 +185,37 @@ def _merged_view() -> list[dict]:
              "argv_path": cap.get("argv_path", ())}
             for cap in agent_context.to_capabilities(api, local)
         ]
-        out.append({**entry, "endpoints": endpoints})
+        out.append({**entry, "endpoints": endpoints, "auth_status": auth_status})
     return out
 
 
-def _installable_view() -> list[dict]:
-    """`_merged_view` filtered to entries cocoon could actually invoke.
+def _derive_auth_status(api: str, auth_type: str | None) -> str:
+    """Compute auth_status from auth_type + presence of a local token.
+    One Path.exists per call via auth.is_configured; does NOT read the
+    token file content."""
+    from . import auth
+    if not auth_type or auth_type == "none":
+        return "none"
+    return "configured" if auth.is_configured(api) else "required"
 
-    An entry without `install_module` would fail at materialize-time with
-    `materialization_failed` (no module to install). Surfacing such an
-    entry from `find`/`list` invites the agent to try the call and waste
-    a round-trip discovering it can't work. The filter prevents that.
 
-    `describe_capability` deliberately uses `_merged_view` (no filter) —
-    if the agent already has the name, the inspection should succeed.
+def _installable_view(*, ready_only: bool = False) -> list[dict]:
+    """`_merged_view` filtered to entries cocoon could actually invoke,
+    optionally also dropping auth-gated entries.
+
+    An entry without `install_module` would fail at materialize-time
+    with `materialization_failed`. Surfacing such an entry from
+    `find`/`list` invites the agent to try the call and waste a
+    round-trip. The filter prevents that.
+
+    `describe_capability` deliberately uses `_merged_view` (no filter):
+    if the agent already has the name, inspection should succeed.
     """
-    return [e for e in _merged_view() if e.get("install_module")]
+    return [
+        e for e in _merged_view()
+        if e.get("install_module")
+        and not (ready_only and e.get("auth_status") == "required")
+    ]
 
 
 def installable_skip_count() -> int:
@@ -205,17 +236,25 @@ def _capability_doc(api: str, api_desc: str, endpoint: dict) -> str:
     return " ".join(parts)
 
 
-def find_capability(query: str, limit: int = 5) -> list[Capability]:
+def find_capability(query: str, limit: int = 5, *, ready_only: bool = False) -> list[Capability]:
+    """BM25-rank capabilities against `query`. Results sort ready APIs
+    (auth_status none/configured) before gated ones (required), then by
+    score descending within each band.
+
+    `ready_only=True` filters gated APIs out entirely — useful when the
+    agent only wants capabilities it can invoke without a user-attended
+    setup step."""
     if not query.strip():
         return []
 
-    entries: list[tuple[str, str, dict]] = []
+    rows: list[tuple[str, dict, str]] = []  # api, endpoint, auth_status
     docs: list[str] = []
-    for entry in _installable_view():
+    for entry in _installable_view(ready_only=ready_only):
         api = entry["api"]
+        auth_status = entry.get("auth_status", "required")
         api_desc = entry.get("description", "")
         for endpoint in entry.get("endpoints", []):
-            entries.append((api, api_desc, endpoint))
+            rows.append((api, endpoint, auth_status))
             docs.append(_capability_doc(api, api_desc, endpoint))
 
     if not docs:
@@ -224,12 +263,15 @@ def find_capability(query: str, limit: int = 5) -> list[Capability]:
     floor = _min_score()
     scores = search.rank(query, docs)
     scored = [
-        (score, _capability_from_endpoint(api, endpoint, score=score))
-        for score, (api, _desc, endpoint) in zip(scores, entries)
+        (auth_status, score, _capability_from_endpoint(api, endpoint, score=score,
+                                                       auth_status=auth_status))
+        for score, (api, endpoint, auth_status) in zip(scores, rows)
         if score > floor
     ]
-    scored.sort(key=lambda pair: -pair[0])
-    return [cap for _score, cap in scored[:limit]]
+    # Ready (none/configured) before required, then by score desc. Ties
+    # within a readiness band preserve BM25 ordering.
+    scored.sort(key=lambda triple: (_AUTH_RANK.get(triple[0], 2), -triple[1]))
+    return [cap for _status, _score, cap in scored[:limit]]
 
 
 _warned_min_score_values: set[str] = set()
@@ -263,7 +305,13 @@ def _min_score() -> float:
         return 0.0
 
 
-def _capability_from_endpoint(api: str, endpoint: dict, *, score: float = 0.0) -> Capability:
+def _capability_from_endpoint(
+    api: str,
+    endpoint: dict,
+    *,
+    score: float = 0.0,
+    auth_status: str = "required",
+) -> Capability:
     return Capability(
         api=api,
         tool=endpoint["tool"],
@@ -272,6 +320,7 @@ def _capability_from_endpoint(api: str, endpoint: dict, *, score: float = 0.0) -
         positionals=tuple(endpoint.get("positionals", ())),
         argv_path=tuple(endpoint.get("argv_path", ())),
         score=score,
+        auth_status=auth_status,
     )
 
 
@@ -279,9 +328,10 @@ def describe_capability(api: str, tool: str) -> Capability:
     for entry in _merged_view():
         if entry["api"] != api:
             continue
+        auth_status = entry.get("auth_status", "required")
         for endpoint in entry.get("endpoints", []):
             if endpoint["tool"] == tool:
-                return _capability_from_endpoint(api, endpoint)
+                return _capability_from_endpoint(api, endpoint, auth_status=auth_status)
     raise CapabilityNotFound(
         f"No capability '{tool}' found for api '{api}'",
         api=api,
@@ -320,10 +370,13 @@ def install_module(api: str) -> str | None:
     return module if isinstance(module, str) else None
 
 
-def list_apis(filter: str = "") -> list[ApiSummary]:
+def list_apis(filter: str = "", *, ready_only: bool = False) -> list[ApiSummary]:
+    """List APIs in the catalog. Results sort ready (none/configured)
+    before required so the agent sees what's immediately callable first.
+    `ready_only=True` filters gated APIs out entirely."""
     needle = filter.lower().strip()
     out: list[ApiSummary] = []
-    for entry in _installable_view():
+    for entry in _installable_view(ready_only=ready_only):
         api = entry["api"]
         description = entry.get("description", "")
         if needle and needle not in api.lower() and needle not in description.lower():
@@ -332,7 +385,9 @@ def list_apis(filter: str = "") -> list[ApiSummary]:
             api=api,
             description=description,
             endpoint_count=len(entry.get("endpoints", [])),
+            auth_status=entry.get("auth_status", "required"),
         ))
+    out.sort(key=lambda s: (_AUTH_RANK.get(s.auth_status, 2), s.api))
     return out
 
 

@@ -21,6 +21,13 @@ def _path_for(api: str) -> Path:
     return auth_dir() / f"{api}.json"
 
 
+def is_configured(api: str) -> bool:
+    """Whether a token file exists for `api`. Catalog's auth_status
+    derivation calls this to flip 'required' → 'configured' without
+    reading the token."""
+    return _path_for(api).exists()
+
+
 def load_token_env(api: str) -> dict[str, str]:
     """Return env vars for an API. Raises AuthMissing if no file exists."""
     path = _path_for(api)

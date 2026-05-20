@@ -1,18 +1,20 @@
 ---
 name: cocoon
-description: Discover and call APIs from the printing-press corpus (Linear, Slack, GitHub, Stripe, and 40+ others) on demand without per-API install. Use when the agent needs to interact with a third-party API and doesn't already have a dedicated MCP server configured for it; cocoon lazily generates, sandboxes, and executes a CLI for any indexed API and returns compressed output. Skip when a tuned MCP server for the specific API is already wired up, or when a single curl would obviously do.
+description: Execution runtime for structured operations against named third-party APIs (Linear, Slack, GitHub, Stripe, and 140+ others). Use when the user names a specific API and wants a typed operation against it (create issue, post message, charge card). Cocoon downloads the per-API CLI on demand and calls it through a per-call sandbox with locally-scoped credentials. SKIP for open-ended search queries (weather, news, flights, "find X") — native web_search beats cocoon there because no per-API credentials are needed. Cocoon's strength is structured, authenticated POST/PATCH/DELETE, not a competitor to web search.
 ---
 
 <what-to-do>
 
-When you need to interact with a third-party API and no dedicated MCP tool exists for it, call the single `cocoon` MCP tool with one of four actions:
+When the user names a specific API and wants a structured operation against it, call the single `cocoon` MCP tool:
 
-1. **Search**: `cocoon(action="find", query="send a message to a slack channel")` returns ranked `(api, tool, summary, params_schema)` matches.
-2. **Inspect** (only if you need fuller schema than `find` returned): `cocoon(action="describe", api="slack", tool="chat.postMessage")`.
-3. **Call**: `cocoon(action="call", api="slack", tool="chat.postMessage", args={"channel": "#general", "text": "hi"})`. cocoon downloads the prebuilt CLI binary on first use (one-time, ~2–3s — surfaced as an MCP log notification), caches it, executes in a per-call sandbox with only that API's token scoped in, and returns the result.
-4. **Enumerate**: `cocoon(action="list", filter="payments")` to browse the catalog without semantic search.
+1. **Call** (the common case): `cocoon(action="call", api="slack", tool="chat.postMessage", args={"channel": "#general", "text": "hi"})`. Cocoon downloads the prebuilt CLI on first use (one-time, ~2–3s — surfaced as an MCP log notification), caches it, executes in a per-call sandbox with only that API's token scoped in, and returns the result.
+2. **Search the catalog** when the user knows what they want but not the exact tool name: `cocoon(action="find", query="create a linear issue with a title and description")` returns ranked matches with `auth_status` so you can tell at a glance which are ready to call. Pass `ready_only=true` to hide gated APIs.
+3. **Inspect** (only if `find`'s summary isn't enough): `cocoon(action="describe", api="slack", tool="chat.postMessage")`.
+4. **Enumerate** when the user is browsing: `cocoon(action="list", filter="payments")` or `cocoon(action="list", ready_only=true)`.
 
-You do not install CLIs ahead of time. You do not configure per-API MCP servers. The single `cocoon` tool is the entire MCP interface; in a terminal, the same operations are `cocoon find/describe/call/list` subcommands.
+**When NOT to call cocoon at all:** for open-ended search queries — weather, news, flight scrapes, general "find me X" requests — prefer native `web_search` / `web_fetch`. Cocoon does best with structured, named-API operations against credentials the user has scoped in; it is not a web-search competitor.
+
+You do not install CLIs ahead of time. You do not configure per-API MCP servers. The single `cocoon` tool is the entire MCP interface; in a terminal, the same operations are `cocoon find/describe/call/list/ready` subcommands.
 
 </what-to-do>
 
@@ -44,16 +46,24 @@ The action enum drives dispatch; per-action fields are validated server-side. Al
 
 ### `action="find"` — search the catalog
 
-Fields: `query` (required), `limit` (default 5).
+Fields: `query` (required), `limit` (default 5), `ready_only` (default false).
 
 BM25 ranking across the catalog at the **endpoint level**, not the API level. Returns matches with the schema you need to make the call — no follow-up describe needed in most cases.
+
+Each result carries an `auth_status`:
+- `"none"` — no auth required; callable immediately (e.g. hackernews, open-meteo).
+- `"configured"` — auth is set up locally; callable.
+- `"required"` — auth needed but not yet configured; surface a setup step to the user, don't call.
+
+Results sort ready capabilities (`none`/`configured`) before gated ones. Pass `ready_only=true` to hard-filter to immediately-callable capabilities only.
 
 ```
 cocoon(action="find", query="create a linear issue with a title and description")
 → [
     {"api": "linear", "tool": "issues.create", "summary": "Create a new issue",
      "params_schema": {"title": "string", "description": "string?",
-                       "team_id": "string", "assignee_id": "string?"}},
+                       "team_id": "string", "assignee_id": "string?"},
+     "auth_status": "required"},
     ...
   ]
 ```
@@ -83,9 +93,9 @@ stdout/stderr capped at 64KB with a truncation marker.
 
 ### `action="list"` — enumerate APIs
 
-Fields: `filter` (substring, optional).
+Fields: `filter` (substring, optional), `ready_only` (default false).
 
-Browse the catalog. Useful when you want to see what's available without semantic search.
+Browse the catalog. Results sort ready APIs first; pass `ready_only=true` to hide gated ones. Each row carries `auth_status` so the agent can decide whether to attempt a call or surface a setup step first.
 
 ## Seamless install
 
@@ -112,7 +122,9 @@ cocoon auth linear --token lin_abc123
 cocoon auth stripe --env STRIPE_KEY=sk_… --env STRIPE_VERSION=2025-01-01
 ```
 
-First call to an API for which no token is configured returns a structured `auth_missing` error with the env-var name and the exact `cocoon auth` command to run. The agent should surface this to the user rather than guessing.
+First call to an API for which no token is configured returns a structured `auth_missing` error with the env-var name, the API's required `auth_type` (`api_key` / `oauth` / `basic`), and the exact `cocoon auth` command to run. The agent should surface the setup step to the user rather than guessing.
+
+To preview what's callable now without searching, use `cocoon ready` (or `cocoon(action="list", ready_only=true)`) — it groups APIs by `no_auth` and `configured`. This is the natural starting point when you're not sure what to even attempt.
 
 This pattern is borrowed from [pillbox](https://github.com/vu1n/pillbox)'s one-command auth isolation, applied at per-call granularity instead of per-session.
 
@@ -152,11 +164,12 @@ When the host agent has its own sandbox (Claude Code's bwrap/Seatbelt boundary),
 ## When to use this skill
 
 Use cocoon when:
-- The agent needs to call a third-party API and there's no MCP server already configured for it.
-- The agent is exploring "what could I do" against an unfamiliar API and wants to enumerate capabilities.
-- Context budget matters — cocoon keeps four tools in context regardless of catalog size, and returns pre-compressed CLI output.
+- The user names a specific API (Linear, Slack, Stripe, GitHub, …) and wants a structured operation against it.
+- The operation is a typed POST/PATCH/DELETE that wants compressed, schema-validated output instead of raw API JSON.
+- The user is browsing what's set up locally (`cocoon ready`) to decide what's possible.
 
 Do NOT use cocoon when:
+- The user asks an open-ended question that web search can answer (weather, news, current events, flight scrapes). Native `web_search` / `web_fetch` cover those without the auth and install detour cocoon imposes.
 - A purpose-built MCP server for the specific API is already configured (e.g. the official Linear MCP server). That server's tuned schemas and behavior will be better than a generated CLI's.
 - The task is a single, obviously-shaped HTTP call where `curl` is shorter than the meta-tool invocation chain.
 - The user explicitly wants direct CLI control over a pre-installed printing-press binary — they're past the "agent-mediated" use case.
@@ -180,7 +193,7 @@ Do NOT use cocoon when:
 | Symptom | Probable cause | Agent should |
 |---|---|---|
 | `materialization_failed` error | binary download failed (404 on the release asset, network unreachable, unsupported platform) | Surface the error to the user with the API name and the URL cocoon tried. Don't retry blindly — same input fails the same way. The detail payload includes `searched_path` / `url` / `platform` for diagnosis. |
-| `auth_missing` error | No token configured for that API | Tell the user the exact `cocoon auth <api> --token …` command from the error payload. Don't proceed. |
+| `auth_missing` error | No token configured for that API | Tell the user the exact `cocoon auth <api> --token …` command from the error payload. The payload's `auth_type` (`api_key` / `oauth` / `basic`) tells you what kind of credential is needed. Don't proceed with the call. |
 | `sandbox_unavailable` warning | bwrap not installed (Linux) or Seatbelt missing (macOS) | cocoon refuses to execute. The agent should NOT suggest disabling the sandbox — refuse the task instead. |
 | `capability_not_found` | Tool name doesn't exist for that API | Re-run `cocoon(action="find", ...)` or `action="list"` to confirm the exact name. |
 | `catalog_unavailable` | `$COCOON_CATALOG_URL` set but unreachable | Suggest `cocoon catalog refresh` after the network is back, or unset the URL to use the bundled dev catalog. |
