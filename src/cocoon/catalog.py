@@ -246,13 +246,23 @@ def _min_score() -> float:
     (return any positive-score match). Set $COCOON_FIND_MIN_SCORE to a
     higher threshold once real query logs let you calibrate — the
     postmortem identified BM25 false-positives (e.g. `pointhound` for
-    'commercial flights') as a fan-out trigger, and a floor cuts them."""
+    'commercial flights') as a fan-out trigger, and a floor cuts them.
+
+    Bad values log a warning to stderr and fall back to 0.0 rather than
+    silently no-op'ing — a user who typo'd the env var would otherwise
+    see no filtering and assume the knob doesn't work."""
     raw = os.environ.get("COCOON_FIND_MIN_SCORE")
     if not raw:
         return 0.0
     try:
         return float(raw)
     except ValueError:
+        import sys
+        print(
+            f"warning: COCOON_FIND_MIN_SCORE={raw!r} is not a number; "
+            f"falling back to 0.0 (no threshold).",
+            file=sys.stderr,
+        )
         return 0.0
 
 

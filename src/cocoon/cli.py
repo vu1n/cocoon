@@ -4,7 +4,7 @@ Subcommands:
   serve              Run the MCP server (stdio transport).
   init               Register cocoon with Claude Code via `claude mcp add`.
   auth API ...       Write per-API credentials to ~/.cache/cocoon/auth/.
-  doctor             Report sandbox / Go / catalog / auth status.
+  doctor             Report sandbox / catalog / cached-binaries / auth status.
   catalog refresh    Force-refresh the on-disk catalog cache.
   find/describe/call/list  Capability operations (mirror the MCP `cocoon` tool).
 """

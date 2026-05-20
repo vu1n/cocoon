@@ -59,7 +59,7 @@ src/cocoon/
   cli.py            cocoon {serve, init, auth, doctor, catalog, find, describe, call, list}
   catalog.py        catalog fetch, BM25 search, list/describe, auth_type lookup
   search.py         BM25 ranker (vendored, ~30 lines)
-  materialize.py    seamless `go install` of the per-API CLI, with PATH plumbing
+  materialize.py    download prebuilt `<api>-pp-cli` from GitHub Releases, cache under bin/
   auth.py           per-API JSON credential files at ~/.cache/cocoon/auth/
   argv.py           dict -> CLI argv translation (dotted tool names → cobra subcommands)
   paths.py          centralized cache-path resolution (no side effects)

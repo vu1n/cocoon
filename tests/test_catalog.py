@@ -173,6 +173,14 @@ def test_find_min_score_floor_filters_low_matches(monkeypatch) -> None:
     assert catalog.find_capability("foo bar baz random words") == []
 
 
+def test_min_score_bad_value_warns_and_falls_back(monkeypatch, capsys) -> None:
+    """A typo'd COCOON_FIND_MIN_SCORE was silently 0.0 before — the user
+    would assume the knob doesn't work. Now emits a stderr warning."""
+    monkeypatch.setenv("COCOON_FIND_MIN_SCORE", "oops-not-a-number")
+    catalog.find_capability("anything")
+    assert "COCOON_FIND_MIN_SCORE" in capsys.readouterr().err
+
+
 def test_installable_skip_count_returns_int() -> None:
     """doctor reports this so the silent-failure surface (RC5) is visible
     at health-check time."""
