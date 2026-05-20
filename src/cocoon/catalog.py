@@ -241,6 +241,9 @@ def find_capability(query: str, limit: int = 5) -> list[Capability]:
     return [cap for _score, cap in scored[:limit]]
 
 
+_warned_min_score_values: set[str] = set()
+
+
 def _min_score() -> float:
     """Floor below which find_capability drops a match. Defaults to 0
     (return any positive-score match). Set $COCOON_FIND_MIN_SCORE to a
@@ -248,21 +251,24 @@ def _min_score() -> float:
     postmortem identified BM25 false-positives (e.g. `pointhound` for
     'commercial flights') as a fan-out trigger, and a floor cuts them.
 
-    Bad values log a warning to stderr and fall back to 0.0 rather than
-    silently no-op'ing — a user who typo'd the env var would otherwise
-    see no filtering and assume the knob doesn't work."""
+    Bad values log a warning to stderr (once per distinct bad value, so
+    the long-lived MCP server doesn't spam every find call) and fall back
+    to 0.0 rather than silently no-op'ing — a user who typo'd the env var
+    would otherwise see no filtering and assume the knob doesn't work."""
     raw = os.environ.get("COCOON_FIND_MIN_SCORE")
     if not raw:
         return 0.0
     try:
         return float(raw)
     except ValueError:
-        import sys
-        print(
-            f"warning: COCOON_FIND_MIN_SCORE={raw!r} is not a number; "
-            f"falling back to 0.0 (no threshold).",
-            file=sys.stderr,
-        )
+        if raw not in _warned_min_score_values:
+            _warned_min_score_values.add(raw)
+            import sys
+            print(
+                f"warning: COCOON_FIND_MIN_SCORE={raw!r} is not a number; "
+                f"falling back to 0.0 (no threshold).",
+                file=sys.stderr,
+            )
         return 0.0
 
 

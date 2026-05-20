@@ -181,6 +181,19 @@ def test_min_score_bad_value_warns_and_falls_back(monkeypatch, capsys) -> None:
     assert "COCOON_FIND_MIN_SCORE" in capsys.readouterr().err
 
 
+def test_min_score_bad_value_warns_only_once_per_value(monkeypatch, capsys) -> None:
+    """For a long-lived MCP server, a typo'd env var would spam stderr on
+    every find_capability call. The warn-once guard keeps the warning
+    informative without becoming noise."""
+    monkeypatch.setenv("COCOON_FIND_MIN_SCORE", "typo-once")
+    catalog.find_capability("query one")
+    catalog.find_capability("query two")
+    catalog.find_capability("query three")
+    err = capsys.readouterr().err
+    # Exactly one warning line for this value.
+    assert err.count("COCOON_FIND_MIN_SCORE") == 1
+
+
 def test_installable_skip_count_returns_int() -> None:
     """doctor reports this so the silent-failure surface (RC5) is visible
     at health-check time."""
