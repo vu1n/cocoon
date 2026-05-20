@@ -55,6 +55,7 @@ def main() -> int:
 
     results: dict[str, dict] = {}
     skipped: list[tuple[str, str]] = []
+    synthetic_skipped: list[tuple[str, str]] = []
 
     with cf.ThreadPoolExecutor(max_workers=args.concurrency) as pool:
         futures = {pool.submit(_harvest_one, e): e for e in entries}
@@ -64,7 +65,19 @@ def main() -> int:
             try:
                 ctx = fut.result()
             except _HarvestError as exc:
-                skipped.append((name, str(exc)))
+                # No tools-manifest.json upstream — include the entry anyway
+                # with a synthetic agent-context endpoint. find/list become
+                # aware of the API by its description; `call` can still hit
+                # the published prebuilt binary; the first agent-context
+                # invocation captures the real schema locally and replaces
+                # this stub. Better than dropping the entry entirely, which
+                # is how flight-goat went missing from v0.4.0a1's bundle
+                # despite being in the starter-pack.
+                synthetic_skipped.append((name, str(exc)))
+                results[name] = {
+                    "registry": _registry_slim(entry),
+                    "agent_context": _synthetic_context(name, entry),
+                }
                 continue
             results[name] = {
                 "registry": _registry_slim(entry),
@@ -72,11 +85,13 @@ def main() -> int:
             }
 
     elapsed = time.monotonic() - started
-    print(f"done: {len(results)} ok, {len(skipped)} skipped, {elapsed:.1f}s", file=sys.stderr)
-    if skipped:
-        print(f"  skipped (no tools-manifest.json): "
-              f"{', '.join(sorted(n for n, _ in skipped[:8]))}"
-              f"{'...' if len(skipped) > 8 else ''}", file=sys.stderr)
+    real = len(results) - len(synthetic_skipped)
+    print(f"done: {real} with tools-manifest, {len(synthetic_skipped)} synthetic, "
+          f"{len(skipped)} dropped, {elapsed:.1f}s", file=sys.stderr)
+    if synthetic_skipped:
+        print(f"  synthetic stubs (no tools-manifest.json): "
+              f"{', '.join(sorted(n for n, _ in synthetic_skipped[:8]))}"
+              f"{'...' if len(synthetic_skipped) > 8 else ''}", file=sys.stderr)
 
     payload = {
         "schema_version": 1,
@@ -96,6 +111,38 @@ def main() -> int:
     OUT_PATH.write_text(encoded, encoding="utf-8")
     print(f"wrote {OUT_PATH} ({OUT_PATH.stat().st_size} bytes)", file=sys.stderr)
     return 0
+
+
+def _synthetic_context(name: str, entry: dict) -> dict:
+    """Minimal agent-context for CLIs that don't ship a tools-manifest.json.
+
+    Surfaces one synthetic `pp:endpoint`-annotated command — `agent-context`
+    itself, which every printing-press CLI implements by contract. find/list
+    can rank the API by its registry description; `call <api> agent-context`
+    downloads the binary, executes the subcommand, AND triggers cocoon's
+    post-install schema capture (so the next find sees real endpoints)."""
+    mcp = entry.get("mcp") or {}
+    return {
+        "schema_version": "2",
+        "source": "synthetic",
+        "cli": {
+            "name": f"{name}-pp-cli",
+            "description": entry.get("description", ""),
+            "version": "unknown",
+        },
+        "auth": {
+            "mode": mcp.get("auth_type", "none"),
+            "env_vars": mcp.get("env_vars", []),
+        },
+        "commands": [{
+            "name": "agent-context",
+            "use": "agent-context",
+            "short": entry.get("description", "") +
+                     " (no tools-manifest upstream; call agent-context to capture the real schema)",
+            "annotations": {"pp:endpoint": "agent-context"},
+            "flags": [],
+        }],
+    }
 
 
 def _registry_slim(entry: dict) -> dict:

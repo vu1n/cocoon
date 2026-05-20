@@ -18,9 +18,28 @@ from typing import Sequence
 
 _WORD = re.compile(r"[a-z0-9]+")
 
+# Common-English noise. Dropping these from both query and document tokens
+# blunts BM25 false-positives where a query like "flights from da nang to
+# shanghai" would otherwise score `webhooks.create-replay-job` highly just
+# because "from" and "to" appear in its description. Kept short and
+# domain-aware (we don't filter "list" / "create" / "get" — those carry
+# real signal in API-endpoint summaries).
+_STOPWORDS = frozenset({
+    "a", "an", "the",
+    "and", "or", "but", "nor",
+    "in", "on", "at", "by", "for", "from", "into", "of", "off", "out",
+    "over", "to", "up", "with",
+    "is", "are", "was", "were", "be", "been", "being",
+    "has", "have", "had", "having",
+    "do", "does", "did", "doing",
+    "i", "me", "my", "we", "us", "our", "you", "your", "they", "them",
+    "this", "that", "these", "those",
+    "as", "if", "so", "than", "then",
+})
+
 
 def tokenize(text: str) -> list[str]:
-    return _WORD.findall(text.lower())
+    return [t for t in _WORD.findall(text.lower()) if t not in _STOPWORDS]
 
 
 def rank(query: str, documents: Sequence[str], *, k1: float = 1.5, b: float = 0.75) -> list[float]:
