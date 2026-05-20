@@ -53,12 +53,18 @@ def materialize(api: str, *, on_progress: ProgressCallback | None = None) -> Pat
         _ensure_agent_context(existing, api)
         return existing
 
-    go = shutil.which("go", path=path_with_gobin())
+    searched = path_with_gobin()
+    go = shutil.which("go", path=searched)
     if go is None:
         raise MaterializationFailed(
-            f"Go toolchain not installed; cannot install '{_binary_name(api)}'. "
-            "Install Go 1.26+ (https://go.dev/dl/) and ensure $GOPATH/bin is on PATH.",
+            f"Go toolchain not on PATH; cannot install '{_binary_name(api)}'. "
+            "Either (a) Go isn't installed — get it from https://go.dev/dl/, OR "
+            "(b) Go IS installed but the MCP host subprocess inherited a PATH "
+            "that excludes it (host daemons don't source ~/.bashrc). Fix by "
+            "re-registering with an explicit `--env PATH=...` that includes "
+            "/usr/local/go/bin and $HOME/go/bin.",
             api=api,
+            searched_path=searched,
         )
 
     module = catalog_module.install_module(api)

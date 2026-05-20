@@ -47,6 +47,32 @@ cocoon init --command "uv run --directory /path/to/cocoon cocoon serve"
 
 **Requirements**: Python 3.11+, Go 1.26+ (so cocoon can `go install` the printing-press CLIs), and `bubblewrap` (Linux) or `sandbox-exec` (built-in macOS) for execution sandboxing. `cocoon init` additionally needs the `claude` CLI on PATH.
 
+### Host environment contract
+
+MCP host daemons spawn cocoon as a subprocess and the subprocess **inherits the daemon's environment, not your interactive shell's**. In particular, `.bashrc` / `.zshrc` are sourced only by interactive shells — a long-running daemon (hermes gateway, claude code background process, systemd unit) won't have read them.
+
+The practical bite: if Go was installed after the host daemon last started, the daemon's `$PATH` won't include `/usr/local/go/bin` or `$HOME/go/bin`. `cocoon doctor` would still find Go (it does its own PATH lookup), but when cocoon shells out to `go install <module>@latest` the subprocess inherits the parent's `PATH` and fails with `materialization_failed`.
+
+**Fix at registration time** — pass `--env PATH=...` so the cocoon MCP subprocess gets a known-good PATH:
+
+```sh
+# Claude Code
+claude mcp add cocoon --scope user \
+  --env "PATH=/usr/local/go/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin" \
+  -- $(which cocoon) serve
+
+# Hermes
+hermes mcp add cocoon \
+  --env "PATH=/usr/local/go/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin" \
+  -- $(which cocoon) serve
+```
+
+For systemd-managed hosts, set `Environment=PATH=...` in the unit file before the host daemon starts.
+
+### Bash-fallback mode
+
+If the MCP cocoon tool is unavailable for any reason (host-side misregistration, server restart-in-progress, hermes terminal-only mode), the agent can fall back to invoking the `cocoon` CLI directly via its terminal tool. Set `COCOON_AGENT_MODE=1` in the subprocess env to get structured JSON on stdout and stderr instead of human-formatted text — including argparse-level errors as `{"error": "invalid_arguments", ...}` rather than free-text "the following arguments are required". The agent can branch on stable error codes instead of grepping stderr.
+
 ## Layout
 
 ```
@@ -88,9 +114,12 @@ The e2e script installs `hackernews-pp-cli` if missing (~20s on first run), then
 
 ## Status
 
-v0.3 — single-tool MCP shape, seamless install, full CLI mirror, 91 unit tests, e2e proven against the real printing-press library. Outstanding:
+v0.3 — single-tool MCP shape, seamless install, full CLI mirror, 132 unit tests, e2e proven end-to-end against the real printing-press library. The bundled catalog covers ~96 APIs (harvested from each CLI's published `tools-manifest.json`); a daily GitHub Action keeps it fresh.
 
-- Production catalog source: today cocoon ships a small bundled dev catalog (5 APIs). Production wants the live `registry.json` from printing-press-library plus per-CLI endpoint schemas derived via `<api>-pp-cli agent-context`. Tracked in [#follow-up].
+Outstanding:
+
+- ~39 CLIs in the upstream library lack a `tools-manifest.json` (hand-rolled CLIs without OpenAPI input). They're hidden from `find`/`list` via the installability filter. A Phase-2 build path running `<binary> agent-context` post-install could backfill them.
+- v0.4 priorities (driven by the [hermes/Telegram postmortem](docs/postmortems/2026-05-19-hermes-telegram-flight-search.md)): prebuilt printing-press binaries (kills the ~20s `go install` cold-start and the host-env PATH dependency), `cocoon prefetch` for warm caches, calibrated `COCOON_FIND_MIN_SCORE` floor.
 - Egress allowlist via outbound proxy (Claude Code pattern) — v1.1.
 - Bring-your-own-OpenAPI-spec registration — v1.1 with codegen sandboxing.
 - The `npx -y @mvanhorn/printing-press install` shortcut is upstream-broken (registry validation fails on a malformed entry); cocoon uses direct `go install` instead.

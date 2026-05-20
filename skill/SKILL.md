@@ -33,6 +33,22 @@ cocoon init --command "$(which cocoon) serve"
 
 Restart Claude Code after `init` and the `cocoon` tool appears.
 
+### Host PATH gotcha
+
+MCP host daemons (Claude Code background process, hermes gateway, etc.) **do not source `.bashrc`** — the cocoon subprocess they spawn inherits the *daemon's* PATH, not your interactive shell's. If Go was installed after the host daemon last started, the daemon's PATH won't include `$HOME/go/bin` and `cocoon call` will fail with `materialization_failed`.
+
+Register with an explicit PATH env override:
+
+```sh
+claude mcp add cocoon --scope user \
+  --env "PATH=/usr/local/go/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin" \
+  -- $(which cocoon) serve
+```
+
+### Bash-fallback mode
+
+If the MCP tool is unavailable (host misregistration, server restart-in-progress), the agent can invoke `cocoon` via its terminal tool instead. Set `COCOON_AGENT_MODE=1` in the subprocess env to get structured JSON on stdout and stderr (including argparse-level errors as `{"error": "invalid_arguments", ...}` rather than free-text "the following arguments are required") so the agent can branch on stable error codes.
+
 ## The single tool: `cocoon(action, ...)`
 
 The action enum drives dispatch; per-action fields are validated server-side. All actions return either a structured result or `{error, message, detail}` with a stable error code.
