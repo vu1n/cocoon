@@ -28,6 +28,13 @@ def agent_context_dir() -> Path:
     return cache_root() / "agent-context"
 
 
+def binaries_dir() -> Path:
+    """Cocoon-owned binary cache. Replaces v0.3's reliance on `$GOPATH/bin`
+    so the host's PATH (which MCP subprocesses inherit from the daemon,
+    not the user's shell) stops being a load-bearing dependency."""
+    return cache_root() / "bin"
+
+
 def ensure_dirs() -> None:
-    for d in (auth_dir(), catalog_dir(), agent_context_dir()):
+    for d in (auth_dir(), catalog_dir(), agent_context_dir(), binaries_dir()):
         d.mkdir(parents=True, exist_ok=True)

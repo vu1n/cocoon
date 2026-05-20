@@ -16,7 +16,7 @@ cocoon(action="call",     api="linear", tool="issues.create",
 cocoon(action="list",     filter="payments")
 ```
 
-On first `call` for any API, cocoon runs `go install <module>@latest` from the catalog entry, then executes the resulting `<api>-pp-cli` in a per-call sandbox (bubblewrap on Linux, Seatbelt on macOS) with only that API's credentials scoped into the environment. The agent never takes a separate install step.
+On first `call` for any API, cocoon downloads the per-platform prebuilt `<api>-pp-cli` binary from printing-press-library's GitHub release (tag `<api>-current`), caches it under `~/.cache/cocoon/bin/<api>/`, and executes it in a per-call sandbox (bubblewrap on Linux, Seatbelt on macOS) with only that API's credentials scoped into the environment. The agent never takes a separate install step.
 
 The CLI mirrors the same operations as subcommands for terminal use:
 
@@ -45,29 +45,7 @@ cocoon init --command "uv run --directory /path/to/cocoon cocoon serve"
 
 `cocoon init` shells out to `claude mcp add cocoon --scope user`, which writes the user-scope entry to `~/.claude.json`. (Older `~/.claude/mcp.json` is not read by modern Claude Code.) For other MCP hosts, use `cocoon init --print` to get both a shell command and a JSON snippet.
 
-**Requirements**: Python 3.11+, Go 1.26+ (so cocoon can `go install` the printing-press CLIs), and `bubblewrap` (Linux) or `sandbox-exec` (built-in macOS) for execution sandboxing. `cocoon init` additionally needs the `claude` CLI on PATH.
-
-### Host environment contract
-
-MCP host daemons spawn cocoon as a subprocess and the subprocess **inherits the daemon's environment, not your interactive shell's**. In particular, `.bashrc` / `.zshrc` are sourced only by interactive shells — a long-running daemon (hermes gateway, claude code background process, systemd unit) won't have read them.
-
-The practical bite: if Go was installed after the host daemon last started, the daemon's `$PATH` won't include `/usr/local/go/bin` or `$HOME/go/bin`. `cocoon doctor` would still find Go (it does its own PATH lookup), but when cocoon shells out to `go install <module>@latest` the subprocess inherits the parent's `PATH` and fails with `materialization_failed`.
-
-**Fix at registration time** — pass `--env PATH=...` so the cocoon MCP subprocess gets a known-good PATH:
-
-```sh
-# Claude Code
-claude mcp add cocoon --scope user \
-  --env "PATH=/usr/local/go/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin" \
-  -- $(which cocoon) serve
-
-# Hermes
-hermes mcp add cocoon \
-  --env "PATH=/usr/local/go/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin" \
-  -- $(which cocoon) serve
-```
-
-For systemd-managed hosts, set `Environment=PATH=...` in the unit file before the host daemon starts.
+**Requirements**: Python 3.11+, network access to GitHub Releases (cocoon downloads `<api>-pp-cli` binaries on first use), and `bubblewrap` (Linux) or `sandbox-exec` (built-in macOS) for execution sandboxing. `cocoon init` additionally needs the `claude` CLI on PATH. **No Go toolchain required** — prebuilt binaries are downloaded directly from upstream's release artifacts.
 
 ### Bash-fallback mode
 
@@ -114,12 +92,14 @@ The e2e script installs `hackernews-pp-cli` if missing (~20s on first run), then
 
 ## Status
 
-v0.3 — single-tool MCP shape, seamless install, full CLI mirror, 132 unit tests, e2e proven end-to-end against the real printing-press library. The bundled catalog covers ~96 APIs (harvested from each CLI's published `tools-manifest.json`); a daily GitHub Action keeps it fresh.
+v0.4 candidate — single-tool MCP shape, seamless prebuilt-binary install (~2–3s cold-start vs the ~20s `go install` of v0.3), full CLI mirror, 145 unit tests, e2e proven end-to-end against real GitHub Release downloads. The bundled catalog covers ~96 APIs (harvested from each CLI's published `tools-manifest.json`); a daily GitHub Action keeps it fresh.
 
 Outstanding:
 
 - ~39 CLIs in the upstream library lack a `tools-manifest.json` (hand-rolled CLIs without OpenAPI input). They're hidden from `find`/`list` via the installability filter. A Phase-2 build path running `<binary> agent-context` post-install could backfill them.
-- v0.4 priorities (driven by the [hermes/Telegram postmortem](docs/postmortems/2026-05-19-hermes-telegram-flight-search.md)): prebuilt printing-press binaries (kills the ~20s `go install` cold-start and the host-env PATH dependency), `cocoon prefetch` for warm caches, calibrated `COCOON_FIND_MIN_SCORE` floor.
+- Upstream doesn't publish `checksums.txt` alongside release binaries (goreleaser is configured for it but the upload step is missing). cocoon relies on GitHub-HTTPS trust today; an upstream PR adding the checksum upload would let cocoon do sha256 verification.
+- `cocoon prefetch` subcommand + activity-mining for warm caches before the agent asks — postmortem P2.
+- Calibrated `COCOON_FIND_MIN_SCORE` floor once we have real query logs.
 - Egress allowlist via outbound proxy (Claude Code pattern) — v1.1.
 - Bring-your-own-OpenAPI-spec registration — v1.1 with codegen sandboxing.
-- The `npx -y @mvanhorn/printing-press install` shortcut is upstream-broken (registry validation fails on a malformed entry); cocoon uses direct `go install` instead.
+- The `npx -y @mvanhorn/printing-press install` shortcut is upstream-broken (registry validation fails on a malformed entry); not relevant for cocoon anymore since we don't shell out to npx or `go install`.

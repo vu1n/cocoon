@@ -13,6 +13,8 @@ def test_getters_are_pure(tmp_path: Path, monkeypatch) -> None:
     monkeypatch.setenv("COCOON_CACHE_DIR", str(tmp_path / "fresh"))
     paths.auth_dir()
     paths.catalog_dir()
+    paths.agent_context_dir()
+    paths.binaries_dir()
     assert not (tmp_path / "fresh").exists()
 
 
@@ -21,3 +23,5 @@ def test_ensure_dirs_creates_all(tmp_path: Path, monkeypatch) -> None:
     paths.ensure_dirs()
     assert paths.auth_dir().is_dir()
     assert paths.catalog_dir().is_dir()
+    assert paths.agent_context_dir().is_dir()
+    assert paths.binaries_dir().is_dir()

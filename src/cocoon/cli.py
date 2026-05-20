@@ -297,13 +297,13 @@ def _parse_kv_pairs(pairs: list[str], *, flag: str) -> dict[str, str] | None:
 
 
 def _cmd_doctor(args: argparse.Namespace) -> int:
-    from .materialize import path_with_gobin
+    from .paths import binaries_dir
     ensure_dirs()
     sandbox_info = probe_sandbox()
-    go_path = shutil.which("go", path=path_with_gobin())
     catalog_url = os.environ.get("COCOON_CATALOG_URL") or "(unset; using bundled dev catalog)"
     auth_count = sum(1 for _ in auth_dir().glob("*.json"))
     catalog_cached = (catalog_dir() / catalog_module.CACHE_FILE).exists()
+    binary_count = sum(1 for _ in binaries_dir().iterdir() if _.is_dir()) if binaries_dir().exists() else 0
     uninstallable = catalog_module.installable_skip_count()
 
     print(f"cocoon {__version__}")
@@ -312,15 +312,15 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
           f"({'ok' if sandbox_info['available'] else 'MISSING'})")
     if sandbox_info["available"]:
         print(f"                  {sandbox_info['path']}")
-    print(f"go toolchain:     {go_path or 'MISSING (install Go 1.26+ from https://go.dev/dl/)'}")
     print(f"catalog url:      {catalog_url}")
     print(f"catalog cached:   {'yes' if catalog_cached else 'no'}")
+    print(f"cached binaries:  {binary_count}")
     print(f"auth files:       {auth_count}")
     if uninstallable:
         print(f"uninstallable:    {uninstallable} entries hidden from find/list "
               f"(missing install_module)")
 
-    if not sandbox_info["available"] or go_path is None:
+    if not sandbox_info["available"]:
         return 1
     return 0
 

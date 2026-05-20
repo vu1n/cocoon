@@ -9,7 +9,7 @@ When you need to interact with a third-party API and no dedicated MCP tool exist
 
 1. **Search**: `cocoon(action="find", query="send a message to a slack channel")` returns ranked `(api, tool, summary, params_schema)` matches.
 2. **Inspect** (only if you need fuller schema than `find` returned): `cocoon(action="describe", api="slack", tool="chat.postMessage")`.
-3. **Call**: `cocoon(action="call", api="slack", tool="chat.postMessage", args={"channel": "#general", "text": "hi"})`. cocoon auto-installs the underlying CLI on first use via `go install` (one-time, ~20s — surfaced as an MCP log notification), executes in a per-call sandbox with only that API's token scoped in, and returns the result.
+3. **Call**: `cocoon(action="call", api="slack", tool="chat.postMessage", args={"channel": "#general", "text": "hi"})`. cocoon downloads the prebuilt CLI binary on first use (one-time, ~2–3s — surfaced as an MCP log notification), caches it, executes in a per-call sandbox with only that API's token scoped in, and returns the result.
 4. **Enumerate**: `cocoon(action="list", filter="payments")` to browse the catalog without semantic search.
 
 You do not install CLIs ahead of time. You do not configure per-API MCP servers. The single `cocoon` tool is the entire MCP interface; in a terminal, the same operations are `cocoon find/describe/call/list` subcommands.
@@ -20,7 +20,7 @@ You do not install CLIs ahead of time. You do not configure per-API MCP servers.
 
 ## The surface: one MCP tool, four actions
 
-cocoon runs as a single MCP server registered with the host agent (Claude Code, Codex desktop, Hermes, opencode, any MCP-compatible host). It exposes **one** tool — `cocoon` — that dispatches on an `action` field. The agent never sees per-API tool fan-out, never pays the context cost of N×50 tool definitions, never goes through an install step. cocoon is a small Python server; it shells out to `go install <module>@latest` to materialize each API's CLI on demand.
+cocoon runs as a single MCP server registered with the host agent (Claude Code, Codex desktop, Hermes, opencode, any MCP-compatible host). It exposes **one** tool — `cocoon` — that dispatches on an `action` field. The agent never sees per-API tool fan-out, never pays the context cost of N×50 tool definitions, never goes through an install step. cocoon is a small Python server; it downloads the per-platform prebuilt `<api>-pp-cli` binary from printing-press-library's GitHub release on first use (~2–3s) and caches it under `~/.cache/cocoon/bin/<api>/`.
 
 Install and register with your host:
 
@@ -32,18 +32,6 @@ cocoon init --command "$(which cocoon) serve"
 ```
 
 Restart Claude Code after `init` and the `cocoon` tool appears.
-
-### Host PATH gotcha
-
-MCP host daemons (Claude Code background process, hermes gateway, etc.) **do not source `.bashrc`** — the cocoon subprocess they spawn inherits the *daemon's* PATH, not your interactive shell's. If Go was installed after the host daemon last started, the daemon's PATH won't include `$HOME/go/bin` and `cocoon call` will fail with `materialization_failed`.
-
-Register with an explicit PATH env override:
-
-```sh
-claude mcp add cocoon --scope user \
-  --env "PATH=/usr/local/go/bin:$HOME/go/bin:/usr/local/bin:/usr/bin:/bin" \
-  -- $(which cocoon) serve
-```
 
 ### Bash-fallback mode
 
@@ -79,7 +67,7 @@ Use when `find`'s summary isn't enough — long-tail flags, enum values, respons
 
 Fields: `api` (required), `tool` (required), `args` (dict, optional).
 
-First call to any API auto-installs the underlying `<api>-pp-cli` via `go install` (one-time, ~20s for a fresh module — surfaced as an MCP log notification). Subsequent calls hit the binary on `$GOPATH/bin` directly. Every invocation runs in a per-call sandbox with only that API's credentials scoped in.
+First call to any API downloads the prebuilt `<api>-pp-cli` binary from printing-press-library's GitHub release (one-time, ~2–3s — surfaced as an MCP log notification) and caches it under `~/.cache/cocoon/bin/<api>/`. Subsequent calls hit the cached binary directly. Every invocation runs in a per-call sandbox with only that API's credentials scoped in.
 
 Returns:
 
@@ -100,11 +88,11 @@ Browse the catalog. Useful when you want to see what's available without semanti
 
 ## Seamless install
 
-The agent never takes a separate install step. When `action="call"` runs against an API whose binary isn't on PATH, cocoon runs `go install <module>@latest` for the module declared in the catalog entry, then executes. The cache is `$GOPATH/bin` (typically `~/go/bin`) — cocoon extends PATH internally so callers don't need to remember this.
+The agent never takes a separate install step. When `action="call"` runs against an API cocoon hasn't cached locally, cocoon downloads the per-platform prebuilt binary from `https://github.com/mvanhorn/printing-press-library/releases/download/<api>-current/<api>-pp-cli-<os>-<arch>`, writes it to `~/.cache/cocoon/bin/<api>/<api>-pp-cli`, marks it executable, and runs it through the sandbox.
 
-cocoon emits an MCP log notification (`materializing <api> CLI (first call, ~20s)`) before the build, so hosts can show progress. The agent should expect occasional slow first-calls and **not** retry on timeout — the build is in flight.
+cocoon emits an MCP log notification (`downloading <api>-pp-cli (first call, ~2-3s)`) before the network fetch so hosts can show progress. The agent should expect occasional slow first-calls and **not** retry on timeout — the download is in flight.
 
-The install runs unsandboxed in v0 (Go needs network + write to `$GOPATH`). The curated catalog is the trust boundary for which modules can be installed. v1.1 will sandbox the install step too.
+The download runs unsandboxed in v0 (network + write to the cache directory). The curated upstream catalog + GitHub-HTTPS trust are the trust boundaries. Upstream's goreleaser is configured to publish a `checksums.txt` alongside the binaries but currently doesn't upload it; an upstream PR adding that would let cocoon do sha256 verification on each download.
 
 ## Auth scoping
 
@@ -133,7 +121,7 @@ This pattern is borrowed from [pillbox](https://github.com/vu1n/pillbox)'s one-c
 cocoon doctor
 ```
 
-Reports sandbox backend availability, Go toolchain discoverability, catalog URL + cache status, and the number of configured auth files. Any `auth_missing` / `sandbox_unavailable` / `materialization_failed` error should send you here first.
+Reports sandbox backend availability, catalog URL + cache status, count of cached binaries, and configured auth files. Any `auth_missing` / `sandbox_unavailable` / `materialization_failed` error should send you here first.
 
 ## Sandbox
 
@@ -190,7 +178,7 @@ Do NOT use cocoon when:
 
 | Symptom | Probable cause | Agent should |
 |---|---|---|
-| `materialization_failed` error | `go install` failed (Go missing, module path wrong, network unreachable) | Surface the error to the user with the API and module. Don't retry blindly — same input fails the same way. Run `cocoon doctor` if Go itself looks missing. |
+| `materialization_failed` error | binary download failed (404 on the release asset, network unreachable, unsupported platform) | Surface the error to the user with the API name and the URL cocoon tried. Don't retry blindly — same input fails the same way. The detail payload includes `searched_path` / `url` / `platform` for diagnosis. |
 | `auth_missing` error | No token configured for that API | Tell the user the exact `cocoon auth <api> --token …` command from the error payload. Don't proceed. |
 | `sandbox_unavailable` warning | bwrap not installed (Linux) or Seatbelt missing (macOS) | cocoon refuses to execute. The agent should NOT suggest disabling the sandbox — refuse the task instead. |
 | `capability_not_found` | Tool name doesn't exist for that API | Re-run `cocoon(action="find", ...)` or `action="list"` to confirm the exact name. |

@@ -1,6 +1,6 @@
 [project]
 name = "cocoon"
-version = "0.3.0"
+version = "0.4.0"
 description = "MCP facade over the printing-press CLI corpus: one tool that discovers, auto-installs, sandboxes, and calls any API in the catalog."
 readme = "README.md"
 requires-python = ">=3.11"
