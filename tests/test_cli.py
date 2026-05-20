@@ -179,3 +179,59 @@ def test_call_rejects_invalid_json_args() -> None:
 
 def test_call_rejects_non_object_json_args() -> None:
     assert main(["call", "hackernews", "doctor", "--json-args", "[1,2,3]"]) == 2
+
+
+# ---------------------------------------------------------------------------
+# Agent-mode (RC6): when invoked via terminal fallback, agents need
+# structured JSON on stdout/stderr instead of human-formatted text.
+# ---------------------------------------------------------------------------
+
+def test_agent_mode_describe_returns_json(monkeypatch, capsys) -> None:
+    """COCOON_AGENT_MODE=1 flips describe to JSON even without --json."""
+    monkeypatch.setenv("COCOON_AGENT_MODE", "1")
+    assert main(["describe", "hackernews", "stories.top"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert parsed["api"] == "hackernews"
+    assert parsed["tool"] == "stories.top"
+
+
+def test_agent_mode_argparse_error_structured(monkeypatch, capsys) -> None:
+    """`describe <api>` (missing the tool arg) is the canonical RC6 case
+    the postmortem cited: the model passed one positional, got argparse's
+    human-formatted 'the following arguments are required' text wrapped
+    in hermes's terminal envelope. In agent mode, it gets a stable
+    {error: invalid_arguments, message, detail} instead."""
+    monkeypatch.setenv("COCOON_AGENT_MODE", "1")
+    rc = main(["describe", "hackernews"])
+    assert rc == 2
+    parsed = json.loads(capsys.readouterr().err)
+    assert parsed["error"] == "invalid_arguments"
+    assert "required" in parsed["message"] or "tool" in parsed["message"]
+
+
+def test_agent_mode_unknown_subcommand_structured(monkeypatch, capsys) -> None:
+    monkeypatch.setenv("COCOON_AGENT_MODE", "1")
+    rc = main(["bogus-subcommand"])
+    assert rc == 2
+    parsed = json.loads(capsys.readouterr().err)
+    assert parsed["error"] == "invalid_arguments"
+
+
+def test_agent_mode_no_subcommand_structured(monkeypatch, capsys) -> None:
+    """Without agent mode, `cocoon` alone prints help. With agent mode it
+    needs to return a JSON error so the calling agent can react."""
+    monkeypatch.setenv("COCOON_AGENT_MODE", "1")
+    rc = main([])
+    assert rc == 2
+    parsed = json.loads(capsys.readouterr().err)
+    assert parsed["error"] == "invalid_arguments"
+
+
+def test_non_agent_mode_argparse_error_human(capsys) -> None:
+    """Non-agent mode keeps argparse-style human-readable error."""
+    rc = main(["describe", "hackernews"])
+    assert rc == 2
+    err = capsys.readouterr().err
+    # Plain text, not JSON
+    assert "required" in err.lower() or "tool" in err.lower()
+    assert not err.lstrip().startswith("{")

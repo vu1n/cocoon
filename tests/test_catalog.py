@@ -120,6 +120,77 @@ def test_auth_type_prefers_agent_context_over_dev_catalog(tmp_path: Path) -> Non
     assert catalog.auth_type("hackernews") == "api_key"
 
 
+def test_find_hides_entries_without_install_module(tmp_path: Path, monkeypatch) -> None:
+    """RC5: entries the agent couldn't actually call (no install_module)
+    shouldn't appear in find. The agent has every reason to trust a find
+    result; surfacing uninstallable entries triggers fan-out and wasted
+    round-trips. With the installability filter, they stay hidden."""
+    import json
+    (tmp_path / "agent-context").mkdir()
+    # Forge a local cache for an API that ISN'T in the bundle and ISN'T
+    # in the dev catalog. It has rich endpoints, but no install_module
+    # can be derived (no catalog entry → no path → no module). find
+    # should not surface its endpoints despite the local cache existing.
+    (tmp_path / "agent-context" / "ghost-installable.json").write_text(json.dumps({
+        "commands": [{"name": "x", "use": "x", "short": "...",
+                      "annotations": {"pp:endpoint": "x.y"}}],
+    }))
+    results = catalog.find_capability("x")
+    assert all(r.api != "ghost-installable" for r in results)
+
+
+def test_describe_does_not_hide_uninstallable() -> None:
+    """describe is a direct lookup by api+tool — if the agent has the name
+    they can ask about it. The filter applies only to discovery surfaces.
+    github is in the dev catalog with hand-curated endpoints but no
+    install_module, and isn't in the bundled aggregate; find/list hide
+    it, but describe still surfaces its hand-curated tools."""
+    cap = catalog.describe_capability("github", "issues.create")
+    assert cap.api == "github"
+    assert cap.tool == "issues.create"
+
+
+def test_find_surfaces_score_per_result() -> None:
+    """Each find result carries its BM25 score. Agents that reason about
+    confidence can ignore weak matches even when no global threshold is set."""
+    results = catalog.find_capability("hacker news top stories")
+    assert results
+    assert all(r.score > 0 for r in results)
+    # results are sorted by descending score
+    assert all(results[i].score >= results[i + 1].score for i in range(len(results) - 1))
+
+
+def test_find_min_score_floor_filters_low_matches(monkeypatch) -> None:
+    """COCOON_FIND_MIN_SCORE drops matches below the floor. The postmortem's
+    pointhound false-positive is the canonical case this knob blunts."""
+    baseline = catalog.find_capability("foo bar baz random words")
+    # All baseline results have some score, however small.
+    if not baseline:
+        return  # corpus matches nothing for this query; threshold doesn't apply
+    # Setting the floor above the top match should clear the result set.
+    top_score = max(r.score for r in baseline)
+    monkeypatch.setenv("COCOON_FIND_MIN_SCORE", str(top_score + 1.0))
+    assert catalog.find_capability("foo bar baz random words") == []
+
+
+def test_installable_skip_count_returns_int() -> None:
+    """doctor reports this so the silent-failure surface (RC5) is visible
+    at health-check time."""
+    count = catalog.installable_skip_count()
+    assert isinstance(count, int) and count >= 0
+
+
+def test_dev_catalog_inherits_install_module_from_bundled() -> None:
+    """The 'dev wins entirely' merge was too aggressive — stripe in dev
+    had no install_module so the bundled-derived path was discarded.
+    Field-level overlay lets dev override what it has (endpoints) while
+    inheriting what it doesn't (install_module from bundled)."""
+    # stripe is both in dev catalog (no install_module) and in bundled
+    # (path → derived install_module). After merge it should be installable.
+    stripe_entries = [s for s in catalog.list_apis() if s.api == "stripe"]
+    assert stripe_entries, "stripe should be visible in list (inherited install_module)"
+
+
 def test_refresh_catalog_rewrites_cache(tmp_path: Path) -> None:
     cache_file = tmp_path / "catalog" / catalog.CACHE_FILE
     catalog.load_catalog()

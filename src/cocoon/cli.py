@@ -33,22 +33,75 @@ COCOON_ENTRY = {
 
 def main(argv: Sequence[str] | None = None) -> int:
     parser = _build_parser()
-    args = parser.parse_args(argv)
+    try:
+        args = parser.parse_args(argv)
+    except _UsageError as exc:
+        # Translate argparse's usage failures into a stable structured shape.
+        # The bash-fallback path (agent invoking `cocoon` via terminal tool
+        # when the MCP server is unavailable) sees something parseable
+        # instead of argparse's free-text "the following arguments are
+        # required: tool".
+        if _agent_mode():
+            print(json.dumps({"error": "invalid_arguments", "message": exc.message,
+                              "detail": {"usage": exc.usage}}), file=sys.stderr)
+        else:
+            print(f"error: {exc.message}", file=sys.stderr)
+            if exc.usage:
+                print(exc.usage, file=sys.stderr)
+        return 2
     handler = getattr(args, "_handler", None)
     if handler is None:
-        parser.print_help()
+        if _agent_mode():
+            print(json.dumps({"error": "invalid_arguments",
+                              "message": "no subcommand given",
+                              "detail": {"usage": parser.format_usage()}}),
+                  file=sys.stderr)
+        else:
+            parser.print_help()
         return 2
     try:
         return handler(args) or 0
     except CocoonError as exc:
-        print(f"error: {exc.message}", file=sys.stderr)
-        if exc.detail:
-            print(json.dumps(exc.detail, indent=2), file=sys.stderr)
+        if _agent_mode():
+            print(json.dumps(exc.to_dict()), file=sys.stderr)
+        else:
+            print(f"error: {exc.message}", file=sys.stderr)
+            if exc.detail:
+                print(json.dumps(exc.detail, indent=2), file=sys.stderr)
         return 1
 
 
+def _agent_mode() -> bool:
+    """JSON-everywhere mode for agent (bash-fallback) callers.
+
+    Opt-in via `COCOON_AGENT_MODE=1`. We don't auto-detect via
+    `sys.stdin.isatty()` because that fires under pytest, build pipelines,
+    and any non-interactive invocation that wants human output. The host
+    that's doing the bash-fallback (hermes terminal tool, claude-code
+    bash, etc.) sets the env var explicitly when it wants JSON."""
+    return os.environ.get("COCOON_AGENT_MODE") == "1"
+
+
+class _UsageError(Exception):
+    """Translated from argparse's SystemExit so main() can surface a
+    structured error in agent-mode instead of letting argparse exit
+    directly with a text message."""
+    def __init__(self, message: str, usage: str = ""):
+        super().__init__(message)
+        self.message = message
+        self.usage = usage
+
+
+class _CocoonArgumentParser(argparse.ArgumentParser):
+    """ArgumentParser that raises _UsageError instead of calling sys.exit.
+    Hands main() control over how to render the failure (agent JSON vs
+    human text)."""
+    def error(self, message: str) -> None:  # type: ignore[override]
+        raise _UsageError(message, usage=self.format_usage())
+
+
 def _build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
+    parser = _CocoonArgumentParser(
         prog="cocoon",
         description="Discover and call APIs from the printing-press corpus via MCP.",
     )
@@ -245,6 +298,7 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     catalog_url = os.environ.get("COCOON_CATALOG_URL") or "(unset; using bundled dev catalog)"
     auth_count = sum(1 for _ in auth_dir().glob("*.json"))
     catalog_cached = (catalog_dir() / catalog_module.CACHE_FILE).exists()
+    uninstallable = catalog_module.installable_skip_count()
 
     print(f"cocoon {__version__}")
     print(f"cache root:       {cache_root()}")
@@ -256,6 +310,9 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     print(f"catalog url:      {catalog_url}")
     print(f"catalog cached:   {'yes' if catalog_cached else 'no'}")
     print(f"auth files:       {auth_count}")
+    if uninstallable:
+        print(f"uninstallable:    {uninstallable} entries hidden from find/list "
+              f"(missing install_module)")
 
     if not sandbox_info["available"] or go_path is None:
         return 1
@@ -299,13 +356,13 @@ def _cmd_call(args: argparse.Namespace) -> int:
         return 2
     result = asyncio.run(do_call(args.api, args.tool, call_args, ctx=None))
 
-    if args.as_json:
+    if args.as_json or _agent_mode():
         print(json.dumps(result, indent=2))
     elif "json" in result:
         print(json.dumps(result["json"], indent=2))
     elif "stdout" in result:
         print(result["stdout"])
-    if result.get("stderr"):
+    if result.get("stderr") and not _agent_mode():
         print(result["stderr"], file=sys.stderr)
 
     exit_code = result.get("exit_code")
@@ -322,7 +379,7 @@ def _cmd_list(args: argparse.Namespace) -> int:
 
 
 def _emit(data: object, as_json: bool, format_human: Callable[[], None]) -> int:
-    if as_json:
+    if as_json or _agent_mode():
         print(json.dumps(data, indent=2))
     else:
         format_human()

@@ -49,6 +49,11 @@ class Capability:
     # suffixes (e.g. `items.get`) that don't correspond to real
     # subcommands (the cobra invocation is just `items <itemId>`).
     argv_path: tuple[str, ...] = ()
+    # BM25 score from find_capability. 0.0 for capabilities returned via
+    # describe or list (where ranking didn't apply). Surfaced so agents
+    # that reason about confidence can ignore weak matches even when
+    # COCOON_FIND_MIN_SCORE isn't set.
+    score: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -145,10 +150,17 @@ def _merged_view() -> list[dict]:
             "endpoints": [],
         }
 
+    # Dev-catalog fields overlay the bundled metadata. Missing-or-None values
+    # in dev fall back to bundled (so stripe in dev — which doesn't carry
+    # install_module — inherits the derived module path from the bundled
+    # aggregate). Field-level merge instead of whole-entry replacement.
     for dev_entry in load_catalog():
         api = dev_entry.get("api")
-        if api:
-            entries_by_api[api] = dev_entry
+        if not api:
+            continue
+        existing = entries_by_api.get(api, {})
+        overlay = {k: v for k, v in dev_entry.items() if v is not None}
+        entries_by_api[api] = {**existing, **overlay}
 
     # Splice in real endpoint schemas: prefer the local cache, fall back
     # to the bundled aggregate's agent_context.
@@ -170,6 +182,26 @@ def _merged_view() -> list[dict]:
     return out
 
 
+def _installable_view() -> list[dict]:
+    """`_merged_view` filtered to entries cocoon could actually invoke.
+
+    An entry without `install_module` would fail at materialize-time with
+    `materialization_failed` (no module to install). Surfacing such an
+    entry from `find`/`list` invites the agent to try the call and waste
+    a round-trip discovering it can't work. The filter prevents that.
+
+    `describe_capability` deliberately uses `_merged_view` (no filter) —
+    if the agent already has the name, the inspection should succeed.
+    """
+    return [e for e in _merged_view() if e.get("install_module")]
+
+
+def installable_skip_count() -> int:
+    """How many catalog entries are uncallable due to missing install_module.
+    Exposed for `cocoon doctor` so the gap is visible at health-check time."""
+    return sum(1 for e in _merged_view() if not e.get("install_module"))
+
+
 def _capability_doc(api: str, api_desc: str, endpoint: dict) -> str:
     """Render the searchable text for one endpoint."""
     parts = [
@@ -188,7 +220,7 @@ def find_capability(query: str, limit: int = 5) -> list[Capability]:
 
     entries: list[tuple[str, str, dict]] = []
     docs: list[str] = []
-    for entry in _merged_view():
+    for entry in _installable_view():
         api = entry["api"]
         api_desc = entry.get("description", "")
         for endpoint in entry.get("endpoints", []):
@@ -198,17 +230,33 @@ def find_capability(query: str, limit: int = 5) -> list[Capability]:
     if not docs:
         return []
 
+    floor = _min_score()
     scores = search.rank(query, docs)
     scored = [
-        (score, _capability_from_endpoint(api, endpoint))
+        (score, _capability_from_endpoint(api, endpoint, score=score))
         for score, (api, _desc, endpoint) in zip(scores, entries)
-        if score > 0
+        if score > floor
     ]
     scored.sort(key=lambda pair: -pair[0])
     return [cap for _score, cap in scored[:limit]]
 
 
-def _capability_from_endpoint(api: str, endpoint: dict) -> Capability:
+def _min_score() -> float:
+    """Floor below which find_capability drops a match. Defaults to 0
+    (return any positive-score match). Set $COCOON_FIND_MIN_SCORE to a
+    higher threshold once real query logs let you calibrate — the
+    postmortem identified BM25 false-positives (e.g. `pointhound` for
+    'commercial flights') as a fan-out trigger, and a floor cuts them."""
+    raw = os.environ.get("COCOON_FIND_MIN_SCORE")
+    if not raw:
+        return 0.0
+    try:
+        return float(raw)
+    except ValueError:
+        return 0.0
+
+
+def _capability_from_endpoint(api: str, endpoint: dict, *, score: float = 0.0) -> Capability:
     return Capability(
         api=api,
         tool=endpoint["tool"],
@@ -216,6 +264,7 @@ def _capability_from_endpoint(api: str, endpoint: dict) -> Capability:
         params_schema=endpoint.get("params_schema", {}) or {},
         positionals=tuple(endpoint.get("positionals", ())),
         argv_path=tuple(endpoint.get("argv_path", ())),
+        score=score,
     )
 
 
@@ -267,7 +316,7 @@ def install_module(api: str) -> str | None:
 def list_apis(filter: str = "") -> list[ApiSummary]:
     needle = filter.lower().strip()
     out: list[ApiSummary] = []
-    for entry in _merged_view():
+    for entry in _installable_view():
         api = entry["api"]
         description = entry.get("description", "")
         if needle and needle not in api.lower() and needle not in description.lower():
