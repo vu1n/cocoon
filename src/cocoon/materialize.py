@@ -107,7 +107,7 @@ def _download(url: str, target: Path, *, api: str) -> None:
     """Stream a release asset to disk. Atomic-ish: write to .partial then
     rename, so a half-downloaded binary never gets exec'd if the call is
     interrupted."""
-    partial = target.with_suffix(target.suffix + ".partial")
+    partial = target.parent / (target.name + ".partial")
     try:
         with httpx.stream("GET", url, follow_redirects=True, timeout=60.0) as response:
             if response.status_code == 404:

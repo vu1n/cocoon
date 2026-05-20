@@ -303,7 +303,7 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     catalog_url = os.environ.get("COCOON_CATALOG_URL") or "(unset; using bundled dev catalog)"
     auth_count = sum(1 for _ in auth_dir().glob("*.json"))
     catalog_cached = (catalog_dir() / catalog_module.CACHE_FILE).exists()
-    binary_count = sum(1 for _ in binaries_dir().iterdir() if _.is_dir()) if binaries_dir().exists() else 0
+    binary_count = sum(1 for _ in binaries_dir().iterdir() if _.is_dir())
     uninstallable = catalog_module.installable_skip_count()
 
     print(f"cocoon {__version__}")
