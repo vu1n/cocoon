@@ -303,7 +303,9 @@ def _cmd_doctor(args: argparse.Namespace) -> int:
     from .paths import binaries_dir
     ensure_dirs()
     sandbox_info = probe_sandbox()
-    catalog_url = os.environ.get("COCOON_CATALOG_URL") or "(unset; using bundled dev catalog)"
+    override = os.environ.get("COCOON_CATALOG_URL")
+    catalog_url = (override if override
+                   else f"{catalog_module.DEFAULT_REGISTRY_URL} (default; offline fallback: bundled dev catalog)")
     auth_count = sum(1 for _ in auth_dir().glob("*.json"))
     catalog_cached = (catalog_dir() / catalog_module.CACHE_FILE).exists()
     binary_count = sum(1 for _ in binaries_dir().iterdir() if _.is_dir())
