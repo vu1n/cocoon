@@ -41,23 +41,13 @@ def main(argv: Sequence[str] | None = None) -> int:
         # when the MCP server is unavailable) sees something parseable
         # instead of argparse's free-text "the following arguments are
         # required: tool".
-        if _agent_mode():
-            print(json.dumps({"error": "invalid_arguments", "message": exc.message,
-                              "detail": {"usage": exc.usage}}), file=sys.stderr)
-        else:
-            print(f"error: {exc.message}", file=sys.stderr)
-            if exc.usage:
-                print(exc.usage, file=sys.stderr)
-        return 2
+        return _emit_error("invalid_arguments", exc.message, usage=exc.usage, code=2)
     handler = getattr(args, "_handler", None)
     if handler is None:
         if _agent_mode():
-            print(json.dumps({"error": "invalid_arguments",
-                              "message": "no subcommand given",
-                              "detail": {"usage": parser.format_usage()}}),
-                  file=sys.stderr)
-        else:
-            parser.print_help()
+            return _emit_error("invalid_arguments", "no subcommand given",
+                               usage=parser.format_usage(), code=2)
+        parser.print_help()
         return 2
     try:
         return handler(args) or 0
@@ -69,6 +59,22 @@ def main(argv: Sequence[str] | None = None) -> int:
             if exc.detail:
                 print(json.dumps(exc.detail, indent=2), file=sys.stderr)
         return 1
+
+
+def _emit_error(error_code: str, message: str, *, usage: str | None = None, code: int = 1) -> int:
+    """Render a CLI-level error as structured JSON (agent mode) or human text.
+    Returns `code` so callers can `return _emit_error(...)`."""
+    detail: dict = {}
+    if usage:
+        detail["usage"] = usage
+    if _agent_mode():
+        print(json.dumps({"error": error_code, "message": message, "detail": detail}),
+              file=sys.stderr)
+    else:
+        print(f"error: {message}", file=sys.stderr)
+        if usage:
+            print(usage, file=sys.stderr)
+    return code
 
 
 def _agent_mode() -> bool:
@@ -86,7 +92,7 @@ class _UsageError(Exception):
     """Translated from argparse's SystemExit so main() can surface a
     structured error in agent-mode instead of letting argparse exit
     directly with a text message."""
-    def __init__(self, message: str, usage: str = ""):
+    def __init__(self, message: str, usage: str | None = None):
         super().__init__(message)
         self.message = message
         self.usage = usage
