@@ -16228,6 +16228,23 @@
     ]
   },
   {
+    "api": "coffee-goat",
+    "description": "The third-wave coffee terminal \u2014 every elite roaster, every YouTube creator review, your brews, and the God cup.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/coffee-goat/cmd/coffee-goat-pp-cli",
+    "auth_type": "none",
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "The third-wave coffee terminal \u2014 every elite roaster, every YouTube creator review, your brews, and the God cup. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "coingecko",
     "description": "CoinGecko public API for cryptocurrency data. Free tier, no API key required for basic endpoints.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/payments/coingecko/cmd/coingecko-pp-cli",
@@ -42682,6 +42699,46 @@
         "positionals": [],
         "argv_path": [
           "users"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "loopnet",
+    "description": "LoopNet shows you today \u2014 this CLI remembers, building the price-cut, days-on-market, and supply trends LoopNet...",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/loopnet/cmd/loopnet-pp-cli",
+    "auth_type": "none",
+    "endpoints": [
+      {
+        "tool": "inventory.listings",
+        "summary": "Search LoopNet listings for a location, property type, and sale-or-lease. Returns a server-rendered results page carrying a schema.org CollectionPage JSON-LD block with one RealEstateListing per result. Required: property_type, location, listing_type.",
+        "params_schema": {
+          "property_type": "string",
+          "location": "string",
+          "listing_type": "string"
+        },
+        "positionals": [
+          "property_type",
+          "location",
+          "listing_type"
+        ],
+        "argv_path": [
+          "inventory",
+          "listings"
+        ]
+      },
+      {
+        "tool": "property.detail",
+        "summary": "Fetch one LoopNet listing's detail page. The page carries a schema.org RealEstateListing/Product JSON-LD block plus a property-facts table (price, cap rate, building class, zoning, year built, parcel numbers, tax assessments). Required: id. Returns the html.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "property",
+          "detail"
         ]
       }
     ]
@@ -107228,6 +107285,2230 @@
         "argv_path": [
           "youtube",
           "videos-list"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "zoom",
+    "description": "The first Zoom CLI that joins your local desktop app, your on-disk recordings, and your cloud account into one...",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/zoom/cmd/zoom-pp-cli",
+    "auth_type": "none",
+    "endpoints": [
+      {
+        "tool": "accounts.create",
+        "summary": "Create a sub account under the master account. <aside>Your account must be a master account and have this privilege to create sub account. Zoom only assigns this privilege to trusted partners. The created user will not receive a confirmation email.</aside>.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "accounts"
+        ]
+      },
+      {
+        "tool": "accounts.account",
+        "summary": "Retrieve a sub account under the master account. <aside>Your account must be a master account and have this privilege to read sub accounts. Zoom only assigns this privilege to trusted partners</aside>. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "account"
+        ]
+      },
+      {
+        "tool": "accounts.accounts",
+        "summary": "List all the sub accounts under the master account. Optional: page_size, page_number.",
+        "params_schema": {
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "accounts",
+          "accounts"
+        ]
+      },
+      {
+        "tool": "accounts.disassociate",
+        "summary": "Disassociate a sub account from the master account. This will leave the account intact but the sub account will not longer be associated with the master account. Required: accountId. Destructive.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "disassociate"
+        ]
+      },
+      {
+        "tool": "accounts.billing_account",
+        "summary": "Retrieve billing information for a sub account under the master account. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "billing_account"
+        ]
+      },
+      {
+        "tool": "accounts.billing_account-update",
+        "summary": "Update billing information for a sub account under the master account <aside>Only for the sub account which is a paid account and paid by master account</aside>. Required: accountId. Partial update.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "billing_account-update"
+        ]
+      },
+      {
+        "tool": "accounts.managed-domains_account",
+        "summary": "Retrieve a sub account's managed domains under the master account. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "managed-domains_account"
+        ]
+      },
+      {
+        "tool": "accounts.options_account-update",
+        "summary": "Update a sub account's options under the master account. Required: accountId. Partial update.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "options_account-update"
+        ]
+      },
+      {
+        "tool": "accounts.plans_account",
+        "summary": "Retrieve plan information for a sub account under the master account <aside>Only for the sub account which is paid by master account</aside>. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "plans_account"
+        ]
+      },
+      {
+        "tool": "accounts.plans_account-addon-create",
+        "summary": "Add an additional plan for sub account <aside>Can only add an Additional plan for the sub account which is a paid account and paid by master account</aside>. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "plans_account-addon-create"
+        ]
+      },
+      {
+        "tool": "accounts.plans_account-addon-update",
+        "summary": "Update an additional plan for sub account<aside>Can only update an Additional plan for the sub account which is a paid account and paid by master account</aside>. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "plans_account-addon-update"
+        ]
+      },
+      {
+        "tool": "accounts.plans_account-base-update",
+        "summary": "Update a base plan for a sub account <aside>Can only update a base plan for the sub account which is a paid account and paid by master account</aside>. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "plans_account-base-update"
+        ]
+      },
+      {
+        "tool": "accounts.plans_account-create",
+        "summary": "Subscribe plans for a sub account of the master account <aside>Can only subscribe plans for the sub account which is a free account and paid by master account</aside>. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "plans_account-create"
+        ]
+      },
+      {
+        "tool": "accounts.settings_account",
+        "summary": "Retrieve a sub account's settings under the master account. Required: accountId.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "settings_account"
+        ]
+      },
+      {
+        "tool": "accounts.settings_account-update",
+        "summary": "Update a sub account's settings under the master account. Required: accountId. Partial update.",
+        "params_schema": {
+          "accountId": "string"
+        },
+        "positionals": [
+          "accountId"
+        ],
+        "argv_path": [
+          "accounts",
+          "settings_account-update"
+        ]
+      },
+      {
+        "tool": "groups.create",
+        "summary": "Create a new group under your Zoom account. Required: name (in the request body). Returns the new group's id and name. Groups organize users for shared settings and policies; create the group first, then add members with groups_members_*. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "groups"
+        ]
+      },
+      {
+        "tool": "groups.delete",
+        "summary": "Delete a group under your account. Required: groupId. Destructive.",
+        "params_schema": {
+          "groupId": "string"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "groups",
+          "delete"
+        ]
+      },
+      {
+        "tool": "groups.group",
+        "summary": "Retrieve a group under your account. Required: groupId.",
+        "params_schema": {
+          "groupId": "string"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "groups",
+          "group"
+        ]
+      },
+      {
+        "tool": "groups.groups",
+        "summary": "List all groups under your Zoom account, with each group's id, name, and total_members count. Read-only. Use this to discover group ids before calling groups_members_* or groups_get. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "groups",
+          "groups"
+        ]
+      },
+      {
+        "tool": "groups.update",
+        "summary": "Update a group under your account. Required: groupId. Partial update.",
+        "params_schema": {
+          "groupId": "string"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "groups",
+          "update"
+        ]
+      },
+      {
+        "tool": "groups.members_group",
+        "summary": "List a group's members under your account. Required: groupId. Optional: page_size, page_number.",
+        "params_schema": {
+          "groupId": "string",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "groups",
+          "members_group"
+        ]
+      },
+      {
+        "tool": "groups.members_group-create",
+        "summary": "Add members to a group under your account. Required: groupId.",
+        "params_schema": {
+          "groupId": "string"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "groups",
+          "members_group-create"
+        ]
+      },
+      {
+        "tool": "groups.members_group-delete",
+        "summary": "Delete a member from a group under your account. Required: groupId, memberId. Destructive.",
+        "params_schema": {
+          "groupId": "string",
+          "memberId": "string"
+        },
+        "positionals": [
+          "groupId",
+          "memberId"
+        ],
+        "argv_path": [
+          "groups",
+          "members_group-delete"
+        ]
+      },
+      {
+        "tool": "h323.device-create",
+        "summary": "Create a H.323/SIP Device on your Zoom account.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "h323",
+          "device-create"
+        ]
+      },
+      {
+        "tool": "h323.device-delete",
+        "summary": "Delete a H.323/SIP Device on your Zoom account. Required: deviceId. Destructive.",
+        "params_schema": {
+          "deviceId": "string"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "h323",
+          "device-delete"
+        ]
+      },
+      {
+        "tool": "h323.device-list",
+        "summary": "List the H.323/SIP room-system devices registered on your Zoom account, returning each device's id, name, protocol (H.323 or SIP), and encryption setting. Read-only. Use to audit conference-room hardware before updating or deleting a device.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "h323",
+          "device-list"
+        ]
+      },
+      {
+        "tool": "h323.device-update",
+        "summary": "Update a H.323/SIP Device on your Zoom account. Required: deviceId. Partial update.",
+        "params_schema": {
+          "deviceId": "string"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "h323",
+          "device-update"
+        ]
+      },
+      {
+        "tool": "im.chat-messages",
+        "summary": "Retrieve IM Chat messages for a specified period <aside>This API only supports oauth2.</aside>. Required: sessionId, from, to. Optional: page_size, next_page_token.",
+        "params_schema": {
+          "sessionId": "string",
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "im",
+          "chat-messages"
+        ]
+      },
+      {
+        "tool": "im.chat-sessions",
+        "summary": "Retrieve IM Chat sessions for a specified period <aside>This API only supports oauth2.</aside>. Required: from, to. Optional: page_size, next_page_token.",
+        "params_schema": {
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "im",
+          "chat-sessions"
+        ]
+      },
+      {
+        "tool": "im.group",
+        "summary": "Retrieve an IM Group under your account. Required: groupId.",
+        "params_schema": {
+          "groupId": "string"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "im",
+          "group"
+        ]
+      },
+      {
+        "tool": "im.group-create",
+        "summary": "Create a new IM (instant messaging) directory group under your account. Required: name (in the request body). Returns the new IM group's id. IM groups control chat visibility between users; distinct from meeting/user groups. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "im",
+          "group-create"
+        ]
+      },
+      {
+        "tool": "im.group-delete",
+        "summary": "Delete an IM Group under your account. Required: groupId. Destructive.",
+        "params_schema": {
+          "groupId": "string"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "im",
+          "group-delete"
+        ]
+      },
+      {
+        "tool": "im.group-members",
+        "summary": "List an IM Group's members under your account. Required: groupId. Optional: page_size, page_number.",
+        "params_schema": {
+          "groupId": "string",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "im",
+          "group-members"
+        ]
+      },
+      {
+        "tool": "im.group-members-create",
+        "summary": "Add members to an IM Group under your account. Required: groupId.",
+        "params_schema": {
+          "groupId": "string"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "im",
+          "group-members-create"
+        ]
+      },
+      {
+        "tool": "im.group-members-delete",
+        "summary": "Delete a member from an IM Group under your account. Required: groupId, memberId. Destructive.",
+        "params_schema": {
+          "groupId": "string",
+          "memberId": "string"
+        },
+        "positionals": [
+          "groupId",
+          "memberId"
+        ],
+        "argv_path": [
+          "im",
+          "group-members-delete"
+        ]
+      },
+      {
+        "tool": "im.group-update",
+        "summary": "Update an IM Group under your account. Required: groupId. Partial update.",
+        "params_schema": {
+          "groupId": "string"
+        },
+        "positionals": [
+          "groupId"
+        ],
+        "argv_path": [
+          "im",
+          "group-update"
+        ]
+      },
+      {
+        "tool": "im.groups",
+        "summary": "List the IM (instant messaging) directory groups under your account, returning each group's id, name, type, and total_members. Read-only. Distinct from meeting groups (groups_groups). Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "im",
+          "groups"
+        ]
+      },
+      {
+        "tool": "meetings.delete",
+        "summary": "Delete a meeting. Required: meetingId. Optional: occurrence_id. Destructive.",
+        "params_schema": {
+          "meetingId": "string",
+          "occurrence_id": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings"
+        ]
+      },
+      {
+        "tool": "meetings.meeting",
+        "summary": "Retrieve full details for a single meeting: topic, type, status, start_time, duration, timezone, join_url, settings, and host id. Required: meetingId (path). Optional: occurrence_id for a specific instance of a recurring meeting. Read-only. Use this when you already have a meeting id and need its current configuration.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "meeting"
+        ]
+      },
+      {
+        "tool": "meetings.update",
+        "summary": "Update a meeting's details. Required: meetingId. Partial update.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "update"
+        ]
+      },
+      {
+        "tool": "meetings.invitation_meeting",
+        "summary": "Retrieve the formatted text invitation (join URL, dial-in numbers, meeting ID, password) for a scheduled meeting. Required: meetingId (path). Read-only. Returns an object with a single 'invitation' string suitable for pasting into a calendar invite or email.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "invitation_meeting"
+        ]
+      },
+      {
+        "tool": "meetings.livestream_meeting-live-stream-status-update",
+        "summary": "Update a meeting's live stream status. Required: meetingId. Partial update.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "livestream_meeting-live-stream-status-update"
+        ]
+      },
+      {
+        "tool": "meetings.livestream_meeting-live-stream-update",
+        "summary": "Update a meeting's live stream. Required: meetingId. Partial update.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "livestream_meeting-live-stream-update"
+        ]
+      },
+      {
+        "tool": "meetings.polls_meeting",
+        "summary": "List all polls configured on a meeting, returning each poll's id, title, status, and questions. Required: meetingId (path). Read-only. Use this to discover poll ids before meetings_polls_meeting-get or meetings_polls_meeting-update.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "polls_meeting"
+        ]
+      },
+      {
+        "tool": "meetings.polls_meeting-create",
+        "summary": "Create a poll for a meeting. Required: meetingId.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "polls_meeting-create"
+        ]
+      },
+      {
+        "tool": "meetings.polls_meeting-delete",
+        "summary": "Delete a meeting's Poll. Required: meetingId, pollId. Destructive.",
+        "params_schema": {
+          "meetingId": "string",
+          "pollId": "string"
+        },
+        "positionals": [
+          "meetingId",
+          "pollId"
+        ],
+        "argv_path": [
+          "meetings",
+          "polls_meeting-delete"
+        ]
+      },
+      {
+        "tool": "meetings.polls_meeting-get",
+        "summary": "Retrieve a single poll on a meeting, including its title, status, and full question/answer-option list. Required: meetingId and pollId (both path). Read-only. Use meetings_polls_meeting first if you don't already have the pollId.",
+        "params_schema": {
+          "meetingId": "string",
+          "pollId": "string"
+        },
+        "positionals": [
+          "meetingId",
+          "pollId"
+        ],
+        "argv_path": [
+          "meetings",
+          "polls_meeting-get"
+        ]
+      },
+      {
+        "tool": "meetings.polls_meeting-update",
+        "summary": "Replace a meeting's poll definition (title and the full questions array) in place. Required: meetingId and pollId (path); title and questions (body). Returns HTTP 204 (no body) on success. This overwrites the poll, so send the complete questions list, not a partial patch.",
+        "params_schema": {
+          "meetingId": "string",
+          "pollId": "string"
+        },
+        "positionals": [
+          "meetingId",
+          "pollId"
+        ],
+        "argv_path": [
+          "meetings",
+          "polls_meeting-update"
+        ]
+      },
+      {
+        "tool": "meetings.recordings_delete",
+        "summary": "Delete a meeting's recordings. Required: meetingId. Optional: action. Destructive.",
+        "params_schema": {
+          "meetingId": "string",
+          "action": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "recordings_delete"
+        ]
+      },
+      {
+        "tool": "meetings.recordings_delete-one",
+        "summary": "Delete one meeting recording file. Required: meetingId, recordingId. Optional: action. Destructive.",
+        "params_schema": {
+          "meetingId": "string",
+          "recordingId": "string",
+          "action": "string?"
+        },
+        "positionals": [
+          "meetingId",
+          "recordingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "recordings_delete-one"
+        ]
+      },
+      {
+        "tool": "meetings.recordings_get",
+        "summary": "Retrieve all cloud recordings for a meeting: each recording file's id, type (MP4/M4A/TIMELINE/CHAT/TRANSCRIPT), download_url, play_url, file_size, and recording_start/end times. Required: meetingId (path; accepts a meeting id or UUID). Read-only. Requires the recording:read scope and cloud recording enabled.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "recordings_get"
+        ]
+      },
+      {
+        "tool": "meetings.recordings_setting-update",
+        "summary": "Retrieve a meeting recording's settings. Required: meetingId.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "recordings_setting-update"
+        ]
+      },
+      {
+        "tool": "meetings.recordings_settings-update",
+        "summary": "Update a meeting recording's settings. Required: meetingId. Partial update.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "recordings_settings-update"
+        ]
+      },
+      {
+        "tool": "meetings.recordings_status-update",
+        "summary": "Recover a meeting's cloud recordings that were previously moved to trash. Required: meetingId (path); action='recover' (body). Returns HTTP 204 (no body) on success. This is a state change, not a read \u2014 use meetings_recordings_get to inspect recordings first.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "recordings_status-update"
+        ]
+      },
+      {
+        "tool": "meetings.recordings_status-update-one",
+        "summary": "Recover a single recording. Required: meetingId, recordingId.",
+        "params_schema": {
+          "meetingId": "string",
+          "recordingId": "string"
+        },
+        "positionals": [
+          "meetingId",
+          "recordingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "recordings_status-update-one"
+        ]
+      },
+      {
+        "tool": "meetings.registrants_meeting",
+        "summary": "List registrants of a meeting. Required: meetingId. Optional: occurrence_id, status, page_size (plus 1 more).",
+        "params_schema": {
+          "meetingId": "string",
+          "occurrence_id": "string?",
+          "status": "string?",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "registrants_meeting"
+        ]
+      },
+      {
+        "tool": "meetings.registrants_meeting-create",
+        "summary": "Register a participant for a meeting. Required: meetingId. Optional: occurrence_ids.",
+        "params_schema": {
+          "meetingId": "string",
+          "occurrence_ids": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "registrants_meeting-create"
+        ]
+      },
+      {
+        "tool": "meetings.registrants_meeting-status",
+        "summary": "Update a meeting registrant's status. Required: meetingId. Optional: occurrence_id.",
+        "params_schema": {
+          "meetingId": "string",
+          "occurrence_id": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "registrants_meeting-status"
+        ]
+      },
+      {
+        "tool": "meetings.status_meeting",
+        "summary": "Change a live or scheduled meeting's status. Required: meetingId (path); action (body) \u2014 'end' to end an in-progress meeting or 'recover' to restore a deleted one. Returns HTTP 204 (no body) on success. Use this to end a meeting programmatically rather than waiting for the host.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "meetings",
+          "status_meeting"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-crc",
+        "summary": "Get CRC Port usage hour by hour for a specified time period <aside class='notice'>We will report a maximum of one month. For example, if 'from' is set to '2017-08-05' and 'to' is '2017-10-10' we will adjust 'from' to '2017-09-10'</aside>. Required: from, to.",
+        "params_schema": {
+          "from": "string?",
+          "to": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "metrics",
+          "dashboard-crc"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-im",
+        "summary": "Retrieve metrics of Zoom IM. Required: from, to. Optional: page_size, next_page_token.",
+        "params_schema": {
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "metrics",
+          "dashboard-im"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-meeting-detail",
+        "summary": "Retrieve live or past meetings detail. Required: meetingId. Optional: type.",
+        "params_schema": {
+          "meetingId": "string",
+          "type": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-meeting-detail"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-meeting-participant-qos",
+        "summary": "Retrieve live or past meetings participant quality of service. Required: meetingId, participantId. Optional: type.",
+        "params_schema": {
+          "meetingId": "string",
+          "participantId": "string",
+          "type": "string?"
+        },
+        "positionals": [
+          "meetingId",
+          "participantId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-meeting-participant-qos"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-meeting-participant-share",
+        "summary": "Retrieve sharing/recording details of live or past meetings participant. Required: meetingId. Optional: type, page_size, next_page_token.",
+        "params_schema": {
+          "meetingId": "string",
+          "type": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-meeting-participant-share"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-meeting-participants",
+        "summary": "Retrieve live or past meetings participants. Required: meetingId. Optional: type, page_size, next_page_token.",
+        "params_schema": {
+          "meetingId": "string",
+          "type": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-meeting-participants"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-meeting-participants-qos",
+        "summary": "Retrieve list of live or past meetings participants quality of service. Required: meetingId. Optional: type, page_size, next_page_token.",
+        "params_schema": {
+          "meetingId": "string",
+          "type": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-meeting-participants-qos"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-meetings",
+        "summary": "List live meetings or past meetings for a specified period. Required: from, to. Optional: type, page_size, next_page_token.",
+        "params_schema": {
+          "type": "string?",
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "metrics",
+          "dashboard-meetings"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-webinar-detail",
+        "summary": "Retrieve live or past webinars detail. Required: webinarId. Optional: type.",
+        "params_schema": {
+          "webinarId": "string",
+          "type": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-webinar-detail"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-webinar-participant-qos",
+        "summary": "Retrieve live or past webinar participant quality of service. Required: webinarId, participantId. Optional: type.",
+        "params_schema": {
+          "webinarId": "string",
+          "participantId": "string",
+          "type": "string?"
+        },
+        "positionals": [
+          "webinarId",
+          "participantId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-webinar-participant-qos"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-webinar-participant-share",
+        "summary": "Retrieve sharing/recording details of live or past webinar participant. Required: webinarId. Optional: type, page_size, next_page_token.",
+        "params_schema": {
+          "webinarId": "string",
+          "type": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-webinar-participant-share"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-webinar-participants",
+        "summary": "Retrieve live or past webinar participants. Required: webinarId. Optional: type, page_size, next_page_token.",
+        "params_schema": {
+          "webinarId": "string",
+          "type": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-webinar-participants"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-webinar-participants-qos",
+        "summary": "Retrieve list of live or past webinar participants quality of service. Required: webinarId. Optional: type, page_size, next_page_token.",
+        "params_schema": {
+          "webinarId": "string",
+          "type": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-webinar-participants-qos"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-webinars",
+        "summary": "List live webinars or past webinars for a specified period. Required: from, to. Optional: type, page_size, next_page_token.",
+        "params_schema": {
+          "type": "string?",
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "metrics",
+          "dashboard-webinars"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-zoom-room",
+        "summary": "Retrieve zoom room on account. Required: zoomroomId, from, to. Optional: page_size, page_number.",
+        "params_schema": {
+          "zoomroomId": "string",
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "zoomroomId"
+        ],
+        "argv_path": [
+          "metrics",
+          "dashboard-zoom-room"
+        ]
+      },
+      {
+        "tool": "metrics.dashboard-zoom-rooms",
+        "summary": "List all zoom rooms on account. Optional: page_size, page_number.",
+        "params_schema": {
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "metrics",
+          "dashboard-zoom-rooms"
+        ]
+      },
+      {
+        "tool": "past-meetings.details",
+        "summary": "Retrieve summary details of a meeting that has already ended: uuid, id, host_id, topic, type, start_time, end_time, duration, and total participant_count. Required: meetingUUID (path; double-encode UUIDs containing '/' or '//'). Read-only. Use past-meetings_instances_past-meetings first to find the UUID of a specific past occurrence.",
+        "params_schema": {
+          "meetingUUID": "string"
+        },
+        "positionals": [
+          "meetingUUID"
+        ],
+        "argv_path": [
+          "past-meetings",
+          "details"
+        ]
+      },
+      {
+        "tool": "past-meetings.instances_past-meetings",
+        "summary": "List every ended instance (occurrence) of a recurring meeting, returning each instance's uuid and start_time. Required: meetingId (path). Read-only. Each returned uuid feeds past-meetings_details, past-meetings_participants_*, or report_meeting-details.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "past-meetings",
+          "instances_past-meetings"
+        ]
+      },
+      {
+        "tool": "past-meetings.participants_past-meeting",
+        "summary": "Retrieve ended meeting participants. Required: meetingUUID. Optional: page_size, next_page_token.",
+        "params_schema": {
+          "meetingUUID": "string",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "meetingUUID"
+        ],
+        "argv_path": [
+          "past-meetings",
+          "participants_past-meeting"
+        ]
+      },
+      {
+        "tool": "past-webinars.instances_past-webinars",
+        "summary": "List every ended instance (occurrence) of a recurring webinar, returning each instance's uuid and start_time. Required: webinarId (path). Read-only. Each returned uuid feeds the past-webinars detail and participant endpoints or report_webinar-details.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "past-webinars",
+          "instances_past-webinars"
+        ]
+      },
+      {
+        "tool": "report.cloud-recording",
+        "summary": "Retrieve cloud recording usage report for a specified period. You can only get cloud recording reports for the most recent period of 6 months. The date gap between from and to dates should be smaller or equal to 30 days. Required: from, to.",
+        "params_schema": {
+          "from": "string?",
+          "to": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "cloud-recording"
+        ]
+      },
+      {
+        "tool": "report.daily",
+        "summary": "Retrieve daily report for one month, can only get daily report for recent 6 months. Optional: year, month.",
+        "params_schema": {
+          "year": "string?",
+          "month": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "daily"
+        ]
+      },
+      {
+        "tool": "report.meeting-details",
+        "summary": "Retrieve the post-meeting usage report for an ended meeting: host, topic, scheduled vs. actual start/end, duration, total participants, and unique-user count. Required: meetingId (path; accepts id or UUID). Read-only. Reporting endpoints require a paid plan and the report:read:admin scope; data is the billable-usage view, distinct from meetings_meeting's configuration view.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "report",
+          "meeting-details"
+        ]
+      },
+      {
+        "tool": "report.meeting-participants",
+        "summary": "Retrieve ended meeting participants report. Required: meetingId. Optional: page_size, next_page_token.",
+        "params_schema": {
+          "meetingId": "string",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "report",
+          "meeting-participants"
+        ]
+      },
+      {
+        "tool": "report.meeting-polls",
+        "summary": "Retrieve every participant's poll responses for an ended meeting, grouped by participant with their name, email, and per-question answers. Required: meetingId (path). Read-only. Requires a paid plan and report:read:admin scope. Use meetings_polls_meeting for the poll definitions; this returns the collected answers.",
+        "params_schema": {
+          "meetingId": "string"
+        },
+        "positionals": [
+          "meetingId"
+        ],
+        "argv_path": [
+          "report",
+          "meeting-polls"
+        ]
+      },
+      {
+        "tool": "report.meetings",
+        "summary": "Retrieve ended meetings report for a specified period. Required: userId, from, to. Optional: page_size, next_page_token.",
+        "params_schema": {
+          "userId": "string",
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "report",
+          "meetings"
+        ]
+      },
+      {
+        "tool": "report.telephone",
+        "summary": "Retrieve telephone report for a specified period <aside>Toll Report option would be removed.</aside>. Required: from, to. Optional: type, page_size, page_number.",
+        "params_schema": {
+          "type": "string?",
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "telephone"
+        ]
+      },
+      {
+        "tool": "report.users",
+        "summary": "Retrieve active or inactive hosts report for a specified period. Required: from, to. Optional: type, page_size, page_number.",
+        "params_schema": {
+          "type": "string?",
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "users"
+        ]
+      },
+      {
+        "tool": "report.webinar-details",
+        "summary": "Retrieve the post-webinar usage report for an ended webinar: host, topic, scheduled vs. actual times, duration, and total/unique attendee counts. Required: webinarId (path). Read-only. Requires a paid plan and report:read:admin scope. Billing-usage view, distinct from webinars_webinar's configuration view.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "report",
+          "webinar-details"
+        ]
+      },
+      {
+        "tool": "report.webinar-participants",
+        "summary": "Retrieve ended webinar participants report. Required: webinarId. Optional: page_size, next_page_token.",
+        "params_schema": {
+          "webinarId": "string",
+          "page_size": "string?",
+          "next_page_token": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "report",
+          "webinar-participants"
+        ]
+      },
+      {
+        "tool": "report.webinar-polls",
+        "summary": "Retrieve every attendee's poll responses for an ended webinar, grouped by attendee with name, email, and per-question answers. Required: webinarId (path). Read-only. Requires a paid plan and report:read:admin scope.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "report",
+          "webinar-polls"
+        ]
+      },
+      {
+        "tool": "report.webinar-qa",
+        "summary": "Retrieve the Q&A transcript from an ended webinar: each asked question with the asker's name/email and the answers given. Required: webinarId (path). Read-only. Requires a paid plan, report:read:admin scope, and Q&A enabled on the webinar.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "report",
+          "webinar-qa"
+        ]
+      },
+      {
+        "tool": "tracking-fields.create",
+        "summary": "Create a Tracking Field on your Zoom account.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tracking-fields"
+        ]
+      },
+      {
+        "tool": "tracking-fields.delete",
+        "summary": "Delete a Tracking Field on your Zoom account. Required: fieldId. Destructive.",
+        "params_schema": {
+          "fieldId": "string"
+        },
+        "positionals": [
+          "fieldId"
+        ],
+        "argv_path": [
+          "tracking-fields",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tracking-fields.get",
+        "summary": "Retrieve a single account tracking field by id, returning its field name, recommended/required flags, and allowed values. Required: fieldId (path). Read-only. Tracking fields tag meetings/webinars for usage reporting; use tracking-fields_list to discover ids.",
+        "params_schema": {
+          "fieldId": "string"
+        },
+        "positionals": [
+          "fieldId"
+        ],
+        "argv_path": [
+          "tracking-fields",
+          "get"
+        ]
+      },
+      {
+        "tool": "tracking-fields.list",
+        "summary": "List all tracking fields configured on your Zoom account, returning each field's id, name, recommended/required flags, and visible/allowed values. Read-only. Tracking fields categorize meetings and webinars for billing and usage reports. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tracking-fields",
+          "list"
+        ]
+      },
+      {
+        "tool": "tracking-fields.update",
+        "summary": "Update a Tracking Field on your Zoom account. Required: fieldId. Partial update.",
+        "params_schema": {
+          "fieldId": "string"
+        },
+        "positionals": [
+          "fieldId"
+        ],
+        "argv_path": [
+          "tracking-fields",
+          "update"
+        ]
+      },
+      {
+        "tool": "tsp.update",
+        "summary": "Update TSP information on account level. Partial update.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tsp"
+        ]
+      },
+      {
+        "tool": "tsp.tsp",
+        "summary": "Retrieve account-level Telephony Service Provider (TSP) configuration: enabled flag, master/dial-in numbers, and call-out country settings. Read-only. Use users_tsp_user for a specific user's TSP accounts. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tsp",
+          "tsp"
+        ]
+      },
+      {
+        "tool": "users.create",
+        "summary": "Create a new user on your account. Required (body): action ('create', 'autoCreate', 'custCreate', or 'ssoCreate') and user_info with email, type (1=Basic, 2=Licensed, 3=On-prem), and optional first_name/last_name. Returns the new user's id and email. Choose 'create' to send an activation email; 'autoCreate' to provision without one. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.delete",
+        "summary": "Delete a user on your account. Required: userId. Optional: action, transfer_email, transfer_meeting (plus 2 more). Destructive.",
+        "params_schema": {
+          "userId": "string",
+          "action": "string?",
+          "transfer_email": "string?",
+          "transfer_meeting": "string?",
+          "transfer_webinar": "string?",
+          "transfer_recording": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "delete"
+        ]
+      },
+      {
+        "tool": "users.email",
+        "summary": "Check if the user email exists. Required: email.",
+        "params_schema": {
+          "email": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "email"
+        ]
+      },
+      {
+        "tool": "users.update",
+        "summary": "Update a user on your account. Required: userId. Partial update.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "update"
+        ]
+      },
+      {
+        "tool": "users.user",
+        "summary": "Retrieve a user on your account. Required: userId. Optional: login_type.",
+        "params_schema": {
+          "userId": "string",
+          "login_type": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "user"
+        ]
+      },
+      {
+        "tool": "users.users",
+        "summary": "List users on your account. Optional: status, page_size, page_number.",
+        "params_schema": {
+          "status": "string?",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "users"
+        ]
+      },
+      {
+        "tool": "users.vanity-name",
+        "summary": "Check if the user's personal meeting room name exists. Required: vanity_name.",
+        "params_schema": {
+          "vanity_name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "vanity-name"
+        ]
+      },
+      {
+        "tool": "users.zpk",
+        "summary": "Check if the zpk is expired. The zpk is used to authenticate a user. Required: zpk.",
+        "params_schema": {
+          "zpk": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "zpk"
+        ]
+      },
+      {
+        "tool": "users.assistants_user",
+        "summary": "List the scheduling assistants assigned to a user, returning each assistant's id and email. Required: userId (path; accepts an email or user id). Read-only. Assistants can schedule and manage meetings on the user's behalf.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "assistants_user"
+        ]
+      },
+      {
+        "tool": "users.assistants_user-create",
+        "summary": "Assign one or more scheduling assistants to a user. Required: userId (path); assistants[] (body) \u2014 each entry an existing user's id or email. Returns the added assistant ids. Assistants gain rights to schedule on the user's behalf; this adds to, rather than replaces, the existing list.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "assistants_user-create"
+        ]
+      },
+      {
+        "tool": "users.assistants_user-delete",
+        "summary": "Delete all of a user'sassitants. Required: userId. Destructive.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "assistants_user-delete"
+        ]
+      },
+      {
+        "tool": "users.assistants_user-delete-users",
+        "summary": "Delete one of a user's assistants. Required: userId, assistantId. Destructive.",
+        "params_schema": {
+          "userId": "string",
+          "assistantId": "string"
+        },
+        "positionals": [
+          "userId",
+          "assistantId"
+        ],
+        "argv_path": [
+          "users",
+          "assistants_user-delete-users"
+        ]
+      },
+      {
+        "tool": "users.email_user-update",
+        "summary": "Change a user's login email address. Required: userId (path); email (body, the new address). Returns HTTP 204 (no body) on success. The new address must not already belong to another Zoom user. Requires account-level (admin) auth.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "email_user-update"
+        ]
+      },
+      {
+        "tool": "users.meetings_create",
+        "summary": "Create a meeting for a user <aside>The expiration time of start_url is two hours. But for API users, the expiration time is 90 days.</aside>. Required: userId.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "meetings_create"
+        ]
+      },
+      {
+        "tool": "users.meetings_meetings",
+        "summary": "List meetings for a user. Required: userId. Optional: type, page_size, page_number.",
+        "params_schema": {
+          "userId": "string",
+          "type": "string?",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "meetings_meetings"
+        ]
+      },
+      {
+        "tool": "users.pac_user",
+        "summary": "List a user's Personal Audio Conference (PAC) accounts, returning each conference_id, dedicated dial-in numbers, and participant/listen-only passwords. Required: userId (path). Read-only. PAC requires the feature to be enabled on the user's plan.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "pac_user"
+        ]
+      },
+      {
+        "tool": "users.password_user",
+        "summary": "Set or reset a user's Zoom login password. Required: userId (path); password (body, the new value meeting account complexity rules). Returns HTTP 204 (no body) on success. State-changing; the user is signed out of active sessions. Requires account-level (admin) auth.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "password_user"
+        ]
+      },
+      {
+        "tool": "users.permissions_user",
+        "summary": "Retrieve the granular feature permissions granted to a user, returned as an array of permission keys. Required: userId (path). Read-only. Use this to audit what an account user is allowed to do before changing their role or type.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "permissions_user"
+        ]
+      },
+      {
+        "tool": "users.picture_user",
+        "summary": "Upload and set a user's profile picture. Required: userId (path); pic_file (multipart body, JPG/JPEG/PNG up to 2MB). Returns HTTP 201 on success. State-changing; replaces the existing avatar.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "picture_user"
+        ]
+      },
+      {
+        "tool": "users.recordings_list",
+        "summary": "List all the recordings. Required: userId, from, to. Optional: page_size, next_page_token, mc (plus 1 more).",
+        "params_schema": {
+          "userId": "string",
+          "from": "string?",
+          "to": "string?",
+          "page_size": "string?",
+          "next_page_token": "string?",
+          "mc": "string?",
+          "trash": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "recordings_list"
+        ]
+      },
+      {
+        "tool": "users.schedulers_user",
+        "summary": "List the users who have assigned this user as their scheduling assistant (the inverse of users_assistants_user), returning each scheduler's id and email. Required: userId (path). Read-only.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "schedulers_user"
+        ]
+      },
+      {
+        "tool": "users.schedulers_user-delete",
+        "summary": "Delete all of a user'schedulers. Required: userId. Destructive.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "schedulers_user-delete"
+        ]
+      },
+      {
+        "tool": "users.schedulers_user-delete-users",
+        "summary": "Delete one of a user's schedulers. Required: userId, schedulerId. Destructive.",
+        "params_schema": {
+          "userId": "string",
+          "schedulerId": "string"
+        },
+        "positionals": [
+          "userId",
+          "schedulerId"
+        ],
+        "argv_path": [
+          "users",
+          "schedulers_user-delete-users"
+        ]
+      },
+      {
+        "tool": "users.settings_user",
+        "summary": "Retrieve a user's settings. Required: userId. Optional: login_type.",
+        "params_schema": {
+          "userId": "string",
+          "login_type": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "settings_user"
+        ]
+      },
+      {
+        "tool": "users.settings_user-update",
+        "summary": "Update a user's settings. Required: userId. Partial update.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "settings_user-update"
+        ]
+      },
+      {
+        "tool": "users.status_user",
+        "summary": "Activate or deactivate a user account. Required: userId (path); action (body) \u2014 'activate' or 'deactivate'. Returns HTTP 204 (no body) on success. Deactivated users cannot sign in but retain their data; state-changing. Requires account-level (admin) auth.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "status_user"
+        ]
+      },
+      {
+        "tool": "users.token_user",
+        "summary": "Retrieve a user's token. Required: userId. Optional: type.",
+        "params_schema": {
+          "userId": "string",
+          "type": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "token_user"
+        ]
+      },
+      {
+        "tool": "users.token_user-ssotoken-delete",
+        "summary": "Revoke a user's SSO token. Required: userId. Destructive.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "token_user-ssotoken-delete"
+        ]
+      },
+      {
+        "tool": "users.tsp_user",
+        "summary": "List a user's Telephony Service Provider (TSP) accounts, returning each tsp_account's id, provider, and dial-in/call-out numbers. Required: userId (path). Read-only. Use tsp_tsp for account-wide TSP config.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "tsp_user"
+        ]
+      },
+      {
+        "tool": "users.tsp_user-tspcreate",
+        "summary": "Add a Telephony Service Provider (TSP) account to a user. Required: userId (path); tsp_bridge plus the provider's conference/dial-in credentials (body). Returns the created tsp_account id. State-changing; a user can hold up to two TSP accounts.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "tsp_user-tspcreate"
+        ]
+      },
+      {
+        "tool": "users.tsp_user-tspdelete",
+        "summary": "Delete a user's TSP account. Required: userId, tspId. Destructive.",
+        "params_schema": {
+          "userId": "string",
+          "tspId": "string"
+        },
+        "positionals": [
+          "userId",
+          "tspId"
+        ],
+        "argv_path": [
+          "users",
+          "tsp_user-tspdelete"
+        ]
+      },
+      {
+        "tool": "users.tsp_user-tspupdate",
+        "summary": "Update a user's TSP account. Required: userId, tspId. Partial update.",
+        "params_schema": {
+          "userId": "string",
+          "tspId": "string"
+        },
+        "positionals": [
+          "userId",
+          "tspId"
+        ],
+        "argv_path": [
+          "users",
+          "tsp_user-tspupdate"
+        ]
+      },
+      {
+        "tool": "users.tsp_user-users",
+        "summary": "Retrieve a user's TSP account. Required: userId, tspId.",
+        "params_schema": {
+          "userId": "string",
+          "tspId": "string"
+        },
+        "positionals": [
+          "userId",
+          "tspId"
+        ],
+        "argv_path": [
+          "users",
+          "tsp_user-users"
+        ]
+      },
+      {
+        "tool": "users.webinars_create",
+        "summary": "Create a webinar for a user <aside>The expiration time of start_url is two hours. But for API users, the expiration time is 90 days.</aside>. Required: userId.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "webinars_create"
+        ]
+      },
+      {
+        "tool": "users.webinars_webinars",
+        "summary": "List webinars for a user. Required: userId. Optional: page_size, page_number.",
+        "params_schema": {
+          "userId": "string",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "webinars_webinars"
+        ]
+      },
+      {
+        "tool": "webhooks.create",
+        "summary": "Create an account webhook subscription. Required (body): a public HTTPS endpoint url and an events array naming the event types to deliver. Returns the new webhook's id and status. Webhooks push event notifications (meeting.started, recording.completed, etc.) to your endpoint. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhooks"
+        ]
+      },
+      {
+        "tool": "webhooks.delete",
+        "summary": "Delete an account webhook subscription, permanently stopping event delivery to its endpoint. Required: webhookId (path). Returns HTTP 204 (no body) on success. Destructive and irreversible \u2014 list with webhooks_webhooks to confirm the id first.",
+        "params_schema": {
+          "webhookId": "string"
+        },
+        "positionals": [
+          "webhookId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "webhooks.switch",
+        "summary": "Switch the webhook API version for the account (legacy v1 vs. current). Body: the target version. Returns HTTP 204 (no body) on success. Account-wide partial update that affects how all webhook payloads are formatted; change deliberately. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhooks",
+          "switch"
+        ]
+      },
+      {
+        "tool": "webhooks.update",
+        "summary": "Partially update an existing webhook subscription \u2014 change its endpoint url, the subscribed events array, or its enabled status. Required: webhookId (path); only the fields you want to change (body). Returns HTTP 204 (no body) on success. Send a partial patch, not the full object.",
+        "params_schema": {
+          "webhookId": "string"
+        },
+        "positionals": [
+          "webhookId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "update"
+        ]
+      },
+      {
+        "tool": "webhooks.webhook",
+        "summary": "Retrieve a single webhook subscription by id, returning its endpoint url, subscribed events array, and status. Required: webhookId (path). Read-only. Use webhooks_webhooks to discover ids.",
+        "params_schema": {
+          "webhookId": "string"
+        },
+        "positionals": [
+          "webhookId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "webhook"
+        ]
+      },
+      {
+        "tool": "webhooks.webhooks",
+        "summary": "List all webhook subscriptions on the account, returning each webhook's id, endpoint url, events array, and status. Read-only. Use this to audit which endpoints receive which events before creating or deleting subscriptions. Requires account-level (admin) auth.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhooks",
+          "webhooks"
+        ]
+      },
+      {
+        "tool": "webinars.delete",
+        "summary": "Delete a webinar. Required: webinarId. Optional: occurrence_id. Destructive.",
+        "params_schema": {
+          "webinarId": "string",
+          "occurrence_id": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars"
+        ]
+      },
+      {
+        "tool": "webinars.update",
+        "summary": "Partially update a scheduled webinar's configuration \u2014 topic, start_time, duration, agenda, or settings. Required: webinarId (path); only the fields to change (body). Optional: occurrence_id to target one instance of a recurring webinar. Returns HTTP 204 (no body) on success. Send a partial patch, not the full object.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "update"
+        ]
+      },
+      {
+        "tool": "webinars.webinar",
+        "summary": "Retrieve full details for a single webinar: topic, type, status, start_time, duration, timezone, join_url, registration_url, and settings. Required: webinarId (path). Optional: occurrence_id for a specific instance. Read-only. Use when you already have a webinar id and need its current configuration.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "webinar"
+        ]
+      },
+      {
+        "tool": "webinars.panelists_webinar",
+        "summary": "List the panelists invited to a webinar, returning each panelist's id, name, email, and join_url. Required: webinarId (path). Read-only. Panelists differ from attendees \u2014 they can speak and share. Use this to discover panelist ids before removing one.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "panelists_webinar"
+        ]
+      },
+      {
+        "tool": "webinars.panelists_webinar-create",
+        "summary": "Add one or more panelists to a webinar. Required: webinarId (path); panelists[] (body) \u2014 each entry a name and email. Returns the added panelist ids. Each panelist receives a unique join URL granting speak/share rights. Adds to the existing panelist list.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "panelists_webinar-create"
+        ]
+      },
+      {
+        "tool": "webinars.panelists_webinar-delete",
+        "summary": "Remove all panelists from a webinar. Required: webinarId. Destructive.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "panelists_webinar-delete"
+        ]
+      },
+      {
+        "tool": "webinars.panelists_webinar-delete-webinars",
+        "summary": "Remove a panelist from a webinar. Required: webinarId, panelistId. Destructive.",
+        "params_schema": {
+          "webinarId": "string",
+          "panelistId": "string"
+        },
+        "positionals": [
+          "webinarId",
+          "panelistId"
+        ],
+        "argv_path": [
+          "webinars",
+          "panelists_webinar-delete-webinars"
+        ]
+      },
+      {
+        "tool": "webinars.polls_webinar",
+        "summary": "List all polls configured on a webinar, returning each poll's id, title, status, and questions. Required: webinarId (path). Read-only. Use this to discover poll ids before webinars_polls_webinar-get or webinars_polls_webinar-update.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "polls_webinar"
+        ]
+      },
+      {
+        "tool": "webinars.polls_webinar-create",
+        "summary": "Create a poll for a webinar. Required: webinarId.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "polls_webinar-create"
+        ]
+      },
+      {
+        "tool": "webinars.polls_webinar-delete",
+        "summary": "Delete a webinar's Poll. Required: webinarId, pollId. Destructive.",
+        "params_schema": {
+          "webinarId": "string",
+          "pollId": "string"
+        },
+        "positionals": [
+          "webinarId",
+          "pollId"
+        ],
+        "argv_path": [
+          "webinars",
+          "polls_webinar-delete"
+        ]
+      },
+      {
+        "tool": "webinars.polls_webinar-get",
+        "summary": "Retrieve a single poll on a webinar, including its title, status, and full question/answer-option list. Required: webinarId and pollId (both path). Read-only. Use webinars_polls_webinar first if you don't have the pollId.",
+        "params_schema": {
+          "webinarId": "string",
+          "pollId": "string"
+        },
+        "positionals": [
+          "webinarId",
+          "pollId"
+        ],
+        "argv_path": [
+          "webinars",
+          "polls_webinar-get"
+        ]
+      },
+      {
+        "tool": "webinars.polls_webinar-update",
+        "summary": "Replace a webinar's poll definition (title and the full questions array) in place. Required: webinarId and pollId (path); title and questions (body). Returns HTTP 204 (no body) on success. Overwrites the poll, so send the complete questions list.",
+        "params_schema": {
+          "webinarId": "string",
+          "pollId": "string"
+        },
+        "positionals": [
+          "webinarId",
+          "pollId"
+        ],
+        "argv_path": [
+          "webinars",
+          "polls_webinar-update"
+        ]
+      },
+      {
+        "tool": "webinars.registrants_webinar",
+        "summary": "List registrants for a webinar. Required: webinarId. Optional: occurrence_id, status, page_size (plus 1 more).",
+        "params_schema": {
+          "webinarId": "string",
+          "occurrence_id": "string?",
+          "status": "string?",
+          "page_size": "string?",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "registrants_webinar"
+        ]
+      },
+      {
+        "tool": "webinars.registrants_webinar-create",
+        "summary": "Add a registrant for a webinar. Required: webinarId. Optional: occurrence_ids.",
+        "params_schema": {
+          "webinarId": "string",
+          "occurrence_ids": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "registrants_webinar-create"
+        ]
+      },
+      {
+        "tool": "webinars.registrants_webinar-status",
+        "summary": "Update a webinar registrant's status. Required: webinarId. Optional: occurrence_id.",
+        "params_schema": {
+          "webinarId": "string",
+          "occurrence_id": "string?"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "registrants_webinar-status"
+        ]
+      },
+      {
+        "tool": "webinars.status_webinar",
+        "summary": "Change a webinar's status. Required: webinarId (path); action (body) \u2014 typically 'end' to end a live webinar. Returns HTTP 204 (no body) on success. State-changing; use webinars_webinar to inspect the webinar first.",
+        "params_schema": {
+          "webinarId": "string"
+        },
+        "positionals": [
+          "webinarId"
+        ],
+        "argv_path": [
+          "webinars",
+          "status_webinar"
         ]
       }
     ]
