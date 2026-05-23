@@ -1,7 +1,7 @@
 [
   {
     "api": "adminbyrequest",
-    "description": "Every Admin By Request portal action, plus a local SQLite mirror of audit, events, inventory and requests for ad-hoc...",
+    "description": "Sync Admin By Request audit, event, inventory, and elevation-request data for approvals, quota checks, and admin-risk reports.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/adminbyrequest/cmd/adminbyrequest-pp-cli",
     "auth_type": "api_key",
     "endpoints": [
@@ -196,13 +196,13 @@
   },
   {
     "api": "alaska-airlines",
-    "description": "Search Alaska Airlines flights, manage Atmos Rewards, and pre-build cart deeplinks for one-click checkout - all from...",
+    "description": "Search Alaska Airlines flights, manage Atmos Rewards data, and build checkout-ready cart links from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/alaska-airlines/cmd/alaska-airlines-pp-cli",
     "auth_type": "none",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Search Alaska Airlines flights, manage Atmos Rewards, and pre-build cart deeplinks for one-click checkout - all from... (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Search Alaska Airlines flights, manage Atmos Rewards data, and build checkout-ready cart links from the terminal. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -5257,7 +5257,7 @@
   },
   {
     "api": "beehiiv",
-    "description": "Printing Press CLI for Beehiiv.",
+    "description": "Manage beehiiv publications, subscribers, segments, posts, automations, and newsletter analytics from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/beehiiv/cmd/beehiiv-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
@@ -7358,6 +7358,151 @@
         "argv_path": [
           "workspace",
           "rules_update"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "blu-ray",
+    "description": "The disc-collector's CLI for Blu-ray.com \u2014 offline catalog, live deals, and a price-drop watchlist with zero...",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/blu-ray/cmd/blu-ray-pp-cli",
+    "auth_type": "none",
+    "endpoints": [
+      {
+        "tool": "calendar.digital",
+        "summary": "Digital release calendar (streaming/rental window opens). Optional: year.",
+        "params_schema": {
+          "year": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "calendar",
+          "digital"
+        ]
+      },
+      {
+        "tool": "calendar.releases",
+        "summary": "Release calendar page for a given year, optionally filtered by country and format. JS-driven UI; the raw HTML still contains the listing data the page renders. Optional: year, country, format.",
+        "params_schema": {
+          "year": "int?",
+          "country": "string?",
+          "format": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "calendar",
+          "releases"
+        ]
+      },
+      {
+        "tool": "calendar.theatrical",
+        "summary": "Theatrical release calendar. Optional: year.",
+        "params_schema": {
+          "year": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "calendar",
+          "theatrical"
+        ]
+      },
+      {
+        "tool": "deals.list",
+        "summary": "Current Blu-ray.com deals, filterable by country and format. Each row carries the underlying release id and the affiliate click URL (the latter is not followed by the CLI). Optional: country (default: USA), format.",
+        "params_schema": {
+          "country": "string?",
+          "format": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "deals"
+        ]
+      },
+      {
+        "tool": "news.get",
+        "summary": "Fetch a single news story by id. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "news"
+        ]
+      },
+      {
+        "tool": "news.index",
+        "summary": "News index page (latest stories on top). Hand-parser extracts headline + posted-date + body link.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "news",
+          "index"
+        ]
+      },
+      {
+        "tool": "releases.get",
+        "summary": "Fetch the canonical release detail page by URL slug and id. The id is stable; slug is documented for redirect-safe fetching. Required: slug, id.",
+        "params_schema": {
+          "slug": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "slug",
+          "id"
+        ],
+        "argv_path": [
+          "releases"
+        ]
+      },
+      {
+        "tool": "releases.new",
+        "summary": "List recent Blu-ray, 4K, DVD, and digital releases (paginated). Returns release page links from the static template. Optional: show (default: newreleases), page (default: 1), country (plus 1 more).",
+        "params_schema": {
+          "show": "string?",
+          "page": "int?",
+          "country": "string?",
+          "format": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "releases",
+          "new"
+        ]
+      },
+      {
+        "tool": "sitemap.bluraymovies",
+        "summary": "One of nine gzipped Blu-ray release shards (50,000 URLs each). Pull all nine for the full Blu-ray catalog. Required: shard.",
+        "params_schema": {
+          "shard": "string"
+        },
+        "positionals": [
+          "shard"
+        ],
+        "argv_path": [
+          "sitemap",
+          "bluraymovies"
+        ]
+      },
+      {
+        "tool": "sitemap.index",
+        "summary": "Sitemap index \u2014 points at gzipped sub-sitemaps for main, news, bluraymovies (9 shards), dvdmovies (7), itunesmovies (5), digitalmovies (2), cast (11), ma, games, other.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sitemap",
+          "index"
+        ]
+      },
+      {
+        "tool": "sitemap.news",
+        "summary": "Compressed news sitemap \u2014 each entry has title + publication_date inline (no per-story fetch needed for enumeration).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sitemap",
+          "news"
         ]
       }
     ]
@@ -16263,7 +16408,7 @@
   },
   {
     "api": "company-goat",
-    "description": "One call across seven authoritative sources to research a startup's funding history (SEC Form D), engineering velocity (GitHub), HN mentions, legal entity (US/UK), and domain age. Compares competitors side-by-side and flags inconsistencies between public claims and filings.",
+    "description": "Look up startups across SEC Form D, GitHub, Hacker News, Companies House, YC, Wikidata, and DNS in one command. Built for scouts, founders, BD, and AI agents researching small/midsize startups.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/company-goat/cmd/company-goat-pp-cli",
     "auth_type": "none",
     "endpoints": [
@@ -16282,7 +16427,7 @@
   },
   {
     "api": "conduyt-crm",
-    "description": "The Conduyt CRM API provides programmatic access to your CRM data including contacts, companies, deals, pipelines,...",
+    "description": "Manage Conduyt CRM contacts, deals, pipelines, automations, campaigns, invoices, and local insight reports from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/conduyt-crm/cmd/conduyt-crm-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
@@ -20767,13 +20912,13 @@
   },
   {
     "api": "contact-goat",
-    "description": "Super LinkedIn for the terminal - search, enrich, and map warm-intro paths across LinkedIn (stickerdaniel/linkedin-mcp-server subprocess), Happenstance (Chrome cookie auth with Clerk JWT refresh), and Deepline (paid enrichment, hybrid subprocess+HTTP). Unified SQLite store powers warm-intro, coverage, and cross-source prospect commands no single tool has.",
+    "description": "Search, enrich, and map warm-introduction paths across LinkedIn, Happenstance, Deepline, and a unified local contacts store.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/contact-goat/cmd/contact-goat-pp-cli",
     "auth_type": "composed",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Super LinkedIn for the terminal - search, enrich, and map warm-intro paths across LinkedIn (stickerdaniel/linkedin-mcp-server subprocess), Happenstance (Chrome cookie auth with Clerk JWT refresh), and Deepline (paid enrichment, hybrid subprocess+HTTP). Unified SQLite store powers warm-intro, coverage, and cross-source prospect commands no single tool has. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Search, enrich, and map warm-introduction paths across LinkedIn, Happenstance, Deepline, and a unified local contacts store. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -21318,7 +21463,7 @@
   },
   {
     "api": "digg",
-    "description": "Tail the Digg AI 1000's news cycle from the terminal \u2014 read-only, with the full pipeline event stream and...",
+    "description": "Tail Digg's news cycle, GitHub feeds, and pipeline events from the terminal \u2014 read-only, with rank-history nobody else surfaces.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/digg/cmd/digg-pp-cli",
     "auth_type": "none",
     "endpoints": [
@@ -21439,7 +21584,7 @@
   },
   {
     "api": "digitalocean",
-    "description": "Printing Press CLI for Digitalocean.",
+    "description": "Manage DigitalOcean Droplets, Kubernetes, databases, firewalls, networking, billing, and other cloud resources from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/cloud/digitalocean/cmd/digitalocean-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
@@ -28873,13 +29018,13 @@
   },
   {
     "api": "edgar",
-    "description": "An agent-native CLI for SEC EDGAR \u2014 six sanctioned endpoints, SQLite-cached filings with FTS5, and LODESTAR-shaped...",
+    "description": "Fetch SEC EDGAR filings, insider activity, XBRL facts, and cached filing search results with agent-friendly output.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/edgar/cmd/edgar-pp-cli",
     "auth_type": "none",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "An agent-native CLI for SEC EDGAR \u2014 six sanctioned endpoints, SQLite-cached filings with FTS5, and LODESTAR-shaped... (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Fetch SEC EDGAR filings, insider activity, XBRL facts, and cached filing search results with agent-friendly output. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -33801,7 +33946,7 @@
   },
   {
     "api": "emailoctopus",
-    "description": "Every EmailOctopus v2 endpoint, plus the cross-list joins, churn diffs, and rate-budgeted bulk operations the API...",
+    "description": "Manage EmailOctopus lists, contacts, campaigns, automations, reports, and cross-list cleanup workflows from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/emailoctopus/cmd/emailoctopus-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
@@ -34746,6 +34891,134 @@
         "argv_path": [
           "notices",
           "search"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "exchangerate-api",
+    "description": "Every ExchangeRate-API endpoint, plus a local rate history, watchlists, drift alerts, and an MCP server no one else...",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/exchangerate-api/cmd/exchangerate-api-pp-cli",
+    "auth_type": "api_key",
+    "endpoints": [
+      {
+        "tool": "codes.list",
+        "summary": "List all 161 supported currency codes. Required: api_key. Returns the CodesResponse.",
+        "params_schema": {
+          "api_key": "string"
+        },
+        "positionals": [
+          "api_key"
+        ],
+        "argv_path": [
+          "codes"
+        ]
+      },
+      {
+        "tool": "quota.get",
+        "summary": "Check remaining requests in the current quota period. Required: api_key. Returns the QuotaResponse.",
+        "params_schema": {
+          "api_key": "string"
+        },
+        "positionals": [
+          "api_key"
+        ],
+        "argv_path": [
+          "quota"
+        ]
+      },
+      {
+        "tool": "rates.enriched",
+        "summary": "Pair conversion with locale, flag, and currency display metadata (Business/Volume tier). Required: api_key, base_code, target_code. Returns the EnrichedResponse.",
+        "params_schema": {
+          "api_key": "string",
+          "base_code": "string",
+          "target_code": "string"
+        },
+        "positionals": [
+          "api_key",
+          "base_code",
+          "target_code"
+        ],
+        "argv_path": [
+          "rates",
+          "enriched"
+        ]
+      },
+      {
+        "tool": "rates.history",
+        "summary": "Historical exchange rates for a specific date (Pro/Business/Volume tier). Required: api_key, base_code, year, month, day. Returns the HistoryResponse.",
+        "params_schema": {
+          "api_key": "string",
+          "base_code": "string",
+          "year": "string",
+          "month": "string",
+          "day": "string"
+        },
+        "positionals": [
+          "api_key",
+          "base_code",
+          "year",
+          "month",
+          "day"
+        ],
+        "argv_path": [
+          "rates",
+          "history"
+        ]
+      },
+      {
+        "tool": "rates.latest",
+        "summary": "Get all exchange rates from a base currency. Required: api_key, base_code. Returns the LatestResponse.",
+        "params_schema": {
+          "api_key": "string",
+          "base_code": "string"
+        },
+        "positionals": [
+          "api_key",
+          "base_code"
+        ],
+        "argv_path": [
+          "rates",
+          "latest"
+        ]
+      },
+      {
+        "tool": "rates.pair",
+        "summary": "Get conversion rate between two currencies. Required: api_key, base_code, target_code. Returns the PairResponse.",
+        "params_schema": {
+          "api_key": "string",
+          "base_code": "string",
+          "target_code": "string"
+        },
+        "positionals": [
+          "api_key",
+          "base_code",
+          "target_code"
+        ],
+        "argv_path": [
+          "rates",
+          "pair"
+        ]
+      },
+      {
+        "tool": "rates.pair_amount",
+        "summary": "Convert a specific amount between two currencies. Required: api_key, base_code, target_code, amount. Returns the PairAmountResponse.",
+        "params_schema": {
+          "api_key": "string",
+          "base_code": "string",
+          "target_code": "string",
+          "amount": "string"
+        },
+        "positionals": [
+          "api_key",
+          "base_code",
+          "target_code",
+          "amount"
+        ],
+        "argv_path": [
+          "rates",
+          "pair_amount"
         ]
       }
     ]
@@ -37227,7 +37500,7 @@
   },
   {
     "api": "gohighlevel",
-    "description": "The terminal for GoHighLevel. Bulk ops, dedup, and pipeline reports in seconds \u2014 local cache, agent-native JSON,...",
+    "description": "Sync GoHighLevel CRM data for contacts, opportunities, pipelines, custom fields, tags, bulk operations, and funnel reports.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/gohighlevel/cmd/gohighlevel-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
@@ -38292,7 +38565,7 @@
   },
   {
     "api": "greatclips",
-    "description": "First CLI for Great Clips Online Check-In: every endpoint shape and host route, ready for real calls once cookies...",
+    "description": "Check Great Clips salon wait times, prepare Online Check-In requests, inspect route shapes, and track local wait history.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/greatclips/cmd/greatclips-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
@@ -41234,7 +41507,7 @@
   },
   {
     "api": "kit",
-    "description": "Printing Press CLI for Kit.",
+    "description": "Manage Kit subscribers, tags, forms, sequences, broadcasts, purchases, and email marketing automation data from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/kit/cmd/kit-pp-cli",
     "auth_type": "api_key",
     "endpoints": [
@@ -48930,13 +49203,13 @@
   },
   {
     "api": "marianatek",
-    "description": "Every Mariana Tek booking feature, plus multi-tenant search, cancellation watching, and an offline class catalog no...",
+    "description": "Search Mariana Tek studio schedules, book classes, watch cancellations, and sync reservations into an offline class catalog.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/marianatek/cmd/marianatek-pp-cli",
     "auth_type": "none",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Every Mariana Tek booking feature, plus multi-tenant search, cancellation watching, and an offline class catalog no... (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Search Mariana Tek studio schedules, book classes, watch cancellations, and sync reservations into an offline class catalog. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -52689,13 +52962,13 @@
   },
   {
     "api": "nse-india",
-    "description": "Every NSE equity data point in a single Go binary \u2014 live quotes, order book, filings, and a local SQLite store no...",
+    "description": "Fetch NSE India quotes, market status, order books, filings, indices, and cached equity analytics from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/nse-india/cmd/nse-india-pp-cli",
     "auth_type": "none",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Every NSE equity data point in a single Go binary \u2014 live quotes, order book, filings, and a local SQLite store no... (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Fetch NSE India quotes, market status, order books, filings, indices, and cached equity analytics from the terminal. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -53005,13 +53278,13 @@
   },
   {
     "api": "nvd",
-    "description": "The NVD is the U.S. government repository of standards-based vulnerability management data. Search CVEs by keyword, product (CPE name), CVE ID, or date range. Get CVSS scores, affected versions, references, and severity ratings. No API key required (optional for higher rate limits).",
+    "description": "The NVD is the U.S. government repository of standards-based vulnerability management data.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/nvd/cmd/nvd-pp-cli",
     "auth_type": "none",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "The NVD is the U.S. government repository of standards-based vulnerability management data. Search CVEs by keyword, product (CPE name), CVE ID, or date range. Get CVSS scores, affected versions, references, and severity ratings. No API key required (optional for higher rate limits). (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "The NVD is the U.S. government repository of standards-based vulnerability management data. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -56612,6 +56885,13 @@
     ]
   },
   {
+    "api": "obsidian",
+    "description": "SYNTHETIC OpenAPI 3.0 spec mapping Obsidian's official command-line interface (v1.12+) to virtual REST endpoints....",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/obsidian/cmd/obsidian-pp-cli",
+    "auth_type": "none",
+    "endpoints": []
+  },
+  {
     "api": "open-meteo",
     "description": "Forecasts, historicals, marine, air quality, flood, climate, ensemble, and seasonal data from Open-Meteo's free tier.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/open-meteo/cmd/open-meteo-pp-cli",
@@ -57904,13 +58184,13 @@
   },
   {
     "api": "openipa",
-    "description": "Il primo CLI per l'Indice delle Pubbliche Amministrazioni \u2014 lookup istantaneo di enti, PEC, codici IPA,...",
+    "description": "Search Italy's IndicePA for public administrations, PEC addresses, IPA codes, billing codes, and compliance details.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/openipa/cmd/openipa-pp-cli",
     "auth_type": "none",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Il primo CLI per l'Indice delle Pubbliche Amministrazioni \u2014 lookup istantaneo di enti, PEC, codici IPA,... (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Search Italy's IndicePA for public administrations, PEC addresses, IPA codes, billing codes, and compliance details. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -57921,13 +58201,13 @@
   },
   {
     "api": "openrouter",
-    "description": "Agent-first OpenRouter introspection \u2014 terse output for cron and AI agents (--agent and --llm modes), local SQLite...",
+    "description": "Inspect OpenRouter models, providers, credits, activity, and cost attribution with local caching and agent-friendly output.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/openrouter/cmd/openrouter-pp-cli",
     "auth_type": "none",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Agent-first OpenRouter introspection \u2014 terse output for cron and AI agents (--agent and --llm modes), local SQLite... (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Inspect OpenRouter models, providers, credits, activity, and cost attribution with local caching and agent-friendly output. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -59560,6 +59840,23 @@
         "argv_path": [
           "order",
           "submission"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "pdok-location",
+    "description": "Geocode Dutch addresses, reverse-geocode coordinates, convert RD/WGS84, and query PDOK location data with offline helpers.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/pdok-location/cmd/pdok-location-pp-cli",
+    "auth_type": "none",
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Geocode Dutch addresses, reverse-geocode coordinates, convert RD/WGS84, and query PDOK location data with offline helpers. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
         ]
       }
     ]
@@ -61907,7 +62204,7 @@
   },
   {
     "api": "recipe-goat",
-    "description": "Find the best version of any recipe across 37 trusted sites \u2014 trust-aware ranking weights real reader signal at 80% and editorial trust at 15% (curated chef/baker sites win tie-break over crowdsourced aggregators). Builds a local SQLite cookbook with pantry match, meal plans, cook log, substitutions, and USDA-backed nutrition backfill. Powered by Surf-Chrome HTTP transport \u2014 bypasses TLS-fingerprint bot detection that previously blocked Dotdash properties.",
+    "description": "Search trusted recipe sites, rank results, save a local cookbook, and enrich nutrition data with USDA FoodData Central.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/recipe-goat/cmd/recipe-goat-pp-cli",
     "auth_type": "api_key",
     "endpoints": [
@@ -66446,7 +66743,7 @@
   },
   {
     "api": "scrape-creators",
-    "description": "Scrape public social media data from the terminal \u2014 profiles, posts, videos, comments, ads, and transcripts across TikTok, Instagram, YouTube, Twitter/X, LinkedIn, Facebook, Reddit, Threads, Bluesky, Pinterest, Snapchat, Twitch, Kick, Truth Social, and 15+ link-in-bio / creator link services.",
+    "description": "The easiest way to scrape public social media data at scale. Extract profiles, posts, videos, comments, and more from TikTok, Instagram, YouTube, Twitter, LinkedIn, Facebook, Reddit, and 27+ platforms.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/scrape-creators/cmd/scrape-creators-pp-cli",
     "auth_type": "api_key",
     "endpoints": [
@@ -77799,7 +78096,7 @@
   },
   {
     "api": "servicetitan-pricebook",
-    "description": "A focused per-module ServiceTitan CLI for the Pricebook \u2014 sync once, then audit markup, costs, vendor parts, and...",
+    "description": "Sync ServiceTitan Pricebook services, materials, equipment, vendors, markups, warranties, and cost-drift audits.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/servicetitan-pricebook/cmd/servicetitan-pricebook-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
@@ -78765,7 +79062,7 @@
   },
   {
     "api": "setlist-fm",
-    "description": "<p>",
+    "description": "Search setlist.fm artists, setlists, venues, cities, and concert histories through the setlist.fm API.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/setlist-fm/cmd/setlist-fm-pp-cli",
     "auth_type": "api_key",
     "endpoints": [
@@ -84367,6 +84664,522 @@
         "argv_path": [
           "iwishlist-service",
           "get-wishlist-sorted-filtered"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "strava",
+    "description": "Every Strava feature, plus offline analytics \u2014 training load, power curves, zone time",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/strava/cmd/strava-pp-cli",
+    "auth_type": "bearer_token",
+    "endpoints": [
+      {
+        "tool": "activities.create-activity",
+        "summary": "Creates a manual activity for an athlete, requires activity:write scope. Required: elapsed_time, name, sport_type, start_date_local. Optional: commute, description, distance (plus 2 more). Returns the new SwaggerActivityDetailedActivity.",
+        "params_schema": {
+          "commute": "int?",
+          "description": "string?",
+          "distance": "float?",
+          "elapsed_time": "int?",
+          "name": "string?",
+          "sport_type": "string?",
+          "start_date_local": "string?",
+          "trainer": "int?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "activities",
+          "create-activity"
+        ]
+      },
+      {
+        "tool": "activities.get-activity-by-id",
+        "summary": "Returns the given activity that is owned by the authenticated athlete. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities. We strongly encourage you to display the appropriate attribution that identifies Garmin as the data source and the device name in your application. Please see example below from VeloViewer (that provides an attribution for a Garmin Forerunner device). ![Attribution](/images/device-attribution-image.png). Required: id. Optional: include_all_efforts.",
+        "params_schema": {
+          "id": "string",
+          "include_all_efforts": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "activities",
+          "get-activity-by-id"
+        ]
+      },
+      {
+        "tool": "activities.update-activity-by-id",
+        "summary": "Updates the given activity that is owned by the authenticated athlete. Requires activity:write. Also requires activity:read_all in order to update Only Me activities. Required: id. Optional: commute, description, gear_id (plus 5 more). Returns the updated SwaggerActivityDetailedActivity.",
+        "params_schema": {
+          "id": "string",
+          "commute": "bool?",
+          "description": "string?",
+          "gear_id": "string?",
+          "hide_from_home": "bool?",
+          "name": "string?",
+          "sport_type": "string?",
+          "trainer": "bool?",
+          "type": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "activities",
+          "update-activity-by-id"
+        ]
+      },
+      {
+        "tool": "activities.comments_get-by-activity-id",
+        "summary": "Returns the comments on the given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities. Required: id. Optional: page, per_page (default: 30), page_size (default: 30) (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "per_page": "int?",
+          "page_size": "int?",
+          "after_cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "activities",
+          "comments_get-by-activity-id"
+        ]
+      },
+      {
+        "tool": "activities.kudos_get-kudoers-by-activity-id",
+        "summary": "Returns the athletes who kudoed an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities. Required: id. Optional: page, per_page (default: 30).",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "activities",
+          "kudos_get-kudoers-by-activity-id"
+        ]
+      },
+      {
+        "tool": "activities.laps_get-by-activity-id",
+        "summary": "Returns the laps of an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "activities",
+          "laps_get-by-activity-id"
+        ]
+      },
+      {
+        "tool": "activities.streams_get-activity",
+        "summary": "Returns the given activity's streams. Requires activity:read scope. Requires activity:read_all scope for Only Me activities. Required: id, keys, key_by_type (default: true).",
+        "params_schema": {
+          "id": "string",
+          "keys": "array?",
+          "key_by_type": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "activities",
+          "streams_get-activity"
+        ]
+      },
+      {
+        "tool": "activities.zones_get-by-activity-id",
+        "summary": "Summit Feature. Returns the zones of a given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "activities",
+          "zones_get-by-activity-id"
+        ]
+      },
+      {
+        "tool": "athlete.get-logged-in",
+        "summary": "Returns the currently authenticated athlete. Tokens with profile:read_all scope will receive a detailed athlete representation; all others will receive a summary representation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "athlete",
+          "get-logged-in"
+        ]
+      },
+      {
+        "tool": "athlete.get-logged-in-activities",
+        "summary": "Returns the activities of an athlete for a specific identifier. Requires activity:read. Only Me activities will be filtered out unless requested by a token with activity:read_all. Optional: before, after, page (plus 1 more).",
+        "params_schema": {
+          "before": "int?",
+          "after": "int?",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "athlete",
+          "get-logged-in-activities"
+        ]
+      },
+      {
+        "tool": "athlete.get-logged-in-clubs",
+        "summary": "Returns a list of the clubs whose membership includes the authenticated athlete. Optional: page, per_page (default: 30).",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "athlete",
+          "get-logged-in-clubs"
+        ]
+      },
+      {
+        "tool": "athlete.get-logged-in-zones",
+        "summary": "Returns the the authenticated athlete's heart rate and power zones. Requires profile:read_all.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "athlete",
+          "get-logged-in-zones"
+        ]
+      },
+      {
+        "tool": "athlete.update-logged-in",
+        "summary": "Update the currently authenticated athlete. Requires profile:write scope. Required: weight. Returns the updated SwaggerAthleteDetailedAthlete.",
+        "params_schema": {
+          "weight": "string"
+        },
+        "positionals": [
+          "weight"
+        ],
+        "argv_path": [
+          "athlete",
+          "update-logged-in"
+        ]
+      },
+      {
+        "tool": "athletes.routes_get-by-athlete-id",
+        "summary": "Returns a list of the routes created by the authenticated athlete. Private routes are filtered out unless requested by a token with read_all scope. Required: id. Optional: page, per_page (default: 30).",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "athletes",
+          "routes_get-by-athlete-id"
+        ]
+      },
+      {
+        "tool": "athletes.stats_get",
+        "summary": "Returns the activity stats of an athlete. Only includes data from activities set to Everyone visibilty. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "athletes",
+          "stats_get"
+        ]
+      },
+      {
+        "tool": "clubs.get-by-id",
+        "summary": "Returns a given a club using its identifier. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "clubs",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "clubs.activities_get-club-by-id",
+        "summary": "Retrieve recent activities from members of a specific club. The authenticated athlete must belong to the requested club in order to hit this endpoint. Pagination is supported. Athlete profile visibility is respected for all activities. Required: id. Optional: page, per_page (default: 30). Returns array of SwaggerActivityClubActivity.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "clubs",
+          "activities_get-club-by-id"
+        ]
+      },
+      {
+        "tool": "clubs.admins_get-club-by-id",
+        "summary": "Returns a list of the administrators of a given club. Required: id. Optional: page, per_page (default: 30).",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "clubs",
+          "admins_get-club-by-id"
+        ]
+      },
+      {
+        "tool": "clubs.members_get-club-by-id",
+        "summary": "Returns a list of the athletes who are members of a given club. Required: id. Optional: page, per_page (default: 30).",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "clubs",
+          "members_get-club-by-id"
+        ]
+      },
+      {
+        "tool": "gear.get-by-id",
+        "summary": "Returns an equipment using its identifier. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "gear",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "routes.get-by-id",
+        "summary": "Returns a route using its identifier. Requires read_all scope for private routes. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "routes",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "routes.export-gpx_get-route-as-gpx",
+        "summary": "Returns a GPX file of the route. Requires read_all scope for private routes. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "routes",
+          "export-gpx_get-route-as-gpx"
+        ]
+      },
+      {
+        "tool": "routes.export-tcx_get-route-as-tcx",
+        "summary": "Returns a TCX file of the route. Requires read_all scope for private routes. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "routes",
+          "export-tcx_get-route-as-tcx"
+        ]
+      },
+      {
+        "tool": "routes.streams_get-route",
+        "summary": "Returns the given route's streams. Requires read_all scope for private routes. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "routes",
+          "streams_get-route"
+        ]
+      },
+      {
+        "tool": "segment-efforts.get-by-id",
+        "summary": "Returns a segment effort from an activity that is owned by the authenticated athlete. Requires subscription. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "segment-efforts",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "segment-efforts.get-efforts-by-segment-id",
+        "summary": "Returns a set of the authenticated athlete's segment efforts for a given segment. Requires subscription. Required: segment_id. Optional: start_date_local, end_date_local, per_page (default: 30).",
+        "params_schema": {
+          "segment_id": "int?",
+          "start_date_local": "string?",
+          "end_date_local": "string?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "segment-efforts",
+          "get-efforts-by-segment-id"
+        ]
+      },
+      {
+        "tool": "segment-efforts.streams_get-segment-effort",
+        "summary": "Returns a set of streams for a segment effort completed by the authenticated athlete. Requires read_all scope. Required: id, keys, key_by_type (default: true).",
+        "params_schema": {
+          "id": "string",
+          "keys": "array?",
+          "key_by_type": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "segment-efforts",
+          "streams_get-segment-effort"
+        ]
+      },
+      {
+        "tool": "segments.explore",
+        "summary": "Returns the top 10 segments matching a specified query. Required: bounds. Optional: activity_type, min_cat, max_cat.",
+        "params_schema": {
+          "bounds": "array?",
+          "activity_type": "string?",
+          "min_cat": "int?",
+          "max_cat": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "segments",
+          "explore"
+        ]
+      },
+      {
+        "tool": "segments.get-by-id",
+        "summary": "Returns the specified segment. read_all scope required in order to retrieve athlete-specific segment information, or to retrieve private segments. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "segments",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "segments.get-logged-in-athlete-starred",
+        "summary": "List of the authenticated athlete's starred segments. Private segments are filtered out unless requested by a token with read_all scope. Optional: page, per_page (default: 30). Returns array of SwaggerSegmentSummarySegment.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "segments",
+          "get-logged-in-athlete-starred"
+        ]
+      },
+      {
+        "tool": "segments.starred_star-segment",
+        "summary": "Stars/Unstars the given segment for the authenticated athlete. Requires profile:write scope. Required: id, starred (default: false). Returns the updated SwaggerSegmentDetailedSegment.",
+        "params_schema": {
+          "id": "string",
+          "starred": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "segments",
+          "starred_star-segment"
+        ]
+      },
+      {
+        "tool": "segments.streams_get-segment",
+        "summary": "Returns the given segment's streams. Requires read_all scope for private segments. Required: id, keys, key_by_type (default: true).",
+        "params_schema": {
+          "id": "string",
+          "keys": "array?",
+          "key_by_type": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "segments",
+          "streams_get-segment"
+        ]
+      },
+      {
+        "tool": "uploads.create",
+        "summary": "Uploads a new data file to create an activity from. Requires activity:write scope. Optional: commute, data_type, description (plus 4 more). Returns the new SwaggerUploadUpload.",
+        "params_schema": {
+          "commute": "string?",
+          "data_type": "string?",
+          "description": "string?",
+          "external_id": "string?",
+          "file": "string?",
+          "name": "string?",
+          "trainer": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "uploads"
+        ]
+      },
+      {
+        "tool": "uploads.get-by-id",
+        "summary": "Returns an upload for a given identifier. Requires activity:write scope. Required: uploadId.",
+        "params_schema": {
+          "uploadId": "string"
+        },
+        "positionals": [
+          "uploadId"
+        ],
+        "argv_path": [
+          "uploads",
+          "get-by-id"
         ]
       }
     ]
@@ -94104,13 +94917,13 @@
   },
   {
     "api": "substack-creator",
-    "description": "Every Substack feature, plus a local SQLite database, full-text search across years of writing, and the only...",
+    "description": "Manage Substack posts, drafts, subscribers, notes, comments, and cross-publication analytics from a local SQLite cache.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/substack-creator/cmd/substack-creator-pp-cli",
     "auth_type": "none",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Every Substack feature, plus a local SQLite database, full-text search across years of writing, and the only... (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Manage Substack posts, drafts, subscribers, notes, comments, and cross-publication analytics from a local SQLite cache. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -96894,7 +97707,7 @@
   },
   {
     "api": "surgegraph",
-    "description": "Every SurgeGraph workflow \u2014 research, write, publish, monitor \u2014 from the terminal or any agent, with a local...",
+    "description": "SurgeGraph is the Answer Engine Optimization (AEO) platform that tracks AI citations, scores pages for citation readiness, and one-click fixes the gaps \u2014 now every workflow runs from the terminal or any agent.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/surgegraph/cmd/surgegraph-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
@@ -98191,6 +99004,1190 @@
         "argv_path": [
           "notices",
           "list"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "tesla",
+    "description": "Every Tesla mobile-app feature, plus a charging-cost ledger and supercharger queue watcher no other Tesla CLI ships.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/tesla/cmd/tesla-pp-cli",
+    "auth_type": "bearer_token",
+    "endpoints": [
+      {
+        "tool": "charging.get_queue",
+        "summary": "Current Supercharger queue position (which stall, ETA). Optional: vin. Returns the queue.",
+        "params_schema": {
+          "vin": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "charging",
+          "get_queue"
+        ]
+      },
+      {
+        "tool": "diagnostics.get_diagnostics",
+        "summary": "Fetch the authenticated account's vehicle diagnostic feature flags via GET /api/1/diagnostics. No parameters; reads bearer token from the configured auth. Returns the diagnostics object: per-feature config flags Tesla uses to gate diagnostic instrumentation on the user's vehicles. Prefer this when you need to know what diagnostic surfaces the account has enabled; use vehicles_get_data_vehicle_data for per-vehicle live telemetry instead.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "diagnostics",
+          "get_diagnostics"
+        ]
+      },
+      {
+        "tool": "energy.sites_create_set_backup_reserve",
+        "summary": "Set Powerwall backup reserve percent. Required: site_id, backup_reserve_percent. Returns the new create_set_backup_reserve.",
+        "params_schema": {
+          "site_id": "string",
+          "backup_reserve_percent": "integer?"
+        },
+        "positionals": [
+          "site_id"
+        ],
+        "argv_path": [
+          "energy",
+          "sites_create_set_backup_reserve"
+        ]
+      },
+      {
+        "tool": "energy.sites_create_set_operation",
+        "summary": "Set Powerwall operation mode. Required: site_id, default_real_mode. Returns the new create_set_operation.",
+        "params_schema": {
+          "site_id": "string",
+          "default_real_mode": "string?"
+        },
+        "positionals": [
+          "site_id"
+        ],
+        "argv_path": [
+          "energy",
+          "sites_create_set_operation"
+        ]
+      },
+      {
+        "tool": "energy.sites_get_calendar_history",
+        "summary": "Historical energy data per day/month. Required: site_id, kind, period. Returns the get_calendar_history.",
+        "params_schema": {
+          "site_id": "string",
+          "kind": "string?",
+          "period": "string?"
+        },
+        "positionals": [
+          "site_id"
+        ],
+        "argv_path": [
+          "energy",
+          "sites_get_calendar_history"
+        ]
+      },
+      {
+        "tool": "energy.sites_get_live_status",
+        "summary": "Real-time Powerwall solar/grid/battery power. Required: site_id. Returns the get_live_status.",
+        "params_schema": {
+          "site_id": "string"
+        },
+        "positionals": [
+          "site_id"
+        ],
+        "argv_path": [
+          "energy",
+          "sites_get_live_status"
+        ]
+      },
+      {
+        "tool": "energy.sites_get_rate_tariffs",
+        "summary": "Utility rate plans for Powerwall scheduling. Optional: language. Returns the rate_tariffs.",
+        "params_schema": {
+          "language": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "energy",
+          "sites_get_rate_tariffs"
+        ]
+      },
+      {
+        "tool": "energy.sites_get_site_info",
+        "summary": "Energy site config (capacity, type, address). Required: site_id. Returns the get_site_info.",
+        "params_schema": {
+          "site_id": "string"
+        },
+        "positionals": [
+          "site_id"
+        ],
+        "argv_path": [
+          "energy",
+          "sites_get_site_info"
+        ]
+      },
+      {
+        "tool": "energy.sites_get_site_status",
+        "summary": "Backup-reserve and operation mode. Required: site_id. Returns the get_site_status.",
+        "params_schema": {
+          "site_id": "string"
+        },
+        "positionals": [
+          "site_id"
+        ],
+        "argv_path": [
+          "energy",
+          "sites_get_site_status"
+        ]
+      },
+      {
+        "tool": "logs.create_logs",
+        "summary": "Forward client-side log events (mostly internal use). Required: details. Returns the new logs.",
+        "params_schema": {
+          "details": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "logs",
+          "create_logs"
+        ]
+      },
+      {
+        "tool": "notification.preferences_create_notification_preferences",
+        "summary": "Update push notification preferences. Required: app_version, device_token, device_type, locale, notification_preferences, platform. Returns the new notification_preferences.",
+        "params_schema": {
+          "app_version": "string?",
+          "device_token": "string?",
+          "device_type": "string?",
+          "locale": "string?",
+          "notification_preferences": "object?",
+          "platform": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "notification",
+          "preferences_create_notification_preferences"
+        ]
+      },
+      {
+        "tool": "products.get_products",
+        "summary": "List vehicles, Powerwalls, and solar products owned. Optional: orders. Returns the products.",
+        "params_schema": {
+          "orders": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "products",
+          "get_products"
+        ]
+      },
+      {
+        "tool": "users.create_keys",
+        "summary": "Add a virtual phone key or BLE key. Required: battery_level, bluetooth_authorization, bluetooth_enabled, device_token, device_type, kind, locale, location_permissions, low_power_mode, model, name, public_key, tag. Returns the new keys.",
+        "params_schema": {
+          "battery_level": "integer?",
+          "bluetooth_authorization": "string?",
+          "bluetooth_enabled": "boolean?",
+          "device_token": "string?",
+          "device_type": "string?",
+          "kind": "string?",
+          "locale": "string?",
+          "location_permissions": "string?",
+          "low_power_mode": "boolean?",
+          "model": "string?",
+          "name": "string?",
+          "public_key": "string?",
+          "tag": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "create_keys"
+        ]
+      },
+      {
+        "tool": "users.get_app_config",
+        "summary": "Mobile app feature flags and runtime config. Optional: country, page. Returns the app_config.",
+        "params_schema": {
+          "country": "string?",
+          "page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get_app_config"
+        ]
+      },
+      {
+        "tool": "users.get_feature_config",
+        "summary": "Fetch account-level feature gating via GET /api/1/users/feature_config. No parameters; reads bearer token from the configured auth. Returns the feature_config object: the flag bundle Tesla's mobile app uses to decide which UI surfaces and capabilities are available to this account. Useful for detecting whether features like Supercharger Voucher, Premium Connectivity, or new owner workflows are enabled. Distinct from vehicle-level diagnostics (diagnostics_get_diagnostics).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get_feature_config"
+        ]
+      },
+      {
+        "tool": "users.get_orders",
+        "summary": "Tesla orders (new vehicle deliveries, accessory purchases). Optional: device_country, device_language, ttp_locale. Returns the orders.",
+        "params_schema": {
+          "device_country": "string?",
+          "device_language": "string?",
+          "ttp_locale": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get_orders"
+        ]
+      },
+      {
+        "tool": "vehicles.create_actuate_trunk",
+        "summary": "Open/close trunk or frunk; which_trunk = front | rear. Required: vehicle_id, which_trunk. Returns the new create_actuate_trunk.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "which_trunk": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_actuate_trunk"
+        ]
+      },
+      {
+        "tool": "vehicles.create_add_charge_schedule",
+        "summary": "Add a charging schedule (location + time window). Required: vehicle_id, lat, lon. Optional: start_enabled, end_enabled, start_time (plus 3 more). Returns the new create_add_charge_schedule.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "lat": "number?",
+          "lon": "number?",
+          "start_enabled": "boolean?",
+          "end_enabled": "boolean?",
+          "start_time": "integer?",
+          "end_time": "integer?",
+          "enabled": "boolean?",
+          "one_time": "boolean?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_add_charge_schedule"
+        ]
+      },
+      {
+        "tool": "vehicles.create_add_precondition_schedule",
+        "summary": "Add a preconditioning schedule. Required: vehicle_id, lat, lon, precondition_time. Optional: days_of_week, enabled. Returns the new create_add_precondition_schedule.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "lat": "number?",
+          "lon": "number?",
+          "precondition_time": "integer?",
+          "days_of_week": "string?",
+          "enabled": "boolean?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_add_precondition_schedule"
+        ]
+      },
+      {
+        "tool": "vehicles.create_adjust_volume",
+        "summary": "Set volume to specific level. Required: vehicle_id, volume. Returns the new create_adjust_volume.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "volume": "number?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_adjust_volume"
+        ]
+      },
+      {
+        "tool": "vehicles.create_auto_conditioning_start",
+        "summary": "POST /api/1/vehicles/{vehicle_id}/command/auto_conditioning_start. Required: vehicle_id. Returns the new auto_conditioning_start.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_auto_conditioning_start"
+        ]
+      },
+      {
+        "tool": "vehicles.create_auto_conditioning_stop",
+        "summary": "POST /api/1/vehicles/{vehicle_id}/command/auto_conditioning_stop. Required: vehicle_id. Returns the new auto_conditioning_stop.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_auto_conditioning_stop"
+        ]
+      },
+      {
+        "tool": "vehicles.create_bioweapon_mode",
+        "summary": "Toggle bioweapon defense mode (HEPA recirculation). Required: vehicle_id, on. Optional: manual_override. Returns the new create_bioweapon_mode.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "on": "boolean?",
+          "manual_override": "boolean?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_bioweapon_mode"
+        ]
+      },
+      {
+        "tool": "vehicles.create_cancel_software_update",
+        "summary": "Cancel pending software update. Required: vehicle_id. Returns the new create_cancel_software_update.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_cancel_software_update"
+        ]
+      },
+      {
+        "tool": "vehicles.create_charge_max_range",
+        "summary": "Set charge limit to Max Range (100%). Required: vehicle_id. Returns the new create_charge_max_range.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_charge_max_range"
+        ]
+      },
+      {
+        "tool": "vehicles.create_charge_port_door_close",
+        "summary": "Close the charge port. Required: vehicle_id. Returns the new create_charge_port_door_close.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_charge_port_door_close"
+        ]
+      },
+      {
+        "tool": "vehicles.create_charge_port_door_open",
+        "summary": "Open the charge port. Required: vehicle_id. Returns the new create_charge_port_door_open.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_charge_port_door_open"
+        ]
+      },
+      {
+        "tool": "vehicles.create_charge_standard",
+        "summary": "Set charge limit to Standard (~90%). Required: vehicle_id. Returns the new create_charge_standard.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_charge_standard"
+        ]
+      },
+      {
+        "tool": "vehicles.create_charge_start",
+        "summary": "Start charging. Required: vehicle_id. Returns the new create_charge_start.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_charge_start"
+        ]
+      },
+      {
+        "tool": "vehicles.create_charge_stop",
+        "summary": "Stop charging. Required: vehicle_id. Returns the new create_charge_stop.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_charge_stop"
+        ]
+      },
+      {
+        "tool": "vehicles.create_climate_keeper_mode",
+        "summary": "Climate keeper mode: 0=off, 1=on, 2=dog, 3=camp. Required: vehicle_id, climate_keeper_mode. Returns the new create_climate_keeper_mode.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "climate_keeper_mode": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_climate_keeper_mode"
+        ]
+      },
+      {
+        "tool": "vehicles.create_door_lock",
+        "summary": "POST /api/1/vehicles/{vehicle_id}/command/door_lock. Required: vehicle_id. Returns the new door_lock.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_door_lock"
+        ]
+      },
+      {
+        "tool": "vehicles.create_door_unlock",
+        "summary": "POST /api/1/vehicles/{vehicle_id}/command/door_unlock. Required: vehicle_id. Returns the new door_unlock.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_door_unlock"
+        ]
+      },
+      {
+        "tool": "vehicles.create_erase_user_data",
+        "summary": "Erase guest-session user data. Required: vehicle_id. Returns the new create_erase_user_data.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_erase_user_data"
+        ]
+      },
+      {
+        "tool": "vehicles.create_flash_lights",
+        "summary": "Flash headlights. Required: vehicle_id. Returns the new create_flash_lights.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_flash_lights"
+        ]
+      },
+      {
+        "tool": "vehicles.create_guest_mode",
+        "summary": "Enable/disable Guest mode. Required: vehicle_id, enable. Returns the new create_guest_mode.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "enable": "boolean?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_guest_mode"
+        ]
+      },
+      {
+        "tool": "vehicles.create_hermes",
+        "summary": "POST /api/1/vehicles/{vehicle_id}/jwt/hermes. Required: vehicle_id, uuid. Returns the new hermes.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "uuid": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_hermes"
+        ]
+      },
+      {
+        "tool": "vehicles.create_honk_horn",
+        "summary": "Honk the horn. Required: vehicle_id. Returns the new create_honk_horn.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_honk_horn"
+        ]
+      },
+      {
+        "tool": "vehicles.create_max_defrost",
+        "summary": "Toggle max defrost. Required: vehicle_id, on. Returns the new create_max_defrost.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "on": "boolean?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_max_defrost"
+        ]
+      },
+      {
+        "tool": "vehicles.create_media_next_favorite",
+        "summary": "Next favorite station. Required: vehicle_id. Returns the new create_media_next_favorite.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_media_next_favorite"
+        ]
+      },
+      {
+        "tool": "vehicles.create_media_next_track",
+        "summary": "Next track. Required: vehicle_id. Returns the new create_media_next_track.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_media_next_track"
+        ]
+      },
+      {
+        "tool": "vehicles.create_media_prev_favorite",
+        "summary": "Previous favorite station. Required: vehicle_id. Returns the new create_media_prev_favorite.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_media_prev_favorite"
+        ]
+      },
+      {
+        "tool": "vehicles.create_media_prev_track",
+        "summary": "Previous track. Required: vehicle_id. Returns the new create_media_prev_track.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_media_prev_track"
+        ]
+      },
+      {
+        "tool": "vehicles.create_media_toggle_playback",
+        "summary": "Toggle play/pause. Required: vehicle_id. Returns the new create_media_toggle_playback.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_media_toggle_playback"
+        ]
+      },
+      {
+        "tool": "vehicles.create_media_volume_down",
+        "summary": "Volume down. Required: vehicle_id. Returns the new create_media_volume_down.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_media_volume_down"
+        ]
+      },
+      {
+        "tool": "vehicles.create_media_volume_up",
+        "summary": "Volume up. Required: vehicle_id. Returns the new create_media_volume_up.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_media_volume_up"
+        ]
+      },
+      {
+        "tool": "vehicles.create_navigation_gps_request",
+        "summary": "Send lat/lng directly to navigation. Required: vehicle_id, lat, lon. Optional: order. Returns the new create_navigation_gps_request.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "lat": "number?",
+          "lon": "number?",
+          "order": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_navigation_gps_request"
+        ]
+      },
+      {
+        "tool": "vehicles.create_remote_start_drive",
+        "summary": "POST /api/1/vehicles/{vehicle_id}/command/remote_start_drive. Required: vehicle_id. Returns the new remote_start_drive.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_remote_start_drive"
+        ]
+      },
+      {
+        "tool": "vehicles.create_remove_charge_schedule",
+        "summary": "Remove charging schedule by id. Required: vehicle_id, id. Returns the new create_remove_charge_schedule.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "id": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_remove_charge_schedule"
+        ]
+      },
+      {
+        "tool": "vehicles.create_remove_precondition_schedule",
+        "summary": "Remove preconditioning schedule by id. Required: vehicle_id, id. Returns the new create_remove_precondition_schedule.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "id": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_remove_precondition_schedule"
+        ]
+      },
+      {
+        "tool": "vehicles.create_reset_valet_pin",
+        "summary": "Reset Valet PIN. Required: vehicle_id. Returns the new create_reset_valet_pin.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_reset_valet_pin"
+        ]
+      },
+      {
+        "tool": "vehicles.create_schedule_software_update",
+        "summary": "Schedule the pending software update. Required: vehicle_id, offset_sec. Returns the new create_schedule_software_update.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "offset_sec": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_schedule_software_update"
+        ]
+      },
+      {
+        "tool": "vehicles.create_seat_heater_request",
+        "summary": "Set seat heater level (0-3) at a seat position (0=driver, 1=passenger, 2-5=rear). Required: vehicle_id, heater, level. Returns the new create_seat_heater_request.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "heater": "integer?",
+          "level": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_seat_heater_request"
+        ]
+      },
+      {
+        "tool": "vehicles.create_set_charge_limit",
+        "summary": "Set charge limit percent (50-100). Required: vehicle_id, percent. Returns the new create_set_charge_limit.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "percent": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_set_charge_limit"
+        ]
+      },
+      {
+        "tool": "vehicles.create_set_charging_amps",
+        "summary": "Set charging amps draw. Required: vehicle_id, charging_amps. Returns the new create_set_charging_amps.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "charging_amps": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_set_charging_amps"
+        ]
+      },
+      {
+        "tool": "vehicles.create_set_sentry_mode",
+        "summary": "Enable/disable Sentry mode. Required: vehicle_id, on. Returns the new create_set_sentry_mode.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "on": "boolean?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_set_sentry_mode"
+        ]
+      },
+      {
+        "tool": "vehicles.create_set_temps",
+        "summary": "Set driver and passenger climate temps (Celsius). Required: vehicle_id, driver_temp, passenger_temp. Returns the new create_set_temps.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "driver_temp": "number?",
+          "passenger_temp": "number?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_set_temps"
+        ]
+      },
+      {
+        "tool": "vehicles.create_set_valet_mode",
+        "summary": "Enable/disable Valet mode with optional PIN. Required: vehicle_id, on. Optional: password. Returns the new create_set_valet_mode.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "on": "boolean?",
+          "password": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_set_valet_mode"
+        ]
+      },
+      {
+        "tool": "vehicles.create_share",
+        "summary": "Send navigation destination to the car (address or coordinates). Required: vehicle_id, value. Optional: type, locale, timestamp_ms. Returns the new create_share.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "type": "string?",
+          "value": "object?",
+          "locale": "string?",
+          "timestamp_ms": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_share"
+        ]
+      },
+      {
+        "tool": "vehicles.create_speed_limit_activate",
+        "summary": "Activate Speed Limit mode. Required: vehicle_id, pin. Returns the new create_speed_limit_activate.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "pin": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_speed_limit_activate"
+        ]
+      },
+      {
+        "tool": "vehicles.create_speed_limit_clear_pin",
+        "summary": "Clear Speed Limit PIN. Required: vehicle_id, pin. Returns the new create_speed_limit_clear_pin.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "pin": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_speed_limit_clear_pin"
+        ]
+      },
+      {
+        "tool": "vehicles.create_speed_limit_deactivate",
+        "summary": "Deactivate Speed Limit mode. Required: vehicle_id, pin. Returns the new create_speed_limit_deactivate.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "pin": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_speed_limit_deactivate"
+        ]
+      },
+      {
+        "tool": "vehicles.create_speed_limit_set_limit",
+        "summary": "Set Speed Limit value (mph). Required: vehicle_id, limit_mph. Returns the new create_speed_limit_set_limit.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "limit_mph": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_speed_limit_set_limit"
+        ]
+      },
+      {
+        "tool": "vehicles.create_steering_wheel_heater_request",
+        "summary": "Toggle steering wheel heater. Required: vehicle_id, on. Returns the new create_steering_wheel_heater_request.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "on": "boolean?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_steering_wheel_heater_request"
+        ]
+      },
+      {
+        "tool": "vehicles.create_sun_roof_control",
+        "summary": "Sun roof: state = vent | close. Required: vehicle_id, state. Returns the new create_sun_roof_control.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "state": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_sun_roof_control"
+        ]
+      },
+      {
+        "tool": "vehicles.create_trigger_homelink",
+        "summary": "Trigger HomeLink garage door. Required: vehicle_id, lat, lon. Returns the new create_trigger_homelink.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "lat": "number?",
+          "lon": "number?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_trigger_homelink"
+        ]
+      },
+      {
+        "tool": "vehicles.create_wake_up",
+        "summary": "Wake the vehicle from sleep. Required: vehicle_id. Returns the new create_wake_up.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_wake_up"
+        ]
+      },
+      {
+        "tool": "vehicles.create_window_control",
+        "summary": "Vent or close all windows; command = vent | close. Required: vehicle_id, command. Optional: lat, lon. Returns the new create_window_control.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "command": "string?",
+          "lat": "number?",
+          "lon": "number?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "create_window_control"
+        ]
+      },
+      {
+        "tool": "vehicles.get_compose_image",
+        "summary": "Compose a rendered image of the configured vehicle. Required: vehicle_id. Optional: view, options, size. Returns the get_compose_image.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "view": "string?",
+          "options": "string?",
+          "size": "integer?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_compose_image"
+        ]
+      },
+      {
+        "tool": "vehicles.get_data_charge_state",
+        "summary": "Charge state subset (faster than full vehicle_data). Required: vehicle_id. Returns the get_data_charge_state.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_data_charge_state"
+        ]
+      },
+      {
+        "tool": "vehicles.get_data_climate_state",
+        "summary": "Climate state subset. Required: vehicle_id. Returns the get_data_climate_state.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_data_climate_state"
+        ]
+      },
+      {
+        "tool": "vehicles.get_data_drive_state",
+        "summary": "Drive state (location, speed, shift) subset. Required: vehicle_id. Returns the get_data_drive_state.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_data_drive_state"
+        ]
+      },
+      {
+        "tool": "vehicles.get_data_gui_settings",
+        "summary": "GUI settings (units, time format). Required: vehicle_id. Returns the get_data_gui_settings.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_data_gui_settings"
+        ]
+      },
+      {
+        "tool": "vehicles.get_data_vehicle_config",
+        "summary": "Vehicle config (model, options, trim). Required: vehicle_id. Returns the get_data_vehicle_config.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_data_vehicle_config"
+        ]
+      },
+      {
+        "tool": "vehicles.get_data_vehicle_state",
+        "summary": "Vehicle state (locks, software, sentry) subset. Required: vehicle_id. Returns the get_data_vehicle_state.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_data_vehicle_state"
+        ]
+      },
+      {
+        "tool": "vehicles.get_mobile_enabled",
+        "summary": "Is mobile control enabled in the car. Required: vehicle_id. Returns the get_mobile_enabled.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_mobile_enabled"
+        ]
+      },
+      {
+        "tool": "vehicles.get_nearby_chargers",
+        "summary": "Nearby Supercharger sites with stall availability subfield. Required: vehicle_id. Returns the get_nearby_chargers.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_nearby_chargers"
+        ]
+      },
+      {
+        "tool": "vehicles.get_release_notes",
+        "summary": "Release notes for the current/queued software update. Required: vehicle_id. Returns the get_release_notes.",
+        "params_schema": {
+          "vehicle_id": "string"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_release_notes"
+        ]
+      },
+      {
+        "tool": "vehicles.get_service_data",
+        "summary": "Open service appointments and recent service history for this vehicle. Required: vehicle_id. Optional: version. Returns the service_data.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "version": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_service_data"
+        ]
+      },
+      {
+        "tool": "vehicles.get_vehicle_data",
+        "summary": "Full vehicle state snapshot: charge, climate, drive, GUI, vehicle config, and software. Required: vehicle_id. Optional: endpoints. Returns the vehicle_data.",
+        "params_schema": {
+          "vehicle_id": "string",
+          "endpoints": "string?"
+        },
+        "positionals": [
+          "vehicle_id"
+        ],
+        "argv_path": [
+          "vehicles",
+          "get_vehicle_data"
         ]
       }
     ]
@@ -104473,13 +106470,13 @@
   },
   {
     "api": "whoop",
-    "description": "Printing Press CLI for Whoop.",
+    "description": "Fetch WHOOP recovery, strain, sleep, workout, cycle, profile, and body-measurement data with OAuth-backed API access.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/whoop/cmd/whoop-pp-cli",
     "auth_type": "bearer_token",
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Printing Press CLI for Whoop. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Fetch WHOOP recovery, strain, sleep, workout, cycle, profile, and body-measurement data with OAuth-backed API access. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
