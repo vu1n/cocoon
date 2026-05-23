@@ -24,7 +24,6 @@ from typing import Any, Callable, Literal
 from mcp.server.fastmcp import Context, FastMCP
 
 from . import argv as argv_module
-from . import auth_recipes
 from . import catalog
 from .auth import load_token_env
 from .errors import AuthMissing, CocoonError
@@ -84,14 +83,13 @@ async def cocoon(
     typed POST/PATCH/DELETE operations against authenticated APIs, not a
     competitor to web search.
 
-    Each capability/API carries:
-    - `auth_status`: "none" (callable immediately, e.g. hackernews) |
-       "configured" (auth set up locally; callable) | "required"
-       (needs `cocoon auth <api>` first — surface the setup step to
-       the user instead of attempting the call).
-    - `setup_recipe`: when cocoon ships setup guidance for the API,
-       a dict with login_url, env_var, instructions, etc. Surface to
-       the user verbatim. None when cocoon doesn't have a recipe yet.
+    Each capability/API carries `auth_status`: "none" (callable
+    immediately, e.g. hackernews) | "configured" (auth set up
+    locally; callable) | "required" (needs `cocoon auth <api>` first
+    — surface the setup step to the user instead of attempting the
+    call). Setup is dispatched per-`auth_type` by cocoon's auth_flows
+    module; for `cookie` APIs that means a browser-cookie read after
+    the user logs in, for token APIs an interactive paste prompt.
 
     Find sorts ready capabilities first; pass `ready_only=true` to
     hard-filter to immediately-callable APIs only.
@@ -99,24 +97,22 @@ async def cocoon(
     action="find"      → BM25 search across the catalog. Required: query.
                          Optional: limit, ready_only. Returns ranked
                          [{api, tool, summary, params_schema, auth_status,
-                           setup_recipe, score, ...}, ...] with ready
-                         APIs first.
+                           auth_type, score, ...}, ...] with ready APIs first.
     action="describe"  → full schema for one capability. Required: api, tool.
     action="call"      → execute. Required: api, tool. Optional: args.
                          First call downloads the binary (~2-3s, surfaced
                          as an MCP log notification). Returns {exit_code,
                          json|stdout, stderr?}.
     action="list"      → enumerate APIs. Optional: filter (substring),
-                         ready_only. Each row carries auth_status and
-                         setup_recipe so the agent has everything it
-                         needs to either call or guide the user through
-                         setup, without a separate round-trip. (The CLI
-                         has a `ready` subcommand that groups by status.)
+                         ready_only. Each row carries auth_status so the
+                         agent knows whether to call or surface a setup
+                         step. (The CLI has a `ready` subcommand that
+                         groups by status.)
 
     On error returns {error, message, detail} with a stable code
     (auth_missing, materialization_failed, capability_not_found, etc.).
-    `auth_missing` payloads include `setup_method` (the same recipe
-    embedded in list/describe) when cocoon has one for the API.
+    `auth_missing` payloads include `auth_type` and a `setup_hint`
+    command sized to the auth_type.
     """
     match action:
         case "find":
@@ -159,9 +155,13 @@ async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -
             env = load_token_env(api)
         except AuthMissing as exc:
             exc.detail["auth_type"] = api_auth_type
-            recipe = auth_recipes.recipe_for(api)
-            if recipe is not None:
-                exc.detail["setup_method"] = recipe
+            # Override the generic hint from auth.py with one that
+            # matches the auth_type. Cookie APIs use `cocoon auth <api>`
+            # with no args (drives the browser-cookie flow); everything
+            # else still wants a token paste.
+            if api_auth_type == "cookie":
+                exc.detail["setup_hint"] = (
+                    f"cocoon auth {api}  # opens browser, reads cookies after login")
             raise
 
     # Always go through materialize: it returns fast when the binary is

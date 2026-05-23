@@ -4,7 +4,7 @@
 # script, and everything user-facing stays branded `cocoon`. PEP 541
 # reclaim of the bare name is a separate, slow track.
 name = "cocoon-mcp"
-version = "0.4.0a6"
+version = "0.4.0a7"
 description = "Execution runtime for named third-party APIs: one MCP tool that calls 140+ printing-press CLIs on demand, sandboxed per call, with per-API auth scoping and readiness-aware discovery."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -14,6 +14,11 @@ keywords = ["mcp", "claude", "agent", "printing-press", "sandbox"]
 dependencies = [
     "mcp>=1.2",
     "httpx>=0.27",
+    # browser_cookie3 powers cookie_flow (read cookies from the user's
+    # logged-in Chrome). Pure Python; imports cryptography for keychain
+    # decryption on macOS. Imported lazily so a missing install
+    # degrades to a clear error instead of crashing the CLI.
+    "browser-cookie3>=0.19",
 ]
 
 [project.optional-dependencies]

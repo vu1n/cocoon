@@ -20,7 +20,7 @@ from typing import Callable, Sequence
 
 from . import __version__
 from . import auth as auth_module
-from . import auth_recipes as auth_recipes_module
+from . import auth_flows
 from . import catalog as catalog_module
 from .errors import CocoonError
 from .paths import auth_dir, cache_root, catalog_dir, ensure_dirs
@@ -148,8 +148,9 @@ def _build_parser() -> argparse.ArgumentParser:
 
     p_auth = subs.add_parser(
         "auth",
-        help=("Write per-API credentials. With no flags and a TTY stdin, walks "
-              "the user through cocoon's per-API setup recipe (if one ships)."),
+        help=("Write per-API credentials. With no flags and a TTY stdin, "
+              "dispatches to the generic flow for the API's auth_type "
+              "(cookie → browser, others → token paste)."),
     )
     p_auth.add_argument("api", help="API name (matches the catalog id).")
     p_auth.add_argument(
@@ -295,45 +296,25 @@ def _cmd_auth(args: argparse.Namespace) -> int:
     env.update(parsed)
 
     if not env:
-        # No flags given. If cocoon ships a recipe for this API and stdin
-        # is a TTY, walk the user through it. Otherwise this is a usage
-        # error (the non-TTY agent path always passes --token / --env).
-        recipe = auth_recipes_module.recipe_for(args.api)
-        if recipe is None or not sys.stdin.isatty():
+        # No flags. Dispatch to the generic flow for this API's
+        # auth_type. Non-TTY callers (agents via bash-fallback) are
+        # expected to pass --token / --env explicitly; the
+        # interactive flows would just hang on input().
+        if not sys.stdin.isatty():
             return _emit_error(
                 "invalid_arguments",
                 f"provide --token and/or --env KEY=VALUE for '{args.api}'",
                 code=2,
             )
-        env = _walk_recipe(args.api, recipe)
-        if env is None:
+        auth_type = catalog_module.auth_type(args.api)
+        result = auth_flows.run(args.api, auth_type)
+        if result is None:
             return 1
+        env = result
 
     path = auth_module.write_token_env(args.api, env)
     print(f"wrote {path} (mode 0600, keys: {', '.join(sorted(env))})")
     return 0
-
-
-def _walk_recipe(api: str, recipe: dict) -> dict[str, str] | None:
-    """Print the recipe and prompt for the token. Returns the env
-    dict on success, None on empty/EOF input."""
-    env_var = recipe.get("env_var", "TOKEN")
-    print(f"Setup for `{api}`:")
-    if recipe.get("login_url"):
-        print(f"  Login URL: {recipe['login_url']}")
-    if recipe.get("instructions"):
-        print()
-        print(recipe["instructions"])
-    print()
-    print(f"Paste the value for {env_var} (or Ctrl-C to abort):")
-    try:
-        value = input("> ").strip()
-    except EOFError:
-        value = ""
-    if not value:
-        print("error: empty input; not writing", file=sys.stderr)
-        return None
-    return {env_var: value}
 
 
 def _parse_kv_pairs(pairs: list[str], *, flag: str) -> dict[str, str] | None:

@@ -275,46 +275,56 @@ def test_ready_after_auth_setup_lists_configured(tmp_path: Path, capsys) -> None
     assert any(s["api"] == "linear" for s in parsed["configured"])
 
 
-def test_auth_walks_recipe_when_no_flags_and_tty(tmp_path: Path, monkeypatch) -> None:
-    """No flags + TTY stdin + recipe available → cocoon walks the user
-    through the recipe and writes the token in one step."""
+def test_auth_dispatches_token_paste_for_api_key(tmp_path: Path, monkeypatch) -> None:
+    """No flags + TTY + api_key auth_type → token_paste_flow.
+    Pasted value lands in <API>_TOKEN."""
+    from cocoon import catalog as catalog_module
+    monkeypatch.setattr(catalog_module, "auth_type", lambda api: "api_key")
     monkeypatch.setattr("sys.stdin.isatty", lambda: True)
-    monkeypatch.setattr("builtins.input", lambda prompt="": "session_abc_123")
+    monkeypatch.setattr("builtins.input", lambda prompt="": "tok_xyz")
+    assert main(["auth", "linear"]) == 0
+    written = json.loads((tmp_path / "auth" / "linear.json").read_text())
+    assert written == {"env": {"LINEAR_TOKEN": "tok_xyz"}}
+
+
+def test_auth_dispatches_cookie_flow_for_cookie_api(tmp_path: Path, monkeypatch) -> None:
+    """Cookie auth_type → cookie_flow (stubbed here to avoid touching
+    real Chrome or browser_cookie3)."""
+    from cocoon import auth_flows, catalog as catalog_module
+    monkeypatch.setattr(catalog_module, "auth_type", lambda api: "cookie")
+    monkeypatch.setattr("sys.stdin.isatty", lambda: True)
+    monkeypatch.setattr(auth_flows, "cookie_flow",
+                        lambda api: {f"{api.upper()}_COOKIE": "stubbed=value"})
     assert main(["auth", "airbnb"]) == 0
     written = json.loads((tmp_path / "auth" / "airbnb.json").read_text())
-    assert written == {"env": {"AIRBNB_COOKIE": "session_abc_123"}}
+    assert written == {"env": {"AIRBNB_COOKIE": "stubbed=value"}}
 
 
-def test_auth_walkthrough_prints_login_url_and_instructions(capsys, monkeypatch) -> None:
-    monkeypatch.setattr("sys.stdin.isatty", lambda: True)
-    monkeypatch.setattr("builtins.input", lambda prompt="": "x")
-    assert main(["auth", "airbnb"]) == 0
-    out = capsys.readouterr().out
-    assert "airbnb.com" in out
-    assert "AIRBNB_COOKIE" in out
-
-
-def test_auth_walkthrough_empty_input_does_not_write(tmp_path: Path, monkeypatch) -> None:
+def test_auth_dispatches_token_paste_empty_input_fails(tmp_path: Path, monkeypatch) -> None:
+    """An empty paste returns None from the flow; no file is written."""
+    from cocoon import catalog as catalog_module
+    monkeypatch.setattr(catalog_module, "auth_type", lambda api: "api_key")
     monkeypatch.setattr("sys.stdin.isatty", lambda: True)
     monkeypatch.setattr("builtins.input", lambda prompt="": "")
-    assert main(["auth", "airbnb"]) == 1
-    assert not (tmp_path / "auth" / "airbnb.json").exists()
-
-
-def test_auth_no_flags_no_recipe_errors(capsys, monkeypatch) -> None:
-    """API without a bundled recipe: no walkthrough available, fall
-    back to the usage error."""
-    monkeypatch.setattr("sys.stdin.isatty", lambda: True)
-    assert main(["auth", "definitely-no-recipe"]) == 2
-    err = capsys.readouterr().err
-    assert "--token" in err or "--env" in err
+    assert main(["auth", "linear"]) == 1
+    assert not (tmp_path / "auth" / "linear.json").exists()
 
 
 def test_auth_no_flags_non_tty_errors(capsys, monkeypatch) -> None:
-    """Non-TTY (agent-mode bash-fallback) never walks — agent must
-    pass --token / --env explicitly."""
+    """Non-TTY (agent-mode bash-fallback) never dispatches to a flow
+    — agent must pass --token / --env explicitly."""
     monkeypatch.setattr("sys.stdin.isatty", lambda: False)
     assert main(["auth", "airbnb"]) == 2
+
+
+def test_auth_rejects_setup_for_auth_none_api(capsys, monkeypatch) -> None:
+    """`cocoon auth hackernews` is nonsensical (no auth needed); the
+    flow returns None and main() exits non-zero."""
+    monkeypatch.setattr("sys.stdin.isatty", lambda: True)
+    # hackernews is auth_type=none in the bundled dev catalog.
+    assert main(["auth", "hackernews"]) == 1
+    err = capsys.readouterr().err
+    assert "doesn't require auth" in err
 
 
 def test_non_agent_mode_argparse_error_human(capsys) -> None:

@@ -16,7 +16,7 @@ When the user names a specific API and wants a structured operation against it, 
 
 You do not install CLIs ahead of time. You do not configure per-API MCP servers. The single `cocoon` tool is the entire MCP interface; in a terminal, the same operations are `cocoon find/describe/call/list/ready/auth` subcommands.
 
-Each `find` / `list` / `describe` result carries an optional `setup_recipe` — login URL, env var name, instructions — for APIs cocoon ships guidance for. Surface the recipe to the user when `auth_status: "required"`; don't attempt the call until they've run `cocoon auth <api>` to write a token. The same recipe also lands in `auth_missing.detail.setup_method` if a call fires before setup completes.
+When `auth_status: "required"`, tell the user to run `cocoon auth <api>`. That dispatches to a generic flow keyed by `auth_type`: cookie APIs open the user's browser and read session cookies after login; token APIs prompt for a paste. No per-API recipes — one flow per credential class.
 
 </what-to-do>
 
@@ -97,16 +97,12 @@ stdout/stderr capped at 64KB with a truncation marker.
 
 Fields: `filter` (substring, optional), `ready_only` (default false).
 
-Browse the catalog. Results sort ready APIs first; pass `ready_only=true` to hide gated ones. Each row carries `auth_status` and `setup_recipe` so the agent has everything it needs to either call the API or guide the user through setup without a separate round-trip.
+Browse the catalog. Results sort ready APIs first; pass `ready_only=true` to hide gated ones. Each row carries `auth_status` so the agent knows whether to attempt a call or surface a setup step first.
 
 ```
 cocoon(action="list", filter="airbnb")
 → [{"api": "airbnb", "description": "...", "endpoint_count": 1,
-    "auth_status": "required",
-    "setup_recipe": {"method": "browser_session",
-                     "login_url": "https://www.airbnb.com/login",
-                     "env_var": "AIRBNB_COOKIE",
-                     "instructions": "..."}}]
+    "auth_status": "required"}]
 ```
 
 ## Seamless install
@@ -134,9 +130,9 @@ cocoon auth linear --token lin_abc123
 cocoon auth stripe --env STRIPE_KEY=sk_… --env STRIPE_VERSION=2025-01-01
 ```
 
-First call to an API for which no token is configured returns a structured `auth_missing` error with the env-var name, the API's required `auth_type` (`api_key` / `oauth` / `basic` / etc.), and the exact `cocoon auth` command to run. When cocoon ships a recipe for the API, the payload also includes `setup_method` (the same dict that `list`/`find` carry as `setup_recipe`) with login URL + step-by-step instructions — surface that to the user rather than guessing.
+First call to an API for which no token is configured returns a structured `auth_missing` error with the env-var name, the API's required `auth_type` (`api_key` / `bearer_token` / `cookie` / etc.), and a `setup_hint` sized to the auth_type — for cookie APIs that's `cocoon auth <api>` with no args (opens browser, reads cookies after login); for token APIs it's `cocoon auth <api> --token <token>`.
 
-Run `cocoon auth <api>` with no flags in an interactive shell to walk through the recipe and write the token in one step. Run with `--token` / `--env` to write non-interactively.
+Run `cocoon auth <api>` with no flags in an interactive shell to dispatch to the generic flow for that API's `auth_type`. Run with `--token` / `--env` to write non-interactively.
 
 To preview what's callable now without searching, use `cocoon ready` (or `cocoon(action="list", ready_only=true)`) — it groups APIs by `no_auth` and `configured`. This is the natural starting point when you're not sure what to even attempt.
 
@@ -207,7 +203,7 @@ Do NOT use cocoon when:
 | Symptom | Probable cause | Agent should |
 |---|---|---|
 | `materialization_failed` error | binary download failed (404 on the release asset, network unreachable, unsupported platform) | Surface the error to the user with the API name and the URL cocoon tried. Don't retry blindly — same input fails the same way. The detail payload includes `searched_path` / `url` / `platform` for diagnosis. |
-| `auth_missing` error | No token configured for that API | Tell the user the exact `cocoon auth <api> --token …` command from the error payload. The payload's `auth_type` tells you what credential class is needed; when present, `setup_method` carries a recipe (login URL + instructions). Don't proceed with the call. |
+| `auth_missing` error | No token configured for that API | Surface the `setup_hint` from the payload to the user. For cookie APIs that's `cocoon auth <api>` (opens browser); for token APIs it's `cocoon auth <api> --token <token>`. The payload's `auth_type` tells you the credential class. Don't proceed with the call. |
 | `sandbox_unavailable` warning | bwrap not installed (Linux) or Seatbelt missing (macOS) | cocoon refuses to execute. The agent should NOT suggest disabling the sandbox — refuse the task instead. |
 | `capability_not_found` | Tool name doesn't exist for that API | Re-run `cocoon(action="find", ...)` or `action="list"` to confirm the exact name. |
 | `catalog_unavailable` | `$COCOON_CATALOG_URL` set but unreachable | Suggest `cocoon catalog refresh` after the network is back, or unset the URL to use the bundled dev catalog. |
