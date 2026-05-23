@@ -4,7 +4,7 @@
 # script, and everything user-facing stays branded `cocoon`. PEP 541
 # reclaim of the bare name is a separate, slow track.
 name = "cocoon-mcp"
-version = "0.4.0a4"
+version = "0.4.0a5"
 description = "Execution runtime for named third-party APIs: one MCP tool that calls 140+ printing-press CLIs on demand, sandboxed per call, with per-API auth scoping and readiness-aware discovery."
 readme = "README.md"
 requires-python = ">=3.11"

@@ -275,6 +275,52 @@ def test_ready_after_auth_setup_lists_configured(tmp_path: Path, capsys) -> None
     assert any(s["api"] == "linear" for s in parsed["configured"])
 
 
+def test_setup_auth_print_emits_recipe(capsys) -> None:
+    """--print mode lists the recipe and exits without prompting; safe
+    in non-TTY contexts like CI."""
+    assert main(["setup-auth", "airbnb", "--print"]) == 0
+    out = capsys.readouterr().out
+    assert "airbnb" in out
+    assert "AIRBNB_COOKIE" in out
+    assert "airbnb.com" in out
+
+
+def test_setup_auth_writes_token_from_stdin(tmp_path: Path, capsys, monkeypatch) -> None:
+    """When stdin is a TTY (simulated by patching isatty + input), the
+    pasted value lands in ~/.cache/cocoon/auth/<api>.json."""
+    monkeypatch.setattr("sys.stdin.isatty", lambda: True)
+    monkeypatch.setattr("builtins.input", lambda prompt="": "session_abc_123")
+    assert main(["setup-auth", "airbnb"]) == 0
+    written = json.loads((tmp_path / "auth" / "airbnb.json").read_text())
+    assert written == {"env": {"AIRBNB_COOKIE": "session_abc_123"}}
+
+
+def test_setup_auth_skips_prompt_when_stdin_not_tty(capsys, monkeypatch) -> None:
+    """The bash-fallback path (agent invokes `cocoon` via terminal tool)
+    has no human at the keyboard; the prompt would hang. Detect
+    non-TTY and emit instructions only, then exit cleanly."""
+    monkeypatch.setattr("sys.stdin.isatty", lambda: False)
+    assert main(["setup-auth", "airbnb"]) == 0
+    out = capsys.readouterr().out
+    assert "Paste the value" not in out
+
+
+def test_setup_auth_unknown_api_returns_error(capsys) -> None:
+    """No recipe → no_recipe error, with a hint pointing at `cocoon auth`."""
+    assert main(["setup-auth", "totally-not-a-real-api"]) == 1
+    err = capsys.readouterr().err
+    assert "totally-not-a-real-api" in err or "No setup recipe" in err
+
+
+def test_setup_auth_empty_input_does_not_write(tmp_path: Path, monkeypatch) -> None:
+    """An empty paste shouldn't silently produce a {"env": {"X": ""}}
+    file — that would mask the next call's auth_missing."""
+    monkeypatch.setattr("sys.stdin.isatty", lambda: True)
+    monkeypatch.setattr("builtins.input", lambda prompt="": "")
+    assert main(["setup-auth", "airbnb"]) == 1
+    assert not (tmp_path / "auth" / "airbnb.json").exists()
+
+
 def test_non_agent_mode_argparse_error_human(capsys) -> None:
     """Non-agent mode keeps argparse-style human-readable error."""
     rc = main(["describe", "hackernews"])

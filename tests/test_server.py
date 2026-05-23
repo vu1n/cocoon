@@ -1,3 +1,4 @@
+from cocoon import auth_recipes, catalog
 from cocoon.server import _cap, _format_result, _try_json, cocoon as cocoon_tool
 
 
@@ -165,6 +166,41 @@ async def test_auth_missing_includes_auth_type() -> None:
     out = await _call(action="call", api="linear", tool="issues.list")
     assert out["error"] == "auth_missing"
     assert out["detail"]["auth_type"] == "api_key"
+
+
+async def test_auth_missing_includes_setup_methods_when_recipe_exists(monkeypatch) -> None:
+    """auth_missing payloads embed the per-API recipe so the agent
+    has concrete next steps. Stub catalog.auth_type so the auth-gated
+    branch runs, and stub recipe_for so the test doesn't depend on
+    airbnb staying in the bundled recipes file."""
+    monkeypatch.setattr(catalog, "auth_type", lambda api: "cookie")
+    monkeypatch.setattr(auth_recipes, "recipe_for",
+                        lambda api: {"method": "browser_session",
+                                     "login_url": "https://example.com/login",
+                                     "env_var": "EXAMPLE_COOKIE"} if api == "airbnb" else None)
+    out = await _call(action="call", api="airbnb", tool="anything")
+    assert out["error"] == "auth_missing"
+    assert out["detail"]["auth_type"] == "cookie"
+    assert out["detail"]["setup_methods"][0]["env_var"] == "EXAMPLE_COOKIE"
+
+
+async def test_setup_auth_returns_recipe() -> None:
+    out = await _call(action="setup_auth", api="airbnb")
+    assert out["api"] == "airbnb"
+    assert out["recipe"]["method"] == "browser_session"
+    assert out["recipe"]["env_var"] == "AIRBNB_COOKIE"
+
+
+async def test_setup_auth_unknown_api_returns_no_recipe() -> None:
+    out = await _call(action="setup_auth", api="definitely-not-shipped-yet")
+    assert out["error"] == "no_recipe"
+    assert out["detail"]["api"] == "definitely-not-shipped-yet"
+
+
+async def test_setup_auth_missing_api_returns_error() -> None:
+    out = await _call(action="setup_auth")
+    assert out["error"] == "cocoon_error"
+    assert out["detail"]["missing"] == ["api"]
 
 
 def test_invocation_for_returns_empty_for_unknown_tool() -> None:
