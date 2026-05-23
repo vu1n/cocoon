@@ -38,7 +38,3 @@ class CapabilityNotFound(CocoonError):
 
 class CatalogUnavailable(CocoonError):
     code = "catalog_unavailable"
-
-
-class NoRecipe(CocoonError):
-    code = "no_recipe"

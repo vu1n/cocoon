@@ -275,6 +275,30 @@ def test_describe_includes_auth_status() -> None:
     assert cap.auth_status == "none"
 
 
+def test_capability_carries_setup_recipe_when_one_ships(monkeypatch) -> None:
+    """The recipe lives on Capability so find/describe agents have
+    setup guidance inline."""
+    from cocoon import auth_recipes
+    monkeypatch.setattr(auth_recipes, "recipe_for",
+                        lambda api: {"method": "browser_session",
+                                     "env_var": "X"} if api == "linear" else None)
+    cap = catalog.describe_capability("linear", "issues.create")
+    assert cap.setup_recipe == {"method": "browser_session", "env_var": "X"}
+
+
+def test_capability_setup_recipe_is_none_when_no_recipe() -> None:
+    cap = catalog.describe_capability("hackernews", "stories.top")
+    assert cap.setup_recipe is None
+
+
+def test_api_summary_carries_setup_recipe(monkeypatch) -> None:
+    from cocoon import auth_recipes
+    monkeypatch.setattr(auth_recipes, "recipe_for",
+                        lambda api: {"env_var": "Y"} if api == "stripe" else None)
+    stripe = next(s for s in catalog.list_apis(filter="stripe") if s.api == "stripe")
+    assert stripe.setup_recipe == {"env_var": "Y"}
+
+
 def test_refresh_catalog_rewrites_cache(tmp_path: Path) -> None:
     cache_file = tmp_path / "catalog" / catalog.CACHE_FILE
     catalog.load_catalog()

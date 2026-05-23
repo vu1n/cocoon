@@ -3,11 +3,12 @@ credential cocoon needs (login URLs, cookie names, env vars). The
 upstream printing-press manifests don't carry this metadata, so it
 lives in `data/auth_recipes.json` and ships with the wheel.
 
-Cocoon stays read-only on tokens via MCP: `setup_auth` surfaces the
-recipe; the user runs `cocoon setup-auth` or `cocoon auth` to write
-the token. Keeps the boundary that no remote tool call plants
-credentials. Underscore-prefixed top-level keys (e.g. `_comment`)
-are stripped on load.
+Recipes flow out via `setup_recipe` on ApiSummary/Capability and
+`setup_method` on auth_missing payloads. Tokens land via
+`cocoon auth <api>`, which walks the user through the recipe
+interactively when no flags are passed. Cocoon never plants
+credentials through MCP — the boundary that no remote tool call
+writes auth holds.
 """
 
 import importlib.resources
@@ -22,7 +23,7 @@ def load_recipes() -> dict[str, dict[str, Any]]:
     — recipes are static, embedded in the wheel."""
     data = importlib.resources.files(__package__).joinpath("data/auth_recipes.json")
     parsed = json.loads(data.read_text(encoding="utf-8"))
-    return {k: v for k, v in parsed.items() if not k.startswith("_")}
+    return parsed["recipes"]
 
 
 def recipe_for(api: str) -> dict[str, Any] | None:

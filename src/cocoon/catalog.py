@@ -74,6 +74,10 @@ class Capability:
     # token file present) | "required" (auth needed, no token yet — agent
     # should surface a setup step instead of attempting the call).
     auth_status: str = "required"
+    # The per-API setup recipe when cocoon ships one — login URL, env
+    # var, instructions. None for the vast majority of APIs. Agents
+    # surface this to the user verbatim instead of guessing.
+    setup_recipe: dict[str, Any] | None = None
 
 
 @dataclass(frozen=True)
@@ -82,6 +86,7 @@ class ApiSummary:
     description: str
     endpoint_count: int
     auth_status: str = "required"
+    setup_recipe: dict[str, Any] | None = None
 
 
 def _catalog_url() -> str:
@@ -149,8 +154,9 @@ def refresh_catalog() -> list[dict]:
 
 def _merged_view() -> list[dict]:
     """Catalog with local agent-context cache spliced over the published
-    registry's pre-flattened endpoints, plus auth_status derived from
-    auth_type + presence of local credentials.
+    registry's pre-flattened endpoints, plus auth_status + setup_recipe
+    derived from auth_type + presence of local credentials + bundled
+    recipe data.
 
     Two layers of priority for the endpoint list:
     1. Local agent-context cache — what's installed on this machine. The
@@ -163,8 +169,11 @@ def _merged_view() -> list[dict]:
       "none"       → auth_type=="none" (callable immediately)
       "configured" → auth_type required AND ~/.cache/cocoon/auth/<api>.json exists
       "required"   → auth needed but not yet configured (deferred until setup)
+    `setup_recipe` is the bundled per-API setup recipe (login URL, env
+    var, instructions) when one ships, else None.
     """
     from . import agent_context  # lazy: avoid loading at module import
+    from . import auth_recipes
 
     out: list[dict] = []
     for entry in load_catalog():
@@ -172,10 +181,11 @@ def _merged_view() -> list[dict]:
         if not api:
             continue
         auth_status = _derive_auth_status(api, entry.get("auth_type"))
+        recipe = auth_recipes.recipe_for(api)
         # Local cache wins if present; otherwise use the published endpoints.
         local = agent_context.cached(api)
         if local is None:
-            out.append({**entry, "auth_status": auth_status})
+            out.append({**entry, "auth_status": auth_status, "setup_recipe": recipe})
             continue
         endpoints = [
             {"tool": cap["tool"],
@@ -185,7 +195,8 @@ def _merged_view() -> list[dict]:
              "argv_path": cap.get("argv_path", ())}
             for cap in agent_context.to_capabilities(api, local)
         ]
-        out.append({**entry, "endpoints": endpoints, "auth_status": auth_status})
+        out.append({**entry, "endpoints": endpoints,
+                    "auth_status": auth_status, "setup_recipe": recipe})
     return out
 
 
@@ -247,14 +258,15 @@ def find_capability(query: str, limit: int = 5, *, ready_only: bool = False) -> 
     if not query.strip():
         return []
 
-    rows: list[tuple[str, dict, str]] = []  # api, endpoint, auth_status
+    rows: list[tuple[str, dict, str, dict | None]] = []
     docs: list[str] = []
     for entry in _installable_view(ready_only=ready_only):
         api = entry["api"]
         auth_status = entry.get("auth_status", "required")
+        recipe = entry.get("setup_recipe")
         api_desc = entry.get("description", "")
         for endpoint in entry.get("endpoints", []):
-            rows.append((api, endpoint, auth_status))
+            rows.append((api, endpoint, auth_status, recipe))
             docs.append(_capability_doc(api, api_desc, endpoint))
 
     if not docs:
@@ -263,14 +275,15 @@ def find_capability(query: str, limit: int = 5, *, ready_only: bool = False) -> 
     floor = _min_score()
     scores = search.rank(query, docs)
     scored = [
-        (auth_status, score, _capability_from_endpoint(api, endpoint, score=score,
-                                                       auth_status=auth_status))
-        for score, (api, endpoint, auth_status) in zip(scores, rows)
+        (auth_status, score, _capability_from_endpoint(
+            api, endpoint, score=score,
+            auth_status=auth_status, setup_recipe=recipe))
+        for score, (api, endpoint, auth_status, recipe) in zip(scores, rows)
         if score > floor
     ]
     # Ready (none/configured) before required, then by score desc. Ties
     # within a readiness band preserve BM25 ordering.
-    scored.sort(key=lambda triple: (_AUTH_RANK.get(triple[0], 2), -triple[1]))
+    scored.sort(key=lambda triple: (_AUTH_RANK[triple[0]], -triple[1]))
     return [cap for _status, _score, cap in scored[:limit]]
 
 
@@ -311,6 +324,7 @@ def _capability_from_endpoint(
     *,
     score: float = 0.0,
     auth_status: str = "required",
+    setup_recipe: dict | None = None,
 ) -> Capability:
     return Capability(
         api=api,
@@ -321,6 +335,7 @@ def _capability_from_endpoint(
         argv_path=tuple(endpoint.get("argv_path", ())),
         score=score,
         auth_status=auth_status,
+        setup_recipe=setup_recipe,
     )
 
 
@@ -329,9 +344,11 @@ def describe_capability(api: str, tool: str) -> Capability:
         if entry["api"] != api:
             continue
         auth_status = entry.get("auth_status", "required")
+        recipe = entry.get("setup_recipe")
         for endpoint in entry.get("endpoints", []):
             if endpoint["tool"] == tool:
-                return _capability_from_endpoint(api, endpoint, auth_status=auth_status)
+                return _capability_from_endpoint(
+                    api, endpoint, auth_status=auth_status, setup_recipe=recipe)
     raise CapabilityNotFound(
         f"No capability '{tool}' found for api '{api}'",
         api=api,
@@ -386,8 +403,9 @@ def list_apis(filter: str = "", *, ready_only: bool = False) -> list[ApiSummary]
             description=description,
             endpoint_count=len(entry.get("endpoints", [])),
             auth_status=entry.get("auth_status", "required"),
+            setup_recipe=entry.get("setup_recipe"),
         ))
-    out.sort(key=lambda s: (_AUTH_RANK.get(s.auth_status, 2), s.api))
+    out.sort(key=lambda s: (_AUTH_RANK[s.auth_status], s.api))
     return out
 
 

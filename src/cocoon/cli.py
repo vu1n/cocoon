@@ -22,7 +22,7 @@ from . import __version__
 from . import auth as auth_module
 from . import auth_recipes as auth_recipes_module
 from . import catalog as catalog_module
-from .errors import CocoonError, NoRecipe
+from .errors import CocoonError
 from .paths import auth_dir, cache_root, catalog_dir, ensure_dirs
 from .sandbox import probe as probe_sandbox
 
@@ -146,7 +146,11 @@ def _build_parser() -> argparse.ArgumentParser:
     )
     p_init.set_defaults(_handler=_cmd_init)
 
-    p_auth = subs.add_parser("auth", help="Write per-API credentials.")
+    p_auth = subs.add_parser(
+        "auth",
+        help=("Write per-API credentials. With no flags and a TTY stdin, walks "
+              "the user through cocoon's per-API setup recipe (if one ships)."),
+    )
     p_auth.add_argument("api", help="API name (matches the catalog id).")
     p_auth.add_argument(
         "--token", help="Single TOKEN env var value. Shortcut for --env TOKEN=...",
@@ -156,21 +160,6 @@ def _build_parser() -> argparse.ArgumentParser:
         help="One env var to set (repeatable).",
     )
     p_auth.set_defaults(_handler=_cmd_auth)
-
-    p_setup = subs.add_parser(
-        "setup-auth",
-        help="Print the per-API setup recipe and (interactively) write the token.",
-    )
-    p_setup.add_argument("api", help="API name (matches the catalog id).")
-    p_setup.add_argument(
-        "--print", dest="print_only", action="store_true",
-        help="Just print the recipe; don't prompt for a token.",
-    )
-    p_setup.add_argument(
-        "--json", dest="as_json", action="store_true",
-        help="Emit raw JSON instead of human-formatted output (implies --print).",
-    )
-    p_setup.set_defaults(_handler=_cmd_setup_auth)
 
     p_doctor = subs.add_parser("doctor", help="Diagnose runtime prerequisites.")
     p_doctor.set_defaults(_handler=_cmd_doctor)
@@ -304,44 +293,37 @@ def _cmd_auth(args: argparse.Namespace) -> int:
     if parsed is None:
         return 2
     env.update(parsed)
+
     if not env:
-        print("error: provide --token and/or --env KEY=VALUE at least once", file=sys.stderr)
-        return 2
+        # No flags given. If cocoon ships a recipe for this API and stdin
+        # is a TTY, walk the user through it. Otherwise this is a usage
+        # error (the non-TTY agent path always passes --token / --env).
+        recipe = auth_recipes_module.recipe_for(args.api)
+        if recipe is None or not sys.stdin.isatty():
+            return _emit_error(
+                "invalid_arguments",
+                f"provide --token and/or --env KEY=VALUE for '{args.api}'",
+                code=2,
+            )
+        env = _walk_recipe(args.api, recipe)
+        if env is None:
+            return 1
+
     path = auth_module.write_token_env(args.api, env)
     print(f"wrote {path} (mode 0600, keys: {', '.join(sorted(env))})")
     return 0
 
 
-def _cmd_setup_auth(args: argparse.Namespace) -> int:
-    """Print the recipe and (unless --print) prompt for the token.
-    Skips the prompt when stdin isn't a TTY so the bash-fallback
-    path doesn't hang an agent invocation."""
-    recipe = auth_recipes_module.recipe_for(args.api)
-    if recipe is None:
-        raise NoRecipe(
-            f"No setup recipe registered for '{args.api}' yet.",
-            api=args.api,
-            setup_hint=f"Configure manually with `cocoon auth {args.api} --token <token>`.",
-        )
+def _walk_recipe(api: str, recipe: dict) -> dict[str, str] | None:
+    """Print the recipe and prompt for the token. Returns the env
+    dict on success, None on empty/EOF input."""
     env_var = recipe.get("env_var", "TOKEN")
-
-    def human() -> None:
-        print(f"Setup for `{args.api}`:")
-        if recipe.get("login_url"):
-            print(f"  Login URL:    {recipe['login_url']}")
-        print(f"  Method:       {recipe.get('method', 'manual')}")
-        print(f"  Env var:      {env_var}")
-        if recipe.get("instructions"):
-            print()
-            print(recipe["instructions"])
-
-    payload = {"api": args.api, "recipe": recipe}
-    if args.print_only or not sys.stdin.isatty():
-        # Print-only OR non-TTY (agent-mode bash-fallback). _emit
-        # routes through agent-mode JSON when COCOON_AGENT_MODE=1.
-        return _emit(payload, args.as_json, human)
-
-    human()
+    print(f"Setup for `{api}`:")
+    if recipe.get("login_url"):
+        print(f"  Login URL: {recipe['login_url']}")
+    if recipe.get("instructions"):
+        print()
+        print(recipe["instructions"])
     print()
     print(f"Paste the value for {env_var} (or Ctrl-C to abort):")
     try:
@@ -349,10 +331,9 @@ def _cmd_setup_auth(args: argparse.Namespace) -> int:
     except EOFError:
         value = ""
     if not value:
-        return _emit_error("invalid_arguments", "empty input; not writing", code=1)
-    path = auth_module.write_token_env(args.api, {env_var: value})
-    print(f"wrote {path} (mode 0600)")
-    return 0
+        print("error: empty input; not writing", file=sys.stderr)
+        return None
+    return {env_var: value}
 
 
 def _parse_kv_pairs(pairs: list[str], *, flag: str) -> dict[str, str] | None:

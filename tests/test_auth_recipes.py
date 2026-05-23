@@ -15,9 +15,11 @@ def test_recipe_for_unknown_api_returns_none() -> None:
     assert auth_recipes.recipe_for("definitely-not-in-recipes") is None
 
 
-def test_load_recipes_strips_comment_keys() -> None:
-    """The bundled JSON carries a `_comment` describing the file's
-    purpose; that key shouldn't leak into the recipe lookup surface."""
+def test_load_recipes_only_returns_recipes_namespace() -> None:
+    """The bundled JSON has `_meta` and `recipes` at top level.
+    load_recipes() returns only the recipes — meta never leaks into
+    the lookup surface."""
     recipes = auth_recipes.load_recipes()
-    assert not any(k.startswith("_") for k in recipes)
     assert "airbnb" in recipes
+    assert "_meta" not in recipes
+    assert "_comment" not in recipes

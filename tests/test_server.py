@@ -168,11 +168,10 @@ async def test_auth_missing_includes_auth_type() -> None:
     assert out["detail"]["auth_type"] == "api_key"
 
 
-async def test_auth_missing_includes_setup_methods_when_recipe_exists(monkeypatch) -> None:
-    """auth_missing payloads embed the per-API recipe so the agent
-    has concrete next steps. Stub catalog.auth_type so the auth-gated
-    branch runs, and stub recipe_for so the test doesn't depend on
-    airbnb staying in the bundled recipes file."""
+async def test_auth_missing_includes_setup_method_when_recipe_exists(monkeypatch) -> None:
+    """auth_missing payloads embed the per-API recipe as a single
+    `setup_method` dict (matching the actual data shape — there's
+    always at most one recipe per API today)."""
     monkeypatch.setattr(catalog, "auth_type", lambda api: "cookie")
     monkeypatch.setattr(auth_recipes, "recipe_for",
                         lambda api: {"method": "browser_session",
@@ -181,26 +180,36 @@ async def test_auth_missing_includes_setup_methods_when_recipe_exists(monkeypatc
     out = await _call(action="call", api="airbnb", tool="anything")
     assert out["error"] == "auth_missing"
     assert out["detail"]["auth_type"] == "cookie"
-    assert out["detail"]["setup_methods"][0]["env_var"] == "EXAMPLE_COOKIE"
+    assert out["detail"]["setup_method"]["env_var"] == "EXAMPLE_COOKIE"
 
 
-async def test_setup_auth_returns_recipe() -> None:
-    out = await _call(action="setup_auth", api="airbnb")
-    assert out["api"] == "airbnb"
-    assert out["recipe"]["method"] == "browser_session"
-    assert out["recipe"]["env_var"] == "AIRBNB_COOKIE"
+async def test_auth_missing_omits_setup_method_when_no_recipe(monkeypatch) -> None:
+    """No recipe → no setup_method key. Agents check for presence
+    rather than walking an empty dict."""
+    monkeypatch.setattr(catalog, "auth_type", lambda api: "api_key")
+    monkeypatch.setattr(auth_recipes, "recipe_for", lambda api: None)
+    out = await _call(action="call", api="some-api", tool="x")
+    assert out["error"] == "auth_missing"
+    assert "setup_method" not in out["detail"]
 
 
-async def test_setup_auth_unknown_api_returns_no_recipe() -> None:
-    out = await _call(action="setup_auth", api="definitely-not-shipped-yet")
-    assert out["error"] == "no_recipe"
-    assert out["detail"]["api"] == "definitely-not-shipped-yet"
+async def test_list_includes_setup_recipe_field(monkeypatch) -> None:
+    """The recipe is surfaced inline on ApiSummary so agents don't
+    need a separate round-trip to get setup guidance."""
+    monkeypatch.setattr(auth_recipes, "recipe_for",
+                        lambda api: {"method": "browser_session",
+                                     "env_var": "X"} if api == "linear" else None)
+    out = await _call(action="list", filter="linear")
+    linear = next(s for s in out if s["api"] == "linear")
+    assert linear["setup_recipe"] == {"method": "browser_session", "env_var": "X"}
 
 
-async def test_setup_auth_missing_api_returns_error() -> None:
-    out = await _call(action="setup_auth")
-    assert out["error"] == "cocoon_error"
-    assert out["detail"]["missing"] == ["api"]
+async def test_list_setup_recipe_is_none_when_no_recipe() -> None:
+    """Most APIs ship without a recipe. Field stays None rather
+    than missing — predictable shape for agents."""
+    out = await _call(action="list", filter="hackernews")
+    hn = next(s for s in out if s["api"] == "hackernews")
+    assert hn["setup_recipe"] is None
 
 
 def test_invocation_for_returns_empty_for_unknown_tool() -> None:

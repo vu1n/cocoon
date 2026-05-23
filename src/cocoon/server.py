@@ -27,7 +27,7 @@ from . import argv as argv_module
 from . import auth_recipes
 from . import catalog
 from .auth import load_token_env
-from .errors import AuthMissing, CocoonError, NoRecipe
+from .errors import AuthMissing, CocoonError
 from .materialize import cached_binary, materialize
 from .paths import ensure_dirs
 from .sandbox import SandboxPolicy, execute
@@ -60,7 +60,7 @@ def _catch_cocoon_errors(fn: Callable[..., Any]) -> Callable[..., Any]:
 @mcp.tool()
 @_catch_cocoon_errors
 async def cocoon(
-    action: Literal["find", "describe", "call", "list", "setup_auth"],
+    action: Literal["find", "describe", "call", "list"],
     api: str | None = None,
     tool: str | None = None,
     args: dict | None = None,
@@ -84,41 +84,39 @@ async def cocoon(
     typed POST/PATCH/DELETE operations against authenticated APIs, not a
     competitor to web search.
 
-    Each capability carries an `auth_status`:
-      "none"       — callable immediately (e.g. hackernews, open-meteo)
-      "configured" — user has provisioned credentials; callable
-      "required"   — needs `cocoon auth <api> --token …` setup first; the
-                     agent should surface the setup step to the user
-                     instead of attempting the call. Find sorts ready
-                     capabilities first; pass `ready_only=true` to hard-
-                     filter to immediately-callable APIs only.
+    Each capability/API carries:
+    - `auth_status`: "none" (callable immediately, e.g. hackernews) |
+       "configured" (auth set up locally; callable) | "required"
+       (needs `cocoon auth <api>` first — surface the setup step to
+       the user instead of attempting the call).
+    - `setup_recipe`: when cocoon ships setup guidance for the API,
+       a dict with login_url, env_var, instructions, etc. Surface to
+       the user verbatim. None when cocoon doesn't have a recipe yet.
+
+    Find sorts ready capabilities first; pass `ready_only=true` to
+    hard-filter to immediately-callable APIs only.
 
     action="find"      → BM25 search across the catalog. Required: query.
                          Optional: limit, ready_only. Returns ranked
                          [{api, tool, summary, params_schema, auth_status,
-                           score, ...}, ...] with ready APIs first.
+                           setup_recipe, score, ...}, ...] with ready
+                         APIs first.
     action="describe"  → full schema for one capability. Required: api, tool.
     action="call"      → execute. Required: api, tool. Optional: args.
                          First call downloads the binary (~2-3s, surfaced
                          as an MCP log notification). Returns {exit_code,
                          json|stdout, stderr?}.
     action="list"      → enumerate APIs. Optional: filter (substring),
-                         ready_only. (The CLI has a `ready` subcommand
-                         that groups results by status; over MCP, use
-                         `list` with `ready_only=true` for the same view.)
-    action="setup_auth" → fetch the per-API setup recipe so the agent
-                         can surface concrete instructions to the user
-                         (login URL, env var name, what to copy from
-                         where). Required: api. Returns the recipe
-                         dict, or {error: "no_recipe", ...} for APIs
-                         cocoon doesn't ship guidance for yet. Strictly
-                         read-only — tokens are still written via the
-                         `cocoon auth` / `cocoon setup-auth` CLI.
+                         ready_only. Each row carries auth_status and
+                         setup_recipe so the agent has everything it
+                         needs to either call or guide the user through
+                         setup, without a separate round-trip. (The CLI
+                         has a `ready` subcommand that groups by status.)
 
     On error returns {error, message, detail} with a stable code
-    (auth_missing, materialization_failed, capability_not_found,
-    no_recipe, etc.). `auth_missing` payloads include `setup_methods`
-    when cocoon has a recipe for the API.
+    (auth_missing, materialization_failed, capability_not_found, etc.).
+    `auth_missing` payloads include `setup_method` (the same recipe
+    embedded in list/describe) when cocoon has one for the API.
     """
     match action:
         case "find":
@@ -134,24 +132,8 @@ async def cocoon(
         case "call":
             _require(action, api=api, tool=tool)
             return await do_call(api, tool, args, ctx)
-        case "setup_auth":
-            _require(action, api=api)
-            return _setup_auth(api)
         case _:
             raise CocoonError(f"unknown action '{action}'", action=action)
-
-
-def _setup_auth(api: str) -> dict[str, Any]:
-    """Read-only: surface the per-API setup recipe to the agent."""
-    recipe = auth_recipes.recipe_for(api)
-    if recipe is None:
-        raise NoRecipe(
-            f"No setup recipe registered for '{api}' yet.",
-            api=api,
-            setup_hint=(f"Configure manually with `cocoon auth {api} --token <token>` "
-                        f"once you have credentials."),
-        )
-    return {"api": api, "recipe": recipe}
 
 
 def _require(action: str, **fields: Any) -> None:
@@ -179,7 +161,7 @@ async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -
             exc.detail["auth_type"] = api_auth_type
             recipe = auth_recipes.recipe_for(api)
             if recipe is not None:
-                exc.detail["setup_methods"] = [recipe]
+                exc.detail["setup_method"] = recipe
             raise
 
     # Always go through materialize: it returns fast when the binary is
