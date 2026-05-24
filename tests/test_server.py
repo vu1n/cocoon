@@ -168,23 +168,50 @@ async def test_auth_missing_includes_auth_type() -> None:
     assert out["detail"]["auth_type"] == "api_key"
 
 
-async def test_auth_missing_setup_hint_for_cookie_api(monkeypatch) -> None:
-    """For cookie APIs the hint points at the no-args browser flow,
-    not at `--token <token>` paste (which is wrong for cookies)."""
+async def test_auth_missing_setup_hint_for_delegated_api(monkeypatch) -> None:
+    """For cookie/session APIs the hint points at the delegated flow
+    (cocoon auth <api> → execs <api>-pp-cli auth login --chrome),
+    not at `--token <token>` paste."""
     monkeypatch.setattr(catalog, "auth_type", lambda api: "cookie")
     out = await _call(action="call", api="airbnb", tool="anything")
     assert out["error"] == "auth_missing"
     assert out["detail"]["auth_type"] == "cookie"
     assert "cocoon auth airbnb" in out["detail"]["setup_hint"]
+    assert "auth login" in out["detail"]["setup_hint"]
     assert "--token" not in out["detail"]["setup_hint"]
 
 
 async def test_auth_missing_setup_hint_for_token_api(monkeypatch) -> None:
-    """Non-cookie APIs keep the existing `--token <token>` hint."""
+    """Non-delegated APIs (api_key, bearer_token, …) keep the existing
+    `--token <token>` hint."""
     monkeypatch.setattr(catalog, "auth_type", lambda api: "api_key")
     out = await _call(action="call", api="linear", tool="issues.list")
     assert out["error"] == "auth_missing"
     assert "--token" in out["detail"]["setup_hint"]
+
+
+async def test_call_with_delegated_auth_passes_home(tmp_path, monkeypatch) -> None:
+    """For delegated APIs with auth configured, do_call must inject
+    HOME so the CLI can resolve ~/.press-auth inside the sandbox."""
+    from cocoon import auth as auth_module
+    from cocoon.server import do_call
+    auth_module.write_token_env("airbnb", {"_DELEGATED_TO": "press-auth"})
+    monkeypatch.setattr(catalog, "auth_type", lambda api: "cookie")
+    captured = {}
+    async def fake_to_thread(fn, *args, **kwargs):
+        if hasattr(fn, "__name__") and fn.__name__ == "execute":
+            captured["env"] = args[0].env
+            class R:
+                returncode = 0
+                stdout = "{}"
+                stderr = ""
+            return R()
+        return fn(*args, **kwargs)
+    monkeypatch.setattr("cocoon.server.asyncio.to_thread", fake_to_thread)
+    monkeypatch.setattr("cocoon.server.materialize", lambda api: tmp_path / "bin")
+    monkeypatch.setattr("cocoon.server.cached_binary", lambda api: tmp_path / "bin")
+    await do_call("airbnb", "agent-context", args=None, ctx=None)
+    assert "HOME" in captured["env"]
 
 
 def test_invocation_for_returns_empty_for_unknown_tool() -> None:

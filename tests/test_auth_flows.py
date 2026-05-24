@@ -1,10 +1,9 @@
-"""Tests for the generic auth flows. cookie_flow uses
-browser_cookie3 to read the user's Chrome jar; we stub that so the
-tests don't depend on a live browser or keychain access."""
+"""Tests for the auth_flows delegator. The cookie path execs the
+per-CLI `<api>-pp-cli auth login --chrome`; we stub subprocess.run
++ materialize so tests don't touch real binaries or browsers."""
 
-import sys
-
-import pytest
+from pathlib import Path
+from unittest.mock import MagicMock
 
 from cocoon import auth_flows
 
@@ -16,25 +15,35 @@ def test_run_none_auth_type_errors(capsys) -> None:
     assert "doesn't require auth" in capsys.readouterr().err
 
 
-def test_run_dispatches_cookie_flow(monkeypatch) -> None:
+def test_is_delegated_covers_browser_auth_types() -> None:
+    """The cookie/session/composed family all defer to the CLI's own
+    auth login subcommand. Token-class types do not."""
+    assert auth_flows.is_delegated("cookie")
+    assert auth_flows.is_delegated("session_handshake")
+    assert auth_flows.is_delegated("composed")
+    assert not auth_flows.is_delegated("api_key")
+    assert not auth_flows.is_delegated("bearer_token")
+    assert not auth_flows.is_delegated("none")
+
+
+def test_run_dispatches_cookie_to_delegate(monkeypatch) -> None:
     called = {}
-    def fake_cookie_flow(api):
+    def fake_delegate(api):
         called["api"] = api
-        return {"X": "y"}
-    monkeypatch.setattr(auth_flows, "cookie_flow", fake_cookie_flow)
+        return {"_DELEGATED_TO": "press-auth", "_NOTE": "x"}
+    monkeypatch.setattr(auth_flows, "delegate_login", fake_delegate)
     out = auth_flows.run("airbnb", "cookie")
     assert called == {"api": "airbnb"}
-    assert out == {"X": "y"}
+    assert out["_DELEGATED_TO"] == "press-auth"
 
 
 def test_run_dispatches_token_paste_for_everything_else(monkeypatch) -> None:
     """api_key / bearer_token / unfamiliar auth_types all fall through
-    to the paste flow — generic by design."""
-    monkeypatch.setattr("sys.stdin.isatty", lambda: True)
+    to the paste flow — cocoon owns the credential for these."""
     monkeypatch.setattr("builtins.input", lambda prompt="": "tok_123")
     assert auth_flows.run("linear", "api_key") == {"LINEAR_TOKEN": "tok_123"}
     assert auth_flows.run("roam", "bearer") == {"ROAM_TOKEN": "tok_123"}
-    assert auth_flows.run("custom-thing", "weird_new_auth") == {"CUSTOM_THING_TOKEN": "tok_123"}
+    assert auth_flows.run("custom-thing", "weird_new") == {"CUSTOM_THING_TOKEN": "tok_123"}
 
 
 def test_token_paste_flow_empty_input_returns_none(monkeypatch) -> None:
@@ -43,7 +52,6 @@ def test_token_paste_flow_empty_input_returns_none(monkeypatch) -> None:
 
 
 def test_token_paste_flow_eof_returns_none(monkeypatch) -> None:
-    """Ctrl-D on the prompt shouldn't crash — surface as None."""
     def raise_eof(prompt=""):
         raise EOFError
     monkeypatch.setattr("builtins.input", raise_eof)
@@ -55,71 +63,36 @@ def test_env_var_naming_uppercases_and_substitutes_hyphens() -> None:
     assert auth_flows._env_var_for("alaska-airlines", suffix="TOKEN") == "ALASKA_AIRLINES_TOKEN"
 
 
-def test_homepage_default_uses_convention() -> None:
-    assert auth_flows._homepage_for("airbnb") == "https://www.airbnb.com"
-    assert auth_flows._homepage_for("ebay") == "https://www.ebay.com"
+def test_delegate_login_execs_upstream_auth_login(monkeypatch) -> None:
+    """delegate_login materializes the CLI binary, then execs
+    `<binary> auth login --chrome`. Exit 0 produces the marker dict;
+    nonzero returns None."""
+    fake_binary = Path("/tmp/fake/airbnb-pp-cli")
+    monkeypatch.setattr(auth_flows.materialize, "materialize", lambda api: fake_binary)
+    calls = []
+    def fake_run(argv):
+        calls.append(argv)
+        return MagicMock(returncode=0)
+    monkeypatch.setattr(auth_flows.subprocess, "run", fake_run)
+    result = auth_flows.delegate_login("airbnb")
+    assert calls == [[str(fake_binary), "auth", "login", "--chrome"]]
+    assert result is not None
+    assert "_DELEGATED_TO" in result
+    assert result["_DELEGATED_TO"] == "press-auth"
 
 
-def test_homepage_override_wins(monkeypatch) -> None:
-    """Override map applies for cases where the convention fails."""
-    monkeypatch.setitem(auth_flows._HOMEPAGE_OVERRIDES, "weird-api",
-                        "https://app.weird.io/login")
-    assert auth_flows._homepage_for("weird-api") == "https://app.weird.io/login"
+def test_delegate_login_returns_none_on_nonzero_exit(monkeypatch, capsys) -> None:
+    monkeypatch.setattr(auth_flows.materialize, "materialize",
+                        lambda api: Path("/tmp/fake/x-pp-cli"))
+    monkeypatch.setattr(auth_flows.subprocess, "run",
+                        lambda argv: MagicMock(returncode=2))
+    assert auth_flows.delegate_login("x") is None
+    assert "exited 2" in capsys.readouterr().err
 
 
-def test_cookie_flow_missing_browser_cookie3_returns_none(monkeypatch, capsys) -> None:
-    """If browser_cookie3 isn't installed cocoon should fail cleanly,
-    not crash on ImportError. (We can't easily unimport here, so
-    simulate by patching the module-level import to raise.)"""
-    import builtins
-    real_import = builtins.__import__
-    def fake_import(name, *args, **kwargs):
-        if name == "browser_cookie3":
-            raise ImportError("simulated missing dep")
-        return real_import(name, *args, **kwargs)
-    monkeypatch.setattr(builtins, "__import__", fake_import)
-    assert auth_flows.cookie_flow("airbnb") is None
-    assert "browser_cookie3 not installed" in capsys.readouterr().err
-
-
-def test_cookie_flow_no_cookies_returns_none(monkeypatch, capsys) -> None:
-    """If the user opened the URL but isn't signed in, the jar is
-    empty for that domain — surface as None, not as an empty auth
-    file that would silently mask the next call's auth_missing."""
-    class FakeCookieJar:
-        def __iter__(self):
-            return iter([])
-    class FakeBC3:
-        @staticmethod
-        def chrome(domain_name):
-            return FakeCookieJar()
-    sys.modules["browser_cookie3"] = FakeBC3
-    monkeypatch.setattr("webbrowser.open", lambda url: None)
-    monkeypatch.setattr("builtins.input", lambda prompt="": "")
-    try:
-        assert auth_flows.cookie_flow("airbnb") is None
-        assert "no cookies found" in capsys.readouterr().err
-    finally:
-        del sys.modules["browser_cookie3"]
-
-
-def test_cookie_flow_serializes_header(monkeypatch) -> None:
-    """Multiple cookies become a single `name1=v1; name2=v2` header
-    under the conventional <API>_COOKIE env var."""
-    class FakeCookie:
-        def __init__(self, name, value):
-            self.name, self.value = name, value
-    class FakeBC3:
-        @staticmethod
-        def chrome(domain_name):
-            return [FakeCookie("_user_attributes", "abc"),
-                    FakeCookie("_session", "xyz")]
-    sys.modules["browser_cookie3"] = FakeBC3
-    monkeypatch.setattr("webbrowser.open", lambda url: None)
-    monkeypatch.setattr("builtins.input", lambda prompt="": "")
-    try:
-        result = auth_flows.cookie_flow("airbnb")
-        assert result is not None
-        assert result["AIRBNB_COOKIE"] == "_user_attributes=abc; _session=xyz"
-    finally:
-        del sys.modules["browser_cookie3"]
+def test_delegate_login_returns_none_when_materialize_fails(monkeypatch, capsys) -> None:
+    def boom(api):
+        raise RuntimeError("network down")
+    monkeypatch.setattr(auth_flows.materialize, "materialize", boom)
+    assert auth_flows.delegate_login("x") is None
+    assert "network down" in capsys.readouterr().err

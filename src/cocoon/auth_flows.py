@@ -1,97 +1,93 @@
-"""Auth-setup flows keyed by auth_type.
+"""Auth-setup orchestration. Cocoon delegates to the per-API CLI's
+own auth subcommand instead of reimplementing credential acquisition.
 
-One generic flow per credential class, not per API. The contract:
+Why delegation, not implementation:
+- The per-CLI `<api>-pp-cli auth login --chrome` already exists upstream,
+  uses pycookiecheat/cookie-scoop, supports multiple Chrome profiles,
+  and encrypts cookies at rest under ~/.press-auth via macOS keychain.
+- Anything cocoon would build here would be a strict downgrade or
+  duplicate. The right boundary: the CLI owns its credential lifecycle;
+  cocoon orchestrates discovery + execution + sandbox around it.
 
-- `cookie`: open the API's homepage in the user's browser, wait for
-  them to log in (in their existing Chrome session, with whatever
-  password manager / 2FA they normally use), then read the cookie
-  jar from Chrome's local store. The CLI receives `<API>_COOKIE` =
-  full Cookie header.
-- everything else: prompt the user to paste a token. Written to
-  `<API>_TOKEN` (or whatever single env var is conventional).
-
-Per-API specifics that aren't part of the protocol — e.g., a
-homepage URL that doesn't match `https://www.<api>.com` — live in
-the small override tables in this module, not in a per-API recipe.
-The point is that adding a new cookie API should require *no new
-code* in cocoon, only a possible one-line override if the
-convention breaks for that name.
+Dispatch by auth_type:
+- `cookie` / `session_handshake` / `composed` → delegate `auth login
+  --chrome` to the CLI. The CLI writes encrypted state to
+  ~/.press-auth/<domain>.json; cocoon writes a marker file so
+  auth_status flips to "configured" for catalog display.
+- `api_key` / `bearer_token` / other → cocoon-owned secret via
+  `token_paste_flow`. Cocoon writes ~/.cache/cocoon/auth/<api>.json
+  with the env var; passes it into the per-call sandbox. The CLI sees
+  the env var without ever touching cocoon's filesystem.
+- `none` → user error; the API doesn't need auth.
 """
 
+import subprocess
 import sys
-import webbrowser
 
-# Per-API homepage override for cases where the `www.<api>.com`
-# convention doesn't apply. Start empty; add entries only when a
-# user trips over a real mismatch. This is not a recipe — it's a
-# hint that the generic flow uses.
-_HOMEPAGE_OVERRIDES: dict[str, str] = {}
+from . import materialize
 
-# Same shape for cookie domain. browser_cookie3 filters by domain;
-# the default is the homepage's netloc minus a leading "www.".
-_COOKIE_DOMAIN_OVERRIDES: dict[str, str] = {}
+# Auth types where cocoon defers to the CLI's own auth login subcommand.
+# These all involve browser-derived state that the CLI's encrypted
+# ~/.press-auth store is purpose-built for.
+_DELEGATED_AUTH_TYPES = {"cookie", "session_handshake", "composed"}
+
+# Sentinel written to cocoon's auth file for delegated APIs. Presence
+# of the file flips auth_status to "configured"; the body documents
+# where the real credentials live so a curious user (or `cocoon doctor`)
+# can find them.
+_DELEGATED_MARKER = {
+    "delegated_to": "press-auth",
+    "note": "Credentials managed by the upstream CLI under ~/.press-auth/. "
+            "Run `<api>-pp-cli auth status` for live state.",
+}
+
+
+def is_delegated(auth_type: str) -> bool:
+    """Whether cookie/session auth_types defer to the CLI's own login."""
+    return auth_type in _DELEGATED_AUTH_TYPES
 
 
 def run(api: str, auth_type: str) -> dict[str, str] | None:
-    """Dispatch to the generic flow for `auth_type`. Returns the env
-    dict to persist, or None if the user aborted / a flow refused."""
+    """Dispatch to the right setup flow. Returns the env dict to
+    persist in cocoon's auth file, or None on abort/error.
+
+    For delegated auth_types, returns the marker dict — the real
+    credentials live with the upstream CLI."""
     if auth_type == "none":
         print(f"error: '{api}' doesn't require auth", file=sys.stderr)
         return None
-    if auth_type == "cookie":
-        return cookie_flow(api)
+    if is_delegated(auth_type):
+        return delegate_login(api)
     return token_paste_flow(api, auth_type)
 
 
-def cookie_flow(api: str) -> dict[str, str] | None:
-    """Open the API's homepage in the user's browser; after they
-    confirm they're signed in, read cookies for the domain from
-    Chrome's local store and serialize as a Cookie header."""
+def delegate_login(api: str) -> dict[str, str] | None:
+    """Materialize the CLI and exec its `auth login --chrome`. The
+    subprocess inherits the parent's stdio so the CLI can drive
+    interactive flows (Chrome opening, multi-profile selection)
+    without cocoon mediating."""
     try:
-        import browser_cookie3
-    except ImportError:
-        print("error: browser_cookie3 not installed; install cocoon-mcp[browser] "
-              "or pass --token / --env explicitly", file=sys.stderr)
-        return None
-
-    homepage = _homepage_for(api)
-    domain = _cookie_domain_for(api)
-    print(f"Opening {homepage}")
-    print(f"  Sign in to {api} in your browser if you aren't already.")
-    print(f"  Cocoon will read cookies for {domain!r} from Chrome after you confirm.")
-    webbrowser.open(homepage)
-    print()
-    try:
-        input("Press Enter when signed in (or Ctrl-C to abort): ")
-    except EOFError:
-        return None
-
-    try:
-        jar = browser_cookie3.chrome(domain_name=domain)
+        binary = materialize.materialize(api)
     except Exception as exc:
-        print(f"error: couldn't read Chrome cookies for {domain!r}: {exc}",
+        print(f"error: couldn't materialize {api} CLI: {exc}", file=sys.stderr)
+        return None
+
+    print(f"Running `{binary.name} auth login --chrome` ...")
+    print()
+    result = subprocess.run([str(binary), "auth", "login", "--chrome"])
+    if result.returncode != 0:
+        print(f"error: `{binary.name} auth login` exited {result.returncode}",
               file=sys.stderr)
-        print("  (cocoon needs Chrome and keychain access; on macOS you may "
-              "be prompted to allow access)", file=sys.stderr)
         return None
-
-    cookies = list(jar)
-    if not cookies:
-        print(f"error: no cookies found for {domain!r} in Chrome — make sure "
-              f"you're signed in and try again", file=sys.stderr)
-        return None
-
-    header = "; ".join(f"{c.name}={c.value}" for c in cookies)
-    env_var = _env_var_for(api, suffix="COOKIE")
-    print(f"got {len(cookies)} cookies for {domain}; writing {env_var}")
-    return {env_var: header}
+    # Stringify the marker so write_token_env's env-var contract holds.
+    return {f"_{k.upper()}": str(v) for k, v in _DELEGATED_MARKER.items()}
 
 
 def token_paste_flow(api: str, auth_type: str) -> dict[str, str] | None:
-    """Prompt for a single token value. Used for api_key, bearer_token,
-    and any other manual-paste credential class. Cocoon doesn't know
-    the signup URL — that's per-API documentation the user already
-    has open or finds via web search."""
+    """Prompt for a single token value. Cocoon owns the secret —
+    written to ~/.cache/cocoon/auth/<api>.json, passed into the
+    per-call sandbox as <API>_TOKEN. The CLI reads the env var; no
+    file mount required."""
     env_var = _env_var_for(api, suffix="TOKEN")
     print(f"Setup for `{api}` ({auth_type}):")
     print(f"  Paste your {auth_type} value below. It'll be saved as {env_var}.")
@@ -105,21 +101,8 @@ def token_paste_flow(api: str, auth_type: str) -> dict[str, str] | None:
     return {env_var: value}
 
 
-def _homepage_for(api: str) -> str:
-    if api in _HOMEPAGE_OVERRIDES:
-        return _HOMEPAGE_OVERRIDES[api]
-    return f"https://www.{api}.com"
-
-
-def _cookie_domain_for(api: str) -> str:
-    if api in _COOKIE_DOMAIN_OVERRIDES:
-        return _COOKIE_DOMAIN_OVERRIDES[api]
-    return f"{api}.com"
-
-
 def _env_var_for(api: str, *, suffix: str) -> str:
     """Conventional env var: <API>_<SUFFIX> with hyphens turned into
-    underscores. The downstream CLI is expected to read from this
-    name; CLIs that diverge from the convention need a per-binary
-    metadata mapping once upstream exposes it."""
+    underscores. Only used by token_paste_flow — delegated auth types
+    don't pass env vars (the CLI reads its own state file)."""
     return f"{api.upper().replace('-', '_')}_{suffix}"

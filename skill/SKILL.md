@@ -16,7 +16,7 @@ When the user names a specific API and wants a structured operation against it, 
 
 You do not install CLIs ahead of time. You do not configure per-API MCP servers. The single `cocoon` tool is the entire MCP interface; in a terminal, the same operations are `cocoon find/describe/call/list/ready/auth` subcommands.
 
-When `auth_status: "required"`, tell the user to run `cocoon auth <api>`. That dispatches to a generic flow keyed by `auth_type`: cookie APIs open the user's browser and read session cookies after login; token APIs prompt for a paste. No per-API recipes — one flow per credential class.
+When `auth_status: "required"`, tell the user to run `cocoon auth <api>`. That dispatches by `auth_type`: for cookie / session APIs cocoon execs `<api>-pp-cli auth login --chrome` (the upstream CLI's own browser-cookie extractor, with encryption at rest under `~/.press-auth/`); for token APIs cocoon prompts for a paste and stores it under `~/.cache/cocoon/auth/<api>.json`. Cocoon orchestrates; the per-API CLI owns its credential lifecycle for browser-based flows.
 
 </what-to-do>
 

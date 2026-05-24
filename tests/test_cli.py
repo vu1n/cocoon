@@ -287,17 +287,17 @@ def test_auth_dispatches_token_paste_for_api_key(tmp_path: Path, monkeypatch) ->
     assert written == {"env": {"LINEAR_TOKEN": "tok_xyz"}}
 
 
-def test_auth_dispatches_cookie_flow_for_cookie_api(tmp_path: Path, monkeypatch) -> None:
-    """Cookie auth_type → cookie_flow (stubbed here to avoid touching
-    real Chrome or browser_cookie3)."""
+def test_auth_dispatches_delegate_for_cookie_api(tmp_path: Path, monkeypatch) -> None:
+    """Cookie auth_type → delegate_login. Stubbed here to avoid execing
+    a real CLI; the marker dict gets persisted to cocoon's auth file."""
     from cocoon import auth_flows, catalog as catalog_module
     monkeypatch.setattr(catalog_module, "auth_type", lambda api: "cookie")
     monkeypatch.setattr("sys.stdin.isatty", lambda: True)
-    monkeypatch.setattr(auth_flows, "cookie_flow",
-                        lambda api: {f"{api.upper()}_COOKIE": "stubbed=value"})
+    monkeypatch.setattr(auth_flows, "delegate_login",
+                        lambda api: {"_DELEGATED_TO": "press-auth", "_NOTE": "x"})
     assert main(["auth", "airbnb"]) == 0
     written = json.loads((tmp_path / "auth" / "airbnb.json").read_text())
-    assert written == {"env": {"AIRBNB_COOKIE": "stubbed=value"}}
+    assert written["env"]["_DELEGATED_TO"] == "press-auth"
 
 
 def test_auth_dispatches_token_paste_empty_input_fails(tmp_path: Path, monkeypatch) -> None:

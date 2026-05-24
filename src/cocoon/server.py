@@ -23,7 +23,10 @@ from typing import Any, Callable, Literal
 
 from mcp.server.fastmcp import Context, FastMCP
 
+import os
+
 from . import argv as argv_module
+from . import auth_flows
 from . import catalog
 from .auth import load_token_env
 from .errors import AuthMissing, CocoonError
@@ -145,24 +148,31 @@ def _require(action: str, **fields: Any) -> None:
 async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -> dict:
     # Resolve auth first — failing fast on a missing token saves the
     # slow binary-download path. The error payload includes auth_type
-    # ("api_key" / "oauth" / "basic") so the caller knows what kind of
-    # credential is needed instead of inferring from the message.
+    # so the caller knows what kind of credential is needed instead of
+    # inferring from the message.
+    # Resolve auth first — failing fast on a missing token saves the
+    # slow binary-download path. For delegated auth types (cookie etc.)
+    # cocoon doesn't pass the secret to the sandbox; the CLI reads its
+    # own encrypted state under ~/.press-auth. Either way, missing-auth
+    # raises AuthMissing with auth_type enriched on the detail so the
+    # caller knows what credential class is needed.
     api_auth_type = catalog.auth_type(api)
+    delegated = auth_flows.is_delegated(api_auth_type)
     if api_auth_type == "none":
         env: dict[str, str] = {}
     else:
         try:
-            env = load_token_env(api)
+            token_env = load_token_env(api)
         except AuthMissing as exc:
             exc.detail["auth_type"] = api_auth_type
-            # Override the generic hint from auth.py with one that
-            # matches the auth_type. Cookie APIs use `cocoon auth <api>`
-            # with no args (drives the browser-cookie flow); everything
-            # else still wants a token paste.
-            if api_auth_type == "cookie":
+            if delegated:
                 exc.detail["setup_hint"] = (
-                    f"cocoon auth {api}  # opens browser, reads cookies after login")
+                    f"cocoon auth {api}  # delegates to "
+                    f"`{api}-pp-cli auth login --chrome`")
             raise
+        # Delegated APIs only need the CLI to find ~/.press-auth at
+        # call time — pass HOME, drop the marker contents.
+        env = ({"HOME": os.environ.get("HOME", "")} if delegated else token_env)
 
     # Always go through materialize: it returns fast when the binary is
     # already on PATH, and only then triggers the slow install path. Going
