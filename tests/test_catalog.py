@@ -400,3 +400,13 @@ def test_is_meta_tool_only_bare_plumbing_not_dotted_endpoints() -> None:
     assert not catalog._is_meta_tool("version.game-list")
     assert not catalog._is_meta_tool("completion.create")
     assert not catalog._is_meta_tool("issues.create")
+
+
+def test_named_apis_skips_ambiguous_common_word_ids() -> None:
+    # common-word api ids must not route on ordinary prose (measured bluffs)
+    assert catalog._named_apis("I need some clarity on this") == []
+    assert catalog._named_apis("a little bird told me") == []
+    assert catalog._named_apis("touring apartments downtown") == []
+    # but genuine named services still route
+    assert "slack" in catalog._named_apis("dm someone on slack")
+    assert "stripe" in catalog._named_apis("create a stripe charge")

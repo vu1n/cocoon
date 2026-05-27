@@ -370,6 +370,16 @@ def _is_meta_tool(tool: str) -> bool:
     return bool(head) and head[0] in _META_TOOLS
 
 
+# Single-token API ids that are common English words. Matching them as a
+# "named service" in ordinary prose ("I need clarity", "a little bird told me",
+# "touring apartments", "pop music") produces false-confident routes — measured
+# as bluffs in the discovery eval. They stay reachable via `list`/browse and
+# keyword filter; only the confident find-gate skips them. This list is grown
+# from measured eval bluffs, not guessed. The durable fix for name-vs-prose is
+# the LLM discovery tier (which reasons about intent); this is a bounded guard.
+_AMBIGUOUS_API_IDS = frozenset({"clarity", "bird", "apartments", "pop"})
+
+
 def _named_apis(query: str) -> list[str]:
     """API names the query explicitly mentions. An API matches when either its
     de-spaced name is a query token or adjacent-token join ("hacker news" →
@@ -387,7 +397,7 @@ def _named_apis(query: str) -> list[str]:
     named: list[str] = []
     for entry in _installable_view():
         api = entry.get("api")
-        if not api:
+        if not api or api in _AMBIGUOUS_API_IDS:
             continue
         parts = [p for p in search.tokenize(api.replace("-", " ")) if p]
         if not parts:
