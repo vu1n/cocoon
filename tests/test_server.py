@@ -1,3 +1,6 @@
+import shutil
+from pathlib import Path
+
 from cocoon import catalog
 from cocoon.server import _cap, _format_result, _try_json, cocoon as cocoon_tool
 
@@ -190,28 +193,96 @@ async def test_auth_missing_setup_hint_for_token_api(monkeypatch) -> None:
     assert "--token" in out["detail"]["setup_hint"]
 
 
-async def test_call_with_delegated_auth_passes_home(tmp_path, monkeypatch) -> None:
-    """For delegated APIs with auth configured, do_call must inject
-    HOME so the CLI can resolve ~/.press-auth inside the sandbox."""
-    from cocoon import auth as auth_module
-    from cocoon.server import do_call
-    auth_module.write_token_env("airbnb", {"_DELEGATED_TO": "press-auth"})
-    monkeypatch.setattr(catalog, "auth_type", lambda api: "cookie")
-    captured = {}
+def _capture_call_policy(monkeypatch, tmp_path):
+    """Wire do_call's execute() to capture the SandboxPolicy and return a
+    canned success, plus stub materialize/cache so no binary is downloaded."""
+    captured: dict = {}
+
     async def fake_to_thread(fn, *args, **kwargs):
-        if hasattr(fn, "__name__") and fn.__name__ == "execute":
-            captured["env"] = args[0].env
+        if getattr(fn, "__name__", "") == "execute":
+            captured["policy"] = args[0]
             class R:
                 returncode = 0
                 stdout = "{}"
                 stderr = ""
             return R()
         return fn(*args, **kwargs)
+
     monkeypatch.setattr("cocoon.server.asyncio.to_thread", fake_to_thread)
     monkeypatch.setattr("cocoon.server.materialize", lambda api: tmp_path / "bin")
     monkeypatch.setattr("cocoon.server.cached_binary", lambda api: tmp_path / "bin")
+    return captured
+
+
+async def test_call_with_delegated_auth_passes_home(tmp_path, monkeypatch) -> None:
+    """Delegated (cookie) APIs keep the real HOME so the CLI can resolve
+    ~/.press-auth, but cocoon's own token dir is denied (so it can't read
+    other APIs' tokens) and the marker env is never leaked into the sandbox."""
+    from cocoon import auth as auth_module
+    from cocoon.paths import auth_dir, press_auth_dir
+    from cocoon.server import do_call
+    auth_module.write_token_env("airbnb", {"_DELEGATED_TO": "press-auth"})
+    monkeypatch.setattr(catalog, "auth_type", lambda api: "cookie")
+    captured = _capture_call_policy(monkeypatch, tmp_path)
     await do_call("airbnb", "agent-context", args=None, ctx=None)
-    assert "HOME" in captured["env"]
+    policy = captured["policy"]
+    assert "HOME" in policy.env
+    assert auth_dir() in policy.deny_read_paths
+    assert press_auth_dir() in policy.readable_paths  # cookie store reachable on Linux
+    assert "_DELEGATED_TO" not in policy.env  # marker is not a real credential
+
+
+async def test_call_non_delegated_uses_scratch_home_and_denies_creds(
+    tmp_path, monkeypatch
+) -> None:
+    """api_key/bearer/none APIs run with a private ephemeral HOME (writable,
+    not the real one) and BOTH credential stores denied; the scratch dir is
+    removed after the call."""
+    from cocoon import auth as auth_module
+    from cocoon.paths import protected_credential_paths
+    from cocoon.server import do_call
+    auth_module.write_token_env("linear", {"LINEAR_TOKEN": "lin_secret"})
+    monkeypatch.setattr(catalog, "auth_type", lambda api: "api_key")
+    captured = _capture_call_policy(monkeypatch, tmp_path)
+    await do_call("linear", "issues.create", args={"title": "x"}, ctx=None)
+    policy = captured["policy"]
+    scratch = Path(policy.env["HOME"])
+    assert "call-home-" in scratch.name
+    assert policy.env["LINEAR_TOKEN"] == "lin_secret"  # token still injected
+    assert policy.writable_paths == (scratch,)
+    assert set(policy.deny_read_paths) == set(protected_credential_paths())
+    assert not scratch.exists()  # cleaned up in the finally
+
+
+class TestCallSandboxEnv:
+    def test_delegated_keeps_real_home_binds_press_auth_drops_marker(self, monkeypatch) -> None:
+        from cocoon.paths import auth_dir, press_auth_dir
+        from cocoon.server import _call_sandbox_env
+        monkeypatch.setenv("HOME", "/Users/real")
+        env, writable, readable, deny, scratch = _call_sandbox_env(
+            delegated=True, token_env={"_DELEGATED_TO": "press-auth"})
+        assert env == {"HOME": "/Users/real"}
+        assert writable == ()
+        # the cookie store is bound read-only so the CLI can read it on Linux
+        assert readable == (press_auth_dir(),)
+        assert deny == (auth_dir(),)
+        assert scratch is None
+
+    def test_non_delegated_creates_writable_scratch_home(self) -> None:
+        from cocoon.paths import protected_credential_paths
+        from cocoon.server import _call_sandbox_env
+        env, writable, readable, deny, scratch = _call_sandbox_env(
+            delegated=False, token_env={"LINEAR_TOKEN": "tok"})
+        try:
+            assert scratch is not None and scratch.is_dir()
+            assert env["HOME"] == str(scratch)
+            assert env["LINEAR_TOKEN"] == "tok"
+            assert writable == (scratch,)
+            assert readable == ()
+            assert set(deny) == set(protected_credential_paths())
+        finally:
+            if scratch is not None:
+                shutil.rmtree(scratch, ignore_errors=True)
 
 
 def test_invocation_for_returns_empty_for_unknown_tool() -> None:

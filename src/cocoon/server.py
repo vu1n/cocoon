@@ -19,11 +19,13 @@ import asyncio
 import functools
 import inspect
 import json
+import os
+import shutil
+import tempfile
+from pathlib import Path
 from typing import Any, Callable, Literal
 
 from mcp.server.fastmcp import Context, FastMCP
-
-import os
 
 from . import argv as argv_module
 from . import auth_flows
@@ -31,7 +33,13 @@ from . import catalog
 from .auth import load_token_env
 from .errors import AuthMissing, CocoonError
 from .materialize import cached_binary, materialize
-from .paths import ensure_dirs
+from .paths import (
+    auth_dir,
+    cache_root,
+    ensure_dirs,
+    press_auth_dir,
+    protected_credential_paths,
+)
 from .sandbox import SandboxPolicy, execute
 
 MAX_OUTPUT_BYTES = 64 * 1024
@@ -159,7 +167,7 @@ async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -
     api_auth_type = catalog.auth_type(api)
     delegated = auth_flows.is_delegated(api_auth_type)
     if api_auth_type == "none":
-        env: dict[str, str] = {}
+        token_env: dict[str, str] = {}
     else:
         try:
             token_env = load_token_env(api)
@@ -170,9 +178,6 @@ async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -
                     f"cocoon auth {api}  # delegates to "
                     f"`{api}-pp-cli auth login --chrome`")
             raise
-        # Delegated APIs only need the CLI to find ~/.press-auth at
-        # call time — pass HOME, drop the marker contents.
-        env = ({"HOME": os.environ.get("HOME", "")} if delegated else token_env)
 
     # Always go through materialize: it returns fast when the binary is
     # already on PATH, and only then triggers the slow install path. Going
@@ -183,14 +188,67 @@ async def do_call(api: str, tool: str, args: dict | None, ctx: Context | None) -
         await ctx.info(f"materializing {api} CLI (first call, can take ~30s)")
     binary = await asyncio.to_thread(materialize, api)
     positionals, argv_path = _invocation_for(api, tool)
-    policy = SandboxPolicy(
-        binary=binary,
-        argv=argv_module.tool_argv(tool, args, positionals=positionals, argv_path=argv_path),
-        env=env,
-        network=True,
+
+    # Build the sandbox so the CLI can't read OTHER APIs' credentials off disk
+    # (env-scrubbing alone only covers the environment axis). The shape depends
+    # on whether the CLI owns its credential lifecycle:
+    env, writable_paths, readable_paths, deny_read_paths, scratch_home = (
+        _call_sandbox_env(delegated, token_env)
     )
-    result = await asyncio.to_thread(execute, policy)
+    try:
+        policy = SandboxPolicy(
+            binary=binary,
+            argv=argv_module.tool_argv(tool, args, positionals=positionals, argv_path=argv_path),
+            env=env,
+            writable_paths=writable_paths,
+            readable_paths=readable_paths,
+            deny_read_paths=deny_read_paths,
+            network=True,
+        )
+        result = await asyncio.to_thread(execute, policy)
+    finally:
+        if scratch_home is not None:
+            shutil.rmtree(scratch_home, ignore_errors=True)
     return _format_result(result.returncode, result.stdout, result.stderr)
+
+
+def _call_sandbox_env(
+    delegated: bool, token_env: dict[str, str]
+) -> tuple[dict[str, str], tuple[Path, ...], tuple[Path, ...], tuple[Path, ...], Path | None]:
+    """Compute (env, writable_paths, readable_paths, deny_read_paths, scratch_home).
+
+    Delegated (cookie/session) CLIs read their own encrypted store under
+    ~/.press-auth, so they keep the real $HOME and that dir is exposed
+    read-only — required on Linux (the bwrap namespace binds nothing else, so
+    an unbound ~/.press-auth would be invisible) and harmless on macOS. cocoon's
+    own token dir is still denied so a compromised CLI can't read other APIs'
+    cocoon-managed tokens. The marker env (token_env) is NOT passed; it isn't a
+    real credential.
+    LIMITATION: ~/.press-auth is one shared store keyed by domain, so a delegated
+    CLI can still read OTHER delegated APIs' session files. Per-domain projection
+    (exposing only this API's file) needs the domain captured at `auth login`
+    time — a known follow-up.
+
+    Everyone else (none / api_key / bearer) needs no pre-existing $HOME state, so
+    they get a private, writable, ephemeral HOME and BOTH credential stores
+    denied. On Linux nothing else is bound, so the real $HOME is fully invisible;
+    on macOS the blanket file-read* still permits reads OUTSIDE the denied
+    credential dirs (the cross-API token promise holds; broader $HOME secrecy
+    does not). The conformance probe verified the catalogued CLIs start cleanly
+    under this shape; the caller removes the scratch dir after the call.
+    """
+    if delegated:
+        return (
+            {"HOME": os.environ.get("HOME", "")},
+            (),                     # writable: none
+            (press_auth_dir(),),    # readable: bind the cookie store (load-bearing on Linux)
+            (auth_dir(),),          # deny: cocoon's own token dir
+            None,
+        )
+    cache_root().mkdir(parents=True, exist_ok=True)
+    scratch_home = Path(tempfile.mkdtemp(prefix="call-home-", dir=cache_root()))
+    env = {**token_env, "HOME": str(scratch_home)}
+    return env, (scratch_home,), (), protected_credential_paths(), scratch_home
 
 
 def _invocation_for(api: str, tool: str) -> tuple[tuple[str, ...], tuple[str, ...]]:

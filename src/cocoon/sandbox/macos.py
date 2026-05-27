@@ -2,10 +2,19 @@
 
 Note: sandbox-exec is officially deprecated by Apple (has been for years)
 but remains functional and is what Codex and Claude Code both use. The
-profile here is intentionally loose because Go binaries on macOS need
-broad file-read* + mach* access for the runtime; tighter policies reliably
-break generated CLIs. We rely on the env-scrubbing (controlled subprocess
-env) for token isolation, not on Seatbelt for file containment.
+profile allows file reads broadly — `(allow file-read*)` — because Go
+binaries on macOS need wide file-read* + mach* access for the runtime;
+a scoped read allow-list (system dirs + binary only) reliably SIGABRTs
+generated Go CLIs, so it's not a viable containment lever here.
+
+Containment is therefore expressed as the inverse: env-scrubbing isolates
+tokens passed via the environment, and `policy.deny_read_paths` emits
+`(deny file-read* (subpath ...))` AFTER the blanket allow to carve out the
+cross-API credential stores (~/.cache/cocoon/auth, ~/.press-auth). Seatbelt
+honors the later deny over the earlier allow, so a sandboxed CLI can read
+the system + its own files but not another API's token off disk — the one
+leak env-scrubbing alone can't prevent. Whether a CLI tolerates running
+without its real $HOME is what the conformance probe measures.
 """
 
 import os
@@ -38,6 +47,12 @@ def build_sbpl(policy: SandboxPolicy) -> str:
     ]
     for rw in policy.writable_paths:
         lines.append(f'(allow file* (subpath "{rw}"))')
+    # Carve credential stores back out, emitted LAST so Seatbelt's
+    # later-match-wins resolution blocks them even if a writable path above
+    # (whose file* implies file-read*) overlaps a denied subpath. Reads of the
+    # credential stores lose; writes to a disjoint scratch dir are unaffected.
+    for path in policy.deny_read_paths:
+        lines.append(f'(deny file-read* (subpath "{path}"))')
     if policy.network:
         lines.append("(allow network*)")
     return "\n".join(lines) + "\n"

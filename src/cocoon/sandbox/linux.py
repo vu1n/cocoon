@@ -51,6 +51,14 @@ def build_argv(policy: SandboxPolicy, bwrap_path: str = "bwrap") -> list[str]:
     for rw in policy.writable_paths:
         argv += ["--bind", str(rw), str(rw)]
 
+    # Read-only exposures (e.g. a projected credential file). --ro-bind-try
+    # so a missing path is skipped rather than aborting the whole sandbox.
+    # policy.deny_read_paths needs no handling here: bwrap reads are already
+    # bind-scoped, so anything not bound above (incl. $HOME and the cocoon
+    # credential stores) is already invisible inside the namespace.
+    for ro in policy.readable_paths:
+        argv += ["--ro-bind-try", str(ro), str(ro)]
+
     argv += ["--ro-bind", str(policy.binary), str(policy.binary)]
     argv += ["--chdir", "/tmp", "--", str(policy.binary), *policy.argv]
     return argv
