@@ -1,0 +1,39 @@
+{"query": "post a message to the slack channel", "klass": "named_id", "gold_api": "slack", "gold_fall_through": false}
+{"query": "create a new issue in linear", "klass": "named_id", "gold_api": "linear", "gold_fall_through": false}
+{"query": "create a stripe charge for a customer", "klass": "named_id", "gold_api": "stripe", "gold_fall_through": false}
+{"query": "open a jira ticket for this bug", "klass": "named_id", "gold_api": "jira", "gold_fall_through": false}
+{"query": "track my fedex package", "klass": "named_id", "gold_api": "fedex", "gold_fall_through": false}
+{"query": "send a tweet via x-twitter", "klass": "named_id", "gold_api": "x-twitter", "gold_fall_through": false}
+{"query": "send an sms with twilio", "klass": "named_id", "gold_api": "twilio", "gold_fall_through": false}
+{"query": "get the current bitcoin price from coingecko", "klass": "named_id", "gold_api": "coingecko", "gold_fall_through": false}
+{"query": "deploy my app on render", "klass": "named_id", "gold_api": "render", "gold_fall_through": false}
+{"query": "spin up a digitalocean droplet", "klass": "named_id", "gold_api": "digitalocean", "gold_fall_through": false}
+{"query": "search arxiv for recent papers on transformers", "klass": "named_id", "gold_api": "arxiv", "gold_fall_through": false}
+{"query": "what is my whoop recovery score today", "klass": "named_id", "gold_api": "whoop", "gold_fall_through": false}
+{"query": "check my tesla battery level", "klass": "named_id", "gold_api": "tesla", "gold_fall_through": false}
+{"query": "create a sentry alert", "klass": "named_id", "gold_api": "sentry", "gold_fall_through": false}
+{"query": "book an airbnb in tokyo", "klass": "named_id", "gold_api": "airbnb", "gold_fall_through": false}
+{"query": "shorten this link with dub", "klass": "named_id", "gold_api": "dub", "gold_fall_through": false}
+{"query": "look up backlinks in ahrefs", "klass": "named_id", "gold_api": "ahrefs", "gold_fall_through": false}
+{"query": "schedule a meeting on cal.com", "klass": "named_id", "gold_api": "cal-com", "gold_fall_through": false}
+{"query": "post on twitter about the launch", "klass": "named_alias", "gold_api": "x-twitter", "gold_fall_through": false}
+{"query": "share a thread on twitter", "klass": "named_alias", "gold_api": "x-twitter", "gold_fall_through": false}
+{"query": "send a text message to my friend", "klass": "capability_unnamed", "gold_api": "twilio", "gold_fall_through": false}
+{"query": "convert 100 usd to euros", "klass": "capability_unnamed", "gold_api": "exchangerate-api", "gold_fall_through": false}
+{"query": "generate an image of a mountain sunset", "klass": "capability_unnamed", "gold_api": "midjourney", "gold_fall_through": false}
+{"query": "order a pizza for delivery tonight", "klass": "capability_unnamed", "gold_api": "dominos", "gold_fall_through": false}
+{"query": "find me a recipe for lasagna", "klass": "capability_unnamed", "gold_api": "allrecipes", "gold_fall_through": false}
+{"query": "track how much time i spent on this project", "klass": "capability_unnamed", "gold_api": "clockify", "gold_fall_through": false}
+{"query": "transcribe my meeting recording", "klass": "capability_unnamed", "gold_api": "fireflies", "gold_fall_through": false}
+{"query": "what is the current exchange rate for the yen", "klass": "capability_unnamed", "gold_api": "exchangerate-api", "gold_fall_through": false}
+{"query": "list my ebay orders", "klass": "named_id", "gold_api": "ebay", "gold_fall_through": false}
+{"query": "I need some clarity on this decision", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "a little bird told me the news this morning", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "we are touring apartments downtown this weekend", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "play me some pop music", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "play a song on spotify", "klass": "named_id", "gold_api": "spotify", "gold_fall_through": false}
+{"query": "order an uber to the airport", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "renew my driver's license at the dmv", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "check my credit score", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "control my philips hue lights", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "file my federal taxes", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
