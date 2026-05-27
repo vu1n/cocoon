@@ -128,8 +128,7 @@ async def cocoon(
     match action:
         case "find":
             _require(action, query=query)
-            return [catalog.to_dict(c)
-                    for c in catalog.find_capability(query, limit, ready_only=ready_only)]
+            return catalog.to_find_dict(catalog.find(query, limit, ready_only=ready_only))
         case "describe":
             _require(action, api=api, tool=tool)
             return catalog.to_dict(catalog.describe_capability(api, tool))

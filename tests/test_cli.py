@@ -138,8 +138,8 @@ def test_no_subcommand_prints_help_and_returns_2(capsys) -> None:
 def test_find_json_output(capsys) -> None:
     assert main(["find", "hacker news", "--json"]) == 0
     parsed = json.loads(capsys.readouterr().out)
-    assert isinstance(parsed, list)
-    assert any(r["api"] == "hackernews" for r in parsed)
+    assert parsed["fall_through"] is False  # "hacker news" names a service
+    assert any(r["api"] == "hackernews" for r in parsed["matches"])
 
 
 def test_find_human_output(capsys) -> None:
@@ -241,7 +241,7 @@ def test_find_human_includes_auth_tag(capsys) -> None:
 def test_find_ready_only_filters_human(capsys) -> None:
     assert main(["find", "issue create", "--ready-only", "--json"]) == 0
     parsed = json.loads(capsys.readouterr().out)
-    assert all(r["auth_status"] != "required" for r in parsed)
+    assert all(r["auth_status"] != "required" for r in parsed["matches"])
 
 
 def test_list_ready_only_filters(capsys) -> None:

@@ -46,29 +46,34 @@ If the MCP tool is unavailable (host misregistration, server restart-in-progress
 
 The action enum drives dispatch; per-action fields are validated server-side. All actions return either a structured result or `{error, message, detail}` with a stable error code.
 
-### `action="find"` — search the catalog
+### `action="find"` — does cocoon have a tool for this?
 
 Fields: `query` (required), `limit` (default 5), `ready_only` (default false).
 
-BM25 ranking across the catalog at the **endpoint level**, not the API level. Returns matches with the schema you need to make the call — no follow-up describe needed in most cases.
-
-Each result carries an `auth_status`:
-- `"none"` — no auth required; callable immediately (e.g. hackernews, open-meteo).
-- `"configured"` — auth is set up locally; callable.
-- `"required"` — auth needed but not yet configured; surface a setup step to the user, don't call.
-
-Results sort ready capabilities (`none`/`configured`) before gated ones. Pass `ready_only=true` to hard-filter to immediately-callable capabilities only.
+`find` is a **reliable gate**, not a fuzzy search. It returns an object:
 
 ```
 cocoon(action="find", query="create a linear issue with a title and description")
-→ [
-    {"api": "linear", "tool": "issues.create", "summary": "Create a new issue",
-     "params_schema": {"title": "string", "description": "string?",
-                       "team_id": "string", "assignee_id": "string?"},
-     "auth_status": "required"},
-    ...
-  ]
+→ {
+    "fall_through": false,
+    "reason": "cocoon has linear; closest tool(s) below",
+    "matches": [
+      {"api": "linear", "tool": "issues.create", "summary": "Create a new issue",
+       "params_schema": {"title": "string", "team_id": "string",
+                         "description": "string?", "assignee_id": "string?"},
+       "auth_status": "required"},
+      ...
+    ]
+  }
 ```
+
+**Branch on `fall_through` — this is the contract for using cocoon as a capability tier:**
+- `fall_through: false` → cocoon has the service the query named; `matches` are that service's tools. Pick one and `call` it.
+- `fall_through: true` → cocoon has **no confident match**. Do not chase the entries in `matches` (when present they are explicitly *advisory lexical guesses*). Escalate: build the integration yourself (and consider turning it into a skill).
+
+Confidence comes from the query **naming a service cocoon has** (Linear, Slack, Stripe, …), not from a relevance score — so name the service in your query when you can. A query that only describes a capability without naming a service (“send a text message”) will usually `fall_through`, because matching summaries alone is unreliable.
+
+Each match carries an `auth_status`: `"none"` (callable now), `"configured"` (auth set up locally, callable), or `"required"` (needs a setup step — surface it, don't call). Matches sort ready (`none`/`configured`) before gated; `ready_only=true` hard-filters to callable-now.
 
 ### `action="describe"` — full schema for one capability
 

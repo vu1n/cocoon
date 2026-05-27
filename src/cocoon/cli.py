@@ -369,21 +369,23 @@ def _cmd_catalog_refresh(args: argparse.Namespace) -> int:
 
 
 def _cmd_find(args: argparse.Namespace) -> int:
-    results = [
-        catalog_module.to_dict(c)
-        for c in catalog_module.find_capability(
-            args.query, args.limit, ready_only=args.ready_only)
-    ]
+    result = catalog_module.find(args.query, args.limit, ready_only=args.ready_only)
+    payload = catalog_module.to_find_dict(result)
+
     def human() -> None:
-        if not results:
+        if result.fall_through:
+            print(f"(no confident match — {result.reason})")
+            if result.matches:
+                print("advisory guesses:")
+        elif not result.matches:
             print("(no matches)")
             return
-        for r in results:
+        for r in payload["matches"]:
             tag = _auth_tag(r.get("auth_status", "required"))
             print(f"{tag} {r['api']}/{r['tool']}  —  {r['summary']}")
             if r["params_schema"]:
                 print(f"    params: {r['params_schema']}")
-    return _emit(results, args.as_json, human)
+    return _emit(payload, args.as_json, human)
 
 
 def _auth_tag(status: str) -> str:

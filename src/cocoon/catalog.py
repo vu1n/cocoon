@@ -84,6 +84,27 @@ class ApiSummary:
     auth_status: str = "required"
 
 
+@dataclass(frozen=True)
+class FindResult:
+    """The reliable answer to "does cocoon have a tool for this?" — a tier-gate
+    for an agent's capability-resolution ladder (have-a-skill → check cocoon →
+    build it). `fall_through=True` is cocoon stating it has no confident match,
+    so the caller should escalate (build the integration) rather than chase a
+    weak lexical guess.
+
+    Confidence comes from the query naming a service cocoon actually has, not
+    from a BM25 score — calibration showed summary scores don't separate real
+    matches from coincidental term overlap (a "slack" query out-ranked by
+    `pushover`). When a service is named, `matches` are guaranteed to be that
+    service's tools. When none is named, `fall_through` is set and any matches
+    are clearly-advisory lexical guesses."""
+
+    query: str
+    matches: list[Capability]
+    fall_through: bool
+    reason: str
+
+
 def _catalog_url() -> str:
     """Read at call time so env changes take effect without re-import.
     Defaults to the cocoon-published registry; users can pin a local file
@@ -236,14 +257,28 @@ def _capability_doc(api: str, api_desc: str, endpoint: dict) -> str:
     return " ".join(parts)
 
 
-def find_capability(query: str, limit: int = 5, *, ready_only: bool = False) -> list[Capability]:
+def find_capability(
+    query: str,
+    limit: int = 5,
+    *,
+    ready_only: bool = False,
+    apis: set[str] | None = None,
+    min_score: float | None = None,
+) -> list[Capability]:
     """BM25-rank capabilities against `query`. Results sort ready APIs
     (auth_status none/configured) before gated ones (required), then by
     score descending within each band.
 
     `ready_only=True` filters gated APIs out entirely — useful when the
     agent only wants capabilities it can invoke without a user-attended
-    setup step."""
+    setup step.
+
+    `apis`, when given, restricts ranking to those API names — used by `find`
+    to rank only within a service the query explicitly named (guaranteeing a
+    right-service result instead of a cross-service lexical false positive).
+    `min_score` overrides the default floor; pass a negative value to keep
+    every endpoint of a named service even when the query barely lexically
+    overlaps its summaries."""
     if not query.strip():
         return []
 
@@ -251,16 +286,20 @@ def find_capability(query: str, limit: int = 5, *, ready_only: bool = False) -> 
     docs: list[str] = []
     for entry in _installable_view(ready_only=ready_only):
         api = entry["api"]
+        if apis is not None and api not in apis:
+            continue
         auth_status = entry.get("auth_status", "required")
         api_desc = entry.get("description", "")
         for endpoint in entry.get("endpoints", []):
+            if _is_meta_tool(endpoint.get("tool", "")):
+                continue  # agent-context/doctor/etc. aren't callable capabilities
             rows.append((api, endpoint, auth_status))
             docs.append(_capability_doc(api, api_desc, endpoint))
 
     if not docs:
         return []
 
-    floor = _min_score()
+    floor = _min_score() if min_score is None else min_score
     scores = search.rank(query, docs)
     scored = [
         (auth_status, score, _capability_from_endpoint(
@@ -272,6 +311,97 @@ def find_capability(query: str, limit: int = 5, *, ready_only: bool = False) -> 
     # within a readiness band preserve BM25 ordering.
     scored.sort(key=lambda triple: (_AUTH_RANK[triple[0]], -triple[1]))
     return [cap for _status, _score, cap in scored[:limit]]
+
+
+# Cobra plumbing subcommands that show up in some agent-context dumps but
+# aren't callable API operations. Filtered from find so a named service whose
+# only catalog entry is the discover-on-install `agent-context` stub doesn't
+# surface that stub as if it were a usable tool.
+_META_TOOLS = frozenset(
+    {"agent-context", "doctor", "completion", "help", "version", "__complete", "__completeNoDesc"})
+
+
+def _is_meta_tool(tool: str) -> bool:
+    head = tool.replace(".", " ").split()
+    return bool(head) and head[0] in _META_TOOLS
+
+
+def _named_apis(query: str) -> list[str]:
+    """API names the query explicitly mentions. An API matches when either its
+    de-spaced name is a query token or adjacent-token join ("hacker news" →
+    `hackernews`), or every token of its hyphen-split name appears in the query
+    ("alaska airlines flights" → `alaska-airlines`). A bare "airlines" matches
+    neither (too generic to claim). This service-name signal is cocoon's
+    high-precision gate; summary BM25 is not (see FindResult)."""
+    tokens = search.tokenize(query)
+    if not tokens:
+        return []
+    token_set = set(tokens)
+    # tokens + adjacent concatenations, so a service written as two words still
+    # matches a single-token API id.
+    forms = token_set | {tokens[i] + tokens[i + 1] for i in range(len(tokens) - 1)}
+    named: list[str] = []
+    for entry in _installable_view():
+        api = entry.get("api")
+        if not api:
+            continue
+        parts = [p for p in search.tokenize(api.replace("-", " ")) if p]
+        if not parts:
+            continue
+        despaced = "".join(parts)
+        if despaced in forms or (len(parts) > 1 and all(p in token_set for p in parts)):
+            named.append(api)
+    return named
+
+
+def find(query: str, limit: int = 5, *, ready_only: bool = False) -> FindResult:
+    """Reliable tier-gate over the catalog. If the query names a service cocoon
+    has, return that service's closest tools (confident, no fall-through). If
+    not, return a fall-through verdict with any lexical guesses marked advisory,
+    so an agent escalates to building rather than chasing a false positive."""
+    if not query.strip():
+        return FindResult(query, [], fall_through=True, reason="empty query")
+
+    named = _named_apis(query)
+    if named:
+        # Rank only within the named service(s); negative floor keeps the
+        # service's tools even when the query barely overlaps their summaries
+        # (the user named it — show what it can do).
+        matches = find_capability(
+            query, limit, ready_only=ready_only, apis=set(named), min_score=-1.0)
+        joined = ", ".join(sorted(named))
+        if matches:
+            return FindResult(
+                query, matches, fall_through=False,
+                reason=f"cocoon has {joined}; closest tool(s) below")
+        # Named, so cocoon HAS the service — don't tell the agent to rebuild it
+        # — but no callable tool is listed: either it's a manifest-less CLI
+        # whose tools resolve on first install, or ready_only filtered its
+        # (auth-gated) tools out. Either way the next step is describe/call, not
+        # build, so this is not a fall-through.
+        return FindResult(
+            query, [], fall_through=False,
+            reason=f"cocoon has {joined}, but its tools aren't listed here "
+                   f"(resolved on first call, or hidden by ready_only); "
+                   f"call or describe to populate them")
+
+    # No service named — summary BM25 alone is unreliable, so this is advisory.
+    guesses = find_capability(query, limit, ready_only=ready_only)
+    return FindResult(
+        query, guesses, fall_through=True,
+        reason=("no service in your query matches one cocoon has; the entries "
+                "below are unverified lexical guesses — verify they fit your "
+                "intent or build the integration"))
+
+
+def to_find_dict(result: FindResult) -> dict:
+    """Serialize a FindResult for the MCP / CLI surfaces."""
+    return {
+        "query": result.query,
+        "fall_through": result.fall_through,
+        "reason": result.reason,
+        "matches": [to_dict(c) for c in result.matches],
+    }
 
 
 _warned_min_score_values: set[str] = set()

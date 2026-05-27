@@ -60,8 +60,9 @@ async def _call(**kwargs):
 
 async def test_action_find_returns_results() -> None:
     out = await _call(action="find", query="hacker news")
-    assert isinstance(out, list)
-    assert any(r["api"] == "hackernews" for r in out)
+    assert isinstance(out, dict)
+    assert out["fall_through"] is False  # query named a service cocoon has
+    assert any(r["api"] == "hackernews" for r in out["matches"])
 
 
 async def test_action_find_without_query_returns_error() -> None:
@@ -143,8 +144,8 @@ def test_invocation_for_nested_subcommand_keeps_full_path() -> None:
 async def test_action_find_passes_ready_only_through() -> None:
     """ready_only=True filters gated APIs out at the MCP boundary."""
     out = await _call(action="find", query="issue create", ready_only=True)
-    assert isinstance(out, list)
-    assert all(r["auth_status"] != "required" for r in out)
+    assert isinstance(out, dict)
+    assert all(r["auth_status"] != "required" for r in out["matches"])
 
 
 async def test_action_list_passes_ready_only_through() -> None:
@@ -157,7 +158,7 @@ async def test_action_list_passes_ready_only_through() -> None:
 async def test_action_find_surfaces_auth_status() -> None:
     """Every find result carries auth_status so the agent can decide."""
     out = await _call(action="find", query="hacker news")
-    assert all("auth_status" in r for r in out)
+    assert all("auth_status" in r for r in out["matches"])
 
 
 async def test_auth_missing_includes_auth_type() -> None:

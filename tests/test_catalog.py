@@ -284,3 +284,65 @@ def test_refresh_catalog_rewrites_cache(tmp_path: Path) -> None:
     catalog.refresh_catalog()
     assert cache_file.read_text() != "[]"
     assert cache_file.stat().st_mtime_ns >= first_mtime
+
+
+# --- find() reliable tier-gate (named-service routing + fall-through) ---
+# Dev catalog APIs: github, hackernews, linear, slack, stripe.
+
+
+def test_find_named_service_is_confident_and_scoped() -> None:
+    """Naming a service cocoon has → confident, matches are THAT service."""
+    r = catalog.find("post a message to slack")
+    assert r.fall_through is False
+    assert r.matches and all(c.api == "slack" for c in r.matches)
+
+
+def test_find_named_service_beats_lexical_false_positive() -> None:
+    """The calibration failure: summary BM25 ranked non-stripe tools first for
+    'stripe charge'. Named-service routing pins it to stripe."""
+    r = catalog.find("create a stripe charge")
+    assert r.fall_through is False
+    assert all(c.api == "stripe" for c in r.matches)
+
+
+def test_find_two_word_service_matches_single_token_api() -> None:
+    r = catalog.find("get the top stories on hacker news")
+    assert r.fall_through is False
+    assert any(c.api == "hackernews" for c in r.matches)
+
+
+def test_find_unnamed_capability_falls_through() -> None:
+    """No service named → cocoon won't bluff; fall through to build."""
+    r = catalog.find("commercial flights from SFO to Tokyo")
+    assert r.fall_through is True
+
+
+def test_find_unmatched_query_falls_through_with_no_matches() -> None:
+    r = catalog.find("qqqq zzzz 9999 nothinglikethis")
+    assert r.fall_through is True
+    assert r.matches == []
+
+
+def test_find_empty_query_falls_through() -> None:
+    assert catalog.find("").fall_through is True
+    assert catalog.find("   ").matches == []
+
+
+def test_named_apis_requires_all_hyphen_parts() -> None:
+    # single-token service present
+    assert "slack" in catalog._named_apis("dm someone on slack")
+    # a generic substring of a name must not claim the service
+    assert catalog._named_apis("i need github") == ["github"]
+    assert "stripe" not in catalog._named_apis("strip the whitespace")
+
+
+def test_to_find_dict_shape() -> None:
+    d = catalog.to_find_dict(catalog.find("message slack"))
+    assert set(d) == {"query", "fall_through", "reason", "matches"}
+    assert isinstance(d["matches"], list)
+    assert all("auth_status" in m for m in d["matches"])
+
+
+def test_find_capability_apis_filter_restricts_results() -> None:
+    caps = catalog.find_capability("create", apis={"slack"}, min_score=-1.0)
+    assert caps and all(c.api == "slack" for c in caps)
