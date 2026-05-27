@@ -22,7 +22,7 @@
 {"query": "convert 100 usd to euros", "klass": "capability_unnamed", "gold_api": "exchangerate-api", "gold_fall_through": false}
 {"query": "generate an image of a mountain sunset", "klass": "capability_unnamed", "gold_api": "midjourney", "gold_fall_through": false}
 {"query": "order a pizza for delivery tonight", "klass": "capability_unnamed", "gold_api": "dominos", "gold_fall_through": false}
-{"query": "find me a recipe for lasagna", "klass": "capability_unnamed", "gold_api": "allrecipes", "gold_fall_through": false}
+{"query": "find me a recipe for lasagna", "klass": "capability_unnamed", "gold_api": ["allrecipes", "recipe-goat", "food52"], "gold_fall_through": false}
 {"query": "track how much time i spent on this project", "klass": "capability_unnamed", "gold_api": "clockify", "gold_fall_through": false}
 {"query": "transcribe my meeting recording", "klass": "capability_unnamed", "gold_api": "fireflies", "gold_fall_through": false}
 {"query": "what is the current exchange rate for the yen", "klass": "capability_unnamed", "gold_api": "exchangerate-api", "gold_fall_through": false}
@@ -30,7 +30,7 @@
 {"query": "I need some clarity on this decision", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
 {"query": "a little bird told me the news this morning", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
 {"query": "we are touring apartments downtown this weekend", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
-{"query": "play me some pop music", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "play me some pop music", "klass": "capability_unnamed", "gold_api": ["spotify"], "gold_fall_through": false}
 {"query": "play a song on spotify", "klass": "named_id", "gold_api": "spotify", "gold_fall_through": false}
 {"query": "order an uber to the airport", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
 {"query": "renew my driver's license at the dmv", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
