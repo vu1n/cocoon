@@ -47,12 +47,18 @@ def build_sbpl(policy: SandboxPolicy) -> str:
     ]
     for rw in policy.writable_paths:
         lines.append(f'(allow file* (subpath "{rw}"))')
-    # Carve credential stores back out, emitted LAST so Seatbelt's
-    # later-match-wins resolution blocks them even if a writable path above
-    # (whose file* implies file-read*) overlaps a denied subpath. Reads of the
-    # credential stores lose; writes to a disjoint scratch dir are unaffected.
+    # Carve credential stores back out, emitted after the writable allows so
+    # Seatbelt's later-match-wins resolution blocks them even if a writable
+    # path (whose file* implies file-read*) overlaps a denied subpath.
     for path in policy.deny_read_paths:
         lines.append(f'(deny file-read* (subpath "{path}"))')
+    # Re-expose explicitly-projected read paths LAST, so a precise credential
+    # file stays readable even though its parent store is denied above
+    # (e.g. one delegated API's ~/.press-auth/<domain>.json while the rest of
+    # the store is denied). readable_paths = "expose exactly this";
+    # deny_read_paths = "hide the rest".
+    for path in policy.readable_paths:
+        lines.append(f'(allow file-read* (subpath "{path}"))')
     if policy.network:
         lines.append("(allow network*)")
     return "\n".join(lines) + "\n"

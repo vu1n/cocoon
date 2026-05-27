@@ -268,6 +268,30 @@ class TestCallSandboxEnv:
         assert deny == (auth_dir(),)
         assert scratch is None
 
+    def test_delegated_home_falls_back_to_pwd_home_when_env_unset(self, monkeypatch) -> None:
+        # When HOME is unset in the server env, the delegated HOME must still
+        # match press_auth_dir()'s basis (Path.home()), not be empty.
+        from cocoon.server import _call_sandbox_env
+        monkeypatch.delenv("HOME", raising=False)
+        env, *_rest = _call_sandbox_env(delegated=True, token_env={"_DELEGATED_TO": "press-auth"})
+        assert env["HOME"] == str(Path.home())
+        assert env["HOME"]  # non-empty
+
+    def test_delegated_scoped_to_recorded_press_auth_files(self) -> None:
+        import json
+
+        from cocoon.paths import press_auth_dir, protected_credential_paths
+        from cocoon.server import _call_sandbox_env
+        env, writable, readable, deny, scratch = _call_sandbox_env(
+            delegated=True,
+            token_env={"_DELEGATED_TO": "press-auth",
+                       "_PRESS_AUTH_FILES": json.dumps(["airbnb.com.json"])})
+        # only this API's file is exposed; the whole store + cocoon tokens denied
+        assert readable == (press_auth_dir() / "airbnb.com.json",)
+        assert set(deny) == set(protected_credential_paths())
+        assert writable == ()
+        assert scratch is None
+
     def test_non_delegated_creates_writable_scratch_home(self) -> None:
         from cocoon.paths import protected_credential_paths
         from cocoon.server import _call_sandbox_env

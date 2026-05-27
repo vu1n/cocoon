@@ -218,16 +218,14 @@ def _call_sandbox_env(
     """Compute (env, writable_paths, readable_paths, deny_read_paths, scratch_home).
 
     Delegated (cookie/session) CLIs read their own encrypted store under
-    ~/.press-auth, so they keep the real $HOME and that dir is exposed
-    read-only — required on Linux (the bwrap namespace binds nothing else, so
-    an unbound ~/.press-auth would be invisible) and harmless on macOS. cocoon's
-    own token dir is still denied so a compromised CLI can't read other APIs'
-    cocoon-managed tokens. The marker env (token_env) is NOT passed; it isn't a
-    real credential.
-    LIMITATION: ~/.press-auth is one shared store keyed by domain, so a delegated
-    CLI can still read OTHER delegated APIs' session files. Per-domain projection
-    (exposing only this API's file) needs the domain captured at `auth login`
-    time — a known follow-up.
+    ~/.press-auth, so they keep the real $HOME. When login recorded which
+    file(s) the API owns, we deny the WHOLE ~/.press-auth store (plus cocoon's
+    token dir) and re-expose only this API's file(s) read-only — so a
+    compromised delegated CLI can't read another delegated API's session store.
+    If ownership is unknown (pre-scoping marker, or login rewrote nothing) we
+    fall back to exposing the whole store, still denying cocoon's tokens. The
+    marker env (token_env) is read for that file list but NOT passed into the
+    sandbox; it isn't a real credential.
 
     Everyone else (none / api_key / bearer) needs no pre-existing $HOME state, so
     they get a private, writable, ephemeral HOME and BOTH credential stores
@@ -238,13 +236,18 @@ def _call_sandbox_env(
     under this shape; the caller removes the scratch dir after the call.
     """
     if delegated:
-        return (
-            {"HOME": os.environ.get("HOME", "")},
-            (),                     # writable: none
-            (press_auth_dir(),),    # readable: bind the cookie store (load-bearing on Linux)
-            (auth_dir(),),          # deny: cocoon's own token dir
-            None,
-        )
+        # Match press_auth_dir()'s basis (Path.home()) so the CLI's
+        # $HOME/.press-auth resolves to the dir we expose/deny. Falling back to
+        # Path.home() (not "") keeps them aligned when HOME is unset in the
+        # server's env (e.g. launched by a daemon).
+        home = {"HOME": os.environ.get("HOME") or str(Path.home())}
+        owned = auth_flows.press_auth_paths(token_env)
+        if owned:
+            # Deny the whole store + cocoon's tokens, re-expose only this API's
+            # file(s) (macOS re-allows them after the deny; Linux binds only them).
+            return home, (), owned, protected_credential_paths(), None
+        # Ownership unknown — expose the whole store (back-compat), deny cocoon's.
+        return home, (), (press_auth_dir(),), (auth_dir(),), None
     cache_root().mkdir(parents=True, exist_ok=True)
     scratch_home = Path(tempfile.mkdtemp(prefix="call-home-", dir=cache_root()))
     env = {**token_env, "HOME": str(scratch_home)}

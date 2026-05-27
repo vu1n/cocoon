@@ -107,3 +107,14 @@ class TestMacosDenyReadPaths:
         deny_idx = sbpl.index("(deny file-read*")
         assert sbpl.index("(allow file-read*)") < deny_idx
         assert sbpl.index("(allow file* (subpath") < deny_idx
+
+    def test_readable_paths_reallowed_after_deny(self) -> None:
+        # A projected credential file (one delegated API's press-auth entry)
+        # must be re-allowed AFTER the store-wide deny, so last-match-wins
+        # leaves exactly that file readable while the rest stays denied.
+        press = Path("/Users/me/.press-auth")
+        cred = press / "airbnb.com.json"
+        sbpl = self._sbpl(readable_paths=(cred,))  # _sbpl denies auth + press dirs
+        deny_idx = sbpl.index(f'(deny file-read* (subpath "{press}"))')
+        allow_idx = sbpl.index(f'(allow file-read* (subpath "{cred}"))')
+        assert deny_idx < allow_idx
