@@ -75,9 +75,45 @@ def to_capabilities(api: str, ctx: dict) -> list[dict]:
     pp:endpoint (which can include verb-suffix segments like `.get`/`.list`
     that don't correspond to real cobra subcommands)."""
     out: list[dict] = []
-    for cmd in ctx.get("commands", []):
+    for cmd in _as_objects(ctx.get("commands")):
         _visit(api, cmd, out, path=(cmd.get("name", ""),))
-    return out
+    return _dedup_by_tool(out)
+
+
+def _dedup_by_tool(caps: list[dict]) -> list[dict]:
+    """Collapse capabilities that share a `tool`, keeping the one with the
+    longest `argv_path`.
+
+    Some CLIs (e.g. `digg`) emit a *flattened* command map where a command
+    appears both nested (`feed` → subcommand `raw`) and as a sibling top-level
+    key (`"feed raw"`). Walking both yields two caps for `feed.raw`: the nested
+    one with the correct argv_path `("feed", "raw")` and the flattened one with
+    `("raw",)`, which would invoke `digg raw` and fail. Longest path wins — it's
+    the one that reflects the real cobra command tree. First-seen order is
+    preserved for stability."""
+    best: dict[str, dict] = {}
+    for cap in caps:
+        prev = best.get(cap["tool"])
+        if prev is None or len(cap["argv_path"]) > len(prev["argv_path"]):
+            best[cap["tool"]] = cap
+    return list(best.values())
+
+
+def _as_objects(value: object) -> list[dict]:
+    """Normalize a command/subcommand/flag collection to a list of dicts.
+
+    printing-press agent-context emits these either as a list of objects or,
+    for some CLIs (e.g. `digg`), as a name-keyed map. Tolerate both, and drop
+    any non-dict element: every cached context is walked by catalog._merged_view,
+    so one CLI's odd shape must not crash discovery/install for the whole
+    catalog (which an unguarded `.get` on a string previously did)."""
+    if isinstance(value, dict):
+        candidates: list = list(value.values())
+    elif isinstance(value, list):
+        candidates = value
+    else:
+        return []
+    return [v for v in candidates if isinstance(v, dict)]
 
 
 def _visit(api: str, cmd: dict, out: list[dict], path: tuple[str, ...]) -> None:
@@ -92,7 +128,7 @@ def _visit(api: str, cmd: dict, out: list[dict], path: tuple[str, ...]) -> None:
             "positionals": _positional_names(cmd),
             "argv_path": path,
         })
-    for sub in cmd.get("subcommands", []) or []:
+    for sub in _as_objects(cmd.get("subcommands")):
         sub_name = sub.get("name", "")
         _visit(api, sub, out, path + (sub_name,))
 
@@ -107,13 +143,14 @@ def _params_schema(cmd: dict) -> dict[str, str]:
     """Build a `{name: type}` schema from a command's flags + positional args.
 
     Positionals come from the `use` string (cobra renders `<arg>` for required,
-    `[arg]` for optional). Flags come from the explicit `flags` array.
+    `[arg]` for optional). Flags come from the explicit `flags` collection
+    (a list, or a name-keyed map on some CLIs — _as_objects handles both).
     """
     schema: dict[str, str] = {}
     for token in _positional_tokens(cmd.get("use", "")):
         name, required = token
         schema[name] = "string" if required else "string?"
-    for flag in cmd.get("flags", []) or []:
+    for flag in _as_objects(cmd.get("flags")):
         name = flag.get("name")
         if not name:
             continue

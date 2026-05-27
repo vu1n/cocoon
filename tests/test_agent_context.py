@@ -8,8 +8,6 @@ will catch it loudly rather than silently degrading discovery.
 import json
 from pathlib import Path
 
-import pytest
-
 from cocoon import agent_context
 
 HN_FIXTURE: dict = {
@@ -100,6 +98,94 @@ def test_to_capabilities_carries_argv_path_for_bare_root_with_verb_annotation() 
 def test_to_capabilities_empty_on_no_commands() -> None:
     assert agent_context.to_capabilities("x", {"commands": []}) == []
     assert agent_context.to_capabilities("x", {}) == []
+
+
+# Some CLIs (e.g. digg) emit `commands`/`subcommands`/`flags` as name-keyed
+# maps rather than lists. _as_objects normalizes both shapes; one bad shape
+# must never crash to_capabilities, since catalog._merged_view walks every
+# cached context and a single raise there breaks discovery catalog-wide.
+DIGG_FIXTURE: dict = {
+    "schema_version": "2",
+    "commands": {
+        "search": {
+            "name": "search", "use": "search <query>",
+            "short": "Search clusters",
+            "annotations": {"pp:endpoint": "search.run"},
+            "flags": {"--since": {"name": "since", "type": "string", "usage": "window"}},
+        },
+        "author": {
+            "name": "author", "use": "author [username]", "short": "no endpoint here",
+            "subcommands": {
+                "clusters": {"name": "clusters", "use": "clusters",
+                             "short": "List an author's clusters",
+                             "annotations": {"pp:endpoint": "author.clusters"}},
+            },
+        },
+    },
+}
+
+
+def test_to_capabilities_handles_dict_shaped_commands() -> None:
+    caps = agent_context.to_capabilities("digg", DIGG_FIXTURE)
+    tools = {c["tool"] for c in caps}
+    assert tools == {"search.run", "author.clusters"}
+
+
+def test_to_capabilities_handles_dict_shaped_flags() -> None:
+    caps = agent_context.to_capabilities("digg", DIGG_FIXTURE)
+    search = next(c for c in caps if c["tool"] == "search.run")
+    # positional from `use` + flag from the name-keyed flags map
+    assert search["params_schema"] == {"query": "string", "since": "string?"}
+
+
+def test_to_capabilities_walks_dict_shaped_subcommands() -> None:
+    caps = agent_context.to_capabilities("digg", DIGG_FIXTURE)
+    clusters = next(c for c in caps if c["tool"] == "author.clusters")
+    assert clusters["argv_path"] == ("author", "clusters")
+
+
+def test_to_capabilities_skips_non_dict_elements() -> None:
+    # A stray string in a commands list (or any non-object) is dropped, not raised.
+    ctx = {"commands": ["bogus", {"name": "ok", "use": "ok",
+                                  "annotations": {"pp:endpoint": "ok.run"}}]}
+    caps = agent_context.to_capabilities("x", ctx)
+    assert [c["tool"] for c in caps] == ["ok.run"]
+
+
+def test_to_capabilities_tolerates_scalar_commands() -> None:
+    # commands as a string/None shouldn't blow up — returns empty.
+    assert agent_context.to_capabilities("x", {"commands": "nonsense"}) == []
+    assert agent_context.to_capabilities("x", {"commands": None}) == []
+
+
+# digg's real agent-context redundantly lists each command BOTH nested
+# (feed → subcommand raw) AND flattened as a sibling top-level key ("feed raw"
+# whose value has name="raw"). Walking both yields two caps for feed.raw with
+# different argv_paths; we must keep the correct (nested) one, not duplicate.
+DIGG_FLATTENED_FIXTURE: dict = {
+    "commands": {
+        "feed": {
+            "name": "feed", "use": "feed", "short": "Feed commands",
+            "subcommands": {
+                "raw": {"name": "raw", "use": "raw",
+                        "short": "Raw feed",
+                        "annotations": {"pp:endpoint": "feed.raw"}},
+            },
+        },
+        "feed raw": {  # flattened duplicate — value carries the short name only
+            "name": "raw", "use": "raw", "short": "Raw feed",
+            "annotations": {"pp:endpoint": "feed.raw"},
+        },
+    },
+}
+
+
+def test_to_capabilities_dedupes_flattened_duplicate_keeping_correct_path() -> None:
+    caps = agent_context.to_capabilities("digg", DIGG_FLATTENED_FIXTURE)
+    assert len(caps) == 1, "flattened + nested duplicate must collapse to one cap"
+    assert caps[0]["tool"] == "feed.raw"
+    # the nested path is the real cobra invocation; the flattened ("raw",) is wrong
+    assert caps[0]["argv_path"] == ("feed", "raw")
 
 
 def test_auth_mode_reads_field() -> None:
