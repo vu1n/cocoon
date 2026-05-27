@@ -82,6 +82,16 @@ class ApiSummary:
     description: str
     endpoint_count: int
     auth_status: str = "required"
+    category: str = "other"
+    # Short curated discovery terms (aliases + capability slugs), surfaced so
+    # the calling LLM can match by reasoning over upstream's curation.
+    search_terms: tuple[str, ...] = ()
+
+
+@dataclass(frozen=True)
+class CategorySummary:
+    category: str
+    api_count: int
 
 
 @dataclass(frozen=True)
@@ -257,6 +267,34 @@ def _capability_doc(api: str, api_desc: str, endpoint: dict) -> str:
     return " ".join(parts)
 
 
+# Search terms longer than this are full description sentences, not curated
+# discovery keywords. Calibration showed folding the long ones into ranking
+# lets an incidental word (a city in pointhound's description, "sfo") become a
+# match signal — the postmortem's false-positive shape. So `find` ignores them;
+# only the short, slug/label-like terms surface, and only in the browse index
+# the LLM reads (not BM25 ranking).
+_SEARCH_TERM_MAX_TOKENS = 4
+
+
+def short_search_terms(search_terms: object) -> list[str]:
+    """The short, slug/label-like curated terms for an API (aliases + capability
+    names), dropping the long description sentences. Surfaced in the browse
+    index so the calling LLM can reason over upstream's curated discovery
+    keywords directly."""
+    if not isinstance(search_terms, list):
+        return []
+    out: list[str] = []
+    for term in search_terms:
+        if not isinstance(term, str):
+            continue
+        # Gate on RAW word count (a slug is ≤4 words) so a stopword-heavy
+        # fragment isn't mistaken for short once stopwords are dropped; require
+        # a real token too, so punctuation-only junk is excluded.
+        if 1 <= len(term.split()) <= _SEARCH_TERM_MAX_TOKENS and search.tokenize(term):
+            out.append(term)
+    return out
+
+
 def find_capability(
     query: str,
     limit: int = 5,
@@ -322,7 +360,13 @@ _META_TOOLS = frozenset(
 
 
 def _is_meta_tool(tool: str) -> bool:
-    head = tool.replace(".", " ").split()
+    # Cobra plumbing commands are bare ("agent-context", "completion bash");
+    # real pp:endpoints are dotted ("version.game-list"). Match only the bare
+    # form so a dotted endpoint that merely shares a prefix word (pokeapi's
+    # `version.game-list`) isn't filtered out as if it were plumbing.
+    if "." in tool:
+        return False
+    head = tool.split()
     return bool(head) and head[0] in _META_TOOLS
 
 
@@ -368,7 +412,7 @@ def find(query: str, limit: int = 5, *, ready_only: bool = False) -> FindResult:
         # service's tools even when the query barely overlaps their summaries
         # (the user named it — show what it can do).
         matches = find_capability(
-            query, limit, ready_only=ready_only, apis=set(named), min_score=-1.0)
+            query, limit, ready_only=ready_only, apis=set(named), min_score=float("-inf"))
         joined = ", ".join(sorted(named))
         if matches:
             return FindResult(
@@ -392,16 +436,6 @@ def find(query: str, limit: int = 5, *, ready_only: bool = False) -> FindResult:
         reason=("no service in your query matches one cocoon has; the entries "
                 "below are unverified lexical guesses — verify they fit your "
                 "intent or build the integration"))
-
-
-def to_find_dict(result: FindResult) -> dict:
-    """Serialize a FindResult for the MCP / CLI surfaces."""
-    return {
-        "query": result.query,
-        "fall_through": result.fall_through,
-        "reason": result.reason,
-        "matches": [to_dict(c) for c in result.matches],
-    }
 
 
 _warned_min_score_values: set[str] = set()
@@ -501,26 +535,55 @@ def install_module(api: str) -> str | None:
     return module if isinstance(module, str) else None
 
 
-def list_apis(filter: str = "", *, ready_only: bool = False) -> list[ApiSummary]:
-    """List APIs in the catalog. Results sort ready (none/configured)
-    before required so the agent sees what's immediately callable first.
-    `ready_only=True` filters gated APIs out entirely."""
+def list_categories(*, ready_only: bool = False) -> list[CategorySummary]:
+    """The browse menu: each category cocoon has and its API count. This is the
+    cheap top level (~tens of lines) so the calling LLM can pick a category
+    before pulling that category's larger API index."""
+    counts: dict[str, int] = {}
+    for entry in _installable_view(ready_only=ready_only):
+        cat = entry.get("category") or "other"
+        counts[cat] = counts.get(cat, 0) + 1
+    return [CategorySummary(category=c, api_count=n) for c, n in sorted(counts.items())]
+
+
+def list_apis(
+    filter: str = "", category: str = "", *, ready_only: bool = False
+) -> list[ApiSummary]:
+    """A compact, scannable API index for the calling LLM to search itself.
+    Narrow with `category` (exact) and/or `filter` (keyword over name +
+    description + curated search_terms). Each entry carries its category and
+    short curated terms so the LLM can match by reasoning rather than relying on
+    cocoon's ranking. Sorts ready (none/configured) before gated."""
     needle = filter.lower().strip()
+    cat_needle = category.lower().strip()
     out: list[ApiSummary] = []
     for entry in _installable_view(ready_only=ready_only):
+        cat = entry.get("category") or "other"
+        if cat_needle and cat.lower() != cat_needle:
+            continue
         api = entry["api"]
         description = entry.get("description", "")
-        if needle and needle not in api.lower() and needle not in description.lower():
+        terms = short_search_terms(entry.get("search_terms"))
+        if needle and needle not in " ".join([api, description, *terms]).lower():
             continue
+        # Count callable endpoints only; a manifest-less CLI whose sole entry is
+        # the agent-context stub should read as 0, not 1 (its tools resolve on
+        # first install) — see _is_meta_tool.
+        callable_count = sum(
+            1 for e in entry.get("endpoints", []) if not _is_meta_tool(e.get("tool", "")))
         out.append(ApiSummary(
             api=api,
             description=description,
-            endpoint_count=len(entry.get("endpoints", [])),
+            endpoint_count=callable_count,
             auth_status=entry.get("auth_status", "required"),
+            category=cat,
+            search_terms=tuple(terms),
         ))
     out.sort(key=lambda s: (_AUTH_RANK[s.auth_status], s.api))
     return out
 
 
-def to_dict(obj: Capability | ApiSummary) -> dict:
+def to_dict(obj: Capability | ApiSummary | CategorySummary | FindResult) -> dict:
+    """Serialize any catalog result dataclass. asdict recurses, so a FindResult
+    serializes its Capability matches too — no bespoke serializer needed."""
     return asdict(obj)

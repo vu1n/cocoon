@@ -157,18 +157,22 @@ def test_describe_json(capsys) -> None:
     assert parsed["tool"] == "stories.top"
 
 
-def test_list_human(capsys) -> None:
+def test_list_bare_shows_categories(capsys) -> None:
     assert main(["list"]) == 0
     out = capsys.readouterr().out
-    assert "hackernews" in out
+    assert "payments" in out and "APIs" in out  # category menu, not the API list
+
+
+def test_list_category_shows_apis(capsys) -> None:
+    assert main(["list", "--category", "payments", "--json"]) == 0
+    parsed = json.loads(capsys.readouterr().out)
+    assert "stripe" in {s["api"] for s in parsed["apis"]}
 
 
 def test_list_filter_json(capsys) -> None:
     assert main(["list", "--filter", "payments", "--json"]) == 0
     parsed = json.loads(capsys.readouterr().out)
-    # bundled corpus has multiple payments APIs (stripe, mercury, ...);
-    # the filter should at least surface stripe.
-    assert "stripe" in {s["api"] for s in parsed}
+    assert "stripe" in {s["api"] for s in parsed["apis"]}
 
 
 def test_call_rejects_malformed_arg() -> None:
@@ -245,9 +249,9 @@ def test_find_ready_only_filters_human(capsys) -> None:
 
 
 def test_list_ready_only_filters(capsys) -> None:
-    assert main(["list", "--ready-only", "--json"]) == 0
+    assert main(["list", "--filter", "e", "--ready-only", "--json"]) == 0
     parsed = json.loads(capsys.readouterr().out)
-    assert parsed and all(s["auth_status"] != "required" for s in parsed)
+    assert parsed["apis"] and all(s["auth_status"] != "required" for s in parsed["apis"])
 
 
 def test_ready_subcommand_json_groups_by_status(capsys) -> None:

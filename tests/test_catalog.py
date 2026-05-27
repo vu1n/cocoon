@@ -336,8 +336,8 @@ def test_named_apis_requires_all_hyphen_parts() -> None:
     assert "stripe" not in catalog._named_apis("strip the whitespace")
 
 
-def test_to_find_dict_shape() -> None:
-    d = catalog.to_find_dict(catalog.find("message slack"))
+def test_find_result_serializes_via_to_dict() -> None:
+    d = catalog.to_dict(catalog.find("message slack"))
     assert set(d) == {"query", "fall_through", "reason", "matches"}
     assert isinstance(d["matches"], list)
     assert all("auth_status" in m for m in d["matches"])
@@ -346,3 +346,57 @@ def test_to_find_dict_shape() -> None:
 def test_find_capability_apis_filter_restricts_results() -> None:
     caps = catalog.find_capability("create", apis={"slack"}, min_score=-1.0)
     assert caps and all(c.api == "slack" for c in caps)
+
+
+# --- short_search_terms helper (curated keywords for the browse index) ---
+
+
+def test_short_search_terms_keeps_short_drops_long() -> None:
+    terms = catalog.short_search_terms(
+        ["stripe", "Dunning queue", "dunning-queue",
+         "List past-due invoices ranked by days overdue with the last failure reason"])
+    assert "Dunning queue" in terms and "dunning-queue" in terms  # short curated slugs kept
+    assert all("overdue" not in t for t in terms)                  # long description excluded
+    assert catalog.short_search_terms(None) == []
+    assert catalog.short_search_terms("not-a-list") == []
+
+
+# --- two-level browse: categories + category/keyword API index ---
+
+
+def test_list_categories_groups_and_counts() -> None:
+    cats = {c.category: c.api_count for c in catalog.list_categories()}
+    assert cats.get("payments") == 1            # stripe
+    assert cats.get("social-and-messaging") == 1  # slack
+    assert all(n >= 1 for n in cats.values())
+
+
+def test_list_apis_category_filter() -> None:
+    apis = catalog.list_apis(category="payments")
+    assert {s.api for s in apis} == {"stripe"}
+    assert apis[0].category == "payments"
+
+
+def test_list_apis_keyword_matches_search_terms() -> None:
+    # 'chat' is only in slack's curated search_terms (not its name/description).
+    apis = catalog.list_apis("chat")
+    assert "slack" in {s.api for s in apis}
+
+
+def test_list_apis_summary_carries_short_search_terms_only() -> None:
+    stripe = next(s for s in catalog.list_apis(category="payments") if s.api == "stripe")
+    assert "Dunning queue" in stripe.search_terms
+    # the long description-sentence term is dropped from the index
+    assert all("overdue" not in t for t in stripe.search_terms)
+
+
+def test_is_meta_tool_only_bare_plumbing_not_dotted_endpoints() -> None:
+    # bare cobra plumbing → filtered
+    assert catalog._is_meta_tool("agent-context")
+    assert catalog._is_meta_tool("doctor")
+    assert catalog._is_meta_tool("completion bash")
+    # real dotted pp:endpoints sharing a prefix word → NOT filtered (regression:
+    # pokeapi/version.game-list was being dropped)
+    assert not catalog._is_meta_tool("version.game-list")
+    assert not catalog._is_meta_tool("completion.create")
+    assert not catalog._is_meta_tool("issues.create")

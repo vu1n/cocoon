@@ -160,6 +160,12 @@ def _build_catalog_entry(entry: dict) -> tuple[dict, str]:
         "description": entry.get("description", ""),
         "install_module": install_module,
         "auth_type": auth_type,
+        # Upstream's curated category (e.g. "payments") and discovery terms
+        # (aliases + capability phrases, added in printing-press #743). cocoon
+        # surfaces both in the browse index so the calling LLM can search the
+        # registry itself. Kept verbatim; "" / [] when absent.
+        "category": entry.get("category") or "other",
+        "search_terms": entry.get("search_terms") or [],
         "endpoints": endpoints,
     }
     return cat_entry, source

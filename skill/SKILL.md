@@ -8,9 +8,9 @@ description: Execution runtime for structured operations against named third-par
 When the user names a specific API and wants a structured operation against it, call the single `cocoon` MCP tool:
 
 1. **Call** (the common case): `cocoon(action="call", api="slack", tool="chat.postMessage", args={"channel": "#general", "text": "hi"})`. Cocoon downloads the prebuilt CLI on first use (one-time, ~2–3s — surfaced as an MCP log notification), caches it, executes in a per-call sandbox with only that API's token scoped in, and returns the result.
-2. **Search the catalog** when the user knows what they want but not the exact tool name: `cocoon(action="find", query="create a linear issue with a title and description")` returns ranked matches with `auth_status` so you can tell at a glance which are ready to call. Pass `ready_only=true` to hide gated APIs.
-3. **Inspect** (only if `find`'s summary isn't enough): `cocoon(action="describe", api="slack", tool="chat.postMessage")`.
-4. **Enumerate** when the user is browsing: `cocoon(action="list", filter="payments")` or `cocoon(action="list", ready_only=true)`.
+2. **Find by name** when the user names a service: `cocoon(action="find", query="create a linear issue")`. Returns `{fall_through, matches}` — if `fall_through` is false, cocoon has that service and `matches` are its tools; if true, cocoon has no confident match, so browse or build (don't chase the advisory entries).
+3. **Browse to explore** when no specific service is named: `cocoon(action="list")` for the category menu, then `cocoon(action="list", category="payments")` (or `filter="<keyword>"`) for a compact API index. Read the descriptions + `search_terms` and pick the API yourself — your reasoning beats the ranker.
+4. **Inspect** (only if the index summary isn't enough): `cocoon(action="describe", api="slack", tool="chat.postMessage")`.
 
 **When NOT to call cocoon at all:** for open-ended search queries — weather, news, flight scrapes, general "find me X" requests — prefer native `web_search` / `web_fetch`. Cocoon does best with structured, named-API operations against credentials the user has scoped in; it is not a web-search competitor.
 
@@ -98,17 +98,30 @@ Returns:
 
 stdout/stderr capped at 64KB with a truncation marker.
 
-### `action="list"` — enumerate APIs
+### `action="list"` — browse the registry yourself
 
-Fields: `filter` (substring, optional), `ready_only` (default false).
+Fields: `category` (optional), `filter` (keyword, optional), `ready_only` (default false).
 
-Browse the catalog. Results sort ready APIs first; pass `ready_only=true` to hide gated ones. Each row carries `auth_status` so the agent knows whether to attempt a call or surface a setup step first.
+This is how you **search the registry with your own reasoning** instead of trusting a relevance score. Two levels, both compact:
 
+**Bare `list`** → the category menu (the cheap top level):
 ```
-cocoon(action="list", filter="airbnb")
-→ [{"api": "airbnb", "description": "...", "endpoint_count": 1,
-    "auth_status": "required"}]
+cocoon(action="list")
+→ {"categories": [{"category": "payments", "api_count": 9},
+                  {"category": "social-and-messaging", "api_count": 14}, ...],
+   "hint": "list(category=...) or list(filter=...) to drill in"}
 ```
+
+**`list(category=...)` or `list(filter=...)`** → a compact API index to scan. `filter` matches name + description + curated `search_terms`:
+```
+cocoon(action="list", category="payments")
+→ {"apis": [{"api": "stripe", "category": "payments",
+             "description": "payments and billing",
+             "search_terms": ["Dunning queue", "payout-reconcile", "customer-360"],
+             "endpoint_count": 47, "auth_status": "required"}, ...]}
+```
+
+Read the descriptions + `search_terms` (upstream's curated discovery keywords) and pick the API yourself — your judgment beats the ranker. Then `describe`/`call` the tool on the API you chose. Each row carries `auth_status` so you know whether it's callable now or needs a setup step. This keeps your context small: a category menu, then one category's index, then one API's tools — never the whole corpus.
 
 ## Seamless install
 

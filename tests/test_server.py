@@ -97,16 +97,24 @@ async def test_action_describe_missing_both_lists_both() -> None:
     assert out["detail"]["missing"] == ["api", "tool"]
 
 
-async def test_action_list_returns_summaries() -> None:
+async def test_action_list_bare_returns_categories() -> None:
     out = await _call(action="list")
-    assert isinstance(out, list)
-    assert all("api" in s and "endpoint_count" in s for s in out)
+    assert isinstance(out, dict) and "categories" in out
+    cats = {c["category"] for c in out["categories"]}
+    assert "payments" in cats and "social-and-messaging" in cats
+    assert all("api_count" in c for c in out["categories"])
 
 
-async def test_action_list_filter_applied() -> None:
-    out = await _call(action="list", filter="payments")
-    # bundled corpus has multiple payments APIs; filter must at least include stripe.
-    assert "stripe" in {s["api"] for s in out}
+async def test_action_list_category_returns_api_index() -> None:
+    out = await _call(action="list", category="payments")
+    assert "stripe" in {s["api"] for s in out["apis"]}
+    assert all(s["category"] == "payments" for s in out["apis"])
+
+
+async def test_action_list_filter_matches_search_terms() -> None:
+    # 'chat' is in slack's curated search_terms, not its api/description.
+    out = await _call(action="list", filter="chat")
+    assert "slack" in {s["api"] for s in out["apis"]}
 
 
 async def test_unknown_action_returns_error() -> None:
@@ -149,10 +157,10 @@ async def test_action_find_passes_ready_only_through() -> None:
 
 
 async def test_action_list_passes_ready_only_through() -> None:
-    out = await _call(action="list", ready_only=True)
-    assert isinstance(out, list)
-    assert out  # hackernews is auth_type=none → always ready
-    assert all(s["auth_status"] != "required" for s in out)
+    # ready_only on the API index must drop gated APIs.
+    out = await _call(action="list", filter="e", ready_only=True)
+    assert out["apis"]  # hackernews (auth_type=none) matches 'e' and is ready
+    assert all(s["auth_status"] != "required" for s in out["apis"])
 
 
 async def test_action_find_surfaces_auth_status() -> None:

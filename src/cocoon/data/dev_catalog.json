@@ -4,6 +4,8 @@
     "description": "GitHub: source control, issues, pull requests",
     "install_module": "github.com/mvanhorn/printing-press-library/library/dev/github/cmd/github-pp-cli",
     "auth_type": "api_key",
+    "category": "developer-tools",
+    "search_terms": ["github", "git", "source control"],
     "endpoints": [
       {
         "tool": "repos.get",
@@ -33,6 +35,8 @@
     "description": "Hacker News from the terminal with a local SQLite store, search, and agent-native output",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/hackernews/cmd/hackernews-pp-cli",
     "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": ["hackernews", "hacker news", "hn"],
     "endpoints": [
       {
         "tool": "stories.top",
@@ -62,6 +66,8 @@
     "description": "Linear: issue tracking and project management",
     "install_module": "github.com/mvanhorn/printing-press-library/library/dev/linear/cmd/linear-pp-cli",
     "auth_type": "api_key",
+    "category": "project-management",
+    "search_terms": ["linear", "issue tracker"],
     "endpoints": [
       {
         "tool": "issues.create",
@@ -91,6 +97,8 @@
     "description": "Slack: workspace messaging",
     "install_module": "github.com/mvanhorn/printing-press-library/library/messaging/slack/cmd/slack-pp-cli",
     "auth_type": "oauth",
+    "category": "social-and-messaging",
+    "search_terms": ["slack", "messaging", "chat"],
     "endpoints": [
       {
         "tool": "chat.postMessage",
@@ -113,6 +121,8 @@
     "description": "Stripe: payments and billing",
     "install_module": "github.com/mvanhorn/printing-press-library/library/payments/stripe/cmd/stripe-pp-cli",
     "auth_type": "api_key",
+    "category": "payments",
+    "search_terms": ["stripe", "Dunning queue", "dunning-queue", "List past-due invoices ranked by days overdue with the last failure reason attached"],
     "endpoints": [
       {
         "tool": "customers.create",

@@ -196,8 +196,11 @@ def _build_parser() -> argparse.ArgumentParser:
                         help="Emit the raw result JSON instead of formatted output.")
     p_call.set_defaults(_handler=_cmd_call)
 
-    p_list = subs.add_parser("list", help="Enumerate APIs in the catalog.")
-    p_list.add_argument("--filter", default="", help="Substring filter on name/description.")
+    p_list = subs.add_parser(
+        "list", help="Browse the catalog: bare = categories; --category/--filter = APIs.")
+    p_list.add_argument("--category", default="", help="Show APIs in this category.")
+    p_list.add_argument("--filter", default="",
+                        help="Keyword over name/description/search_terms.")
     p_list.add_argument("--ready-only", dest="ready_only", action="store_true",
                         help="Hide APIs that require auth setup.")
     p_list.add_argument("--json", dest="as_json", action="store_true")
@@ -370,7 +373,7 @@ def _cmd_catalog_refresh(args: argparse.Namespace) -> int:
 
 def _cmd_find(args: argparse.Namespace) -> int:
     result = catalog_module.find(args.query, args.limit, ready_only=args.ready_only)
-    payload = catalog_module.to_find_dict(result)
+    payload = catalog_module.to_dict(result)
 
     def human() -> None:
         if result.fall_through:
@@ -378,7 +381,9 @@ def _cmd_find(args: argparse.Namespace) -> int:
             if result.matches:
                 print("advisory guesses:")
         elif not result.matches:
-            print("(no matches)")
+            # Confident (cocoon HAS the service) but no tools listed yet
+            # (manifest-less, or ready_only filtered them) — the reason says so.
+            print(result.reason)
             return
         for r in payload["matches"]:
             tag = _auth_tag(r.get("auth_status", "required"))
@@ -425,16 +430,32 @@ def _cmd_call(args: argparse.Namespace) -> int:
 
 
 def _cmd_list(args: argparse.Namespace) -> int:
-    summaries = [
-        catalog_module.to_dict(s)
-        for s in catalog_module.list_apis(args.filter, ready_only=args.ready_only)
-    ]
+    # Bare `list` → category menu; --category/--filter → compact API index.
+    if args.category or args.filter:
+        apis = [catalog_module.to_dict(s) for s in
+                catalog_module.list_apis(args.filter, args.category, ready_only=args.ready_only)]
+        payload = {"apis": apis}
+
+        def human() -> None:
+            if not apis:
+                print("(no matching APIs)")
+                return
+            for s in apis:
+                tag = _auth_tag(s.get("auth_status", "required"))
+                terms = f"  | {', '.join(s['search_terms'])}" if s.get("search_terms") else ""
+                print(f"{tag} {s['api']:<20} [{s['category']}] {s['endpoint_count']:>3}e  —  "
+                      f"{s['description']}{terms}")
+        return _emit(payload, args.as_json, human)
+
+    cats = [catalog_module.to_dict(c)
+            for c in catalog_module.list_categories(ready_only=args.ready_only)]
+    payload = {"categories": cats}
+
     def human() -> None:
-        for s in summaries:
-            tag = _auth_tag(s.get("auth_status", "required"))
-            print(f"{tag} {s['api']:<20} {s['endpoint_count']:>3} endpoints  —  "
-                  f"{s['description']}")
-    return _emit(summaries, args.as_json, human)
+        for c in cats:
+            print(f"{c['category']:<24} {c['api_count']:>3} APIs")
+        print("\n(use `cocoon list --category <name>` or `--filter <keyword>` to drill in)")
+    return _emit(payload, args.as_json, human)
 
 
 def _cmd_ready(args: argparse.Namespace) -> int:

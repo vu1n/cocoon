@@ -77,9 +77,10 @@ async def cocoon(
     query: str | None = None,
     limit: int = 5,
     filter: str = "",
+    category: str = "",
     ready_only: bool = False,
     ctx: Context | None = None,
-) -> dict | list[dict]:
+) -> dict:
     """Execute structured operations against a named API the user has chosen.
 
     USE this tool when the user names a specific API and wants a structured
@@ -105,20 +106,28 @@ async def cocoon(
     Find sorts ready capabilities first; pass `ready_only=true` to
     hard-filter to immediately-callable APIs only.
 
-    action="find"      → BM25 search across the catalog. Required: query.
-                         Optional: limit, ready_only. Returns ranked
-                         [{api, tool, summary, params_schema, auth_status,
-                           auth_type, score, ...}, ...] with ready APIs first.
+    Two ways to discover: NAME a service → `find` (confident routing); or
+    EXPLORE → `list` to browse the registry yourself and match by reasoning.
+
+    action="find"      → does cocoon have a tool for this? Required: query.
+                         Returns {fall_through, reason, matches:[...]}. When the
+                         query names a service cocoon has, fall_through=false and
+                         matches are that service's tools. Otherwise
+                         fall_through=true — cocoon has no confident match;
+                         browse with `list` or build it. Don't chase advisory
+                         matches when fall_through is true.
     action="describe"  → full schema for one capability. Required: api, tool.
     action="call"      → execute. Required: api, tool. Optional: args.
                          First call downloads the binary (~2-3s, surfaced
                          as an MCP log notification). Returns {exit_code,
                          json|stdout, stderr?}.
-    action="list"      → enumerate APIs. Optional: filter (substring),
-                         ready_only. Each row carries auth_status so the
-                         agent knows whether to call or surface a setup
-                         step. (The CLI has a `ready` subcommand that
-                         groups by status.)
+    action="list"      → browse the registry yourself (search it with your own
+                         reasoning). Bare list → {categories:[{category,
+                         api_count}]} — the menu. list(category="payments") or
+                         list(filter="<keyword>") → {apis:[{api, category,
+                         description, search_terms, auth_status, endpoint_count}]}
+                         — a compact index to scan; filter matches name +
+                         description + curated search_terms. Then describe/call.
 
     On error returns {error, message, detail} with a stable code
     (auth_missing, materialization_failed, capability_not_found, etc.).
@@ -128,13 +137,23 @@ async def cocoon(
     match action:
         case "find":
             _require(action, query=query)
-            return catalog.to_find_dict(catalog.find(query, limit, ready_only=ready_only))
+            return catalog.to_dict(catalog.find(query, limit, ready_only=ready_only))
         case "describe":
             _require(action, api=api, tool=tool)
             return catalog.to_dict(catalog.describe_capability(api, tool))
         case "list":
-            return [catalog.to_dict(s)
-                    for s in catalog.list_apis(filter, ready_only=ready_only)]
+            # Bare list → the cheap category menu. With a category or keyword →
+            # the compact API index for the LLM to scan and match itself.
+            if category or filter:
+                return {"apis": [catalog.to_dict(s) for s in
+                                 catalog.list_apis(filter, category, ready_only=ready_only)]}
+            return {
+                "categories": [catalog.to_dict(c)
+                               for c in catalog.list_categories(ready_only=ready_only)],
+                "hint": "list(category=...) to see a category's APIs, or "
+                        "list(filter=...) to keyword-search name/description/"
+                        "search_terms; then describe/call a tool.",
+            }
         case "call":
             _require(action, api=api, tool=tool)
             return await do_call(api, tool, args, ctx)
