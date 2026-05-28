@@ -65,3 +65,30 @@ value — scale matters.
 
 The seed (`discovery_dataset.jsonl`, n=39) is kept for fast regression checks;
 the scaled set (`discovery_dataset_scaled.jsonl`, n=259) is the primary signal.
+
+## Optimize (GEPA)
+
+The `[optimize]` extra wires the dspy discovery program + a GEPA optimize loop
+against this metric — cocoon's *runtime* stays LM-free; this is offline only.
+
+```sh
+# one-time setup
+uv sync --extra optimize
+export DSPY_LM_MODEL=anthropic/claude-haiku-4-5     # any litellm model id
+export ANTHROPIC_API_KEY=...                        # provider key
+# optional: a stronger model for GEPA's reflection step
+export DSPY_REFLECTION_LM=anthropic/claude-sonnet-4-6
+
+# baseline the dspy strategy (Haiku) against this eval
+uv run python scripts/eval/run_discovery_eval.py \
+  --strategy dspy --dataset scripts/eval/discovery_dataset_scaled.jsonl
+
+# GEPA-optimize the discovery program (trainset=scaled, valset=seed)
+uv run python scripts/eval/optimize.py --auto light --out optimized.json
+```
+
+The optimize loop reuses the eval's score function as the GEPA metric, adding
+textual feedback ("MISROUTE: routed X but gold is Y — the chosen api doesn't
+fit; prefer falling through") so GEPA can reflect on *why* each failure
+happened and rewrite the program's instructions accordingly. The optimized
+program is what cocoon would ship for hosts that use the dspy discovery tier.

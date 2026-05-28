@@ -57,7 +57,16 @@ def predict_find(query: str) -> tuple[str, set[str]]:
     return "confident", apis
 
 
-STRATEGIES = {"find": predict_find}
+def predict_dspy(query: str) -> tuple[str, set[str]]:
+    """Lazy import — dspy is only required when this strategy is chosen
+    (`--strategy dspy`), and only after the `[optimize]` extra is installed
+    and an LM is configured via env. See scripts/eval/dspy_discovery.py."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from dspy_discovery import predict  # type: ignore[import-not-found]
+    return predict(query)
+
+
+STRATEGIES = {"find": predict_find, "dspy": predict_dspy}
 
 
 def _gold_set(example: dict) -> set[str]:

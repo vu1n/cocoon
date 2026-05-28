@@ -21,6 +21,13 @@ dev = [
     "pytest>=8.0",
     "pytest-asyncio>=0.23",
 ]
+# `optimize` is for the discovery eval / GEPA loop (scripts/eval/). cocoon's
+# runtime never needs dspy — it stays LM-free. Install with `uv sync --extra
+# optimize`. The actual optimize run needs an LM configured via env (e.g.
+# DSPY_LM_MODEL, ANTHROPIC_API_KEY) — see scripts/eval/optimize.py.
+optimize = [
+    "dspy>=2.5",
+]
 
 [project.scripts]
 cocoon = "cocoon.cli:main"
