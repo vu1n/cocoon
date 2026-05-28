@@ -34,18 +34,24 @@ import sys
 from collections import Counter, defaultdict
 from pathlib import Path
 
+# cocoon lives in ../../src; sibling eval modules (scoring, dspy_discovery) live
+# next to this file. Both are added to sys.path once at module top so siblings
+# can import normally without per-function sys.path manipulation.
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from cocoon import catalog  # noqa: E402
+from scoring import (  # noqa: E402  — canonical scoring shared with optimize.py
+    BLUFF,
+    DECLINED,
+    MISROUTE,
+    MISSED,
+    ROUTED,
+    classify,
+    gold_apis,
+)
 
 DATASET = Path(__file__).resolve().parent / "discovery_dataset.jsonl"
-
-# Outcome of scoring one example.
-ROUTED = "routed_correct"   # confident → correct api
-MISROUTE = "misrouted"      # confident → wrong api (false confident on a named query)
-BLUFF = "bluffed"           # confident on an off_corpus query (should have declined)
-MISSED = "missed"           # fell through when a real api exists (blind spot)
-DECLINED = "declined"       # correctly fell through on off_corpus
 
 
 def predict_find(query: str) -> tuple[str, set[str]]:
@@ -61,29 +67,11 @@ def predict_dspy(query: str) -> tuple[str, set[str]]:
     """Lazy import — dspy is only required when this strategy is chosen
     (`--strategy dspy`), and only after the `[optimize]` extra is installed
     and an LM is configured via env. See scripts/eval/dspy_discovery.py."""
-    sys.path.insert(0, str(Path(__file__).resolve().parent))
     from dspy_discovery import predict  # type: ignore[import-not-found]
     return predict(query)
 
 
 STRATEGIES = {"find": predict_find, "dspy": predict_dspy}
-
-
-def _gold_set(example: dict) -> set[str]:
-    """gold_api may be a single id or a list — capability queries legitimately
-    have several valid APIs (a lasagna recipe fits allrecipes OR food52)."""
-    g = example["gold_api"]
-    if g is None:
-        return set()
-    return set(g) if isinstance(g, list) else {g}
-
-
-def score(example: dict, status: str, apis: set[str]) -> str:
-    if example["gold_fall_through"]:
-        return DECLINED if status == "fall_through" else BLUFF
-    if status == "fall_through":
-        return MISSED
-    return ROUTED if (apis & _gold_set(example)) else MISROUTE
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -103,7 +91,7 @@ def main(argv: list[str] | None = None) -> int:
     # Validate gold labels against the live catalog so a mislabeled api id (or one
     # that fell out of the corpus) is caught loudly rather than silently scored.
     catalog_apis = {e["api"] for e in catalog.load_catalog()}
-    bad = sorted({a for ex in examples for a in _gold_set(ex) if a not in catalog_apis})
+    bad = sorted({a for ex in examples for a in gold_apis(ex) if a not in catalog_apis})
     if bad:
         print(f"WARNING: {len(bad)} gold api(s) not in catalog (fix labels): {bad}\n",
               file=sys.stderr)
@@ -125,9 +113,10 @@ def main(argv: list[str] | None = None) -> int:
     rows = []
     for ex in examples:
         status, apis = predict(ex["query"])
-        outcome = score(ex, status, apis)
-        by_class[ex["klass"]][outcome] += 1
-        rows.append({**ex, "pred_status": status, "pred_apis": sorted(apis), "outcome": outcome})
+        outcome = classify(ex, status, apis)
+        by_class[ex["klass"]][outcome.label] += 1
+        rows.append({**ex, "pred_status": status, "pred_apis": sorted(apis),
+                     "outcome": outcome.label, "feedback": outcome.feedback})
 
     print(f"=== discovery eval: strategy={strategy_name}  n={len(examples)} ===\n")
     order = [ROUTED, MISROUTE, MISSED, BLUFF, DECLINED]

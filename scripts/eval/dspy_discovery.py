@@ -61,9 +61,12 @@ def _configure_lm():
     return dspy
 
 
-def build_program():
-    """Construct the discovery dspy.Module. Importable + safe to call
-    repeatedly; the LM is configured once."""
+# Defined at module scope (not inside build_program) so the signature class
+# isn't re-declared per call. The class body needs dspy for InputField/
+# OutputField, so we resolve it lazily — first call to _signature() configures
+# the LM (idempotent) and returns the cached signature.
+@cache
+def _signature():
     dspy = _configure_lm()
 
     class Discover(dspy.Signature):
@@ -88,6 +91,16 @@ def build_program():
             desc="The chosen api id (must be exactly one id from the registry), "
                  "or empty string to fall through. No prose.")
 
+    return Discover
+
+
+@cache
+def build_program():
+    """Construct the discovery dspy.Module — cached so the GEPA loop and the
+    eval strategy share one program (and one LM context) across calls."""
+    dspy = _configure_lm()
+    Discover = _signature()
+
     class DiscoveryProgram(dspy.Module):
         def __init__(self, registry_text: str):
             super().__init__()
@@ -101,17 +114,14 @@ def build_program():
     return DiscoveryProgram(registry_index())
 
 
-_program_cache: list = []
+def pred_to_status_apis(pred) -> tuple[str, set[str]]:
+    """Translate a dspy.Prediction with `.api` into the eval's
+    `(status, apis)` shape. Shared with optimize.metric_with_feedback so the
+    pred-parsing lives in one place."""
+    api = (getattr(pred, "api", "") or "").strip()
+    return ("confident", {api}) if api else ("fall_through", set())
 
 
 def predict(query: str) -> tuple[str, set[str]]:
-    """Eval strategy: route a query via the dspy program. Lazy-builds + caches
-    the program so repeated calls reuse one LM context."""
-    if not _program_cache:
-        _program_cache.append(build_program())
-    program = _program_cache[0]
-    pred = program(query=query)
-    api = pred.api
-    if not api:
-        return "fall_through", set()
-    return "confident", {api}
+    """Eval strategy entrypoint — routes one query via the (cached) dspy program."""
+    return pred_to_status_apis(build_program()(query=query))

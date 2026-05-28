@@ -33,7 +33,8 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 sys.path.insert(0, str(HERE.parent.parent / "src"))
 
-from dspy_discovery import build_program  # noqa: E402
+from dspy_discovery import build_program, pred_to_status_apis  # noqa: E402
+from scoring import classify  # noqa: E402  — shared with run_discovery_eval.py
 
 SEED = HERE / "discovery_dataset.jsonl"
 SCALED = HERE / "discovery_dataset_scaled.jsonl"
@@ -56,47 +57,18 @@ def _load_examples(path: Path):
     return out
 
 
-def _gold_set(example) -> set[str]:
-    g = example.gold_api
-    if g is None:
-        return set()
-    return set(g) if isinstance(g, list) else {g}
-
-
 def metric_with_feedback(example, pred, trace=None, pred_name=None, pred_trace=None):
-    """Score + actionable feedback for GEPA. Mirrors the eval's score(), but
-    emits a textual feedback line GEPA can reflect on to rewrite the program's
-    instructions. The feedback IS the optimization signal — be specific."""
+    """Thin adapter over scoring.classify. GEPA wants `Prediction(score, feedback)`;
+    the runner wants the label — both come from one classification, parsed via
+    the same `pred_to_status_apis` helper as `predict`."""
     import dspy
-    api = (getattr(pred, "api", "") or "").strip()
-    gold_apis = _gold_set(example)
-    gold_fall_through = example.gold_fall_through
-
-    if gold_fall_through:
-        if not api:
-            return dspy.Prediction(score=1.0, feedback="Correct decline.")
-        return dspy.Prediction(score=0.0, feedback=(
-            f"BLUFF: you routed to {api!r}, but this query is out-of-corpus or "
-            f"ordinary prose using a common word that happens to match an api id. "
-            f"A word matching an api id is not a route signal — check whether the "
-            f"api's description and search_terms actually serve what the user is "
-            f"asking. Prefer falling through (empty api)."
-        ))
-    if not api:
-        return dspy.Prediction(score=0.0, feedback=(
-            f"MISSED: should have routed to one of {sorted(gold_apis)}. Re-read "
-            f"those entries' descriptions and search_terms — the user's intent "
-            f"matches that capability. Don't fall through when an api genuinely "
-            f"fits."
-        ))
-    if api in gold_apis:
-        return dspy.Prediction(score=1.0, feedback="Correct route.")
-    return dspy.Prediction(score=0.0, feedback=(
-        f"MISROUTE: you routed to {api!r}, but the gold api(s) are "
-        f"{sorted(gold_apis)}. The chosen api's description/search_terms do not "
-        f"fit this query. A confidently-wrong route is worse than declining — "
-        f"when nothing clearly fits, fall through."
-    ))
+    status, apis = pred_to_status_apis(pred)
+    outcome = classify(
+        {"gold_api": example.gold_api, "gold_fall_through": example.gold_fall_through},
+        status, apis,
+    )
+    return dspy.Prediction(score=1.0 if outcome.is_correct else 0.0,
+                           feedback=outcome.feedback)
 
 
 def main(argv: list[str] | None = None) -> int:
