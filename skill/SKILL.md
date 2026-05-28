@@ -220,14 +220,14 @@ Both paths share one `SandboxPolicy` dataclass; each OS backend translates it to
 
 **What's protected**:
 - Filesystem: read-only access to the cached binary; no access to user files outside an explicit working directory mount
-- Network: `--unshare-net` on Linux by default (off only with explicit per-API opt-in for v1.1's egress proxy)
+- Network: `--unshare-net` on Linux by default (off only with explicit per-API opt-in when a CLI needs egress)
 - Processes: cannot spawn arbitrary child processes outside the sandbox
 - Tokens: scoped per-invocation; compromise of one CLI doesn't leak other APIs' credentials
 
 **What's NOT protected**:
 - Prompt injection inside an API response — that's a model-level defense problem; cocoon passes the response through faithfully and it's the agent's job to not act on injected instructions.
 - macOS `sandbox-exec` is officially deprecated by Apple; the API still works but its long-term availability is uncertain. Token scoping on macOS comes from controlling the subprocess `env` directly, not from Seatbelt.
-- v1 cannot enforce per-host egress allowlist (bubblewrap's `--unshare-net` is all-or-nothing). v1.1 adds an outbound proxy following Claude Code's pattern.
+- No per-host egress allowlist — bubblewrap's `--unshare-net` is all-or-nothing on Linux, and an outbound-proxy pattern (Claude Code does this) isn't implemented in this release.
 
 When the host agent has its own sandbox (Claude Code's bwrap/Seatbelt boundary), cocoon's sandbox layers under it — defense in depth, since the cocoon MCP server is a separate process outside the host's boundary.
 
@@ -246,13 +246,13 @@ Do NOT use cocoon when:
 
 ## Design rationale
 
-**Why an MCP facade over the CLI fleet, not over the per-API MCP servers printing-press also emits?** Printing-press's per-API MCP servers default to endpoint-mirror mode — one tool per endpoint. With 134 APIs in the catalog and tens of endpoints each, registering all of them would put thousands of tool definitions into context. Per printing-press's own docs, MCP responses also dump raw API JSON (paging, nested fields, everything) while the CLI pre-formats. cocoon gets both wins: MCP's typed-schema-up-front benefit (the agent sees one `cocoon` tool with a small action enum), CLI's response compression (35-100× fewer tokens per call), zero context cost from unused APIs.
+**Why an MCP facade over the CLI fleet, not over the per-API MCP servers printing-press also emits?** Printing-press's per-API MCP servers default to endpoint-mirror mode — one tool per endpoint. With 194 APIs in the catalog and tens of endpoints each, registering all of them would put thousands of tool definitions into context. Per printing-press's own docs, MCP responses also dump raw API JSON (paging, nested fields, everything) while the CLI pre-formats. cocoon gets both wins: MCP's typed-schema-up-front benefit (the agent sees one `cocoon` tool with a small action enum), CLI's response compression (35-100× fewer tokens per call), zero context cost from unused APIs.
 
 **Why one MCP tool instead of four (find/describe/call/list)?** Four tools is four schema blobs the agent loads up-front for what's effectively four overloads on the same operation. Action-multiplexing keeps one tool definition in context, with the per-action fields validated server-side. The CLI exposes the same operations as separate subcommands (`cocoon find`, `cocoon call`, etc.) since shell argv is naturally one verb-per-command.
 
 **Why per-call sandbox instead of a long-lived sandboxed container?** A long-lived container is stateful infrastructure the host agent has to babysit (especially Hermes-style persistent agents). bwrap/Seatbelt invocation is millisecond-scale, so per-call gives equivalent ergonomics without lifecycle headaches and with a cleaner blast-radius boundary.
 
-**Why curated catalog only in v1, no bring-your-own OpenAPI spec?** Running printing-press's codegen on an adversary-controlled spec is a code-injection vector. v1 trusts the curated corpus; v1.1 can add `register_api(spec_url)` with stricter codegen sandboxing once the threat model for that path is worked out.
+**Why curated catalog only, no bring-your-own OpenAPI spec?** Running printing-press's codegen on an adversary-controlled spec is a code-injection vector. cocoon trusts the curated corpus; `register_api(spec_url)` would need stricter codegen sandboxing and a worked-out threat model for that path, which isn't in this release.
 
 **Why BM25 search instead of embeddings?** Endpoint summaries are short (≤ ~15 tokens), the catalog is bounded, and BM25's term-rarity weighting maps well to "Stripe charges" picking the charges endpoint over a generic list endpoint. Embeddings get added when there's a real corpus to tune against; ad-hoc embeddings on hundreds of short summaries underperform what an honest reader expects.
 
