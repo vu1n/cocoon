@@ -1,0 +1,259 @@
+{"query": "list openrouter models with their pricing", "klass": "named_id", "gold_api": "openrouter", "gold_fall_through": false}
+{"query": "register the domain payflow.dev via cf-domain", "klass": "named_id", "gold_api": "cf-domain", "gold_fall_through": false}
+{"query": "walk through my amazon-orders for last quarter", "klass": "named_id", "gold_api": "amazon-orders", "gold_fall_through": false}
+{"query": "capture a screenshot with agent-capture", "klass": "named_id", "gold_api": "agent-capture", "gold_fall_through": false}
+{"query": "turn off all dreo fans in the bedroom", "klass": "named_id", "gold_api": "dreo", "gold_fall_through": false}
+{"query": "show my lawhub weakness report for logic games", "klass": "named_id", "gold_api": "lawhub", "gold_fall_through": false}
+{"query": "find allrecipes chocolate chip cookies", "klass": "named_id", "gold_api": "allrecipes", "gold_fall_through": false}
+{"query": "pull ahrefs backlinks for our domain", "klass": "named_id", "gold_api": "ahrefs", "gold_fall_through": false}
+{"query": "archive this nyt article on archive-is", "klass": "named_id", "gold_api": "archive-is", "gold_fall_through": false}
+{"query": "compose a tweet on x-twitter and post it", "klass": "named_id", "gold_api": "x-twitter", "gold_fall_through": false}
+{"query": "show new sentry issues in the api project", "klass": "named_id", "gold_api": "sentry", "gold_fall_through": false}
+{"query": "download the latest arxiv quant-ph papers", "klass": "named_id", "gold_api": "arxiv", "gold_fall_through": false}
+{"query": "coingecko price for ethereum right now", "klass": "named_id", "gold_api": "coingecko", "gold_fall_through": false}
+{"query": "book a cal-com slot with the design team", "klass": "named_id", "gold_api": "cal-com", "gold_fall_through": false}
+{"query": "create a clickup task in the marketing list", "klass": "named_id", "gold_api": "clickup", "gold_fall_through": false}
+{"query": "add this lead to conduyt-crm", "klass": "named_id", "gold_api": "conduyt-crm", "gold_fall_through": false}
+{"query": "search airbnb for cabins near lake tahoe", "klass": "named_id", "gold_api": "airbnb", "gold_fall_through": false}
+{"query": "show me how much I spent on openrouter this month", "klass": "named_id", "gold_api": "openrouter", "gold_fall_through": false}
+{"query": "deploy this container to cloud-run-admin in us-central1", "klass": "named_id", "gold_api": "cloud-run-admin", "gold_fall_through": false}
+{"query": "pull fba inventory levels via amazon-seller", "klass": "named_id", "gold_api": "amazon-seller", "gold_fall_through": false}
+{"query": "look up tail number N123AB on airframe", "klass": "named_id", "gold_api": "airframe", "gold_fall_through": false}
+{"query": "set the spa to 102 on hayward-omnilogic", "klass": "named_id", "gold_api": "hayward-omnilogic", "gold_fall_through": false}
+{"query": "add eggs to my anylist shared list", "klass": "named_id", "gold_api": "anylist", "gold_fall_through": false}
+{"query": "schedule a beehiiv newsletter for tuesday", "klass": "named_id", "gold_api": "beehiiv", "gold_fall_through": false}
+{"query": "show me upcoming tour dates on bandsintown for haim", "klass": "named_id", "gold_api": "bandsintown", "gold_fall_through": false}
+{"query": "send a bird sms to the on-call number", "klass": "named_id", "gold_api": "bird", "gold_fall_through": false}
+{"query": "update adguard-home blocklist", "klass": "named_id", "gold_api": "adguard-home", "gold_fall_through": false}
+{"query": "pull defillama tvl for arbitrum", "klass": "named_id", "gold_api": "defillama", "gold_fall_through": false}
+{"query": "check exchangerate-api eur to usd", "klass": "named_id", "gold_api": "exchangerate-api", "gold_fall_through": false}
+{"query": "export my chrome-history from yesterday", "klass": "named_id", "gold_api": "chrome-history", "gold_fall_through": false}
+{"query": "move this jira ticket to in progress", "klass": "named_id", "gold_api": "jira", "gold_fall_through": false}
+{"query": "send an intercom message to the trial users", "klass": "named_id", "gold_api": "intercom", "gold_fall_through": false}
+{"query": "book an alaska-airlines flight from sea to lax", "klass": "named_id", "gold_api": "alaska-airlines", "gold_fall_through": false}
+{"query": "clone this voice on elevenlabs and generate a 30s sample", "klass": "named_id", "gold_api": "elevenlabs", "gold_fall_through": false}
+{"query": "resize the production droplet on digitalocean to 8gb", "klass": "named_id", "gold_api": "digitalocean", "gold_fall_through": false}
+{"query": "watch craigslist for 1996 toyota land cruisers in seattle", "klass": "named_id", "gold_api": "craigslist", "gold_fall_through": false}
+{"query": "kick off an apify actor run for that scraper", "klass": "named_id", "gold_api": "apify", "gold_fall_through": false}
+{"query": "check tesla battery and start preconditioning", "klass": "named_id", "gold_api": "tesla", "gold_fall_through": false}
+{"query": "order a large pepperoni from dominos", "klass": "named_id", "gold_api": "dominos", "gold_fall_through": false}
+{"query": "create a bento broadcast for the new release", "klass": "named_id", "gold_api": "bento", "gold_fall_through": false}
+{"query": "check espn for the lakers score", "klass": "named_id", "gold_api": "espn", "gold_fall_through": false}
+{"query": "send a pushover alert when the cron job fails", "klass": "named_id", "gold_api": "pushover", "gold_fall_through": false}
+{"query": "search edgar for recent 10-Ks", "klass": "named_id", "gold_api": "edgar", "gold_fall_through": false}
+{"query": "look at kalshi markets for the election", "klass": "named_id", "gold_api": "kalshi", "gold_fall_through": false}
+{"query": "start a clockify timer for the focus block", "klass": "named_id", "gold_api": "clockify", "gold_fall_through": false}
+{"query": "file a linear bug for the auth regression", "klass": "named_id", "gold_api": "linear", "gold_fall_through": false}
+{"query": "sync gohighlevel contacts with the new pipeline", "klass": "named_id", "gold_api": "gohighlevel", "gold_fall_through": false}
+{"query": "check booking-com for hotels in lisbon under $200", "klass": "named_id", "gold_api": "booking-com", "gold_fall_through": false}
+{"query": "queue a midjourney imagine job for a cyberpunk cat", "klass": "named_id", "gold_api": "midjourney", "gold_fall_through": false}
+{"query": "diff env vars between staging and prod on render", "klass": "named_id", "gold_api": "render", "gold_fall_through": false}
+{"query": "track that doordash delivery", "klass": "named_id", "gold_api": "doordash", "gold_fall_through": false}
+{"query": "search docker-hub for nginx tags", "klass": "named_id", "gold_api": "docker-hub", "gold_fall_through": false}
+{"query": "sync whoop recovery for the last 30 days", "klass": "named_id", "gold_api": "whoop", "gold_fall_through": false}
+{"query": "save this food52 cookie recipe to my pantry", "klass": "named_id", "gold_api": "food52", "gold_fall_through": false}
+{"query": "check our brand visibility on botsee", "klass": "named_id", "gold_api": "botsee", "gold_fall_through": false}
+{"query": "export hackernews top stories from this week", "klass": "named_id", "gold_api": "hackernews", "gold_fall_through": false}
+{"query": "send a twilio sms to the on-call engineer", "klass": "named_id", "gold_api": "twilio", "gold_fall_through": false}
+{"query": "check greatclips wait time at the bellevue salon", "klass": "named_id", "gold_api": "greatclips", "gold_fall_through": false}
+{"query": "show last month's lunch-money cashflow", "klass": "named_id", "gold_api": "lunch-money", "gold_fall_through": false}
+{"query": "create a new etherpad pad and share the link", "klass": "named_id", "gold_api": "etherpad", "gold_fall_through": false}
+{"query": "show me high-priority linear issues assigned to me", "klass": "named_id", "gold_api": "linear", "gold_fall_through": false}
+{"query": "search eu-tenders for cybersecurity contracts in germany", "klass": "named_id", "gold_api": "eu-tenders", "gold_fall_through": false}
+{"query": "look up my delta-trip with confirmation ABC123", "klass": "named_id", "gold_api": "delta-trip", "gold_fall_through": false}
+{"query": "check surgegraph visibility for our brand vs competitors", "klass": "named_id", "gold_api": "surgegraph", "gold_fall_through": false}
+{"query": "snipe this ebay watch in the last 8 seconds", "klass": "named_id", "gold_api": "ebay", "gold_fall_through": false}
+{"query": "scrape this site with firecrawl", "klass": "named_id", "gold_api": "firecrawl", "gold_fall_through": false}
+{"query": "order a #9 unwich from jimmy-johns", "klass": "named_id", "gold_api": "jimmy-johns", "gold_fall_through": false}
+{"query": "set up a customer-io campaign for trial expiry", "klass": "named_id", "gold_api": "customer-io", "gold_fall_through": false}
+{"query": "pull a recent picture from nasa-images", "klass": "named_id", "gold_api": "nasa-images", "gold_fall_through": false}
+{"query": "query open-meteo forecast for portland this weekend", "klass": "named_id", "gold_api": "open-meteo", "gold_fall_through": false}
+{"query": "transfer $5000 from operating to savings on mercury", "klass": "named_id", "gold_api": "mercury", "gold_fall_through": false}
+{"query": "search my fathom meetings for the word pricing", "klass": "named_id", "gold_api": "fathom", "gold_fall_through": false}
+{"query": "review jobber service appointments for next week", "klass": "named_id", "gold_api": "jobber", "gold_fall_through": false}
+{"query": "find a hotel-tonight deal in nyc tonight", "klass": "named_id", "gold_api": "hotel-tonight", "gold_fall_through": false}
+{"query": "ship a package overnight with fedex", "klass": "named_id", "gold_api": "fedex", "gold_fall_through": false}
+{"query": "check namecheap dns for blackgoatcoffee.com", "klass": "named_id", "gold_api": "namecheap", "gold_fall_through": false}
+{"query": "place a pagliacci pizza order for delivery", "klass": "named_id", "gold_api": "pagliacci", "gold_fall_through": false}
+{"query": "create a dub short link for the launch page", "klass": "named_id", "gold_api": "dub", "gold_fall_through": false}
+{"query": "grab the transcript with podcast-goat", "klass": "named_id", "gold_api": "podcast-goat", "gold_fall_through": false}
+{"query": "check usgs-earthquakes for anything over 4.5 in california today", "klass": "named_id", "gold_api": "usgs-earthquakes", "gold_fall_through": false}
+{"query": "schedule a tweet for tomorrow morning", "klass": "named_alias", "gold_api": "x-twitter", "gold_fall_through": false}
+{"query": "send a tweet about the new release", "klass": "named_alias", "gold_api": "x-twitter", "gold_fall_through": false}
+{"query": "search the national vulnerability database for log4j", "klass": "named_alias", "gold_api": "nvd", "gold_fall_through": false}
+{"query": "look up the CVE in the national vulnerability database", "klass": "named_alias", "gold_api": "nvd", "gold_fall_through": false}
+{"query": "look up an italian pa in indicepa", "klass": "named_alias", "gold_api": "openipa", "gold_fall_through": false}
+{"query": "call this merchant via the universal commerce protocol", "klass": "named_alias", "gold_api": "ucp", "gold_fall_through": false}
+{"query": "search google hotels for tokyo next month", "klass": "named_alias", "gold_api": "hotel-goat", "gold_fall_through": false}
+{"query": "compare google hotels prices across OTAs", "klass": "named_alias", "gold_api": "hotel-goat", "gold_fall_through": false}
+{"query": "measure our AI visibility across answer engines", "klass": "named_alias", "gold_api": "botsee", "gold_fall_through": false}
+{"query": "answer engine optimization tracking dashboard", "klass": "named_alias", "gold_api": "surgegraph", "gold_fall_through": false}
+{"query": "check my Atmos Rewards balance", "klass": "named_alias", "gold_api": "alaska-airlines", "gold_fall_through": false}
+{"query": "retweet the announcement", "klass": "named_alias", "gold_api": "x-twitter", "gold_fall_through": false}
+{"query": "geocode a list of dutch addresses", "klass": "named_alias", "gold_api": "pdok-location", "gold_fall_through": false}
+{"query": "show today's Product Hunt frontpage", "klass": "named_alias", "gold_api": "producthunt", "gold_fall_through": false}
+{"query": "pull the latest Marginal Revolution posts", "klass": "named_alias", "gold_api": "marginalrevolution", "gold_fall_through": false}
+{"query": "what's the splash on the Drudge Report right now", "klass": "named_alias", "gold_api": "drudgereport", "gold_fall_through": false}
+{"query": "look up champion builds on League of Legends aggregator", "klass": "named_alias", "gold_api": "mobalytics-lol", "gold_fall_through": false}
+{"query": "get the sicilian election results data", "klass": "named_alias", "gold_api": "elezioni-sicilia", "gold_fall_through": false}
+{"query": "a knowledgeable local with great taste — what's near me?", "klass": "named_alias", "gold_api": "wanderlust-goat", "gold_fall_through": false}
+{"query": "approve pending admin by request elevation requests", "klass": "named_alias", "gold_api": "adminbyrequest", "gold_fall_through": false}
+{"query": "triage my Microsoft 365 personal inbox", "klass": "named_alias", "gold_api": "outlook-email", "gold_fall_through": false}
+{"query": "set up email-as-a-service for our AI agents", "klass": "named_alias", "gold_api": "multimail", "gold_fall_through": false}
+{"query": "look up recent FDA drug adverse events for ozempic", "klass": "named_alias", "gold_api": "openfda", "gold_fall_through": false}
+{"query": "search Dutch public tenders for IT contracts", "klass": "named_alias", "gold_api": "tenderned", "gold_fall_through": false}
+{"query": "find a warm introduction path on linkedin to this CTO", "klass": "named_alias", "gold_api": "contact-goat", "gold_fall_through": false}
+{"query": "look up this startup across SEC Form D and YC", "klass": "named_alias", "gold_api": "company-goat", "gold_fall_through": false}
+{"query": "search the e-print server for quantum computing papers", "klass": "named_alias", "gold_api": "arxiv", "gold_fall_through": false}
+{"query": "create a print on demand mug listing", "klass": "named_alias", "gold_api": "printify", "gold_fall_through": false}
+{"query": "track exchange rate drift between USD and JPY", "klass": "named_alias", "gold_api": "exchangerate-api", "gold_fall_through": false}
+{"query": "set up a managed background job queue for AI agent workflows", "klass": "capability_unnamed", "gold_api": "trigger-dev", "gold_fall_through": false}
+{"query": "create a new bug ticket and assign it to the platform team", "klass": "capability_unnamed", "gold_api": ["jira", "linear", "clickup"], "gold_fall_through": false}
+{"query": "look at today's hottest online deals and coupon codes", "klass": "capability_unnamed", "gold_api": "slickdeals", "gold_fall_through": false}
+{"query": "get a quote for shipping 50 cartons to mexico city", "klass": "capability_unnamed", "gold_api": "fedex", "gold_fall_through": false}
+{"query": "generate a fantasy landscape image with vibrant colors", "klass": "capability_unnamed", "gold_api": "midjourney", "gold_fall_through": false}
+{"query": "monitor commercial real estate listings for price drops in dallas", "klass": "capability_unnamed", "gold_api": "loopnet", "gold_fall_through": false}
+{"query": "look up a tail number to see the registered owner of a private jet", "klass": "capability_unnamed", "gold_api": "airframe", "gold_fall_through": false}
+{"query": "query open issues in the current cycle with high priority", "klass": "capability_unnamed", "gold_api": "linear", "gold_fall_through": false}
+{"query": "query my local photo library for storage hogs", "klass": "capability_unnamed", "gold_api": "icloud", "gold_fall_through": false}
+{"query": "send a phone push alert when a cron job fails", "klass": "capability_unnamed", "gold_api": "pushover", "gold_fall_through": false}
+{"query": "download declassified government UAP reports", "klass": "capability_unnamed", "gold_api": "ufo-goat", "gold_fall_through": false}
+{"query": "get a snapshot of a startup's funding history from public sources", "klass": "capability_unnamed", "gold_api": "company-goat", "gold_fall_through": false}
+{"query": "look up a champion's transcript across recent on-air community events", "klass": "capability_unnamed", "gold_api": "roam", "gold_fall_through": false}
+{"query": "check the wait time at the nearest haircut chain", "klass": "capability_unnamed", "gold_api": "greatclips", "gold_fall_through": false}
+{"query": "join the recurring team standup video call", "klass": "capability_unnamed", "gold_api": "zoom", "gold_fall_through": false}
+{"query": "add a new lead to the sales pipeline and assign an owner", "klass": "capability_unnamed", "gold_api": ["conduyt-crm", "gohighlevel"], "gold_fall_through": false}
+{"query": "write a real-time collaborative scratch pad and share the link", "klass": "capability_unnamed", "gold_api": "etherpad", "gold_fall_through": false}
+{"query": "send an sms to a customer when their order ships", "klass": "capability_unnamed", "gold_api": ["twilio", "bird"], "gold_fall_through": false}
+{"query": "open a helpdesk ticket about the broken office printer", "klass": "capability_unnamed", "gold_api": "freshservice", "gold_fall_through": false}
+{"query": "search across community-led API directories for a Slack-related collection", "klass": "capability_unnamed", "gold_api": "postman-explore", "gold_fall_through": false}
+{"query": "check if a python package has any known CVEs", "klass": "capability_unnamed", "gold_api": ["pypi", "nvd"], "gold_fall_through": false}
+{"query": "look up tvl across defi protocols on arbitrum", "klass": "capability_unnamed", "gold_api": "defillama", "gold_fall_through": false}
+{"query": "get the current bitcoin and ethereum prices in usd", "klass": "capability_unnamed", "gold_api": "coingecko", "gold_fall_through": false}
+{"query": "save a paywalled news article so I can read it later", "klass": "capability_unnamed", "gold_api": "archive-is", "gold_fall_through": false}
+{"query": "plan a train ride from paris to nice next saturday morning", "klass": "capability_unnamed", "gold_api": "sncf-connect", "gold_fall_through": false}
+{"query": "book a meeting on my open calendar slot next tuesday afternoon", "klass": "capability_unnamed", "gold_api": "cal-com", "gold_fall_through": false}
+{"query": "sync sleep and strain scores from my recovery wearable", "klass": "capability_unnamed", "gold_api": "whoop", "gold_fall_through": false}
+{"query": "find concert tickets going on sale this friday", "klass": "capability_unnamed", "gold_api": "ticketmaster", "gold_fall_through": false}
+{"query": "schedule a publication post for tomorrow morning on the writing platform", "klass": "capability_unnamed", "gold_api": ["substack", "substack-creator", "beehiiv"], "gold_fall_through": false}
+{"query": "schedule a grocery delivery with organic bananas and oat milk", "klass": "capability_unnamed", "gold_api": "instacart", "gold_fall_through": false}
+{"query": "publish a newsletter to our subscriber list this thursday", "klass": "capability_unnamed", "gold_api": ["beehiiv", "mailchimp", "substack", "kit", "emailoctopus"], "gold_fall_through": false}
+{"query": "look up trademark status for a brand name in the US", "klass": "capability_unnamed", "gold_api": "uspto-tsdr", "gold_fall_through": false}
+{"query": "create a short trackable url for the launch campaign", "klass": "capability_unnamed", "gold_api": "dub", "gold_fall_through": false}
+{"query": "write a tour itinerary with bands playing in atlanta in june", "klass": "capability_unnamed", "gold_api": "bandsintown", "gold_fall_through": false}
+{"query": "queue up a pizza order for delivery in 30 minutes", "klass": "capability_unnamed", "gold_api": ["dominos", "pagliacci", "jimmy-johns"], "gold_fall_through": false}
+{"query": "export design tokens from a design file for codegen", "klass": "capability_unnamed", "gold_api": "figma", "gold_fall_through": false}
+{"query": "write a markdown daily note to my personal knowledge graph", "klass": "capability_unnamed", "gold_api": "obsidian", "gold_fall_through": false}
+{"query": "trigger a generative music track in a specified style", "klass": "capability_unnamed", "gold_api": "suno", "gold_fall_through": false}
+{"query": "pull personal cycling training load and zone time for the last month", "klass": "capability_unnamed", "gold_api": "strava", "gold_fall_through": false}
+{"query": "ship a small package overnight to chicago and get a rate quote", "klass": "capability_unnamed", "gold_api": "fedex", "gold_fall_through": false}
+{"query": "compare seat selection and bag fees across airlines for a transcon", "klass": "capability_unnamed", "gold_api": "flight-goat", "gold_fall_through": false}
+{"query": "compose a chat message to the engineering channel", "klass": "capability_unnamed", "gold_api": "slack", "gold_fall_through": false}
+{"query": "crawl every page on our docs site and save markdown", "klass": "capability_unnamed", "gold_api": "firecrawl", "gold_fall_through": false}
+{"query": "compose a multi-channel email from markdown for an agent", "klass": "capability_unnamed", "gold_api": "multimail", "gold_fall_through": false}
+{"query": "convert 1000 euros to japanese yen at today's rate", "klass": "capability_unnamed", "gold_api": "exchangerate-api", "gold_fall_through": false}
+{"query": "mark a sprint task as done and link the pull request", "klass": "capability_unnamed", "gold_api": ["jira", "linear", "clickup"], "gold_fall_through": false}
+{"query": "rank short-term apartment listings near downtown atlanta", "klass": "capability_unnamed", "gold_api": "apartments", "gold_fall_through": false}
+{"query": "search for european public procurement contracts in IT", "klass": "capability_unnamed", "gold_api": "eu-tenders", "gold_fall_through": false}
+{"query": "blast a cold outbound email sequence to 500 contacts", "klass": "capability_unnamed", "gold_api": "smartlead", "gold_fall_through": false}
+{"query": "get academic papers about transformer attention from 2024", "klass": "capability_unnamed", "gold_api": ["arxiv", "openalex"], "gold_fall_through": false}
+{"query": "set up a behavior-triggered email when a user abandons checkout", "klass": "capability_unnamed", "gold_api": ["customer-io", "klaviyo"], "gold_fall_through": false}
+{"query": "look up a coin's certification and grade from the grading service", "klass": "capability_unnamed", "gold_api": "pcgs", "gold_fall_through": false}
+{"query": "estimate the solar PV yield for a roof in barcelona", "klass": "capability_unnamed", "gold_api": "pvgis", "gold_fall_through": false}
+{"query": "watch for cancellations at that hard-to-get sushi spot", "klass": "capability_unnamed", "gold_api": "table-reservation-goat", "gold_fall_through": false}
+{"query": "turn off all the smart fans in the house at bedtime", "klass": "capability_unnamed", "gold_api": "dreo", "gold_fall_through": false}
+{"query": "track every purchase I've ever made on the largest online retailer", "klass": "capability_unnamed", "gold_api": "amazon-orders", "gold_fall_through": false}
+{"query": "see which keywords competitors rank for that we don't", "klass": "capability_unnamed", "gold_api": "semrush", "gold_fall_through": false}
+{"query": "scan the second-hand market in seattle for a used cargo bike", "klass": "capability_unnamed", "gold_api": "craigslist", "gold_fall_through": false}
+{"query": "show me the most recent unresolved errors in the api project", "klass": "capability_unnamed", "gold_api": "sentry", "gold_fall_through": false}
+{"query": "ingest a feature flag rollout health report across cohorts", "klass": "capability_unnamed", "gold_api": "posthog", "gold_fall_through": false}
+{"query": "charge a customer card and create a receipt", "klass": "capability_unnamed", "gold_api": "stripe", "gold_fall_through": false}
+{"query": "which large language model is cheapest for 100k context", "klass": "capability_unnamed", "gold_api": "openrouter", "gold_fall_through": false}
+{"query": "search every meeting I've had for the word 'roadmap'", "klass": "capability_unnamed", "gold_api": ["fathom", "fireflies", "granola"], "gold_fall_through": false}
+{"query": "find a beautiful astronomy image of the day to print", "klass": "capability_unnamed", "gold_api": ["nasa-images", "art-goat"], "gold_fall_through": false}
+{"query": "categorize last month's transactions and find duplicates", "klass": "capability_unnamed", "gold_api": ["lunch-money", "monarch-money"], "gold_fall_through": false}
+{"query": "wire money from a startup checking account to a vendor", "klass": "capability_unnamed", "gold_api": "mercury", "gold_fall_through": false}
+{"query": "find homes for sale under 500k in austin with a pool", "klass": "capability_unnamed", "gold_api": "redfin", "gold_fall_through": false}
+{"query": "start a timer for deep work and tag it billable", "klass": "capability_unnamed", "gold_api": "clockify", "gold_fall_through": false}
+{"query": "search dutch postal codes and reverse-geocode coordinates", "klass": "capability_unnamed", "gold_api": "pdok-location", "gold_fall_through": false}
+{"query": "watch a school community feed for posts about a course I sell", "klass": "capability_unnamed", "gold_api": "skool", "gold_fall_through": false}
+{"query": "schedule pool pump runtime for off-peak electricity hours", "klass": "capability_unnamed", "gold_api": "hayward-omnilogic", "gold_fall_through": false}
+{"query": "get a typed CLI for cloud infra autoscale management", "klass": "capability_unnamed", "gold_api": "render", "gold_fall_through": false}
+{"query": "find the best single-origin ethiopian beans from a third-wave roaster", "klass": "capability_unnamed", "gold_api": "coffee-goat", "gold_fall_through": false}
+{"query": "read my personal hacker news comments and replies", "klass": "capability_unnamed", "gold_api": "hackernews", "gold_fall_through": false}
+{"query": "place a yes-position trade on a politics prediction market", "klass": "capability_unnamed", "gold_api": "kalshi", "gold_fall_through": false}
+{"query": "scrape the latest posts from a public substack-style economics blog", "klass": "capability_unnamed", "gold_api": "marginalrevolution", "gold_fall_through": false}
+{"query": "track our backlinks and notice when high-DR sites link to us", "klass": "capability_unnamed", "gold_api": "ahrefs", "gold_fall_through": false}
+{"query": "synthesize a british female voice reading this paragraph", "klass": "capability_unnamed", "gold_api": "elevenlabs", "gold_fall_through": false}
+{"query": "monitor admin elevation requests on the corporate workstation fleet", "klass": "capability_unnamed", "gold_api": "adminbyrequest", "gold_fall_through": false}
+{"query": "find a champion build for league of legends ranked solo queue", "klass": "capability_unnamed", "gold_api": "mobalytics-lol", "gold_fall_through": false}
+{"query": "clear my inbox to zero with bulk triage rules", "klass": "capability_unnamed", "gold_api": ["superhuman", "outlook-email"], "gold_fall_through": false}
+{"query": "export every photo I took on a specific date from my phone library", "klass": "capability_unnamed", "gold_api": ["google-photos", "icloud"], "gold_fall_through": false}
+{"query": "run a database query across my workspace to find stale docs", "klass": "capability_unnamed", "gold_api": "notion", "gold_fall_through": false}
+{"query": "inspect the Dutch national tender system for sub-threshold contracts", "klass": "capability_unnamed", "gold_api": "tenderned", "gold_fall_through": false}
+{"query": "search the public collection of API specs for a notion endpoint", "klass": "capability_unnamed", "gold_api": "postman-explore", "gold_fall_through": false}
+{"query": "flag and respond to negative reviews on our review platform", "klass": "capability_unnamed", "gold_api": "trustpilot", "gold_fall_through": false}
+{"query": "look up business class award availability lax to nrt", "klass": "capability_unnamed", "gold_api": ["seats-aero", "pointhound"], "gold_fall_through": false}
+{"query": "look up a public administration in italy with PEC address", "klass": "capability_unnamed", "gold_api": "openipa", "gold_fall_through": false}
+{"query": "track my LSAT logic games progress over the last 3 months", "klass": "capability_unnamed", "gold_api": "lawhub", "gold_fall_through": false}
+{"query": "send an in-app message to all paying customers", "klass": "capability_unnamed", "gold_api": "intercom", "gold_fall_through": false}
+{"query": "I need some clarity on the proposal before we move forward", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "she spoke with great clarity and confidence", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the clarity of the photograph is amazing", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "a bird flew into the window this morning", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "we saw an eagle and a hummingbird at the feeder", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the early bird catches the worm", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "we lived in two different apartments before buying a house", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the apartments above the bakery have wood floors", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the balloon went pop when she stepped on it", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "can you pop into the store on your way home", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "my favorite pop song from the 90s came on the radio", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "we need to render the final cut by friday", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the artist will render the scene in watercolor", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "we need to dub the french audio over the english track", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "i made a bento box with rice and pickled vegetables for lunch", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the sentry stood watch all night at the gate", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "edgar called and said he won't make it to dinner", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "she packed a first aid kit and a flashlight", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the toolkit has every screwdriver you'd need", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "whoop! we just hit our goal for the quarter", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the cats roam the backyard at night", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "let your mind roam free during the meditation", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "i had granola and yogurt for breakfast", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the bird sanctuary opens at dawn", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "the cork made a satisfying pop as we opened the champagne", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "call me an uber to the airport in 10 minutes", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "book a lyft ride downtown", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "find the cheapest rideshare to the train station", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "renew my driver's license at the DMV", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "schedule a passport renewal appointment", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "apply for a TSA precheck appointment", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "file my federal income taxes for last year", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "estimate my quarterly tax payment", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "register to vote in next month's election", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "find my polling place for tuesday's primary", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "turn off the philips hue lights in the living room", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "dim the smart lights to 20 percent at sunset", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "sign me up for weight watchers and track my points", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "enroll in noom for the 16 week program", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "book a virtual doctor visit on teladoc", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "schedule a telehealth appointment for tomorrow afternoon", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "swipe right on the tinder profiles in my queue", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "send a hinge message to my latest match", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "schedule a blood draw at labcorp for a fasting lipid panel", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "order a comprehensive metabolic panel through quest diagnostics", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "set my speaker volume to 50 percent", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "turn on the bedroom sonos", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "install the latest driver for my hp laserjet 1020", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "enroll my kid in kindergarten for the fall", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "submit a college application to nyu", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "check my chase consumer checking balance", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "pay the electric utility bill on my chase bank account", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "buy a metro card for the new york subway", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "plan a route on the chicago L from logan square to o'hare", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "find an electrify america charger nearby for my ford", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "schedule a repair for my whirlpool washing machine", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "what should I get my dad for his birthday this year", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "recommend a good book to read on a long flight", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "submit a green card application to USCIS", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}
+{"query": "apply for an EIN with the IRS", "klass": "off_corpus", "gold_api": null, "gold_fall_through": true}

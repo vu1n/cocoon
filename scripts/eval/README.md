@@ -30,31 +30,38 @@ against the live catalog). Query classes: `named_id`, `named_alias`,
 - **misroutes** — confident to the *wrong* api on a named query (worst case)
 - **blind-spot size** — capability/alias queries the strategy can't reach
 
-## Result (current corpus, n=39)
+## Result — scaled set, n=259
 
-Predictions from a gold-blind subagent given cocoon's index, scored on the same
-metric as `find`, across two host-model strengths:
+A strong subagent generated 259 corpus-grounded queries across 17 categories
+(named_id, named_alias, capability_unnamed, off_corpus including generic-word
+traps). `find` runs deterministically; Haiku (weak host model) routes
+gold-blind given the same index a subagent-discovery tier would see.
 
-| | `find` (LM-free) | strong subagent | Haiku (weak) |
-|---|---|---|---|
-| named_id            | 20/20 | 20/20 | 20/20 |
-| named_alias         | 0/2   | 2/2   | 2/2   |
-| capability_unnamed  | 0/9 (blind) | 9/9 | 7/9 |
-| bluffs / misroutes  | 0 / 0 | 0 / 0 | 1 / 0 |
+| | `find` (LM-free) | Haiku (weak host) |
+|---|---|---|
+| named_id            | 79/80 (98%) | 80/80 (100%) |
+| named_alias         | 3/29        | 6/29 |
+| capability_unnamed  | 1/90 (blind) | 7/90 |
+| **misroutes** (confident → wrong api) | 3 | **56** |
+| **bluffs** (confident on off_corpus)  | **11** | 0 |
 
-**Conclusion.** The two-tier design holds, and is robust to host-model strength:
-`find` is the fast, LM-free, high-precision path for *named* services; the
-calling agent (or a subagent that searches the registry and returns only the
-chosen tool — keeping the corpus out of the main agent's context) handles
-explore/alias/capability. Even a *weak* model (Haiku) recovers most of `find`'s
-blind spot (alias 2/2, capability 7/9) — far better than the gate's 0/2, 0/9.
-cocoon hosts no LM.
+**Conclusion.** `find` is *honestly blind* (falls through on alias/capability)
+but precise on out-of-corpus modulo 11 bluffs from generic-word api ids the
+deterministic guard doesn't cover. Haiku is the opposite — perfect precision on
+out-of-corpus prose (0 bluffs) but **confidently routes to the *wrong* API on
+~50% of capability queries**, often grabbing a high-frequency api like
+`digitalocean` when uncertain.
 
-The weak-vs-strong gap is small and specific — Haiku's 1 bluff was the
-`apartments` generic-word trap (which `find`'s deterministic guard already
-catches, so composing the guard under the LLM tier may close it for free) plus 2
-non-obvious capability misses (`midjourney`, `spotify`). That ~8% is the measured
-headroom for `dspy`/GEPA to optimize the SKILL instructions / `search_terms` /
-index against this metric — worthwhile for weak hosts, not a prerequisite. The
-`--predictions` interface is the rail: a weak model, a subagent, or a `dspy`
-module all plug in and compete on the same numbers.
+That ~40% weak-host error rate (mostly confident-wrong-API on capability) is
+the GEPA/DSPy headroom, now properly measured: reflective optimization of the
+SKILL instructions / `search_terms` / index (offline, against this metric) is
+the lever to teach better calibration — "when nothing clearly fits, fall
+through." The `--predictions` interface is the rail; any producer plugs in.
+
+**Note on scale.** A 39-query seed showed Haiku at near-ceiling (1 bluff, 2
+missed) and made GEPA headroom look small. At n=259 the picture flips: weak
+hosts misroute substantially, not bluff. Small evals can mislead on optimizer
+value — scale matters.
+
+The seed (`discovery_dataset.jsonl`, n=39) is kept for fast regression checks;
+the scaled set (`discovery_dataset_scaled.jsonl`, n=259) is the primary signal.
