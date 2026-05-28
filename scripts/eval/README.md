@@ -32,23 +32,29 @@ against the live catalog). Query classes: `named_id`, `named_alias`,
 
 ## Result (current corpus, n=39)
 
-| | `find` (deterministic, LM-free) | subagent (calling-LLM tier, gold-blind) |
-|---|---|---|
-| named_id            | 20/20 | 20/20 |
-| named_alias         | 0/2   | 2/2   |
-| capability_unnamed  | 0/9 (blind by design) | 9/9 |
-| bluffs / misroutes  | 0 / 0 | 0 / 0 |
+Predictions from a gold-blind subagent given cocoon's index, scored on the same
+metric as `find`, across two host-model strengths:
 
-**Conclusion.** The two-tier design holds: `find` is the fast, LM-free,
-high-precision path for *named* services; the calling agent (or a subagent that
-searches the registry and returns only the chosen tool — keeping the corpus out
-of the main agent's context) handles explore/alias/capability, recovering
-`find`'s entire blind spot with no precision loss. cocoon hosts no LM.
+| | `find` (LM-free) | strong subagent | Haiku (weak) |
+|---|---|---|---|
+| named_id            | 20/20 | 20/20 | 20/20 |
+| named_alias         | 0/2   | 2/2   | 2/2   |
+| capability_unnamed  | 0/9 (blind) | 9/9 | 7/9 |
+| bluffs / misroutes  | 0 / 0 | 0 / 0 | 1 / 0 |
 
-A *capable* calling model already near-ceilings here, so `dspy`/GEPA optimization
-has little routing-quality headroom for strong hosts. Where it would earn its
-keep — and the next experiment that gates building it — is running this same
-eval with the **actual (possibly weak) host model** as the predictor: if a weak
-model bluffs or misses, GEPA-optimizing the SKILL instructions / `search_terms`
-/ index (offline, against this metric) is the lever. The `--predictions`
-interface is the rail: a weak model, a subagent, or a `dspy` module all plug in.
+**Conclusion.** The two-tier design holds, and is robust to host-model strength:
+`find` is the fast, LM-free, high-precision path for *named* services; the
+calling agent (or a subagent that searches the registry and returns only the
+chosen tool — keeping the corpus out of the main agent's context) handles
+explore/alias/capability. Even a *weak* model (Haiku) recovers most of `find`'s
+blind spot (alias 2/2, capability 7/9) — far better than the gate's 0/2, 0/9.
+cocoon hosts no LM.
+
+The weak-vs-strong gap is small and specific — Haiku's 1 bluff was the
+`apartments` generic-word trap (which `find`'s deterministic guard already
+catches, so composing the guard under the LLM tier may close it for free) plus 2
+non-obvious capability misses (`midjourney`, `spotify`). That ~8% is the measured
+headroom for `dspy`/GEPA to optimize the SKILL instructions / `search_terms` /
+index against this metric — worthwhile for weak hosts, not a prerequisite. The
+`--predictions` interface is the rail: a weak model, a subagent, or a `dspy`
+module all plug in and compete on the same numbers.
