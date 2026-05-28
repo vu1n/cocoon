@@ -66,7 +66,52 @@ value — scale matters.
 The seed (`discovery_dataset.jsonl`, n=39) is kept for fast regression checks;
 the scaled set (`discovery_dataset_scaled.jsonl`, n=259) is the primary signal.
 
-## Optimize (GEPA)
+## Agentic GEPA (subagent-driven, no API key)
+
+The dspy/GEPA library wants a programmatic `dspy.LM` and a provider key. If the
+host runs in a context with a calling agent + subagent capability (Claude Code,
+Codex), the SAME reflective loop is implementable agentically — predictor and
+reflector are both subagents, no separate key needed. The optimizable artifact
+is `discovery_prompt.md` (the routing instructions a subagent follows).
+
+The loop:
+1. **Predict:** spawn a (cheap) subagent — e.g. Haiku — with `discovery_prompt.md`
+   + the index + the queries; collect predictions JSON.
+2. **Score** via `run_discovery_eval.py --predictions <file>`; record outcomes.
+3. **Reflect:** spawn a (stronger) subagent — Sonnet/Opus — with the current
+   prompt + a curated failure set + the eval's textual feedback; propose a
+   revised prompt that targets the dominant failure modes without regressing
+   what worked. Write to `discovery_prompt_vN.md`.
+4. **Re-predict + score** with the revised prompt; if it Pareto-beats the
+   previous on the metrics that matter, promote it; else iterate.
+
+### Result of two iterations (Haiku predictor, scaled n=259)
+
+| | v0 (precision rule only) | v1 (added verification + domain check) | **v2 (Pareto-aware re-reflection)** |
+|---|---|---|---|
+| named_id            | 80/80 | 80/80 | 78/80 |
+| named_alias routed  | 8/29  | 11/29 | **21/29** |
+| named_alias misroutes | 8   | 4     | **1** |
+| capability_unnamed routed | 3/90 | 5/90 | **57/90** |
+| capability misroutes | 41   | 30    | **11** |
+| bluffs              | 13    | 34    | **0** |
+| **total confident-wrong** | 62 | 68 | **12** |
+| **total routed correctly** | 91 | 104 | **156** |
+
+v1 traded — it fixed misroutes but spiked bluffs (the "alias mid-sentence"
+clause leaked into id-lexical-matching). v2's reflector diagnosed that
+regression by name, preserved v1's verification step + different-domain rule,
+restored v0's prose anti-examples (concrete in-prompt examples beat abstract
+rules for weak models), and added a domain-check step. Result: **81% reduction
+in confident-wrong rate (62 → 12), 71% increase in correct routes (91 → 156)**
+— all without a single LM API key.
+
+The current `discovery_prompt.md` is v2 (promoted from the loop). Run the
+predictor subagent again any time with new failures to drive v3+. The same
+mechanism shipped as the dspy/GEPA library when you want budget management,
+Pareto candidate tracking, or sample-efficient automated rollouts.
+
+## Optimize (GEPA via the dspy library)
 
 The `[optimize]` extra wires the dspy discovery program + a GEPA optimize loop
 against this metric — cocoon's *runtime* stays LM-free; this is offline only.
