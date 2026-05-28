@@ -72,11 +72,13 @@ The dspy/GEPA library wants a programmatic `dspy.LM` and a provider key. If the
 host runs in a context with a calling agent + subagent capability (Claude Code,
 Codex), the SAME reflective loop is implementable agentically — predictor and
 reflector are both subagents, no separate key needed. The optimizable artifact
-is `discovery_prompt.md` (the routing instructions a subagent follows).
+is `src/cocoon/discovery_prompt.md` (the routing instructions a subagent
+follows; this is also the canonical copy `find` ships as `discovery.instructions`
+on fall-through responses).
 
 The loop:
-1. **Predict:** spawn a (cheap) subagent — e.g. Haiku — with `discovery_prompt.md`
-   + the index + the queries; collect predictions JSON.
+1. **Predict:** spawn a (cheap) subagent — e.g. Haiku — with the discovery
+   prompt + the index + the queries; collect predictions JSON.
 2. **Score** via `run_discovery_eval.py --predictions <file>`; record outcomes.
 3. **Reflect:** spawn a (stronger) subagent — Sonnet/Opus — with the current
    prompt + a curated failure set + the eval's textual feedback; propose a
@@ -106,10 +108,12 @@ rules for weak models), and added a domain-check step. Result: **81% reduction
 in confident-wrong rate (62 → 12), 71% increase in correct routes (91 → 156)**
 — all without a single LM API key.
 
-The current `discovery_prompt.md` is v2 (promoted from the loop). Run the
-predictor subagent again any time with new failures to drive v3+. The same
-mechanism shipped as the dspy/GEPA library when you want budget management,
-Pareto candidate tracking, or sample-efficient automated rollouts.
+The current `src/cocoon/discovery_prompt.md` is v2 (promoted from the loop) and
+ships with cocoon — `find` attaches it (alongside the compact index) to every
+fall-through response. Run the predictor subagent again any time with new
+failures to drive v3+. The same mechanism shipped as the dspy/GEPA library
+when you want budget management, Pareto candidate tracking, or sample-efficient
+automated rollouts.
 
 ## Optimize (GEPA via the dspy library)
 

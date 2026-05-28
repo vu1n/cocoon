@@ -390,6 +390,15 @@ def _cmd_find(args: argparse.Namespace) -> int:
             print(f"{tag} {r['api']}/{r['tool']}  —  {r['summary']}")
             if r["params_schema"]:
                 print(f"    params: {r['params_schema']}")
+        if result.discovery:
+            # On a fall-through-with-rails the JSON carries the full prompt +
+            # index for an LLM caller, but in a terminal those are screenfuls
+            # the human doesn't want printed. Surface the hand-off as a hint
+            # and point at --json for the rails payload.
+            idx_lines = len(result.discovery.index.splitlines())
+            print()
+            print(f"discovery rails attached: routing prompt + {idx_lines}-line "
+                  f"compact index (use --json to inspect).")
     return _emit(payload, args.as_json, human)
 
 

@@ -8,9 +8,9 @@ description: Execution runtime for structured operations against named third-par
 When the user names a specific API and wants a structured operation against it, call the single `cocoon` MCP tool:
 
 1. **Call** (the common case): `cocoon(action="call", api="slack", tool="chat.postMessage", args={"channel": "#general", "text": "hi"})`. Cocoon downloads the prebuilt CLI on first use (one-time, ~2–3s — surfaced as an MCP log notification), caches it, executes in a per-call sandbox with only that API's token scoped in, and returns the result.
-2. **Find by name** when the user names a service: `cocoon(action="find", query="create a linear issue")`. Returns `{fall_through, matches}` — if `fall_through` is false, cocoon has that service and `matches` are its tools; if true, cocoon has no confident match, so browse or build (don't chase the advisory entries).
-3. **Browse to explore** when no specific service is named: `cocoon(action="list")` for the category menu, then `cocoon(action="list", category="payments")` (or `filter="<keyword>"`) for a compact API index. Read the descriptions + `search_terms` and pick the API yourself — your reasoning beats the ranker.
-4. **Inspect** (only if the index summary isn't enough): `cocoon(action="describe", api="slack", tool="chat.postMessage")`.
+2. **Find** is the unified discovery entry point: `cocoon(action="find", query="...")`. It is a two-tier resolver. If your query *names* a service cocoon has (Linear, Slack, …), the response carries `matches` you can call directly (`fall_through: false`). If your query *describes* a capability without naming a service ("send a text message"), the deterministic gate falls through (`fall_through: true`) and the response attaches **discovery rails**: a routing prompt + a compact registry index. Run the routing yourself against the rails (inline, or by spawning a subagent) — then call the resolved api. If your routing also falls through, the capability is genuinely off-corpus.
+3. **Inspect** (only if a match's params summary isn't enough): `cocoon(action="describe", api="slack", tool="chat.postMessage")`.
+4. **Browse** (corpus-shaped, not query-shaped): `cocoon(action="list")` for the category menu, then `cocoon(action="list", category="payments")` for a category's APIs. Use this when the user wants to see what's available without a specific question (e.g. "what can cocoon do for payments?"). For query-shaped lookups, prefer `find` — its discovery rails are the routing path; `list` is the manual fallback.
 
 **When NOT to call cocoon at all:** for open-ended search queries — weather, news, flight scrapes, general "find me X" requests — prefer native `web_search` / `web_fetch`. Cocoon does best with structured, named-API operations against credentials the user has scoped in; it is not a web-search competitor.
 
@@ -46,11 +46,16 @@ If the MCP tool is unavailable (host misregistration, server restart-in-progress
 
 The action enum drives dispatch; per-action fields are validated server-side. All actions return either a structured result or `{error, message, detail}` with a stable error code.
 
-### `action="find"` — does cocoon have a tool for this?
+### `action="find"` — the unified discovery entry point
 
 Fields: `query` (required), `limit` (default 5), `ready_only` (default false).
 
-`find` is a **reliable gate**, not a fuzzy search. It returns an object:
+`find` is a two-tier resolver, not a fuzzy search. Tier 1 is a deterministic
+gate (high precision when the query names a service). When the gate falls
+through, tier 2 hands you routing rails — a prompt + compact index — so you
+do the capability/alias routing yourself instead of dead-ending.
+
+**Tier 1 — named match.** The query names a service cocoon has:
 
 ```
 cocoon(action="find", query="create a linear issue with a title and description")
@@ -61,19 +66,56 @@ cocoon(action="find", query="create a linear issue with a title and description"
       {"api": "linear", "tool": "issues.create", "summary": "Create a new issue",
        "params_schema": {"title": "string", "team_id": "string",
                          "description": "string?", "assignee_id": "string?"},
-       "auth_status": "required"},
-      ...
-    ]
+       "auth_status": "required"}, ...
+    ],
+    "discovery": null
   }
 ```
 
-**Branch on `fall_through` — this is the contract for using cocoon as a capability tier:**
-- `fall_through: false` → cocoon has the service the query named; `matches` are that service's tools. Pick one and `call` it.
-- `fall_through: true` → cocoon has **no confident match**. Do not chase the entries in `matches` (when present they are explicitly *advisory lexical guesses*). Escalate: build the integration yourself (and consider turning it into a skill).
+Pick a match and `call` it.
 
-Confidence comes from the query **naming a service cocoon has** (Linear, Slack, Stripe, …), not from a relevance score — so name the service in your query when you can. A query that only describes a capability without naming a service (“send a text message”) will usually `fall_through`, because matching summaries alone is unreliable.
+**Tier 2 — discovery rails.** The query describes a capability without
+naming a service ("send a text message"):
 
-Each match carries an `auth_status`: `"none"` (callable now), `"configured"` (auth set up locally, callable), or `"required"` (needs a setup step — surface it, don't call). Matches sort ready (`none`/`configured`) before gated; `ready_only=true` hard-filters to callable-now.
+```
+cocoon(action="find", query="send a text message")
+→ {
+    "fall_through": true,
+    "reason": "no service in your query matches one cocoon has by name; route via the discovery rails below...",
+    "matches": [...advisory lexical guesses, NOT a route...],
+    "discovery": {
+      "instructions": "# cocoon discovery prompt — v2\n...routing procedure + hard rules...",
+      "index": "twilio [social-and-messaging] — SMS, voice, WhatsApp messaging | text-message, sms, mms\nslack [social-and-messaging] — Team chat and notifications | ...\n..."
+    }
+  }
+```
+
+When `discovery` is non-null, **route the query yourself**: read `instructions`,
+scan `index`, pick an api id (or decline). Two equivalent shapes — pick whichever
+your host supports:
+
+- **Inline routing** — read the rails, decide in this turn, then call
+  `describe`/`call` on the resolved api.
+- **Subagent routing** — spawn a subagent (Haiku is enough; the prompt was
+  optimized against it) with `instructions` + `index` + the user's query;
+  get back `{status, api}` per the prompt's output format; proceed.
+
+If your routing also returns `fall_through`, the capability is genuinely
+off-corpus — escalate (build the integration; consider turning it into a
+skill). Do NOT chase the `matches` list in tier-2 responses: it is explicitly
+labeled advisory lexical guesses, not a route. Calibration showed BM25 alone
+out-ranks real services with coincidental term overlap (`pushover` over
+`slack` on a "slack" query).
+
+**Branch on `fall_through` + `discovery`:**
+- `fall_through: false` → tier-1 hit; use `matches`.
+- `fall_through: true` + `discovery: {...}` → tier-2; route via the rails.
+- `fall_through: true` + `discovery: null` → empty query / no rails to run.
+
+Each match carries an `auth_status`: `"none"` (callable now), `"configured"`
+(auth set up locally, callable), or `"required"` (needs a setup step —
+surface it, don't call). Matches sort ready (`none`/`configured`) before
+gated; `ready_only=true` hard-filters to callable-now.
 
 ### `action="describe"` — full schema for one capability
 

@@ -25,17 +25,11 @@ def registry_index() -> str:
     """Compact one-line-per-api index, cached so a GEPA loop that calls
     predict() hundreds of times doesn't rebuild it per call.
 
-    Shape: `api [category] — description | search_terms`
-    """
+    Sources the canonical product index — the same text cocoon's `find`
+    attaches to fall_through responses — so the eval optimizes against
+    the artifact that ships, not a separate copy."""
     from cocoon import catalog
-    lines: list[str] = []
-    for c in catalog.list_categories():
-        for s in catalog.list_apis(category=c.category):
-            terms = ", ".join(list(s.search_terms)[:5])
-            desc = (s.description or "")[:120]
-            tail = f" | {terms}" if terms else ""
-            lines.append(f"{s.api} [{s.category}] — {desc}{tail}")
-    return "\n".join(lines)
+    return catalog.compact_index()
 
 
 def _configure_lm():

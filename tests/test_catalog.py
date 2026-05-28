@@ -312,19 +312,39 @@ def test_find_two_word_service_matches_single_token_api() -> None:
 
 
 def test_find_unnamed_capability_falls_through() -> None:
-    """No service named → cocoon won't bluff; fall through to build."""
+    """No service named → deterministic gate falls through, but rails are
+    attached so the caller's LLM can route the capability/alias tier."""
     r = catalog.find("commercial flights from SFO to Tokyo")
     assert r.fall_through is True
+    assert r.discovery is not None
+    assert r.discovery.instructions.startswith("# cocoon discovery prompt")
+    # Index is the canonical compact view — at least one line per known api.
+    assert "linear [" in r.discovery.index
+    assert "stripe [" in r.discovery.index
 
 
 def test_find_unmatched_query_falls_through_with_no_matches() -> None:
     r = catalog.find("qqqq zzzz 9999 nothinglikethis")
     assert r.fall_through is True
     assert r.matches == []
+    # Still hands the caller routing rails — letting their LLM confirm the
+    # decline against the index is the contract, not "dead-end".
+    assert r.discovery is not None
 
 
-def test_find_empty_query_falls_through() -> None:
-    assert catalog.find("").fall_through is True
+def test_find_named_match_does_not_carry_rails() -> None:
+    """Rails are the tier-2 hand-off; tier-1 hits skip them so the common
+    case stays cheap (the prompt+index is screenfuls of tokens)."""
+    r = catalog.find("post a message to slack")
+    assert r.fall_through is False
+    assert r.discovery is None
+
+
+def test_find_empty_query_falls_through_without_rails() -> None:
+    """Empty query has nothing to route, so no rails are attached either."""
+    r = catalog.find("")
+    assert r.fall_through is True
+    assert r.discovery is None
     assert catalog.find("   ").matches == []
 
 
@@ -338,9 +358,34 @@ def test_named_apis_requires_all_hyphen_parts() -> None:
 
 def test_find_result_serializes_via_to_dict() -> None:
     d = catalog.to_dict(catalog.find("message slack"))
-    assert set(d) == {"query", "fall_through", "reason", "matches"}
+    assert set(d) == {"query", "fall_through", "reason", "matches", "discovery"}
     assert isinstance(d["matches"], list)
     assert all("auth_status" in m for m in d["matches"])
+    # Tier-1 hit: discovery is null in JSON, so an LLM caller has nothing
+    # extra to read.
+    assert d["discovery"] is None
+
+
+def test_find_fallthrough_serializes_discovery_rails() -> None:
+    """Tier-2 hand-off carries a structured payload, not free-text prose,
+    so an LLM caller can route programmatically."""
+    d = catalog.to_dict(catalog.find("send a text message"))
+    assert d["fall_through"] is True
+    assert d["discovery"] is not None
+    assert set(d["discovery"]) == {"instructions", "index"}
+    assert "routing procedure" in d["discovery"]["instructions"].lower()
+
+
+def test_compact_index_has_one_line_per_api() -> None:
+    """The canonical index a routing LLM reads — one line per api in the
+    shape the discovery prompt expects."""
+    index = catalog.compact_index()
+    lines = index.splitlines()
+    # Every line must start with `<api> [<category>] —`
+    assert all(" [" in line and "] — " in line for line in lines)
+    # All dev-catalog apis appear (5: github, hackernews, linear, slack, stripe)
+    apis_in_index = {line.split(" [", 1)[0] for line in lines}
+    assert {"github", "hackernews", "linear", "slack", "stripe"} <= apis_in_index
 
 
 def test_find_capability_apis_filter_restricts_results() -> None:

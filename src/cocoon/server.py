@@ -106,16 +106,20 @@ async def cocoon(
     Find sorts ready capabilities first; pass `ready_only=true` to
     hard-filter to immediately-callable APIs only.
 
-    Two ways to discover: NAME a service → `find` (confident routing); or
-    EXPLORE → `list` to browse the registry yourself and match by reasoning.
+    `find` is the unified discovery entry point: two-tier (deterministic gate
+    for named services; LLM-routing rails for capability/alias queries). `list`
+    is the corpus-shaped browse, for "what's available?" rather than a query.
 
     action="find"      → does cocoon have a tool for this? Required: query.
-                         Returns {fall_through, reason, matches:[...]}. When the
-                         query names a service cocoon has, fall_through=false and
-                         matches are that service's tools. Otherwise
-                         fall_through=true — cocoon has no confident match;
-                         browse with `list` or build it. Don't chase advisory
-                         matches when fall_through is true.
+                         Returns {fall_through, reason, matches, discovery}.
+                         fall_through=false → tier-1 hit; use `matches`.
+                         fall_through=true with discovery=null → empty query.
+                         fall_through=true with discovery={instructions,index}
+                         → tier-2: route the query yourself (or via subagent)
+                         against the prompt + compact index; if that also
+                         declines, the capability is off-corpus. Don't chase
+                         the `matches` list on tier-2 — it's explicitly
+                         advisory lexical guesses, not a route.
     action="describe"  → full schema for one capability. Required: api, tool.
     action="call"      → execute. Required: api, tool. Optional: args.
                          First call downloads the binary (~2-3s, surfaced

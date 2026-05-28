@@ -20,6 +20,7 @@ Search uses BM25 over per-endpoint docs = api + description + tool +
 summary + flag names. Stopwords filtered for query quality.
 """
 
+import functools
 import importlib.resources
 import json
 import os
@@ -95,24 +96,45 @@ class CategorySummary:
 
 
 @dataclass(frozen=True)
-class FindResult:
-    """The reliable answer to "does cocoon have a tool for this?" — a tier-gate
-    for an agent's capability-resolution ladder (have-a-skill → check cocoon →
-    build it). `fall_through=True` is cocoon stating it has no confident match,
-    so the caller should escalate (build the integration) rather than chase a
-    weak lexical guess.
+class DiscoveryRails:
+    """Hand-off payload for the LLM-routing tier. When `find`'s deterministic
+    gate falls through, the caller's LLM (inline or a subagent) routes the
+    query against the compact `index` following `instructions`. The runtime
+    itself stays LM-free; this is the rails for the host to do that work.
 
-    Confidence comes from the query naming a service cocoon actually has, not
-    from a BM25 score — calibration showed summary scores don't separate real
-    matches from coincidental term overlap (a "slack" query out-ranked by
-    `pushover`). When a service is named, `matches` are guaranteed to be that
-    service's tools. When none is named, `fall_through` is set and any matches
-    are clearly-advisory lexical guesses."""
+    The eval (`scripts/eval/`) measured this combo at ~60% correct routes on
+    capability/alias queries (Haiku predictor, v2 prompt, scaled n=259) vs.
+    the deterministic gate's 1/90 — i.e. when fall_through happens, this is
+    the more useful next step than "build the integration"."""
+
+    instructions: str
+    index: str
+
+
+@dataclass(frozen=True)
+class FindResult:
+    """The unified discovery entry point — answers "does cocoon have a tool
+    for this?" via a two-tier resolver:
+
+    1. **Deterministic gate** — if the query *names* a service cocoon has
+       (Linear, Slack, …), return that service's closest tools with
+       `fall_through=False`. High precision; calibration showed BM25 alone
+       can't separate real matches from coincidental term overlap.
+    2. **LLM-routing rails** — when the query *describes* a capability
+       without naming a service ("send a text message"), the deterministic
+       gate falls through and `discovery` carries the routing prompt +
+       compact registry index. The caller's LLM routes against it. The
+       runtime stays LM-free.
+
+    Branch on `fall_through`: False → use `matches`; True with `discovery` →
+    run the routing rails; True without `discovery` (e.g. empty query) →
+    nothing more to do."""
 
     query: str
     matches: list[Capability]
     fall_through: bool
     reason: str
+    discovery: DiscoveryRails | None = None
 
 
 def _catalog_url() -> str:
@@ -439,13 +461,22 @@ def find(query: str, limit: int = 5, *, ready_only: bool = False) -> FindResult:
                    f"(resolved on first call, or hidden by ready_only); "
                    f"call or describe to populate them")
 
-    # No service named — summary BM25 alone is unreliable, so this is advisory.
+    # No service named. BM25 alone is unreliable (calibration: a "slack"
+    # query gets out-ranked by `pushover`), so cocoon's deterministic gate
+    # falls through — but rather than dead-end with "build the integration",
+    # we hand the caller's LLM the routing prompt + compact index so it can
+    # do the capability/alias routing the deterministic gate is blind to.
+    # The eval measured this combo at ~60% correct routes on capability/alias
+    # queries vs. 1/90 for the gate alone.
     guesses = find_capability(query, limit, ready_only=ready_only)
     return FindResult(
         query, guesses, fall_through=True,
-        reason=("no service in your query matches one cocoon has; the entries "
-                "below are unverified lexical guesses — verify they fit your "
-                "intent or build the integration"))
+        reason=("no service in your query matches one cocoon has by name; "
+                "route via the discovery rails below (an LLM/subagent picks "
+                "an api against the index using these instructions). If that "
+                "also falls through, it's off-corpus — build the integration. "
+                "The `matches` list is unverified lexical guesses, not a route."),
+        discovery=discovery_rails(ready_only=ready_only))
 
 
 _warned_min_score_values: set[str] = set()
@@ -593,7 +624,45 @@ def list_apis(
     return out
 
 
-def to_dict(obj: Capability | ApiSummary | CategorySummary | FindResult) -> dict:
+def compact_index(*, ready_only: bool = False) -> str:
+    """The registry rendered as one line per api, in the shape the discovery
+    prompt expects: `api [category] — description | search_terms`. This is the
+    canonical view a routing LLM reads — same data list_apis returns, just
+    folded into a token-efficient text. Cached on the catalog reload so the
+    rails for every fall_through don't rebuild it per call."""
+    lines: list[str] = []
+    for cat in list_categories(ready_only=ready_only):
+        for s in list_apis(category=cat.category, ready_only=ready_only):
+            terms = ", ".join(s.search_terms)
+            desc = (s.description or "")[:120]
+            tail = f" | {terms}" if terms else ""
+            lines.append(f"{s.api} [{s.category}] — {desc}{tail}")
+    return "\n".join(lines)
+
+
+@functools.cache
+def _discovery_instructions() -> str:
+    """The routing prompt the LLM tier follows. Shipped as a package data file
+    so it's editable as prose (versioned with the cocoon release) rather than
+    embedded in a Python string. Cached after first read — it's static."""
+    return importlib.resources.files(__package__).joinpath(
+        "discovery_prompt.md").read_text(encoding="utf-8")
+
+
+def discovery_rails(*, ready_only: bool = False) -> DiscoveryRails:
+    """The hand-off payload `find` attaches on fall_through. Exposed at module
+    scope so callers (or a future browse action) can fetch the same rails
+    without going through a query."""
+    return DiscoveryRails(
+        instructions=_discovery_instructions(),
+        index=compact_index(ready_only=ready_only),
+    )
+
+
+def to_dict(
+    obj: Capability | ApiSummary | CategorySummary | FindResult | DiscoveryRails,
+) -> dict:
     """Serialize any catalog result dataclass. asdict recurses, so a FindResult
-    serializes its Capability matches too — no bespoke serializer needed."""
+    serializes its Capability matches and any DiscoveryRails too — no bespoke
+    serializer needed."""
     return asdict(obj)
