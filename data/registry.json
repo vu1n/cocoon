@@ -17204,6 +17204,323 @@
     ]
   },
   {
+    "api": "breezedoc",
+    "description": "BreezeDoc's REST API provides a handful of endpoints which can be used to get information about your account and",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/breezedoc/cmd/breezedoc-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "productivity",
+    "search_terms": [
+      "breezedoc",
+      "breezedoc-pp-cli",
+      "E-signature and invoicing API for documents, templates, recipients, teams, and invoice workflows.",
+      "Invoice lifecycle",
+      "workflow invoice-lifecycle",
+      "Create, update, optionally send, and refetch BreezeDoc invoices as one structured agent workflow.",
+      "Client workspace snapshot",
+      "workflow client-workspace-snapshot",
+      "Collect a compact account snapshot across user, documents, templates, recipients, invoices, and optional teams.",
+      "Document follow-up",
+      "workflow document-follow-up",
+      "Inspect a document and its recipients, derive follow-up statuses, and optionally resend with explicit opt-in.",
+      "Signature packet prep",
+      "workflow signature-packet-prep",
+      "Prepare a signature packet from a template or raw document payload and optionally send it with explicit opt-in."
+    ],
+    "endpoints": [
+      {
+        "tool": "documents.get",
+        "summary": "Get a specific document. Required: document. Returns the Document.",
+        "params_schema": {
+          "document": "string"
+        },
+        "positionals": [
+          "document"
+        ],
+        "argv_path": [
+          "documents"
+        ]
+      },
+      {
+        "tool": "documents.list",
+        "summary": "Get list of documents. Optional: order_by, direction. Returns the DocumentsListResponse.",
+        "params_schema": {
+          "order_by": "string?",
+          "direction": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "list"
+        ]
+      },
+      {
+        "tool": "documents.store",
+        "summary": "Create a new document. Required: title. Optional: recipients. Returns the new Document.",
+        "params_schema": {
+          "recipients": "array?",
+          "title": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "store"
+        ]
+      },
+      {
+        "tool": "documents.recipients_list-document",
+        "summary": "Get recipients for a specific document. Required: document. Optional: order_by, direction, completed. Returns the RecipientsListDocumentResponse.",
+        "params_schema": {
+          "document": "string",
+          "order_by": "string?",
+          "direction": "string?",
+          "completed": "string?"
+        },
+        "positionals": [
+          "document"
+        ],
+        "argv_path": [
+          "documents",
+          "recipients_list-document"
+        ]
+      },
+      {
+        "tool": "documents.send_document",
+        "summary": "Send a document to its recipients. Required: document, recipients. Returns the new Document.",
+        "params_schema": {
+          "document": "string",
+          "recipients": "array?"
+        },
+        "positionals": [
+          "document"
+        ],
+        "argv_path": [
+          "documents",
+          "send_document"
+        ]
+      },
+      {
+        "tool": "invoices.create",
+        "summary": "Creates a new invoice with line items. Optionally sends the invoice immediately by setting `send: true`. Required: currency, customer_email, description, items, payment_due. Optional: customer_name, footer_note, invoice_number (plus 4 more). Returns the new InvoicesCreateResponse.",
+        "params_schema": {
+          "currency": "string?",
+          "customer_email": "string?",
+          "customer_name": "string?",
+          "description": "string?",
+          "footer_note": "string?",
+          "invoice_number": "string?",
+          "items": "array?",
+          "payment_due": "string?",
+          "payment_platform_ids": "string_csv_array?",
+          "payment_terms": "string?",
+          "send": "bool?",
+          "title": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "invoices"
+        ]
+      },
+      {
+        "tool": "invoices.delete",
+        "summary": "Deletes a draft invoice. Cannot delete invoices that have already been sent. Required: invoice. Returns the InvoicesDeleteResponse. Destructive.",
+        "params_schema": {
+          "invoice": "string"
+        },
+        "positionals": [
+          "invoice"
+        ],
+        "argv_path": [
+          "invoices",
+          "delete"
+        ]
+      },
+      {
+        "tool": "invoices.get",
+        "summary": "Get a specific invoice. Required: invoice. Returns the InvoicesGetResponse.",
+        "params_schema": {
+          "invoice": "string"
+        },
+        "positionals": [
+          "invoice"
+        ],
+        "argv_path": [
+          "invoices",
+          "get"
+        ]
+      },
+      {
+        "tool": "invoices.list",
+        "summary": "Retrieves a paginated list of invoices for the authenticated user. Optional: order_by, direction, status. Returns the InvoicesListResponse.",
+        "params_schema": {
+          "order_by": "string?",
+          "direction": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "invoices",
+          "list"
+        ]
+      },
+      {
+        "tool": "invoices.patch",
+        "summary": "Same as PUT - updates an existing invoice. Cannot update invoices with status paid, uncollectible, or void. Required: invoice. Optional: currency, customer_email, customer_name (plus 8 more). Returns the updated InvoicesPatchResponse.",
+        "params_schema": {
+          "invoice": "string",
+          "currency": "string?",
+          "customer_email": "string?",
+          "customer_name": "string?",
+          "description": "string?",
+          "footer_note": "string?",
+          "invoice_number": "string?",
+          "items": "array?",
+          "payment_due": "string?",
+          "payment_platform_ids": "string_csv_array?",
+          "payment_terms": "string?",
+          "title": "string?"
+        },
+        "positionals": [
+          "invoice"
+        ],
+        "argv_path": [
+          "invoices",
+          "patch"
+        ]
+      },
+      {
+        "tool": "invoices.update",
+        "summary": "Updates an existing invoice. Cannot update invoices with status: paid, uncollectible, or void. When updating items, the entire items array is replaced. Required: invoice. Optional: currency, customer_email, customer_name (plus 8 more). Returns the updated InvoicesUpdateResponse.",
+        "params_schema": {
+          "invoice": "string",
+          "currency": "string?",
+          "customer_email": "string?",
+          "customer_name": "string?",
+          "description": "string?",
+          "footer_note": "string?",
+          "invoice_number": "string?",
+          "items": "array?",
+          "payment_due": "string?",
+          "payment_platform_ids": "string_csv_array?",
+          "payment_terms": "string?",
+          "title": "string?"
+        },
+        "positionals": [
+          "invoice"
+        ],
+        "argv_path": [
+          "invoices",
+          "update"
+        ]
+      },
+      {
+        "tool": "invoices.send_invoice",
+        "summary": "Sends (or re-sends) an invoice to the customer via email. Cannot send invoices with status: paid, uncollectible, or void. Required: invoice. Returns the new SendInvoiceResponse.",
+        "params_schema": {
+          "invoice": "string"
+        },
+        "positionals": [
+          "invoice"
+        ],
+        "argv_path": [
+          "invoices",
+          "send_invoice"
+        ]
+      },
+      {
+        "tool": "me.get-current-user",
+        "summary": "Get current user information. Returns the User.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "get-current-user"
+        ]
+      },
+      {
+        "tool": "recipients.list",
+        "summary": "Get list of recipients. Optional: order_by, direction. Returns the RecipientsListResponse.",
+        "params_schema": {
+          "order_by": "string?",
+          "direction": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "recipients"
+        ]
+      },
+      {
+        "tool": "teams.documents_list-team",
+        "summary": "Retrieves a list of all documents sent by any member of a given team. This exposes an existing data relationship. Use Case: Enables a team lead or agency owner to build a custom dashboard to monitor their team's signing activities and document statuses. Required: team. Optional: order_by, direction, completed. Returns the DocumentsListTeamResponse.",
+        "params_schema": {
+          "team": "string",
+          "order_by": "string?",
+          "direction": "string?",
+          "completed": "string?"
+        },
+        "positionals": [
+          "team"
+        ],
+        "argv_path": [
+          "teams",
+          "documents_list-team"
+        ]
+      },
+      {
+        "tool": "teams.templates_list-team",
+        "summary": "Retrieves a list of all templates shared with a specific team. Use Case: Allows an organization to programmatically audit their team's available templates to ensure brand and legal compliance. Required: team. Optional: order_by, direction. Returns the TemplatesListTeamResponse.",
+        "params_schema": {
+          "team": "string",
+          "order_by": "string?",
+          "direction": "string?"
+        },
+        "positionals": [
+          "team"
+        ],
+        "argv_path": [
+          "teams",
+          "templates_list-team"
+        ]
+      },
+      {
+        "tool": "templates.get",
+        "summary": "Get a specific template. Required: template. Returns the Template.",
+        "params_schema": {
+          "template": "string"
+        },
+        "positionals": [
+          "template"
+        ],
+        "argv_path": [
+          "templates"
+        ]
+      },
+      {
+        "tool": "templates.list",
+        "summary": "Get list of templates. Returns the TemplatesListResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "templates",
+          "list"
+        ]
+      },
+      {
+        "tool": "templates.create-document_from-template",
+        "summary": "Create a new document from a template. Required: template. Returns the new Document.",
+        "params_schema": {
+          "template": "string"
+        },
+        "positionals": [
+          "template"
+        ],
+        "argv_path": [
+          "templates",
+          "create-document_from-template"
+        ]
+      }
+    ]
+  },
+  {
     "api": "cal-com",
     "description": "Every Cal.com feature, plus offline agendas, composed booking flows, and analytics no other Cal.com tool ships.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/cal-com/cmd/cal-com-pp-cli",
