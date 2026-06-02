@@ -16022,6 +16022,73 @@
     ]
   },
   {
+    "api": "blacklane",
+    "description": "Upfront chauffeur quotes from the terminal \u2014 transfer and hourly, with a local price history no other tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/blacklane/cmd/blacklane-pp-cli",
+    "auth_type": "none",
+    "category": "commerce",
+    "search_terms": [
+      "blacklane",
+      "blacklane-pp-cli",
+      "Upfront chauffeur quotes from the terminal \u2014 transfer and hourly, with a local price history no other tool has.",
+      "Fare watch",
+      "watch",
+      "Track a saved route's price over time and flag drops.",
+      "Cheapest-window compare",
+      "compare",
+      "Quote one route across many departure times to find the cheapest.",
+      "Multi-leg trip total",
+      "trip",
+      "Quote a sequence of legs and total the fares.",
+      "Class fit advisor",
+      "fit",
+      "Recommend the cheapest vehicle class that fits the party.",
+      "Quote ledger + search",
+      "log",
+      "Every quote saved to SQLite, full-text searchable and SQL-queryable.",
+      "Account bookings",
+      "bookings",
+      "List your upcoming and past Blacklane rides (requires auth login).",
+      "Account profile",
+      "me",
+      "Show your Blacklane profile (requires auth login).",
+      "Wallet",
+      "Show wallet credits and vouchers (requires auth login).",
+      "Booking handoff",
+      "book",
+      "Quote and assemble a booking, then open browser checkout for payment under --confirm. Never charges."
+    ],
+    "endpoints": [
+      {
+        "tool": "catalog.get",
+        "summary": "Get a vehicle class by slug (business, first, van). Required: slug. Returns the Package.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "catalog"
+        ]
+      },
+      {
+        "tool": "prices.create",
+        "summary": "Request prices for a journey (raw body; see 'quote' for a friendly interface). Required: serviceCategory (default: prebooked), serviceType, departAt. Optional: duration. Returns the new PriceResult.",
+        "params_schema": {
+          "serviceCategory": "string?",
+          "serviceType": "string?",
+          "departAt": "string?",
+          "duration": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "prices"
+        ]
+      }
+    ]
+  },
+  {
     "api": "blu-ray",
     "description": "The disc-collector's CLI for Blu-ray.com \u2014 offline catalog, live deals, and a price-drop watchlist with zero...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/blu-ray/cmd/blu-ray-pp-cli",
@@ -82809,6 +82876,64 @@
     "endpoints": []
   },
   {
+    "api": "offerup",
+    "description": "Search local OfferUp listings from your terminal, keep them in a local database",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/offerup/cmd/offerup-pp-cli",
+    "auth_type": "none",
+    "category": "commerce",
+    "search_terms": [
+      "offerup",
+      "offerup-pp-cli",
+      "Search local OfferUp listings from your terminal, keep them in a local database, and spot underpriced deals before anyone else \u2014 no login and no paid key for the things that matter most.",
+      "The real going rate",
+      "price-check",
+      "See the real going rate for an item in your area \u2014 median, 25th/75th percentile, min, max, and the firm-vs-negotiable split \u2014 computed across every listing you've pulled.",
+      "Spot the underpriced finds",
+      "deals",
+      "Surface listings priced a chosen percentage below the local median for that item \u2014 the underpriced finds, ranked by how far under they are.",
+      "What's new since you looked",
+      "new-since",
+      "Show only the listings that appeared since a cutoff for a saved search, so you never re-scan items you already saw.",
+      "Catch price drops",
+      "price-drops",
+      "Detect listings whose price fell between syncs \u2014 the same item, now cheaper \u2014 sorted by the size of the drop.",
+      "Size up a seller",
+      "seller-scan",
+      "Pull a seller's full synced inventory alongside their reputation badges (business/dealer/TruYou), join date, and the median asking price across their listings.",
+      "Daily deal briefing",
+      "digest",
+      "A single composite report for a saved search combining what's new, what dropped in price, and what's underpriced."
+    ],
+    "endpoints": [
+      {
+        "tool": "listings.get",
+        "summary": "Get the full detail for one listing. Required: listing_id. Returns the Listing.",
+        "params_schema": {
+          "listing_id": "string"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "listings"
+        ]
+      },
+      {
+        "tool": "listings.search",
+        "summary": "Search live OfferUp listings by keyword and location. Required: query. Optional: category. Returns array of Listing.",
+        "params_schema": {
+          "query": "string?",
+          "category": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "ollama-cloud",
     "description": "Routes every prompt to the right hosted Ollama model. Wraps chat, embeddings, catalog, and the OpenAI-compatible...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/ollama-cloud/cmd/ollama-cloud-pp-cli",
@@ -141949,6 +142074,340 @@
         "argv_path": [
           "venues",
           "list"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "tidycal",
+    "description": "TidyCal's REST API provides a handful of endpoints which can be used to get information about your account and bookings.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/tidycal/cmd/tidycal-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "productivity",
+    "search_terms": [
+      "tidycal",
+      "tidycal-pp-cli",
+      "Scheduling and booking API for meetings, contacts, booking types, and team calendars.",
+      "Schedule brief",
+      "brief",
+      "Produce a contact-aware schedule brief for a day or date range.",
+      "Schedule triage",
+      "triage",
+      "Identify booking problems such as missing meeting URLs, duplicate contacts, off-hours bookings, cancelled bookings, and incomplete contact data.",
+      "Availability shortlist",
+      "propose-times",
+      "Fetch available TidyCal timeslots for a booking type and rank a paste-ready shortlist by date window, timezone, preference, and weekend policy.",
+      "Follow-up queue",
+      "followups",
+      "Create an AI-ready follow-up queue from recent bookings without sending messages or notifications.",
+      "Assisted booking",
+      "assisted-book",
+      "Book on behalf of a contact through an inspectable dry-run and explicit confirmation gate."
+    ],
+    "endpoints": [
+      {
+        "tool": "booking-types.create",
+        "summary": "Create a new booking type. Required: description, duration_minutes, title, url_slug. Optional: approval_required, booking_availability_interval_minutes (default: 15), booking_type_category_id (plus 10 more). Returns the new BookingTypesCreateResponse.",
+        "params_schema": {
+          "approval_required": "bool?",
+          "booking_availability_interval_minutes": "int?",
+          "booking_type_category_id": "int?",
+          "currency_code": "string?",
+          "description": "string?",
+          "display_seats_remaining": "bool?",
+          "duration_minutes": "int?",
+          "latest_availability_days": "int?",
+          "max_bookings": "int?",
+          "max_guest_invites_per_booker": "int?",
+          "padding_minutes": "int?",
+          "payment_platform": "string?",
+          "price": "float?",
+          "private": "bool?",
+          "redirect_url": "string?",
+          "title": "string?",
+          "url_slug": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "booking-types"
+        ]
+      },
+      {
+        "tool": "booking-types.list",
+        "summary": "Get a list of booking types. Required: page (default: 1). Returns array of BookingType.",
+        "params_schema": {
+          "page": "string"
+        },
+        "positionals": [
+          "page"
+        ],
+        "argv_path": [
+          "booking-types",
+          "list"
+        ]
+      },
+      {
+        "tool": "booking-types.bookings_create",
+        "summary": "Create a new booking for a specific booking type. **Single vs Package Bookings:** - For single bookings, use `starts_at` to specify the booking time - For package/multi-session bookings, use the `bookings` array to specify multiple time slots **Response Format:** - Single booking: Returns `{'data': {Booking}}` - Multiple bookings (package): Returns `{'data': [{Booking}, ...]}`. Required: bookingType, email, name, timezone. Optional: booking_questions, bookings, starts_at.",
+        "params_schema": {
+          "bookingType": "string",
+          "booking_questions": "array?",
+          "bookings": "array?",
+          "email": "string?",
+          "name": "string?",
+          "starts_at": "string?",
+          "timezone": "string?"
+        },
+        "positionals": [
+          "bookingType"
+        ],
+        "argv_path": [
+          "booking-types",
+          "bookings_create"
+        ]
+      },
+      {
+        "tool": "booking-types.timeslots_list-booking-type",
+        "summary": "Get a list of available timeslots for a specific booking type. Required: bookingType, starts_at, ends_at. Returns array of Timeslot.",
+        "params_schema": {
+          "bookingType": "string",
+          "starts_at": "string?",
+          "ends_at": "string?"
+        },
+        "positionals": [
+          "bookingType"
+        ],
+        "argv_path": [
+          "booking-types",
+          "timeslots_list-booking-type"
+        ]
+      },
+      {
+        "tool": "bookings.get",
+        "summary": "Get a booking by ID. Required: booking. Returns array of Question.",
+        "params_schema": {
+          "booking": "string"
+        },
+        "positionals": [
+          "booking"
+        ],
+        "argv_path": [
+          "bookings"
+        ]
+      },
+      {
+        "tool": "bookings.list",
+        "summary": "Get a list of bookings. Required: starts_at, ends_at, cancelled, page (default: 1), include_teams. Returns array of Booking.",
+        "params_schema": {
+          "starts_at": "string",
+          "ends_at": "string",
+          "cancelled": "string",
+          "page": "string",
+          "include_teams": "string"
+        },
+        "positionals": [
+          "starts_at",
+          "ends_at",
+          "cancelled",
+          "page",
+          "include_teams"
+        ],
+        "argv_path": [
+          "bookings",
+          "list"
+        ]
+      },
+      {
+        "tool": "bookings.cancel_booking",
+        "summary": "Cancel a booking by ID. Required: booking. Optional: reason. Returns array of Question.",
+        "params_schema": {
+          "booking": "string",
+          "reason": "string?"
+        },
+        "positionals": [
+          "booking"
+        ],
+        "argv_path": [
+          "bookings",
+          "cancel_booking"
+        ]
+      },
+      {
+        "tool": "contacts.create",
+        "summary": "Create a new contact. Required: email, name. Optional: timezone. Returns the new ContactsCreateResponse.",
+        "params_schema": {
+          "email": "string?",
+          "name": "string?",
+          "timezone": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "contacts"
+        ]
+      },
+      {
+        "tool": "contacts.list",
+        "summary": "Get a list of contacts. Required: page (default: 1). Returns array of Contact.",
+        "params_schema": {
+          "page": "string"
+        },
+        "positionals": [
+          "page"
+        ],
+        "argv_path": [
+          "contacts",
+          "list"
+        ]
+      },
+      {
+        "tool": "me.get-account",
+        "summary": "Get account details. Returns the User.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "get-account"
+        ]
+      },
+      {
+        "tool": "teams.get",
+        "summary": "Get details of a specific team. Required: team. Returns the Team.",
+        "params_schema": {
+          "team": "string"
+        },
+        "positionals": [
+          "team"
+        ],
+        "argv_path": [
+          "teams"
+        ]
+      },
+      {
+        "tool": "teams.list",
+        "summary": "Get a list of teams the authenticated user has access to. Required: page (default: 1). Returns array of Team.",
+        "params_schema": {
+          "page": "string"
+        },
+        "positionals": [
+          "page"
+        ],
+        "argv_path": [
+          "teams",
+          "list"
+        ]
+      },
+      {
+        "tool": "teams.booking-types_create-team",
+        "summary": "Create a new booking type for a specific team. Required: team, description, duration_minutes, title, url_slug. Optional: approval_required, booking_availability_interval_minutes (default: 15), booking_type_category_id (plus 10 more). Returns the new BookingTypesCreateTeamResponse.",
+        "params_schema": {
+          "team": "string",
+          "approval_required": "bool?",
+          "booking_availability_interval_minutes": "int?",
+          "booking_type_category_id": "int?",
+          "currency_code": "string?",
+          "description": "string?",
+          "display_seats_remaining": "bool?",
+          "duration_minutes": "int?",
+          "latest_availability_days": "int?",
+          "max_bookings": "int?",
+          "max_guest_invites_per_booker": "int?",
+          "padding_minutes": "int?",
+          "payment_platform": "string?",
+          "price": "float?",
+          "private": "bool?",
+          "redirect_url": "string?",
+          "title": "string?",
+          "url_slug": "string?"
+        },
+        "positionals": [
+          "team"
+        ],
+        "argv_path": [
+          "teams",
+          "booking-types_create-team"
+        ]
+      },
+      {
+        "tool": "teams.booking-types_list-team",
+        "summary": "Get a list of booking types for a specific team. Required: team. Optional: page. Returns array of BookingType.",
+        "params_schema": {
+          "team": "string",
+          "page": "float?"
+        },
+        "positionals": [
+          "team"
+        ],
+        "argv_path": [
+          "teams",
+          "booking-types_list-team"
+        ]
+      },
+      {
+        "tool": "teams.bookings_list-team",
+        "summary": "Get a list of bookings for a specific team. Required: team. Optional: page, start_date, end_date (plus 3 more). Returns array of Booking.",
+        "params_schema": {
+          "team": "string",
+          "page": "float?",
+          "start_date": "string?",
+          "end_date": "string?",
+          "email": "string?",
+          "host_id": "int?",
+          "cancelled": "bool?"
+        },
+        "positionals": [
+          "team"
+        ],
+        "argv_path": [
+          "teams",
+          "bookings_list-team"
+        ]
+      },
+      {
+        "tool": "teams.users_add-team",
+        "summary": "Add a user to a team by sending an invitation email. Required: team, email. Optional: role_name. Returns the new UsersAddTeamResponse.",
+        "params_schema": {
+          "team": "string",
+          "email": "string?",
+          "role_name": "string?"
+        },
+        "positionals": [
+          "team"
+        ],
+        "argv_path": [
+          "teams",
+          "users_add-team"
+        ]
+      },
+      {
+        "tool": "teams.users_list-team",
+        "summary": "Get a list of users in a specific team. Required: team, page (default: 1). Returns array of TeamUser.",
+        "params_schema": {
+          "team": "string",
+          "page": "string"
+        },
+        "positionals": [
+          "team",
+          "page"
+        ],
+        "argv_path": [
+          "teams",
+          "users_list-team"
+        ]
+      },
+      {
+        "tool": "teams.users_remove-team",
+        "summary": "Remove a user from a team. Required: team, teamUser. Returns the UsersRemoveTeamResponse. Destructive.",
+        "params_schema": {
+          "team": "string",
+          "teamUser": "string"
+        },
+        "positionals": [
+          "team",
+          "teamUser"
+        ],
+        "argv_path": [
+          "teams",
+          "users_remove-team"
         ]
       }
     ]
