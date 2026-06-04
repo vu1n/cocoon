@@ -8105,6 +8105,81 @@
     ]
   },
   {
+    "api": "ankiweb",
+    "description": "The only terminal-native way to search, rank",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/education/ankiweb/cmd/ankiweb-pp-cli",
+    "auth_type": "cookie",
+    "category": "education",
+    "search_terms": [
+      "ankiweb",
+      "ankiweb-pp-cli",
+      "Approval-rate ranking",
+      "shared rank",
+      "Rank shared decks by approval rate (upvotes vs downvotes) with a minimum-vote floor, instead of the raw vote counts the website shows.",
+      "Audio/image coverage filter",
+      "shared search",
+      "Filter shared decks by whether they include audio or images, critical for language learners.",
+      "Side-by-side deck comparison",
+      "compare",
+      "Compare multiple shared decks in one table: approval rate, note count, audio/image coverage, and freshness.",
+      "Freshness ranking",
+      "shared fresh",
+      "Rank or filter shared decks by last-modified date to surface actively maintained decks.",
+      "New-deck drift watch",
+      "watch",
+      "Show shared decks that are new or changed for a search term since your last sync.",
+      "Owned-deck download drift",
+      "drift",
+      "Track download-count changes on the decks you've published, between syncs.",
+      "Discovery briefing",
+      "brief",
+      "One digest for a topic: top decks by approval rate, audio coverage, the freshest deck, and how many are new since last sync."
+    ],
+    "endpoints": [
+      {
+        "tool": "shared.download",
+        "summary": "Return the direct .apkg download URL for a shared deck. NOTE: AnkiWeb requires a signed client-side token (op=sdd JWT); without the t= parameter the endpoint returns 400 or 503. Required: id (numeric shared deck ID). Optional: t (signed download token). Use this to get the URL \u2014 actual download requires a valid session token minted by AnkiWeb's client JavaScript.",
+        "params_schema": {
+          "id": "string",
+          "t": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "shared",
+          "download"
+        ]
+      },
+      {
+        "tool": "shared.info",
+        "summary": "Fetch full detail for one shared deck by its numeric ID, including title, description, upvotes, downvotes, note count, and last-modified timestamp. Required: id (numeric shared deck ID from shared_search results). Returns SharedDeckInfo object. Use this after shared_search to get the full deck description and stats for a specific deck.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "shared",
+          "info"
+        ]
+      },
+      {
+        "tool": "shared.search",
+        "summary": "Search the AnkiWeb shared-deck catalog by keyword and return matching decks with upvotes, downvotes, note count, audio count, image count, and last-modified date. Required: search (keyword string, e.g. 'spanish', 'anatomy'). Optional: has-audio (bool), has-images (bool), min-notes (int), limit (default 20). Returns array of SharedDeck. Use this before shared_info when you need to discover deck IDs by topic.",
+        "params_schema": {
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "shared",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "anylist",
     "description": "Every AnyList feature in your terminal \u2014 plus offline search, store routing, and cron-safe automations no mobile...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/anylist/cmd/anylist-pp-cli",
@@ -13482,6 +13557,146 @@
         "argv_path": [
           "query",
           "papers"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "azure-functions-admin",
+    "description": "Inspect, audit, and right-size your Azure Functions from the terminal \u2014 cold-start trends, config drift",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/cloud/azure-functions-admin/cmd/azure-functions-admin-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "cloud",
+    "search_terms": [
+      "azure-functions-admin",
+      "Azure Functions",
+      "azure-functions-admin-pp-cli",
+      "Inspect, audit, and right-size your Azure Functions from the terminal \u2014 cold-start trends, config drift, and plan-fit answers the portal and az don't give you.",
+      "Cold-start observatory",
+      "coldstart",
+      "See how often your functions cold-start and how slow those starts are, with the projected cost of moving to a Premium always-ready plan.",
+      "Scaling & exec-drift trend",
+      "scaling",
+      "Track instance scale-out and execution-time drift for an app over a time window, flagging when p95 duration creeps above baseline.",
+      "Plan-fit recommendation",
+      "plan-fit",
+      "Per-app recommendation of Consumption vs Premium vs Dedicated across a resource group, based on invocation density, cold-start sensitivity, and duration.",
+      "Config-drift detector",
+      "drift",
+      "Diff app settings across function apps and their deployment slots, flagging settings present in one environment but not another and plaintext values that should be Key Vault references.",
+      "Secret-sprawl audit",
+      "secrets-audit",
+      "Flag app settings holding raw secret values instead of @Microsoft.KeyVault references, plus stale or unused function keys.",
+      "Invocation failure clustering",
+      "failures",
+      "Cluster recent invocation failures by function and exception type from Application Insights over a time window.",
+      "Stale-function finder",
+      "stale",
+      "Find functions with zero invocations in the last N days as cleanup candidates."
+    ],
+    "endpoints": [
+      {
+        "tool": "apps.get",
+        "summary": "Get a single Function App. Required: subscriptionId, resourceGroup, name. Returns the Site.",
+        "params_schema": {
+          "subscriptionId": "string",
+          "resourceGroup": "string",
+          "name": "string"
+        },
+        "positionals": [
+          "subscriptionId",
+          "resourceGroup",
+          "name"
+        ],
+        "argv_path": [
+          "apps"
+        ]
+      },
+      {
+        "tool": "apps.list",
+        "summary": "List Function Apps in a subscription (filter kind~functionapp). Required: subscriptionId. Returns array of Site.",
+        "params_schema": {
+          "subscriptionId": "string"
+        },
+        "positionals": [
+          "subscriptionId"
+        ],
+        "argv_path": [
+          "apps",
+          "list"
+        ]
+      },
+      {
+        "tool": "functions.list",
+        "summary": "List functions in a Function App. Required: subscriptionId, resourceGroup, name. Returns array of FunctionEnvelope.",
+        "params_schema": {
+          "subscriptionId": "string",
+          "resourceGroup": "string",
+          "name": "string"
+        },
+        "positionals": [
+          "subscriptionId",
+          "resourceGroup",
+          "name"
+        ],
+        "argv_path": [
+          "functions"
+        ]
+      },
+      {
+        "tool": "plans.list",
+        "summary": "List hosting plans (tier decode: Y1=Consumption, EP*=Premium, P*=Dedicated). Required: subscriptionId. Returns array of AppServicePlan.",
+        "params_schema": {
+          "subscriptionId": "string"
+        },
+        "positionals": [
+          "subscriptionId"
+        ],
+        "argv_path": [
+          "plans"
+        ]
+      },
+      {
+        "tool": "settings.list",
+        "summary": "List application settings (values are masked by the analysis layer). Required: subscriptionId, resourceGroup, name. Returns the new StringDictionary.",
+        "params_schema": {
+          "subscriptionId": "string",
+          "resourceGroup": "string",
+          "name": "string"
+        },
+        "positionals": [
+          "subscriptionId",
+          "resourceGroup",
+          "name"
+        ],
+        "argv_path": [
+          "settings"
+        ]
+      },
+      {
+        "tool": "slots.list",
+        "summary": "List deployment slots. Required: subscriptionId, resourceGroup, name. Returns array of Site.",
+        "params_schema": {
+          "subscriptionId": "string",
+          "resourceGroup": "string",
+          "name": "string"
+        },
+        "positionals": [
+          "subscriptionId",
+          "resourceGroup",
+          "name"
+        ],
+        "argv_path": [
+          "slots"
+        ]
+      },
+      {
+        "tool": "subscriptions.list",
+        "summary": "List accessible subscriptions. Returns array of Subscription.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "subscriptions"
         ]
       }
     ]
@@ -50166,6 +50381,40 @@
     ]
   },
   {
+    "api": "erank",
+    "description": "Keyword Tool data from eRank, plus local scoring, drift, and listing-gap analysis for Etsy sellers.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/erank/cmd/erank-pp-cli",
+    "auth_type": "composed",
+    "category": "marketing",
+    "search_terms": [
+      "erank",
+      "erank-pp-cli",
+      "Keyword Tool data from eRank, plus local scoring, drift, and listing-gap analysis for Etsy sellers.",
+      "Niche Opportunity Score",
+      "opportunity",
+      "Score a keyword as a seller opportunity using eRank stats, difficulty, competition, and current top listings.",
+      "Top Listing Gap Analyzer",
+      "listing gaps",
+      "Compare a draft listing title and tags against phrases and tags appearing in top eRank results.",
+      "Tag Consensus Map",
+      "tags consensus",
+      "Find tags that repeatedly appear across top listings, Etsy tag data, related searches, and near matches.",
+      "Keyword Drift Watcher",
+      "watch drift",
+      "Detect meaningful changes in keyword competition, difficulty, and top listings across saved snapshots.",
+      "Keyword Portfolio Optimizer",
+      "lists optimize",
+      "Rank saved keyword lists by weak, saturated, overlapping, and missing keyword opportunities.",
+      "Saturation Warning",
+      "saturation",
+      "Flag crowded keywords by combining competition, difficulty, tag reuse, and top-listing density.",
+      "POD Angle Finder",
+      "angles",
+      "Extract product angles from related searches, near matches, tags, and current top listings."
+    ],
+    "endpoints": []
+  },
+  {
     "api": "espn",
     "description": "Live scores, standings, news, and game history across 17 sports from ESPN",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/espn/cmd/espn-pp-cli",
@@ -52246,6 +52495,113 @@
         "argv_path": [
           "webhooks",
           "list-of-deprecation"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "everbee",
+    "description": "Research Etsy products, shops, and keywords from EverBee in a repeatable agent-ready workflow.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/everbee/cmd/everbee-pp-cli",
+    "auth_type": "api_key",
+    "category": "marketing",
+    "search_terms": [
+      "everbee",
+      "everbee-pp-cli",
+      "Research Etsy products, shops, and keywords from EverBee in a repeatable agent-ready workflow.",
+      "Opportunity Shortlist",
+      "Rank Etsy product opportunities by combining product analytics, keyword demand, competition, and local trend history.",
+      "Niche Score",
+      "Score a niche by weighing search demand, competition, product saturation, pricing, and trend movement.",
+      "Shop Gaps",
+      "Find competitor shop openings from product mix, pricing bands, tags, and keyword coverage.",
+      "Tag Gap",
+      "tags gap",
+      "Compare winning listing tags against a target shop or keyword set to reveal missing SEO coverage.",
+      "Keyword Clusters",
+      "keywords cluster",
+      "Group related keyword suggestions by term overlap, demand, competition, and opportunity score.",
+      "Trend Diff",
+      "trends diff",
+      "Compare saved research snapshots to show which products, shops, or keywords moved over time.",
+      "Competitor Watch",
+      "competitors watch",
+      "Detect competitor changes in top products, price bands, and tags across saved shop snapshots.",
+      "Listing Audit",
+      "Audit a listing's keyword and tag fit using EverBee-derived product and keyword context."
+    ],
+    "endpoints": [
+      {
+        "tool": "folders.list_folders",
+        "summary": "GET /folders. Optional: type (default: listing). Returns the folders.",
+        "params_schema": {
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "folders",
+          "list_folders"
+        ]
+      },
+      {
+        "tool": "keyword.research_list_default_keyword_suggestion",
+        "summary": "GET /keyword_research/default_keyword_suggestion. Optional: order_by (default: new_volume), order_direction (default: desc), page (default: 1) (plus 1 more). Returns the default_keyword_suggestion.",
+        "params_schema": {
+          "order_by": "string?",
+          "order_direction": "string?",
+          "page": "integer?",
+          "type_of_search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "keyword",
+          "research_list_default_keyword_suggestion"
+        ]
+      },
+      {
+        "tool": "management.modals_list_management_modals",
+        "summary": "GET /management_modals. Required: last_reset_at, show_manage_keyword_modal, show_manage_listing_modal, show_manage_shop_modal. Returns the management_modals.",
+        "params_schema": {
+          "last_reset_at": "string?",
+          "show_manage_keyword_modal": "boolean?",
+          "show_manage_listing_modal": "boolean?",
+          "show_manage_shop_modal": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "management",
+          "modals_list_management_modals"
+        ]
+      },
+      {
+        "tool": "product.analytics_list_default_product_analytics",
+        "summary": "GET /product_analytics/default_product_analytics. Optional: order_by (default: est_mo_revenue), order_direction (default: desc), page (default: 1) (plus 2 more). Returns the default_product_analytics.",
+        "params_schema": {
+          "order_by": "string?",
+          "order_direction": "string?",
+          "page": "integer?",
+          "per_page": "integer?",
+          "time_range": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "product",
+          "analytics_list_default_product_analytics"
+        ]
+      },
+      {
+        "tool": "shops.list_shops",
+        "summary": "GET /shops. Optional: order_by (default: revenue), order_direction (default: desc), page (default: 1) (plus 1 more). Returns the shops.",
+        "params_schema": {
+          "order_by": "string?",
+          "order_direction": "string?",
+          "page": "integer?",
+          "per_page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "shops",
+          "list_shops"
         ]
       }
     ]
@@ -55133,6 +55489,40 @@
         ]
       }
     ]
+  },
+  {
+    "api": "gisis",
+    "description": "Authoritative IMO ship particulars on the command line",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/gisis/cmd/gisis-pp-cli",
+    "auth_type": "cookie",
+    "category": "other",
+    "search_terms": [
+      "gisis",
+      "gisis-pp-cli",
+      "Authoritative IMO ship particulars on the command line, plus a local cache that turns one-shot lookups into a compounding vessel index.",
+      "Batch IMO lookup with throttled persistence",
+      "ship batch",
+      "Resolve a list of IMOs in one invocation, honoring the 1 req/2-3s throttle and persisting each to the local cache.",
+      "Local cache browse with FTS",
+      "ship list",
+      "Browse vessels you have already fetched, with filters on flag/owner/type and full-text search on name/owner.",
+      "Watchlist with selective refresh",
+      "ship pin",
+      "Pin vessels for an active deal or story, then refresh only the pinned ones at a chosen cadence.",
+      "Cross-snapshot ship history (flag-hop detector)",
+      "ship history",
+      "Show how a vessel's particulars have changed across snapshots \u2014 flag, name, owner, operator, classification society, status.",
+      "Stale-cache report",
+      "ship stale",
+      "List cached vessels whose particulars haven't been refreshed in N days.",
+      "Owner-fleet listing from accumulated cache",
+      "owner fleet",
+      "List every cached vessel for a given owner string (the Companies module isn't in v1).",
+      "Session liveness ping",
+      "auth ping",
+      "Single fast GET to /Public/SHIPS/Default.aspx; exits 0 if session is live, non-zero if re-login needed."
+    ],
+    "endpoints": []
   },
   {
     "api": "godaddy",
@@ -59278,6 +59668,1702 @@
     ]
   },
   {
+    "api": "gorgias",
+    "description": "Gorgias support CLI with offline sync, local search, read-only SQL, and MCP tools for agent-native support workflows.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/gorgias/cmd/gorgias-pp-cli",
+    "auth_type": "api_key",
+    "category": "sales-and-crm",
+    "search_terms": [
+      "gorgias",
+      "gorgias-pp-cli",
+      "Gorgias support CLI with offline sync, local search, read-only SQL, and MCP tools for agent-native support workflows.",
+      "Code-orchestration MCP surface",
+      "gorgias-pp-mcp --transport http --addr :7777",
+      "108 Gorgias endpoints reachable through a small fixed set of MCP tools \u2014 15 typed tools total, ~9K context tokens for a full tools/list response (~1K of descriptions, ~7K of JSON schemas). Agents reach the full surface through gorgias_search + gorgias_execute, not a 108-tool catalog. Live tool count is reported by the `context` tool.",
+      "Doctor with live credential verification",
+      "gorgias-pp-cli doctor --json",
+      "Probes /account with the configured credentials and reports credentials: valid only when an authenticated call succeeds. Surfaces auth failures as the first command an agent runs, before any read or write.",
+      "Auto-refresh of stale local mirror",
+      "GORGIAS_AUTO_REFRESH_TTL=15m gorgias-pp-cli tickets list",
+      "Opt-in: read commands automatically sync the resource before serving if the local SQLite mirror is older than the TTL. Off by default to keep behavior predictable for agents preferring explicit syncs.",
+      "Local FTS5 search across synced data",
+      "gorgias-pp-cli sync --resources tickets --since 7d && gorgias-pp-cli search refund --agent",
+      "Sync to local SQLite, then full-text search with subsecond latency. Turns a 30-second multi-page paginated search into a 50ms SQL-backed query. Pairs with cron for warm local data.",
+      "Agent-readable endpoint surface",
+      "gorgias-pp-cli agent-context --json",
+      "agent-context exposes the command catalog, global flags, env requirements, MCP surface, and endpoint counts so an agent can inspect supported capabilities without parsing help text or making tenant-specific live calls."
+    ],
+    "endpoints": [
+      {
+        "tool": "account.get",
+        "summary": "Retrieve the current Gorgias account's metadata: subdomain, plan, billing state, and account-level flags. Use this to confirm credentials are wired up, detect the tenant/subdomain in a multi-tenant agent, or branch logic on plan tier.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "account"
+        ]
+      },
+      {
+        "tool": "account.settings-create",
+        "summary": "Create a new account-level settings record for the current Gorgias tenant. Use when bootstrapping a fresh tenant or when an integration needs to seed default settings flags (locale, business hours, branding) that don't exist yet. Required: type. Optional: data.",
+        "params_schema": {
+          "type": "string?",
+          "data": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "settings-create"
+        ]
+      },
+      {
+        "tool": "account.settings-list",
+        "summary": "List the global settings on the current Gorgias account (business hours, language, default channels, notification preferences, etc.). Reach for this when an agent needs to honor tenant-wide configuration before composing a reply or routing a ticket.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "settings-list"
+        ]
+      },
+      {
+        "tool": "account.settings-update",
+        "summary": "Update an account settings record by `id`. Use this to flip a tenant-wide flag, change business hours, or adjust a default channel \u2014 but only when the agent has authority to mutate account-level config (admin-grade operation). Required: id, type. Optional: data.",
+        "params_schema": {
+          "id": "string",
+          "type": "string?",
+          "data": "object?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "account",
+          "settings-update"
+        ]
+      },
+      {
+        "tool": "custom-fields.create",
+        "summary": "Define a new custom field on tickets or customers (the only supported `object_type` values). Required body: `object_type`, `label`, `definition` (the type-specific settings, e.g. boolean/number/text and any picklist values live inside `definition`). Optional: `description`, `priority`, `required`, `external_id`. Use to extend the schema, not to set a value on an existing record.",
+        "params_schema": {
+          "object_type": "object<ObjectType>?",
+          "label": "string?",
+          "definition": "oneOf?",
+          "external_id": "string?",
+          "description": "string?",
+          "priority": "integer?",
+          "required": "boolean?",
+          "managed_type": "ManagedTicketFieldType|ManagedCustomerFieldType?",
+          "deactivated_datetime": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "custom-fields"
+        ]
+      },
+      {
+        "tool": "custom-fields.get",
+        "summary": "Fetch a single custom field definition by `id`, returning its data type, label, target object, and option list. Use to introspect schema before writing a value, especially to discover the legal enum options for picklist fields. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "custom-fields",
+          "get"
+        ]
+      },
+      {
+        "tool": "custom-fields.list",
+        "summary": "List custom field definitions for a single `object_type` (`Ticket` or `Customer` \u2014 REQUIRED query param). Optional: `search`, `archived`, `order_by`, `cursor`, `limit`. Call once per object type to discover what extensible schema exists before reading or writing values.",
+        "params_schema": {
+          "object_type": "string?",
+          "search": "string?",
+          "archived": "boolean?",
+          "limit": "integer?",
+          "cursor": "string?",
+          "order_by": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "custom-fields",
+          "list"
+        ]
+      },
+      {
+        "tool": "custom-fields.update",
+        "summary": "Update one custom field definition by `id` \u2014 relabel it, change its options, or toggle visibility. Note: this mutates the schema for every record that carries the field, so use sparingly and prefer per-record updates for one-off changes. Required: id. Optional: external_id, object_type, label (plus 6 more).",
+        "params_schema": {
+          "id": "string",
+          "external_id": "string?",
+          "object_type": "object<ObjectType>?",
+          "label": "string?",
+          "description": "string?",
+          "priority": "integer?",
+          "required": "boolean?",
+          "managed_type": "ManagedTicketFieldType|ManagedCustomerFieldType?",
+          "definition": "oneOf?",
+          "deactivated_datetime": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "custom-fields",
+          "update"
+        ]
+      },
+      {
+        "tool": "custom-fields.update-all",
+        "summary": "Bulk-update multiple custom field definitions in one call (no path id). Useful when reordering picklist options or applying the same label change across several fields; avoid unless the agent really needs a batched schema edit.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "custom-fields",
+          "update-all"
+        ]
+      },
+      {
+        "tool": "customers.create",
+        "summary": "Create a new customer record. Pass `name`, `email`, optional `channels` (email/phone/social handles), and `data` for arbitrary key-value attributes. Use when an inbound message references a person who doesn't yet exist in Gorgias. Required: channels. Optional: email, external_id, language (plus 2 more).",
+        "params_schema": {
+          "channels": "array<object>?",
+          "email": "string|null?",
+          "external_id": "string|null?",
+          "language": "string|null?",
+          "name": "string|null?",
+          "timezone": "string|null?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "customers"
+        ]
+      },
+      {
+        "tool": "customers.custom-fields-list",
+        "summary": "List every custom field value attached to a single customer (`id`). Use to read CRM-style attributes (lifetime value, segment, loyalty tier) before deciding how to respond to or route a customer's ticket. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "customers",
+          "custom-fields-list"
+        ]
+      },
+      {
+        "tool": "customers.custom-fields-set",
+        "summary": "Set a single custom field value on a customer: first `{id}` is the customer, second `{id}` is the custom field. Use for one-off mutations like flagging a VIP or recording a churn-risk score. Required: id, customer_id. Optional: value.",
+        "params_schema": {
+          "id": "string",
+          "customer_id": "string",
+          "value": "string?"
+        },
+        "positionals": [
+          "id",
+          "customer_id"
+        ],
+        "argv_path": [
+          "customers",
+          "custom-fields-set"
+        ]
+      },
+      {
+        "tool": "customers.custom-fields-set-all",
+        "summary": "Bulk-set custom field values on a single customer (`id`) \u2014 pass an array of field/value pairs. Preferred over the singular form when an agent needs to write several attributes at once after enriching a profile. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "customers",
+          "custom-fields-set-all"
+        ]
+      },
+      {
+        "tool": "customers.custom-fields-unset",
+        "summary": "Clear a custom field value on a customer: first `{id}` is the customer ID, second `{id}` is the custom field ID. Use to unset (not delete) a per-customer attribute \u2014 the field definition itself remains. Required: customer_id, id. Destructive.",
+        "params_schema": {
+          "customer_id": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "customer_id",
+          "id"
+        ],
+        "argv_path": [
+          "customers",
+          "custom-fields-unset"
+        ]
+      },
+      {
+        "tool": "customers.data-update",
+        "summary": "Set a customer's `data` blob (`id` in path). Body: `data` (required) plus optional `version` for last-write-wins (requests with an older version are ignored). Use when an integration pushes CRM context that should be displayed alongside the customer. Required: id, data. Optional: version.",
+        "params_schema": {
+          "id": "string",
+          "data": "object?",
+          "version": "string|null?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "customers",
+          "data-update"
+        ]
+      },
+      {
+        "tool": "customers.delete",
+        "summary": "Delete one customer by `id`. Hard-deletes the record and may cascade to associated tickets/messages depending on account settings \u2014 reach for this only when handling GDPR-style erasure requests or scrubbing test data. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "customers",
+          "delete"
+        ]
+      },
+      {
+        "tool": "customers.delete-all",
+        "summary": "Bulk-delete customers. Required body: `ids` (array of customer IDs to delete). Does NOT accept query-style filters \u2014 you must enumerate the IDs explicitly. Reserve for cleanup jobs or compliance erasure; destructive and irreversible. Required: ids.",
+        "params_schema": {
+          "ids": "array<integer>?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "customers",
+          "delete-all"
+        ]
+      },
+      {
+        "tool": "customers.get",
+        "summary": "Fetch a single customer by `id`, including their channels (email, phone, social handles), `data` blob, and account-level attributes. Use after identifying a customer (e.g. via search) to load full profile context. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "customers",
+          "get"
+        ]
+      },
+      {
+        "tool": "customers.list",
+        "summary": "List customers with pagination and optional filter params (`email`, `external_id`, `name`, `language`, `channel_type`, `channel_address`, `view_id`). All params are optional. The agent's primary way to look up a customer by email or external system ID before reading tickets or sending a reply. Optional: email, limit.",
+        "params_schema": {
+          "email": "string?",
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "customers",
+          "list"
+        ]
+      },
+      {
+        "tool": "customers.merge",
+        "summary": "Merge one customer into another. Required query params: `source_id` (the duplicate, will be merged in and deleted) and `target_id` (the surviving customer). Body fields (channels, email, name, language, timezone, external_id) overwrite the target. Use when a duplicate is detected by email/phone; merges happen one pair at a time. Required: source_id, target_id. Optional: channels, email, external_id (plus 3 more).",
+        "params_schema": {
+          "source_id": "integer?",
+          "target_id": "integer?",
+          "channels": "array<object>?",
+          "email": "string|null?",
+          "external_id": "string|null?",
+          "language": "string|null?",
+          "name": "string|null?",
+          "timezone": "string|null?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "customers",
+          "merge"
+        ]
+      },
+      {
+        "tool": "customers.update",
+        "summary": "Update a customer (`id`) \u2014 change name, add/remove channels, edit external IDs, or overwrite top-level fields. Use after merging records, fixing a typo, or syncing data from an external CRM. Required: id. Optional: channels, email, external_id (plus 3 more).",
+        "params_schema": {
+          "id": "string",
+          "channels": "array<object>?",
+          "email": "string|null?",
+          "external_id": "string|null?",
+          "language": "string|null?",
+          "name": "string|null?",
+          "timezone": "string|null?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "customers",
+          "update"
+        ]
+      },
+      {
+        "tool": "events.get",
+        "summary": "Retrieve a single audit event by `id` \u2014 captures who/what/when on ticket, customer, or settings mutations. Use to audit a specific change an agent or rule made, or to diagnose why a record looks the way it does. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "events"
+        ]
+      },
+      {
+        "tool": "events.list",
+        "summary": "List audit events. Documented filters: `object_type` (e.g. Ticket/Customer/User), `object_id`, `user_ids` (actor), `types` (event-type allowlist), `created_datetime` (with comparators), plus `cursor`/`limit`/`order_by`. Use to reconstruct a ticket's history or detect rule-driven changes.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "events",
+          "list"
+        ]
+      },
+      {
+        "tool": "gorgias-jobs.create",
+        "summary": "Kick off an asynchronous Gorgias job. Required body: `type` (enum: applyMacro, deleteTicket, exportTicket, importMacro, exportMacro, updateTicket, exportTicketDrilldown, exportConvertCampaignSalesDrilldown) and `params` (job-specific). Optional: `scheduled_datetime` (max 60 min in the future), `meta`. Poll with `gorgias-jobs_get` until the status leaves pending/running.",
+        "params_schema": {
+          "params": "object?",
+          "type": "string?",
+          "meta": "object|null?",
+          "scheduled_datetime": "string|null?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gorgias-jobs"
+        ]
+      },
+      {
+        "tool": "gorgias-jobs.delete",
+        "summary": "Delete a job record by `id`. Useful for cleaning up completed or failed entries from listings; does not cancel an in-flight job's side effects (the work it triggered may already be done). Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "gorgias-jobs",
+          "delete"
+        ]
+      },
+      {
+        "tool": "gorgias-jobs.get",
+        "summary": "Fetch a single async job (`id`) with its status, progress, params, and result/error fields. The polling endpoint after `gorgias-jobs_create` \u2014 loop on this until the job is no longer in `pending`/`running`. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "gorgias-jobs",
+          "get"
+        ]
+      },
+      {
+        "tool": "gorgias-jobs.list",
+        "summary": "List async jobs with filters by type, status, and datetime. Use to find a recent export job by an agent or to surface stuck/failed jobs for retry.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gorgias-jobs",
+          "list"
+        ]
+      },
+      {
+        "tool": "gorgias-jobs.update",
+        "summary": "Update an async job (`id`) \u2014 typically to cancel it or adjust metadata. Reach for this only when you need to abort a long-running import/export rather than wait for it to complete. Required: id. Optional: meta, params, scheduled_datetime (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "meta": "object|null?",
+          "params": "object?",
+          "scheduled_datetime": "string|null?",
+          "status": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "gorgias-jobs",
+          "update"
+        ]
+      },
+      {
+        "tool": "integrations.create",
+        "summary": "Install a new third-party integration on the Gorgias account (Shopify, Instagram, SMS provider, etc.). Pass `type` and provider-specific credentials. Use when an agent is asked to connect a new channel or external system, not to send data to one. Required: name, type. Optional: deactivated_datetime, description, http (plus 1 more).",
+        "params_schema": {
+          "name": "string?",
+          "type": "string?",
+          "deactivated_datetime": "string|null?",
+          "description": "string|null?",
+          "http": "object?",
+          "managed": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "integrations"
+        ]
+      },
+      {
+        "tool": "integrations.delete",
+        "summary": "Uninstall an integration by `id`. Destructive \u2014 disconnects the channel and may stop syncing orders/messages from that source. Use only when the user explicitly wants to remove the connection. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "integrations",
+          "delete"
+        ]
+      },
+      {
+        "tool": "integrations.get",
+        "summary": "Fetch a single integration (`id`) including its type, status, last-sync time, and provider-specific config. Use to verify an integration is healthy before relying on its data (e.g. orders, social DMs). Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "integrations",
+          "get"
+        ]
+      },
+      {
+        "tool": "integrations.list",
+        "summary": "List all installed integrations on the account \u2014 Shopify, Magento, Facebook, voice, etc. Use to discover what external systems an agent can pull context from before composing a reply.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "integrations",
+          "list"
+        ]
+      },
+      {
+        "tool": "integrations.update",
+        "summary": "Update an integration's config (`id`) \u2014 refresh credentials, toggle sync features, or rename. Reach for this when an integration is failing auth or needs a feature flag flipped. Required: id, name. Optional: deactivated_datetime, description, http.",
+        "params_schema": {
+          "id": "string",
+          "name": "string?",
+          "deactivated_datetime": "string|null?",
+          "description": "string|null?",
+          "http": "object?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "integrations",
+          "update"
+        ]
+      },
+      {
+        "tool": "macros.create",
+        "summary": "Create a new macro: a reusable reply/action template. Required body: `name`. Optional: `intent`, `language`, `external_id`, and `actions` (array of action objects \u2014 this is where reply text, tag adds, status changes, etc. live, including any `{{variable}}` placeholders). Use to codify a common response so humans (and other agents) can apply it later.",
+        "params_schema": {
+          "name": "string?",
+          "external_id": "string|null?",
+          "intent": "string|null?",
+          "language": "string|null?",
+          "actions": "array<MacroAction>?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "macros"
+        ]
+      },
+      {
+        "tool": "macros.archive",
+        "summary": "Archive one or more macros (soft delete) \u2014 pass macro IDs in the body. Use this rather than `macros_delete` to preserve history and make the macro reversible via `macros_unarchive`. Required: ids.",
+        "params_schema": {
+          "ids": "array<integer>?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "macros",
+          "archive"
+        ]
+      },
+      {
+        "tool": "macros.delete",
+        "summary": "Delete a macro by `id`. Hard-deletes it from the macro library. Prefer `macros_archive` for soft removal so historical references remain meaningful. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "macros",
+          "delete"
+        ]
+      },
+      {
+        "tool": "macros.get",
+        "summary": "Fetch a single macro by `id`, returning its body, actions, and variable definitions. Use before applying a macro so the agent can preview the rendered text and required variable values. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "macros",
+          "get"
+        ]
+      },
+      {
+        "tool": "macros.list",
+        "summary": "List all macros, with optional filters (archived, name). The agent's discovery endpoint for available canned replies and bulk actions \u2014 useful before composing a reply from scratch.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "macros",
+          "list"
+        ]
+      },
+      {
+        "tool": "macros.unarchive",
+        "summary": "Unarchive one or more macros, restoring them to the active library. Pass macro IDs in the body. The companion to `macros_archive`. Required: ids.",
+        "params_schema": {
+          "ids": "array<integer>?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "macros",
+          "unarchive"
+        ]
+      },
+      {
+        "tool": "macros.update",
+        "summary": "Update a macro (`id`) \u2014 edit its body, variables, tags-to-add, or action list. Use when an agent is refining a canned reply or adjusting the side-effects it triggers. Required: id. Optional: external_id, name, intent (plus 2 more).",
+        "params_schema": {
+          "id": "string",
+          "external_id": "string|null?",
+          "name": "string?",
+          "intent": "string|null?",
+          "language": "string|null?",
+          "actions": "array<MacroAction>?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "macros",
+          "update"
+        ]
+      },
+      {
+        "tool": "messages.list",
+        "summary": "List messages account-wide, paginated. Supported filters are `ticket_id` only (plus `cursor`, `limit`, `order_by`); no channel/sender/datetime filtering at this endpoint. Prefer `tickets_messages-list` when you already know the ticket id.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "messages"
+        ]
+      },
+      {
+        "tool": "phone.call-events-get",
+        "summary": "Fetch a single voice-call event by `id` \u2014 events capture call lifecycle (ringing, answered, hung-up, transferred). Use to drill into why a specific call ended a certain way. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "phone",
+          "call-events-get"
+        ]
+      },
+      {
+        "tool": "phone.call-events-list",
+        "summary": "List voice-call lifecycle events. Documented filter is `call_id` only (plus `cursor`, `limit`). Use to inspect the event timeline for a specific call when debugging routing or hand-off behavior.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "phone",
+          "call-events-list"
+        ]
+      },
+      {
+        "tool": "phone.call-recordings-delete",
+        "summary": "Delete a stored voice-call recording by `id`. Use to honor a customer privacy/erasure request or to scrub a test recording; the call metadata typically remains, only the audio blob is removed. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "phone",
+          "call-recordings-delete"
+        ]
+      },
+      {
+        "tool": "phone.call-recordings-get",
+        "summary": "Fetch metadata for a single call recording (`id`) \u2014 duration, URL, related call/ticket. Pair with `download_get_download` to retrieve the actual audio bytes. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "phone",
+          "call-recordings-get"
+        ]
+      },
+      {
+        "tool": "phone.call-recordings-list",
+        "summary": "List voice-call recordings. Documented filter is `call_id` only (plus `cursor`, `limit`). Use to find the recording(s) attached to a specific call before reviewing or transcribing.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "phone",
+          "call-recordings-list"
+        ]
+      },
+      {
+        "tool": "phone.calls-get",
+        "summary": "Fetch a single voice call (`id`) with direction, status, duration, participants, and the linked ticket. Use when an agent needs context on a specific phone interaction. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "phone",
+          "calls-get"
+        ]
+      },
+      {
+        "tool": "phone.calls-list",
+        "summary": "List voice calls, paginated. Documented filter is `ticket_id` only (plus `cursor`, `limit`, `order_by`). Use to surface calls linked to a specific ticket; richer filtering (direction/status/agent) is not exposed here.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "phone",
+          "calls-list"
+        ]
+      },
+      {
+        "tool": "pickups.delete",
+        "summary": "Delete a pickup record by `id`. Counterpart to `pickups_create_pickups`; use to cancel or remove a stale logistics pickup entry. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "pickups"
+        ]
+      },
+      {
+        "tool": "reporting.stats",
+        "summary": "Run a Gorgias analytics query: POST a JSON body with `metric`, `dimensions`, `filters`, and a `period`. The single endpoint for dashboards and report-style questions like 'tickets resolved by team last week' or 'first-response time by channel'. Required: query. Optional: cursor, limit.",
+        "params_schema": {
+          "cursor": "string?",
+          "limit": "integer?",
+          "query": "oneOf?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reporting",
+          "stats"
+        ]
+      },
+      {
+        "tool": "rules.create",
+        "summary": "Create a new automation rule. Required body: `name` and `code` (the rule logic written as JavaScript). Optional: `event_types` (e.g. ticket-created, ticket-updated), `priority`, `description`, `code_ast` (ESTree AST). Use to codify a workflow that the helpdesk evaluates on events; the conditions and actions are both expressed inside the JavaScript `code` string, not as a structured tree.",
+        "params_schema": {
+          "code": "string?",
+          "name": "string?",
+          "code_ast": "object?",
+          "deactivated_datetime": "string|null?",
+          "description": "string|null?",
+          "event_types": "string?",
+          "priority": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "rules"
+        ]
+      },
+      {
+        "tool": "rules.delete",
+        "summary": "Delete an automation rule by `id`. Stops the rule from firing on future tickets but does not undo past actions. Use when retiring obsolete workflow logic. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "rules",
+          "delete"
+        ]
+      },
+      {
+        "tool": "rules.get",
+        "summary": "Fetch a single automation rule (`id`) with its full conditions/actions tree and enabled state. Use to inspect why a ticket was auto-modified or before tweaking rule logic. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "rules",
+          "get"
+        ]
+      },
+      {
+        "tool": "rules.list",
+        "summary": "List all automation rules with their order, enabled state, and summary. The agent's map of what automations are currently shaping tickets, useful before adding new logic or diagnosing unexpected behavior.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "rules",
+          "list"
+        ]
+      },
+      {
+        "tool": "rules.set-priorities",
+        "summary": "Set the execution priorities of automation rules. Required body: `priorities` \u2014 an array of objects mapping rule ids to their new priority value. Use after adding/reordering rules so they short-circuit in the intended order. Required: priorities. Optional: priorities.",
+        "params_schema": {
+          "priorities": "array<object>?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "rules",
+          "set-priorities"
+        ]
+      },
+      {
+        "tool": "rules.update",
+        "summary": "Update an automation rule (`id`) \u2014 edit conditions, actions, or enabled flag. Use to tune an existing workflow rather than deleting and recreating it. Required: id. Optional: code, code_ast, deactivated_datetime (plus 4 more).",
+        "params_schema": {
+          "id": "string",
+          "code": "string?",
+          "code_ast": "object?",
+          "deactivated_datetime": "string|null?",
+          "description": "string|null?",
+          "event_types": "string?",
+          "name": "string?",
+          "priority": "integer?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "rules",
+          "update"
+        ]
+      },
+      {
+        "tool": "satisfaction-surveys.create",
+        "summary": "Create a satisfaction-survey instance attached to one ticket and customer. Required body: `customer_id`, `ticket_id`. Optional: `score` (1\u20135), `body_text` (customer comment), `should_send_datetime` (set to `null` to skip sending). Use to manually attach or backfill a CSAT result on a ticket \u2014 NOT to define a reusable survey template (Gorgias's CSAT templates are managed via integrations/settings, not this endpoint).",
+        "params_schema": {
+          "customer_id": "integer?",
+          "ticket_id": "integer?",
+          "body_text": "string|null?",
+          "created_datetime": "string|null?",
+          "meta": "object|null?",
+          "score": "integer|null?",
+          "scored_datetime": "string|null?",
+          "sent_datetime": "string|null?",
+          "should_send_datetime": "string|null?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "satisfaction-surveys"
+        ]
+      },
+      {
+        "tool": "satisfaction-surveys.get",
+        "summary": "Fetch a single satisfaction-survey instance by `id` \u2014 the linked ticket/customer, score, customer comment, and send/score timestamps. Use to read the CSAT result for a specific ticket. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "satisfaction-surveys",
+          "get"
+        ]
+      },
+      {
+        "tool": "satisfaction-surveys.list",
+        "summary": "List satisfaction-survey instances (each one tied to a single ticket). Filter with `ticket_id` to fetch the survey for one ticket, or paginate via `cursor`/`limit`. Use for CSAT reporting and to surface scores per ticket.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "satisfaction-surveys",
+          "list"
+        ]
+      },
+      {
+        "tool": "satisfaction-surveys.update",
+        "summary": "Update a satisfaction-survey instance (`id`) \u2014 typically to record/correct the customer's `score` (1\u20135), `body_text`, or to schedule/cancel its send via `should_send_datetime`. There is no template wording or trigger logic at this endpoint. Required: id.",
+        "params_schema": {
+          "id": "string",
+          "body_text": "string|null?",
+          "created_datetime": "string|null?",
+          "customer_id": "integer?",
+          "meta": "object|null?",
+          "score": "integer|null?",
+          "scored_datetime": "string|null?",
+          "sent_datetime": "string|null?",
+          "should_send_datetime": "string|null?",
+          "ticket_id": "integer?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "satisfaction-surveys",
+          "update"
+        ]
+      },
+      {
+        "tool": "tags.create",
+        "summary": "Create a new tag in the account's tag library. Body: `name` (required, max 256 chars, case-sensitive), `description` (optional, max 1024), `decoration` (optional, styling object). Use when the agent needs a new label that doesn't exist yet \u2014 prefer reusing an existing tag where possible. Required: name. Optional: decoration, description.",
+        "params_schema": {
+          "name": "string?",
+          "decoration": "object?",
+          "description": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags"
+        ]
+      },
+      {
+        "tool": "tags.delete",
+        "summary": "Delete a tag by `id`. Removes it from the library and unassociates it from every ticket/customer that carries it. Destructive \u2014 prefer merging into another tag if you want to preserve history. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tags.delete-all",
+        "summary": "Bulk-delete tags. Required body: `ids` (array of tag IDs, min 1). Tags currently referenced by macros or rules cannot be deleted, and views using them will be deactivated. Reserve for housekeeping; destructive. Required: ids.",
+        "params_schema": {
+          "ids": "array<integer>?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "delete-all"
+        ]
+      },
+      {
+        "tool": "tags.get",
+        "summary": "Fetch a single tag (`id`) with its name, decoration, and metadata. Use to verify a tag exists before applying it, or to read its display style. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "get"
+        ]
+      },
+      {
+        "tool": "tags.list",
+        "summary": "List all tags in the account, optionally filtered by name. The agent's lookup endpoint for finding the right existing tag (and avoiding duplicates) before tagging a ticket or customer.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "list"
+        ]
+      },
+      {
+        "tool": "tags.merge",
+        "summary": "Merge other tags INTO this tag \u2014 path `{id}` is the destination (surviving) tag, and the body field `source_tags_ids` (array of integer IDs) lists the source tags to be merged and deleted. Use to consolidate duplicate or near-duplicate labels. Required: id.",
+        "params_schema": {
+          "id": "string",
+          "source_tags_ids": "array<integer>?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "merge"
+        ]
+      },
+      {
+        "tool": "tags.update",
+        "summary": "Update a tag (`id`) \u2014 rename it or change its color/decoration. Affects every record currently carrying the tag, so use carefully on widely-applied labels. Required: id. Optional: name, description, decoration.",
+        "params_schema": {
+          "id": "string",
+          "name": "string?",
+          "description": "string?",
+          "decoration": "object?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "update"
+        ]
+      },
+      {
+        "tool": "teams.create",
+        "summary": "Create a new team (group of agents) in the account. Pass `name` and optionally members. Use when organizing routing or stats by squad \u2014 e.g. 'Tier-1 Support', 'Billing'. Required: name. Optional: description, decoration, members.",
+        "params_schema": {
+          "name": "string?",
+          "description": "string|null?",
+          "decoration": "object|null?",
+          "members": "array<object>?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "teams"
+        ]
+      },
+      {
+        "tool": "teams.delete",
+        "summary": "Delete a team by `id`. Removes it from routing rules and views; members remain but lose the team grouping. Use when retiring a squad structure. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "teams",
+          "delete"
+        ]
+      },
+      {
+        "tool": "teams.get",
+        "summary": "Fetch a single team (`id`) with its members and metadata. Use when an agent needs to know who's on a team before assigning or escalating a ticket. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "teams",
+          "get"
+        ]
+      },
+      {
+        "tool": "teams.list",
+        "summary": "List all teams in the account. The agent's lookup for valid team IDs/names when assigning a ticket, routing via a rule, or filtering reports.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "teams",
+          "list"
+        ]
+      },
+      {
+        "tool": "teams.update",
+        "summary": "Update a team (`id`) \u2014 rename it or change its membership. Use to reorganize agents or correct a misconfigured team. Required: id. Optional: name, description, decoration (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "name": "string?",
+          "description": "string|null?",
+          "decoration": "object|null?",
+          "members": "array<object>?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "teams",
+          "update"
+        ]
+      },
+      {
+        "tool": "ticket-search.query",
+        "summary": "Full-text search across Gorgias tickets, customers, and messages. POST a JSON body with `query`, `resource_type`, and optional `filters`. The agent-friendly path to find a prior conversation by topic or customer email when you only have natural-language search terms. Required: type. Optional: query, size.",
+        "params_schema": {
+          "type": "string?",
+          "query": "string?",
+          "size": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ticket-search",
+          "query"
+        ]
+      },
+      {
+        "tool": "tickets.create",
+        "summary": "Create a new ticket. Body specifies `channel`, `via`, `subject`, an initial `messages` array, the customer, and optional assignee/tags/status. Use when the agent is opening a fresh conversation rather than replying to an existing one. Required: messages. Optional: assignee_team, assignee_user, channel (plus 22 more).",
+        "params_schema": {
+          "messages": "array<CreateTicketMessage>?",
+          "assignee_team": "object<CreateTicketAssignee>?",
+          "assignee_user": "object<CreateTicketAssignee>?",
+          "channel": "LegacyChannelSlug|string?",
+          "closed_datetime": "string?",
+          "created_datetime": "string?",
+          "custom_fields": "array<CreateTicketCustomField>?",
+          "customer": "object<CreateTicketCustomer>?",
+          "external_id": "string?",
+          "from_agent": "boolean?",
+          "language": "string?",
+          "last_message_datetime": "string?",
+          "last_received_message_datetime": "string?",
+          "meta": "object?",
+          "opened_datetime": "string?",
+          "priority": "object<TicketPriority>?",
+          "snooze_datetime": "string?",
+          "spam": "boolean?",
+          "split_from": "integer?",
+          "status": "object<TicketStatus>?",
+          "subject": "string?",
+          "tags": "array<CreateTicketTag>?",
+          "trashed_datetime": "string?",
+          "updated_datetime": "string?",
+          "via": "string?",
+          "imported": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tickets"
+        ]
+      },
+      {
+        "tool": "tickets.custom-fields-list",
+        "summary": "List every custom field value on ticket (`id`). Use to read structured metadata an agent or integration attached (e.g. RMA number, refund reason) before composing context-aware replies. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "custom-fields-list"
+        ]
+      },
+      {
+        "tool": "tickets.custom-fields-set",
+        "summary": "Set a single custom field value on a ticket: first `{id}` is the ticket, second `{id}` is the custom field. Use to write a structured attribute (e.g. refund amount, order number) onto a specific ticket. Required: id, ticket_id. Optional: value.",
+        "params_schema": {
+          "id": "string",
+          "ticket_id": "string",
+          "value": "string?"
+        },
+        "positionals": [
+          "id",
+          "ticket_id"
+        ],
+        "argv_path": [
+          "tickets",
+          "custom-fields-set"
+        ]
+      },
+      {
+        "tool": "tickets.custom-fields-set-all",
+        "summary": "Bulk-set custom field values on ticket (`id`) \u2014 pass an array of field/value pairs. Preferred when an agent needs to write several structured attributes at once after triaging a ticket. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "custom-fields-set-all"
+        ]
+      },
+      {
+        "tool": "tickets.custom-fields-unset",
+        "summary": "Clear a custom field value on a ticket: first `{id}` is the ticket, second `{id}` is the custom field. Unsets (does not delete the schema) \u2014 use to revert an incorrectly auto-populated value. Required: ticket_id, id. Destructive.",
+        "params_schema": {
+          "ticket_id": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "ticket_id",
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "custom-fields-unset"
+        ]
+      },
+      {
+        "tool": "tickets.delete",
+        "summary": "Delete a ticket by `id`. Hard-deletes the conversation and its messages \u2014 reserve for GDPR erasure, spam, or accidental tickets. Most workflows prefer setting status to `closed` instead. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tickets.get",
+        "summary": "Fetch a single ticket by `id` with status, channel, assignee, customer, tags, and summary fields. Use after identifying a ticket (via search/list) to load core context before reading messages or replying. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "get"
+        ]
+      },
+      {
+        "tool": "tickets.list",
+        "summary": "List tickets with filters (status, assignee, customer, channel, datetime, tag). The agent's primary endpoint for queue scans like 'open tickets assigned to me' or 'all tickets for customer X'; prefer search for natural-language queries. Optional: customer_id, limit.",
+        "params_schema": {
+          "customer_id": "string?",
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tickets",
+          "list"
+        ]
+      },
+      {
+        "tool": "tickets.messages-create",
+        "summary": "Post a new message on ticket (`id`) \u2014 used to reply to the customer or write an internal note. The body distinguishes public ('outgoing' to channel) from internal ('internal-note') via fields like `sender`, `channel`, `via`, and `body_html`/`body_text`. Reach for this when the agent decides to respond. Required: id, channel, from_agent. Optional: action, actions, attachments (plus 25 more).",
+        "params_schema": {
+          "id": "string",
+          "action": "string?",
+          "channel": "LegacyChannelSlug|string?",
+          "from_agent": "boolean?",
+          "actions": "array?",
+          "attachments": "array<CreateMessageAttachment>?",
+          "body_html": "string?",
+          "body_text": "string?",
+          "created_datetime": "string?",
+          "deleted_datetime": "string?",
+          "external_id": "string?",
+          "failed_datetime": "string?",
+          "headers": "object?",
+          "integration_id": "integer?",
+          "last_sending_error": "object<CreateMessageLastSendingError>?",
+          "macros": "array<CreateMessageMacro>?",
+          "message_id": "string?",
+          "meta": "object<CreateMessageMeta>?",
+          "opened_datetime": "string?",
+          "public": "boolean?",
+          "sent_datetime": "string?",
+          "source": "object<CreateMessageSource>?",
+          "stripped_html": "string?",
+          "stripped_signature": "string?",
+          "stripped_text": "string?",
+          "subject": "string?",
+          "via": "string?",
+          "imported": "boolean?",
+          "mention_ids": "array<integer>?",
+          "receiver": "object<CreateMessageCustomerOrUser>?",
+          "sender": "object<CreateMessageCustomerOrUser>?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "messages-create"
+        ]
+      },
+      {
+        "tool": "tickets.messages-delete",
+        "summary": "Delete a message from a ticket: first `{id}` is the ticket, second `{id}` is the message. Use sparingly \u2014 typically only to scrub a message containing sensitive data or an accidental send. Required: ticket_id, id. Destructive.",
+        "params_schema": {
+          "ticket_id": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "ticket_id",
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "messages-delete"
+        ]
+      },
+      {
+        "tool": "tickets.messages-get",
+        "summary": "Fetch a single message: first `{id}` is the ticket, second `{id}` is the message. Use to load full body and attachment details for a specific entry without pulling the whole thread. Required: ticket_id, id.",
+        "params_schema": {
+          "ticket_id": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "ticket_id",
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "messages-get"
+        ]
+      },
+      {
+        "tool": "tickets.messages-list",
+        "summary": "List all messages on ticket (`id`) in chronological order \u2014 both customer-sent and agent-sent, public and internal notes. The agent's primary read endpoint for understanding the full conversation context. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "messages-list"
+        ]
+      },
+      {
+        "tool": "tickets.messages-update",
+        "summary": "Update a message: first `{id}` is the ticket, second `{id}` is the message. Typically used to edit an internal note's body or correct a draft; channel-delivered messages may be immutable depending on channel. Required: ticket_id, id, channel, from_agent. Optional: action, attachments, body_html (plus 10 more).",
+        "params_schema": {
+          "ticket_id": "string",
+          "id": "string",
+          "action": "string?",
+          "channel": "string?",
+          "from_agent": "boolean?",
+          "attachments": "array<object>?",
+          "body_html": "string|null?",
+          "body_text": "string|null?",
+          "external_id": "string|null?",
+          "failed_datetime": "string|null?",
+          "message_id": "string|null?",
+          "receiver": "object?",
+          "sender": "object?",
+          "sent_datetime": "string|null?",
+          "source": "object?",
+          "subject": "string|null?",
+          "via": "string?"
+        },
+        "positionals": [
+          "ticket_id",
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "messages-update"
+        ]
+      },
+      {
+        "tool": "tickets.tags-add",
+        "summary": "Add one or more tags to ticket (`id`). The body shape (tag IDs vs names; whether unknown names auto-create) is not confirmed against the dev docs \u2014 verify before relying on auto-create behavior. Use to categorize a ticket once the agent identifies its topic. Required: id.",
+        "params_schema": {
+          "id": "string",
+          "names": "array<string>?",
+          "ids": "array<integer>?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "tags-add"
+        ]
+      },
+      {
+        "tool": "tickets.tags-list",
+        "summary": "List the tags currently attached to ticket (`id`). Use to read the ticket's categorization before deciding what additional tags to add or what rule branch to take. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "tags-list"
+        ]
+      },
+      {
+        "tool": "tickets.tags-remove",
+        "summary": "Remove tags from ticket (`id`). Pass the tag IDs/names to detach. Use when re-categorizing a ticket or undoing an over-eager auto-tag. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "tags-remove"
+        ]
+      },
+      {
+        "tool": "tickets.tags-replace",
+        "summary": "Replace ticket (`id`)'s entire tag set with the supplied list. Use for full re-tagging; for additive/subtractive changes prefer the `create_tags` / `delete_tags` ticket endpoints. Required: id. Optional: names, ids.",
+        "params_schema": {
+          "id": "string",
+          "names": "array<string>?",
+          "ids": "array<integer>?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "tags-replace"
+        ]
+      },
+      {
+        "tool": "tickets.update",
+        "summary": "Update a ticket (`id`) \u2014 change status (`open`/`closed`/`resolved`), assignee, priority, subject, or `via`. The workhorse for state transitions: closing after resolution, reassigning to a team, escalating priority. Required: id. Optional: assignee_team, assignee_user, channel (plus 20 more).",
+        "params_schema": {
+          "id": "string",
+          "assignee_team": "object<UpdateTicketAssigneeTeam>?",
+          "assignee_user": "object<UpdateTicketAssigneeUser>?",
+          "channel": "LegacyChannelSlug|string?",
+          "closed_datetime": "string?",
+          "custom_fields": "array<UpdateTicketCustomField>?",
+          "customer": "object<UpdateTicketCustomer>?",
+          "external_id": "string?",
+          "from_agent": "boolean?",
+          "is_unread": "boolean?",
+          "language": "string?",
+          "last_message_datetime": "string?",
+          "last_received_message_datetime": "string?",
+          "meta": "object?",
+          "opened_datetime": "string?",
+          "priority": "object<TicketPriority>?",
+          "snooze_datetime": "string?",
+          "spam": "boolean?",
+          "status": "object<TicketStatus>?",
+          "subject": "string?",
+          "tags": "array<UpdateTicketTag>?",
+          "trashed_datetime": "string?",
+          "updated_datetime": "string?",
+          "via": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets",
+          "update"
+        ]
+      },
+      {
+        "tool": "users.create",
+        "summary": "Create a new user (Gorgias agent/operator). Pass name, email, role, and optionally team memberships. Use when provisioning a new support agent \u2014 typically an admin-only operation. Required: email, name, role. Optional: bio, country, external_id (plus 3 more).",
+        "params_schema": {
+          "email": "string?",
+          "name": "string?",
+          "role": "object?",
+          "bio": "string|null?",
+          "country": "string|null?",
+          "external_id": "string?",
+          "language": "string|null?",
+          "meta": "object?",
+          "timezone": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.delete",
+        "summary": "Delete a user (`id`) \u2014 deactivates the agent account and removes them from routing. Their historical ticket activity remains. Reach for this when an agent leaves the org. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "delete"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Fetch a single user (`id`) \u2014 agent name, email, role, teams, status. Use to look up who an assignee is or to verify a user's role before assigning sensitive tickets. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "get"
+        ]
+      },
+      {
+        "tool": "users.list",
+        "summary": "List users (Gorgias agents/operators) on the account, with filters for role, status, and team. The agent's lookup endpoint for valid assignee IDs before reassigning or routing a ticket.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "list"
+        ]
+      },
+      {
+        "tool": "users.update",
+        "summary": "Update a user (`id`) \u2014 change role, name, team membership, or active state. Use for admin operations like promoting an agent to lead or moving someone between teams. Required: id. Optional: bio, country, email (plus 10 more).",
+        "params_schema": {
+          "id": "string",
+          "bio": "string|null?",
+          "country": "string|null?",
+          "email": "string?",
+          "external_id": "string?",
+          "language": "string|null?",
+          "meta": "object?",
+          "name": "string?",
+          "new_password": "string?",
+          "old_password": "string?",
+          "password_confirmation": "string?",
+          "role": "object?",
+          "timezone": "string?",
+          "two_fa_code": "string|null?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "update"
+        ]
+      },
+      {
+        "tool": "views.create",
+        "summary": "Create a saved view \u2014 a filtered ticket list (e.g. 'My open tickets', 'Urgent + unassigned') defined by status/tag/assignee/channel criteria. Use when an agent is asked to materialize a recurring query as a reusable filter. Required: slug. Optional: decoration, fields, filters (plus 7 more).",
+        "params_schema": {
+          "slug": "string?",
+          "decoration": "object<ViewDecoration>?",
+          "fields": "array<ViewField>?",
+          "filters": "string?",
+          "name": "string?",
+          "order_by": "string?",
+          "order_dir": "string?",
+          "shared_with_teams": "array<integer>?",
+          "shared_with_users": "array<integer>?",
+          "type": "object<ViewType>?",
+          "visibility": "object<ViewVisibility>?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "views"
+        ]
+      },
+      {
+        "tool": "views.delete",
+        "summary": "Delete a saved view by `id`. Removes it from the sidebar for everyone who saw it. Use when retiring stale filters. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "views",
+          "delete"
+        ]
+      },
+      {
+        "tool": "views.get",
+        "summary": "Fetch a single saved view (`id`) with its filter definition and metadata. Use to introspect what conditions a view encodes before relying on its results or editing it. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "views",
+          "get"
+        ]
+      },
+      {
+        "tool": "views.items-list",
+        "summary": "Return the ticket items currently matching saved view (`id`). Required: `id` (path). Optional: `cursor`, `direction` (prev/next), `limit` (1-100, default 30), `order_by`, `ignored_item`. Use to read 'what's in this view right now' rather than re-deriving the filter manually.",
+        "params_schema": {
+          "id": "string",
+          "limit": "integer?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "views",
+          "items-list"
+        ]
+      },
+      {
+        "tool": "views.items-update",
+        "summary": "Update the materialized items of a view (`id`) \u2014 used to reorder, bulk-mutate, or refresh the cached set depending on view type. Niche; most agents read items rather than mutating them. Required: id. Optional: cursor, direction, ignored_item (plus 3 more).",
+        "params_schema": {
+          "id": "string",
+          "cursor": "string?",
+          "direction": "string?",
+          "ignored_item": "integer?",
+          "limit": "integer?",
+          "order_by": "string?",
+          "view": "object?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "views",
+          "items-update"
+        ]
+      },
+      {
+        "tool": "views.list",
+        "summary": "List all saved views on the account, including ownership and visibility. The agent's catalogue of pre-built ticket filters available for navigation or reporting.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "views",
+          "list"
+        ]
+      },
+      {
+        "tool": "views.update",
+        "summary": "Update a saved view (`id`) \u2014 change its filter criteria, name, or sharing. Use to evolve a view's definition as triage workflows change. Required: id. Optional: decoration, fields, filters (plus 8 more).",
+        "params_schema": {
+          "id": "string",
+          "decoration": "object<ViewDecoration>?",
+          "fields": "array<ViewField>?",
+          "filters": "string?",
+          "name": "string?",
+          "order_by": "string?",
+          "order_dir": "string?",
+          "shared_with_teams": "array<integer>?",
+          "shared_with_users": "array<integer>?",
+          "slug": "string?",
+          "type": "object<ViewType>?",
+          "visibility": "object<ViewVisibility>?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "views",
+          "update"
+        ]
+      },
+      {
+        "tool": "widgets.create",
+        "summary": "Create a new agent-facing sidebar widget shown inside the Gorgias helpdesk (on ticket, customer, or user views \u2014 set by `context`). Required: `template` (defines the data source, e.g. Shopify, Stripe, HTTP). Optional: `order`, `integration_id` (required for HTTP), `app_id`, `deactivated_datetime`. This is NOT a customer-facing chat widget \u2014 those are managed via the Gorgias Chat integration.",
+        "params_schema": {
+          "template": "object?",
+          "type": "string?",
+          "context": "string?",
+          "deactivated_datetime": "string|null?",
+          "integration_id": "integer|null?",
+          "app_id": "string|null?",
+          "order": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widgets"
+        ]
+      },
+      {
+        "tool": "widgets.delete",
+        "summary": "Delete a sidebar widget config by `id`. After deletion the widget stops rendering in the helpdesk UI on the configured `context` (ticket/customer/user). Coordinate with the team relying on the data surface. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widgets",
+          "delete"
+        ]
+      },
+      {
+        "tool": "widgets.get",
+        "summary": "Fetch a single sidebar widget (`id`) with its `context` (ticket/customer/user), `template` (data source), order, and integration linkage. Use to introspect a helpdesk sidebar widget before editing it. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widgets",
+          "get"
+        ]
+      },
+      {
+        "tool": "widgets.list",
+        "summary": "List all agent-facing sidebar widgets on the account, optionally filtered by `integration_id` or `app_id`. Use to discover which Shopify/Stripe/HTTP-backed sidebar surfaces exist on ticket/customer/user views before editing one. NOT a chat-widget listing.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "list"
+        ]
+      },
+      {
+        "tool": "widgets.update",
+        "summary": "Update a sidebar widget (`id`) \u2014 typically to change its `template` (data source), `order` (display position), `context`, or to deactivate it via `deactivated_datetime`. Affects what agents see in the helpdesk sidebar. NOT a customer-facing chat widget. Required: id.",
+        "params_schema": {
+          "id": "string",
+          "context": "string?",
+          "deactivated_datetime": "string|null?",
+          "integration_id": "integer|null?",
+          "app_id": "string|null?",
+          "order": "integer?",
+          "template": "object?",
+          "type": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widgets",
+          "update"
+        ]
+      }
+    ]
+  },
+  {
     "api": "granola",
     "description": "Every Granola feature \u2014 plus offline SQLite cross-meeting search, attendee timelines, and a MEMO pipeline runner...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/granola/cmd/granola-pp-cli",
@@ -61841,8 +63927,9 @@
     "category": "media-and-entertainment",
     "search_terms": [
       "icloud",
+      "Apple iCloud",
       "icloud-pp-cli",
-      "Query iCloud data stored locally on macOS \u2014 Photos library storage analysis, with Contacts and more coming. All reads hit local SQLite databases directly; no network calls or iCloud API token required.",
+      "Query Apple iCloud data stored locally on macOS \u2014 Photos library storage analysis, with Contacts and more coming. All reads hit local SQLite databases directly; no network calls or iCloud API token required.",
       "Heaviest file finder",
       "photos top",
       "List the top N heaviest files across all media types or filtered to photos/videos.",
@@ -61864,6 +63951,247 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "infotbm",
+    "description": "Every Bordeaux tram, bus, and ferry schedule offline in SQLite, plus real-time arrivals, ghost service detection",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/infotbm/cmd/infotbm-pp-cli",
+    "auth_type": "api_key",
+    "category": "travel",
+    "search_terms": [
+      "infotbm",
+      "TBM Bordeaux",
+      "infotbm-pp-cli",
+      "Every Bordeaux tram, bus, and ferry schedule offline in SQLite, plus real-time arrivals, ghost service detection, and journey planning no other Bordeaux transit tool offers.",
+      "Ghost Service Detector",
+      "schedule diff",
+      "Surface trips that are scheduled in GTFS but absent from live real-time data \u2014 the buses that exist on paper but never showed up",
+      "Last Viable Departure",
+      "trips last-departure",
+      "Find the latest departure from a stop that still reaches your destination before a cutoff time",
+      "Delay-Triggered Reroute",
+      "trips reroute",
+      "When your current connection is delayed, compute the best alternate onward path using live vehicle data",
+      "Alert Impact Filter",
+      "alerts impact",
+      "Filter all active disruptions to only those affecting your specific lines or stops",
+      "Line Stop Sequence",
+      "lines stops",
+      "Print the ordered stop list for a line and direction, optionally with scheduled departure times",
+      "Timetable Change Diff",
+      "schedule changes",
+      "Compare GTFS sync snapshots to detect added, removed, or modified routes on a line",
+      "Journey Planner",
+      "trips plan",
+      "Plan multi-modal journeys across tram, bus, and ferry using local GTFS data with live disruption awareness",
+      "Headway Frequency Report",
+      "lines frequency",
+      "Compute average headways per hour from the SIRI estimated timetable"
+    ],
+    "endpoints": [
+      {
+        "tool": "agencies.list",
+        "summary": "Transit agencies in the Bordeaux network. Optional: includeRoutes.",
+        "params_schema": {
+          "includeRoutes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "agencies"
+        ]
+      },
+      {
+        "tool": "alerts.list",
+        "summary": "Active service disruption alerts. Optional: lang, channel.",
+        "params_schema": {
+          "lang": "string?",
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "alerts"
+        ]
+      },
+      {
+        "tool": "fares.list",
+        "summary": "Fare structure including pricing and transfer rules.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "fares"
+        ]
+      },
+      {
+        "tool": "feed-info.get",
+        "summary": "GTFS feed metadata including validity dates and timestamps.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "feed-info"
+        ]
+      },
+      {
+        "tool": "kml.export",
+        "summary": "KML geographic data export with route geometry and stop locations. Optional: includeStops, route.",
+        "params_schema": {
+          "includeStops": "boolean?",
+          "route": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "kml",
+          "export"
+        ]
+      },
+      {
+        "tool": "realtime.stop",
+        "summary": "Real-time departure information at a specific stop. Required: stopId. Optional: lookahead, includeAlerts, lang.",
+        "params_schema": {
+          "stopId": "string",
+          "lookahead": "integer?",
+          "includeAlerts": "boolean?",
+          "lang": "string?"
+        },
+        "positionals": [
+          "stopId"
+        ],
+        "argv_path": [
+          "realtime",
+          "stop"
+        ]
+      },
+      {
+        "tool": "realtime.vehicles",
+        "summary": "Real-time vehicle positions across the network. Optional: route.",
+        "params_schema": {
+          "route": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "realtime",
+          "vehicles"
+        ]
+      },
+      {
+        "tool": "routes.list",
+        "summary": "All transit routes/lines in the TBM network. Optional: code, name, lat (plus 3 more).",
+        "params_schema": {
+          "code": "string?",
+          "name": "string?",
+          "lat": "number?",
+          "lon": "number?",
+          "radius": "integer?",
+          "includePatterns": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "routes"
+        ]
+      },
+      {
+        "tool": "server-info.get",
+        "summary": "API version and build information. (public)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "server-info"
+        ]
+      },
+      {
+        "tool": "siri.check-status",
+        "summary": "SIRI service health check. (public)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "siri",
+          "check-status"
+        ]
+      },
+      {
+        "tool": "siri.estimated-timetable",
+        "summary": "Estimated real-time timetable for a line. Required: line. Optional: AccountKey.",
+        "params_schema": {
+          "AccountKey": "string?",
+          "line": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "siri",
+          "estimated-timetable"
+        ]
+      },
+      {
+        "tool": "siri.general-message",
+        "summary": "General service messages and disruption information. Optional: AccountKey.",
+        "params_schema": {
+          "AccountKey": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "siri",
+          "general-message"
+        ]
+      },
+      {
+        "tool": "siri.lines-discovery",
+        "summary": "Discover all lines with destinations and transport modes. Optional: AccountKey.",
+        "params_schema": {
+          "AccountKey": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "siri",
+          "lines-discovery"
+        ]
+      },
+      {
+        "tool": "siri.stop-monitoring",
+        "summary": "Real-time arrival/departure monitoring at a stop. Required: stop. Optional: AccountKey, max-visits, line.",
+        "params_schema": {
+          "AccountKey": "string?",
+          "stop": "string?",
+          "max-visits": "integer?",
+          "line": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "siri",
+          "stop-monitoring"
+        ]
+      },
+      {
+        "tool": "siri.stoppoints-discovery",
+        "summary": "Discover all stop points with coordinates and serving lines. Optional: AccountKey, max-stops, line.",
+        "params_schema": {
+          "AccountKey": "string?",
+          "max-stops": "integer?",
+          "line": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "siri",
+          "stoppoints-discovery"
+        ]
+      },
+      {
+        "tool": "stops.list",
+        "summary": "All transit stops in the TBM network. Optional: code, name, lat (plus 5 more).",
+        "params_schema": {
+          "code": "string?",
+          "name": "string?",
+          "lat": "number?",
+          "lon": "number?",
+          "radius": "integer?",
+          "includeStops": "boolean?",
+          "includeStations": "boolean?",
+          "includeRoutes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stops"
         ]
       }
     ]
@@ -82845,6 +85173,33 @@
     ]
   },
   {
+    "api": "nynj-world-cup-concierge",
+    "description": "Extract public NYNJ World Cup Concierge Explore NYNJ, Fan Experiences, and Watch Parties guidance.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/nynj-world-cup-concierge/cmd/nynj-world-cup-concierge-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "nynj-world-cup-concierge",
+      "NYNJ World Cup Concierge",
+      "nynj-world-cup-concierge-pp-cli",
+      "Read-only extractor for the public NYNJ World Cup Concierge Explore NYNJ, Fan Experiences, and match-viewing guidance.",
+      "Trip-window fan experience extraction",
+      "extract --category Fan Experiences --date-window-start 2026-07-02 --date-window-end 2026-07-06 --exclude-undated --agent",
+      "Filters official NYNJ fan experiences to activities whose public date ranges overlap a trip window, excluding undated guidance from itinerary feeds."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Extract public NYNJ World Cup Concierge Explore NYNJ, Fan Experiences, and Watch Parties guidance. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "obsidian",
     "description": "SYNTHETIC OpenAPI 3.0 spec mapping Obsidian's official command-line interface (v1.12+) to virtual REST endpoints....",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/obsidian/cmd/obsidian-pp-cli",
@@ -86427,6 +88782,2386 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "plane",
+    "description": "The Plane REST API Visit our quick start guide and full API documentation at [developers.plane.so](https://developers.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/project-management/plane/cmd/plane-pp-cli",
+    "auth_type": "api_key",
+    "category": "project-management",
+    "search_terms": [
+      "plane",
+      "plane-pp-cli",
+      "Open-source project management \u0432\u0402\u201d issues, cycles, modules, sub-issues, and workspaces. A self-hostable Jira/Linear/ClickUp alternative.",
+      "Issue Relations",
+      "relations",
+      "Flat list/set/unset of issue blocking, blocked_by, duplicate, relates_to and temporal links without hand-driving the relations endpoint (unset bridges Plane CE's missing DELETE via a configurable Django-shell call).",
+      "Module Membership & Sync Enrichment",
+      "module",
+      "Manage an issue's module membership (of/create-issue/sync) and auto-enrich issue module_ids during sync (on by default), since Plane's issue API never returns module membership."
+    ],
+    "endpoints": [
+      {
+        "tool": "assets.create-generic-upload",
+        "summary": "Generate presigned URL for generic asset upload. Required: name, size. Optional: external_id, external_source, project_id (plus 1 more).",
+        "params_schema": {
+          "external_id": "string?",
+          "external_source": "string?",
+          "name": "string?",
+          "project_id": "string?",
+          "size": "int?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "assets",
+          "create-generic-upload"
+        ]
+      },
+      {
+        "tool": "assets.create-user-upload",
+        "summary": "Generate presigned URL for user asset upload. Required: entity_type, name, size. Optional: type.",
+        "params_schema": {
+          "entity_type": "string?",
+          "name": "string?",
+          "size": "int?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "assets",
+          "create-user-upload"
+        ]
+      },
+      {
+        "tool": "assets.delete-user",
+        "summary": "Delete user asset. Delete a user profile asset (avatar or cover image) and remove its reference from the user profile. This performs a soft delete by marking the asset as deleted and updating the user's profile. Required: asset_id. Destructive.",
+        "params_schema": {
+          "asset_id": "string"
+        },
+        "positionals": [
+          "asset_id"
+        ],
+        "argv_path": [
+          "assets",
+          "delete-user"
+        ]
+      },
+      {
+        "tool": "assets.get-generic",
+        "summary": "Get presigned URL for asset download. Required: asset_id.",
+        "params_schema": {
+          "asset_id": "string"
+        },
+        "positionals": [
+          "asset_id"
+        ],
+        "argv_path": [
+          "assets",
+          "get-generic"
+        ]
+      },
+      {
+        "tool": "assets.update-generic",
+        "summary": "Update generic asset after upload completion. Required: asset_id. Optional: is_uploaded (default: true). Partial update.",
+        "params_schema": {
+          "asset_id": "string",
+          "is_uploaded": "bool?"
+        },
+        "positionals": [
+          "asset_id"
+        ],
+        "argv_path": [
+          "assets",
+          "update-generic"
+        ]
+      },
+      {
+        "tool": "assets.update-user",
+        "summary": "Mark user asset as uploaded. Required: asset_id. Optional: attributes. Partial update.",
+        "params_schema": {
+          "asset_id": "string",
+          "attributes": "string?"
+        },
+        "positionals": [
+          "asset_id"
+        ],
+        "argv_path": [
+          "assets",
+          "update-user"
+        ]
+      },
+      {
+        "tool": "invitations.workspaces-create",
+        "summary": "Create a workspace invite. Required: email. Optional: role. Returns the new WorkspaceInvite.",
+        "params_schema": {
+          "email": "string?",
+          "role": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "invitations",
+          "workspaces-create"
+        ]
+      },
+      {
+        "tool": "invitations.workspaces-destroy",
+        "summary": "Delete a workspace invite. Required: pk. Destructive.",
+        "params_schema": {
+          "pk": "string"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "invitations",
+          "workspaces-destroy"
+        ]
+      },
+      {
+        "tool": "invitations.workspaces-list",
+        "summary": "List all workspace invites for a workspace. Returns array of WorkspaceInvite.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "invitations",
+          "workspaces-list"
+        ]
+      },
+      {
+        "tool": "invitations.workspaces-partial-update",
+        "summary": "Update a workspace invite. Required: pk. Optional: email, role. Returns the updated WorkspaceInvite.",
+        "params_schema": {
+          "pk": "string",
+          "email": "string?",
+          "role": "int?"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "invitations",
+          "workspaces-partial-update"
+        ]
+      },
+      {
+        "tool": "invitations.workspaces-retrieve",
+        "summary": "Get a workspace invite by ID. Required: pk. Returns the WorkspaceInvite.",
+        "params_schema": {
+          "pk": "string"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "invitations",
+          "workspaces-retrieve"
+        ]
+      },
+      {
+        "tool": "issues.get-workspace-work-item",
+        "summary": "Retrieve a specific work item using workspace slug, project identifier, and issue identifier. Required: issue_identifier, project_identifier. Returns the Issue.",
+        "params_schema": {
+          "issue_identifier": "string",
+          "project_identifier": "string"
+        },
+        "positionals": [
+          "issue_identifier",
+          "project_identifier"
+        ],
+        "argv_path": [
+          "issues",
+          "get-workspace-work-item"
+        ]
+      },
+      {
+        "tool": "issues.search-work-items",
+        "summary": "Perform semantic search across issue names, sequence IDs, and project identifiers. Required: search. Optional: limit, project_id, workspace_search. Returns the IssueSearch.",
+        "params_schema": {
+          "limit": "int?",
+          "project_id": "string?",
+          "search": "string?",
+          "workspace_search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "issues",
+          "search-work-items"
+        ]
+      },
+      {
+        "tool": "members.get-workspace",
+        "summary": "Retrieve all users who are members of the specified workspace. Returns array of MembersGetWorkspaceItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "members",
+          "get-workspace"
+        ]
+      },
+      {
+        "tool": "projects.create",
+        "summary": "Create a new project in the workspace with default states and member assignments. Required: identifier, name. Optional: archive_in, close_in, cover_image (plus 16 more). Returns the new Project.",
+        "params_schema": {
+          "archive_in": "int?",
+          "close_in": "int?",
+          "cover_image": "string?",
+          "cycle_view": "bool?",
+          "default_assignee": "string?",
+          "description": "string?",
+          "emoji": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "guest_view_all_features": "bool?",
+          "icon_prop": "string?",
+          "identifier": "string?",
+          "intake_view": "bool?",
+          "is_issue_type_enabled": "bool?",
+          "is_time_tracking_enabled": "bool?",
+          "issue_views_view": "bool?",
+          "module_view": "bool?",
+          "name": "string?",
+          "page_view": "bool?",
+          "project_lead": "string?",
+          "timezone": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "projects"
+        ]
+      },
+      {
+        "tool": "projects.delete",
+        "summary": "Permanently remove a project and all its associated data from the workspace. Required: pk. Destructive.",
+        "params_schema": {
+          "pk": "string"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "projects",
+          "delete"
+        ]
+      },
+      {
+        "tool": "projects.list",
+        "summary": "Retrieve all projects in a workspace or get details of a specific project. Optional: cursor, expand, fields (plus 3 more). Returns array of Project.",
+        "params_schema": {
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "projects",
+          "list"
+        ]
+      },
+      {
+        "tool": "projects.retrieve",
+        "summary": "Retrieve details of a specific project. Required: pk. Returns the Project.",
+        "params_schema": {
+          "pk": "string"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "projects",
+          "retrieve"
+        ]
+      },
+      {
+        "tool": "projects.update",
+        "summary": "Partially update an existing project's properties like name, description, or settings. Required: pk. Optional: archive_in, close_in, cover_image (plus 20 more). Returns the updated Project.",
+        "params_schema": {
+          "pk": "string",
+          "archive_in": "int?",
+          "close_in": "int?",
+          "cover_image": "string?",
+          "cycle_view": "bool?",
+          "default_assignee": "string?",
+          "default_state": "string?",
+          "description": "string?",
+          "emoji": "string?",
+          "estimate": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "guest_view_all_features": "bool?",
+          "icon_prop": "string?",
+          "identifier": "string?",
+          "intake_view": "bool?",
+          "is_issue_type_enabled": "bool?",
+          "is_time_tracking_enabled": "bool?",
+          "issue_views_view": "bool?",
+          "module_view": "bool?",
+          "name": "string?",
+          "page_view": "bool?",
+          "project_lead": "string?",
+          "timezone": "string?"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "projects",
+          "update"
+        ]
+      },
+      {
+        "tool": "projects.archive_project",
+        "summary": "Move a project to archived status, hiding it from active project lists. Required: project_id.",
+        "params_schema": {
+          "project_id": "string"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "archive_project"
+        ]
+      },
+      {
+        "tool": "projects.archive_unarchive-project",
+        "summary": "Restore an archived project to active status, making it available in regular workflows. Required: project_id. Destructive.",
+        "params_schema": {
+          "project_id": "string"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "archive_unarchive-project"
+        ]
+      },
+      {
+        "tool": "projects.archived-cycles_list",
+        "summary": "Retrieve all cycles that have been archived in the project. Required: project_id. Optional: cursor, per_page, updated_at__gt. Returns array of Cycle.",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "archived-cycles_list"
+        ]
+      },
+      {
+        "tool": "projects.archived-cycles_unarchive-cycle",
+        "summary": "Restore an archived cycle to active status, making it available for regular use. Required: cycle_id, project_id. Destructive.",
+        "params_schema": {
+          "cycle_id": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "cycle_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "archived-cycles_unarchive-cycle"
+        ]
+      },
+      {
+        "tool": "projects.archived-modules_list",
+        "summary": "Retrieve all modules that have been archived in the project. Required: project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of Module.",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "archived-modules_list"
+        ]
+      },
+      {
+        "tool": "projects.archived-modules_unarchive-module",
+        "summary": "Restore an archived module to active status, making it available for regular use. Required: pk, project_id. Destructive.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "archived-modules_unarchive-module"
+        ]
+      },
+      {
+        "tool": "projects.cycles_add-work-items",
+        "summary": "Assign multiple work items to a cycle. Automatically handles bulk creation and updates with activity tracking. Required: cycle_id, project_id, issues. Returns the new CycleIssue.",
+        "params_schema": {
+          "cycle_id": "string",
+          "project_id": "string",
+          "issues": "string_csv_array?"
+        },
+        "positionals": [
+          "cycle_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_add-work-items"
+        ]
+      },
+      {
+        "tool": "projects.cycles_archive",
+        "summary": "Move a completed cycle to archived status for historical tracking. Only cycles that have ended can be archived. Required: cycle_id, project_id.",
+        "params_schema": {
+          "cycle_id": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "cycle_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_archive"
+        ]
+      },
+      {
+        "tool": "projects.cycles_create",
+        "summary": "Create a new development cycle with specified name, description, and date range. Supports external ID tracking for integration purposes. Required: project_id, name. Optional: description, end_date, external_id (plus 4 more). Returns the new Cycle.",
+        "params_schema": {
+          "project_id": "string",
+          "description": "string?",
+          "end_date": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "name": "string?",
+          "owned_by": "string?",
+          "start_date": "string?",
+          "timezone": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_create"
+        ]
+      },
+      {
+        "tool": "projects.cycles_delete",
+        "summary": "Permanently remove a cycle and all its associated issue relationships. Required: pk, project_id. Destructive.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_delete"
+        ]
+      },
+      {
+        "tool": "projects.cycles_delete-work-item",
+        "summary": "Remove a work item from a cycle while keeping the work item in the project. Required: cycle_id, issue_id, project_id. Destructive.",
+        "params_schema": {
+          "cycle_id": "string",
+          "issue_id": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "cycle_id",
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_delete-work-item"
+        ]
+      },
+      {
+        "tool": "projects.cycles_list",
+        "summary": "Retrieve all cycles in a project. Supports filtering by cycle status like current, upcoming, completed, or draft. Required: project_id. Optional: cursor, cycle_view, expand (plus 4 more). Returns array of Cycle.",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "cycle_view": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_list"
+        ]
+      },
+      {
+        "tool": "projects.cycles_list-work-items",
+        "summary": "Retrieve all work items assigned to a cycle. Required: cycle_id, project_id. Optional: cursor, per_page, updated_at__gt. Returns array of Issue.",
+        "params_schema": {
+          "cycle_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "cycle_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_list-work-items"
+        ]
+      },
+      {
+        "tool": "projects.cycles_retrieve",
+        "summary": "Retrieve details of a specific cycle by its ID. Supports cycle status filtering. Required: pk, project_id. Returns the Cycle.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_retrieve"
+        ]
+      },
+      {
+        "tool": "projects.cycles_retrieve-work-item",
+        "summary": "Retrieve details of a specific cycle work item. Required: cycle_id, issue_id, project_id. Returns the CycleIssue.",
+        "params_schema": {
+          "cycle_id": "string",
+          "issue_id": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "cycle_id",
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_retrieve-work-item"
+        ]
+      },
+      {
+        "tool": "projects.cycles_transfer-work-items",
+        "summary": "Move incomplete work items from the current cycle to a new target cycle. Captures progress snapshot and transfers only unfinished work items. Required: cycle_id, project_id, new_cycle_id. Returns the new CyclesTransferWorkItemsResponse.",
+        "params_schema": {
+          "cycle_id": "string",
+          "project_id": "string",
+          "new_cycle_id": "string?"
+        },
+        "positionals": [
+          "cycle_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_transfer-work-items"
+        ]
+      },
+      {
+        "tool": "projects.cycles_update",
+        "summary": "Modify an existing cycle's properties like name, description, or date range. Completed cycles can only have their sort order changed. Required: pk, project_id. Optional: description, end_date, external_id (plus 5 more). Returns the updated Cycle.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "description": "string?",
+          "end_date": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "name": "string?",
+          "owned_by": "string?",
+          "start_date": "string?",
+          "timezone": "string?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "cycles_update"
+        ]
+      },
+      {
+        "tool": "projects.intake-issues_create-intake-work-item",
+        "summary": "Submit a new work item to the project's intake queue for review and triage. Automatically creates the work item with default triage state and tracks activity. Required: project_id, issue. Returns the new IntakeIssue.",
+        "params_schema": {
+          "project_id": "string",
+          "issue-description": "string?",
+          "issue-description-html": "string?",
+          "issue-description-json": "string?",
+          "issue-name": "string?",
+          "issue-priority": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "intake-issues_create-intake-work-item"
+        ]
+      },
+      {
+        "tool": "projects.intake-issues_delete-intake-work-item",
+        "summary": "Permanently remove an intake work item from the triage queue. Also deletes the underlying work item if it hasn't been accepted yet. Required: issue_id, project_id. Destructive.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "intake-issues_delete-intake-work-item"
+        ]
+      },
+      {
+        "tool": "projects.intake-issues_get-intake-work-items-list",
+        "summary": "Retrieve all work items in the project's intake queue. Returns paginated results when listing all intake work items. Required: project_id. Optional: cursor, expand, fields (plus 1 more).",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "intake-issues_get-intake-work-items-list"
+        ]
+      },
+      {
+        "tool": "projects.intake-issues_retrieve-intake-work-item",
+        "summary": "Retrieve details of a specific intake work item. Required: issue_id, project_id. Returns the IntakeIssue.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "intake-issues_retrieve-intake-work-item"
+        ]
+      },
+      {
+        "tool": "projects.intake-issues_update-intake-work-item",
+        "summary": "Modify an existing intake work item's properties or status for triage processing. Supports status changes like accept, reject, or mark as duplicate. Required: issue_id, project_id. Optional: duplicate_to, issue, snoozed_till (plus 3 more). Returns the updated IntakeIssue.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "duplicate_to": "string?",
+          "issue-description": "string?",
+          "issue-description-html": "string?",
+          "issue-description-json": "string?",
+          "issue-name": "string?",
+          "issue-priority": "string?",
+          "snoozed_till": "string?",
+          "source": "string?",
+          "source_email": "string?",
+          "status": "int?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "intake-issues_update-intake-work-item"
+        ]
+      },
+      {
+        "tool": "projects.issues_create-work-item",
+        "summary": "Create a new work item in the specified project with the provided details. Required: project_id, name. Optional: archived_at, assignees, completed_at (plus 18 more). Returns the new Issue.",
+        "params_schema": {
+          "project_id": "string",
+          "archived_at": "string?",
+          "assignees": "string_csv_array?",
+          "completed_at": "string?",
+          "created_by": "string?",
+          "deleted_at": "string?",
+          "description_html": "string?",
+          "estimate_point": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "is_draft": "bool?",
+          "labels": "string_csv_array?",
+          "name": "string?",
+          "parent": "string?",
+          "point": "int?",
+          "priority": "string?",
+          "sequence_id": "int?",
+          "sort_order": "float?",
+          "start_date": "string?",
+          "state": "string?",
+          "target_date": "string?",
+          "type": "string?",
+          "type_id": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_create-work-item"
+        ]
+      },
+      {
+        "tool": "projects.issues_create-work-item-attachment",
+        "summary": "Generate presigned URL for uploading file attachments to a work item. Required: issue_id, project_id, name, size. Optional: external_id, external_source, type.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "external_id": "string?",
+          "external_source": "string?",
+          "name": "string?",
+          "size": "int?",
+          "type": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_create-work-item-attachment"
+        ]
+      },
+      {
+        "tool": "projects.issues_create-work-item-comment",
+        "summary": "Add a new comment to a work item with HTML content. Required: issue_id, project_id. Optional: access, comment_html, comment_json (plus 2 more). Returns array of string.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "access": "string?",
+          "comment_html": "string?",
+          "comment_json": "string?",
+          "external_id": "string?",
+          "external_source": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_create-work-item-comment"
+        ]
+      },
+      {
+        "tool": "projects.issues_create-work-item-link",
+        "summary": "Add a new external link to a work item with URL, title, and metadata. Required: issue_id, project_id, url. Optional: title. Returns the new IssueLink.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "title": "string?",
+          "url": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_create-work-item-link"
+        ]
+      },
+      {
+        "tool": "projects.issues_delete-work-item",
+        "summary": "Permanently delete an existing work item from the project. Only admins or the item creator can perform this action. Required: pk, project_id. Destructive.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_delete-work-item"
+        ]
+      },
+      {
+        "tool": "projects.issues_delete-work-item-attachment",
+        "summary": "Permanently remove an attachment from a work item. Records deletion activity for audit purposes. Required: issue_id, pk, project_id. Destructive.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_delete-work-item-attachment"
+        ]
+      },
+      {
+        "tool": "projects.issues_delete-work-item-comment",
+        "summary": "Permanently remove a comment from a work item. Records deletion activity for audit purposes. Required: issue_id, pk, project_id. Destructive.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_delete-work-item-comment"
+        ]
+      },
+      {
+        "tool": "projects.issues_delete-work-item-link",
+        "summary": "Permanently remove an external link from a work item. Required: issue_id, pk, project_id. Destructive.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_delete-work-item-link"
+        ]
+      },
+      {
+        "tool": "projects.issues_list-work-item-activities",
+        "summary": "Retrieve all activities for a work item. Supports filtering by activity type and date range. Required: issue_id, project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of IssueActivity.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_list-work-item-activities"
+        ]
+      },
+      {
+        "tool": "projects.issues_list-work-item-attachments",
+        "summary": "Retrieve all attachments for a work item. Required: issue_id, project_id. Optional: updated_at__gt. Returns the IssueAttachment.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_list-work-item-attachments"
+        ]
+      },
+      {
+        "tool": "projects.issues_list-work-item-comments",
+        "summary": "Retrieve all comments for a work item. Required: issue_id, project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of IssueComment.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_list-work-item-comments"
+        ]
+      },
+      {
+        "tool": "projects.issues_list-work-item-links",
+        "summary": "Retrieve all links associated with a work item. Supports filtering by URL, title, and metadata. Required: issue_id, project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of IssueLink.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_list-work-item-links"
+        ]
+      },
+      {
+        "tool": "projects.issues_list-work-items",
+        "summary": "Retrieve a paginated list of all work items in a project. Supports filtering, ordering, and field selection through query parameters. Required: project_id. Optional: cursor, expand, external_id (plus 5 more). Returns array of Issue.",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_list-work-items"
+        ]
+      },
+      {
+        "tool": "projects.issues_retrieve-work-item",
+        "summary": "Retrieve details of a specific work item. Required: pk, project_id. Optional: expand, external_id, external_source (plus 2 more). Returns the Issue.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "expand": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "fields": "string?",
+          "order_by": "string?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_retrieve-work-item"
+        ]
+      },
+      {
+        "tool": "projects.issues_retrieve-work-item-activity",
+        "summary": "Retrieve details of a specific activity. Required: issue_id, pk, project_id. Optional: cursor, expand, fields (plus 2 more). Returns array of IssueActivity.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_retrieve-work-item-activity"
+        ]
+      },
+      {
+        "tool": "projects.issues_retrieve-work-item-attachment",
+        "summary": "Download attachment file. Returns a redirect to the presigned download URL. Required: issue_id, pk, project_id.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_retrieve-work-item-attachment"
+        ]
+      },
+      {
+        "tool": "projects.issues_retrieve-work-item-comment",
+        "summary": "Retrieve details of a specific comment. Required: issue_id, pk, project_id. Returns array of string.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_retrieve-work-item-comment"
+        ]
+      },
+      {
+        "tool": "projects.issues_retrieve-work-item-link",
+        "summary": "Retrieve details of a specific work item link. Required: issue_id, pk, project_id. Optional: cursor, expand, fields (plus 1 more). Returns array of IssueLink.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_retrieve-work-item-link"
+        ]
+      },
+      {
+        "tool": "projects.issues_update-link",
+        "summary": "Modify the URL, title, or metadata of an existing issue link. Required: issue_id, pk, project_id. Optional: title, url. Returns the updated IssueLink.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string",
+          "title": "string?",
+          "url": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_update-link"
+        ]
+      },
+      {
+        "tool": "projects.issues_update-work-item",
+        "summary": "Partially update an existing work item with the provided fields. Supports external ID validation to prevent conflicts. Required: pk, project_id. Optional: archived_at, assignees, completed_at (plus 19 more). Returns the updated Issue.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "archived_at": "string?",
+          "assignees": "string_csv_array?",
+          "completed_at": "string?",
+          "created_by": "string?",
+          "deleted_at": "string?",
+          "description_html": "string?",
+          "estimate_point": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "is_draft": "bool?",
+          "labels": "string_csv_array?",
+          "name": "string?",
+          "parent": "string?",
+          "point": "int?",
+          "priority": "string?",
+          "sequence_id": "int?",
+          "sort_order": "float?",
+          "start_date": "string?",
+          "state": "string?",
+          "target_date": "string?",
+          "type": "string?",
+          "type_id": "string?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_update-work-item"
+        ]
+      },
+      {
+        "tool": "projects.issues_update-work-item-comment",
+        "summary": "Modify the content of an existing comment on a work item. Required: issue_id, pk, project_id. Optional: access, comment_html, comment_json (plus 2 more). Returns array of string.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string",
+          "access": "string?",
+          "comment_html": "string?",
+          "comment_json": "string?",
+          "external_id": "string?",
+          "external_source": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_update-work-item-comment"
+        ]
+      },
+      {
+        "tool": "projects.issues_upload-work-item-attachment",
+        "summary": "Mark an attachment as uploaded after successful file transfer to storage. Required: issue_id, pk, project_id. Partial update.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "issues_upload-work-item-attachment"
+        ]
+      },
+      {
+        "tool": "projects.labels_create",
+        "summary": "Create a new label in the specified project with name, color, and description. Required: project_id, name. Optional: color, description, external_id (plus 3 more). Returns the new Label.",
+        "params_schema": {
+          "project_id": "string",
+          "color": "string?",
+          "description": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "name": "string?",
+          "parent": "string?",
+          "sort_order": "float?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "labels_create"
+        ]
+      },
+      {
+        "tool": "projects.labels_delete",
+        "summary": "Permanently remove a label from the project. This action cannot be undone. Required: pk, project_id. Destructive.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "labels_delete"
+        ]
+      },
+      {
+        "tool": "projects.labels_get",
+        "summary": "Retrieve details of a specific label. Required: pk, project_id. Returns the Label.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "labels_get"
+        ]
+      },
+      {
+        "tool": "projects.labels_list",
+        "summary": "Retrieve all labels in a project. Supports filtering by name and color. Required: project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of Label.",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "labels_list"
+        ]
+      },
+      {
+        "tool": "projects.labels_update",
+        "summary": "Partially update an existing label's properties like name, color, or description. Required: pk, project_id. Optional: color, description, external_id (plus 4 more). Returns the updated Label.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "color": "string?",
+          "description": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "name": "string?",
+          "parent": "string?",
+          "sort_order": "float?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "labels_update"
+        ]
+      },
+      {
+        "tool": "projects.members_create-project",
+        "summary": "Create a new project member. Required: project_id, member. Optional: role. Returns the new ProjectMember.",
+        "params_schema": {
+          "project_id": "string",
+          "member": "string?",
+          "role": "int?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "members_create-project"
+        ]
+      },
+      {
+        "tool": "projects.members_delete-project",
+        "summary": "Delete a project member. Required: pk, project_id. Destructive.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "members_delete-project"
+        ]
+      },
+      {
+        "tool": "projects.members_get-project",
+        "summary": "Retrieve all users who are members of the specified project. Required: project_id. Returns the UserLite.",
+        "params_schema": {
+          "project_id": "string"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "members_get-project"
+        ]
+      },
+      {
+        "tool": "projects.members_get-project-projects",
+        "summary": "Retrieve a project member by ID. Required: pk, project_id. Returns the ProjectMember.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "members_get-project-projects"
+        ]
+      },
+      {
+        "tool": "projects.members_update-project",
+        "summary": "Update a project member. Required: pk, project_id. Optional: member, role. Returns the updated ProjectMember.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "member": "string?",
+          "role": "int?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "members_update-project"
+        ]
+      },
+      {
+        "tool": "projects.modules_add-work-items",
+        "summary": "Assign multiple work items to a module or move them from another module. Automatically handles bulk creation and updates with activity tracking. Required: module_id, project_id, issues. Returns the new ModuleIssue.",
+        "params_schema": {
+          "module_id": "string",
+          "project_id": "string",
+          "issues": "string_csv_array?"
+        },
+        "positionals": [
+          "module_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_add-work-items"
+        ]
+      },
+      {
+        "tool": "projects.modules_archive",
+        "summary": "Move a module to archived status for historical tracking. Required: pk, project_id.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_archive"
+        ]
+      },
+      {
+        "tool": "projects.modules_create",
+        "summary": "Create a new project module with specified name, description, and timeline. Required: project_id, name. Optional: description, external_id, external_source (plus 5 more). Returns the new Module.",
+        "params_schema": {
+          "project_id": "string",
+          "description": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "lead": "string?",
+          "members": "string_csv_array?",
+          "name": "string?",
+          "start_date": "string?",
+          "status": "string?",
+          "target_date": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_create"
+        ]
+      },
+      {
+        "tool": "projects.modules_delete",
+        "summary": "Permanently remove a module and all its associated issue relationships. Required: pk, project_id. Destructive.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_delete"
+        ]
+      },
+      {
+        "tool": "projects.modules_delete-work-item",
+        "summary": "Remove a work item from a module while keeping the work item in the project. Required: issue_id, module_id, project_id. Destructive.",
+        "params_schema": {
+          "issue_id": "string",
+          "module_id": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "module_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_delete-work-item"
+        ]
+      },
+      {
+        "tool": "projects.modules_list",
+        "summary": "Retrieve all modules in a project. Required: project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of Module.",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_list"
+        ]
+      },
+      {
+        "tool": "projects.modules_list-work-items",
+        "summary": "Retrieve all work items assigned to a module with detailed information. Required: module_id, project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of Issue.",
+        "params_schema": {
+          "module_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "module_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_list-work-items"
+        ]
+      },
+      {
+        "tool": "projects.modules_retrieve",
+        "summary": "Retrieve details of a specific module. Required: pk, project_id. Returns the Module.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_retrieve"
+        ]
+      },
+      {
+        "tool": "projects.modules_update",
+        "summary": "Modify an existing module's properties like name, description, status, or timeline. Required: pk, project_id. Optional: description, external_id, external_source (plus 6 more). Returns the updated Module.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "description": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "lead": "string?",
+          "members": "string_csv_array?",
+          "name": "string?",
+          "start_date": "string?",
+          "status": "string?",
+          "target_date": "string?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "modules_update"
+        ]
+      },
+      {
+        "tool": "projects.project-members_create-2",
+        "summary": "Create a new project member. Required: project_id, member. Optional: role. Returns the new ProjectMember.",
+        "params_schema": {
+          "project_id": "string",
+          "member": "string?",
+          "role": "int?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "project-members_create-2"
+        ]
+      },
+      {
+        "tool": "projects.project-members_delete-2",
+        "summary": "Delete a project member. Required: pk, project_id. Destructive.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "project-members_delete-2"
+        ]
+      },
+      {
+        "tool": "projects.project-members_get-2",
+        "summary": "Retrieve all users who are members of the specified project. Required: project_id. Returns the UserLite.",
+        "params_schema": {
+          "project_id": "string"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "project-members_get-2"
+        ]
+      },
+      {
+        "tool": "projects.project-members_get-2-projects",
+        "summary": "Retrieve a project member by ID. Required: pk, project_id. Returns the ProjectMember.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "project-members_get-2-projects"
+        ]
+      },
+      {
+        "tool": "projects.project-members_update-2",
+        "summary": "Update a project member. Required: pk, project_id. Optional: member, role. Returns the updated ProjectMember.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "member": "string?",
+          "role": "int?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "project-members_update-2"
+        ]
+      },
+      {
+        "tool": "projects.states_create",
+        "summary": "Create a new workflow state for a project with specified name, color, and group. Required: project_id, color, name. Optional: default, description, external_id (plus 4 more). Returns the new State.",
+        "params_schema": {
+          "project_id": "string",
+          "color": "string?",
+          "default": "bool?",
+          "description": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "group": "string?",
+          "is_triage": "bool?",
+          "name": "string?",
+          "sequence": "float?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "states_create"
+        ]
+      },
+      {
+        "tool": "projects.states_delete",
+        "summary": "Permanently remove a workflow state from a project. Default states and states with existing work items cannot be deleted. Required: project_id, state_id. Destructive.",
+        "params_schema": {
+          "project_id": "string",
+          "state_id": "string"
+        },
+        "positionals": [
+          "project_id",
+          "state_id"
+        ],
+        "argv_path": [
+          "projects",
+          "states_delete"
+        ]
+      },
+      {
+        "tool": "projects.states_list",
+        "summary": "Retrieve all workflow states for a project. Required: project_id. Optional: cursor, expand, fields (plus 2 more). Returns array of State.",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "states_list"
+        ]
+      },
+      {
+        "tool": "projects.states_retrieve",
+        "summary": "Retrieve details of a specific state. Required: project_id, state_id. Returns the State.",
+        "params_schema": {
+          "project_id": "string",
+          "state_id": "string"
+        },
+        "positionals": [
+          "project_id",
+          "state_id"
+        ],
+        "argv_path": [
+          "projects",
+          "states_retrieve"
+        ]
+      },
+      {
+        "tool": "projects.states_update",
+        "summary": "Partially update an existing workflow state's properties like name, color, or group. Required: project_id, state_id. Optional: color, default, description (plus 6 more). Returns the updated State.",
+        "params_schema": {
+          "project_id": "string",
+          "state_id": "string",
+          "color": "string?",
+          "default": "bool?",
+          "description": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "group": "string?",
+          "is_triage": "bool?",
+          "name": "string?",
+          "sequence": "float?"
+        },
+        "positionals": [
+          "project_id",
+          "state_id"
+        ],
+        "argv_path": [
+          "projects",
+          "states_update"
+        ]
+      },
+      {
+        "tool": "projects.summary_workspaces-projects-retrieve",
+        "summary": "Get project summary Get the summary of a project. Required: project_id.",
+        "params_schema": {
+          "project_id": "string"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "summary_workspaces-projects-retrieve"
+        ]
+      },
+      {
+        "tool": "projects.work-items_create-2",
+        "summary": "Create a new work item in the specified project with the provided details. Required: project_id, name. Optional: archived_at, assignees, completed_at (plus 18 more). Returns the new Issue.",
+        "params_schema": {
+          "project_id": "string",
+          "archived_at": "string?",
+          "assignees": "string_csv_array?",
+          "completed_at": "string?",
+          "created_by": "string?",
+          "deleted_at": "string?",
+          "description_html": "string?",
+          "estimate_point": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "is_draft": "bool?",
+          "labels": "string_csv_array?",
+          "name": "string?",
+          "parent": "string?",
+          "point": "int?",
+          "priority": "string?",
+          "sequence_id": "int?",
+          "sort_order": "float?",
+          "start_date": "string?",
+          "state": "string?",
+          "target_date": "string?",
+          "type": "string?",
+          "type_id": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_create-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_create-attachment-2",
+        "summary": "Generate presigned URL for uploading file attachments to a work item. Required: issue_id, project_id, name, size. Optional: external_id, external_source, type.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "external_id": "string?",
+          "external_source": "string?",
+          "name": "string?",
+          "size": "int?",
+          "type": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_create-attachment-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_create-comment-2",
+        "summary": "Add a new comment to a work item with HTML content. Required: issue_id, project_id. Optional: access, comment_html, comment_json (plus 2 more). Returns array of string.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "access": "string?",
+          "comment_html": "string?",
+          "comment_json": "string?",
+          "external_id": "string?",
+          "external_source": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_create-comment-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_create-link-2",
+        "summary": "Add a new external link to a work item with URL, title, and metadata. Required: issue_id, project_id, url. Optional: title. Returns the new IssueLink.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "title": "string?",
+          "url": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_create-link-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_create-relation",
+        "summary": "Create relationships between work items. Supports various relation types including blocking, blocked_by, duplicate, relates_to, start_before, start_after, finish_before, and finish_after. Required: issue_id, project_id, issues, relation_type. Returns array of IssueRelation.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "issues": "string_csv_array?",
+          "relation_type": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_create-relation"
+        ]
+      },
+      {
+        "tool": "projects.work-items_delete-2",
+        "summary": "Permanently delete an existing work item from the project. Only admins or the item creator can perform this action. Required: pk, project_id. Destructive.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_delete-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_delete-attachment-2",
+        "summary": "Permanently remove an attachment from a work item. Records deletion activity for audit purposes. Required: issue_id, pk, project_id. Destructive.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_delete-attachment-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_delete-comment-2",
+        "summary": "Permanently remove a comment from a work item. Records deletion activity for audit purposes. Required: issue_id, pk, project_id. Destructive.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_delete-comment-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_delete-link-2",
+        "summary": "Permanently remove an external link from a work item. Required: issue_id, pk, project_id. Destructive.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_delete-link-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_list-2",
+        "summary": "Retrieve a paginated list of all work items in a project. Supports filtering, ordering, and field selection through query parameters. Required: project_id. Optional: cursor, expand, external_id (plus 5 more). Returns array of Issue.",
+        "params_schema": {
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_list-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_list-activities-2",
+        "summary": "Retrieve all activities for a work item. Supports filtering by activity type and date range. Required: issue_id, project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of IssueActivity.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_list-activities-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_list-attachments-2",
+        "summary": "Retrieve all attachments for a work item. Required: issue_id, project_id. Optional: updated_at__gt. Returns the IssueAttachment.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_list-attachments-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_list-comments-2",
+        "summary": "Retrieve all comments for a work item. Required: issue_id, project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of IssueComment.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_list-comments-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_list-links-2",
+        "summary": "Retrieve all links associated with a work item. Supports filtering by URL, title, and metadata. Required: issue_id, project_id. Optional: cursor, expand, fields (plus 3 more). Returns array of IssueLink.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_list-links-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_list-relations",
+        "summary": "Retrieve all relationships for a work item including blocking, blocked_by, duplicate, relates_to, start_before, start_after, finish_before, and finish_after relations. Required: issue_id, project_id. Optional: cursor, expand, fields (plus 3 more). Returns the IssueRelationResponse.",
+        "params_schema": {
+          "issue_id": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?",
+          "updated_at__gt": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_list-relations"
+        ]
+      },
+      {
+        "tool": "projects.work-items_retrieve-2",
+        "summary": "Retrieve details of a specific work item. Required: pk, project_id. Optional: expand, external_id, external_source (plus 2 more). Returns the Issue.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "expand": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "fields": "string?",
+          "order_by": "string?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_retrieve-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_retrieve-activity-2",
+        "summary": "Retrieve details of a specific activity. Required: issue_id, pk, project_id. Optional: cursor, expand, fields (plus 2 more). Returns array of IssueActivity.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "order_by": "string?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_retrieve-activity-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_retrieve-attachment-2",
+        "summary": "Download attachment file. Returns a redirect to the presigned download URL. Required: issue_id, pk, project_id.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_retrieve-attachment-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_retrieve-comment-2",
+        "summary": "Retrieve details of a specific comment. Required: issue_id, pk, project_id. Returns array of string.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_retrieve-comment-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_retrieve-link-2",
+        "summary": "Retrieve details of a specific work item link. Required: issue_id, pk, project_id. Optional: cursor, expand, fields (plus 1 more). Returns array of IssueLink.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string",
+          "cursor": "string?",
+          "expand": "string?",
+          "fields": "string?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_retrieve-link-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_update-2",
+        "summary": "Partially update an existing work item with the provided fields. Supports external ID validation to prevent conflicts. Required: pk, project_id. Optional: archived_at, assignees, completed_at (plus 19 more). Returns the updated Issue.",
+        "params_schema": {
+          "pk": "string",
+          "project_id": "string",
+          "archived_at": "string?",
+          "assignees": "string_csv_array?",
+          "completed_at": "string?",
+          "created_by": "string?",
+          "deleted_at": "string?",
+          "description_html": "string?",
+          "estimate_point": "string?",
+          "external_id": "string?",
+          "external_source": "string?",
+          "is_draft": "bool?",
+          "labels": "string_csv_array?",
+          "name": "string?",
+          "parent": "string?",
+          "point": "int?",
+          "priority": "string?",
+          "sequence_id": "int?",
+          "sort_order": "float?",
+          "start_date": "string?",
+          "state": "string?",
+          "target_date": "string?",
+          "type": "string?",
+          "type_id": "string?"
+        },
+        "positionals": [
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_update-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_update-comment-2",
+        "summary": "Modify the content of an existing comment on a work item. Required: issue_id, pk, project_id. Optional: access, comment_html, comment_json (plus 2 more). Returns array of string.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string",
+          "access": "string?",
+          "comment_html": "string?",
+          "comment_json": "string?",
+          "external_id": "string?",
+          "external_source": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_update-comment-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_update-issue-link-2",
+        "summary": "Modify the URL, title, or metadata of an existing issue link. Required: issue_id, pk, project_id. Optional: title, url. Returns the updated IssueLink.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string",
+          "title": "string?",
+          "url": "string?"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_update-issue-link-2"
+        ]
+      },
+      {
+        "tool": "projects.work-items_upload-attachment-2",
+        "summary": "Mark an attachment as uploaded after successful file transfer to storage. Required: issue_id, pk, project_id. Partial update.",
+        "params_schema": {
+          "issue_id": "string",
+          "pk": "string",
+          "project_id": "string"
+        },
+        "positionals": [
+          "issue_id",
+          "pk",
+          "project_id"
+        ],
+        "argv_path": [
+          "projects",
+          "work-items_upload-attachment-2"
+        ]
+      },
+      {
+        "tool": "stickies.list",
+        "summary": "List all stickies in the workspace. Optional: updated_at__gt. Returns array of Sticky.",
+        "params_schema": {
+          "updated_at__gt": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stickies"
+        ]
+      },
+      {
+        "tool": "stickies.create-sticky",
+        "summary": "Create a new sticky in the workspace. Optional: background_color, color, created_by (plus 8 more). Returns array of Sticky.",
+        "params_schema": {
+          "background_color": "string?",
+          "color": "string?",
+          "created_by": "string?",
+          "deleted_at": "string?",
+          "description": "string?",
+          "description_html": "string?",
+          "description_stripped": "string?",
+          "logo_props": "string?",
+          "name": "string?",
+          "sort_order": "float?",
+          "updated_by": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stickies",
+          "create-sticky"
+        ]
+      },
+      {
+        "tool": "stickies.delete-sticky",
+        "summary": "Delete a sticky by its ID. Required: pk. Destructive.",
+        "params_schema": {
+          "pk": "string"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "stickies",
+          "delete-sticky"
+        ]
+      },
+      {
+        "tool": "stickies.retrieve-sticky",
+        "summary": "Retrieve a sticky by its ID. Required: pk. Returns array of Sticky.",
+        "params_schema": {
+          "pk": "string"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "stickies",
+          "retrieve-sticky"
+        ]
+      },
+      {
+        "tool": "stickies.update-sticky",
+        "summary": "Update a sticky by its ID. Required: pk. Optional: background_color, color, created_by (plus 8 more). Returns array of Sticky.",
+        "params_schema": {
+          "pk": "string",
+          "background_color": "string?",
+          "color": "string?",
+          "created_by": "string?",
+          "deleted_at": "string?",
+          "description": "string?",
+          "description_html": "string?",
+          "description_stripped": "string?",
+          "logo_props": "string?",
+          "name": "string?",
+          "sort_order": "float?",
+          "updated_by": "string?"
+        },
+        "positionals": [
+          "pk"
+        ],
+        "argv_path": [
+          "stickies",
+          "update-sticky"
+        ]
+      },
+      {
+        "tool": "users.get-current",
+        "summary": "Retrieve the authenticated user's profile information including basic details. Returns the UserLite.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get-current"
+        ]
+      },
+      {
+        "tool": "work-items.get-workspace-2",
+        "summary": "Retrieve a specific work item using workspace slug, project identifier, and issue identifier. Required: issue_identifier, project_identifier. Returns the Issue.",
+        "params_schema": {
+          "issue_identifier": "string",
+          "project_identifier": "string"
+        },
+        "positionals": [
+          "issue_identifier",
+          "project_identifier"
+        ],
+        "argv_path": [
+          "work-items",
+          "get-workspace-2"
+        ]
+      },
+      {
+        "tool": "work-items.search-2",
+        "summary": "Perform semantic search across issue names, sequence IDs, and project identifiers. Required: search. Optional: limit, project_id, workspace_search. Returns the IssueSearch.",
+        "params_schema": {
+          "limit": "int?",
+          "project_id": "string?",
+          "search": "string?",
+          "workspace_search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "work-items",
+          "search-2"
         ]
       }
     ]
@@ -94432,6 +99167,189 @@
         "argv_path": [
           "webhooks",
           "update"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "restaurant365-odata",
+    "description": "Read-only OpenAPI description for documented Restaurant365 OData v2 reporting views.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/restaurant365-odata/cmd/restaurant365-odata-pp-cli",
+    "auth_type": "basic",
+    "category": "commerce",
+    "search_terms": [
+      "restaurant365-odata",
+      "Restaurant365 OData Connector",
+      "restaurant365-odata-pp-cli",
+      "Read-only Restaurant365 OData CLI for schema discovery, safe sampling, backfill planning, export, sync, and deleted-record checks.",
+      "Redacted tenant sampler",
+      "sample",
+      "Samples one Restaurant365 OData view while returning only columns and row counts by default.",
+      "Refresh planner",
+      "backfill-plan",
+      "Builds Restaurant365-safe date-window and rowVersion request plans without fetching rows.",
+      "Delete tombstone counter",
+      "deleted-records",
+      "Reads EntityDeleted with optional entity and rowVersion filters, returning counts by default.",
+      "Metadata-first discovery",
+      "list-views",
+      "Reports supported views, field counts, field types, date fields, rowVersion support, and refresh pattern from $metadata.",
+      "Bounded export guard",
+      "export",
+      "Exports a view to JSONL or CSV and requires date filters for known date-window views."
+    ],
+    "endpoints": [
+      {
+        "tool": "company.list",
+        "summary": "Returns Company reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "company"
+        ]
+      },
+      {
+        "tool": "employee.list",
+        "summary": "Returns Employee reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "employee"
+        ]
+      },
+      {
+        "tool": "entity-deleted.list",
+        "summary": "Returns deletion tombstone rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "entity-deleted"
+        ]
+      },
+      {
+        "tool": "gl-account.list",
+        "summary": "Returns GlAccount reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gl-account"
+        ]
+      },
+      {
+        "tool": "glaccount.list",
+        "summary": "Returns GLAccount reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "glaccount"
+        ]
+      },
+      {
+        "tool": "item.list",
+        "summary": "Returns Item reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "item"
+        ]
+      },
+      {
+        "tool": "job-title.list",
+        "summary": "Returns JobTitle reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "job-title"
+        ]
+      },
+      {
+        "tool": "labor-detail.list",
+        "summary": "Returns LaborDetail reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "labor-detail"
+        ]
+      },
+      {
+        "tool": "location.list",
+        "summary": "Returns Location reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "location"
+        ]
+      },
+      {
+        "tool": "metadata.get",
+        "summary": "Returns the service metadata document describing available Restaurant365 OData views and fields.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "metadata"
+        ]
+      },
+      {
+        "tool": "payroll-summary.list",
+        "summary": "Returns PayrollSummary reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "payroll-summary"
+        ]
+      },
+      {
+        "tool": "posemployee.list",
+        "summary": "Returns POSEmployee reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "posemployee"
+        ]
+      },
+      {
+        "tool": "sales-detail.list",
+        "summary": "Returns SalesDetail reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sales-detail"
+        ]
+      },
+      {
+        "tool": "sales-employee.list",
+        "summary": "Returns SalesEmployee reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sales-employee"
+        ]
+      },
+      {
+        "tool": "sales-payment.list",
+        "summary": "Returns SalesPayment reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sales-payment"
+        ]
+      },
+      {
+        "tool": "transaction.list",
+        "summary": "Returns Transaction reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "transaction"
+        ]
+      },
+      {
+        "tool": "transaction-detail.list",
+        "summary": "Returns TransactionDetail reporting rows from Restaurant365 OData.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "transaction-detail"
         ]
       }
     ]
@@ -122706,6 +127624,43 @@
     ]
   },
   {
+    "api": "stackadapt",
+    "description": "The first agent-native StackAdapt CLI: pacing, delivery drift",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/stackadapt/cmd/stackadapt-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "marketing",
+    "search_terms": [
+      "stackadapt",
+      "stackadapt-pp-cli",
+      "The first agent-native StackAdapt CLI: pacing, delivery drift, and spend reconciliation the dashboard and warehouse connectors can't answer in one call.",
+      "Pacing observatory",
+      "pacing",
+      "See which campaigns are under- or over-pacing against their budget, not just current spend.",
+      "Delivery drift",
+      "delivery-drift",
+      "Track CTR, CPM, and spend drift week-over-week for a campaign and flag when performance degrades.",
+      "Bottleneck",
+      "Rank the highest-spend campaigns by worst ROAS or CPA, with a reason column.",
+      "Stale campaigns",
+      "stale-campaigns",
+      "Find active campaigns with zero delivery in the last N days."
+    ],
+    "endpoints": [
+      {
+        "tool": "graphql.query",
+        "summary": "Execute a raw GraphQL query against the StackAdapt API. Required: query. Returns the new GraphQLResponse.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "graphql",
+          "query"
+        ]
+      }
+    ]
+  },
+  {
     "api": "steam-web",
     "description": "Look up Steam players, games, achievements, friends, and stats from the command line",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/steam-web/cmd/steam-web-pp-cli",
@@ -135515,6 +140470,296 @@
       "ASCII calendar of the next 30 days showing scheduled posts across every publication you own. Multi-pub editorial overview in one screen."
     ],
     "endpoints": []
+  },
+  {
+    "api": "sumble",
+    "description": "Every Sumble v6 feature, plus the credit-awareness the API itself won't give you",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/sumble/cmd/sumble-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "sales-and-crm",
+    "search_terms": [
+      "sumble",
+      "sumble-pp-cli",
+      "Every Sumble v6 feature, plus the credit-awareness the API itself won't give you: cost estimates before every billed call, a running balance, a budget guard, and a local SQLite cache so you never pay twice.",
+      "Pre-call cost estimate",
+      "cost-estimate",
+      "See exactly how many credits a billed Sumble call will cost before you run it.",
+      "Running credit balance",
+      "balance",
+      "Show remaining Sumble credits and recent burn without spending any.",
+      "Budget ceiling guard",
+      "budget",
+      "Set a credit ceiling so any call whose estimate exceeds it is refused before it dials.",
+      "Spend report",
+      "spend",
+      "Break down credits spent over time by endpoint and by day.",
+      "Stale-cache report",
+      "stale",
+      "List cached organizations, people, and jobs older than Sumble's freshness window.",
+      "Tech-stack diff",
+      "stack-diff",
+      "Compare two cached organizations' technology stacks \u2014 shared and unique technologies.",
+      "Free-first reconcile",
+      "reconcile",
+      "Resolve a CSV of company names/URLs to Sumble IDs via the cheap match endpoint, then report which still need a billed enrich."
+    ],
+    "endpoints": [
+      {
+        "tool": "contact-lists.create",
+        "summary": "Create a new contact list (free). Required: name. Returns the new ContactListSummary.",
+        "params_schema": {
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "contact-lists"
+        ]
+      },
+      {
+        "tool": "contact-lists.add",
+        "summary": "Add people to a saved contact list by id (free). Required: list_id. Optional: person_ids. Returns the new ListAddResult.",
+        "params_schema": {
+          "list_id": "string",
+          "person_ids": "array?"
+        },
+        "positionals": [
+          "list_id"
+        ],
+        "argv_path": [
+          "contact-lists",
+          "add"
+        ]
+      },
+      {
+        "tool": "contact-lists.get",
+        "summary": "Get the people in a saved contact list (1 credit per person returned). Required: list_id. Returns array of Person.",
+        "params_schema": {
+          "list_id": "string"
+        },
+        "positionals": [
+          "list_id"
+        ],
+        "argv_path": [
+          "contact-lists",
+          "get"
+        ]
+      },
+      {
+        "tool": "contact-lists.list",
+        "summary": "List your saved contact lists (1 credit per list returned). Returns array of ContactListSummary.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "contact-lists",
+          "list"
+        ]
+      },
+      {
+        "tool": "organization-lists.create",
+        "summary": "Create a new organization list (free). Required: name. Returns the new OrganizationListSummary.",
+        "params_schema": {
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "organization-lists"
+        ]
+      },
+      {
+        "tool": "organization-lists.add",
+        "summary": "Add organizations to a saved list by id or slug (free). Required: list_id. Optional: organization_ids, organization_slugs. Returns the new ListAddResult.",
+        "params_schema": {
+          "list_id": "string",
+          "organization_ids": "array?",
+          "organization_slugs": "array?"
+        },
+        "positionals": [
+          "list_id"
+        ],
+        "argv_path": [
+          "organization-lists",
+          "add"
+        ]
+      },
+      {
+        "tool": "organization-lists.get",
+        "summary": "Get the organizations in a saved list (1 credit per organization returned). Required: list_id. Returns array of Organization.",
+        "params_schema": {
+          "list_id": "string"
+        },
+        "positionals": [
+          "list_id"
+        ],
+        "argv_path": [
+          "organization-lists",
+          "get"
+        ]
+      },
+      {
+        "tool": "organization-lists.list",
+        "summary": "List your saved organization lists (1 credit per list returned). Returns array of OrganizationListSummary.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "organization-lists",
+          "list"
+        ]
+      },
+      {
+        "tool": "organizations.enrich",
+        "summary": "Enrich one organization's technology stack with job/people/team signals (5 credits per technology found). Required: organization. Optional: filters. Returns array of EnrichedTechnology.",
+        "params_schema": {
+          "organization": "object?",
+          "filters": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "organizations",
+          "enrich"
+        ]
+      },
+      {
+        "tool": "organizations.find",
+        "summary": "Find organizations matching technology/category/firmographic filters (5 credits per row returned). Required: filters. Optional: order_by_column, order_by_direction, include_entity_details (plus 2 more). Returns array of Organization.",
+        "params_schema": {
+          "filters": "object?",
+          "order_by_column": "string?",
+          "order_by_direction": "string?",
+          "include_entity_details": "bool?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "organizations",
+          "find"
+        ]
+      },
+      {
+        "tool": "organizations.intelligence-brief",
+        "summary": "AI-generated intelligence brief for an organization (50 credits when complete; 202 while pending is free). Required: organization_id. Returns the IntelligenceBrief.",
+        "params_schema": {
+          "organization_id": "string"
+        },
+        "positionals": [
+          "organization_id"
+        ],
+        "argv_path": [
+          "organizations",
+          "intelligence-brief"
+        ]
+      },
+      {
+        "tool": "organizations.match",
+        "summary": "Resolve up to 1000 company names/URLs/locations to Sumble organizations (1 credit per matched org; unmatched free). Required: organizations. Returns array of MatchResult.",
+        "params_schema": {
+          "organizations": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "organizations",
+          "match"
+        ]
+      },
+      {
+        "tool": "people.enrich",
+        "summary": "Reveal a person's email (10 credits) and/or phone (80 credits); cached or unavailable reveals are free. Required: person_id. Optional: include_email, include_phone. Returns the new ContactInfo.",
+        "params_schema": {
+          "person_id": "int?",
+          "include_email": "bool?",
+          "include_phone": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "people",
+          "enrich"
+        ]
+      },
+      {
+        "tool": "people.find",
+        "summary": "Find people at an organization by job function/level/country (1 credit per person). Required: organization, filters. Optional: limit, offset. Returns array of Person.",
+        "params_schema": {
+          "organization": "object?",
+          "filters": "object?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "people",
+          "find"
+        ]
+      },
+      {
+        "tool": "people.find-related-people",
+        "summary": "Find people above/below a person in the org chart (1 credit per person). Required: person_id. Optional: limit, offset. Returns array of RelatedPerson.",
+        "params_schema": {
+          "person_id": "int?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "people",
+          "find-related-people"
+        ]
+      },
+      {
+        "tool": "postings.get",
+        "summary": "Get a single job posting with its full description (1 credit). Required: job_id. Returns the JobDetail.",
+        "params_schema": {
+          "job_id": "string"
+        },
+        "positionals": [
+          "job_id"
+        ],
+        "argv_path": [
+          "postings"
+        ]
+      },
+      {
+        "tool": "postings.find",
+        "summary": "Find job postings by technology/category/country (2 credits per job, 3 with descriptions). Required: filters. Optional: organization, include_descriptions, limit (plus 1 more). Returns array of Job.",
+        "params_schema": {
+          "organization": "object?",
+          "filters": "object?",
+          "include_descriptions": "bool?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "postings",
+          "find"
+        ]
+      },
+      {
+        "tool": "postings.find-related-people",
+        "summary": "Find people associated with a job posting (1 credit per person). Required: job_id. Optional: limit, offset. Returns array of Person.",
+        "params_schema": {
+          "job_id": "int?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "postings",
+          "find-related-people"
+        ]
+      },
+      {
+        "tool": "technologies.find",
+        "summary": "Search technologies by name; returns canonical slugs (1 credit only if at least one match, else free). Required: query.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "technologies",
+          "find"
+        ]
+      }
+    ]
   },
   {
     "api": "suno",
