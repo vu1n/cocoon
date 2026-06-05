@@ -154021,6 +154021,44 @@
     ]
   },
   {
+    "api": "walkingpad",
+    "description": "WalkingPad device CLI",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/walkingpad/cmd/walkingpad-pp-cli",
+    "auth_type": "none",
+    "category": "devices",
+    "search_terms": [
+      "walkingpad",
+      "walkingpad-pp-cli",
+      "Control a WalkingPad treadmill over Bluetooth LE: start and stop the belt, set speed, stream live telemetry, and record walks to a local history store.",
+      "Local walk history",
+      "today",
+      "Keep a permanent local record of every walk \u2014 distance, steps, time \u2014 that survives the belt's power-cut memory loss.",
+      "Streak tracking",
+      "streak",
+      "See your current consecutive-day walking streak.",
+      "Daily trends",
+      "trends",
+      "Distance, steps, and active minutes per day over a window.",
+      "Calorie estimate",
+      "calories",
+      "Estimate calories burned from your body profile \u2014 the number the belt refuses to report.",
+      "Family-generic discovery",
+      "scan",
+      "Find any compatible WalkingPad by its BLE service, not its name."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "WalkingPad device CLI (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "wanderlust-goat",
     "description": "Wanderlust GOAT \u2014 what a knowledgeable local with great taste would tell you to walk to from here, fused across editorial, local-language, and crowd layers no single tool ranks together.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/wanderlust-goat/cmd/wanderlust-goat-pp-cli",
@@ -154568,18 +154606,24 @@
       "x-twitter",
       "X (Twitter)",
       "x-twitter-pp-cli",
-      "X v2 API mirror with first-class Articles support \u2014 tweets, users, lists, spaces, bookmarks, likes via the official OpenAPI; long-form Articles authoring via browser-sniffed editor endpoints (GraphQL with rotating operation hashes).",
+      "The only X CLI with an offline, searchable local mirror \u2014 full-text search and analytics over your archived posts without re-spending per-read API credits \u2014 plus a full-surface MCP server and honest tier/reachability diagnostics.",
+      "Offline thread reconstruction",
+      "thread show",
+      "Rebuild a full conversation thread from your locally synced posts \u2014 ordered and depth-tagged \u2014 without re-spending API read credits.",
       "Markdown to tweet thread",
       "thread compose",
-      "Split a markdown file into a numbered tweet thread. Atom-aware splitter honors paragraphs, list items, and code fences. Numbering suffix is reserved before packing so final tweet length stays within 280 chars.",
+      "Split a markdown file into a numbered, 280-char-packed self-reply thread; prints by default and only posts with --post.",
       "Markdown to X Article",
       "articles-publish-md",
-      "Parse a markdown file with YAML frontmatter (title, cover, tags) and convert the body to Draft.js content_state JSON \u2014 the format X's Articles editor accepts server-side via ArticleEntityUpdateContent. Supports cover images, body images, paragraphs, H1/H2, ordered/unordered lists, blockquote, fenced code blocks, bold, and italic."
+      "Parse a markdown file with YAML frontmatter into the Draft.js content_state JSON X's Articles editor accepts; previews by default; --draft saves a draft, --post publishes publicly.",
+      "Offline bookmark search",
+      "users bookmarks find",
+      "Search your synced bookmarks by keyword and/or author, offline \u2014 X has no bookmark search and its API exposes no bookmark timestamp, so the local store rebuilds the missing retrieval layer without re-spending read credits."
     ],
     "endpoints": [
       {
         "tool": "account-activity.create-subscription",
-        "summary": "Creates an Account Activity subscription for the user and the given webhook. Required: webhook_id. Returns the new SubscriptionsCreateResponse.",
+        "summary": "Creates an Account Activity subscription for the user and the given webhook. Required: webhook_id. Returns array of Problem.",
         "params_schema": {
           "webhook_id": "string"
         },
@@ -154593,7 +154637,7 @@
       },
       {
         "tool": "account-activity.delete-subscription",
-        "summary": "Deletes an Account Activity subscription for the given webhook and user ID. Required: webhook_id, user_id. Returns the SubscriptionsDeleteResponse. Destructive.",
+        "summary": "Deletes an Account Activity subscription for the given webhook and user ID. Required: webhook_id, user_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "webhook_id": "string",
           "user_id": "string"
@@ -154609,7 +154653,7 @@
       },
       {
         "tool": "account-activity.get-subscription-count",
-        "summary": "Retrieves a count of currently active Account Activity subscriptions. Returns the SubscriptionsCountGetResponse.",
+        "summary": "Retrieves a count of currently active Account Activity subscriptions. Returns array of Problem.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -154619,7 +154663,7 @@
       },
       {
         "tool": "account-activity.get-subscriptions",
-        "summary": "Retrieves a list of all active subscriptions for a given webhook. Required: webhook_id. Returns the SubscriptionsListGetResponse.",
+        "summary": "Retrieves a list of all active subscriptions for a given webhook. Required: webhook_id. Returns array of Problem.",
         "params_schema": {
           "webhook_id": "string"
         },
@@ -154633,7 +154677,7 @@
       },
       {
         "tool": "account-activity.validate-subscription",
-        "summary": "Checks a user\u2019s Account Activity subscription for a given webhook. Required: webhook_id. Returns the SubscriptionsGetResponse.",
+        "summary": "Checks a user\u2019s Account Activity subscription for a given webhook. Required: webhook_id. Returns array of Problem.",
         "params_schema": {
           "webhook_id": "string"
         },
@@ -154647,10 +154691,12 @@
       },
       {
         "tool": "activity.create-subscription",
-        "summary": "Creates a subscription for an X activity event. Required: event_type, filter. Optional: tag, webhook_id. Returns the new ActivitySubscriptionCreateResponse.",
+        "summary": "Creates a subscription for an X activity event. Required: event_type, filter. Optional: tag, webhook_id. Returns array of Problem.",
         "params_schema": {
           "event_type": "string?",
-          "filter": "object?",
+          "filter-direction": "string?",
+          "filter-keyword": "string?",
+          "filter-user-id": "string?",
           "tag": "string?",
           "webhook_id": "string?"
         },
@@ -154662,7 +154708,7 @@
       },
       {
         "tool": "activity.delete-subscription",
-        "summary": "Deletes a subscription for an X activity event. Required: subscription_id. Returns the ActivitySubscriptionDeleteResponse. Destructive.",
+        "summary": "Deletes a subscription for an X activity event. Required: subscription_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "subscription_id": "string"
         },
@@ -154676,7 +154722,7 @@
       },
       {
         "tool": "activity.delete-subscriptions-by-ids",
-        "summary": "Deletes multiple subscriptions for X activity events by their IDs. Required: ids. Returns the ActivitySubscriptionDeleteResponse. Destructive.",
+        "summary": "Deletes multiple subscriptions for X activity events by their IDs. Required: ids. Returns array of Problem. Destructive.",
         "params_schema": {
           "ids": "array?"
         },
@@ -154688,7 +154734,7 @@
       },
       {
         "tool": "activity.get-subscriptions",
-        "summary": "Get a list of active subscriptions for XAA. Optional: max_results, pagination_token. Returns array of ActivitySubscription.",
+        "summary": "Get a list of active subscriptions for XAA. Optional: max_results (default: 1000), pagination_token. Returns array of ActivitySubscription.",
         "params_schema": {
           "max_results": "int?",
           "pagination_token": "string?"
@@ -154697,20 +154743,6 @@
         "argv_path": [
           "activity",
           "get-subscriptions"
-        ]
-      },
-      {
-        "tool": "activity.stream",
-        "summary": "Stream of X Activities. Optional: backfill_minutes, start_time, end_time. Returns the ActivityStreamingResponse.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "start_time": "string?",
-          "end_time": "string?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "activity",
-          "stream"
         ]
       },
       {
@@ -154731,7 +154763,7 @@
       },
       {
         "tool": "chat.add-group-members",
-        "summary": "Adds one or more members to an existing encrypted Chat group conversation, rotating the conversation key. Required: id, user_ids. Optional: action_signatures, conversation_key_version, conversation_participant_keys (plus 2 more). Returns the new ChatAddGroupMembersResponse.",
+        "summary": "Adds one or more members to an existing encrypted Chat group conversation, rotating the conversation key. Required: id, user_ids. Optional: action_signatures, conversation_key_version, conversation_participant_keys (plus 2 more). Returns array of string.",
         "params_schema": {
           "id": "string",
           "action_signatures": "array?",
@@ -154739,7 +154771,7 @@
           "conversation_participant_keys": "array?",
           "encrypted_avatar_url": "string?",
           "encrypted_title": "string?",
-          "user_ids": "array?"
+          "user_ids": "string_csv_array?"
         },
         "positionals": [
           "id"
@@ -154751,17 +154783,17 @@
       },
       {
         "tool": "chat.create-conversation",
-        "summary": "Creates a new encrypted Chat group conversation on behalf of the authenticated user. Required: conversation_id, conversation_key_version, conversation_participant_keys, group_members. Optional: action_signatures, base64_encoded_key_rotation, group_admins (plus 4 more). Returns the new ChatCreateConversationResponse.",
+        "summary": "Creates a new encrypted Chat group conversation on behalf of the authenticated user. Required: conversation_id, conversation_key_version, conversation_participant_keys, group_members. Optional: action_signatures, base64_encoded_key_rotation, group_admins (plus 4 more). Returns array of Problem.",
         "params_schema": {
           "action_signatures": "array?",
           "base64_encoded_key_rotation": "string?",
           "conversation_id": "string?",
           "conversation_key_version": "string?",
           "conversation_participant_keys": "array?",
-          "group_admins": "array?",
+          "group_admins": "string_csv_array?",
           "group_avatar_url": "string?",
           "group_description": "string?",
-          "group_members": "array?",
+          "group_members": "string_csv_array?",
           "group_name": "string?",
           "ttl_msec": "string?"
         },
@@ -154773,6 +154805,23 @@
       },
       {
         "tool": "chat.get-conversation",
+        "summary": "Returns metadata for a Chat conversation including type, muted status, and group details. Use chat_conversation.fields to select which fields are returned. Use expansions to hydrate member, admin, or participant user objects. Use user.fields to control which profile fields are returned for expanded users. Required: id. Optional: chat_conversation.fields, expansions, user.fields.",
+        "params_schema": {
+          "id": "string",
+          "chat_conversation.fields": "array?",
+          "expansions": "array?",
+          "user.fields": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "chat",
+          "get-conversation"
+        ]
+      },
+      {
+        "tool": "chat.get-conversation-events",
         "summary": "Retrieves messages and key change events for a specific Chat conversation with pagination support. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient. Required: id. Optional: max_results (default: 10), pagination_token, chat_message_event.fields. Returns array of ChatMessageEvent.",
         "params_schema": {
           "id": "string",
@@ -154785,7 +154834,7 @@
         ],
         "argv_path": [
           "chat",
-          "get-conversation"
+          "get-conversation-events"
         ]
       },
       {
@@ -154806,7 +154855,7 @@
       },
       {
         "tool": "chat.initialize-conversation-keys",
-        "summary": "Initializes encryption keys for a Chat conversation. This is the first step before sending messages in a new 1:1 conversation. For 1:1 conversations, provide the recipient's user ID as the conversation_id. The server constructs the canonical conversation ID from the authenticated user and recipient. The request body must contain the conversation key version and participant keys (the conversation key encrypted for each participant using their public key). **Workflow (1:1 conversation):** 1. Generate a conversation key using the SDK 2. Encrypt the key for both participants using their public keys 3. Call this endpoint to register the keys 4. Send messages using `POST /chat/conversations/{id}/messages` **Authentication:** - Requires OAuth 1.0a User Context or OAuth 2.0 User Context - Required scopes: `tweet.read`, `users.read`, `dm.write`. Required: id, conversation_key_version, conversation_participant_keys. Optional: action_signatures, base64_encoded_key_rotation. Returns the new ChatInitializeConversationKeysResponse.",
+        "summary": "Initializes encryption keys for a Chat conversation. This is the first step before sending messages in a new 1:1 conversation. For 1:1 conversations, provide the recipient's user ID as the conversation_id. The server constructs the canonical conversation ID from the authenticated user and recipient. The request body must contain the conversation key version and participant keys (the conversation key encrypted for each participant using their public key). **Workflow (1:1 conversation):** 1. Generate a conversation key using the SDK 2. Encrypt the key for both participants using their public keys 3. Call this endpoint to register the keys 4. Send messages using `POST /chat/conversations/{id}/messages` **Authentication:** - Requires OAuth 1.0a User Context or OAuth 2.0 User Context - Required scopes: `tweet.read`, `users.read`, `dm.write`. Required: id, conversation_key_version, conversation_participant_keys. Optional: action_signatures, base64_encoded_key_rotation. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "action_signatures": "array?",
@@ -154834,7 +154883,7 @@
       },
       {
         "tool": "chat.mark-conversation-read",
-        "summary": "Marks a specific Chat conversation as read on behalf of the authenticated user. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient. Required: id, seen_until_sequence_id. Returns the new ChatMarkConversationReadResponse.",
+        "summary": "Marks a specific Chat conversation as read on behalf of the authenticated user. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient. Required: id, seen_until_sequence_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "seen_until_sequence_id": "string?"
@@ -154865,7 +154914,7 @@
       },
       {
         "tool": "chat.media-upload-append",
-        "summary": "Appends media data to an XChat upload session. Required: id. Returns the new MediaUploadAppendResponse.",
+        "summary": "Appends media data to an XChat upload session. Required: id. Returns array of Problem.",
         "params_schema": {
           "id": "string"
         },
@@ -154911,7 +154960,7 @@
       },
       {
         "tool": "chat.send-message",
-        "summary": "Sends an encrypted message to a specific Chat conversation. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient. Required: id, encoded_message_create_event, message_id. Optional: conversation_token, encoded_message_event_signature. Returns the new ChatSendMessageResponse.",
+        "summary": "Sends an encrypted message to a specific Chat conversation. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient. Required: id, encoded_message_create_event, message_id. Optional: conversation_token, encoded_message_event_signature. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "conversation_token": "string?",
@@ -154929,7 +154978,7 @@
       },
       {
         "tool": "chat.send-typing-indicator",
-        "summary": "Sends a typing indicator to a specific Chat conversation on behalf of the authenticated user. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient. Required: id. Returns the new ChatSendTypingIndicatorResponse.",
+        "summary": "Sends a typing indicator to a specific Chat conversation on behalf of the authenticated user. For 1:1 conversations, provide the recipient's user ID; the server constructs the canonical conversation ID from the authenticated user and recipient. Required: id. Returns array of Problem.",
         "params_schema": {
           "id": "string"
         },
@@ -154943,7 +154992,7 @@
       },
       {
         "tool": "communities.get-by-id",
-        "summary": "Retrieves details of a specific Community by its ID. Required: id. Optional: community.fields. Returns the Get2CommunitiesIdResponse.",
+        "summary": "Retrieves details of a specific Community by its ID. Required: id. Optional: community.fields. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "community.fields": "array?"
@@ -154974,7 +155023,7 @@
       },
       {
         "tool": "compliance.create-jobs",
-        "summary": "Creates a new Compliance Job for the specified job type. Required: type. Optional: name, resumable. Returns the new CreateComplianceJobResponse.",
+        "summary": "Creates a new Compliance Job for the specified job type. Required: type. Optional: name, resumable. Returns array of Problem.",
         "params_schema": {
           "name": "string?",
           "resumable": "bool?",
@@ -155002,7 +155051,7 @@
       },
       {
         "tool": "compliance.get-jobs-by-id",
-        "summary": "Retrieves details of a specific Compliance Job by its ID. Required: id. Optional: compliance_job.fields. Returns the Get2ComplianceJobsIdResponse.",
+        "summary": "Retrieves details of a specific Compliance Job by its ID. Required: id. Optional: compliance_job.fields. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "compliance_job.fields": "array?"
@@ -155017,7 +155066,7 @@
       },
       {
         "tool": "connections.delete-all",
-        "summary": "Terminates all active streaming connections for the authenticated application. Returns the KillAllConnectionsResponse. Destructive.",
+        "summary": "Terminates all active streaming connections for the authenticated application. Returns array of Problem. Destructive.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -155027,7 +155076,7 @@
       },
       {
         "tool": "connections.delete-by-endpoint",
-        "summary": "Terminates all streaming connections for a specific endpoint ID for the authenticated application. Required: endpoint_id (default: filtered_stream). Returns the KillConnectionsByEndpointResponse. Destructive.",
+        "summary": "Terminates all streaming connections for a specific endpoint ID for the authenticated application. Required: endpoint_id (default: filtered_stream). Returns array of Problem. Destructive.",
         "params_schema": {
           "endpoint_id": "string"
         },
@@ -155041,9 +155090,9 @@
       },
       {
         "tool": "connections.delete-by-uuids",
-        "summary": "Terminates multiple streaming connections by their UUIDs for the authenticated application. Required: uuids. Returns the KillConnectionsByUuidsResponse. Destructive.",
+        "summary": "Terminates multiple streaming connections by their UUIDs for the authenticated application. Required: uuids. Returns array of Problem. Destructive.",
         "params_schema": {
-          "uuids": "array?"
+          "uuids": "string_csv_array?"
         },
         "positionals": [],
         "argv_path": [
@@ -155069,7 +155118,7 @@
       },
       {
         "tool": "dm-conversations.create-direct-messages-by-participant-id",
-        "summary": "Sends a new direct message to a specific participant by their ID. Required: participant_id. Returns the new CreateDmEventResponse.",
+        "summary": "Sends a new direct message to a specific participant by their ID. Required: participant_id. Returns array of Problem.",
         "params_schema": {
           "participant_id": "string"
         },
@@ -155083,11 +155132,11 @@
       },
       {
         "tool": "dm-conversations.create-direct-messages-conversation",
-        "summary": "Initiates a new direct message conversation with specified participants. Required: conversation_type, message, participant_ids. Returns the new CreateDmEventResponse.",
+        "summary": "Initiates a new direct message conversation with specified participants. Required: conversation_type, message, participant_ids. Returns array of Problem.",
         "params_schema": {
           "conversation_type": "string?",
           "message": "string?",
-          "participant_ids": "array?"
+          "participant_ids": "string_csv_array?"
         },
         "positionals": [],
         "argv_path": [
@@ -155159,7 +155208,7 @@
       },
       {
         "tool": "dm-conversations.messages_create-direct-by-conversation-id",
-        "summary": "Sends a new direct message to a specific conversation by its ID. Required: dm_conversation_id. Returns the new CreateDmEventResponse.",
+        "summary": "Sends a new direct message to a specific conversation by its ID. Required: dm_conversation_id. Returns array of Problem.",
         "params_schema": {
           "dm_conversation_id": "string"
         },
@@ -155173,7 +155222,7 @@
       },
       {
         "tool": "dm-events.delete-direct-messages-events",
-        "summary": "Deletes a specific direct message event by its ID, if owned by the authenticated user. Required: event_id. Returns the DeleteDmResponse. Destructive.",
+        "summary": "Deletes a specific direct message event by its ID, if owned by the authenticated user. Required: event_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "event_id": "string"
         },
@@ -155206,7 +155255,7 @@
       },
       {
         "tool": "dm-events.get-direct-messages-events-by-id",
-        "summary": "Retrieves details of a specific direct message event by its ID. Required: event_id. Optional: dm_event.fields, expansions, media.fields (plus 2 more). Returns the Get2DmEventsEventIdResponse.",
+        "summary": "Retrieves details of a specific direct message event by its ID. Required: event_id. Optional: dm_event.fields, expansions, media.fields (plus 2 more). Returns array of Problem.",
         "params_schema": {
           "event_id": "string",
           "dm_event.fields": "array?",
@@ -155225,7 +155274,7 @@
       },
       {
         "tool": "evaluate-note.evaluate-community-notes",
-        "summary": "Endpoint to evaluate a community note. Required: note_text, post_id. Returns the new EvaluateNoteResponse.",
+        "summary": "Endpoint to evaluate a community note. Required: note_text, post_id. Returns array of Problem.",
         "params_schema": {
           "note_text": "string?",
           "post_id": "string?"
@@ -155269,62 +155318,8 @@
         ]
       },
       {
-        "tool": "likes.stream-compliance",
-        "summary": "Streams all compliance data related to Likes for Users. Optional: backfill_minutes, start_time, end_time.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "start_time": "string?",
-          "end_time": "string?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "likes",
-          "stream-compliance"
-        ]
-      },
-      {
-        "tool": "likes.stream-firehose",
-        "summary": "Streams all public Likes in real-time. Required: partition. Optional: backfill_minutes, start_time, end_time (plus 5 more). Returns the StreamingLikeResponseV2.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?",
-          "like_with_tweet_author.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "user.fields": "array?",
-          "tweet.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "likes",
-          "stream-firehose"
-        ]
-      },
-      {
-        "tool": "likes.stream-sample10",
-        "summary": "Streams a 10% sample of public Likes in real-time. Required: partition. Optional: backfill_minutes, start_time, end_time (plus 5 more). Returns the StreamingLikeResponseV2.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?",
-          "like_with_tweet_author.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "user.fields": "array?",
-          "tweet.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "likes",
-          "stream-sample10"
-        ]
-      },
-      {
         "tool": "lists.create",
-        "summary": "Creates a new List for the authenticated user. Required: name. Optional: description, private (default: false). Returns the new ListCreateResponse.",
+        "summary": "Creates a new List for the authenticated user. Required: name. Optional: description, private (default: false). Returns array of Problem.",
         "params_schema": {
           "description": "string?",
           "name": "string?",
@@ -155337,7 +155332,7 @@
       },
       {
         "tool": "lists.delete",
-        "summary": "Deletes a specific List owned by the authenticated user by its ID. Required: id. Returns the ListDeleteResponse. Destructive.",
+        "summary": "Deletes a specific List owned by the authenticated user by its ID. Required: id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string"
         },
@@ -155351,7 +155346,7 @@
       },
       {
         "tool": "lists.get-by-id",
-        "summary": "Retrieves details of a specific List by its ID. Required: id. Optional: list.fields, expansions, user.fields. Returns the Get2ListsIdResponse.",
+        "summary": "Retrieves details of a specific List by its ID. Required: id. Optional: list.fields, expansions, user.fields. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "list.fields": "array?",
@@ -155368,7 +155363,7 @@
       },
       {
         "tool": "lists.update",
-        "summary": "Updates the details of a specific List owned by the authenticated user by its ID. Required: id. Optional: description, name, private. Returns the updated ListUpdateResponse.",
+        "summary": "Updates the details of a specific List owned by the authenticated user by its ID. Required: id. Optional: description, name, private. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "description": "string?",
@@ -155404,7 +155399,7 @@
       },
       {
         "tool": "lists.members_add-lists",
-        "summary": "Adds a User to a specific List by its ID. Required: id, user_id. Returns the new ListMutateResponse.",
+        "summary": "Adds a User to a specific List by its ID. Required: id, user_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "user_id": "string?"
@@ -155438,7 +155433,7 @@
       },
       {
         "tool": "lists.members_remove-lists-by-user-id",
-        "summary": "Removes a User from a specific List by its ID and the User\u2019s ID. Required: id, user_id. Returns the ListMutateResponse. Destructive.",
+        "summary": "Removes a User from a specific List by its ID and the User\u2019s ID. Required: id, user_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string",
           "user_id": "string"
@@ -155476,7 +155471,7 @@
       },
       {
         "tool": "media.append-upload",
-        "summary": "Appends data to a Media upload request. Required: id. Returns the new MediaUploadAppendResponse.",
+        "summary": "Appends data to a Media upload request. Required: id. Returns array of Problem.",
         "params_schema": {
           "id": "string"
         },
@@ -155490,10 +155485,25 @@
       },
       {
         "tool": "media.create-metadata",
-        "summary": "Creates metadata for a Media file. Required: id. Optional: metadata. Returns the new MetadataCreateResponse.",
+        "summary": "Creates metadata for a Media file. Required: id. Optional: metadata. Returns array of Problem.",
         "params_schema": {
           "id": "string?",
-          "metadata": "object?"
+          "metadata-allow-download-status-allow-download": "bool?",
+          "metadata-alt-text-text": "string?",
+          "metadata-audience-policy-creator-subscriptions": "string_csv_array?",
+          "metadata-audience-policy-x-subscriptions": "string_csv_array?",
+          "metadata-content-expiration-timestamp-sec": "float?",
+          "metadata-domain-restrictions-whitelist": "string_csv_array?",
+          "metadata-found-media-origin-id": "string?",
+          "metadata-found-media-origin-provider": "string?",
+          "metadata-geo-restrictions": "string?",
+          "metadata-management-info-managed": "bool?",
+          "metadata-sensitive-media-warning-adult-content": "bool?",
+          "metadata-sensitive-media-warning-graphic-violence": "bool?",
+          "metadata-sensitive-media-warning-other": "bool?",
+          "metadata-shared-info-shared": "bool?",
+          "metadata-sticker-info-stickers": "array?",
+          "metadata-upload-source-upload-source": "string?"
         },
         "positionals": [],
         "argv_path": [
@@ -155503,11 +155513,13 @@
       },
       {
         "tool": "media.create-subtitles",
-        "summary": "Creates subtitles for a specific Media file. Optional: id, media_category, subtitles. Returns the new SubtitlesCreateResponse.",
+        "summary": "Creates subtitles for a specific Media file. Optional: id, media_category, subtitles. Returns array of Problem.",
         "params_schema": {
           "id": "string?",
           "media_category": "string?",
-          "subtitles": "object?"
+          "subtitles-display-name": "string?",
+          "subtitles-id": "string?",
+          "subtitles-language-code": "string?"
         },
         "positionals": [],
         "argv_path": [
@@ -155517,7 +155529,7 @@
       },
       {
         "tool": "media.delete-subtitles",
-        "summary": "Deletes subtitles for a specific Media file. Optional: id, language_code, media_category. Returns the SubtitlesDeleteResponse. Destructive.",
+        "summary": "Deletes subtitles for a specific Media file. Optional: id, language_code, media_category. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string?",
           "language_code": "string?",
@@ -155531,7 +155543,7 @@
       },
       {
         "tool": "media.finalize-upload",
-        "summary": "Finalizes a Media upload request. Required: id. Returns the new MediaUploadResponse.",
+        "summary": "Finalizes a Media upload request. Required: id. Returns array of Problem.",
         "params_schema": {
           "id": "string"
         },
@@ -155561,7 +155573,7 @@
       },
       {
         "tool": "media.get-by-key",
-        "summary": "Retrieves details of a specific Media file by its media key. Required: media_key. Optional: media.fields. Returns the Get2MediaMediaKeyResponse.",
+        "summary": "Retrieves details of a specific Media file by its media key. Required: media_key. Optional: media.fields. Returns array of Problem.",
         "params_schema": {
           "media_key": "string",
           "media.fields": "array?"
@@ -155589,7 +155601,7 @@
       },
       {
         "tool": "media.get-upload-status",
-        "summary": "Retrieves the status of a Media upload by its ID. Required: media_id. Optional: command. Returns the MediaUploadResponse.",
+        "summary": "Retrieves the status of a Media upload by its ID. Required: media_id. Optional: command. Returns array of Problem.",
         "params_schema": {
           "media_id": "string?",
           "command": "string?"
@@ -155602,9 +155614,9 @@
       },
       {
         "tool": "media.initialize-upload",
-        "summary": "Initializes a media upload. Optional: additional_owners, media_category, media_type (plus 2 more). Returns the new MediaUploadResponse.",
+        "summary": "Initializes a media upload. Optional: additional_owners, media_category, media_type (plus 2 more). Returns array of Problem.",
         "params_schema": {
-          "additional_owners": "array?",
+          "additional_owners": "string_csv_array?",
           "media_category": "string?",
           "media_type": "string?",
           "shared": "bool?",
@@ -155618,9 +155630,9 @@
       },
       {
         "tool": "media.upload",
-        "summary": "Uploads a media file for use in posts or other content. Required: media, media_category. Optional: additional_owners, media_type, shared (default: false). Returns the new MediaUploadResponse.",
+        "summary": "Uploads a media file for use in posts or other content. Required: media, media_category. Optional: additional_owners, media_type, shared (default: false). Returns array of Problem.",
         "params_schema": {
-          "additional_owners": "array?",
+          "additional_owners": "string_csv_array?",
           "media": "string?",
           "media_category": "string?",
           "media_type": "string?",
@@ -155634,7 +155646,7 @@
       },
       {
         "tool": "news.get",
-        "summary": "Retrieves news story by its ID. Required: id. Optional: news.fields. Returns the Get2NewsIdResponse.",
+        "summary": "Retrieves news story by its ID. Required: id. Optional: news.fields. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "news.fields": "array?"
@@ -155663,9 +155675,13 @@
       },
       {
         "tool": "notes.create-community",
-        "summary": "Creates a community note endpoint for LLM use case. Required: info, post_id, test_mode. Returns the new CreateNoteResponse.",
+        "summary": "Creates a community note endpoint for LLM use case. Required: info, post_id, test_mode. Returns array of Problem.",
         "params_schema": {
-          "info": "object?",
+          "info-classification": "string?",
+          "info-is-media-note": "bool?",
+          "info-misleading-tags": "string_csv_array?",
+          "info-text": "string?",
+          "info-trustworthy-sources": "bool?",
           "post_id": "string?",
           "test_mode": "bool?"
         },
@@ -155677,7 +155693,7 @@
       },
       {
         "tool": "notes.delete-community",
-        "summary": "Deletes a community note. Required: id. Returns the DeleteNoteResponse. Destructive.",
+        "summary": "Deletes a community note. Required: id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string"
         },
@@ -155753,7 +155769,7 @@
       },
       {
         "tool": "spaces.get-by-id",
-        "summary": "Retrieves details of a specific space by its ID. Required: id. Optional: space.fields, expansions, user.fields (plus 1 more). Returns the Get2SpacesIdResponse.",
+        "summary": "Retrieves details of a specific space by its ID. Required: id. Optional: space.fields, expansions, user.fields (plus 1 more). Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "space.fields": "array?",
@@ -155861,21 +155877,30 @@
       },
       {
         "tool": "tweets.create-posts",
-        "summary": "Creates a new Post for the authenticated user, or edits an existing Post when edit_options are provided. Supports paid partnership disclosure via the paid_partnership field. Optional: card_uri, community_id, direct_message_deep_link (plus 13 more). Returns the new TweetCreateResponse.",
+        "summary": "Creates a new Post for the authenticated user, or edits an existing Post when edit_options are provided. Supports paid partnership disclosure via the paid_partnership field. Optional: card_uri, community_id, direct_message_deep_link (plus 13 more). Returns array of Problem.",
         "params_schema": {
           "card_uri": "string?",
           "community_id": "string?",
           "direct_message_deep_link": "string?",
-          "edit_options": "object?",
+          "edit-options-previous-post-id": "string?",
           "for_super_followers_only": "bool?",
-          "geo": "object?",
+          "geo-place-id": "string?",
           "made_with_ai": "bool?",
-          "media": "object?",
+          "media-description": "string?",
+          "media-embeddable": "bool?",
+          "media-media-ids": "string_csv_array?",
+          "media-preview-media-id": "string?",
+          "media-tagged-user-ids": "string_csv_array?",
+          "media-title": "string?",
           "nullcast": "bool?",
           "paid_partnership": "bool?",
-          "poll": "object?",
+          "poll-duration-minutes": "int?",
+          "poll-options": "string_csv_array?",
+          "poll-reply-settings": "string?",
           "quote_tweet_id": "string?",
-          "reply": "object?",
+          "reply-auto-populate-reply-metadata": "bool?",
+          "reply-exclude-reply-user-ids": "string_csv_array?",
+          "reply-in-reply-to-tweet-id": "string?",
           "reply_settings": "string?",
           "share_with_followers": "bool?",
           "text": "string?"
@@ -155888,7 +155913,7 @@
       },
       {
         "tool": "tweets.create-webhooks-stream-link",
-        "summary": "Creates a link to deliver FilteredStream events to the given webhook. Required: webhook_id. Optional: tweet.fields, expansions, media.fields (plus 3 more). Returns the new WebhookLinksCreateResponse.",
+        "summary": "Creates a link to deliver FilteredStream events to the given webhook. Required: webhook_id. Optional: tweet.fields, expansions, media.fields (plus 3 more). Returns array of Problem.",
         "params_schema": {
           "webhook_id": "string",
           "tweet.fields": "string?",
@@ -155908,7 +155933,7 @@
       },
       {
         "tool": "tweets.delete-posts",
-        "summary": "Deletes a specific Post by its ID, if owned by the authenticated user. Required: id. Returns the TweetDeleteResponse. Destructive.",
+        "summary": "Deletes a specific Post by its ID, if owned by the authenticated user. Required: id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string"
         },
@@ -155922,7 +155947,7 @@
       },
       {
         "tool": "tweets.delete-webhooks-stream-link",
-        "summary": "Deletes a link from FilteredStream events to the given webhook. Required: webhook_id. Returns the WebhookLinksDeleteResponse. Destructive.",
+        "summary": "Deletes a link from FilteredStream events to the given webhook. Required: webhook_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "webhook_id": "string"
         },
@@ -155952,7 +155977,7 @@
       },
       {
         "tool": "tweets.get-posts-by-id",
-        "summary": "Retrieves details of a specific Post by its ID. Required: id. Optional: tweet.fields, expansions, media.fields (plus 3 more). Returns the Get2TweetsIdResponse.",
+        "summary": "Retrieves details of a specific Post by its ID. Required: id. Optional: tweet.fields, expansions, media.fields (plus 3 more). Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "tweet.fields": "array?",
@@ -155989,6 +156014,26 @@
         ]
       },
       {
+        "tool": "tweets.get-posts-counts-all",
+        "summary": "Retrieves the count of Posts matching a search query from the full archive. Required: query. Optional: start_time, end_time, since_id (plus 5 more). Returns array of SearchCount.",
+        "params_schema": {
+          "query": "string?",
+          "start_time": "string?",
+          "end_time": "string?",
+          "since_id": "string?",
+          "until_id": "string?",
+          "next_token": "string?",
+          "pagination_token": "string?",
+          "granularity": "string?",
+          "search_count.fields": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tweets",
+          "get-posts-counts-all"
+        ]
+      },
+      {
         "tool": "tweets.get-posts-counts-recent",
         "summary": "Retrieves the count of Posts from the last 7 days matching a search query. Required: query. Optional: start_time, end_time, since_id (plus 5 more). Returns array of SearchCount.",
         "params_schema": {
@@ -156009,13 +156054,65 @@
         ]
       },
       {
+        "tool": "tweets.get-rule-counts",
+        "summary": "Retrieves the count of rules in the active rule set for the filtered stream. Optional: rules_count.fields. Returns array of Problem.",
+        "params_schema": {
+          "rules_count.fields": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tweets",
+          "get-rule-counts"
+        ]
+      },
+      {
+        "tool": "tweets.get-rules",
+        "summary": "Retrieves the active rule set or a subset of rules for the filtered stream. Optional: ids, max_results (default: 1000), pagination_token. Returns array of Rule.",
+        "params_schema": {
+          "ids": "array?",
+          "max_results": "int?",
+          "pagination_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tweets",
+          "get-rules"
+        ]
+      },
+      {
         "tool": "tweets.get-webhooks-stream-links",
-        "summary": "Get a list of webhook links associated with a filtered stream ruleset. Returns the WebhookLinksGetResponse.",
+        "summary": "Get a list of webhook links associated with a filtered stream ruleset. Returns array of Problem.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
           "tweets",
           "get-webhooks-stream-links"
+        ]
+      },
+      {
+        "tool": "tweets.search-posts-all",
+        "summary": "Retrieves Posts from the full archive matching a search query. Required: query. Optional: start_time, end_time, since_id (plus 11 more). Returns array of Tweet.",
+        "params_schema": {
+          "query": "string?",
+          "start_time": "string?",
+          "end_time": "string?",
+          "since_id": "string?",
+          "until_id": "string?",
+          "max_results": "int?",
+          "next_token": "string?",
+          "pagination_token": "string?",
+          "sort_order": "string?",
+          "tweet.fields": "array?",
+          "expansions": "array?",
+          "media.fields": "array?",
+          "poll.fields": "array?",
+          "user.fields": "array?",
+          "place.fields": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tweets",
+          "search-posts-all"
         ]
       },
       {
@@ -156045,176 +156142,16 @@
         ]
       },
       {
-        "tool": "tweets.stream-labels-compliance",
-        "summary": "Streams all labeling events applied to Posts. Optional: backfill_minutes, start_time, end_time.",
+        "tool": "tweets.update-rules",
+        "summary": "Adds or deletes rules from the active rule set for the filtered stream. Optional: dry_run, delete_all. Returns array of Rule.",
         "params_schema": {
-          "backfill_minutes": "int?",
-          "start_time": "string?",
-          "end_time": "string?"
+          "dry_run": "bool?",
+          "delete_all": "bool?"
         },
         "positionals": [],
         "argv_path": [
           "tweets",
-          "stream-labels-compliance"
-        ]
-      },
-      {
-        "tool": "tweets.stream-posts-compliance",
-        "summary": "Streams all compliance data related to Posts. Required: partition. Optional: backfill_minutes, start_time, end_time.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "tweets",
-          "stream-posts-compliance"
-        ]
-      },
-      {
-        "tool": "tweets.stream-posts-firehose",
-        "summary": "Streams all public Posts in real-time. Required: partition. Optional: backfill_minutes, start_time, end_time (plus 6 more). Returns the StreamingTweetResponse.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?",
-          "tweet.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "poll.fields": "array?",
-          "user.fields": "array?",
-          "place.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "tweets",
-          "stream-posts-firehose"
-        ]
-      },
-      {
-        "tool": "tweets.stream-posts-firehose-en",
-        "summary": "Streams all public English-language Posts in real-time. Required: partition. Optional: backfill_minutes, start_time, end_time (plus 6 more). Returns the StreamingTweetResponse.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?",
-          "tweet.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "poll.fields": "array?",
-          "user.fields": "array?",
-          "place.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "tweets",
-          "stream-posts-firehose-en"
-        ]
-      },
-      {
-        "tool": "tweets.stream-posts-firehose-ja",
-        "summary": "Streams all public Japanese-language Posts in real-time. Required: partition. Optional: backfill_minutes, start_time, end_time (plus 6 more). Returns the StreamingTweetResponse.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?",
-          "tweet.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "poll.fields": "array?",
-          "user.fields": "array?",
-          "place.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "tweets",
-          "stream-posts-firehose-ja"
-        ]
-      },
-      {
-        "tool": "tweets.stream-posts-firehose-ko",
-        "summary": "Streams all public Korean-language Posts in real-time. Required: partition. Optional: backfill_minutes, start_time, end_time (plus 6 more). Returns the StreamingTweetResponse.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?",
-          "tweet.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "poll.fields": "array?",
-          "user.fields": "array?",
-          "place.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "tweets",
-          "stream-posts-firehose-ko"
-        ]
-      },
-      {
-        "tool": "tweets.stream-posts-firehose-pt",
-        "summary": "Streams all public Portuguese-language Posts in real-time. Required: partition. Optional: backfill_minutes, start_time, end_time (plus 6 more). Returns the StreamingTweetResponse.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?",
-          "tweet.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "poll.fields": "array?",
-          "user.fields": "array?",
-          "place.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "tweets",
-          "stream-posts-firehose-pt"
-        ]
-      },
-      {
-        "tool": "tweets.stream-posts-sample",
-        "summary": "Streams a 1% sample of public Posts in real-time. Optional: backfill_minutes, tweet.fields, expansions (plus 4 more). Returns the StreamingTweetResponse.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "tweet.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "poll.fields": "array?",
-          "user.fields": "array?",
-          "place.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "tweets",
-          "stream-posts-sample"
-        ]
-      },
-      {
-        "tool": "tweets.stream-posts-sample10",
-        "summary": "Streams a 10% sample of public Posts in real-time. Required: partition. Optional: backfill_minutes, start_time, end_time (plus 6 more). Returns the Get2TweetsSample10StreamResponse.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?",
-          "tweet.fields": "array?",
-          "expansions": "array?",
-          "media.fields": "array?",
-          "poll.fields": "array?",
-          "user.fields": "array?",
-          "place.fields": "array?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "tweets",
-          "stream-posts-sample10"
+          "update-rules"
         ]
       },
       {
@@ -156317,7 +156254,7 @@
       },
       {
         "tool": "usage.get",
-        "summary": "Retrieves usage statistics for Posts over a specified number of days. Optional: days (default: 7), usage.fields. Returns the Get2UsageTweetsResponse.",
+        "summary": "Retrieves usage statistics for Posts over a specified number of days. Optional: days (default: 7), usage.fields. Returns array of Problem.",
         "params_schema": {
           "days": "int?",
           "usage.fields": "array?"
@@ -156329,7 +156266,7 @@
       },
       {
         "tool": "users.get-by-id",
-        "summary": "Retrieves details of a specific User by their ID. Required: id. Optional: user.fields, expansions, tweet.fields. Returns the Get2UsersIdResponse.",
+        "summary": "Retrieves details of a specific User by their ID. Required: id. Optional: user.fields, expansions, tweet.fields. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "user.fields": "array?",
@@ -156361,7 +156298,7 @@
       },
       {
         "tool": "users.get-by-username",
-        "summary": "Retrieves details of a specific User by their username. Required: username. Optional: user.fields, expansions, tweet.fields. Returns the Get2UsersByUsernameUsernameResponse.",
+        "summary": "Retrieves details of a specific User by their username. Required: username. Optional: user.fields, expansions, tweet.fields. Returns array of Problem.",
         "params_schema": {
           "username": "string",
           "user.fields": "array?",
@@ -156393,7 +156330,7 @@
       },
       {
         "tool": "users.get-me",
-        "summary": "Retrieves details of the authenticated user. Optional: user.fields, expansions, tweet.fields. Returns the Get2UsersMeResponse.",
+        "summary": "Retrieves details of the authenticated user. Optional: user.fields, expansions, tweet.fields. Returns array of Problem.",
         "params_schema": {
           "user.fields": "array?",
           "expansions": "array?",
@@ -156467,21 +156404,6 @@
         ]
       },
       {
-        "tool": "users.stream-compliance",
-        "summary": "Streams all compliance data related to Users. Required: partition. Optional: backfill_minutes, start_time, end_time.",
-        "params_schema": {
-          "backfill_minutes": "int?",
-          "partition": "int?",
-          "start_time": "string?",
-          "end_time": "string?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "users",
-          "stream-compliance"
-        ]
-      },
-      {
         "tool": "users.affiliates_get-users",
         "summary": "Retrieves a list of Users who are affiliated with a specific organization User by their ID. Required: id. Optional: max_results, pagination_token, user.fields (plus 2 more). Returns array of User.",
         "params_schema": {
@@ -156521,7 +156443,7 @@
       },
       {
         "tool": "users.bookmarks_create-users",
-        "summary": "Adds a post to the authenticated user\u2019s bookmarks. Required: id, tweet_id. Returns the new BookmarkMutationResponse.",
+        "summary": "Adds a post to the authenticated user\u2019s bookmarks. Required: id, tweet_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "tweet_id": "string?"
@@ -156536,7 +156458,7 @@
       },
       {
         "tool": "users.bookmarks_delete-users",
-        "summary": "Removes a Post from the authenticated user\u2019s Bookmarks by its ID. Required: id, tweet_id. Returns the BookmarkMutationResponse. Destructive.",
+        "summary": "Removes a Post from the authenticated user\u2019s Bookmarks by its ID. Required: id, tweet_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string",
           "tweet_id": "string"
@@ -156606,7 +156528,7 @@
       },
       {
         "tool": "users.dm_block-users",
-        "summary": "Blocks direct messages to or from a specific User by their ID for the authenticated user. Required: id. Returns the new UsersDmblockCreateResponse.",
+        "summary": "Blocks direct messages to or from a specific User by their ID for the authenticated user. Required: id. Returns array of Problem.",
         "params_schema": {
           "id": "string"
         },
@@ -156620,7 +156542,7 @@
       },
       {
         "tool": "users.dm_unblock-users",
-        "summary": "Unblocks direct messages to or from a specific User by their ID for the authenticated user. Required: id. Returns the new UsersDmunBlockCreateResponse.",
+        "summary": "Unblocks direct messages to or from a specific User by their ID for the authenticated user. Required: id. Returns array of Problem.",
         "params_schema": {
           "id": "string"
         },
@@ -156634,7 +156556,7 @@
       },
       {
         "tool": "users.followed-lists_follow-list",
-        "summary": "Causes the authenticated user to follow a specific List by its ID. Required: id, list_id. Returns the new ListFollowedResponse.",
+        "summary": "Causes the authenticated user to follow a specific List by its ID. Required: id, list_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "list_id": "string?"
@@ -156668,7 +156590,7 @@
       },
       {
         "tool": "users.followed-lists_unfollow-list",
-        "summary": "Causes the authenticated user to unfollow a specific List by its ID. Required: id, list_id. Returns the ListFollowedResponse. Destructive.",
+        "summary": "Causes the authenticated user to unfollow a specific List by its ID. Required: id, list_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string",
           "list_id": "string"
@@ -156703,7 +156625,7 @@
       },
       {
         "tool": "users.following_follow-user",
-        "summary": "Causes the authenticated user to follow a specific user by their ID. Required: id, target_user_id. Returns the new UsersFollowingCreateResponse.",
+        "summary": "Causes the authenticated user to follow a specific user by their ID. Required: id, target_user_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "target_user_id": "string?"
@@ -156737,7 +156659,7 @@
       },
       {
         "tool": "users.following_unfollow-user",
-        "summary": "Causes the authenticated user to unfollow a specific user by their ID. Required: source_user_id, target_user_id. Returns the UsersFollowingDeleteResponse. Destructive.",
+        "summary": "Causes the authenticated user to unfollow a specific user by their ID. Required: source_user_id, target_user_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "source_user_id": "string",
           "target_user_id": "string"
@@ -156775,7 +156697,7 @@
       },
       {
         "tool": "users.likes_post",
-        "summary": "Causes the authenticated user to Like a specific Post by its ID. Required: id, tweet_id. Returns the new UsersLikesCreateResponse.",
+        "summary": "Causes the authenticated user to Like a specific Post by its ID. Required: id, tweet_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "tweet_id": "string?"
@@ -156790,7 +156712,7 @@
       },
       {
         "tool": "users.likes_unlike-post",
-        "summary": "Causes the authenticated user to Unlike a specific Post by its ID. Required: id, tweet_id. Returns the UsersLikesDeleteResponse. Destructive.",
+        "summary": "Causes the authenticated user to Unlike a specific Post by its ID. Required: id, tweet_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string",
           "tweet_id": "string"
@@ -156870,7 +156792,7 @@
       },
       {
         "tool": "users.muting_mute-user",
-        "summary": "Causes the authenticated user to mute a specific User by their ID. Required: id, target_user_id. Returns the new MuteUserMutationResponse.",
+        "summary": "Causes the authenticated user to mute a specific User by their ID. Required: id, target_user_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "target_user_id": "string?"
@@ -156885,7 +156807,7 @@
       },
       {
         "tool": "users.muting_unmute-user",
-        "summary": "Causes the authenticated user to unmute a specific user by their ID. Required: source_user_id, target_user_id. Returns the MuteUserMutationResponse. Destructive.",
+        "summary": "Causes the authenticated user to unmute a specific user by their ID. Required: source_user_id, target_user_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "source_user_id": "string",
           "target_user_id": "string"
@@ -156937,7 +156859,7 @@
       },
       {
         "tool": "users.pinned-lists_pin-list",
-        "summary": "Causes the authenticated user to pin a specific List by its ID. Required: id, list_id. Returns the new ListPinnedResponse.",
+        "summary": "Causes the authenticated user to pin a specific List by its ID. Required: id, list_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "list_id": "string?"
@@ -156952,7 +156874,7 @@
       },
       {
         "tool": "users.pinned-lists_unpin-list",
-        "summary": "Causes the authenticated user to unpin a specific List by its ID. Required: id, list_id. Returns the ListUnpinResponse. Destructive.",
+        "summary": "Causes the authenticated user to unpin a specific List by its ID. Required: id, list_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string",
           "list_id": "string"
@@ -156968,11 +156890,16 @@
       },
       {
         "tool": "users.public-keys_add-user",
-        "summary": "Registers a user's public key for X Chat encryption. Required: id, public_key, version. Optional: generate_version. Returns the new ChatAddPublicKeyResponse.",
+        "summary": "Registers a user's public key for X Chat encryption. Required: id, public_key, version. Optional: generate_version. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "generate_version": "bool?",
-          "public_key": "object?",
+          "public-key-identity-public-key-signature": "string?",
+          "public-key-public-key": "string?",
+          "public-key-public-key-fingerprint": "string?",
+          "public-key-registration-method": "string?",
+          "public-key-signing-public-key": "string?",
+          "public-key-signing-public-key-signature": "string?",
           "version": "string?"
         },
         "positionals": [
@@ -157000,7 +156927,7 @@
       },
       {
         "tool": "users.retweets_repost-post",
-        "summary": "Causes the authenticated user to repost a specific Post by its ID. Required: id, tweet_id. Returns the new UsersRetweetsCreateResponse.",
+        "summary": "Causes the authenticated user to repost a specific Post by its ID. Required: id, tweet_id. Returns array of Problem.",
         "params_schema": {
           "id": "string",
           "tweet_id": "string?"
@@ -157015,7 +156942,7 @@
       },
       {
         "tool": "users.retweets_unrepost-post",
-        "summary": "Causes the authenticated user to unrepost a specific Post by its ID. Required: id, source_tweet_id. Returns the UsersRetweetsDeleteResponse. Destructive.",
+        "summary": "Causes the authenticated user to unrepost a specific Post by its ID. Required: id, source_tweet_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "id": "string",
           "source_tweet_id": "string"
@@ -157110,7 +157037,7 @@
       },
       {
         "tool": "webhooks.delete",
-        "summary": "Deletes an existing webhook configuration. Required: webhook_id. Returns the WebhookConfigDeleteResponse. Destructive.",
+        "summary": "Deletes an existing webhook configuration. Required: webhook_id. Returns array of Problem. Destructive.",
         "params_schema": {
           "webhook_id": "string"
         },
@@ -157136,7 +157063,7 @@
       },
       {
         "tool": "webhooks.validate",
-        "summary": "Triggers a CRC check for a given webhook. Required: webhook_id. Returns the updated WebhookConfigPutResponse.",
+        "summary": "Triggers a CRC check for a given webhook. Required: webhook_id. Returns array of Problem.",
         "params_schema": {
           "webhook_id": "string"
         },
