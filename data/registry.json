@@ -94375,6 +94375,38 @@
     ]
   },
   {
+    "api": "qbo",
+    "description": "Fixture-first, read-only QuickBooks Online CLI for agents.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/accounting/qbo/cmd/qbo-pp-cli",
+    "auth_type": "none",
+    "category": "accounting",
+    "search_terms": [
+      "qbo",
+      "qbo-pp-cli",
+      "Fixture-first, read-only QuickBooks Online CLI for agents.",
+      "Fixture-only read surface",
+      "qbo-pp-cli status",
+      "Reports read-only, no-live-OAuth safety status for agent use.",
+      "Local JSON fixture reads",
+      "qbo-pp-cli accounts list --fixture testdata/fixtures/qbo/accounts.json",
+      "Reads deterministic local accounting fixtures without credentials or network access.",
+      "Report fixture reads",
+      "qbo-pp-cli reports trial-balance --fixture testdata/fixtures/qbo/trial_balance.json",
+      "Exposes accounting report fixtures as JSON envelopes for agent workflows."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Fixture-first, read-only QuickBooks Online CLI for agents. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "rappi",
     "description": "The first agent-native CLI for Rappi Mexico \u2014 read-only catalog browsing with offline SQLite snapshots, cross-city...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/rappi/cmd/rappi-pp-cli",
@@ -148748,6 +148780,958 @@
     ]
   },
   {
+    "api": "twelvelabs",
+    "description": "Use the TwelveLabs Video Understanding API to extract information from your videos and make it available to your",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/twelvelabs/cmd/twelvelabs-pp-cli",
+    "auth_type": "api_key",
+    "category": "ai",
+    "search_terms": [
+      "twelvelabs",
+      "Twelvelabs Video Understanding",
+      "twelvelabs-pp-cli",
+      "Use the TwelveLabs Video Understanding API to extract information from your videos and make it available to your",
+      "Upload and wait for indexing",
+      "upload-video",
+      "Upload a local video file or register a public URL, then poll Twelve Labs until indexing reaches a terminal status.",
+      "Editor-ready video brief",
+      "video-brief",
+      "Generate a deterministic JSON or Markdown editing plan with title, topics, hashtags, chapters, highlights, and recommended cuts.",
+      "Video embedding workflow",
+      "embed",
+      "Create a video embedding task from a local file or public URL and optionally wait for ready results.",
+      "Local clip cutting from plans",
+      "clips",
+      "Cut local clip files with ffmpeg from a video-brief JSON plan without inventing timestamps."
+    ],
+    "endpoints": [
+      {
+        "tool": "analyze.generate-text-representation",
+        "summary": "This endpoint analyzes your videos and creates fully customizable text based on your prompts, including but not limited to tables of content, action items, memos, and detailed analyses. <Note title='Notes'> - This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. - This endpoint supports streaming responses. For details on integrating this feature into your application, refer to the [Analyze videos](/v1.3/docs/guides/analyze-videos) page. </Note>. Required: prompt, video_id. Optional: max_tokens, response_format, stream (default: true) (plus 1 more).",
+        "params_schema": {
+          "max_tokens": "int?",
+          "prompt": "string?",
+          "response-format-json-schema": "object?",
+          "response-format-type": "string?",
+          "stream": "bool?",
+          "temperature": "float?",
+          "video_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "analyze",
+          "generate-text-representation"
+        ]
+      },
+      {
+        "tool": "assets.create",
+        "summary": "This method creates an asset by uploading a file to the platform. Assets are media files that you can use in downstream workflows, including indexing, analyzing video content, and creating entities. **Supported content**: Video, audio, and images. **Upload methods**: - **Local file**: Set the `method` parameter to `direct` and use the `file` parameter to specify the file. - **Publicly accessible URL**: Set the `method` parameter to `url` and use the `url` parameter to specify the URL of your file. **File size**: 200MB maximum for local file uploads, 4GB maximum for URL uploads. **Additional requirements** depend on your workflow: - **Search**: [Marengo requirements](/v1.3/docs/concepts/models/marengo#video-file-requirements) - **Video analysis**: [Pegasus requirements](/v1.3/docs/concepts/models/pegasus#input-requirements) - **Entity search**: [Marengo image requirements](/v1.3/docs/concepts/models/marengo#image-file-requirements) - **Create embeddings**: [Marengo requirements](/v1.3/docs/concepts/models/marengo#input-requirements) <Note title='Note'> This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note>. Required: method. Optional: file, filename, url. Returns the new Asset.",
+        "params_schema": {
+          "file": "string?",
+          "filename": "string?",
+          "method": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "assets"
+        ]
+      },
+      {
+        "tool": "assets.create-multipart-upload",
+        "summary": "This method creates a multipart upload session. **Supported content**: Video and audio **File size**: 4GB maximum. **Additional requirements** depend on your workflow: - **Search**: [Marengo requirements](/v1.3/docs/concepts/models/marengo#video-file-requirements) - **Video analysis**: [Pegasus requirements](/v1.3/docs/concepts/models/pegasus#input-requirements) - **Create embeddings**: [Marengo requirements](/v1.3/docs/concepts/models/marengo#input-requirements). Required: filename, total_size, type. Returns array of PresignedUrlchunk.",
+        "params_schema": {
+          "filename": "string?",
+          "total_size": "int?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "assets",
+          "create-multipart-upload"
+        ]
+      },
+      {
+        "tool": "assets.delete",
+        "summary": "This method deletes the specified asset. This action cannot be undone. Required: asset_id. Destructive.",
+        "params_schema": {
+          "asset_id": "string"
+        },
+        "positionals": [
+          "asset_id"
+        ],
+        "argv_path": [
+          "assets",
+          "delete"
+        ]
+      },
+      {
+        "tool": "assets.get-upload-status",
+        "summary": "This method provides information about an upload session, including its current status, chunk-level progress, and completion state. Use this method to: - Verify upload completion (`status` = `completed`) - Identify any failed chunks that require a retry - Monitor the upload progress by comparing `uploaded_size` with `total_size` - Determine if the session has expired - Retrieve the status information for each chunk You must call this method after reporting chunk completion to confirm the upload has transitioned to the `completed` status before using the asset. Required: upload_id. Optional: page (default: 1), page_limit (default: 10). Returns array of ChunkInfo.",
+        "params_schema": {
+          "upload_id": "string",
+          "page": "int?",
+          "page_limit": "int?"
+        },
+        "positionals": [
+          "upload_id"
+        ],
+        "argv_path": [
+          "assets",
+          "get-upload-status"
+        ]
+      },
+      {
+        "tool": "assets.list",
+        "summary": "This method returns a list of assets in your account. The platform returns your assets sorted by creation date, with the newest at the top of the list. Optional: page (default: 1), page_limit (default: 10), asset_ids (plus 1 more).",
+        "params_schema": {
+          "page": "int?",
+          "page_limit": "int?",
+          "asset_ids": "array?",
+          "asset_types": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "assets",
+          "list"
+        ]
+      },
+      {
+        "tool": "assets.list-incomplete-uploads",
+        "summary": "This method returns a list of all incomplete multipart upload sessions in your account. Optional: page (default: 1), page_limit (default: 10).",
+        "params_schema": {
+          "page": "int?",
+          "page_limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "assets",
+          "list-incomplete-uploads"
+        ]
+      },
+      {
+        "tool": "assets.report-chunk-batch",
+        "summary": "This method reports successfully uploaded chunks to the platform. The platform finalizes the upload after you report all chunks. For optimal performance, report chunks in batches and in any order. Required: upload_id, completed_chunks. Returns the new ReportChunkBatchResponse.",
+        "params_schema": {
+          "upload_id": "string",
+          "completed_chunks": "array?"
+        },
+        "positionals": [
+          "upload_id"
+        ],
+        "argv_path": [
+          "assets",
+          "report-chunk-batch"
+        ]
+      },
+      {
+        "tool": "assets.request-additional-presigned-urls",
+        "summary": "This method generates new presigned URLs for specific chunks that require uploading. Use this endpoint in the following situations: - Your initial URLs have expired (URLs expire after one hour). - The initial set of presigned URLs does not include URLs for all chunks. - You need to retry failed chunk uploads with new URLs. To specify which chunks need URLs, use the `start` and `count` parameters. For example, to generate URLs for chunks 21 to 30, use `start=21` and `count=10`. The response will provide new URLs, each with a fresh expiration time of one hour. Required: upload_id, count, start. Returns array of PresignedUrlchunk.",
+        "params_schema": {
+          "upload_id": "string",
+          "count": "int?",
+          "start": "int?"
+        },
+        "positionals": [
+          "upload_id"
+        ],
+        "argv_path": [
+          "assets",
+          "request-additional-presigned-urls"
+        ]
+      },
+      {
+        "tool": "assets.retrieve",
+        "summary": "This method retrieves details about the specified asset. Required: asset_id. Returns the Asset.",
+        "params_schema": {
+          "asset_id": "string"
+        },
+        "positionals": [
+          "asset_id"
+        ],
+        "argv_path": [
+          "assets",
+          "retrieve"
+        ]
+      },
+      {
+        "tool": "embed.create-text-image-audio-embedding",
+        "summary": "<Note title='Note'> This endpoint will be deprecated in a future version. Migrate to the [Embed API v2](/v1.3/api-reference/create-embeddings-v2) for continued support and access to new features. </Note> This method creates embeddings for text, image, and audio content. Ensure your media files meet the following requirements: - [Audio files](/v1.3/docs/concepts/models/marengo#audio-requirements). - [Image files](/v1.3/docs/concepts/models/marengo#image-requirements). Parameters for embeddings: - **Common parameters**: - `model_name`: The video understanding model you want to use. Example: 'marengo3.0'. - **Text embeddings**: - `text`: Text for which to create an embedding. - **Image embeddings**: Provide one of the following: - `image_url`: Publicly accessible URL of your image file. - `image_file`: Local image file. - **Audio embeddings**: Provide one of the following: - `audio_url`: Publicly accessible URL of your audio file. - `audio_file`: Local audio file. <Note title='Notes'> - The Marengo video understanding model generates embeddings for all modalities in the same latent space. This shared space enables any-to-any searches across different types of content. - You can create multiple types of embeddings in a single API call. - Audio embeddings combine generic sound and human speech in a single embedding. For videos with transcriptions, you can retrieve transcriptions and then [create text embeddings](/v1.3/api-reference/create-embeddings-v1/text-image-audio-embeddings/create-text-image-audio-embeddings) from these - This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note>. Required: model_name. Optional: audio_file, audio_start_offset_sec (default: 0), audio_url (plus 4 more). Returns the new EmbeddingResponse.",
+        "params_schema": {
+          "audio_file": "string?",
+          "audio_start_offset_sec": "float?",
+          "audio_url": "string?",
+          "image_file": "string?",
+          "image_url": "string?",
+          "model_name": "string?",
+          "text": "string?",
+          "text_truncate": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "embed",
+          "create-text-image-audio-embedding"
+        ]
+      },
+      {
+        "tool": "embed.create-video-embedding-task",
+        "summary": "<Note title='Note'> This endpoint will be deprecated in a future version. Migrate to the [Embed API v2](/v1.3/api-reference/create-embeddings-v2) for continued support and access to new features. </Note> This method creates a new video embedding task that uploads a video to the platform and creates one or multiple video embeddings. <Note title='Note'> This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note> Upload options: - **Local file**: Use the `video_file` parameter - **Publicly accessible URL**: Use the `video_url` parameter. Specify at least one option. If both are provided, `video_url` takes precedence. Your video files must meet the [requirements](/v1.3/docs/concepts/models/marengo#video-file-requirements). This endpoint allows you to upload files up to 2 GB in size. To upload larger files, use the [Multipart Upload API](/v1.3/api-reference/upload-content/multipart-uploads) <Note title='Notes'> - The Marengo video understanding model generates embeddings for all modalities in the same latent space. This shared space enables any-to-any searches across different types of content. - Video embeddings are stored for seven days. </Note>. Required: model_name. Optional: video_clip_length, video_embedding_scope (default: [clip]), video_end_offset_sec (plus 3 more). Returns the new EmbedCreateVideoEmbeddingTaskResponse.",
+        "params_schema": {
+          "model_name": "string?",
+          "video_clip_length": "float?",
+          "video_embedding_scope": "array?",
+          "video_end_offset_sec": "float?",
+          "video_file": "string?",
+          "video_start_offset_sec": "float?",
+          "video_url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "embed",
+          "create-video-embedding-task"
+        ]
+      },
+      {
+        "tool": "embed.list-video-embedding-tasks",
+        "summary": "<Note title='Note'> This method will be deprecated in a future version. Migrate to the [Embed API v2](/v1.3/api-reference/create-embeddings-v2) for continued support and access to new features. </Note> This method returns a list of the video embedding tasks in your account. The platform returns your video embedding tasks sorted by creation date, with the newest at the top of the list. <Note title='Notes'> - Video embeddings are stored for seven days - When you invoke this method without specifying the `started_at` and `ended_at` parameters, the platform returns all the video embedding tasks created within the last seven days. </Note>. Optional: started_at, ended_at, status (plus 2 more).",
+        "params_schema": {
+          "started_at": "string?",
+          "ended_at": "string?",
+          "status": "string?",
+          "page": "int?",
+          "page_limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "embed",
+          "list-video-embedding-tasks"
+        ]
+      },
+      {
+        "tool": "embed.retrieve-video-embedding",
+        "summary": "This method retrieves embeddings for a specific video embedding task. Ensure the task status is `ready` before invoking this method. Refer to the [Retrieve the status of a video embedding tasks](/v1.3/api-reference/create-embeddings-v1/video-embeddings/retrieve-video-embedding-task-status) page for instructions on checking the task status. Required: task_id. Optional: embedding_option. Returns the EmbedRetrieveVideoEmbeddingResponse.",
+        "params_schema": {
+          "task_id": "string",
+          "embedding_option": "array?"
+        },
+        "positionals": [
+          "task_id"
+        ],
+        "argv_path": [
+          "embed",
+          "retrieve-video-embedding"
+        ]
+      },
+      {
+        "tool": "embed.retrieve-video-embedding-task",
+        "summary": "<Note title='Note'> This endpoint will be deprecated in a future version. Migrate to the [Embed API v2](/v1.3/api-reference/create-embeddings-v2) for continued support and access to new features. </Note> This method retrieves the status of a video embedding task. Check the task status of a video embedding task to determine when you can retrieve the embedding. A task can have one of the following statuses: - `processing`: The platform is creating the embeddings. - `ready`: Processing is complete. Retrieve the embeddings by invoking the [`GET`](/v1.3/api-reference/create-embeddings-v1/video-embeddings/retrieve-video-embeddings) method of the `/embed/tasks/{task_id} endpoint`. - `failed`: The task could not be completed, and the embeddings haven't been created. Required: task_id. Returns the EmbedRetrieveVideoEmbeddingTaskResponse.",
+        "params_schema": {
+          "task_id": "string"
+        },
+        "positionals": [
+          "task_id"
+        ],
+        "argv_path": [
+          "embed",
+          "retrieve-video-embedding-task"
+        ]
+      },
+      {
+        "tool": "embed-v2.create-async-embedding-task",
+        "summary": "This endpoint creates embeddings for audio and video content asynchronously. <Note title='Note'> This method only supports Marengo version 3.0 or newer. </Note> **When to use this endpoint**: - Process audio or video files longer than 10 minutes - Process files up to 4 hours in duration <Accordion title='Input requirements'> **Video**: - Minimum duration: 4 seconds - Maximum duration: 4 hours - Maximum file size: 4 GB - Formats: [FFmpeg supported formats](https://ffmpeg.org/ffmpeg-formats.html) - Resolution: 360x360 to 5184x2160 pixels - Aspect ratio: Between 1:1 and 1:2.4, or between 2.4:1 and 1:1 **Audio**: - Minimum duration: 4 seconds - Maximum duration: 4 hours - Maximum file size: 2 GB - Formats: WAV (uncompressed), MP3 (lossy), FLAC (lossless) </Accordion> Creating embeddings asynchronously requires three steps: 1. Create a task using this endpoint. The platform returns a task ID. 2. Poll for the status of the task using the [`GET`](/v1.3/api-reference/create-embeddings-v2/retrieve-embeddings) method of the `/embed-v2/tasks/{task_id}` endpoint. Wait until the status is `ready`. 3. Retrieve the embeddings from the response when the status is `ready` using the [`GET`](/v1.3/api-reference/create-embeddings-v2/retrieve-embeddings) method of the `/embed-v2/tasks/{task_id}` endpoint. <Note title='Note'> This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note>. Required: input_type, model_name (default: marengo3.0). Optional: audio, video.",
+        "params_schema": {
+          "audio-embedding-option": "string_csv_array?",
+          "audio-embedding-scope": "string_csv_array?",
+          "audio-end-sec": "float?",
+          "audio-media-source-asset-id": "string?",
+          "audio-media-source-base64-string": "string?",
+          "audio-media-source-url": "string?",
+          "audio-segmentation-strategy": "string?",
+          "audio-start-sec": "float?",
+          "input_type": "string?",
+          "model_name": "string?",
+          "video-embedding-option": "string_csv_array?",
+          "video-embedding-scope": "string_csv_array?",
+          "video-end-sec": "float?",
+          "video-media-source-asset-id": "string?",
+          "video-media-source-base64-string": "string?",
+          "video-media-source-url": "string?",
+          "video-segmentation": "object?",
+          "video-start-sec": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "embed-v2",
+          "create-async-embedding-task"
+        ]
+      },
+      {
+        "tool": "embed-v2.create-embeddings",
+        "summary": "This endpoint synchronously creates embeddings for multimodal content and returns the results immediately in the response. <Note title='Note'> This method only supports Marengo version 3.0 or newer. </Note> **When to use this endpoint**: - Create embeddings for text, images, audio, or video content - Get immediate results without waiting for background processing - Process audio or video content up to 10 minutes in duration **Do not use this endpoint for**: - Audio or video content longer than 10 minutes. Use the [`POST`](/v1.3/api-reference/create-embeddings-v2/create-async-embedding-task) method of the `/embed-v2/tasks` endpoint instead. <Accordion title='Input requirements'> **Text**: - Maximum length: 500 tokens **Images**: - Formats: JPEG, PNG - Minimum size: 128x128 pixels - Maximum file size: 5 MB **Audio and video**: - Maximum duration: 10 minutes - Maximum file size for base64 encoded strings: 36 MB - Audio formats: WAV (uncompressed), MP3 (lossy), FLAC (lossless) - Video formats: [FFmpeg supported formats](https://ffmpeg.org/ffmpeg-formats.html) - Video resolution: 360x360 to 5184x2160 pixels - Aspect ratio: Between 1:1 and 1:2.4, or between 2.4:1 and 1:1 </Accordion> <Note title='Note'> This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note>. Required: input_type, model_name (default: marengo3.0). Optional: audio, image, text (plus 2 more).",
+        "params_schema": {
+          "audio-embedding-option": "string_csv_array?",
+          "audio-embedding-scope": "string_csv_array?",
+          "audio-end-sec": "float?",
+          "audio-media-source-asset-id": "string?",
+          "audio-media-source-base64-string": "string?",
+          "audio-media-source-url": "string?",
+          "audio-segmentation-strategy": "string?",
+          "audio-start-sec": "float?",
+          "image-media-source-asset-id": "string?",
+          "image-media-source-base64-string": "string?",
+          "image-media-source-url": "string?",
+          "input_type": "string?",
+          "model_name": "string?",
+          "text-input-text": "string?",
+          "text-image-input-text": "string?",
+          "text-image-media-source-asset-id": "string?",
+          "text-image-media-source-base64-string": "string?",
+          "text-image-media-source-url": "string?",
+          "video-embedding-option": "string_csv_array?",
+          "video-embedding-scope": "string_csv_array?",
+          "video-end-sec": "float?",
+          "video-media-source-asset-id": "string?",
+          "video-media-source-base64-string": "string?",
+          "video-media-source-url": "string?",
+          "video-segmentation": "object?",
+          "video-start-sec": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "embed-v2",
+          "create-embeddings"
+        ]
+      },
+      {
+        "tool": "embed-v2.list-async-embedding-tasks",
+        "summary": "This method returns a list of the async embedding tasks in your account. The platform returns your async embedding tasks sorted by creation date, with the newest at the top of the list. Optional: started_at, ended_at, status (plus 2 more).",
+        "params_schema": {
+          "started_at": "string?",
+          "ended_at": "string?",
+          "status": "string?",
+          "page": "int?",
+          "page_limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "embed-v2",
+          "list-async-embedding-tasks"
+        ]
+      },
+      {
+        "tool": "embed-v2.retrieve-embeddings",
+        "summary": "This method retrieves the status and the results of an async embedding task. **Task statuses**: - `processing`: The platform is creating the embeddings. - `ready`: Processing is complete. Embeddings are available in the response. - `failed`: The task failed. Embeddings were not created. Invoke this method repeatedly until the `status` field is `ready`. When `status` is `ready`, use the embeddings from the response. Required: task_id. Returns the EmbeddingTaskResponse.",
+        "params_schema": {
+          "task_id": "string"
+        },
+        "positionals": [
+          "task_id"
+        ],
+        "argv_path": [
+          "embed-v2",
+          "retrieve-embeddings"
+        ]
+      },
+      {
+        "tool": "entity-collections.create",
+        "summary": "This method creates an entity collection. Required: name. Optional: description. Returns the new EntityCollection.",
+        "params_schema": {
+          "description": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "entity-collections"
+        ]
+      },
+      {
+        "tool": "entity-collections.delete",
+        "summary": "This method deletes the specified entity collection. This action cannot be undone. Required: entity_collection_id. Destructive.",
+        "params_schema": {
+          "entity_collection_id": "string"
+        },
+        "positionals": [
+          "entity_collection_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "delete"
+        ]
+      },
+      {
+        "tool": "entity-collections.list",
+        "summary": "This method returns a list of the entity collections in your account. Optional: page (default: 1), page_limit (default: 10), name (plus 2 more).",
+        "params_schema": {
+          "page": "int?",
+          "page_limit": "int?",
+          "name": "string?",
+          "sort_by": "string?",
+          "sort_option": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "entity-collections",
+          "list"
+        ]
+      },
+      {
+        "tool": "entity-collections.retrieve",
+        "summary": "This method retrieves details about the specified entity collection. Required: entity_collection_id. Returns the EntityCollection.",
+        "params_schema": {
+          "entity_collection_id": "string"
+        },
+        "positionals": [
+          "entity_collection_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "retrieve"
+        ]
+      },
+      {
+        "tool": "entity-collections.update",
+        "summary": "This method updates the specified entity collection. Required: entity_collection_id. Optional: description, name. Returns the updated EntityCollection.",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "description": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "entity_collection_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "update"
+        ]
+      },
+      {
+        "tool": "entity-collections.entities_add-entity-assets",
+        "summary": "This method adds assets to the specified entity within an entity collection. Assets are used to identify the entity in media content, and adding multiple assets can improve the accuracy of entity recognition in searches. When assets are added, the entity may temporarily enter the 'processing' state while the platform updates the necessary data. Once processing is complete, the entity status will return to 'ready.'. Required: entity_collection_id, entity_id, asset_ids. Returns array of string.",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "entity_id": "string",
+          "asset_ids": "string_csv_array?"
+        },
+        "positionals": [
+          "entity_collection_id",
+          "entity_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "entities_add-entity-assets"
+        ]
+      },
+      {
+        "tool": "entity-collections.entities_create-bulk",
+        "summary": "This method creates multiple entities within a specified entity collection in a single request. Each entity must be associated with at least one asset. This endpoint is useful for efficiently adding multiple entities, such as a roster of players or a group of characters. Required: entity_collection_id, entities. Returns the new BulkCreateEntityResponse.",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "entities": "array?"
+        },
+        "positionals": [
+          "entity_collection_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "entities_create-bulk"
+        ]
+      },
+      {
+        "tool": "entity-collections.entities_create-entity",
+        "summary": "This method creates an entity within a specified entity collection. Each entity must be associated with at least one asset. Required: entity_collection_id, asset_ids, name. Optional: description, metadata. Returns array of string.",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "asset_ids": "string_csv_array?",
+          "description": "string?",
+          "metadata": "object?",
+          "name": "string?"
+        },
+        "positionals": [
+          "entity_collection_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "entities_create-entity"
+        ]
+      },
+      {
+        "tool": "entity-collections.entities_delete-entity",
+        "summary": "This method deletes a specific entity from an entity collection. It permanently removes the entity and its associated data, but does not affect the assets associated with this entity. Required: entity_collection_id, entity_id. Destructive.",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "entity_id": "string"
+        },
+        "positionals": [
+          "entity_collection_id",
+          "entity_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "entities_delete-entity"
+        ]
+      },
+      {
+        "tool": "entity-collections.entities_list-in-collection",
+        "summary": "This method returns a list of the entities in the specified entity collection. Required: entity_collection_id. Optional: page (default: 1), page_limit (default: 10), name (plus 3 more).",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "page": "int?",
+          "page_limit": "int?",
+          "name": "string?",
+          "status": "string?",
+          "sort_by": "string?",
+          "sort_option": "string?"
+        },
+        "positionals": [
+          "entity_collection_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "entities_list-in-collection"
+        ]
+      },
+      {
+        "tool": "entity-collections.entities_remove-entity-assets",
+        "summary": "This method removes from the specified entity. Assets are used to identify the entity in media content, and removing assets may impact the accuracy of entity recognition in searches if too few assets remain. When assets are removed, the entity may temporarily enter a 'processing' state while the system updates the necessary data. Once processing is complete, the entity status will return to 'ready.' <Note title='Notes'> - This operation only removes the association between the entity and the specified assets; it does not delete the assets themselves. - An entity must always have at least one asset associated with it. You can't remove the last asset from an entity. </Note>. Required: entity_collection_id, entity_id, asset_ids. Returns array of string. Destructive.",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "entity_id": "string",
+          "asset_ids": "string_csv_array?"
+        },
+        "positionals": [
+          "entity_collection_id",
+          "entity_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "entities_remove-entity-assets"
+        ]
+      },
+      {
+        "tool": "entity-collections.entities_retrieve-entity",
+        "summary": "This method retrieves details about the specified entity. Required: entity_collection_id, entity_id. Returns array of string.",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "entity_id": "string"
+        },
+        "positionals": [
+          "entity_collection_id",
+          "entity_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "entities_retrieve-entity"
+        ]
+      },
+      {
+        "tool": "entity-collections.entities_update-entity",
+        "summary": "This method updates the specified entity within an entity collection. This operation allows modification of the entity's name, description, or metadata. Note that this endpoint does not affect the assets associated with the entity. Required: entity_collection_id, entity_id. Optional: description, metadata, name. Returns array of string.",
+        "params_schema": {
+          "entity_collection_id": "string",
+          "entity_id": "string",
+          "description": "string?",
+          "metadata": "object?",
+          "name": "string?"
+        },
+        "positionals": [
+          "entity_collection_id",
+          "entity_id"
+        ],
+        "argv_path": [
+          "entity-collections",
+          "entities_update-entity"
+        ]
+      },
+      {
+        "tool": "gist.gist",
+        "summary": "<Note title='Deprecation notice'> This endpoint will be sunset and removed on February 15, 2026. Instead, use the [`POST`](/v1.3/api-reference/analyze-videos/analyze) method of the `/analyze` endpoint, passing the [`response_format`](/v1.3/api-reference/analyze-videos/analyze#request.body.response_format) parameter to specify the format of the response as structured JSON. For migration instructions, see the [Release notes](/v1.3/docs/get-started/release-notes#predefined-formats-for-video-analysis-will-be-sunset-and-removed) page. </Note> This method analyzes videos and generates titles, topics, and hashtags. Required: types, video_id. Returns the new Gist.",
+        "params_schema": {
+          "types": "string_csv_array?",
+          "video_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gist",
+          "gist"
+        ]
+      },
+      {
+        "tool": "indexes.list",
+        "summary": "This method returns a list of the indexes in your account. The platform returns indexes sorted by creation date, with the oldest indexes at the top of the list. Optional: page (default: 1), page_limit (default: 10), sort_by (default: created_at) (plus 6 more).",
+        "params_schema": {
+          "page": "int?",
+          "page_limit": "int?",
+          "sort_by": "string?",
+          "sort_option": "string?",
+          "index_name": "string?",
+          "model_options": "string?",
+          "model_family": "string?",
+          "created_at": "string?",
+          "updated_at": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "indexes"
+        ]
+      },
+      {
+        "tool": "indexes.create-index",
+        "summary": "This method creates an index. Required: index_name, models. Optional: addons. Returns the new IndexesCreateIndexResponse.",
+        "params_schema": {
+          "addons": "string_csv_array?",
+          "index_name": "string?",
+          "models": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "indexes",
+          "create-index"
+        ]
+      },
+      {
+        "tool": "indexes.delete-index",
+        "summary": "This method deletes the specified index and all the videos within it. This action cannot be undone. Required: index-id. Destructive.",
+        "params_schema": {
+          "index-id": "string"
+        },
+        "positionals": [
+          "index-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "delete-index"
+        ]
+      },
+      {
+        "tool": "indexes.retrieve-index",
+        "summary": "This method retrieves details about the specified index. Required: index-id. Returns the Index.",
+        "params_schema": {
+          "index-id": "string"
+        },
+        "positionals": [
+          "index-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "retrieve-index"
+        ]
+      },
+      {
+        "tool": "indexes.update-index",
+        "summary": "This method updates the name of the specified index. Required: index-id, index_name.",
+        "params_schema": {
+          "index-id": "string",
+          "index_name": "string?"
+        },
+        "positionals": [
+          "index-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "update-index"
+        ]
+      },
+      {
+        "tool": "indexes.indexed-assets_create",
+        "summary": "This method indexes an uploaded asset to make it searchable and analyzable. Indexing processes your content and extracts information that enables the platform to search and analyze your videos. This operation is asynchronous. The platform returns an indexed asset ID immediately and processes your content in the background. Monitor the indexing status to know when your content is ready to use. Your asset must meet the requirements based on your workflow: - **Search**: [Marengo requirements](/v1.3/docs/concepts/models/marengo#video-file-requirements) - **Video analysis**: [Pegasus requirements](/v1.3/docs/concepts/models/pegasus#input-requirements). If you want to both search and analyze your videos, the most restrictive requirements apply. <Note title='Note'> This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note>. Required: index-id, asset_id. Optional: enable_video_stream (default: false).",
+        "params_schema": {
+          "index-id": "string",
+          "asset_id": "string?",
+          "enable_video_stream": "bool?"
+        },
+        "positionals": [
+          "index-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "indexed-assets_create"
+        ]
+      },
+      {
+        "tool": "indexes.indexed-assets_delete-information",
+        "summary": "This method deletes all the information about the specified indexed asset. This action cannot be undone. Required: index-id, indexed-asset-id. Destructive.",
+        "params_schema": {
+          "index-id": "string",
+          "indexed-asset-id": "string"
+        },
+        "positionals": [
+          "index-id",
+          "indexed-asset-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "indexed-assets_delete-information"
+        ]
+      },
+      {
+        "tool": "indexes.indexed-assets_list",
+        "summary": "This method returns a list of the indexed assets in the specified index. By default, the platform returns your indexed assets sorted by creation date, with the newest at the top of the list. Required: index-id. Optional: page (default: 1), page_limit (default: 10), sort_by (default: created_at) (plus 11 more).",
+        "params_schema": {
+          "index-id": "string",
+          "page": "int?",
+          "page_limit": "int?",
+          "sort_by": "string?",
+          "sort_option": "string?",
+          "status": "array?",
+          "filename": "string?",
+          "duration": "float?",
+          "fps": "float?",
+          "width": "float?",
+          "height": "int?",
+          "size": "float?",
+          "created_at": "string?",
+          "updated_at": "string?",
+          "user_metadata": "string?"
+        },
+        "positionals": [
+          "index-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "indexed-assets_list"
+        ]
+      },
+      {
+        "tool": "indexes.indexed-assets_partial-update-information",
+        "summary": "This method updates one or more fields of the metadata of an indexed asset. Also, can delete a field by setting it to `null`. Required: index-id, indexed-asset-id. Optional: user_metadata. Partial update.",
+        "params_schema": {
+          "index-id": "string",
+          "indexed-asset-id": "string",
+          "user_metadata": "object?"
+        },
+        "positionals": [
+          "index-id",
+          "indexed-asset-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "indexed-assets_partial-update-information"
+        ]
+      },
+      {
+        "tool": "indexes.indexed-assets_retrieve-information",
+        "summary": "This method retrieves information about an indexed asset, including its status, metadata, and optional embeddings or transcription. Use this method to: - Monitor the indexing progress: - Call this endpoint after creating an indexed asset - Check the `status` field until it shows `ready` - Once ready, your content is available for search and analysis - Retrieve the asset metadata: - Retrieve system metadata (duration, resolution, filename) - Access user-defined metadata - Retrieve the embeddings: - Include the `embeddingOption` parameter to retrieve video embeddings - Requires the Marengo video understanding model to be enabled in your index - Retrieve transcriptions: - Set the `transcription` parameter to `true` to retrieve spoken words from your video. Required: index-id, indexed-asset-id. Optional: embedding_option, transcription. Returns the IndexedAssetDetailed.",
+        "params_schema": {
+          "index-id": "string",
+          "indexed-asset-id": "string",
+          "embedding_option": "array?",
+          "transcription": "bool?"
+        },
+        "positionals": [
+          "index-id",
+          "indexed-asset-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "indexed-assets_retrieve-information"
+        ]
+      },
+      {
+        "tool": "indexes.videos_delete-information",
+        "summary": "<Info>This method will be deprecated in a future version. New implementations should use the [Delete an indexed asset](/v1.3/api-reference/index-content/delete) method.</Info> This method deletes all the information about the specified video. This action cannot be undone. Required: index-id, video-id. Destructive.",
+        "params_schema": {
+          "index-id": "string",
+          "video-id": "string"
+        },
+        "positionals": [
+          "index-id",
+          "video-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "videos_delete-information"
+        ]
+      },
+      {
+        "tool": "indexes.videos_list",
+        "summary": "<Info>This method will be deprecated in a future version. New implementations should use the [List indexed assets](/v1.3/api-reference/index-content/list) method.</Info> This method returns a list of the videos in the specified index. By default, the platform returns your videos sorted by creation date, with the newest at the top of the list. Required: index-id. Optional: page (default: 1), page_limit (default: 10), sort_by (default: created_at) (plus 10 more).",
+        "params_schema": {
+          "index-id": "string",
+          "page": "int?",
+          "page_limit": "int?",
+          "sort_by": "string?",
+          "sort_option": "string?",
+          "filename": "string?",
+          "duration": "float?",
+          "fps": "float?",
+          "width": "float?",
+          "height": "int?",
+          "size": "float?",
+          "created_at": "string?",
+          "updated_at": "string?",
+          "user_metadata": "string?"
+        },
+        "positionals": [
+          "index-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "videos_list"
+        ]
+      },
+      {
+        "tool": "indexes.videos_partial-update-information",
+        "summary": "<Info>This method will be deprecated in a future version. New implementations should use the [Partial update indexed asset](/v1.3/api-reference/index-content/update) method.</Info> This method updates one or more fields of the metadata of a video. Also, can delete a field by setting it to `null`. Required: index-id, video-id. Optional: user_metadata.",
+        "params_schema": {
+          "index-id": "string",
+          "video-id": "string",
+          "user_metadata": "object?"
+        },
+        "positionals": [
+          "index-id",
+          "video-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "videos_partial-update-information"
+        ]
+      },
+      {
+        "tool": "indexes.videos_retrieve-information",
+        "summary": "<Info> This method will be deprecated in a future version. New implementations should use the [Retrieve an indexed asset](/v1.3/api-reference/index-content/retrieve) method.</Info> This method retrieves information about the specified video. Required: index-id, video-id. Optional: embedding_option, transcription. Returns array of VideosRetrieveInformationItem.",
+        "params_schema": {
+          "index-id": "string",
+          "video-id": "string",
+          "embedding_option": "array?",
+          "transcription": "bool?"
+        },
+        "positionals": [
+          "index-id",
+          "video-id"
+        ],
+        "argv_path": [
+          "indexes",
+          "videos_retrieve-information"
+        ]
+      },
+      {
+        "tool": "summarize.summarize",
+        "summary": "<Note title='Deprecation notice'> This endpoint will be sunset and removed. Use the [`POST`](/v1.3/api-reference/analyze-videos/analyze) method of the `/analyze` endpoint. Pass the [`response_format`](/v1.3/api-reference/analyze-videos/analyze#request.body.response_format) parameter to specify the format of the response as structured JSON. For migration instructions, see the [Release notes](/v1.3/docs/get-started/release-notes#predefined-formats-for-video-analysis-will-be-sunset-and-removed) page. </Note> This endpoint analyzes videos and generates summaries, chapters, or highlights. Optionally, you can provide a prompt to customize the output. <Note title='Note'> This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note>. Required: type, video_id. Optional: max_tokens, prompt, response_format (plus 1 more).",
+        "params_schema": {
+          "max_tokens": "int?",
+          "prompt": "string?",
+          "response-format-json-schema": "object?",
+          "response-format-type": "string?",
+          "temperature": "float?",
+          "type": "string?",
+          "video_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "summarize",
+          "summarize"
+        ]
+      },
+      {
+        "tool": "tasks.create-video-indexing",
+        "summary": "This method creates a video indexing task that uploads and indexes a video in a single operation. <Warning title='Legacy endpoint'> This endpoint bundles two operations (upload and indexing) together. In the next major API release, this endpoint will be removed in favor of a separated workflow: 1. Upload your video using the [`POST /assets`](/v1.3/api-reference/upload-content/direct-uploads/create) endpoint 2. Index the uploaded video using the [`POST /indexes/{index-id}/indexed-assets`](/v1.3/api-reference/index-content/create) endpoint This separation provides better control, reusability of assets, and improved error handling. New implementations should use the new workflow. </Warning> Upload options: - **Local file**: Use the `video_file` parameter. - **Publicly accessible URL**: Use the `video_url` parameter. Your video files must meet requirements based on your workflow: - **Search**: [Marengo requirements](/v1.3/docs/concepts/models/marengo#video-file-requirements). - **Video analysis**: [Pegasus requirements](/v1.3/docs/concepts/models/pegasus#video-file-requirements). - If you want to both search and analyze your videos, the most restrictive requirements apply. - This method allows you to upload files up to 2 GB in size. To upload larger files, use the [Multipart Upload API](/v1.3/api-reference/upload-content/multipart-uploads) <Note title='Note'> This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note>. Required: index_id. Optional: enable_video_stream (default: true), user_metadata, video_file (plus 1 more). Returns the new TasksCreateVideoIndexingResponse.",
+        "params_schema": {
+          "enable_video_stream": "bool?",
+          "index_id": "string?",
+          "user_metadata": "string?",
+          "video_file": "string?",
+          "video_url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "create-video-indexing"
+        ]
+      },
+      {
+        "tool": "tasks.delete-video-indexing",
+        "summary": "This action cannot be undone. Note the following about deleting a video indexing task: - You can only delete video indexing tasks for which the status is `ready` or `failed`. - If the status of your video indexing task is `ready`, you must first delete the video vector associated with your video indexing task by calling the [`DELETE`](/v1.3/api-reference/videos/delete) method of the `/indexes/videos` endpoint. Required: task_id. Destructive.",
+        "params_schema": {
+          "task_id": "string"
+        },
+        "positionals": [
+          "task_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "delete-video-indexing"
+        ]
+      },
+      {
+        "tool": "tasks.list-video-indexing",
+        "summary": "This method returns a list of the video indexing tasks in your account. The platform returns your video indexing tasks sorted by creation date, with the newest at the top of the list. Optional: page (default: 1), page_limit (default: 10), sort_by (default: created_at) (plus 9 more).",
+        "params_schema": {
+          "page": "int?",
+          "page_limit": "int?",
+          "sort_by": "string?",
+          "sort_option": "string?",
+          "index_id": "string?",
+          "status": "array?",
+          "filename": "string?",
+          "duration": "float?",
+          "width": "int?",
+          "height": "int?",
+          "created_at": "string?",
+          "updated_at": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "list-video-indexing"
+        ]
+      },
+      {
+        "tool": "tasks.retrieve-video-indexing",
+        "summary": "This method retrieves a video indexing task. Required: task_id. Returns the TasksRetrieveVideoIndexingResponse.",
+        "params_schema": {
+          "task_id": "string"
+        },
+        "positionals": [
+          "task_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "retrieve-video-indexing"
+        ]
+      },
+      {
+        "tool": "video.search_any-to",
+        "summary": "Use this endpoint to search for relevant matches in an index using text, media, or a combination of both as your query. **Text queries**: - Use the `query_text` parameter to specify your query. **Media queries**: - Set the `query_media_type` parameter to the corresponding media type (example: `image`). - Specify either one of the following parameters: - `query_media_url`: Publicly accessible URL of your media file. - `query_media_file`: Local media file. If both `query_media_url` and `query_media_file` are specified in the same request, `query_media_url` takes precedence. **Composed text and media queries** (Marengo 3.0 only): - Use the `query_text` parameter for your text query. - Set `query_media_type` to `image`. - Specify the image using either the `query_media_url` or the `query_media_file` parameter. Example: Provide an image of a car and include 'red color' in your query to find red instances of that car model. **Entity search** (Marengo 3.0 only and in beta): - To find a specific person in your videos, enclose the unique identifier of the entity you want to find in the `query_text` parameter. <Note title='Notes'> - When using images in your search queries (either as media queries or in composed searches), ensure your image files meet the [requirements](/v1.3/docs/concepts/models/marengo#image-file-requirements). - This endpoint is rate-limited. For details, see the [Rate limits](/v1.3/docs/get-started/rate-limits) page. </Note>. Required: index_id, search_options. Optional: adjust_confidence_level (default: 0.5), filter, group_by (default: clip) (plus 10 more). Returns array of SearchItem.",
+        "params_schema": {
+          "adjust_confidence_level": "float?",
+          "filter": "string?",
+          "group_by": "string?",
+          "include_user_metadata": "bool?",
+          "index_id": "string?",
+          "operator": "string?",
+          "page_limit": "int?",
+          "query_media_file": "string?",
+          "query_media_type": "string?",
+          "query_media_url": "string?",
+          "query_text": "string?",
+          "search_options": "array?",
+          "sort_option": "string?",
+          "threshold": "string?",
+          "transcription_options": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "video",
+          "search_any-to"
+        ]
+      },
+      {
+        "tool": "video.search_any-to-video-retrieve-specific-page",
+        "summary": "Use this endpoint to retrieve a specific page of search results. <Note title='Note'> When you use pagination, you will not be charged for retrieving subsequent pages of results. </Note>. Required: page-token. Optional: include_user_metadata. Returns the VideoSearchAnyToVideoRetrieveSpecificPageResponse.",
+        "params_schema": {
+          "page-token": "string",
+          "include_user_metadata": "bool?"
+        },
+        "positionals": [
+          "page-token"
+        ],
+        "argv_path": [
+          "video",
+          "search_any-to-video-retrieve-specific-page"
+        ]
+      }
+    ]
+  },
+  {
     "api": "twilio",
     "description": "Every Twilio Core feature, plus offline message and call history, FTS, and SQL-grade analytics no other Twilio tool...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/social-and-messaging/twilio/cmd/twilio-pp-cli",
@@ -157073,6 +158057,38 @@
         "argv_path": [
           "webhooks",
           "validate"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "xero",
+    "description": "Fixture-first, read-only Xero CLI for agents.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/accounting/xero/cmd/xero-pp-cli",
+    "auth_type": "none",
+    "category": "accounting",
+    "search_terms": [
+      "xero",
+      "xero-pp-cli",
+      "Fixture-first, read-only Xero CLI for agents.",
+      "Fixture-only read surface",
+      "xero-pp-cli status",
+      "Reports read-only, no-live-OAuth safety status for agent use.",
+      "Local JSON fixture reads",
+      "xero-pp-cli accounts list --fixture testdata/fixtures/xero/accounts.json",
+      "Reads deterministic local accounting fixtures without credentials or network access.",
+      "Report fixture reads",
+      "xero-pp-cli reports trial-balance --fixture testdata/fixtures/xero/trial_balance.json",
+      "Exposes accounting report fixtures as JSON envelopes for agent workflows."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Fixture-first, read-only Xero CLI for agents. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
         ]
       }
     ]
