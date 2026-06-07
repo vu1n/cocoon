@@ -54373,6 +54373,39 @@
     ]
   },
   {
+    "api": "foxnews",
+    "description": "Fox News headlines from Google Publisher RSS feeds on moxie.foxnews.com \u2014 section-selectable, no API key.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/foxnews/cmd/foxnews-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "foxnews",
+      "Fox News",
+      "foxnews-pp-cli",
+      "Fox News headlines from Google Publisher RSS feeds on moxie.foxnews.com \u2014 section-selectable, no API key.",
+      "Section headlines",
+      "headlines",
+      "Fetch headlines from a Fox News RSS section (latest, world, politics, science, health, sports, travel, tech, opinion, video); defaults to latest.",
+      "List sections",
+      "sections",
+      "List available RSS section ids and feed paths for agents choosing a topic.",
+      "Agent context",
+      "agent-context",
+      "Emit structured JSON describing commands, RSS sections, default_section latest, and Drudge commands not available on this CLI."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Fox News headlines from Google Publisher RSS feeds on moxie.foxnews.com \u2014 section-selectable, no API key. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "freshservice",
     "description": "Every Freshservice operation in one Go binary \u2014 with offline search, SLA intelligence, and agent-native JSON that...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/freshservice/cmd/freshservice-pp-cli",
@@ -55486,6 +55519,204 @@
         "positionals": [],
         "argv_path": [
           "workspaces"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "function-health",
+    "description": "Every Function Health feature, plus a local SQLite store with biomarker trends across every round you've ever drawn",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/function-health/cmd/function-health-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "other",
+    "search_terms": [
+      "function-health",
+      "Function Health",
+      "function-health-pp-cli",
+      "Every Function Health feature, plus a local SQLite store with biomarker trends across every round you've ever drawn, plus a branded shareable PDF your doctor will actually read.",
+      "Branded doctor PDF",
+      "export pdf-for-doctor",
+      "Render a Function-branded multi-round lab report PDF with your name and date of birth, suitable for emailing to your personal physician.",
+      "Biomarker trend across all rounds",
+      "biomarker trend",
+      "Every value of a biomarker across every round you've ever drawn, with the delta from Function's optimal range, an ASCII sparkline in the terminal, and structured JSON for agents.",
+      "Drift-toward-optimal goat",
+      "goat",
+      "Ranks every biomarker by distance-from-optimal multiplied by its slope-away-from-optimal across the last 3 rounds; returns the single most worrying biomarker right now with reasoning fields.",
+      "Trending-worse cohort",
+      "biomarkers trending",
+      "Lists every biomarker whose slope across the last N rounds points away from Function's optimal range, sorted by magnitude.",
+      "Category-level health-score timeline",
+      "category trend",
+      "For one of the ~13 categories, returns a per-round aggregate score (percent of biomarkers inside Function's optimal range) over time.",
+      "Oscillation detector",
+      "biomarkers oscillating",
+      "Biomarkers that crossed the optimal-range boundary at least twice in the last N rounds \u2014 flags instability separate from trend.",
+      "LLM-ready bundle composer",
+      "bundle",
+      "Composes a single Markdown file with a biomarker's full history, every clinician note mentioning it (FTS5), Function's optimal range, and relevant recommendations \u2014 ready to paste into Claude or ChatGPT.",
+      "Recommendation resolution tracker",
+      "recommendations stale",
+      "Recommendations (supplements / foods) whose target biomarker is STILL outside Function's optimal range, joined by Quest code. The /recommendations endpoint has no issued-date, so staleness is by outcome not age; --min-rounds tightens to persistence and --group (supplements, foods_to_eat, foods_to_avoid) focuses a large set."
+    ],
+    "endpoints": [
+      {
+        "tool": "biological.age_bio_age",
+        "summary": "Your biological age vs. chronological age. 404 if not yet calculated.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "biological",
+          "age_bio_age"
+        ]
+      },
+      {
+        "tool": "biological.age_bmi",
+        "summary": "BMI with the weight and height inputs Function recorded.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "biological",
+          "age_bmi"
+        ]
+      },
+      {
+        "tool": "biomarkers.get",
+        "summary": "Get one biomarker's full result history across every round you've drawn, with values, units, status, and ranges. Required: biomarker_id.",
+        "params_schema": {
+          "biomarker_id": "string"
+        },
+        "positionals": [
+          "biomarker_id"
+        ],
+        "argv_path": [
+          "biomarkers"
+        ]
+      },
+      {
+        "tool": "biomarkers.list",
+        "summary": "List every biomarker the platform knows about (across all categories).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "biomarkers",
+          "list"
+        ]
+      },
+      {
+        "tool": "categories.list",
+        "summary": "List every biomarker category with the biomarkers nested under it.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "notes.list",
+        "summary": "List all clinician notes (annotations on biomarkers / rounds).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "notes"
+        ]
+      },
+      {
+        "tool": "notifications.list",
+        "summary": "List notifications about result changes for the authenticated Function Health member \u2014 new biomarker results landing, direction changes (improving/worsening), and round-completion events. Takes no parameters. Returns an array of notification objects with id, type, biomarker reference (when applicable), createdAt, and read/unread status. Use this to detect what's new since the last sync rather than re-reading every result.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "notifications"
+        ]
+      },
+      {
+        "tool": "recommendations.list",
+        "summary": "Per-category health guidance. May 404 if Function hasn't computed any yet.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "recommendations"
+        ]
+      },
+      {
+        "tool": "requisitions.completed",
+        "summary": "Completed requisitions (your past test rounds, keyed by requisitionId). Required: pending (default: false).",
+        "params_schema": {
+          "pending": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "requisitions",
+          "completed"
+        ]
+      },
+      {
+        "tool": "requisitions.pending",
+        "summary": "Currently in-progress requisitions (lab orders awaiting completion). Required: pending (default: true).",
+        "params_schema": {
+          "pending": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "requisitions",
+          "pending"
+        ]
+      },
+      {
+        "tool": "results.list",
+        "summary": "Raw requisition / PDF result data (less useful for queries; see results-report for structured values).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "results"
+        ]
+      },
+      {
+        "tool": "results.report",
+        "summary": "The structured lab-results report \u2014 every biomarker, every round, with value, unit, status, Quest reference range, and Function's optimal range. The headline endpoint for sync.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "results",
+          "report"
+        ]
+      },
+      {
+        "tool": "schedules.list",
+        "summary": "List upcoming scheduled lab-draw appointments the authenticated Function Health member has booked but not yet completed. Takes no parameters. Returns an array of schedule objects with id, scheduledFor timestamp, location, and visit type. Use this to surface what's on the calendar; for completed draws see visits_list or requisitions_list.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "schedules"
+        ]
+      },
+      {
+        "tool": "user.get",
+        "summary": "Get the authenticated member profile. Used by doctor for reachability + auth check.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "user"
+        ]
+      },
+      {
+        "tool": "visits.list",
+        "summary": "List every visit (draw event) \u2014 useful when a round has multiple draws.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "visits"
+        ]
+      },
+      {
+        "tool": "wearables.supported_apps",
+        "summary": "List the wearable apps Function currently supports for integration.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "wearables",
+          "supported_apps"
         ]
       }
     ]
@@ -148693,6 +148924,128 @@
     ]
   },
   {
+    "api": "tripadvisor",
+    "description": "Every Tripadvisor Content API endpoint",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/tripadvisor/cmd/tripadvisor-pp-cli",
+    "auth_type": "api_key",
+    "category": "travel",
+    "search_terms": [
+      "tripadvisor",
+      "tripadvisor-pp-cli",
+      "Every Tripadvisor Content API endpoint, plus a local store and ranked compare/best/drift commands no other Tripadvisor tool has.",
+      "Ranked best-of search",
+      "best",
+      "Search a place type, auto-fetch details for the top hits, and return them ranked by rating, review count, or Tripadvisor ranking in one table.",
+      "Side-by-side compare",
+      "compare",
+      "Pull details (and subratings + trip-type mix) for 2-5 location IDs and emit one structured comparison table.",
+      "Geo-ranked shortlist",
+      "nearby-best",
+      "From a lat/long, find nearby places, batch-fetch details up to a scan cap, filter by category and minimum rating, return the top K.",
+      "Rating drift",
+      "drift",
+      "Compare a location's stored rating/review-count snapshot against a fresh fetch and report the delta, flagging drops past a threshold.",
+      "Location digest",
+      "digest",
+      "One location ID to a single agent-friendly payload combining details, top reviews (user-generated), and photo URLs.",
+      "Traveler fit ranking",
+      "fit",
+      "Rank search results by how well their trip-type mix matches a declared traveler profile (families, couples, solo, business)."
+    ],
+    "endpoints": [
+      {
+        "tool": "find.search",
+        "summary": "Search locations by name. Returns location_id + name + address you can pass to show/reviews/photos. Required: query. Optional: category, lat-long, radius (plus 4 more).",
+        "params_schema": {
+          "query": "string",
+          "category": "string?",
+          "lat-long": "string?",
+          "radius": "string?",
+          "radius-unit": "string?",
+          "address": "string?",
+          "phone": "string?",
+          "language": "string?"
+        },
+        "positionals": [
+          "query"
+        ],
+        "argv_path": [
+          "find",
+          "search"
+        ]
+      },
+      {
+        "tool": "near.search",
+        "summary": "Find locations near 'lat,long'. Returns location_id + name + address. Required: lat-long. Optional: category, radius, radius-unit (plus 3 more).",
+        "params_schema": {
+          "lat-long": "string",
+          "category": "string?",
+          "radius": "string?",
+          "radius-unit": "string?",
+          "address": "string?",
+          "phone": "string?",
+          "language": "string?"
+        },
+        "positionals": [
+          "lat-long"
+        ],
+        "argv_path": [
+          "near",
+          "search"
+        ]
+      },
+      {
+        "tool": "photos.list",
+        "summary": "Photos for a location_id with thumbnail/medium/large/original URLs. Content API caps at 5. Required: location-id. Optional: limit (default: 5), offset, source (plus 1 more). Returns array of Photo.",
+        "params_schema": {
+          "location-id": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "source": "string?",
+          "language": "string?"
+        },
+        "positionals": [
+          "location-id"
+        ],
+        "argv_path": [
+          "photos"
+        ]
+      },
+      {
+        "tool": "reviews.list",
+        "summary": "Recent reviews for a location_id. Review text is user-generated content; the free Content API caps this at 5 most-recent reviews. Required: location-id. Optional: limit (default: 5), offset, language (default: en). Returns array of Review.",
+        "params_schema": {
+          "location-id": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "language": "string?"
+        },
+        "positionals": [
+          "location-id"
+        ],
+        "argv_path": [
+          "reviews"
+        ]
+      },
+      {
+        "tool": "show.details",
+        "summary": "Full details for one location_id. Leads with rating, num_reviews, and ranking so agents can compare options. Required: location-id. Optional: language (default: en), currency (default: USD). Returns the LocationDetails.",
+        "params_schema": {
+          "location-id": "string",
+          "language": "string?",
+          "currency": "string?"
+        },
+        "positionals": [
+          "location-id"
+        ],
+        "argv_path": [
+          "show",
+          "details"
+        ]
+      }
+    ]
+  },
+  {
     "api": "trustpilot",
     "description": "Every Trustpilot review surface, plus the local SQLite database and balanced good-and-bad agent bundle no other...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/trustpilot/cmd/trustpilot-pp-cli",
@@ -154313,6 +154666,55 @@
         "argv_path": [
           "files",
           "search"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "uk-train-goat",
+    "description": "The only Go-native, agent-native, MCP-exposed UK rail CLI; live boards, journey planning",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/uk-train-goat/cmd/uk-train-goat-pp-cli",
+    "auth_type": "api_key",
+    "category": "travel",
+    "search_terms": [
+      "uk-train-goat",
+      "UK Train Goat",
+      "uk-train-goat-pp-cli",
+      "The only Go-native, agent-native, MCP-exposed UK rail CLI; live boards, journey planning, and a local SQLite store that remembers your commute.",
+      "Saved-commute one-shot",
+      "go",
+      "Run a saved commute in one keystroke; resolves origin, destination, and time-window from the local store.",
+      "Offline station search",
+      "stations",
+      "FTS5 search over the local UK CRS code table; resolves Paddington -> PAD with no network call.",
+      "Saved-routes morning status",
+      "saved status",
+      "Fans out across every saved route and prints a single ranked status table for all your commutes.",
+      "Service delay-reason briefing",
+      "why",
+      "Combines GetServiceDetails delay/cancel reasons with adjacent operator alerts into one screen explaining what is going wrong with one service.",
+      "Disruption-aware journey ranking",
+      "journey",
+      "Ranks A->B options by combined scheduled-time, current delay, and platform-known signal so on-time-but-later beats earlier-but-late.",
+      "Recent-journey replay",
+      "recent",
+      "Re-runs your recent A->B searches with fresh live data, side-by-side, so iterative trip planning is one keystroke per refresh.",
+      "Multi-origin board fan-out",
+      "board",
+      "Accept a comma-separated list of CRS codes and merge departures across all of them into one ranked time-ordered list.",
+      "Eval-grader 9th quality gate",
+      "eval",
+      "Programmatic eval grader that scores an LLM agent against a fixture suite of natural-language UK-rail prompts; 80% pass-rate threshold blocks ship."
+    ],
+    "endpoints": [
+      {
+        "tool": "status.ping",
+        "summary": "Placeholder; deleted post-generate. Real CLI commands live in internal/cli/board.go etc. Returns the PlaceholderResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "status",
+          "ping"
         ]
       }
     ]
