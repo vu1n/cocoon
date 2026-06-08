@@ -101376,6 +101376,77 @@
     ]
   },
   {
+    "api": "roadside-america",
+    "description": "Every offbeat roadside attraction on RoadsideAmerica.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/roadside-america/cmd/roadside-america-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "roadside-america",
+      "Roadside America",
+      "roadside-america-pp-cli",
+      "Every offbeat roadside attraction on RoadsideAmerica.com \u2014 with a local SQLite cache, offline search, and superlative categories no other tool offers.",
+      "Superlative & keyword categories",
+      "category",
+      "Find the biggest, smallest, tallest, or weird-food attractions (and more) by classifying cached attractions locally.",
+      "Quirk leaderboard / rollups",
+      "stats",
+      "Summarize the local cache: counts by state and by category, plus totals.",
+      "Surprise-me",
+      "random",
+      "Pick a random offbeat attraction, optionally constrained by state or category.",
+      "Road-trip stops",
+      "trip",
+      "Collect quirky stops near a list of cities or coordinates in one call, deduped and labeled by stop.",
+      "State quirk comparison",
+      "compare",
+      "Compare two states by offbeat-attraction count and surface a few top picks from each."
+    ],
+    "endpoints": [
+      {
+        "tool": "raw.by-state",
+        "summary": "Raw attraction links for a US/Canada state (HTML fragment). Required: state.",
+        "params_schema": {
+          "state": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "raw",
+          "by-state"
+        ]
+      },
+      {
+        "tool": "raw.detail",
+        "summary": "Raw attraction detail page (HTML). Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "raw",
+          "detail"
+        ]
+      },
+      {
+        "tool": "raw.nearby",
+        "summary": "Raw nearby attraction links for coordinates (HTML fragment). Required: long, lat. Optional: delta (default: 0.5), id (default: 0).",
+        "params_schema": {
+          "long": "float?",
+          "lat": "float?",
+          "delta": "float?",
+          "id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "raw",
+          "nearby"
+        ]
+      }
+    ]
+  },
+  {
     "api": "roam",
     "description": "Every Roam HQ surface \u2014 chat, transcripts, On-Air events, SCIM, webhooks \u2014 in one local-first CLI with offline...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/roam/cmd/roam-pp-cli",
@@ -155993,6 +156064,32 @@
       "X (Twitter)",
       "x-twitter-pp-cli",
       "The only X CLI with an offline, searchable local mirror \u2014 full-text search and analytics over your archived posts without re-spending per-read API credits \u2014 plus a full-surface MCP server and honest tier/reachability diagnostics.",
+      "Post URL resolver",
+      "post resolve",
+      "Normalize any X post URL or raw post ID into a canonical structured post record with provenance, author context, metrics, local-state reuse, and suggested next workflow commands.",
+      "Conversation context resolver",
+      "thread context",
+      "Resolve a post URL or ID, include parent and quote context when available, and optionally pull bounded replies from local store or recent search.",
+      "Durable post collections",
+      "collection save/list/export",
+      "Save resolved X posts into local named collections, list saved source material, and export it as markdown, JSON, JSONL, or CSV.",
+      "Watermarked X monitors",
+      "monitor create/run/list",
+      "Create named query, URL, or account monitors, run them with local watermarks and dedupe, and reuse saved results for later briefing.",
+      "Source-backed X briefs",
+      "brief",
+      "Package monitor results, collections, or explicit posts into deterministic JSON or markdown briefs with source links and metrics.",
+      "Account snapshots",
+      "account snapshot",
+      "Capture profile basics, public metrics, pinned post, and recent posts for an account by username or user ID.",
+      "URL mention tracking",
+      "url mentions",
+      "Find recent posts mentioning a URL, domain, repo, article, or product page and optionally save them into a collection or monitor.",
+      "Post performance tracking",
+      "performance snapshot/backfill/analyze",
+      "Store timestamped post metrics locally, backfill recent account posts when auth allows, and analyze saved snapshots by useful dimensions.",
+      "Timeline export",
+      "Export an account or query timeline as markdown, JSON, or JSONL for research, notes, archives, or downstream analysis.",
       "Offline thread reconstruction",
       "thread show",
       "Rebuild a full conversation thread from your locally synced posts \u2014 ordered and depth-tagged \u2014 without re-spending API read credits.",
