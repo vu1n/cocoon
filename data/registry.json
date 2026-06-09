@@ -1,5 +1,96 @@
 [
   {
+    "api": "1password",
+    "description": "Agent-safe command layer over the official 1Password CLI and SDK service-account workflows.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/auth/1password/cmd/1password-pp-cli",
+    "auth_type": "none",
+    "category": "auth",
+    "search_terms": [
+      "1password",
+      "1Password Agent Secrets",
+      "1password-pp-cli",
+      "Agent-safe command layer over the official 1Password CLI and SDK service-account workflows.",
+      "Fuzzy-to-exact secret resolver",
+      "secrets resolve",
+      "Resolve fuzzy agent requests to exact op:// vault/item/field references without printing values.",
+      "Exact-reference secret read",
+      "secrets read",
+      "Read only an exact op:// reference, with policy checks and an explicit --reveal gate before values are printed.",
+      "Secret selection explanation",
+      "secrets explain",
+      "Explain why a particular item and field was selected for a task without revealing the field value.",
+      "Secret access preflight",
+      "secrets preflight",
+      "Check whether a planned task or command appears to require secret values, documents, cards, or write permissions.",
+      "Environment reference planner",
+      "env plan",
+      "Parse .env, config, or shell files for missing variables and map them to safe op:// references.",
+      "Explicit environment injector",
+      "env inject",
+      "Wrap op inject with a redacted plan first and require --write before producing an output file.",
+      "Item category classifier",
+      "items classify",
+      "Find secure notes that look like API credentials, logins, SSH keys, cards, or documents.",
+      "Duplicate item detector",
+      "items duplicates",
+      "Detect duplicate titles, URLs, usernames, and likely copied credentials across vaults without printing secret values.",
+      "Item ownership audit",
+      "items ownership",
+      "Flag shared or service credentials missing owner, purpose, rotation, or environment tags.",
+      "Credit-card metadata audit",
+      "cards audit",
+      "Find cards stored as notes or logins, missing owner/purpose tags, or CVV-like fields without printing card values.",
+      "Card field resolver",
+      "cards resolve",
+      "Return card item and field references without printing card numbers, expiry values, or CVVs.",
+      "Document metadata inventory",
+      "documents inventory",
+      "List document metadata and exact references without downloading document contents.",
+      "Document metadata audit",
+      "documents audit",
+      "Flag sensitive filenames, oversized docs, private-key/cert-like documents, and documents in shared vaults.",
+      "Share safety preflight",
+      "share preflight",
+      "Before sharing an item, show recipient, item category, included fields, expiry, and risk.",
+      "Share support audit",
+      "share audit",
+      "Report whether existing/shareable item link inspection is supported by op or the SDK and document unsupported status clearly.",
+      "Agent policy checker",
+      "policy check",
+      "Enforce rules such as never reading credit-card values, exact refs for production, and required owner tags.",
+      "Service-account access scope",
+      "access scope",
+      "Summarize what the current service account or op session can access by vault, category, and count without values.",
+      "Service-account rate-limit status",
+      "rate-limit status",
+      "Wrap op service-account ratelimit so agents can avoid burning quota.",
+      "Minimum grant planner",
+      "agent grant-plan",
+      "Suggest the minimum service-account vault permissions needed for a task.",
+      "op run reference planner",
+      "run plan",
+      "Inspect an op run command or env files and show which secret references will resolve before executing.",
+      "Stale metadata audit",
+      "audit stale",
+      "Flag items that appear old, untagged, duplicated, or probably unused from metadata.",
+      "Misplaced item audit",
+      "audit misplaced",
+      "Find API keys, cards, documents, or SSH material saved in the wrong 1Password category."
+    ],
+    "endpoints": [
+      {
+        "tool": "op.status",
+        "summary": "Show whether op is installed and authenticated without reading secret values. Returns the OpStatus.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "op",
+          "status"
+        ]
+      }
+    ]
+  },
+  {
     "api": "adguard-home",
     "description": "AdGuard Home REST-ish API. Our admin web interface is built on top of this REST-ish API.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/monitoring/adguard-home/cmd/adguard-home-pp-cli",
@@ -86656,6 +86747,52 @@
     ]
   },
   {
+    "api": "openart",
+    "description": "Generate videos and images on OpenArt from the terminal. Spend your existing OpenArt credits across Seedance, Kling,...",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/openart/cmd/openart-pp-cli",
+    "auth_type": "cookie",
+    "category": "ai",
+    "search_terms": [
+      "openart",
+      "openart-pp-cli",
+      "Generate videos and images on OpenArt from the terminal. Spend your existing OpenArt credits across Seedance, Kling, Veo, Wan, Grok Imagine and more.",
+      "Image generation",
+      "image gen",
+      "Submit + poll + download images in one command (Nano Banana verified; GPT Image 2, FLUX 2 Pro, Seedream, Imagen 4, Qwen Image gated as --accept-experimental).",
+      "Disable Seedance audio",
+      "video gen",
+      "--no-audio flag turns off Seedance's auto-generated audio track. Workaround for OutputAudioSensitiveContentDetected moderation failures; halves the cost on Seedance 2.0 normal mode.",
+      "Cost preview before submit",
+      "cost estimate",
+      "Project the credit cost of a generation before you spend.",
+      "Credit burn breakdown",
+      "credits burn",
+      "Aggregate credit spend by model, tool, day, or project.",
+      "Credit runway forecast",
+      "credits forecast",
+      "Project how many weeks of runway your current balance gives at recent burn.",
+      "Cheapest-model lookup",
+      "models cheapest",
+      "Find the cheapest model that satisfies a target shape (type/duration/resolution/features).",
+      "Cross-model fan-out compare",
+      "compare",
+      "Run one prompt across multiple models in parallel; return a side-by-side report with cost and URLs.",
+      "Replay a past generation",
+      "prompts replay",
+      "Re-run a past generation, optionally on a different model, with parameter bumps.",
+      "Prompt FTS recovery search",
+      "prompts find",
+      "Full-text search prior generations by prompt text with OpenArt-specific filters (model, audio, duration, starred, since).",
+      "Prompt spend leaderboard",
+      "prompts top",
+      "Rank past prompts by total credit spend over a window.",
+      "Library stats blob",
+      "stats",
+      "One-shot stats over the local media library: counts per type/model/period and rolling spend."
+    ],
+    "endpoints": []
+  },
+  {
     "api": "openfda",
     "description": "The FDA safety data terminal. Every drug adverse event, device recall, food contamination, and product label the FDA...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/openfda/cmd/openfda-pp-cli",
@@ -158556,6 +158693,700 @@
         "argv_path": [
           "webhooks",
           "validate"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "xai",
+    "description": "REST API for xAI compatible with other providers.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/xai/cmd/xai-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "ai",
+    "search_terms": [
+      "xai",
+      "xai-pp-cli",
+      "REST API for xAI compatible with other providers.",
+      "Model picker",
+      "model-picker",
+      "Rank live xAI models for a task using the authenticated model catalog.",
+      "Cost preview",
+      "cost-preview",
+      "Estimate xAI token cost from live model pricing metadata before sending a request.",
+      "Model capability matrix",
+      "model-capabilities",
+      "Build a live capability matrix across chat, reasoning, vision, embedding, image, and video models.",
+      "Smoke chat",
+      "smoke-chat",
+      "Verify that the authenticated key can run a tiny xAI chat completion.",
+      "Credential capability audit",
+      "api-key",
+      "Inspect the authenticated xAI API key status and permissions without exposing the secret value.",
+      "Agent raw endpoint browser",
+      "api",
+      "Browse the complete generated xAI endpoint surface by interface for agent planning and fallback calls."
+    ],
+    "endpoints": [
+      {
+        "tool": "api-key.handle-get-info-request",
+        "summary": "Get information about an API key, including name, status, permissions and users who created or modified this key. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "api-key",
+          "handle-get-info-request"
+        ]
+      },
+      {
+        "tool": "chat.handle-generic-completion-request",
+        "summary": "Create a chat response from text/image chat prompts. This is the endpoint for making requests to chat and image understanding models. Optional: deferred (default: false), frequency_penalty (default: 0), logit_bias (plus 23 more). Returns the new ChatResponse.",
+        "params_schema": {
+          "deferred": "bool?",
+          "frequency_penalty": "float?",
+          "logit_bias": "object?",
+          "logprobs": "bool?",
+          "max_completion_tokens": "int?",
+          "max_tokens": "int?",
+          "messages": "array?",
+          "model": "string?",
+          "n": "int?",
+          "parallel_tool_calls": "bool?",
+          "presence_penalty": "float?",
+          "reasoning_effort": "string?",
+          "response_format": "string?",
+          "search_parameters": "string?",
+          "seed": "int?",
+          "service_tier": "string?",
+          "stop": "string_csv_array?",
+          "stream": "bool?",
+          "stream_options": "string?",
+          "temperature": "float?",
+          "tool_choice": "string?",
+          "tools": "array?",
+          "top_logprobs": "int?",
+          "top_p": "float?",
+          "user": "string?",
+          "web_search_options": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat",
+          "handle-generic-completion-request"
+        ]
+      },
+      {
+        "tool": "chat.handle-get-deferred-completion-request",
+        "summary": "Tries to fetch a result for a previously-started deferred completion. Returns `200 Success` with the response body, if the request has been completed. Returns `202 Accepted` when the request is pending processing. Required: request_id.",
+        "params_schema": {
+          "request_id": "string"
+        },
+        "positionals": [
+          "request_id"
+        ],
+        "argv_path": [
+          "chat",
+          "handle-get-deferred-completion-request"
+        ]
+      },
+      {
+        "tool": "complete.handle-generic-request",
+        "summary": "(Legacy - Not supported by reasoning models) Create a text completion response. This endpoint is compatible with the Anthropic API. Optional: max_tokens_to_sample, metadata, model (plus 6 more). Returns the new CompleteResponse.",
+        "params_schema": {
+          "max_tokens_to_sample": "int?",
+          "metadata": "string?",
+          "model": "string?",
+          "prompt": "string?",
+          "stop_sequences": "string_csv_array?",
+          "stream": "bool?",
+          "temperature": "float?",
+          "top_k": "int?",
+          "top_p": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "complete",
+          "handle-generic-request"
+        ]
+      },
+      {
+        "tool": "completions.handle-sample-request",
+        "summary": "(Legacy - Not supported by reasoning models) Create a text completion response for a given prompt. Replaced by /v1/chat/completions. Optional: best_of, echo, frequency_penalty (plus 15 more). Returns array of SampleChoice.",
+        "params_schema": {
+          "best_of": "int?",
+          "echo": "bool?",
+          "frequency_penalty": "float?",
+          "logit_bias": "object?",
+          "logprobs": "bool?",
+          "max_tokens": "int?",
+          "model": "string?",
+          "n": "int?",
+          "presence_penalty": "float?",
+          "prompt": "string?",
+          "seed": "int?",
+          "stop": "string_csv_array?",
+          "stream": "bool?",
+          "stream_options": "string?",
+          "suffix": "string?",
+          "temperature": "float?",
+          "top_p": "float?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "completions",
+          "handle-sample-request"
+        ]
+      },
+      {
+        "tool": "documents.handle-search-request-v2",
+        "summary": "Search for content related to the query within the given collections. Required: query, source. Optional: filter, group_by, instructions (plus 3 more). Returns array of SearchMatch.",
+        "params_schema": {
+          "filter": "string?",
+          "group_by": "string?",
+          "instructions": "string?",
+          "limit": "int?",
+          "query": "string?",
+          "ranking_metric": "string?",
+          "retrieval_mode": "string?",
+          "source-collection-ids": "string_csv_array?",
+          "source-rag-pipeline": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "handle-search-request-v2"
+        ]
+      },
+      {
+        "tool": "embedding-models.handle-get-request",
+        "summary": "Get full information about an embedding model with its model_id. Required: model_id. Returns the EmbeddingModel.",
+        "params_schema": {
+          "model_id": "string"
+        },
+        "positionals": [
+          "model_id"
+        ],
+        "argv_path": [
+          "embedding-models",
+          "handle-get-request"
+        ]
+      },
+      {
+        "tool": "embedding-models.handle-list-request",
+        "summary": "List all embedding models available to the authenticating API key with full information. Additional information compared to /v1/models includes modalities, fingerprint and alias(es). Returns array of EmbeddingModel.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "embedding-models",
+          "handle-list-request"
+        ]
+      },
+      {
+        "tool": "embeddings.handle-request",
+        "summary": "Create an embedding vector representation corresponding to the input text. This is the endpoint for making requests to embedding models. Optional: dimensions, encoding_format, input (plus 3 more). Returns array of Embedding.",
+        "params_schema": {
+          "dimensions": "int?",
+          "encoding_format": "string?",
+          "input": "string?",
+          "model": "string?",
+          "preview": "bool?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "embeddings",
+          "handle-request"
+        ]
+      },
+      {
+        "tool": "files.handle-delete-request",
+        "summary": "Delete a file by ID. After this returns, the file no longer appears in `GET /v1/files`, content download returns 404, and the ID can no longer be referenced in chat attachments. Required: file_id. Destructive.",
+        "params_schema": {
+          "file_id": "string"
+        },
+        "positionals": [
+          "file_id"
+        ],
+        "argv_path": [
+          "files",
+          "handle-delete-request"
+        ]
+      },
+      {
+        "tool": "files.handle-list-request",
+        "summary": "List files owned by the authenticated team, paginated. The response always returns a `pagination_token`; pass it back as a query parameter to fetch the next page. The end of the list is reached when the returned `data` array is shorter than `limit`. Optional: limit, order, sort_by (plus 3 more).",
+        "params_schema": {
+          "limit": "int?",
+          "order": "string?",
+          "sort_by": "string?",
+          "pagination_token": "string?",
+          "after": "string?",
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "handle-list-request"
+        ]
+      },
+      {
+        "tool": "files.handle-retrieve-request",
+        "summary": "Retrieve metadata for a single file by ID. Errors with 404 if the file doesn't exist, has been deleted, or has passed its `expires_at`. Required: file_id. Returns the File.",
+        "params_schema": {
+          "file_id": "string"
+        },
+        "positionals": [
+          "file_id"
+        ],
+        "argv_path": [
+          "files",
+          "handle-retrieve-request"
+        ]
+      },
+      {
+        "tool": "files.handle-upload-request",
+        "summary": "Upload a file to xAI's storage. Returns the file's metadata. Files can be referenced by ID anywhere a `file_id` is accepted (e.g. chat attachments). Maximum file size: 50 MB. Files are kept until you delete them, or until `expires_after` elapses if set at upload time. Required: file. Optional: expires_after, purpose.",
+        "params_schema": {
+          "expires_after": "int?",
+          "file": "string?",
+          "purpose": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "handle-upload-request"
+        ]
+      },
+      {
+        "tool": "files.content_handle-download-file-request",
+        "summary": "Download the contents of a file as a stream of raw bytes. The response `Content-Type` is `application/octet-stream`. Use this for the binary payload; use `GET /v1/files/{file_id}` for metadata only. Required: file_id. Optional: format.",
+        "params_schema": {
+          "file_id": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "file_id"
+        ],
+        "argv_path": [
+          "files",
+          "content_handle-download-file-request"
+        ]
+      },
+      {
+        "tool": "image-generation-models.handle-get-request",
+        "summary": "Get full information about an image generation model with its model_id. Required: model_id. Returns the ImageGenerationModel.",
+        "params_schema": {
+          "model_id": "string"
+        },
+        "positionals": [
+          "model_id"
+        ],
+        "argv_path": [
+          "image-generation-models",
+          "handle-get-request"
+        ]
+      },
+      {
+        "tool": "image-generation-models.handle-list-request",
+        "summary": "List all image generation models available to the authenticating API key with full information. Additional information compared to /v1/models includes modalities, fingerprint and alias(es). Returns array of ImageGenerationModel.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "image-generation-models",
+          "handle-list-request"
+        ]
+      },
+      {
+        "tool": "images.handle-edit-request",
+        "summary": "Edit an image based on a prompt. This is the endpoint for making edit requests to image generation models. Required: prompt. Optional: aspect_ratio, image, images (plus 6 more). Returns array of GeneratedImage.",
+        "params_schema": {
+          "aspect_ratio": "string?",
+          "image": "string?",
+          "images": "array?",
+          "model": "string?",
+          "n": "int?",
+          "prompt": "string?",
+          "resolution": "string?",
+          "response_format": "string?",
+          "service_tier": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "images",
+          "handle-edit-request"
+        ]
+      },
+      {
+        "tool": "images.handle-generate-request",
+        "summary": "Generate an image based on a prompt. This is the endpoint for making generation requests to image generation models. Optional: aspect_ratio, model, n (default: 1) (plus 5 more). Returns array of GeneratedImage.",
+        "params_schema": {
+          "aspect_ratio": "string?",
+          "model": "string?",
+          "n": "int?",
+          "prompt": "string?",
+          "resolution": "string?",
+          "response_format": "string?",
+          "service_tier": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "images",
+          "handle-generate-request"
+        ]
+      },
+      {
+        "tool": "language-models.handle-get-request",
+        "summary": "Get full information about a chat or image understanding model with its model_id. Required: model_id. Returns the LanguageModel.",
+        "params_schema": {
+          "model_id": "string"
+        },
+        "positionals": [
+          "model_id"
+        ],
+        "argv_path": [
+          "language-models",
+          "handle-get-request"
+        ]
+      },
+      {
+        "tool": "language-models.handle-list-request",
+        "summary": "List all chat and image understanding models available to the authenticating API key with full information. Additional information compared to /v1/models includes modalities, fingerprint and alias(es). Returns array of LanguageModel.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "language-models",
+          "handle-list-request"
+        ]
+      },
+      {
+        "tool": "me.handle-get-request",
+        "summary": "Get information about the currently authenticated caller. Works with both API keys and OAuth tokens. Returns identity, team, and ZDR status.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "handle-get-request"
+        ]
+      },
+      {
+        "tool": "messages.handle-generic-request",
+        "summary": "Create a messages response. This endpoint is compatible with the Anthropic API. Optional: max_tokens, messages, metadata (plus 9 more). Returns array of MessageResponseContent.",
+        "params_schema": {
+          "max_tokens": "int?",
+          "messages": "array?",
+          "metadata": "string?",
+          "model": "string?",
+          "stop_sequences": "string_csv_array?",
+          "stream": "bool?",
+          "system": "string?",
+          "temperature": "float?",
+          "tool_choice": "string?",
+          "tools": "array?",
+          "top_k": "int?",
+          "top_p": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "handle-generic-request"
+        ]
+      },
+      {
+        "tool": "models.handle-get-request",
+        "summary": "Get information about a model with its model_id, including pricing. Required: model_id. Returns the Model.",
+        "params_schema": {
+          "model_id": "string"
+        },
+        "positionals": [
+          "model_id"
+        ],
+        "argv_path": [
+          "models",
+          "handle-get-request"
+        ]
+      },
+      {
+        "tool": "models.handle-list-request",
+        "summary": "List all models available to the authenticating API key, including model names (ID), creation times, and pricing. Returns array of Model.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "models",
+          "handle-list-request"
+        ]
+      },
+      {
+        "tool": "responses.handle-compact-request",
+        "summary": "The client sends its current input (the same items that would be passed to `POST /v1/responses`) and receives a compacted output window. The output should be used **verbatim** as the `input` of the next `/v1/responses` call (appending only the new user turn). This generalizes the compaction approach used by the coding-agent harness (`generate_session_compact` in xai-grok-shell): 1. Strip tool-result noise from the history. 2. Ask the model to produce a structured ` ` of the conversation. 3. Rebuild a compact window: system message \u2192 summary \u2192 last user query. 4. Return that window to the client. Required: input, model. Returns array of ModelInputPart.",
+        "params_schema": {
+          "input": "string?",
+          "model": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "responses",
+          "handle-compact-request"
+        ]
+      },
+      {
+        "tool": "responses.handle-delete-stored-completion-request",
+        "summary": "Delete a previously generated response. Required: response_id. Returns the DeleteStoredCompletionResponse. Destructive.",
+        "params_schema": {
+          "response_id": "string"
+        },
+        "positionals": [
+          "response_id"
+        ],
+        "argv_path": [
+          "responses",
+          "handle-delete-stored-completion-request"
+        ]
+      },
+      {
+        "tool": "responses.handle-generic-model-request",
+        "summary": "Generates a response based on text or image prompts. The response ID can be used to retrieve the response later or to continue the conversation without repeating prior context. New responses will be stored for 30 days and then permanently deleted. Required: input. Optional: background (default: false), context_management, include (plus 22 more). Returns the new ModelResponse.",
+        "params_schema": {
+          "background": "bool?",
+          "context_management": "array?",
+          "include": "string_csv_array?",
+          "input": "string?",
+          "instructions": "string?",
+          "logprobs": "bool?",
+          "max_output_tokens": "int?",
+          "max_turns": "int?",
+          "metadata": "string?",
+          "model": "string?",
+          "parallel_tool_calls": "bool?",
+          "previous_response_id": "string?",
+          "prompt_cache_key": "string?",
+          "reasoning": "string?",
+          "search_parameters": "string?",
+          "service_tier": "string?",
+          "store": "bool?",
+          "stream": "bool?",
+          "temperature": "float?",
+          "text": "string?",
+          "tool_choice": "string?",
+          "tools": "array?",
+          "top_logprobs": "int?",
+          "top_p": "float?",
+          "truncation": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "responses",
+          "handle-generic-model-request"
+        ]
+      },
+      {
+        "tool": "responses.handle-get-stored-completion-request",
+        "summary": "Retrieve a previously generated response. Required: response_id. Returns the ModelResponse.",
+        "params_schema": {
+          "response_id": "string"
+        },
+        "positionals": [
+          "response_id"
+        ],
+        "argv_path": [
+          "responses",
+          "handle-get-stored-completion-request"
+        ]
+      },
+      {
+        "tool": "responses.input-items_handle-list",
+        "summary": "Returns a paginated list of the input items that were part of the conversation context for the given response. Required: response_id. Optional: limit, order, after.",
+        "params_schema": {
+          "response_id": "string",
+          "limit": "int?",
+          "order": "string?",
+          "after": "string?"
+        },
+        "positionals": [
+          "response_id"
+        ],
+        "argv_path": [
+          "responses",
+          "input-items_handle-list"
+        ]
+      },
+      {
+        "tool": "skills.handle-delete-request",
+        "summary": "Handle delete request. Required: skill_id. Returns the DeletedSkill. Destructive.",
+        "params_schema": {
+          "skill_id": "string"
+        },
+        "positionals": [
+          "skill_id"
+        ],
+        "argv_path": [
+          "skills",
+          "handle-delete-request"
+        ]
+      },
+      {
+        "tool": "skills.handle-list-request",
+        "summary": "Handle list request. Optional: limit, after, order. Returns array of Skill.",
+        "params_schema": {
+          "limit": "int?",
+          "after": "string?",
+          "order": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "skills",
+          "handle-list-request"
+        ]
+      },
+      {
+        "tool": "skills.handle-retrieve-request",
+        "summary": "Handle retrieve request. Required: skill_id. Returns the Skill.",
+        "params_schema": {
+          "skill_id": "string"
+        },
+        "positionals": [
+          "skill_id"
+        ],
+        "argv_path": [
+          "skills",
+          "handle-retrieve-request"
+        ]
+      },
+      {
+        "tool": "skills.handle-upload-request",
+        "summary": "Handle upload request. Required: files. Returns the new Skill.",
+        "params_schema": {
+          "files": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "skills",
+          "handle-upload-request"
+        ]
+      },
+      {
+        "tool": "skills.content_handle-download-skill-request",
+        "summary": "Handle download skill request. Required: skill_id.",
+        "params_schema": {
+          "skill_id": "string"
+        },
+        "positionals": [
+          "skill_id"
+        ],
+        "argv_path": [
+          "skills",
+          "content_handle-download-skill-request"
+        ]
+      },
+      {
+        "tool": "tokenize-text.handle-request",
+        "summary": "Tokenize text with the specified model. Optional: model, text, user. Returns array of TokenizeResponseToken.",
+        "params_schema": {
+          "model": "string?",
+          "text": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tokenize-text",
+          "handle-request"
+        ]
+      },
+      {
+        "tool": "video-generation-models.handle-get-request",
+        "summary": "Get full information about a video generation model with its model_id. Required: model_id. Returns the VideoGenerationModel.",
+        "params_schema": {
+          "model_id": "string"
+        },
+        "positionals": [
+          "model_id"
+        ],
+        "argv_path": [
+          "video-generation-models",
+          "handle-get-request"
+        ]
+      },
+      {
+        "tool": "video-generation-models.handle-list-request",
+        "summary": "List all video generation models available to the authenticating API key with full information. Returns array of VideoGenerationModel.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "video-generation-models",
+          "handle-list-request"
+        ]
+      },
+      {
+        "tool": "videos.handle-edit-request",
+        "summary": "Edit a video based on a prompt. This is an asynchronous operation that returns a request_id for polling. Required: prompt, video. Optional: model, output, service_tier (plus 1 more).",
+        "params_schema": {
+          "model": "string?",
+          "output": "string?",
+          "prompt": "string?",
+          "service_tier": "string?",
+          "user": "string?",
+          "video-file-id": "string?",
+          "video-url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "videos",
+          "handle-edit-request"
+        ]
+      },
+      {
+        "tool": "videos.handle-extend-request",
+        "summary": "Extend a video by generating continuation content. This is an asynchronous operation that returns a request_id for polling. Required: prompt, video. Optional: duration, model, output (plus 1 more).",
+        "params_schema": {
+          "duration": "int?",
+          "model": "string?",
+          "output": "string?",
+          "prompt": "string?",
+          "service_tier": "string?",
+          "video-file-id": "string?",
+          "video-url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "videos",
+          "handle-extend-request"
+        ]
+      },
+      {
+        "tool": "videos.handle-generate-request",
+        "summary": "Generate a video from a text prompt and optionally an image. This is an asynchronous operation that returns a request_id for polling. Optional: aspect_ratio, duration (default: 8), image (plus 7 more).",
+        "params_schema": {
+          "aspect_ratio": "string?",
+          "duration": "int?",
+          "image": "string?",
+          "model": "string?",
+          "output": "string?",
+          "prompt": "string?",
+          "reference_images": "array?",
+          "resolution": "string?",
+          "service_tier": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "videos",
+          "handle-generate-request"
+        ]
+      },
+      {
+        "tool": "videos.handle-get-deferred-request",
+        "summary": "Returns the current status of a video generation job. When the job completes successfully the response contains the generated video URL. When the job fails the response contains a structured `error` object with a machine-readable `code` and a human-readable `message`. Both successful and failed completions return HTTP 200 \u2014 use the `status` field (`'done'` or `'failed'`) to distinguish between the two. Required: request_id.",
+        "params_schema": {
+          "request_id": "string"
+        },
+        "positionals": [
+          "request_id"
+        ],
+        "argv_path": [
+          "videos",
+          "handle-get-deferred-request"
         ]
       }
     ]
