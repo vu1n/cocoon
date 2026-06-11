@@ -134559,6 +134559,41 @@
     ]
   },
   {
+    "api": "masterpark",
+    "description": "Unofficial CLI for MasterPark airport parking locations, quotes, profile sync, and safe gated reservation booking.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/masterpark/cmd/masterpark-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "masterpark",
+      "masterpark-pp-cli",
+      "Unofficial CLI for MasterPark airport parking reservations, including locations, quotes, safe credential injection, profile sync, reservation dry-runs, and gated booking submission.",
+      "Safe pay-at-lot reservation workflow",
+      "reserve",
+      "Composes reservations from live quotes and saved profile data, stays dry-run by default, requires --submit --yes for real bookings, and no-ops under PRINTING_PRESS_VERIFY=1.",
+      "Generic secret-command credential injection",
+      "auth check",
+      "Supports --username-command and --password-command so 1Password or any secret manager can inject credentials without printing or persisting passwords.",
+      "Saved non-secret customer and vehicle profile",
+      "auth sync-profile",
+      "Logs in once and stores only non-secret customer and vehicle defaults so future reservations can fill required fields without saving a password.",
+      "Fresh-booking verification caveat",
+      "reservations list",
+      "Documents that MasterPark's listReservations endpoint may lag or omit newly-created active reservations, so agents trust saveReservation responses and confirmation email immediately after booking."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Unofficial CLI for MasterPark airport parking locations, quotes, profile sync, and safe gated reservation booking. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "mercury",
     "description": "Business banking API for accounts, transactions, payments, recipients, cards, invoices, treasury, and webhooks",
     "install_module": "github.com/mvanhorn/printing-press-library/library/payments/mercury/cmd/mercury-pp-cli",
