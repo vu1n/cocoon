@@ -117726,6 +117726,44 @@
     ]
   },
   {
+    "api": "google-analytics",
+    "description": "Agent-first Google Analytics 4 CLI with raw Data/Admin wrappers and novel analytics reports.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/google-analytics/cmd/google-analytics-pp-cli",
+    "auth_type": "none",
+    "category": "marketing",
+    "search_terms": [
+      "google-analytics",
+      "Google Analytics 4",
+      "google-analytics-pp-cli",
+      "Agent-first Google Analytics 4 CLI with typed Data/Admin/Funnel API coverage and novel one-call analytics reports for channels, sources, pages, funnels, comparisons, anomalies, revenue, and health checks.",
+      "Health/Doctor",
+      "health",
+      "health/doctor distinguishes token/API errors from property-level GA4 access grant failures",
+      "Channels,",
+      "channels",
+      "channels, sources, top-pages, revenue produce curated acquisition/ecommerce tables",
+      "Compare",
+      "compare calculates period-over-period deltas and percentage changes in one call",
+      "Whats-Changed",
+      "whats-changed scans movers across channels, source/medium, and landing pages",
+      "Funnel",
+      "funnel wraps v1alpha runFunnelReport for named event sequences",
+      "Agent-Context",
+      "agent-context emits structured tool metadata for agents"
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Agent-first Google Analytics 4 CLI with raw Data/Admin wrappers and novel analytics reports. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "google-photos",
     "description": "Google Photos Library and Picker APIs for app-created media, albums, uploads, and user-selected media.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/google-photos/cmd/google-photos-pp-cli",
