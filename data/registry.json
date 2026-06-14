@@ -13721,6 +13721,63 @@
     ]
   },
   {
+    "api": "autotempest",
+    "description": "Every AutoTempest car-search source in your terminal, with a local store, cross-source VIN dedupe",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/autotempest/cmd/autotempest-pp-cli",
+    "auth_type": "none",
+    "category": "commerce",
+    "search_terms": [
+      "autotempest",
+      "autotempest-pp-cli",
+      "Every AutoTempest car-search source in your terminal, with a local store, cross-source VIN dedupe, and price-drop tracking no AutoTempest tool has.",
+      "Price-drop watch",
+      "drops",
+      "Surface listings whose price fell since a prior find or watch run, biggest drop first.",
+      "Cross-source VIN dedupe",
+      "dedupe",
+      "Collapse the same physical VIN listed on multiple marketplaces into one row with every source and price, cheapest first.",
+      "Deal-vs-market score",
+      "deal",
+      "Rank listings by mechanical price delta from the median of comparable cars (same model, year, mileage band) in your local store.",
+      "Cross-source price spread",
+      "spread",
+      "Report min, median, and max price per marketplace for a model so you see which sources run cheap or expensive.",
+      "Saved-search registry and replay",
+      "watch",
+      "Register named searches with their filters, then replay them through run so drops and diff have snapshots to compare.",
+      "Live auction slice",
+      "auctions",
+      "Filter to eBay auction listings with live current bid and bid count, sortable by bid."
+    ],
+    "endpoints": [
+      {
+        "tool": "makes.list",
+        "summary": "List makes. Use the returned slug (e.g. 'honda') as the --make value for find. Optional: popular (default: true). Returns the MakesResponse.",
+        "params_schema": {
+          "popular": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "makes"
+        ]
+      },
+      {
+        "tool": "models.list",
+        "summary": "List models for a make. Pass the make slug (e.g. 'honda'); use the returned model slug as --model for find. Required: make. Optional: popular (default: true). Returns the ModelsResponse.",
+        "params_schema": {
+          "make": "string",
+          "popular": "bool?"
+        },
+        "positionals": [
+          "make"
+        ],
+        "argv_path": [
+          "models"
+        ]
+      }
+    ]
+  },
+  {
     "api": "azure-cost-admin",
     "description": "Read-only Azure FinOps CLI for actual spend summaries, service and resource-group cost breakdowns, tag hygiene, simple anomaly checks, and retail price lookup support.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/cloud/azure-cost-admin/cmd/azure-cost-admin-pp-cli",
@@ -140743,6 +140800,60 @@
     ]
   },
   {
+    "api": "motohunt",
+    "description": "Search motorcycle and ATV listings from the terminal \u2014 with MotoHunt's MSRP/average-price/deal-rating data exposed as",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/motohunt/cmd/motohunt-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "motohunt",
+      "motohunt-pp-cli",
+      "Search motorcycle and ATV listings from the terminal \u2014 with MotoHunt's MSRP/average-price/deal-rating data exposed as structured fields no other tool gives you.",
+      "Price-research surfacing",
+      "get",
+      "See a listing's MSRP, average listing price, and deal rating as typed fields, not buried prose.",
+      "Offline deal ranking",
+      "deal",
+      "Rank synced listings by how far the asking price sits below the average listing price.",
+      "Saved-search watch + diff",
+      "watch run",
+      "Re-run saved searches and report new listings and price drops since the last run.",
+      "Dual-marketplace parity",
+      "search",
+      "Search motorcycles (motohunt.com) or ATV/UTV/SxS (atvhunt.com) from one binary via --site."
+    ],
+    "endpoints": [
+      {
+        "tool": "listings.get",
+        "summary": "Fetch a single listing detail page. Required: id. Returns the ListingDetail.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "listings"
+        ]
+      },
+      {
+        "tool": "listings.search",
+        "summary": "Search listings; returns links to listing detail pages (use the hand-built `search` command for parsed cards). Optional: q, location, sort (plus 1 more).",
+        "params_schema": {
+          "q": "string?",
+          "location": "string?",
+          "sort": "string?",
+          "start": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "movie-goat",
     "description": "The movie CLI that combines TMDb's discovery engine with OMDb's multi-source ratings \u2014 and ships a SQLite watchlist that flags what's streaming on your services right now.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/movie-goat/cmd/movie-goat-pp-cli",
@@ -223241,6 +223352,262 @@
         ],
         "argv_path": [
           "trending"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "yeswehack",
+    "description": "Every YesWeHack researcher feature, plus an offline SQLite-backed cockpit for scope cartography, drift detection,...",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/yeswehack/cmd/yeswehack-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "developer-tools",
+    "search_terms": [
+      "yeswehack",
+      "yeswehack-pp-cli",
+      "Every YesWeHack researcher feature, plus an offline SQLite-backed cockpit for scope cartography, drift detection, draft reports, and hacktivity learning.",
+      "Scope drift report",
+      "programs scope-drift",
+      "See what changed in any program's scope this week \u2014 assets added, removed, or modified, with first-seen dates.",
+      "Cross-program shared assets",
+      "scopes overlap",
+      "Surface assets (host or wildcard) that appear in two or more of your invited programs, ranked by best payout.",
+      "Weekend slate",
+      "triage weekend",
+      "Ranked plan for a short hunting session - newly added scope, reports needing your response, and trending CWEs in your specialty.",
+      "Pre-submit dedupe",
+      "report dedupe",
+      "FTS5 search over the public hacktivity feed plus your own reports for title, asset, or CWE overlap \u2014 exits 2 if a high-confidence collision exists.",
+      "Program fit ranker",
+      "programs fit",
+      "Rank invited and public programs by how well your historical CWE specialties match each program's hacktivity payout pattern.",
+      "Hacktivity CWE trends per program",
+      "hacktivity trends",
+      "Histogram of disclosed report categories and average bounty for one program over a time window.",
+      "Calendar of program events",
+      "events calendar",
+      "Chronological view of platform events, payout deadlines, and CTFs gating private invites - filtered to programs you are invited to.",
+      "CVSS sanity check",
+      "report cvss-check",
+      "Parse a CVSS 3.1 vector, recompute its base score, and flag impossible combinations against report steps text - rule-based, no LLM.",
+      "Draft report scaffold",
+      "report draft",
+      "Create a markdown draft pre-filled with the program's reward grid, accepted severity levels, and an allowed asset picker from local scopes - no network call.",
+      "Submit a draft (guard-railed)",
+      "report submit",
+      "Submit a drafted report after dry-run preview, in-scope validation, and automatic pre-submit dedupe. Requires --confirm.",
+      "Hacktivity learning brief",
+      "hacktivity learn",
+      "Filtered slice of disclosed reports for a program and CWE - top N by bounty, with severity and writeup links, in pipe-friendly JSON."
+    ],
+    "endpoints": [
+      {
+        "tool": "business.units_list",
+        "summary": "List business units visible to the user. Returns the BusinessUnitList. (requires auth)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "business",
+          "units_list"
+        ]
+      },
+      {
+        "tool": "events.list",
+        "summary": "List YesWeHack events. Optional: page, itemsPerPage. Returns the EventListPage.",
+        "params_schema": {
+          "page": "int?",
+          "itemsPerPage": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "events"
+        ]
+      },
+      {
+        "tool": "hacktivity.list",
+        "summary": "List recently disclosed reports across all public programs. Optional: page, resultsPerPage, programs (plus 1 more). Returns the HacktivityListPage.",
+        "params_schema": {
+          "page": "int?",
+          "resultsPerPage": "int?",
+          "programs": "string?",
+          "vulnerable_part": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hacktivity"
+        ]
+      },
+      {
+        "tool": "hacktivity.by_hunter",
+        "summary": "List a hunter's disclosed reports. Required: username. Optional: page, resultsPerPage. Returns the HacktivityListPage.",
+        "params_schema": {
+          "username": "string",
+          "page": "int?",
+          "resultsPerPage": "int?"
+        },
+        "positionals": [
+          "username"
+        ],
+        "argv_path": [
+          "hacktivity",
+          "by_hunter"
+        ]
+      },
+      {
+        "tool": "hunters.get",
+        "summary": "Get a hunter's public profile (points, rank, impact, achievements). Required: username. Returns the Hunter.",
+        "params_schema": {
+          "username": "string"
+        },
+        "positionals": [
+          "username"
+        ],
+        "argv_path": [
+          "hunters"
+        ]
+      },
+      {
+        "tool": "hunters.list_achievements",
+        "summary": "List a hunter's earned achievement badges. Required: username. Returns the AchievementList.",
+        "params_schema": {
+          "username": "string"
+        },
+        "positionals": [
+          "username"
+        ],
+        "argv_path": [
+          "hunters",
+          "list_achievements"
+        ]
+      },
+      {
+        "tool": "programs.get",
+        "summary": "Get a program's full detail (rules, reward grid, scope counts, BU, etc.). Required: slug. Returns the Program.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "programs"
+        ]
+      },
+      {
+        "tool": "programs.list",
+        "summary": "List bug bounty programs the user can see. Optional: page, itemsPerPage, disabled (plus 4 more). Returns the ProgramListPage.",
+        "params_schema": {
+          "page": "int?",
+          "itemsPerPage": "int?",
+          "disabled": "int?",
+          "search": "string?",
+          "business_unit": "string?",
+          "bounty": "int?",
+          "vdp": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "programs",
+          "list"
+        ]
+      },
+      {
+        "tool": "programs.list_scopes",
+        "summary": "List the in-scope and out-of-scope assets for a program. Required: slug. Returns the ScopeList. (requires auth)",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "programs",
+          "list_scopes"
+        ]
+      },
+      {
+        "tool": "ranking.list",
+        "summary": "Top hunters by points. Optional: page, itemsPerPage. Returns the RankingPage.",
+        "params_schema": {
+          "page": "int?",
+          "itemsPerPage": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ranking"
+        ]
+      },
+      {
+        "tool": "taxonomies.list_countries",
+        "summary": "Country reference list (codes, names). Returns the CountryList.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "taxonomies",
+          "list_countries"
+        ]
+      },
+      {
+        "tool": "taxonomies.list_profile_url_types",
+        "summary": "Allowed profile URL types (twitter, github, linkedin, etc.). Returns the ProfileUrlTypeList.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "taxonomies",
+          "list_profile_url_types"
+        ]
+      },
+      {
+        "tool": "taxonomies.list_vulnerable_parts",
+        "summary": "List vulnerability parts (CWE-like taxonomy used when filing reports). Returns the VulnerablePartList. (requires auth)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "taxonomies",
+          "list_vulnerable_parts"
+        ]
+      },
+      {
+        "tool": "user.get_self",
+        "summary": "Get the authenticated user. Returns the User. (requires auth)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "user",
+          "get_self"
+        ]
+      },
+      {
+        "tool": "user.list_email_aliases",
+        "summary": "List the authenticated user's email aliases (per-program forwarding addresses). Returns the EmailAliases. (requires auth)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "user",
+          "list_email_aliases"
+        ]
+      },
+      {
+        "tool": "user.list_invitations",
+        "summary": "List the authenticated user's program invitations. Returns the Invitations. (requires auth)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "user",
+          "list_invitations"
+        ]
+      },
+      {
+        "tool": "user.list_reports",
+        "summary": "List reports the authenticated user has submitted. Optional: page, itemsPerPage. Returns the ReportListPage. (requires auth)",
+        "params_schema": {
+          "page": "int?",
+          "itemsPerPage": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "user",
+          "list_reports"
         ]
       }
     ]
