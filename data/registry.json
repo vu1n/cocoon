@@ -1420,14 +1420,14 @@
   },
   {
     "api": "ahrefs",
-    "description": "Query Ahrefs backlinks, keyword, rank tracking, site audit, and SERP data from the terminal.",
+    "description": "Explore Ahrefs SEO data from the terminal: backlinks, keywords, rank tracking, site audits, SERPs, usage limits, and crawler IP ranges.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/ahrefs/cmd/ahrefs-pp-cli",
     "auth_type": "api_key",
     "category": "marketing",
     "search_terms": [
       "ahrefs",
       "ahrefs-pp-cli",
-      "Query Ahrefs backlinks, keyword, rank tracking, site audit, and SERP data from the terminal.",
+      "Explore Ahrefs SEO data from the terminal: backlinks, keywords, rank tracking, site audits, SERPs, usage limits, and crawler IP ranges.",
       "Crawler IP allowlist lookup",
       "public crawler-ips",
       "Return Ahrefs crawler IP addresses without requiring an Ahrefs API key.",
@@ -1447,7 +1447,7 @@
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Query Ahrefs backlinks, keyword, rank tracking, site audit, and SERP data from the terminal. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Explore Ahrefs SEO data from the terminal: backlinks, keywords, rank tracking, site audits, SERPs, usage limits, and crawler IP ranges. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -1756,7 +1756,7 @@
   },
   {
     "api": "amazon-ads",
-    "description": "Amazon Ads CLI for reports, analytics, keyword optimization, and guarded automation",
+    "description": "Plan, measure, and tune Amazon Ads campaigns with OAuth profiles, reports, profitability math, keyword recommendations, and guarded automation.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/amazon-ads/cmd/amazon-ads-pp-cli",
     "auth_type": "oauth2_refresh",
     "category": "commerce",
@@ -1764,7 +1764,7 @@
       "amazon-ads",
       "Amazon Ads",
       "amazon-ads-pp-cli",
-      "Amazon Ads CLI for OAuth profile setup, reports, profitability analytics, keyword optimization, and guarded campaign automation.",
+      "Plan, measure, and tune Amazon Ads campaigns with OAuth profiles, reports, profitability math, keyword recommendations, and guarded automation.",
       "Profitability analytics",
       "acos-vs-tacos, true-profit, break-even-acos",
       "Estimate ad profitability from Amazon Ads reports, COGS, fees, and optional amazon-seller store revenue.",
@@ -7990,7 +7990,7 @@
   },
   {
     "api": "amazon-seller",
-    "description": "Read FBA inventory, orders, sales reports, listings, and catalog data for an Amazon seller account.",
+    "description": "Run Amazon seller workflows from the terminal: FBA inventory, orders, sales reports, listings, catalog lookup, and account operations.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/amazon-seller/cmd/amazon-seller-pp-cli",
     "auth_type": "oauth2",
     "category": "commerce",
@@ -7998,12 +7998,12 @@
       "amazon-seller",
       "Amazon Seller",
       "amazon-seller-pp-cli",
-      "Operate an Amazon seller account from the terminal: inventory, orders, reports, listings, and catalog."
+      "Run Amazon seller workflows from the terminal: FBA inventory, orders, sales reports, listings, catalog lookup, and account operations."
     ],
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Read FBA inventory, orders, sales reports, listings, and catalog data for an Amazon seller account. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Run Amazon seller workflows from the terminal: FBA inventory, orders, sales reports, listings, catalog lookup, and account operations. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -17739,14 +17739,14 @@
   },
   {
     "api": "breezedoc",
-    "description": "BreezeDoc's REST API provides a handful of endpoints which can be used to get information about your account and",
+    "description": "Manage BreezeDoc e-signature and invoicing workflows across documents, templates, recipients, teams, invoices, and follow-ups.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/breezedoc/cmd/breezedoc-pp-cli",
     "auth_type": "bearer_token",
     "category": "productivity",
     "search_terms": [
       "breezedoc",
       "breezedoc-pp-cli",
-      "E-signature and invoicing API for documents, templates, recipients, teams, and invoice workflows.",
+      "Manage BreezeDoc e-signature and invoicing workflows across documents, templates, recipients, teams, invoices, and follow-ups.",
       "Invoice lifecycle",
       "workflow invoice-lifecycle",
       "Create, update, optionally send, and refetch BreezeDoc invoices as one structured agent workflow.",
@@ -23715,7 +23715,7 @@
   },
   {
     "api": "clarity",
-    "description": "Client-side instrumentation helpers for Microsoft Clarity.",
+    "description": "Generate Microsoft Clarity tracking snippets and audit local HTML for tag install, masking attributes, and client API calls.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/clarity/cmd/clarity-pp-cli",
     "auth_type": "none",
     "category": "marketing",
@@ -23723,7 +23723,7 @@
       "clarity",
       "Microsoft Clarity",
       "clarity-pp-cli",
-      "Generate Microsoft Clarity client API snippets and inspect the Clarity tag script.",
+      "Generate Microsoft Clarity tracking snippets and audit local HTML for tag install, masking attributes, and client API calls.",
       "Snippet renderer",
       "snippet install",
       "Render a complete Clarity tracking snippet for a project ID, plus focused snippets for every documented client API call.",
@@ -23734,7 +23734,7 @@
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Client-side instrumentation helpers for Microsoft Clarity. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Generate Microsoft Clarity tracking snippets and audit local HTML for tag install, masking attributes, and client API calls. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -29788,7 +29788,7 @@
   },
   {
     "api": "cloud-run-admin",
-    "description": "Deploy and manage user provided container images that scale automatically based on incoming requests. The Cloud Run Admin API v1 follows the Knative Serving API specification, while v2 is aligned with Google Cloud AIP-based API standards, as described in https://google.aip.dev/.",
+    "description": "Inspect and operate Google Cloud Run services, jobs, revisions, executions, and local inventory for serverless container fleets.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/cloud/cloud-run-admin/cmd/cloud-run-admin-pp-cli",
     "auth_type": "bearer_token",
     "category": "cloud",
@@ -29796,7 +29796,7 @@
       "cloud-run-admin",
       "Google Cloud Run",
       "cloud-run-admin-pp-cli",
-      "Cloud Run Admin API for deploying and managing serverless container services, revisions, jobs, and executions",
+      "Inspect and operate Google Cloud Run services, jobs, revisions, executions, and local inventory for serverless container fleets.",
       "Agent-ready service inventory",
       "services list",
       "Lists Cloud Run services through the Admin API with agent-friendly JSON, compact output, and field selection.",
@@ -102887,14 +102887,14 @@
   },
   {
     "api": "elevenlabs",
-    "description": "This is the documentation for the ElevenLabs API. You can use this API to use our service programmatically, this is...",
+    "description": "Create and manage ElevenLabs audio workflows: text-to-speech, voice conversion, transcription, dubbing, music, voices, and agents.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/elevenlabs/cmd/elevenlabs-pp-cli",
     "auth_type": "api_key",
     "category": "ai",
     "search_terms": [
       "elevenlabs",
       "elevenlabs-pp-cli",
-      "Generate, transform, transcribe, dub, and manage AI audio, voices, music, and conversational agents with ElevenLabs.",
+      "Create and manage ElevenLabs audio workflows: text-to-speech, voice conversion, transcription, dubbing, music, voices, and agents.",
       "Voice Discovery",
       "voice discover",
       "Search owned and shared ElevenLabs voices through one compact, JSON-first command.",
@@ -102905,7 +102905,10 @@
       "tts render",
       "Render text to an audio file and print a structured manifest with file path, byte count, model, and voice.",
       "Dialogue Cast",
-      "Render speaker-labelled dialogue lines by resolving speaker-to-voice assignments and saving audio."
+      "Render speaker-labelled dialogue lines by resolving speaker-to-voice assignments and saving audio.",
+      "Voice budget",
+      "voice-budget",
+      "Compose the subscription and voices reads into remaining character credits, tier limits, reset timing, and voice-slot headroom before a large TTS batch."
     ],
     "endpoints": [
       {
@@ -110741,7 +110744,7 @@
   },
   {
     "api": "facebook-marketplace",
-    "description": "A read-mostly Marketplace CLI with local watches, seller workflow helpers, and explicit write checkpoints.",
+    "description": "Search, draft, publish, mirror, and monitor Facebook Marketplace listings with seller helpers and explicit write checkpoints.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/facebook-marketplace/cmd/facebook-marketplace-pp-cli",
     "auth_type": "cookie",
     "category": "commerce",
@@ -110749,7 +110752,7 @@
       "facebook-marketplace",
       "Facebook Marketplace",
       "facebook-marketplace-pp-cli",
-      "Search, publish, mirror, and manage Facebook Marketplace seller workflows with explicit write checkpoints.",
+      "Search, draft, publish, mirror, and monitor Facebook Marketplace listings with seller helpers and explicit write checkpoints.",
       "AI listing drafter",
       "draft",
       "Draft a Marketplace title, description, and price suggestion from photos and notes.",
@@ -117748,7 +117751,7 @@
   },
   {
     "api": "google-ads",
-    "description": "Google Ads API for account discovery, GAQL reporting, campaigns, budgets, assets, conversions, audiences, planning, and billing operations.",
+    "description": "Discover accounts, run GAQL reports, inspect field metadata, and manage Google Ads campaigns, budgets, assets, audiences, and billing.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/google-ads/cmd/google-ads-pp-cli",
     "auth_type": "bearer_token",
     "category": "marketing",
@@ -117756,7 +117759,7 @@
       "google-ads",
       "Google Ads",
       "google-ads-pp-cli",
-      "Query and manage Google Ads accounts from the terminal.",
+      "Discover accounts, run GAQL reports, inspect field metadata, and manage Google Ads campaigns, budgets, assets, audiences, and billing.",
       "GAQL account drilldown",
       "customers-google-ads search",
       "Run Google Ads Query Language searches from the terminal or MCP surface with JSON output.",
@@ -117770,7 +117773,7 @@
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Google Ads API for account discovery, GAQL reporting, campaigns, budgets, assets, conversions, audiences, planning, and billing operations. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Discover accounts, run GAQL reports, inspect field metadata, and manage Google Ads campaigns, budgets, assets, audiences, and billing. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -117781,7 +117784,7 @@
   },
   {
     "api": "google-analytics",
-    "description": "Agent-first Google Analytics 4 CLI with raw Data/Admin wrappers and novel analytics reports.",
+    "description": "Agent-first Google Analytics 4 CLI with typed Data/Admin/Funnel API coverage and one-call reports for channels, pages, funnels, anomalies, revenue, and health.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/google-analytics/cmd/google-analytics-pp-cli",
     "auth_type": "none",
     "category": "marketing",
@@ -117789,7 +117792,7 @@
       "google-analytics",
       "Google Analytics 4",
       "google-analytics-pp-cli",
-      "Agent-first Google Analytics 4 CLI with typed Data/Admin/Funnel API coverage and novel one-call analytics reports for channels, sources, pages, funnels, comparisons, anomalies, revenue, and health checks.",
+      "Agent-first Google Analytics 4 CLI with typed Data/Admin/Funnel API coverage and one-call reports for channels, pages, funnels, anomalies, revenue, and health.",
       "Health/Doctor",
       "health",
       "health/doctor distinguishes token/API errors from property-level GA4 access grant failures",
@@ -117808,7 +117811,7 @@
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Agent-first Google Analytics 4 CLI with raw Data/Admin wrappers and novel analytics reports. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Agent-first Google Analytics 4 CLI with typed Data/Admin/Funnel API coverage and one-call reports for channels, pages, funnels, anomalies, revenue, and health. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -117819,7 +117822,7 @@
   },
   {
     "api": "google-photos",
-    "description": "Google Photos Library and Picker APIs for app-created media, albums, uploads, and user-selected media.",
+    "description": "Manage Google Photos app-created albums and media, upload files, and handle Picker sessions from terminal-friendly commands.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/google-photos/cmd/google-photos-pp-cli",
     "auth_type": "oauth2",
     "category": "media-and-entertainment",
@@ -117827,7 +117830,7 @@
       "google-photos",
       "Google Photos",
       "google-photos-pp-cli",
-      "Manage Google Photos app-created albums and media, upload files, and work with Picker sessions from the terminal.",
+      "Manage Google Photos app-created albums and media, upload files, and handle Picker sessions from terminal-friendly commands.",
       "Raw upload-token command",
       "upload file",
       "Upload photo or video bytes to Google Photos' raw upload endpoint and return the upload token needed by media-items batch-create.",
@@ -117838,7 +117841,7 @@
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Google Photos Library and Picker APIs for app-created media, albums, uploads, and user-selected media. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Manage Google Photos app-created albums and media, upload files, and handle Picker sessions from terminal-friendly commands. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -130901,14 +130904,14 @@
   },
   {
     "api": "kit",
-    "description": "Manage Kit subscribers, tags, forms, sequences, broadcasts, purchases, and email marketing automation data from the terminal.",
+    "description": "Operate Kit email marketing from the terminal: subscribers, tags, forms, sequences, broadcasts, purchases, snapshots, and audience health.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/kit/cmd/kit-pp-cli",
     "auth_type": "api_key",
     "category": "marketing",
     "search_terms": [
       "kit",
       "kit-pp-cli",
-      "Manage Kit subscribers, tags, forms, sequences, broadcasts, purchases, and email marketing automation data from the terminal.",
+      "Operate Kit email marketing from the terminal: subscribers, tags, forms, sequences, broadcasts, purchases, snapshots, and audience health.",
       "Creator Snapshot",
       "workflow creator-snapshot",
       "One-call read-only operating snapshot for Kit account, growth, audience, content, webhooks, and broadcast stats.",
@@ -132031,14 +132034,14 @@
   },
   {
     "api": "klaviyo",
-    "description": "Marketing automation, profiles, events, campaigns, flows, segments, and templates.",
+    "description": "Work with Klaviyo profiles, events, campaigns, flows, segments, templates, and local performance analytics for marketing automation.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/klaviyo/cmd/klaviyo-pp-cli",
     "auth_type": "api_key",
     "category": "marketing",
     "search_terms": [
       "klaviyo",
       "klaviyo-pp-cli",
-      "Marketing automation, profiles, events, campaigns, flows, segments, and templates.",
+      "Work with Klaviyo profiles, events, campaigns, flows, segments, templates, and local performance analytics for marketing automation.",
       "Campaign Deploy",
       "campaigns deploy",
       "Create an email template, create a draft campaign, and assign the template to the campaign message in one audited workflow.",
@@ -132070,7 +132073,7 @@
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Marketing automation, profiles, events, campaigns, flows, segments, and templates. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Work with Klaviyo profiles, events, campaigns, flows, segments, templates, and local performance analytics for marketing automation. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -139537,14 +139540,14 @@
   },
   {
     "api": "mercury",
-    "description": "Business banking API for accounts, transactions, payments, recipients, cards, invoices, treasury, and webhooks",
+    "description": "Inspect Mercury business banking data and build safer payment plans across accounts, transactions, recipients, cards, invoices, and treasury.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/payments/mercury/cmd/mercury-pp-cli",
     "auth_type": "bearer_token",
     "category": "payments",
     "search_terms": [
       "mercury",
       "mercury-pp-cli",
-      "Business banking API for accounts, transactions, payments, recipients, cards, invoices, treasury, and webhooks",
+      "Inspect Mercury business banking data and build safer payment plans across accounts, transactions, recipients, cards, invoices, and treasury.",
       "Agent money movement plan",
       "workflow payment-plan",
       "Builds a read-only approval plan with body, idempotency key, dry-run command, and execute command before payment or transfer writes.",
@@ -139553,7 +139556,13 @@
       "Syncs supported Mercury resources into a local SQLite store for offline search and analytics.",
       "Structured command introspection",
       "agent-context",
-      "Emits machine-readable command metadata for agents and MCP hosts."
+      "Emits machine-readable command metadata for agents and MCP hosts.",
+      "Cash runway estimate",
+      "cash-runway",
+      "Compose account balances and recent transactions into average weekly net burn and projected weeks of runway.",
+      "Spend by category",
+      "spend-by-category",
+      "Roll up outflow by Mercury category over a period with a week-over-week delta from one windowed transaction read."
     ],
     "endpoints": [
       {
@@ -142975,14 +142984,14 @@
   },
   {
     "api": "namecheap",
-    "description": "Curated OpenAPI description for Namecheap's XML API. The real API uses a single",
+    "description": "Manage Namecheap domains, DNS, contacts, pricing, account balances, TLDs, and SSL metadata through a JSON-friendly XML API wrapper.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/namecheap/cmd/namecheap-pp-cli",
     "auth_type": "api_key",
     "category": "developer-tools",
     "search_terms": [
       "namecheap",
       "namecheap-pp-cli",
-      "Manage Namecheap domains, DNS, account balances, pricing, contacts, TLDs, and SSL metadata from the terminal using Namecheap\u2019s XML API.",
+      "Manage Namecheap domains, DNS, contacts, pricing, account balances, TLDs, and SSL metadata through a JSON-friendly XML API wrapper.",
       "XML-to-JSON envelope conversion",
       "users get-balances",
       "Converts Namecheap XML envelopes into stable JSON so agents can filter, select, and compose responses without XML parsing.",
@@ -166933,7 +166942,7 @@
   },
   {
     "api": "seats-aero",
-    "description": "Seats.aero Partner API for award travel availability, cached search, route lists, and trip revalidation details.",
+    "description": "Search Seats.aero award-flight availability, route coverage, mileage-program feeds, and trip details from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/seats-aero/cmd/seats-aero-pp-cli",
     "auth_type": "api_key",
     "category": "travel",
@@ -166941,7 +166950,7 @@
       "seats-aero",
       "Seats Aero Partner",
       "seats-aero-pp-cli",
-      "Search Seats.aero award-flight availability, route coverage, and trip details from the terminal.",
+      "Search Seats.aero award-flight availability, route coverage, mileage-program feeds, and trip details from the terminal.",
       "Seats.aero Partner API key from https://seats.aero/partner-api.",
       "Award deal finder",
       "seats-aero-partner-search",
@@ -166956,7 +166965,7 @@
     "endpoints": [
       {
         "tool": "agent-context",
-        "summary": "Seats.aero Partner API for award travel availability, cached search, route lists, and trip revalidation details. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "summary": "Search Seats.aero award-flight availability, route coverage, mileage-program feeds, and trip details from the terminal. (no tools-manifest upstream; call agent-context to capture the real schema)",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -174704,14 +174713,14 @@
   },
   {
     "api": "sentry",
-    "description": "Error tracking and performance monitoring - projects, issues, events, releases",
+    "description": "Inspect Sentry organizations, projects, issues, events, releases, and Seer metadata for error tracking and performance monitoring.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/monitoring/sentry/cmd/sentry-pp-cli",
     "auth_type": "bearer_token",
     "category": "monitoring",
     "search_terms": [
       "sentry",
       "sentry-pp-cli",
-      "Error tracking and performance monitoring - projects, issues, events, releases",
+      "Inspect Sentry organizations, projects, issues, events, releases, and Seer metadata for error tracking and performance monitoring.",
       "Sentry organization inventory",
       "organizations list",
       "List Sentry organizations available to the authenticated token with structured output.",
@@ -180521,14 +180530,14 @@
   },
   {
     "api": "shopify",
-    "description": "Operate a Shopify store from the terminal with curated Admin GraphQL commands, local sync, analytics, and bulk exports.",
+    "description": "Operate a Shopify store with Admin GraphQL commands, local sync, analytics, bulk exports, and ShopifyQL reporting.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/shopify/cmd/shopify-pp-cli",
     "auth_type": "api_key",
     "category": "commerce",
     "search_terms": [
       "shopify",
       "shopify-pp-cli",
-      "Operate a Shopify store from the terminal with local sync, analytics, and bulk exports.",
+      "Operate a Shopify store with Admin GraphQL commands, local sync, analytics, bulk exports, and ShopifyQL reporting.",
       "Sales Funnel from ShopifyQL",
       "shopifyql funnel",
       "Three-stage funnel over N days (sessions -> checkouts -> orders) computed via ShopifyQL with real response columns.",
@@ -211994,14 +212003,14 @@
   },
   {
     "api": "tidycal",
-    "description": "TidyCal's REST API provides a handful of endpoints which can be used to get information about your account and bookings.",
+    "description": "Manage TidyCal scheduling data: bookings, contacts, booking types, team calendars, schedule briefs, triage, and availability shortlists.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/tidycal/cmd/tidycal-pp-cli",
     "auth_type": "bearer_token",
     "category": "productivity",
     "search_terms": [
       "tidycal",
       "tidycal-pp-cli",
-      "Scheduling and booking API for meetings, contacts, booking types, and team calendars.",
+      "Manage TidyCal scheduling data: bookings, contacts, booking types, team calendars, schedule briefs, triage, and availability shortlists.",
       "Schedule brief",
       "brief",
       "Produce a contact-aware schedule brief for a day or date range.",
@@ -212328,7 +212337,7 @@
   },
   {
     "api": "tiktok-shop",
-    "description": "Safe v1 TikTok Shop Seller API CLI/MCP for auth readiness, token exchange and refresh, read-only shops, orders, products, inventory search, fulfillment packages, and warehouses.",
+    "description": "Use TikTok Shop Seller API workflows for auth, shops, orders, products, inventory search, fulfillment, warehouses, and safe write preflights.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/tiktok-shop/cmd/tiktok-shop-pp-cli",
     "auth_type": "signed_tiktok_shop_open_api",
     "category": "commerce",
@@ -212336,7 +212345,7 @@
       "tiktok-shop",
       "TikTok Shop",
       "tiktok-shop-pp-cli",
-      "Safe v1 TikTok Shop Seller API CLI/MCP for auth readiness, token exchange and read endpoints; pre-flight checks gate live writes by default.",
+      "Use TikTok Shop Seller API workflows for auth, shops, orders, products, inventory search, fulfillment, warehouses, and safe write preflights.",
       "Official-docs safety context",
       "agent-context",
       "Emit machine-readable command, auth, official-doc URL, and mutation-policy context so agents can distinguish confirmed safe v1 capabilities from deferred TikTok Shop surfaces.",
@@ -213540,7 +213549,7 @@
   },
   {
     "api": "twelvelabs",
-    "description": "Use the TwelveLabs Video Understanding API to extract information from your videos and make it available to your",
+    "description": "Upload, index, search, summarize, embed, and analyze video with TwelveLabs, including editor-ready briefs and waitable workflows.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/twelvelabs/cmd/twelvelabs-pp-cli",
     "auth_type": "api_key",
     "category": "ai",
@@ -213548,7 +213557,7 @@
       "twelvelabs",
       "Twelvelabs Video Understanding",
       "twelvelabs-pp-cli",
-      "Use the TwelveLabs Video Understanding API to extract information from your videos and make it available to your",
+      "Upload, index, search, summarize, embed, and analyze video with TwelveLabs, including editor-ready briefs and waitable workflows.",
       "Upload and wait for indexing",
       "upload-video",
       "Upload a local video file or register a public URL, then poll Twelve Labs until indexing reaches a terminal status.",
@@ -219705,14 +219714,14 @@
   },
   {
     "api": "vestaboard",
-    "description": "Read, render",
+    "description": "Read, preview, render, and write Vestaboard messages from the terminal, including character-code lookup for precise board output.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/vestaboard/cmd/vestaboard-pp-cli",
     "auth_type": "api_key",
     "category": "devices",
     "search_terms": [
       "vestaboard",
       "vestaboard-pp-cli",
-      "Read, render, and write your Vestaboard from the terminal \u2014 with a board preview and character-code table no other Vestaboard tool ships.",
+      "Read, preview, render, and write Vestaboard messages from the terminal, including character-code lookup for precise board output.",
       "Board preview",
       "message preview",
       "See what's on your Vestaboard right now as readable text instead of a raw integer grid.",
@@ -219932,14 +219941,14 @@
   },
   {
     "api": "wavespeed",
-    "description": "Docs-derived OpenAPI spec for WaveSpeed AI's REST API.",
+    "description": "Run WaveSpeed AI models with schema-aware inputs, prompt shortcuts, price estimates, wait/download helpers, aliases, and media uploads.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/wavespeed/cmd/wavespeed-pp-cli",
     "auth_type": "api_key",
     "category": "ai",
     "search_terms": [
       "wavespeed",
       "wavespeed-pp-cli",
-      "Docs-derived OpenAPI spec for WaveSpeed AI's REST API.",
+      "Run WaveSpeed AI models with schema-aware inputs, prompt shortcuts, price estimates, wait/download helpers, aliases, and media uploads.",
       "API key from WaveSpeed access key settings",
       "Dynamic model runner",
       "run",
@@ -220484,7 +220493,7 @@
   },
   {
     "api": "x-twitter",
-    "description": "Combined CLI for multiple API services",
+    "description": "Use X/Twitter with local searchable archives, post and conversation resolvers, collections, analytics, MCP tools, and tier diagnostics.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/social-and-messaging/x-twitter/cmd/x-twitter-pp-cli",
     "auth_type": "bearer_token",
     "category": "social-and-messaging",
@@ -220492,7 +220501,7 @@
       "x-twitter",
       "X (Twitter)",
       "x-twitter-pp-cli",
-      "The only X CLI with an offline, searchable local mirror \u2014 full-text search and analytics over your archived posts without re-spending per-read API credits \u2014 plus a full-surface MCP server and honest tier/reachability diagnostics.",
+      "Use X/Twitter with local searchable archives, post and conversation resolvers, collections, analytics, MCP tools, and tier diagnostics.",
       "Post URL resolver",
       "post resolve",
       "Normalize any X post URL or raw post ID into a canonical structured post record with provenance, author context, metrics, local-state reuse, and suggested next workflow commands.",
@@ -220530,7 +220539,10 @@
       "Parse a markdown file with YAML frontmatter into the Draft.js content_state JSON X's Articles editor accepts; previews by default; --draft saves a draft, --post publishes publicly.",
       "Offline bookmark search",
       "users bookmarks find",
-      "Search your synced bookmarks by keyword and/or author, offline \u2014 X has no bookmark search and its API exposes no bookmark timestamp, so the local store rebuilds the missing retrieval layer without re-spending read credits."
+      "Search your synced bookmarks by keyword and/or author, offline \u2014 X has no bookmark search and its API exposes no bookmark timestamp, so the local store rebuilds the missing retrieval layer without re-spending read credits.",
+      "Top posts ranking",
+      "top-posts",
+      "Compose /2/users/me with the user-timeline read into one ranked leaderboard of your recent posts by engagement (likes + reposts + replies + quotes), or by a single metric via --metric. Paginates the timeline up to --max-fetch, ranks client-side, and degrades gracefully when impression_count is unavailable below Basic tier. Read-only."
     ],
     "endpoints": [
       {
