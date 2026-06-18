@@ -142880,7 +142880,7 @@
     "api": "kalshi",
     "description": "Trade prediction markets, persist tick data, and answer category-level P&L questions Kalshi.com cannot.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/payments/kalshi/cmd/kalshi-pp-cli",
-    "auth_type": "api_key",
+    "auth_type": "rsa_pss_signed",
     "category": "payments",
     "search_terms": [
       "kalshi",
@@ -142906,6 +142906,9 @@
       "Exposure Analysis",
       "portfolio exposure",
       "Break down total exposure by category with concentration warnings when any bucket exceeds a configurable risk threshold.",
+      "Read-only safe mode",
+      "--read-only",
+      "Global env-var/flag lock that blocks every mutating command client-side regardless of which key tier is loaded \u2014 pair with --dry-run on every mutator for safe scripting against read-only credentials.",
       "Subaccount roll-up",
       "subaccounts rollup",
       "Aggregate positions, fills-today, balance, and exposure-by-category across every subaccount you can see \u2014 household view of risk and resting orders.",
