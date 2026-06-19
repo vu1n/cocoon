@@ -154896,6 +154896,144 @@
     ]
   },
   {
+    "api": "metacritic",
+    "description": "Browse, search, and compare Metascores and user scores for games, movies, and TV shows, plus critic and user reviews, without a Metacritic account.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/metacritic/cmd/metacritic-pp-cli",
+    "auth_type": "api_key",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "metacritic",
+      "metacritic-pp-cli",
+      "Browse, search, and compare Metascores and user scores for games, movies, and TV shows, plus critic and user reviews, without a Metacritic account.",
+      "Full-Text Title Search",
+      "search",
+      "FTS5 full-text search across locally synced games, movies, and TV titles.",
+      "Local Analytics",
+      "analytics",
+      "Aggregate group-by and count queries over locally synced Metacritic data.",
+      "Compound Workflows",
+      "workflow",
+      "Chain multiple API operations (browse, detail, reviews) into one agent-friendly command."
+    ],
+    "endpoints": [
+      {
+        "tool": "composer.get-title",
+        "summary": "Returns the full composed detail payload for a title, including Metascore, user score, summary, release data, and platform/genre metadata. Required: mediaType (default: games), slug, apiKey.",
+        "params_schema": {
+          "mediaType": "string",
+          "slug": "string",
+          "apiKey": "string?"
+        },
+        "positionals": [
+          "mediaType",
+          "slug"
+        ],
+        "argv_path": [
+          "composer",
+          "get-title"
+        ]
+      },
+      {
+        "tool": "finder.browse-titles",
+        "summary": "Paginated, sortable list of titles for one medium. `mcoTypeId` selects the medium (1 = TV shows, 2 = movies, 13 = games). Powers the /browse/ pages. Required: apiKey, mcoTypeId (default: 13). Optional: offset (default: 0), limit (default: 24), sortBy (default: -metaScore) (plus 4 more). Returns the TitleListResponse.",
+        "params_schema": {
+          "apiKey": "string?",
+          "mcoTypeId": "int?",
+          "offset": "int?",
+          "limit": "int?",
+          "sortBy": "string?",
+          "releaseYearMin": "int?",
+          "releaseYearMax": "int?",
+          "componentName": "string?",
+          "componentType": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "finder",
+          "browse-titles"
+        ]
+      },
+      {
+        "tool": "finder.list-filters",
+        "summary": "Returns the filter facets (genres, platforms, streaming networks, product types) valid for the given medium. Required: mediaType (default: games), apiKey. Optional: componentName (default: finder-filters), componentType (default: FilterList).",
+        "params_schema": {
+          "mediaType": "string",
+          "apiKey": "string?",
+          "componentName": "string?",
+          "componentType": "string?"
+        },
+        "positionals": [
+          "mediaType"
+        ],
+        "argv_path": [
+          "finder",
+          "list-filters"
+        ]
+      },
+      {
+        "tool": "finder.search-titles",
+        "summary": "Full-text search spanning games, movies, TV, and people. Required: query, apiKey. Optional: offset (default: 0), limit (default: 24), componentName (default: search) (plus 1 more). Returns the TitleListResponse.",
+        "params_schema": {
+          "query": "string",
+          "apiKey": "string?",
+          "offset": "int?",
+          "limit": "int?",
+          "componentName": "string?",
+          "componentType": "string?"
+        },
+        "positionals": [
+          "query"
+        ],
+        "argv_path": [
+          "finder",
+          "search-titles"
+        ]
+      },
+      {
+        "tool": "reviews.list-critic",
+        "summary": "List critic reviews for a title. Required: mediaType (default: games), slug, apiKey. Optional: offset (default: 0), limit (default: 50), componentName (default: critic-reviews) (plus 1 more). Returns the ReviewListResponse.",
+        "params_schema": {
+          "mediaType": "string",
+          "slug": "string",
+          "apiKey": "string?",
+          "offset": "int?",
+          "limit": "int?",
+          "componentName": "string?",
+          "componentType": "string?"
+        },
+        "positionals": [
+          "mediaType",
+          "slug"
+        ],
+        "argv_path": [
+          "reviews",
+          "list-critic"
+        ]
+      },
+      {
+        "tool": "reviews.list-user",
+        "summary": "List user reviews for a title. Required: mediaType (default: games), slug, apiKey. Optional: offset (default: 0), limit (default: 50), componentName (default: user-reviews) (plus 1 more). Returns the ReviewListResponse.",
+        "params_schema": {
+          "mediaType": "string",
+          "slug": "string",
+          "apiKey": "string?",
+          "offset": "int?",
+          "limit": "int?",
+          "componentName": "string?",
+          "componentType": "string?"
+        },
+        "positionals": [
+          "mediaType",
+          "slug"
+        ],
+        "argv_path": [
+          "reviews",
+          "list-user"
+        ]
+      }
+    ]
+  },
+  {
     "api": "midjourney",
     "description": "Inspect Midjourney jobs, queue, folders, and discovery feeds from the terminal",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/midjourney/cmd/midjourney-pp-cli",
@@ -164431,6 +164569,1094 @@
       "All side-effect commands short-circuit when PRINTING_PRESS_VERIFY=1 is set, printing 'would place: <plan>' instead of submitting."
     ],
     "endpoints": []
+  },
+  {
+    "api": "oura",
+    "description": "Personal health data from the Oura Ring - sleep, readiness, daily activity, heart rate, workouts, SpO2, stress, and resilience.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/oura/cmd/oura-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "health",
+    "search_terms": [
+      "oura",
+      "oura-pp-cli",
+      "Personal health data from the Oura Ring - sleep, readiness, daily activity, heart rate, workouts, SpO2, stress, and resilience.",
+      "Local SQLite Sync",
+      "sync",
+      "Mirror Oura usercollection data into a local SQLite store for offline search and analysis",
+      "Full-Text Search",
+      "search",
+      "FTS5 full-text search across locally synced Oura records",
+      "Local Analytics",
+      "analytics",
+      "Aggregate group-by and count queries over locally synced health data",
+      "Compound Workflows",
+      "workflow",
+      "Chain multiple Oura API operations into one agent-friendly command"
+    ],
+    "endpoints": [
+      {
+        "tool": "sandbox.multiple-daily-activity-documents",
+        "summary": "Sandbox - Multiple Daily Activity Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-daily-activity-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-daily-cardiovascular-age-documents",
+        "summary": "Sandbox - Multiple Daily Cardiovascular Age Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-daily-cardiovascular-age-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-daily-readiness-documents",
+        "summary": "Sandbox - Multiple Daily Readiness Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-daily-readiness-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-daily-resilience-documents",
+        "summary": "Sandbox - Multiple Daily Resilience Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-daily-resilience-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-daily-sleep-documents",
+        "summary": "Sandbox - Multiple Daily Sleep Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-daily-sleep-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-daily-spo2-documents",
+        "summary": "Sandbox - Multiple Daily Spo2 Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-daily-spo2-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-daily-stress-documents",
+        "summary": "Sandbox - Multiple Daily Stress Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-daily-stress-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-enhanced-tag-documents",
+        "summary": "Sandbox - Multiple Enhanced Tag Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-enhanced-tag-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-heartrate-documents",
+        "summary": "Sandbox - Multiple Heartrate Documents. Optional: start_datetime, end_datetime, next_token.",
+        "params_schema": {
+          "start_datetime": "string?",
+          "end_datetime": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-heartrate-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-rest-mode-period-documents",
+        "summary": "Sandbox - Multiple Rest Mode Period Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-rest-mode-period-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-ring-battery-level-documents",
+        "summary": "Sandbox - Multiple Ring Battery Level Documents. Optional: start_datetime, end_datetime, next_token.",
+        "params_schema": {
+          "start_datetime": "string?",
+          "end_datetime": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-ring-battery-level-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-ring-configuration-documents",
+        "summary": "Sandbox - Multiple Ring Configuration Documents. Optional: next_token.",
+        "params_schema": {
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-ring-configuration-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-session-documents",
+        "summary": "Sandbox - Multiple Session Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-session-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-sleep-documents",
+        "summary": "Sandbox - Multiple Sleep Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-sleep-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-sleep-time-documents",
+        "summary": "Sandbox - Multiple Sleep Time Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-sleep-time-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-tag-documents",
+        "summary": "Sandbox - Multiple Tag Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-tag-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-v-o2-max-documents",
+        "summary": "Sandbox - Multiple Vo2 Max Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-v-o2-max-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.multiple-workout-documents",
+        "summary": "Sandbox - Multiple Workout Documents. Optional: start_date, end_date, next_token.",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sandbox",
+          "multiple-workout-documents"
+        ]
+      },
+      {
+        "tool": "sandbox.single-daily-activity-document",
+        "summary": "Sandbox - Single Daily Activity Document. Required: document_id. Returns the PublicDailyActivity.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-daily-activity-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-daily-cardiovascular-age-document",
+        "summary": "Sandbox - Single Daily Cardiovascular Age Document. Required: document_id. Returns the PublicDailyCardiovascularAge.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-daily-cardiovascular-age-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-daily-readiness-document",
+        "summary": "Sandbox - Single Daily Readiness Document. Required: document_id. Returns the PublicDailyReadiness.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-daily-readiness-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-daily-resilience-document",
+        "summary": "Sandbox - Single Daily Resilience Document. Required: document_id. Returns the DailyResilienceModel.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-daily-resilience-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-daily-sleep-document",
+        "summary": "Sandbox - Single Daily Sleep Document. Required: document_id. Returns the PublicDailySleep.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-daily-sleep-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-daily-spo2-document",
+        "summary": "Sandbox - Single Daily Spo2 Document. Required: document_id. Returns the PublicDailySpO2.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-daily-spo2-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-daily-stress-document",
+        "summary": "Sandbox - Single Daily Stress Document. Required: document_id. Returns the PublicDailyStress.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-daily-stress-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-enhanced-tag-document",
+        "summary": "Sandbox - Single Enhanced Tag Document. Required: document_id. Returns the EnhancedTagModel.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-enhanced-tag-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-rest-mode-period-document",
+        "summary": "Sandbox - Single Rest Mode Period Document. Required: document_id. Returns array of PublicRestModeEpisode.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-rest-mode-period-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-ring-configuration-document",
+        "summary": "Sandbox - Single Ring Configuration Document. Required: document_id. Returns the PublicRingConfiguration.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-ring-configuration-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-session-document",
+        "summary": "Sandbox - Single Session Document. Required: document_id. Returns the PublicSession.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-session-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-sleep-document",
+        "summary": "Sandbox - Single Sleep Document. Required: document_id. Returns the PublicModifiedSleepModel.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-sleep-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-sleep-time-document",
+        "summary": "Sandbox - Single Sleep Time Document. Required: document_id. Returns the PublicSleepTime.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-sleep-time-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-tag-document",
+        "summary": "Sandbox - Single Tag Document. Required: document_id. Returns array of string.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-tag-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-v-o2-max-document",
+        "summary": "Sandbox - Single Vo2 Max Document. Required: document_id. Returns the PublicVo2Max.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-v-o2-max-document"
+        ]
+      },
+      {
+        "tool": "sandbox.single-workout-document",
+        "summary": "Sandbox - Single Workout Document. Required: document_id. Returns the PublicWorkout.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "sandbox",
+          "single-workout-document"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-daily-activity-documents",
+        "summary": "Multiple Daily Activity Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-daily-activity-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-daily-cardiovascular-age-documents",
+        "summary": "Multiple Daily Cardiovascular Age Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-daily-cardiovascular-age-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-daily-readiness-documents",
+        "summary": "Multiple Daily Readiness Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-daily-readiness-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-daily-resilience-documents",
+        "summary": "Multiple Daily Resilience Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-daily-resilience-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-daily-sleep-documents",
+        "summary": "Multiple Daily Sleep Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-daily-sleep-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-daily-spo2-documents",
+        "summary": "Multiple Daily Spo2 Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-daily-spo2-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-daily-stress-documents",
+        "summary": "Multiple Daily Stress Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-daily-stress-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-enhanced-tag-documents",
+        "summary": "Multiple Enhanced Tag Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-enhanced-tag-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-heartrate-documents",
+        "summary": "Multiple Heartrate Documents. Optional: start_datetime, end_datetime, next_token (plus 2 more).",
+        "params_schema": {
+          "start_datetime": "string?",
+          "end_datetime": "string?",
+          "next_token": "string?",
+          "latest": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-heartrate-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-rest-mode-period-documents",
+        "summary": "Multiple Rest Mode Period Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-rest-mode-period-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-ring-battery-level-documents",
+        "summary": "Multiple Ring Battery Level Documents. Optional: start_datetime, end_datetime, next_token (plus 2 more).",
+        "params_schema": {
+          "start_datetime": "string?",
+          "end_datetime": "string?",
+          "next_token": "string?",
+          "latest": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-ring-battery-level-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-ring-configuration-documents",
+        "summary": "Multiple Ring Configuration Documents. Optional: fields, next_token.",
+        "params_schema": {
+          "fields": "string?",
+          "next_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-ring-configuration-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-session-documents",
+        "summary": "Multiple Session Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-session-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-sleep-documents",
+        "summary": "Multiple Sleep Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-sleep-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-sleep-time-documents",
+        "summary": "Multiple Sleep Time Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-sleep-time-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-tag-documents",
+        "summary": "Multiple Tag Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-tag-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-v-o2-max-documents",
+        "summary": "Multiple Vo2 Max Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-v-o2-max-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.multiple-workout-documents",
+        "summary": "Multiple Workout Documents. Optional: start_date, end_date, next_token (plus 1 more).",
+        "params_schema": {
+          "start_date": "string?",
+          "end_date": "string?",
+          "next_token": "string?",
+          "fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "multiple-workout-documents"
+        ]
+      },
+      {
+        "tool": "usercollection.single-daily-activity-document",
+        "summary": "Single Daily Activity Document. Required: document_id. Returns the PublicDailyActivity.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-daily-activity-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-daily-cardiovascular-age-document",
+        "summary": "Single Daily Cardiovascular Age Document. Required: document_id. Returns the PublicDailyCardiovascularAge.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-daily-cardiovascular-age-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-daily-readiness-document",
+        "summary": "Single Daily Readiness Document. Required: document_id. Returns the PublicDailyReadiness.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-daily-readiness-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-daily-resilience-document",
+        "summary": "Single Daily Resilience Document. Required: document_id. Returns the DailyResilienceModel.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-daily-resilience-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-daily-sleep-document",
+        "summary": "Single Daily Sleep Document. Required: document_id. Returns the PublicDailySleep.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-daily-sleep-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-daily-spo2-document",
+        "summary": "Single Daily Spo2 Document. Required: document_id. Returns the PublicDailySpO2.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-daily-spo2-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-daily-stress-document",
+        "summary": "Single Daily Stress Document. Required: document_id. Returns the PublicDailyStress.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-daily-stress-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-enhanced-tag-document",
+        "summary": "Single Enhanced Tag Document. Required: document_id. Returns the EnhancedTagModel.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-enhanced-tag-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-personal-info-document",
+        "summary": "Single Personal Info Document. Returns the PersonalInfoResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "usercollection",
+          "single-personal-info-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-rest-mode-period-document",
+        "summary": "Single Rest Mode Period Document. Required: document_id. Returns array of PublicRestModeEpisode.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-rest-mode-period-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-ring-configuration-document",
+        "summary": "Single Ring Configuration Document. Required: document_id. Returns the PublicRingConfiguration.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-ring-configuration-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-session-document",
+        "summary": "Single Session Document. Required: document_id. Returns the PublicSession.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-session-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-sleep-document",
+        "summary": "Single Sleep Document. Required: document_id. Returns the PublicModifiedSleepModel.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-sleep-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-sleep-time-document",
+        "summary": "Single Sleep Time Document. Required: document_id. Returns the PublicSleepTime.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-sleep-time-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-tag-document",
+        "summary": "Single Tag Document. Required: document_id. Returns array of string.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-tag-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-v-o2-max-document",
+        "summary": "Single Vo2 Max Document. Required: document_id. Returns the PublicVo2Max.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-v-o2-max-document"
+        ]
+      },
+      {
+        "tool": "usercollection.single-workout-document",
+        "summary": "Single Workout Document. Required: document_id. Returns the PublicWorkout.",
+        "params_schema": {
+          "document_id": "string"
+        },
+        "positionals": [
+          "document_id"
+        ],
+        "argv_path": [
+          "usercollection",
+          "single-workout-document"
+        ]
+      },
+      {
+        "tool": "webhook.create",
+        "summary": "Create Webhook Subscription. Required: callback_url, data_type, event_type, verification_token. Returns the new WebhookSubscriptionModel.",
+        "params_schema": {
+          "callback_url": "string?",
+          "data_type": "string?",
+          "event_type": "string?",
+          "verification_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "webhook"
+        ]
+      },
+      {
+        "tool": "webhook.delete",
+        "summary": "Delete Webhook Subscription. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhook",
+          "delete"
+        ]
+      },
+      {
+        "tool": "webhook.get-subscription",
+        "summary": "Get Webhook Subscription. Required: id. Returns the WebhookSubscriptionModel.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhook",
+          "get-subscription"
+        ]
+      },
+      {
+        "tool": "webhook.list-subscriptions",
+        "summary": "List Webhook Subscriptions. Returns array of WebhookSubscriptionModel.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhook",
+          "list-subscriptions"
+        ]
+      },
+      {
+        "tool": "webhook.renew-subscription",
+        "summary": "Renew Webhook Subscription. Required: id. Returns the updated WebhookSubscriptionModel.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhook",
+          "renew-subscription"
+        ]
+      },
+      {
+        "tool": "webhook.update",
+        "summary": "Update Webhook Subscription. Required: id, verification_token. Optional: callback_url, data_type, event_type. Returns the updated WebhookSubscriptionModel.",
+        "params_schema": {
+          "id": "string",
+          "callback_url": "string?",
+          "data_type": "string?",
+          "event_type": "string?",
+          "verification_token": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhook",
+          "update"
+        ]
+      }
+    ]
   },
   {
     "api": "outlook-calendar",
