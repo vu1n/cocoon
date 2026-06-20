@@ -132997,6 +132997,103 @@
     ]
   },
   {
+    "api": "grubhub",
+    "description": "Every Grubhub restaurant search, plus a sortable delivery-fee comparison board, a cross-restaurant deal radar, and offline menu-item search no Grubhub tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/grubhub/cmd/grubhub-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "commerce",
+    "search_terms": [
+      "grubhub",
+      "grubhub-pp-cli",
+      "Every Grubhub restaurant search, plus a sortable delivery-fee comparison board, a cross-restaurant deal radar, and offline menu-item search no Grubhub tool has.",
+      "Delivery comparison board",
+      "compare",
+      "See delivery fee, minimum, ETA, rating, and distance for every nearby restaurant side by side, sorted however you want.",
+      "Offline dish search",
+      "dish",
+      "Find which nearby restaurants carry a specific dish, with price, by full-text searching cached menus across the neighborhood.",
+      "Deal radar",
+      "deals",
+      "Rank every nearby restaurant currently running an offer, coupon, or promo code in one sweep.",
+      "Best-value picker",
+      "pick",
+      "Get one recommended restaurant from a transparent score over fee, rating, active deals, and ETA."
+    ],
+    "endpoints": [
+      {
+        "tool": "geo.geocode",
+        "summary": "Geocode a street address to Grubhub coordinates. Required: address. Returns array of Geocode.",
+        "params_schema": {
+          "address": "string"
+        },
+        "positionals": [
+          "address"
+        ],
+        "argv_path": [
+          "geo",
+          "geocode"
+        ]
+      },
+      {
+        "tool": "restaurants.get",
+        "summary": "Get a restaurant's details and full menu by id. Required: restaurant_id. Optional: location, version (default: 4), order-type (default: standard) (plus 3 more). Returns the RestaurantDetail.",
+        "params_schema": {
+          "restaurant_id": "string",
+          "location": "string?",
+          "version": "int?",
+          "order-type": "string?",
+          "show-coupons": "bool?",
+          "include-promos": "bool?",
+          "hide-unavailable": "bool?"
+        },
+        "positionals": [
+          "restaurant_id"
+        ],
+        "argv_path": [
+          "restaurants"
+        ]
+      },
+      {
+        "tool": "restaurants.menu-item",
+        "summary": "Get a menu item's full detail including modifier/choice categories. Required: restaurant_id, item_id. Optional: order-type (default: standard), version (default: 4). Returns the MenuItem.",
+        "params_schema": {
+          "restaurant_id": "string",
+          "item_id": "string",
+          "order-type": "string?",
+          "version": "int?"
+        },
+        "positionals": [
+          "restaurant_id",
+          "item_id"
+        ],
+        "argv_path": [
+          "restaurants",
+          "menu-item"
+        ]
+      },
+      {
+        "tool": "restaurants.search",
+        "summary": "Search restaurants near a location (raw API surface; use the top-level 'search' command for address-based search). Required: location. Optional: order-method (default: delivery), facet-set (default: umamiV6), sort-set (default: umamiv3) (plus 5 more). Returns the SearchResponse.",
+        "params_schema": {
+          "location": "string?",
+          "order-method": "string?",
+          "facet-set": "string?",
+          "sort-set": "string?",
+          "sponsored-size": "int?",
+          "page": "int?",
+          "page-size": "int?",
+          "include-offers": "bool?",
+          "hide-hateoas-links": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "restaurants",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "gumroad",
     "description": "Gumroad's seller API as an agent-ready CLI and MCP server.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/gumroad/cmd/gumroad-pp-cli",
