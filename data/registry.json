@@ -153568,6 +153568,163 @@
     ]
   },
   {
+    "api": "medium-reader",
+    "description": "Read any Medium author, publication, or tag as a local, full-text-searchable corpus.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/medium-reader/cmd/medium-reader-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "medium-reader",
+      "Medium Reader",
+      "medium-reader-pp-cli",
+      "Read any Medium author, publication, or tag as a local, full-text-searchable corpus.",
+      "Author archive",
+      "author-archive",
+      "Mirror a writer's entire body of work into local SQLite, full-text searchable offline.",
+      "Corpus search",
+      "corpus",
+      "Full-text and regex search across everything you have synced locally (authors, publications, tags).",
+      "Author compare",
+      "author-compare",
+      "Compare two writers on output cadence, topic mix, and engagement (claps and voters per article) from locally archived data.",
+      "New-since digest",
+      "digest",
+      "A deduped, ranked 'what is new since last sync' across the authors, publications, and tags you have archived."
+    ],
+    "endpoints": [
+      {
+        "tool": "analytics",
+        "summary": "Analyze locally synced data with count, group-by, and summary operations. Data must be synced first with the sync command.",
+        "params_schema": {
+          "db": "string?",
+          "group-by": "string?",
+          "limit": "number?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "analytics",
+          "analytics"
+        ]
+      },
+      {
+        "tool": "author.archive",
+        "summary": "Mirror a Medium writer's articles into the local SQLite store for offline, full-text search. Sourced directly from Medium's internal GraphQL endpoint (the article id list) and the article-page surface (each body), with no API key and no cookies. The argument is the writer's Medium user id (the stable hex id, e.g. bcab753a4d4e) OR their @handle / username (e.g. @quincylarson or quincylarson). A handle is resolved to its user id keylessly, by reading the author's public profile page \u2014 no API key, no cookies. You can also find a user id from a feed result's author_id field.",
+        "params_schema": {
+          "args": "string?",
+          "db": "string?",
+          "max-articles": "number?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "author",
+          "archive"
+        ]
+      },
+      {
+        "tool": "author.compare",
+        "summary": "Compare two writers on output cadence, topic mix, and engagement (claps and voters per article).",
+        "params_schema": {
+          "args": "string?",
+          "db": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "author",
+          "compare"
+        ]
+      },
+      {
+        "tool": "context",
+        "summary": "Get API domain context: resource taxonomy, auth requirements, query tips, and unique capabilities. Call this first.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "context",
+          "context"
+        ]
+      },
+      {
+        "tool": "corpus",
+        "summary": "Full-text and regex search across everything you have synced locally (authors, publications, tags).",
+        "params_schema": {
+          "args": "string?",
+          "db": "string?",
+          "limit": "number?",
+          "regex": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "corpus",
+          "corpus"
+        ]
+      },
+      {
+        "tool": "digest",
+        "summary": "A deduped, ranked 'what is new since last sync' across the authors, publications, and tags you have archived.",
+        "params_schema": {
+          "db": "string?",
+          "limit": "number?",
+          "since": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "digest",
+          "digest"
+        ]
+      },
+      {
+        "tool": "feed",
+        "summary": "Read a Medium RSS feed for an author, publication, or tag, sourced directly from medium.com with no API key and no cookies. Reference auto-detection: @<handle> an author -> medium.com/feed/@<handle> tag/<tag> a topic tag -> medium.com/feed/tag/<tag> <slug> a publication -> medium.com/feed/<slug> To read a tag, prefix it with \"tag/\" (a bare token is treated as a publication slug). To read an author, prefix the handle with \"@\".",
+        "params_schema": {
+          "args": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "feed",
+          "feed"
+        ]
+      },
+      {
+        "tool": "read",
+        "summary": "Fetch a single Medium article and render its body as Markdown, sourced directly from the article page with no API key and no cookies. Accepts either a full Medium URL or a bare article id: read 818e7841df9c read https://medium.com/p/818e7841df9c read https://author.medium.com/some-title-818e7841df9c Locked (member-only) posts return Medium's truncated preview when read anonymously; the output is flagged as a preview. Supplying your own Medium session cookie unlocks the full body (see 'auth' once Tier-1 auth is wired).",
+        "params_schema": {
+          "args": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "read",
+          "read"
+        ]
+      },
+      {
+        "tool": "search",
+        "summary": "Search Medium for posts matching a free-text query, sourced directly from Medium's own internal GraphQL endpoint with no API key and no cookies. Results are paginated up to --limit (default 10). Each result is a normalized post summary (id, title, author, url, published date). Because search uses Medium's unversioned internal API, a search-surface outage returns a clear \"surface unavailable\" message; the feed and read commands, which do not depend on it, keep working.",
+        "params_schema": {
+          "args": "string?",
+          "limit": "number?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "search",
+          "search"
+        ]
+      },
+      {
+        "tool": "sql",
+        "summary": "Run read-only SQL against local database. Use for ad-hoc analysis, aggregations, and joins across synced resources. Requires sync first.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sql",
+          "sql"
+        ]
+      }
+    ]
+  },
+  {
     "api": "mercury",
     "description": "Inspect Mercury business banking data and build safer payment plans across accounts, transactions, recipients, cards, invoices, and treasury.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/payments/mercury/cmd/mercury-pp-cli",
@@ -155440,6 +155597,311 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "morgen",
+    "description": "Morgen calendar & tasks API CLI \u2014 unified access to calendars, events, tasks, and tags across connected providers",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/morgen/cmd/morgen-pp-cli",
+    "auth_type": "api_key",
+    "category": "productivity",
+    "search_terms": [
+      "morgen",
+      "morgen-pp-cli",
+      "Morgen calendar & tasks API CLI \u2014 unified access to calendars, events, tasks, and tags across connected providers",
+      "Daily Agenda",
+      "agenda",
+      "Unified chronological day view merging calendar events and due tasks across all connected accounts."
+    ],
+    "endpoints": [
+      {
+        "tool": "calendars.list",
+        "summary": "List calendars across all connected accounts. Returns array of Calendar.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "calendars"
+        ]
+      },
+      {
+        "tool": "calendars.update",
+        "summary": "Update Morgen-specific metadata for a calendar (busy, color, name overrides). Required: id, accountId, metadata. Returns the new Calendar.",
+        "params_schema": {
+          "id": "string?",
+          "accountId": "string?",
+          "metadata": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "calendars",
+          "update"
+        ]
+      },
+      {
+        "tool": "events.create",
+        "summary": "Create an event in a calendar. Required: accountId, calendarId, title, start, duration, timeZone, showWithoutTime. Optional: description, location. Returns the new Event.",
+        "params_schema": {
+          "accountId": "string?",
+          "calendarId": "string?",
+          "title": "string?",
+          "start": "string?",
+          "duration": "string?",
+          "timeZone": "string?",
+          "showWithoutTime": "bool?",
+          "description": "string?",
+          "location": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "events"
+        ]
+      },
+      {
+        "tool": "events.delete",
+        "summary": "Delete an event. Use --series-update-mode for recurring events. Required: accountId, calendarId, id. Optional: seriesUpdateMode (default: single).",
+        "params_schema": {
+          "seriesUpdateMode": "string?",
+          "accountId": "string?",
+          "calendarId": "string?",
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "events",
+          "delete"
+        ]
+      },
+      {
+        "tool": "events.list",
+        "summary": "List events from one or more calendars in a time window. Required: accountId, calendarIds, start, end. Returns array of Event.",
+        "params_schema": {
+          "accountId": "string?",
+          "calendarIds": "string?",
+          "start": "string?",
+          "end": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "events",
+          "list"
+        ]
+      },
+      {
+        "tool": "events.update",
+        "summary": "Update an event (patch). Use --series-update-mode for recurring events. Required: accountId, calendarId, id. Optional: seriesUpdateMode (default: single), title, start (plus 4 more). Returns the new Event.",
+        "params_schema": {
+          "seriesUpdateMode": "string?",
+          "accountId": "string?",
+          "calendarId": "string?",
+          "id": "string?",
+          "title": "string?",
+          "start": "string?",
+          "duration": "string?",
+          "timeZone": "string?",
+          "description": "string?",
+          "location": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "events",
+          "update"
+        ]
+      },
+      {
+        "tool": "integrations.accounts",
+        "summary": "List connected calendar/task accounts. Returns array of Account.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "integrations",
+          "accounts"
+        ]
+      },
+      {
+        "tool": "integrations.providers",
+        "summary": "List available integration providers (Google, Microsoft 365, iCloud, Todoist, etc.). Returns array of Provider.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "integrations",
+          "providers"
+        ]
+      },
+      {
+        "tool": "tags.create",
+        "summary": "Create a tag. Required: name. Optional: color. Returns the new Tag.",
+        "params_schema": {
+          "name": "string?",
+          "color": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags"
+        ]
+      },
+      {
+        "tool": "tags.delete",
+        "summary": "Delete a tag. Required: id.",
+        "params_schema": {
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tags.get",
+        "summary": "Get a single tag by ID. Required: id. Returns the Tag.",
+        "params_schema": {
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "get"
+        ]
+      },
+      {
+        "tool": "tags.list",
+        "summary": "List tags. Optional: limit, updatedAfter. Returns array of Tag.",
+        "params_schema": {
+          "limit": "int?",
+          "updatedAfter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "list"
+        ]
+      },
+      {
+        "tool": "tags.update",
+        "summary": "Update a tag. Required: id. Optional: name, color. Returns the new Tag.",
+        "params_schema": {
+          "id": "string?",
+          "name": "string?",
+          "color": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "update"
+        ]
+      },
+      {
+        "tool": "tasks.create",
+        "summary": "Create a task. Required: title. Optional: description, due, timeZone (plus 3 more). Returns the new Task.",
+        "params_schema": {
+          "title": "string?",
+          "description": "string?",
+          "due": "string?",
+          "timeZone": "string?",
+          "estimatedDuration": "string?",
+          "taskListId": "string?",
+          "priority": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks"
+        ]
+      },
+      {
+        "tool": "tasks.close",
+        "summary": "Mark a task complete. Required: id. Optional: occurrenceStart. Returns the new Task.",
+        "params_schema": {
+          "id": "string?",
+          "occurrenceStart": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "close"
+        ]
+      },
+      {
+        "tool": "tasks.delete",
+        "summary": "Delete a task. Required: id.",
+        "params_schema": {
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tasks.get",
+        "summary": "Get a single task by ID. Required: id. Returns the Task.",
+        "params_schema": {
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "get"
+        ]
+      },
+      {
+        "tool": "tasks.list",
+        "summary": "List tasks. Optional: limit (default: 100), updatedAfter. Returns array of Task.",
+        "params_schema": {
+          "limit": "int?",
+          "updatedAfter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "list"
+        ]
+      },
+      {
+        "tool": "tasks.move",
+        "summary": "Reorder or re-parent a task. Required: id. Optional: previousId, parentId. Returns the new Task.",
+        "params_schema": {
+          "id": "string?",
+          "previousId": "string?",
+          "parentId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "move"
+        ]
+      },
+      {
+        "tool": "tasks.reopen",
+        "summary": "Reopen a completed task. Required: id. Optional: occurrenceStart. Returns the new Task.",
+        "params_schema": {
+          "id": "string?",
+          "occurrenceStart": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "reopen"
+        ]
+      },
+      {
+        "tool": "tasks.update",
+        "summary": "Update a task (patch). Required: id. Optional: title, description, due (plus 3 more). Returns the new Task.",
+        "params_schema": {
+          "id": "string?",
+          "title": "string?",
+          "description": "string?",
+          "due": "string?",
+          "timeZone": "string?",
+          "taskListId": "string?",
+          "priority": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "update"
         ]
       }
     ]
