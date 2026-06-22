@@ -232714,6 +232714,624 @@
     ]
   },
   {
+    "api": "supermemory-admin",
+    "description": "The Memory API for the AI era",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/supermemory-admin/cmd/supermemory-admin-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "productivity",
+    "search_terms": [
+      "supermemory-admin",
+      "Supermemory",
+      "supermemory-admin-pp-cli",
+      "The Memory API for the AI era",
+      "Project-scoped Memory Admin",
+      "SUPERMEMORY_ADMIN_PROJECT=<project-id> supermemory-admin-pp-cli supermemory-recall",
+      "Scope every CLI and MCP request to one Supermemory project with the x-sm-project header, without hand-editing raw headers.",
+      "Recall Search for Agents",
+      "supermemory-recall",
+      "Run low-latency memory recall from a compact, agent-friendly CLI surface with selectable JSON output.",
+      "Local Memory Operations Cache",
+      "sync + search",
+      "Sync compatible Supermemory resources into local SQLite for offline search and inspection."
+    ],
+    "endpoints": [
+      {
+        "tool": "connection.resources_get-v3-connections-by-connection-id-resources",
+        "summary": "Fetch resources for a connection (supported providers: GitHub for now). Required: connectionId. Optional: page (default: 1), parent_id, per_page (default: 30). Returns array of ConnectionResourcesGetV3ConnectionsByConnectionIdResourcesItem.",
+        "params_schema": {
+          "connectionId": "string",
+          "page": "float?",
+          "parent_id": "string?",
+          "per_page": "float?"
+        },
+        "positionals": [
+          "connectionId"
+        ],
+        "argv_path": [
+          "connection",
+          "resources_get-v3-connections-by-connection-id-resources"
+        ]
+      },
+      {
+        "tool": "connections.delete-v3-by-id",
+        "summary": "Delete a specific connection by ID. Required: connectionId. Optional: deleteDocuments (default: true). Returns the ConnectionsDeleteV3ByIdResponse. Destructive.",
+        "params_schema": {
+          "connectionId": "string",
+          "deleteDocuments": "string?"
+        },
+        "positionals": [
+          "connectionId"
+        ],
+        "argv_path": [
+          "connections",
+          "delete-v3-by-id"
+        ]
+      },
+      {
+        "tool": "connections.delete-v3-by-provider",
+        "summary": "Delete connection for a specific provider and container tags. Required: provider (default: notion), containerTags. Returns the ConnectionsDeleteV3ByProviderResponse. Destructive.",
+        "params_schema": {
+          "provider": "string",
+          "containerTags": "string_csv_array?"
+        },
+        "positionals": [
+          "provider"
+        ],
+        "argv_path": [
+          "connections",
+          "delete-v3-by-provider"
+        ]
+      },
+      {
+        "tool": "connections.get-v3-by-id",
+        "summary": "Get connection details with id. Required: connectionId. Returns array of string.",
+        "params_schema": {
+          "connectionId": "string"
+        },
+        "positionals": [
+          "connectionId"
+        ],
+        "argv_path": [
+          "connections",
+          "get-v3-by-id"
+        ]
+      },
+      {
+        "tool": "connections.post-v3-by-provider",
+        "summary": "Initialize connection and get authorization URL. Required: provider (default: notion). Optional: containerTag, containerTags, documentLimit (plus 2 more). Returns the new ConnectionsPostV3ByProviderResponse.",
+        "params_schema": {
+          "provider": "string",
+          "containerTag": "string?",
+          "containerTags": "string_csv_array?",
+          "documentLimit": "int?",
+          "metadata": "string?",
+          "redirectUrl": "string?"
+        },
+        "positionals": [
+          "provider"
+        ],
+        "argv_path": [
+          "connections",
+          "post-v3-by-provider"
+        ]
+      },
+      {
+        "tool": "connections.post-v3-list",
+        "summary": "List all connections. Optional: containerTags. Returns array of ConnectionsPostV3ListItem.",
+        "params_schema": {
+          "containerTags": "string_csv_array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "connections",
+          "post-v3-list"
+        ]
+      },
+      {
+        "tool": "connections.configure_post-v3-connections-by-connection-id",
+        "summary": "Configure resources for a connection (supported providers: GitHub for now). Required: connectionId, resources. Returns the new ConfigurePostV3ConnectionsByConnectionIdResponse.",
+        "params_schema": {
+          "connectionId": "string",
+          "resources": "array?"
+        },
+        "positionals": [
+          "connectionId"
+        ],
+        "argv_path": [
+          "connections",
+          "configure_post-v3-connections-by-connection-id"
+        ]
+      },
+      {
+        "tool": "connections.connection_post-v3-by-provider",
+        "summary": "Get connection details with provider and container tags. Required: provider (default: notion), containerTags. Returns array of string.",
+        "params_schema": {
+          "provider": "string",
+          "containerTags": "string_csv_array?"
+        },
+        "positionals": [
+          "provider"
+        ],
+        "argv_path": [
+          "connections",
+          "connection_post-v3-by-provider"
+        ]
+      },
+      {
+        "tool": "connections.documents_post-v3-connections-by-provider",
+        "summary": "List documents indexed for a provider and container tags. Required: provider (default: notion). Optional: containerTags. Returns array of DocumentsPostV3ConnectionsByProviderItem.",
+        "params_schema": {
+          "provider": "string",
+          "containerTags": "string_csv_array?"
+        },
+        "positionals": [
+          "provider"
+        ],
+        "argv_path": [
+          "connections",
+          "documents_post-v3-connections-by-provider"
+        ]
+      },
+      {
+        "tool": "connections.import_post-v3-connections-by-provider",
+        "summary": "Initiate a manual sync of connections. Required: provider (default: notion). Optional: containerTags.",
+        "params_schema": {
+          "provider": "string",
+          "containerTags": "string_csv_array?"
+        },
+        "positionals": [
+          "provider"
+        ],
+        "argv_path": [
+          "connections",
+          "import_post-v3-connections-by-provider"
+        ]
+      },
+      {
+        "tool": "container-tags.delete-v3-by",
+        "summary": "Delete a container tag and all its documents and memories. Only organization owners and admins can perform this action. Required: containerTag. Returns the ContainerTagsDeleteV3ByResponse. Destructive.",
+        "params_schema": {
+          "containerTag": "string"
+        },
+        "positionals": [
+          "containerTag"
+        ],
+        "argv_path": [
+          "container-tags",
+          "delete-v3-by"
+        ]
+      },
+      {
+        "tool": "container-tags.get-v3-by",
+        "summary": "Get settings for a container tag. Required: containerTag. Returns the ContainerTagsGetV3ByResponse.",
+        "params_schema": {
+          "containerTag": "string"
+        },
+        "positionals": [
+          "containerTag"
+        ],
+        "argv_path": [
+          "container-tags",
+          "get-v3-by"
+        ]
+      },
+      {
+        "tool": "container-tags.patch-v3-by",
+        "summary": "Update settings for a container tag. Required: containerTag. Optional: entityContext, memoryFilesystemPaths, name. Returns the updated ContainerTagsPatchV3ByResponse.",
+        "params_schema": {
+          "containerTag": "string",
+          "entityContext": "string?",
+          "memoryFilesystemPaths": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "containerTag"
+        ],
+        "argv_path": [
+          "container-tags",
+          "patch-v3-by"
+        ]
+      },
+      {
+        "tool": "container-tags.post-v3-merge",
+        "summary": "Merge multiple container tags into a target tag. All documents from the source tags will be updated to reference the target tag, and the source tags will be deleted after successful merge. Required: containerTags, targetContainerTag. Returns array of string.",
+        "params_schema": {
+          "containerTags": "string_csv_array?",
+          "targetContainerTag": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "container-tags",
+          "post-v3-merge"
+        ]
+      },
+      {
+        "tool": "conversations.post-v4",
+        "summary": "Ingest or update a conversation. Required: conversationId, messages. Optional: containerTags, metadata.",
+        "params_schema": {
+          "containerTags": "string_csv_array?",
+          "conversationId": "string?",
+          "messages": "array?",
+          "metadata": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "post-v4"
+        ]
+      },
+      {
+        "tool": "documents.delete-v3-bulk",
+        "summary": "Bulk delete documents by IDs or container tags. Optional: containerTags, filepath, ids. Returns the DocumentsDeleteV3BulkResponse. Destructive.",
+        "params_schema": {
+          "containerTags": "string_csv_array?",
+          "filepath": "string?",
+          "ids": "string_csv_array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "delete-v3-bulk"
+        ]
+      },
+      {
+        "tool": "documents.delete-v3-by-id",
+        "summary": "Delete a document by ID or customId. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "documents",
+          "delete-v3-by-id"
+        ]
+      },
+      {
+        "tool": "documents.get-v3-by-id",
+        "summary": "Get a document by ID. Required: id. Returns array of string.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "documents",
+          "get-v3-by-id"
+        ]
+      },
+      {
+        "tool": "documents.get-v3-processing",
+        "summary": "Get documents that are currently being processed. Returns array of DocumentsGetV3ProcessingItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "get-v3-processing"
+        ]
+      },
+      {
+        "tool": "documents.patch-v3-by-id",
+        "summary": "Update a document with any content type (text, url, file, etc.) and metadata. Required: id. Optional: containerTag, containerTags, content (plus 5 more). Returns the updated DocumentsPatchV3ByIdResponse.",
+        "params_schema": {
+          "id": "string",
+          "containerTag": "string?",
+          "containerTags": "string_csv_array?",
+          "content": "string?",
+          "customId": "string?",
+          "filepath": "string?",
+          "filterByMetadata": "object?",
+          "metadata": "object?",
+          "taskType": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "documents",
+          "patch-v3-by-id"
+        ]
+      },
+      {
+        "tool": "documents.post-v3",
+        "summary": "Add a document with any content type (text, url, file, etc.) and metadata. Required: content. Optional: containerTag, containerTags, customId (plus 6 more). Returns the new DocumentsPostV3Response.",
+        "params_schema": {
+          "containerTag": "string?",
+          "containerTags": "string_csv_array?",
+          "content": "string?",
+          "customId": "string?",
+          "dreaming": "string?",
+          "entityContext": "string?",
+          "filepath": "string?",
+          "filterByMetadata": "object?",
+          "metadata": "object?",
+          "taskType": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "post-v3"
+        ]
+      },
+      {
+        "tool": "documents.post-v3-batch",
+        "summary": "Add multiple documents in a single request. Each document can have any content type (text, url, file, etc.) and metadata. Required: documents. Optional: containerTag, containerTags, content (plus 6 more). Returns array of DocumentsPostV3BatchItem.",
+        "params_schema": {
+          "containerTag": "string?",
+          "containerTags": "string_csv_array?",
+          "content": "string?",
+          "documents": "string?",
+          "dreaming": "string?",
+          "entityContext": "string?",
+          "filepath": "string?",
+          "filterByMetadata": "object?",
+          "metadata": "object?",
+          "taskType": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "post-v3-batch"
+        ]
+      },
+      {
+        "tool": "documents.post-v3-file",
+        "summary": "Upload a file to be processed. Required: file. Optional: containerTag, containerTags, customId (plus 9 more). Returns the new DocumentsPostV3FileResponse.",
+        "params_schema": {
+          "containerTag": "string?",
+          "containerTags": "string?",
+          "customId": "string?",
+          "dreaming": "string?",
+          "entityContext": "string?",
+          "file": "string?",
+          "fileType": "string?",
+          "filepath": "string?",
+          "filterByMetadata": "string?",
+          "metadata": "string?",
+          "mimeType": "string?",
+          "taskType": "string?",
+          "useAdvancedProcessing": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "post-v3-file"
+        ]
+      },
+      {
+        "tool": "documents.post-v3-list",
+        "summary": "Retrieves a paginated list of documents with their metadata and workflow status. Optional: containerTags, filepath, filters (plus 5 more). Returns array of DocumentsPostV3ListItem.",
+        "params_schema": {
+          "containerTags": "string_csv_array?",
+          "filepath": "string?",
+          "filters": "string?",
+          "includeContent": "bool?",
+          "limit": "string?",
+          "order": "string?",
+          "page": "string?",
+          "sort": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "post-v3-list"
+        ]
+      },
+      {
+        "tool": "documents.post-v3-search",
+        "summary": "Search memories with advanced filtering. Required: q. Optional: categoriesFilter, chunkThreshold (default: 0), containerTag (plus 11 more). Returns array of DocumentsPostV3SearchItem.",
+        "params_schema": {
+          "categoriesFilter": "string_csv_array?",
+          "chunkThreshold": "float?",
+          "containerTag": "string?",
+          "containerTags": "string_csv_array?",
+          "docId": "string?",
+          "documentThreshold": "float?",
+          "filepath": "string?",
+          "filters": "string?",
+          "includeFullDocs": "bool?",
+          "includeSummary": "bool?",
+          "limit": "int?",
+          "onlyMatchingChunks": "bool?",
+          "q": "string?",
+          "rerank": "bool?",
+          "rewriteQuery": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "post-v3-search"
+        ]
+      },
+      {
+        "tool": "documents.chunks_get-v3-documents-by-id",
+        "summary": "Get all chunks for a document, ordered by position. Required: id. Returns array of ChunksGetV3DocumentsByIdItem.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "documents",
+          "chunks_get-v3-documents-by-id"
+        ]
+      },
+      {
+        "tool": "documents.file-url_get-v3-documents-by-id",
+        "summary": "Get a fresh presigned URL for a document's file. Returns a time-limited URL (24h) that can be used to download the file. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "documents",
+          "file-url_get-v3-documents-by-id"
+        ]
+      },
+      {
+        "tool": "memories.delete-v4",
+        "summary": "Forget (soft delete) a memory entry. The memory is marked as forgotten but not permanently deleted. Required: containerTag. Optional: content, id, reason. Returns the MemoriesDeleteV4Response. Destructive.",
+        "params_schema": {
+          "containerTag": "string?",
+          "content": "string?",
+          "id": "string?",
+          "reason": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "memories",
+          "delete-v4"
+        ]
+      },
+      {
+        "tool": "memories.patch-v4",
+        "summary": "Update a memory by creating a new version. The original memory is preserved with isLatest=false. Required: containerTag, newContent. Optional: content, forgetAfter, forgetReason (plus 3 more). Returns the updated MemoriesPatchV4Response.",
+        "params_schema": {
+          "containerTag": "string?",
+          "content": "string?",
+          "forgetAfter": "string?",
+          "forgetReason": "string?",
+          "id": "string?",
+          "metadata": "object?",
+          "newContent": "string?",
+          "temporal-context-document-date": "string?",
+          "temporal-context-event-date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "memories",
+          "patch-v4"
+        ]
+      },
+      {
+        "tool": "memories.post-v4",
+        "summary": "Create memories directly, bypassing the document ingestion workflow. Generates embeddings and makes them immediately searchable. Required: containerTag, memories. Returns array of MemoriesPostV4Item.",
+        "params_schema": {
+          "containerTag": "string?",
+          "memories": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "memories",
+          "post-v4"
+        ]
+      },
+      {
+        "tool": "memories.post-v4-list",
+        "summary": "List all latest memory entries from specified container tags with their update history and source documents. Required: containerTags. Optional: filters, limit, order (default: desc) (plus 2 more). Returns array of MemoriesPostV4ListItem.",
+        "params_schema": {
+          "containerTags": "string_csv_array?",
+          "filters": "string?",
+          "limit": "string?",
+          "order": "string?",
+          "page": "string?",
+          "sort": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "memories",
+          "post-v4-list"
+        ]
+      },
+      {
+        "tool": "profiles.post-v4",
+        "summary": "Get user profile with optional search results. Required: containerTag. Optional: filters, q, threshold. Returns the new ProfilesPostV4Response.",
+        "params_schema": {
+          "containerTag": "string?",
+          "filters": "string?",
+          "q": "string?",
+          "threshold": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "profiles",
+          "post-v4"
+        ]
+      },
+      {
+        "tool": "settings.get-v3",
+        "summary": "Get settings for an organization. Returns the SettingsGetV3Response.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "get-v3"
+        ]
+      },
+      {
+        "tool": "settings.patch-v3",
+        "summary": "Update settings for an organization. Optional: chunkSize, excludeItems, filterPrompt (plus 14 more). Returns the updated SettingsPatchV3Response.",
+        "params_schema": {
+          "chunkSize": "string?",
+          "excludeItems": "string?",
+          "filterPrompt": "string?",
+          "githubClientId": "string?",
+          "githubClientSecret": "string?",
+          "githubCustomKeyEnabled": "string?",
+          "googleDriveClientId": "string?",
+          "googleDriveClientSecret": "string?",
+          "googleDriveCustomKeyEnabled": "string?",
+          "includeItems": "string?",
+          "notionClientId": "string?",
+          "notionClientSecret": "string?",
+          "notionCustomKeyEnabled": "string?",
+          "onedriveClientId": "string?",
+          "onedriveClientSecret": "string?",
+          "onedriveCustomKeyEnabled": "string?",
+          "shouldLLMFilter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "patch-v3"
+        ]
+      },
+      {
+        "tool": "settings.post-v3-reset",
+        "summary": "Reset organization content: removes documents, memories, spaces (except default project), connections, and org settings. Preserves the org, members, and billing. Required: confirmation. Returns the new SettingsPostV3ResetResponse.",
+        "params_schema": {
+          "confirmation": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "post-v3-reset"
+        ]
+      },
+      {
+        "tool": "supermemory.recall_post-v4-search",
+        "summary": "Search memory entries - Low latency for conversational. Required: q. Optional: aggregate (default: false), containerTag, filepath (plus 7 more). Returns array of SupermemoryRecallPostV4SearchItem.",
+        "params_schema": {
+          "aggregate": "bool?",
+          "containerTag": "string?",
+          "filepath": "string?",
+          "filters": "string?",
+          "include-chunks": "bool?",
+          "include-documents": "bool?",
+          "include-forgotten-memories": "bool?",
+          "include-related-memories": "bool?",
+          "include-summaries": "bool?",
+          "limit": "int?",
+          "q": "string?",
+          "rerank": "bool?",
+          "rewriteQuery": "bool?",
+          "searchMode": "string?",
+          "threshold": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "supermemory",
+          "recall_post-v4-search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "surgegraph",
     "description": "SurgeGraph is the Answer Engine Optimization (AEO) platform that tracks AI citations, scores pages for citation readiness, and one-click fixes the gaps \u2014 now every workflow runs from the terminal or any agent.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/surgegraph/cmd/surgegraph-pp-cli",
