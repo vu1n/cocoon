@@ -8789,6 +8789,168 @@
     ]
   },
   {
+    "api": "amplitude",
+    "description": "Read-first Amplitude Analytics API surface for exports, cohorts, events, users, and chart-style analytics queries.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/amplitude/cmd/amplitude-pp-cli",
+    "auth_type": "api_key",
+    "category": "marketing",
+    "search_terms": [
+      "amplitude",
+      "Amplitude Read",
+      "amplitude-pp-cli",
+      "Read-first Amplitude Analytics API surface for exports, cohorts, events, users, and chart-style analytics queries.",
+      "Agent command discovery",
+      "which",
+      "Map a natural-language capability request to the exact generated CLI command before executing it.",
+      "Structured agent context",
+      "agent-context",
+      "Emit machine-readable command, auth, and profile metadata so agents can plan calls without scraping help text.",
+      "Local SQLite sync framework",
+      "sync",
+      "Sync selected API resources into a local SQLite store for repeatable offline inspection and analysis.",
+      "SQL analytics on synced records",
+      "analytics",
+      "Run read-only SQL against synced API records for compound questions the upstream API does not expose directly."
+    ],
+    "endpoints": [
+      {
+        "tool": "annotations.list",
+        "summary": "List project annotations. Returns the AnyObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "annotations"
+        ]
+      },
+      {
+        "tool": "cohorts.get",
+        "summary": "Get cohort metadata or membership export status. Required: cohort_id. Returns the AnyObject.",
+        "params_schema": {
+          "cohort_id": "string"
+        },
+        "positionals": [
+          "cohort_id"
+        ],
+        "argv_path": [
+          "cohorts"
+        ]
+      },
+      {
+        "tool": "cohorts.list",
+        "summary": "List behavioral cohorts. Returns the AnyObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "cohorts",
+          "list"
+        ]
+      },
+      {
+        "tool": "event.exports_export-events",
+        "summary": "Export raw event data over a time range. Required: start, end. Returns the AnyObject.",
+        "params_schema": {
+          "start": "string?",
+          "end": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "event",
+          "exports_export-events"
+        ]
+      },
+      {
+        "tool": "events.list",
+        "summary": "List event types tracked in an Amplitude project. Returns the AnyObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "events"
+        ]
+      },
+      {
+        "tool": "funnels.query",
+        "summary": "Query funnel conversion metrics. Optional: e, start, end. Returns the AnyObject.",
+        "params_schema": {
+          "e": "string?",
+          "start": "string?",
+          "end": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "funnels",
+          "query"
+        ]
+      },
+      {
+        "tool": "retention.query",
+        "summary": "Query retention metrics. Optional: e, start, end. Returns the AnyObject.",
+        "params_schema": {
+          "e": "string?",
+          "start": "string?",
+          "end": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "retention",
+          "query"
+        ]
+      },
+      {
+        "tool": "revenue.query",
+        "summary": "Query revenue analytics. Optional: start, end. Returns the AnyObject.",
+        "params_schema": {
+          "start": "string?",
+          "end": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "revenue",
+          "query"
+        ]
+      },
+      {
+        "tool": "segmentation.query",
+        "summary": "Query event segmentation metrics. Optional: e, start, end. Returns the AnyObject.",
+        "params_schema": {
+          "e": "string?",
+          "start": "string?",
+          "end": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "segmentation",
+          "query"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Get a user profile by user ID. Required: user_id. Returns the AnyObject.",
+        "params_schema": {
+          "user_id": "string"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "usersearch.search-users",
+        "summary": "Search users by user ID, device ID, or user property filters. Optional: user, limit. Returns the AnyObject.",
+        "params_schema": {
+          "user": "string?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usersearch",
+          "search-users"
+        ]
+      }
+    ]
+  },
+  {
     "api": "ankiweb",
     "description": "The only terminal-native way to search, rank",
     "install_module": "github.com/mvanhorn/printing-press-library/library/education/ankiweb/cmd/ankiweb-pp-cli",
@@ -26302,6 +26464,159 @@
         "argv_path": [
           "sitemap",
           "news"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "boardgamegeek",
+    "description": "Look up board games, expansions, hot rankings, user collections, and logged plays from BoardGameGeek's official XMLAPI2 \u2014 search, full game detail with stats and rankings, and the live hot list, all without a browser.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/boardgamegeek/cmd/boardgamegeek-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "boardgamegeek",
+      "boardgamegeek-pp-cli",
+      "Look up board games, expansions, hot rankings, user collections, and logged plays from BoardGameGeek's official XMLAPI2 \u2014 search, full game detail with stats and rankings, and the live hot list, all without a browser.",
+      "Register an application at https://boardgamegeek.com/applications (Non-commercial licenses are free), wait for approval, then create a token under your application and send it as Authorization: Bearer <token>.",
+      "Full-Text Game Search",
+      "search",
+      "FTS5 search across locally synced games, expansions, and accessories",
+      "Requires a domain SQLite index over synced thing rows; the XMLAPI2 search is name-prefix only, so offline full-text lookup is something the raw API cannot do",
+      "Local Analytics",
+      "analytics",
+      "Aggregate queries (group-by, counts, averages) over locally synced BoardGameGeek data",
+      "Only possible with a local SQLite store populated from the API; BGG exposes no aggregate endpoints",
+      "Compound Workflows",
+      "workflow",
+      "Chain multiple API operations (search then thing-detail then collection) in one invocation",
+      "Combines several boardgamegeek.com/xmlapi2 calls behind one agent-friendly command"
+    ],
+    "endpoints": [
+      {
+        "tool": "collection.get",
+        "summary": "A user's collection by login name. Filter with the 0/1 status flags (own, rated, played, wishlist, want, trade). `stats=1` adds per-game rating and rank. Large collections may answer with HTTP 202 the first time and need a retry. Required: username. Optional: subtype (default: boardgame), excludesubtype, own (plus 8 more). Returns the Xmlresponse.",
+        "params_schema": {
+          "username": "string?",
+          "subtype": "string?",
+          "excludesubtype": "string?",
+          "own": "int?",
+          "rated": "int?",
+          "played": "int?",
+          "wishlist": "int?",
+          "want": "int?",
+          "trade": "int?",
+          "stats": "int?",
+          "brief": "int?",
+          "modifiedsince": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "collection"
+        ]
+      },
+      {
+        "tool": "family.get",
+        "summary": "A BGG family (a shared series, theme, or IP grouping related things) by id. Comma-separate ids for a batch lookup. Required: id. Optional: type. Returns the Xmlresponse.",
+        "params_schema": {
+          "id": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "family"
+        ]
+      },
+      {
+        "tool": "guild.get",
+        "summary": "A BGG guild by id. Set `members=1` to include the member roster (paginated with `page`). Required: id. Optional: members, sort, page. Returns the Xmlresponse.",
+        "params_schema": {
+          "id": "int?",
+          "members": "int?",
+          "sort": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "guild"
+        ]
+      },
+      {
+        "tool": "hot.get-items",
+        "summary": "The live BoardGameGeek Hot list. `type` selects the ranking (boardgame is the default and most common). Optional: type (default: boardgame). Returns the Xmlresponse.",
+        "params_schema": {
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hot",
+          "get-items"
+        ]
+      },
+      {
+        "tool": "plays.get",
+        "summary": "Logged play sessions. Provide `username` (a user's plays) or `id` (a game's plays). Filter by date range and paginate with `page`. Optional: username, id, type (plus 4 more). Returns the Xmlresponse.",
+        "params_schema": {
+          "username": "string?",
+          "id": "int?",
+          "type": "string?",
+          "mindate": "string?",
+          "maxdate": "string?",
+          "subtype": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "plays"
+        ]
+      },
+      {
+        "tool": "searches.search-things",
+        "summary": "Full-text search across the BGG database. Returns matching things (id, name, year). Narrow with `type` and set `exact=1` for exact-name matches. Required: query. Optional: type, exact.",
+        "params_schema": {
+          "query": "string?",
+          "type": "string?",
+          "exact": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "searches",
+          "search-things"
+        ]
+      },
+      {
+        "tool": "thing.get",
+        "summary": "Full record for a game/expansion/accessory by id (comma-separate ids for a batch). Opt into extra sections with the 0/1 flags. `stats=1` adds the rating, rank, and ownership statistics most callers want. Required: id. Optional: type, stats, versions (plus 5 more). Returns the Xmlresponse.",
+        "params_schema": {
+          "id": "string?",
+          "type": "string?",
+          "stats": "int?",
+          "versions": "int?",
+          "videos": "int?",
+          "comments": "int?",
+          "marketplace": "int?",
+          "page": "int?",
+          "pagesize": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "thing"
+        ]
+      },
+      {
+        "tool": "user.get",
+        "summary": "Public profile for a BGG user by login name. Opt into buddies, guilds, and the user's personal hot/top lists with the 0/1 flags. Required: name. Optional: buddies, guilds, hot (plus 2 more). Returns the Xmlresponse.",
+        "params_schema": {
+          "name": "string?",
+          "buddies": "int?",
+          "guilds": "int?",
+          "hot": "int?",
+          "top": "int?",
+          "domain": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "user"
         ]
       }
     ]
@@ -121113,6 +121428,558 @@
     ]
   },
   {
+    "api": "expensify",
+    "description": "File expenses and submit reports to Expensify from the command line",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/expensify/cmd/expensify-pp-cli",
+    "auth_type": "api_key",
+    "category": "productivity",
+    "search_terms": [
+      "expensify",
+      "expensify-pp-cli",
+      "File expenses and submit reports to Expensify from the command line",
+      "Quick expense from natural language",
+      "expense quick",
+      "File an expense with one line: amount, merchant, and category parsed from a short prompt \u2014 no forms, no web UI.",
+      "Draft report from date range",
+      "report draft",
+      "Create a report and auto-attach every un-reported expense from a date range in a single command.",
+      "What's the damage",
+      "damage",
+      "Single-glance summary: total expensed, pending, approved, paid for the current month (or a custom range).",
+      "Expense from bank line",
+      "expense from-line",
+      "Paste a raw bank or card CSV row and the CLI extracts date/merchant/amount/currency and files the expense.",
+      "Offline expense search",
+      "expense search",
+      "FTS5 search over all your expenses by merchant, comment, category, or tag. Regex-friendly.",
+      "Missing receipts",
+      "expense missing-receipts",
+      "Lists expenses without attached receipts so you can catch them before submitting a report.",
+      "Monthly rollup",
+      "expense rollup",
+      "Pivot-table expenses by category, tag, or merchant for any time range.",
+      "Duplicate detection",
+      "expense dupes",
+      "Finds expenses that look like duplicates by (merchant, amount, date\u00b1window).",
+      "Bulk expense create",
+      "expense bulk",
+      "File a whole list of expenses in a single Expense_Create request.",
+      "Submit and wait",
+      "report submit",
+      "Submit a report and optionally poll until it leaves SUBMITTED."
+    ],
+    "endpoints": [
+      {
+        "tool": "admin.cards_list",
+        "summary": "List domain cards (Domain Cards Getter). Required: domain. Returns array of DomainCard.",
+        "params_schema": {
+          "domain": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "cards_list"
+        ]
+      },
+      {
+        "tool": "admin.cards_owners",
+        "summary": "List card owners (Card Owner Data). Required: domain. Returns array of CardOwner.",
+        "params_schema": {
+          "domain": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "cards_owners"
+        ]
+      },
+      {
+        "tool": "admin.employee_add",
+        "summary": "Add an employee to a policy (Advanced Employee Updater). Required: policyID, email. Optional: role, approver. Returns the new Employee.",
+        "params_schema": {
+          "policyID": "string?",
+          "email": "string?",
+          "role": "string?",
+          "approver": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "employee_add"
+        ]
+      },
+      {
+        "tool": "admin.employee_remove",
+        "summary": "Remove an employee from a policy. Required: policyID, email. Returns the new Employee.",
+        "params_schema": {
+          "policyID": "string?",
+          "email": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "employee_remove"
+        ]
+      },
+      {
+        "tool": "admin.employee_update",
+        "summary": "Update an employee (Advanced Employee Updater). Required: policyID, email. Optional: role, approver. Returns the new Employee.",
+        "params_schema": {
+          "policyID": "string?",
+          "email": "string?",
+          "role": "string?",
+          "approver": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "employee_update"
+        ]
+      },
+      {
+        "tool": "admin.policy_get",
+        "summary": "Get a policy's full config (Policy Getter). Required: policyID. Returns the new Policy.",
+        "params_schema": {
+          "policyID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "policy_get"
+        ]
+      },
+      {
+        "tool": "admin.policy_list",
+        "summary": "List all policies you admin (Policy List Getter). Returns array of Policy.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "policy_list"
+        ]
+      },
+      {
+        "tool": "admin.policy_new",
+        "summary": "Create a new policy (Policy Creator). Required: type, name. Returns the new Policy.",
+        "params_schema": {
+          "type": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "policy_new"
+        ]
+      },
+      {
+        "tool": "admin.policy_set_categories",
+        "summary": "Update categories for a policy from YAML. Required: policyID, file. Returns the new Policy.",
+        "params_schema": {
+          "policyID": "string?",
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "policy_set_categories"
+        ]
+      },
+      {
+        "tool": "admin.policy_set_fields",
+        "summary": "Update report fields for a policy. Required: policyID, file. Returns the new Policy.",
+        "params_schema": {
+          "policyID": "string?",
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "policy_set_fields"
+        ]
+      },
+      {
+        "tool": "admin.policy_set_tags",
+        "summary": "Update tags for a policy from YAML. Required: policyID, file. Returns the new Policy.",
+        "params_schema": {
+          "policyID": "string?",
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "policy_set_tags"
+        ]
+      },
+      {
+        "tool": "admin.report_set_status",
+        "summary": "Force a report status transition (Report Status Updater). Required: reportID, status. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "report_set_status"
+        ]
+      },
+      {
+        "tool": "admin.rules_new",
+        "summary": "Create an expense rule (Expense Rules Creator). Required: policyID, pattern. Optional: category, tag. Returns the new ExpenseRule.",
+        "params_schema": {
+          "policyID": "string?",
+          "pattern": "string?",
+          "category": "string?",
+          "tag": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "rules_new"
+        ]
+      },
+      {
+        "tool": "admin.rules_update",
+        "summary": "Update an expense rule. Required: ruleID. Optional: pattern, category. Returns the new ExpenseRule.",
+        "params_schema": {
+          "ruleID": "string?",
+          "pattern": "string?",
+          "category": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "rules_update"
+        ]
+      },
+      {
+        "tool": "admin.tag_approvers_set",
+        "summary": "Set tag approvers (Tag Approvers Updater). Required: policyID, tag, email. Returns the new Policy.",
+        "params_schema": {
+          "policyID": "string?",
+          "tag": "string?",
+          "email": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "admin",
+          "tag_approvers_set"
+        ]
+      },
+      {
+        "tool": "category.list",
+        "summary": "List categories for a workspace. Required: policyID. Returns array of Category.",
+        "params_schema": {
+          "policyID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "category"
+        ]
+      },
+      {
+        "tool": "expense.create",
+        "summary": "Create a new expense. Required: amount, merchant. Optional: category, tag, date (plus 5 more). Returns the new Expense.",
+        "params_schema": {
+          "amount": "int?",
+          "merchant": "string?",
+          "category": "string?",
+          "tag": "string?",
+          "date": "string?",
+          "comment": "string?",
+          "policyID": "string?",
+          "currency": "string?",
+          "billable": "bool?",
+          "reimbursable": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "expense"
+        ]
+      },
+      {
+        "tool": "expense.attach",
+        "summary": "Attach or replace a receipt on an expense. Required: transactionID, receipt_path. Returns the new Expense.",
+        "params_schema": {
+          "transactionID": "string?",
+          "receipt_path": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "expense",
+          "attach"
+        ]
+      },
+      {
+        "tool": "expense.delete",
+        "summary": "Delete an expense. Required: transactionID. Returns the new Expense.",
+        "params_schema": {
+          "transactionID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "expense",
+          "delete"
+        ]
+      },
+      {
+        "tool": "expense.edit",
+        "summary": "Edit an existing expense. Required: transactionID. Optional: amount, merchant, category (plus 3 more). Returns the new Expense.",
+        "params_schema": {
+          "transactionID": "string?",
+          "amount": "int?",
+          "merchant": "string?",
+          "category": "string?",
+          "tag": "string?",
+          "date": "string?",
+          "comment": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "expense",
+          "edit"
+        ]
+      },
+      {
+        "tool": "expense.get",
+        "summary": "Get expense detail by transaction ID. Required: transactionID. Returns the new Expense.",
+        "params_schema": {
+          "transactionID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "expense",
+          "get"
+        ]
+      },
+      {
+        "tool": "expense.list",
+        "summary": "List your expenses with filters. Optional: hash, policyID, status. Returns array of Expense.",
+        "params_schema": {
+          "hash": "string?",
+          "policyID": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "expense",
+          "list"
+        ]
+      },
+      {
+        "tool": "export.resource_download",
+        "summary": "Download a previously generated export file. Required: fileName. Returns the new ExportFile.",
+        "params_schema": {
+          "fileName": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "export",
+          "resource_download"
+        ]
+      },
+      {
+        "tool": "export.resource_run",
+        "summary": "Export reports via Report Exporter (Integration Server). Required: template. Optional: since, until, policyID (plus 1 more). Returns the new ExportJob.",
+        "params_schema": {
+          "template": "string?",
+          "since": "string?",
+          "until": "string?",
+          "policyID": "string?",
+          "markAsExported": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "export",
+          "resource_run"
+        ]
+      },
+      {
+        "tool": "me.get",
+        "summary": "Get current user profile. Returns the new User.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me"
+        ]
+      },
+      {
+        "tool": "recon.export",
+        "summary": "Export reconciliation data for a domain. Required: domain. Optional: since, until. Returns the new ReconExport.",
+        "params_schema": {
+          "domain": "string?",
+          "since": "string?",
+          "until": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "recon",
+          "export"
+        ]
+      },
+      {
+        "tool": "report.create",
+        "summary": "Create a new report. Required: title, policyID. Optional: notes. Returns the new Report.",
+        "params_schema": {
+          "title": "string?",
+          "policyID": "string?",
+          "notes": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report"
+        ]
+      },
+      {
+        "tool": "report.add",
+        "summary": "Add expenses to a report. Required: reportID, transactionIDs. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?",
+          "transactionIDs": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "add"
+        ]
+      },
+      {
+        "tool": "report.approve",
+        "summary": "Approve a report (manager action). Required: reportID. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "approve"
+        ]
+      },
+      {
+        "tool": "report.comment",
+        "summary": "Add a comment to a report thread. Required: reportID, text. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?",
+          "text": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "comment"
+        ]
+      },
+      {
+        "tool": "report.delete",
+        "summary": "Delete a draft report. Required: reportID. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "delete"
+        ]
+      },
+      {
+        "tool": "report.get",
+        "summary": "Get report detail. Required: reportID. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "get"
+        ]
+      },
+      {
+        "tool": "report.list",
+        "summary": "List your reports. Optional: policyID, status, since (plus 1 more). Returns array of Report.",
+        "params_schema": {
+          "policyID": "string?",
+          "status": "string?",
+          "since": "string?",
+          "until": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "list"
+        ]
+      },
+      {
+        "tool": "report.pay",
+        "summary": "Mark a report as reimbursed. Required: reportID. Optional: method. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?",
+          "method": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "pay"
+        ]
+      },
+      {
+        "tool": "report.reopen",
+        "summary": "Reopen a submitted report back to draft. Required: reportID. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "reopen"
+        ]
+      },
+      {
+        "tool": "report.submit",
+        "summary": "Submit a report for approval. Required: reportID. Optional: note. Returns the new Report.",
+        "params_schema": {
+          "reportID": "string?",
+          "note": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "report",
+          "submit"
+        ]
+      },
+      {
+        "tool": "tag.list",
+        "summary": "List tags for a workspace. Required: policyID. Returns array of Tag.",
+        "params_schema": {
+          "policyID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tag"
+        ]
+      },
+      {
+        "tool": "workspace.get",
+        "summary": "Get workspace detail. Required: policyID. Returns the new Workspace.",
+        "params_schema": {
+          "policyID": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workspace"
+        ]
+      },
+      {
+        "tool": "workspace.list",
+        "summary": "List workspaces accessible to your account. Returns array of Workspace.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "workspace",
+          "list"
+        ]
+      }
+    ]
+  },
+  {
     "api": "facebook-marketplace",
     "description": "Search, draft, publish, mirror, and monitor Facebook Marketplace listings with seller helpers and explicit write checkpoints.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/facebook-marketplace/cmd/facebook-marketplace-pp-cli",
@@ -133089,6 +133956,175 @@
         "argv_path": [
           "wearables",
           "supported_apps"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "gainsight",
+    "description": "Read-first Gainsight NXT API surface for customer success account, relationship, person, timeline",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/gainsight/cmd/gainsight-pp-cli",
+    "auth_type": "api_key",
+    "category": "sales-and-crm",
+    "search_terms": [
+      "gainsight",
+      "Gainsight Read",
+      "gainsight-pp-cli",
+      "Read-first Gainsight NXT API surface for customer success account, relationship, person, timeline",
+      "Agent command discovery",
+      "which",
+      "Map a natural-language capability request to the exact generated CLI command before executing it.",
+      "Structured agent context",
+      "agent-context",
+      "Emit machine-readable command, auth, and profile metadata so agents can plan calls without scraping help text.",
+      "Local SQLite sync framework",
+      "sync",
+      "Sync selected API resources into a local SQLite store for repeatable offline inspection and analysis.",
+      "SQL analytics on synced records",
+      "analytics",
+      "Run read-only SQL against synced API records for compound questions the upstream API does not expose directly."
+    ],
+    "endpoints": [
+      {
+        "tool": "cockpit.list-calls-to-action",
+        "summary": "List Cockpit calls to action. Optional: limit, offset, status. Returns the AnyObject.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "cockpit",
+          "list-calls-to-action"
+        ]
+      },
+      {
+        "tool": "companies.list",
+        "summary": "List Gainsight companies. Optional: limit, offset. Returns the AnyObject.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "companies"
+        ]
+      },
+      {
+        "tool": "companies.get-company",
+        "summary": "Get a company by ID. Required: id. Returns the AnyObject.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "companies",
+          "get-company"
+        ]
+      },
+      {
+        "tool": "data.list-objects",
+        "summary": "List Gainsight data objects. Returns the AnyObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "data",
+          "list-objects"
+        ]
+      },
+      {
+        "tool": "healthscores.list-health-scores",
+        "summary": "List customer health score records. Optional: limit, offset. Returns the AnyObject.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "healthscores",
+          "list-health-scores"
+        ]
+      },
+      {
+        "tool": "people.list",
+        "summary": "List people. Optional: limit, offset. Returns the AnyObject.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "people"
+        ]
+      },
+      {
+        "tool": "people.get-person",
+        "summary": "Get a person by ID. Required: id. Returns the AnyObject.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "people",
+          "get-person"
+        ]
+      },
+      {
+        "tool": "relationships.get",
+        "summary": "Get a relationship by ID. Required: id. Returns the AnyObject.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "relationships"
+        ]
+      },
+      {
+        "tool": "relationships.list",
+        "summary": "List relationships. Optional: limit, offset. Returns the AnyObject.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "relationships",
+          "list"
+        ]
+      },
+      {
+        "tool": "successplans.list-success-plans",
+        "summary": "List success plans. Optional: limit, offset. Returns the AnyObject.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "successplans",
+          "list-success-plans"
+        ]
+      },
+      {
+        "tool": "timeline.list-activities",
+        "summary": "List Timeline activities. Optional: limit, offset, companyId. Returns the AnyObject.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "companyId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "timeline",
+          "list-activities"
         ]
       }
     ]
@@ -150822,6 +151858,51 @@
     ]
   },
   {
+    "api": "isitagentready",
+    "description": "The terminal scanner for AI-agent readiness: every check the web tool runs, plus copy-paste fixes, CI gating, scan history, and a local store the web UI has no answer for.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/isitagentready/cmd/isitagentready-pp-cli",
+    "auth_type": "none",
+    "category": "developer-tools",
+    "search_terms": [
+      "isitagentready",
+      "Is It Agent Ready",
+      "isitagentready-pp-cli",
+      "The terminal scanner for AI-agent readiness: every check the web tool runs, plus copy-paste fixes, CI gating, scan history, and a local store the web UI has no answer for.",
+      "CI readiness gate",
+      "gate",
+      "Fail a build when a site drops below a target readiness level or when a previously-passing check regresses.",
+      "Cross-site open-advice backlog",
+      "open-advice",
+      "List every still-failing check across all your scanned sites with its fix prompt, so you see exactly what is left to do.",
+      "Score-over-time history",
+      "history",
+      "Show a site's readiness level across every past scan and flag which checks flipped pass/fail between scans.",
+      "Two-scan regression diff",
+      "diff",
+      "Diff two scans of a site (default: the latest two) into a per-check regressed/fixed/unchanged table plus the level delta.",
+      "Competitor standards matrix",
+      "compare",
+      "Scan several sites and print a check-by-check matrix of which agent standards each one implements, plus each site's level.",
+      "Portfolio batch scan",
+      "batch",
+      "Scan a list of URLs from a file or stdin, persist each, and print a leaderboard ranked by level or failing-check count."
+    ],
+    "endpoints": [
+      {
+        "tool": "scan.run",
+        "summary": "Scan a URL; returns readiness level (0-5), per-check results across 5 categories, and prioritized fix advice for reaching the next level. Required: url.",
+        "params_schema": {
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "scan",
+          "run"
+        ]
+      }
+    ]
+  },
+  {
     "api": "jimmy-johns",
     "description": "First terminal CLI for Jimmy John's ordering \u2014 local Unwich conversion, agent-native JSON, every endpoint typed.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/jimmy-johns/cmd/jimmy-johns-pp-cli",
@@ -155369,6 +156450,15 @@
       "Project Burndown",
       "projects burndown",
       "Project a project's landing date by linear-regressing remaining estimate against the team's measured velocity.",
+      "Project Inventory",
+      "projects list",
+      "List Linear projects live, optionally scoped by team, before attaching or auditing portfolio work.",
+      "Project Search",
+      "projects search",
+      "Search Linear projects live by name with an optional team filter.",
+      "Project Name Resolution",
+      "projects resolve",
+      "Resolve one Linear project name to a UUID, preferring exact matches and supporting team scoping.",
       "Cycle Comparison",
       "cycles compare",
       "Side-by-side metrics between any two cycles: completion %, scope added, scope cut, carryover, average cycle time.",
@@ -155389,6 +156479,15 @@
       "Track sprint completion rates over the last N cycles to spot productivity trends.",
       "Initiatives Health",
       "Rolled-up portfolio view per initiative: child project progress, milestone target-vs-projected dates, slippage flags.",
+      "Initiative Inventory",
+      "initiatives list",
+      "List Linear initiatives live with their current status and URL.",
+      "Initiative Search",
+      "initiatives search",
+      "Search Linear initiatives live by name.",
+      "Initiative Name Resolution",
+      "initiatives resolve",
+      "Resolve one Linear initiative name to a UUID, preferring exact matches.",
       "At-Risk Milestones",
       "milestones at-risk",
       "List portfolio milestones whose projected landing date has slipped past their target, ranked by slip magnitude.",
@@ -155715,6 +156814,530 @@
         "positionals": [],
         "argv_path": [
           "users"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "linq",
+    "description": "Agent-native messaging API for chats, messages, attachments, phone numbers, contact cards, capability checks, and webhooks",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/social-and-messaging/linq/cmd/linq-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "social-and-messaging",
+    "search_terms": [
+      "linq",
+      "linq-pp-cli",
+      "Agent-native messaging API for chats, messages, attachments, phone numbers, contact cards, capability checks, and webhooks",
+      "Encrypted local mirror",
+      "sync/search/tail",
+      "Caches Linq chats and messages in an encrypted local mirror with searchable text redacted.",
+      "Generic rich message composer",
+      "compose preview/send",
+      "Builds the documented nested message body for generic Linq text, media, rich links, replies, preferred service, idempotency, effects, and text decorations with shared validation.",
+      "Protocol-aware typing and effects",
+      "typing start/stop/pulse, effects list/preview",
+      "Adds bounded typing indicators plus iMessage effect and decoration discovery for generic Linq chats.",
+      "Webhook subscription operations",
+      "webhooks list/show/add-event/remove-event/set-events/doctor",
+      "Wraps webhook subscription management with event-catalog validation, safe read-modify-write event updates, and drift checks for inbound events such as typing indicators.",
+      "Channel capability check",
+      "capability check",
+      "Resolves addresses to iMessage, RCS, or SMS and reports typing, effects, read-receipt, and rich-message feature support without echoing full addresses.",
+      "Attachment lifecycle workflow",
+      "attachments plan/upload/send-url/send-id/audit-url/cleanup",
+      "Plans direct URL versus pre-upload paths, enforces HTTPS and size limits, sends media parts, explains persistent/ephemeral lifecycle, and exposes cleanup.",
+      "Rich link preview workflow",
+      "link-preview audit/send/metadata",
+      "Audits link-only preview rules, blocks first-outbound link openers, sends rich preview parts, and checks Open Graph/Twitter/title/image metadata.",
+      "Reaction workflow",
+      "react add/remove/custom",
+      "Wraps built-in and custom reactions with validation, part-index support, and outbound sticker blocking.",
+      "Contact-share workflow",
+      "contact-share preflight/send",
+      "Preflights native iMessage Name and Photo Sharing by checking contact card readiness, local prior-outbound evidence when available, and once-per-day prompt behavior."
+    ],
+    "endpoints": [
+      {
+        "tool": "attachments.delete-an",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: attachmentId. Destructive.",
+        "params_schema": {
+          "attachmentId": "string"
+        },
+        "positionals": [
+          "attachmentId"
+        ],
+        "argv_path": [
+          "attachments",
+          "delete-an"
+        ]
+      },
+      {
+        "tool": "attachments.get-metadata",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: attachmentId. Returns the GenericObject.",
+        "params_schema": {
+          "attachmentId": "string"
+        },
+        "positionals": [
+          "attachmentId"
+        ],
+        "argv_path": [
+          "attachments",
+          "get-metadata"
+        ]
+      },
+      {
+        "tool": "attachments.pre-upload-afile",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns the new GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "attachments",
+          "pre-upload-afile"
+        ]
+      },
+      {
+        "tool": "capability.check-imessage",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns the new GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "capability",
+          "check-imessage"
+        ]
+      },
+      {
+        "tool": "capability.check-rcscapability",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns the new GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "capability",
+          "check-rcscapability"
+        ]
+      },
+      {
+        "tool": "chats.create-anew",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns the new GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "create-anew"
+        ]
+      },
+      {
+        "tool": "chats.get-achat-by-id",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "get-achat-by-id"
+        ]
+      },
+      {
+        "tool": "chats.list-all",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Optional: limit, cursor, from (plus 3 more). Returns array of GenericObject.",
+        "params_schema": {
+          "limit": "int?",
+          "cursor": "string?",
+          "from": "string?",
+          "to": "string?",
+          "before": "string?",
+          "after": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "list-all"
+        ]
+      },
+      {
+        "tool": "chats.update-achat",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the updated GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "update-achat"
+        ]
+      },
+      {
+        "tool": "chats.leave_agroup-chat",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the new GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "leave_agroup-chat"
+        ]
+      },
+      {
+        "tool": "chats.location_get-data",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "location_get-data"
+        ]
+      },
+      {
+        "tool": "chats.location_request-sharing",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the new GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "location_request-sharing"
+        ]
+      },
+      {
+        "tool": "chats.messages_get-from-achat",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Optional: limit, cursor, from (plus 3 more). Returns array of GenericObject.",
+        "params_schema": {
+          "chatId": "string",
+          "limit": "int?",
+          "cursor": "string?",
+          "from": "string?",
+          "to": "string?",
+          "before": "string?",
+          "after": "string?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "messages_get-from-achat"
+        ]
+      },
+      {
+        "tool": "chats.messages_send-amessage-to-an-existing-chat",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the new GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "messages_send-amessage-to-an-existing-chat"
+        ]
+      },
+      {
+        "tool": "chats.participants_add-aparticipant-to-achat",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the new GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "participants_add-aparticipant-to-achat"
+        ]
+      },
+      {
+        "tool": "chats.participants_remove-aparticipant-from-achat",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the GenericObject. Destructive.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "participants_remove-aparticipant-from-achat"
+        ]
+      },
+      {
+        "tool": "chats.read_mark-chat-as",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the new GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "read_mark-chat-as"
+        ]
+      },
+      {
+        "tool": "chats.share-contact-card_share-your-contact-card-with-achat",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the new GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "share-contact-card_share-your-contact-card-with-achat"
+        ]
+      },
+      {
+        "tool": "chats.typing_start-indicator",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the new GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "typing_start-indicator"
+        ]
+      },
+      {
+        "tool": "chats.typing_stop-indicator",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the GenericObject. Destructive.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "typing_stop-indicator"
+        ]
+      },
+      {
+        "tool": "chats.voicememo_send-avoice-memo-to-achat",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: chatId. Returns the new GenericObject.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "voicememo_send-avoice-memo-to-achat"
+        ]
+      },
+      {
+        "tool": "contact-card.get",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns array of GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "contact-card"
+        ]
+      },
+      {
+        "tool": "contact-card.setup",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns the new GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "contact-card",
+          "setup"
+        ]
+      },
+      {
+        "tool": "contact-card.update",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns the updated GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "contact-card",
+          "update"
+        ]
+      },
+      {
+        "tool": "messages.delete-amessage-from-system",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: messageId. Destructive.",
+        "params_schema": {
+          "messageId": "string"
+        },
+        "positionals": [
+          "messageId"
+        ],
+        "argv_path": [
+          "messages",
+          "delete-amessage-from-system"
+        ]
+      },
+      {
+        "tool": "messages.edit-the-content-of-amessage-part",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: messageId. Returns the updated GenericObject.",
+        "params_schema": {
+          "messageId": "string"
+        },
+        "positionals": [
+          "messageId"
+        ],
+        "argv_path": [
+          "messages",
+          "edit-the-content-of-amessage-part"
+        ]
+      },
+      {
+        "tool": "messages.get-amessage-by-id",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: messageId. Returns the GenericObject.",
+        "params_schema": {
+          "messageId": "string"
+        },
+        "positionals": [
+          "messageId"
+        ],
+        "argv_path": [
+          "messages",
+          "get-amessage-by-id"
+        ]
+      },
+      {
+        "tool": "messages.reactions_add-or-remove-areaction-to-amessage",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: messageId. Returns the new GenericObject.",
+        "params_schema": {
+          "messageId": "string"
+        },
+        "positionals": [
+          "messageId"
+        ],
+        "argv_path": [
+          "messages",
+          "reactions_add-or-remove-areaction-to-amessage"
+        ]
+      },
+      {
+        "tool": "messages.thread_get-all-messages-in-athread",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: messageId. Optional: limit, cursor, from (plus 3 more). Returns array of GenericObject.",
+        "params_schema": {
+          "messageId": "string",
+          "limit": "int?",
+          "cursor": "string?",
+          "from": "string?",
+          "to": "string?",
+          "before": "string?",
+          "after": "string?"
+        },
+        "positionals": [
+          "messageId"
+        ],
+        "argv_path": [
+          "messages",
+          "thread_get-all-messages-in-athread"
+        ]
+      },
+      {
+        "tool": "phone-numbers.list",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns array of GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "phone-numbers"
+        ]
+      },
+      {
+        "tool": "phonenumbers.list-phone-numbers-deprecated",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns array of GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "phonenumbers",
+          "list-phone-numbers-deprecated"
+        ]
+      },
+      {
+        "tool": "webhook-events.list-available-types",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns array of GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhook-events",
+          "list-available-types"
+        ]
+      },
+      {
+        "tool": "webhook-subscriptions.create-anew",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns the new GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhook-subscriptions",
+          "create-anew"
+        ]
+      },
+      {
+        "tool": "webhook-subscriptions.delete-awebhook-subscription",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: subscriptionId. Destructive.",
+        "params_schema": {
+          "subscriptionId": "string"
+        },
+        "positionals": [
+          "subscriptionId"
+        ],
+        "argv_path": [
+          "webhook-subscriptions",
+          "delete-awebhook-subscription"
+        ]
+      },
+      {
+        "tool": "webhook-subscriptions.get-awebhook-subscription-by-id",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: subscriptionId. Returns the GenericObject.",
+        "params_schema": {
+          "subscriptionId": "string"
+        },
+        "positionals": [
+          "subscriptionId"
+        ],
+        "argv_path": [
+          "webhook-subscriptions",
+          "get-awebhook-subscription-by-id"
+        ]
+      },
+      {
+        "tool": "webhook-subscriptions.list-all",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Returns array of GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhook-subscriptions",
+          "list-all"
+        ]
+      },
+      {
+        "tool": "webhook-subscriptions.update-awebhook-subscription",
+        "summary": "Source: https://docs.linqapp.com/api. Cross-check: github.com/linq-team/linq-go/api.md. Required: subscriptionId. Returns the updated GenericObject.",
+        "params_schema": {
+          "subscriptionId": "string"
+        },
+        "positionals": [
+          "subscriptionId"
+        ],
+        "argv_path": [
+          "webhook-subscriptions",
+          "update-awebhook-subscription"
         ]
       }
     ]
@@ -179466,6 +181089,172 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "pexels",
+    "description": "Every Pexels photo, video, and collection endpoint \u2014 plus a local store that adds quota forecasting, dedup-aware bulk download, and one-shot attribution exports no other Pexels tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/pexels/cmd/pexels-pp-cli",
+    "auth_type": "api_key",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "pexels",
+      "pexels-pp-cli",
+      "Every Pexels photo, video, and collection endpoint \u2014 plus a local store that adds quota forecasting, dedup-aware bulk download, and one-shot attribution exports no other Pexels tool has.",
+      "Quota forecaster",
+      "quota forecast",
+      "Check before a bulk pull whether it fits your remaining hourly/monthly Pexels quota, with a reset ETA.",
+      "Best-fit resolution picker",
+      "resolve",
+      "Pick the smallest photo size or video file that meets a target dimension without upscaling.",
+      "Attribution ledger + SOURCES export",
+      "attribution export",
+      "Emit a SOURCES.md and per-file .meta.json sidecars crediting every photographer in your local download ledger.",
+      "Dedup + rate-aware bulk download",
+      "download",
+      "Bulk-download a query, skipping media already in your ledger and checkpointing each page so a hit quota stops you gracefully.",
+      "Offline re-search of synced media",
+      "search",
+      "Full-text search media you already synced, with stable ordering and no API call.",
+      "Photographer attribution roll-up",
+      "analytics",
+      "Group your synced photos by photographer to review credit balance and licensing coverage."
+    ],
+    "endpoints": [
+      {
+        "tool": "collections.list",
+        "summary": "List the authenticated user's own collections (requires PEXELS_API_KEY). Optional: page (default: 1), per_page (default: 15). Returns array of Collection. (requires API key)",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "collections"
+        ]
+      },
+      {
+        "tool": "collections.featured",
+        "summary": "List Pexels featured collections. Optional: page (default: 1), per_page (default: 15). Returns array of Collection.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "collections",
+          "featured"
+        ]
+      },
+      {
+        "tool": "collections.media",
+        "summary": "List the media (photos and/or videos) inside a collection. Required: id. Optional: type, sort (default: asc), page (default: 1) (plus 1 more). Returns array of CollectionMedia.",
+        "params_schema": {
+          "id": "string",
+          "type": "string?",
+          "sort": "string?",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "collections",
+          "media"
+        ]
+      },
+      {
+        "tool": "photos.get",
+        "summary": "Get a single photo by its numeric id. Required: id. Returns the Photo.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "photos"
+        ]
+      },
+      {
+        "tool": "photos.curated",
+        "summary": "Browse the Pexels editor-curated photo feed (use --random for a random page). Optional: page (default: 1), per_page (default: 15). Returns array of Photo.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "photos",
+          "curated"
+        ]
+      },
+      {
+        "tool": "photos.search",
+        "summary": "Search photos by keyword with orientation/size/color/locale filters. Required: query. Optional: orientation, size, color (plus 3 more). Returns array of Photo.",
+        "params_schema": {
+          "query": "string?",
+          "orientation": "string?",
+          "size": "string?",
+          "color": "string?",
+          "locale": "string?",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "photos",
+          "search"
+        ]
+      },
+      {
+        "tool": "videos.get",
+        "summary": "Get a single video by its numeric id. Required: id. Returns the Video.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "videos"
+        ]
+      },
+      {
+        "tool": "videos.popular",
+        "summary": "Browse popular videos with optional dimension/duration filters. Optional: min_width, min_height, min_duration (plus 3 more). Returns array of Video.",
+        "params_schema": {
+          "min_width": "int?",
+          "min_height": "int?",
+          "min_duration": "int?",
+          "max_duration": "int?",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "videos",
+          "popular"
+        ]
+      },
+      {
+        "tool": "videos.search",
+        "summary": "Search videos by keyword with orientation/size/locale filters. Required: query. Optional: orientation, size, locale (plus 2 more). Returns array of Video.",
+        "params_schema": {
+          "query": "string?",
+          "orientation": "string?",
+          "size": "string?",
+          "locale": "string?",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "videos",
+          "search"
         ]
       }
     ]
