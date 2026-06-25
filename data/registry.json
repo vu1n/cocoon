@@ -103203,6 +103203,523 @@
     ]
   },
   {
+    "api": "context-dev",
+    "description": "Agent-friendly Context.dev CLI for website intelligence, brand enrichment, scraping, crawling, structured extraction, screenshots, styleguides, competitor maps, source packs, and change digests.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/context-dev/cmd/context-dev-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "ai",
+    "search_terms": [
+      "context-dev",
+      "Context",
+      "context-dev-pp-cli",
+      "Agent-friendly Context.dev CLI for website intelligence, brand enrichment, scraping, crawling, structured extraction, screenshots, styleguides, competitor maps, source packs, and change digests.",
+      "Scrape Markdown",
+      "scrape",
+      "One-argument URL-to-Markdown wrapper for LLM-ready page content.",
+      "Same-domain crawl",
+      "crawl",
+      "Credit-aware crawl wrapper with same-domain URL regex, default max-pages 5, estimate mode, and confirmation above 25 pages.",
+      "Typed extraction",
+      "extract",
+      "URL plus JSON Schema file wrapper for structured website extraction.",
+      "Styleguide extraction",
+      "styleguide",
+      "One-argument design-system extraction wrapper for domains or URLs.",
+      "Screenshot preview",
+      "screenshot",
+      "One-argument screenshot wrapper for domains or direct URLs.",
+      "Entity discover",
+      "entity-discover",
+      "Fielded public entity search with brand and scrape enrichment, sensitive/free-form input rejection, heuristic ranking, and per-record provenance.",
+      "Brand brief",
+      "brand-brief",
+      "Domain-to-normalized brand profile composing brand retrieval, styleguide, screenshot, scrape summary, contact surfaces, and provenance.",
+      "Competitor map",
+      "competitor-map",
+      "Competitor discovery and enrichment from a seed domain or query, clustered by category/market with ranking rationale and overlap signals.",
+      "Crawl budget plan",
+      "crawl-budget-plan",
+      "Non-spending crawl planner that estimates same-domain urlRegex scope, max pages, credits, coverage, risks, and recommended crawl command.",
+      "Source pack",
+      "source-pack",
+      "Search-and-scrape source collection with optional schema extraction, cited source URLs, zero-result distinction, and per-claim/source provenance.",
+      "Website change digest",
+      "website-change-digest",
+      "State-dir website snapshots for scrape, styleguide, and screenshot signals with local diff output across copy, facts/links, and visual identity.",
+      "Schema lab",
+      "schema-lab",
+      "Batch extraction schema test harness for sample URLs with fill rates, parse failures, example misses, per-URL statuses, and partial-failure tolerance.",
+      "Asset pack",
+      "asset-pack",
+      "Compact designer/agent asset bundle composing logo, palette, fonts, styleguide, screenshot, favicon, socials, and provenance.",
+      "Trust check",
+      "trust-check",
+      "Website, social, address, phone, logo, title/domain, and web-signal consistency report that phrases output as risk signals, not fraud claims.",
+      "Lead enrich batch",
+      "lead-enrich-batch",
+      "CSV lead enrichment with per-row success/error output, provenance, resume/output support, rate-limit compatibility, and strict-mode opt-in."
+    ],
+    "endpoints": [
+      {
+        "tool": "brand.create",
+        "summary": "Signal that you may fetch brand data for a particular domain soon to improve latency. Required: domain. Optional: timeoutMS. Returns the new BrandCreateResponse.",
+        "params_schema": {
+          "domain": "string?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand"
+        ]
+      },
+      {
+        "tool": "brand.create-ai",
+        "summary": "Given a single URL, determines if it is a product page and extracts the product information. Required: url. Optional: maxAgeMs (default: 6.048e+08), timeoutMS. Returns the new BrandCreateAiResponse.",
+        "params_schema": {
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "create-ai"
+        ]
+      },
+      {
+        "tool": "brand.create-ai-2",
+        "summary": "Extract product information from a brand's website. We will analyze the website and return a list of products with details such as name, description, image, pricing, features, and more. Returns array of BrandCreateAi2Item.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "create-ai-2"
+        ]
+      },
+      {
+        "tool": "brand.create-ai-3",
+        "summary": "Use AI to extract specific data points from a brand's website. The AI will crawl the website and extract the requested information based on the provided data points. Required: data_to_extract, domain. Optional: specific_pages, timeoutMS. Returns the new BrandCreateAi3Response.",
+        "params_schema": {
+          "data_to_extract": "array?",
+          "domain": "string?",
+          "specific-pages-about-us": "bool?",
+          "specific-pages-blog": "bool?",
+          "specific-pages-careers": "bool?",
+          "specific-pages-contact-us": "bool?",
+          "specific-pages-faq": "bool?",
+          "specific-pages-home-page": "bool?",
+          "specific-pages-pricing": "bool?",
+          "specific-pages-privacy-policy": "bool?",
+          "specific-pages-terms-and-conditions": "bool?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "create-ai-3"
+        ]
+      },
+      {
+        "tool": "brand.create-prefetchbyemail",
+        "summary": "Signal that you may fetch brand data for a particular domain soon to improve latency. This endpoint accepts an email address, extracts the domain from it, validates that it's not a disposable or free email provider, and queues the domain for prefetching. Required: email. Optional: timeoutMS. Returns the new BrandCreatePrefetchbyemailResponse.",
+        "params_schema": {
+          "email": "string?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "create-prefetchbyemail"
+        ]
+      },
+      {
+        "tool": "brand.list",
+        "summary": "Retrieve logos, backdrops, colors, industry, description, and more from any domain. Required: domain. Optional: force_language, maxSpeed, maxAgeMs (default: 7.776e+09) (plus 1 more). Returns the BrandResponse.",
+        "params_schema": {
+          "domain": "string?",
+          "force_language": "string?",
+          "maxSpeed": "bool?",
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "list"
+        ]
+      },
+      {
+        "tool": "brand.list-retrievebyemail",
+        "summary": "Retrieve brand information using an email address while detecting disposable and free email addresses. Disposable and free email addresses (like gmail.com, yahoo.com) will throw a 422 error. Required: email. Optional: force_language, maxSpeed, maxAgeMs (default: 7.776e+09) (plus 1 more). Returns the BrandResponse.",
+        "params_schema": {
+          "email": "string?",
+          "force_language": "string?",
+          "maxSpeed": "bool?",
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "list-retrievebyemail"
+        ]
+      },
+      {
+        "tool": "brand.list-retrievebyisin",
+        "summary": "Retrieve brand information using an ISIN (International Securities Identification Number). Required: isin. Optional: force_language, maxSpeed, maxAgeMs (default: 7.776e+09) (plus 1 more). Returns the BrandResponse.",
+        "params_schema": {
+          "isin": "string?",
+          "force_language": "string?",
+          "maxSpeed": "bool?",
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "list-retrievebyisin"
+        ]
+      },
+      {
+        "tool": "brand.list-retrievebyname",
+        "summary": "Retrieve brand information using a company name. Required: name. Optional: country_gl, force_language, maxSpeed (plus 2 more). Returns the BrandResponse.",
+        "params_schema": {
+          "name": "string?",
+          "country_gl": "string?",
+          "force_language": "string?",
+          "maxSpeed": "bool?",
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "list-retrievebyname"
+        ]
+      },
+      {
+        "tool": "brand.list-retrievebyticker",
+        "summary": "Retrieve brand information using a stock ticker symbol. Required: ticker. Optional: ticker_exchange, force_language, maxSpeed (plus 2 more). Returns the BrandResponse.",
+        "params_schema": {
+          "ticker": "string?",
+          "ticker_exchange": "string?",
+          "force_language": "string?",
+          "maxSpeed": "bool?",
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "list-retrievebyticker"
+        ]
+      },
+      {
+        "tool": "brand.list-retrievesimplified",
+        "summary": "Returns a simplified version of brand data containing only essential information: domain, title, colors, logos, and backdrops. Optimized for faster responses and reduced data transfer. Required: domain. Optional: maxAgeMs (default: 7.776e+09), timeoutMS.",
+        "params_schema": {
+          "domain": "string?",
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "list-retrievesimplified"
+        ]
+      },
+      {
+        "tool": "brand.list-transactionidentifier",
+        "summary": "Endpoint specially designed for platforms that want to identify transaction data by the transaction title. Required: transaction_info. Optional: country_gl, city, mcc (plus 5 more). Returns the BrandResponse.",
+        "params_schema": {
+          "transaction_info": "string?",
+          "country_gl": "string?",
+          "city": "string?",
+          "mcc": "string?",
+          "phone": "float?",
+          "high_confidence_only": "bool?",
+          "force_language": "string?",
+          "maxSpeed": "bool?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brand",
+          "list-transactionidentifier"
+        ]
+      },
+      {
+        "tool": "people.create",
+        "summary": "Retrieve and normalize a person profile from identifiers. Required: identifiers. Optional: timeoutMS. Returns the new PersonRetrieveResponse.",
+        "params_schema": {
+          "identifiers-linkedin-url": "string?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "people"
+        ]
+      },
+      {
+        "tool": "web.create",
+        "summary": "Performs a crawl starting from a given URL, extracts page content as Markdown, and returns results for all crawled pages. Required: url. Optional: excludeSelectors, followSubdomains (default: false), includeFrames (default: false) (plus 13 more).",
+        "params_schema": {
+          "excludeSelectors": "string_csv_array?",
+          "followSubdomains": "bool?",
+          "includeFrames": "bool?",
+          "includeImages": "bool?",
+          "includeLinks": "bool?",
+          "includeSelectors": "string_csv_array?",
+          "maxAgeMs": "int?",
+          "maxDepth": "int?",
+          "maxPages": "int?",
+          "pdf-end": "int?",
+          "pdf-should-parse": "bool?",
+          "pdf-start": "int?",
+          "shortenBase64Images": "bool?",
+          "stopAfterMs": "int?",
+          "timeoutMS": "int?",
+          "url": "string?",
+          "urlRegex": "string?",
+          "useMainContentOnly": "bool?",
+          "waitForMs": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web"
+        ]
+      },
+      {
+        "tool": "web.create-extract",
+        "summary": "Crawl a website, use the provided JSON Schema and instructions to prioritize relevant internal links, and extract structured data from the selected pages. Required: schema, url. Optional: factCheck (default: false), followSubdomains (default: false), includeFrames (default: false) (plus 8 more). Returns array of string.",
+        "params_schema": {
+          "factCheck": "bool?",
+          "followSubdomains": "bool?",
+          "includeFrames": "bool?",
+          "instructions": "string?",
+          "maxAgeMs": "int?",
+          "maxDepth": "int?",
+          "maxPages": "int?",
+          "pdf-end": "int?",
+          "pdf-should-parse": "bool?",
+          "pdf-start": "int?",
+          "schema": "object?",
+          "stopAfterMs": "int?",
+          "timeoutMS": "int?",
+          "url": "string?",
+          "waitForMs": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "create-extract"
+        ]
+      },
+      {
+        "tool": "web.create-search",
+        "summary": "Search the web and optionally scrape each result to Markdown in one round-trip. Required: query. Optional: excludeDomains, freshness, includeDomains (plus 3 more). Returns array of WebCreateSearchItem.",
+        "params_schema": {
+          "excludeDomains": "string_csv_array?",
+          "freshness": "string?",
+          "includeDomains": "string_csv_array?",
+          "markdown-options-enabled": "bool?",
+          "markdown-options-include-frames": "bool?",
+          "markdown-options-include-images": "bool?",
+          "markdown-options-include-links": "bool?",
+          "markdown-options-max-age-ms": "int?",
+          "markdown-options-pdf-end": "int?",
+          "markdown-options-pdf-should-parse": "bool?",
+          "markdown-options-pdf-start": "int?",
+          "markdown-options-shorten-base64-images": "bool?",
+          "markdown-options-timeout-ms": "int?",
+          "markdown-options-use-main-content-only": "bool?",
+          "markdown-options-wait-for-ms": "int?",
+          "query": "string?",
+          "queryFanout": "bool?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "create-search"
+        ]
+      },
+      {
+        "tool": "web.list",
+        "summary": "Analyze a company's landing page and web search evidence to return direct competitors for the same product or market. Required: domain. Optional: numCompetitors (default: 5), timeoutMS. Returns array of WebListItem.",
+        "params_schema": {
+          "domain": "string?",
+          "numCompetitors": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list"
+        ]
+      },
+      {
+        "tool": "web.list-fonts",
+        "summary": "Scrape font information from a website including font families, usage statistics, fallbacks, and element/word counts. Optional: domain, directUrl, maxAgeMs (default: 7.776e+09) (plus 1 more). Returns array of WebListFontsItem.",
+        "params_schema": {
+          "domain": "string?",
+          "directUrl": "string?",
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-fonts"
+        ]
+      },
+      {
+        "tool": "web.list-naics",
+        "summary": "Classify any brand into 2022 NAICS industry codes from its domain or name. Required: input. Optional: minResults (default: 1), maxResults (default: 5), timeoutMS. Returns array of WebListNaicsItem.",
+        "params_schema": {
+          "input": "string?",
+          "minResults": "int?",
+          "maxResults": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-naics"
+        ]
+      },
+      {
+        "tool": "web.list-scrape",
+        "summary": "Scrapes the given URL and returns the raw HTML content of the page. Required: url. Optional: pdf (default: map[shouldParse:true]), includeFrames (default: false), useMainContentOnly (default: false) (plus 6 more).",
+        "params_schema": {
+          "url": "string?",
+          "pdf": "object?",
+          "includeFrames": "bool?",
+          "useMainContentOnly": "bool?",
+          "includeSelectors": "array?",
+          "excludeSelectors": "array?",
+          "maxAgeMs": "int?",
+          "waitForMs": "int?",
+          "headers": "object?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-scrape"
+        ]
+      },
+      {
+        "tool": "web.list-scrape-2",
+        "summary": "Extract image assets from a web page, including standard URLs, inline SVGs, data URIs, responsive image sources, metadata, CSS backgrounds, video posters, and embeds. The base request costs 1 credit. When enrichment is enabled, the entire call costs 5 credits. Required: url. Optional: maxAgeMs (default: 8.64e+07), enrichment, waitForMs (plus 2 more). Returns array of WebListScrape2Item.",
+        "params_schema": {
+          "url": "string?",
+          "maxAgeMs": "int?",
+          "enrichment": "object?",
+          "waitForMs": "int?",
+          "headers": "object?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-scrape-2"
+        ]
+      },
+      {
+        "tool": "web.list-scrape-3",
+        "summary": "Scrapes the given URL into LLM usable Markdown. Required: url. Optional: includeLinks (default: true), includeImages (default: false), shortenBase64Images (default: true) (plus 9 more). Returns the WebListScrape3Response.",
+        "params_schema": {
+          "url": "string?",
+          "includeLinks": "bool?",
+          "includeImages": "bool?",
+          "shortenBase64Images": "bool?",
+          "useMainContentOnly": "bool?",
+          "pdf": "object?",
+          "includeFrames": "bool?",
+          "includeSelectors": "array?",
+          "excludeSelectors": "array?",
+          "maxAgeMs": "int?",
+          "waitForMs": "int?",
+          "headers": "object?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-scrape-3"
+        ]
+      },
+      {
+        "tool": "web.list-scrape-4",
+        "summary": "Crawl an entire website's sitemap and return all discovered page URLs. Required: domain. Optional: maxLinks (default: 10000), urlRegex, headers (plus 1 more). Returns array of string.",
+        "params_schema": {
+          "domain": "string?",
+          "maxLinks": "int?",
+          "urlRegex": "string?",
+          "headers": "object?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-scrape-4"
+        ]
+      },
+      {
+        "tool": "web.list-screenshot",
+        "summary": "Capture a screenshot of a website. Optional: domain, directUrl, fullScreenshot (plus 6 more). Returns the WebListScreenshotResponse.",
+        "params_schema": {
+          "domain": "string?",
+          "directUrl": "string?",
+          "fullScreenshot": "string?",
+          "handleCookiePopup": "string?",
+          "viewport": "object?",
+          "maxAgeMs": "int?",
+          "page": "string?",
+          "waitForMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-screenshot"
+        ]
+      },
+      {
+        "tool": "web.list-sic",
+        "summary": "Classify any brand into Standard Industrial Classification (SIC) codes from its domain or name. Choose between the original SIC system (`original_sic`) or the latest SIC list maintained by the SEC (`latest_sec`). Required: input. Optional: type (default: original_sic), minResults (default: 1), maxResults (default: 5) (plus 1 more). Returns array of WebListSicItem.",
+        "params_schema": {
+          "input": "string?",
+          "type": "string?",
+          "minResults": "int?",
+          "maxResults": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-sic"
+        ]
+      },
+      {
+        "tool": "web.list-styleguide",
+        "summary": "Extract a comprehensive design system from a website including colors, typography, spacing, shadows, and UI components. Optional: domain, directUrl, maxAgeMs (default: 7.776e+09) (plus 1 more). Returns the WebListStyleguideResponse.",
+        "params_schema": {
+          "domain": "string?",
+          "directUrl": "string?",
+          "maxAgeMs": "int?",
+          "timeoutMS": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "list-styleguide"
+        ]
+      }
+    ]
+  },
+  {
     "api": "craigslist",
     "description": "Search, sync, and watch Craigslist with a local SQLite snapshot history, cross-city aggregation, scam scoring, and price-drift detection.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/craigslist/cmd/craigslist-pp-cli",
@@ -165753,6 +166270,113 @@
         "positionals": [],
         "argv_path": [
           "storage"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "mixlayer",
+    "description": "Privacy-first Mixlayer CLI for OpenAI-compatible chat, local PII redaction and vaulting, reasoning-aware model ladders, live model catalog refresh, and ledger-backed cost proofs.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/mixlayer/cmd/mixlayer-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "ai",
+    "search_terms": [
+      "mixlayer",
+      "mixlayer-pp-cli",
+      "Privacy-first Mixlayer CLI for OpenAI-compatible chat, local PII redaction and vaulting, reasoning-aware model ladders, live model catalog refresh, and ledger-backed cost proofs.",
+      "Large-data privacy ingest",
+      "shield ingest",
+      "Split large CSV/text inputs into deterministic tranches, redact each tranche through one shared local vault, and reassemble a masked corpus with a manifest.",
+      "Shielded frontier ask",
+      "shield ask",
+      "Redact local data, run an outbound PII tripwire, send only the masked payload to a frontier model, rehydrate the answer locally, and save a privacy receipt.",
+      "PII scan tripwire",
+      "shield scan",
+      "Detect high-risk PII locally with CI-friendly exit codes and no upstream model call.",
+      "Reversible redaction",
+      "shield redact",
+      "Write a masked copy of a file and populate the local token-to-value vault with stable pseudonyms.",
+      "Shape coarsening",
+      "shield restructure",
+      "Drop columns, bucket numeric values, and coarsen dates to reduce re-identification risk before prompting.",
+      "Local vault management",
+      "vault",
+      "List, rehydrate, rotate, or purge the local reversible pseudonym vault without sending values upstream.",
+      "Privacy receipt ledger",
+      "shield audit",
+      "Inspect outbound payload hashes, byte counts, model IDs, masked entity counts, and residual leak counts for shielded sends.",
+      "Model ladder comparison",
+      "ladder",
+      "Run one prompt across selected Mixlayer model rungs, optionally comparing reasoning_content, latency, token usage, and cost.",
+      "Confidence-gated escalation",
+      "escalate",
+      "Start on a cheap rung and climb only when the prior answer appears insufficiently confident.",
+      "Reasoning council",
+      "council",
+      "Fan out to member model rungs and ask a judge model to synthesize answers and flag disagreements.",
+      "Everyday reasoning ask",
+      "ask",
+      "Ask Mixlayer, optionally request reasoning_content, and save prompt, answer, model, seed, token usage, cost, and raw response locally.",
+      "Seed replay",
+      "replay",
+      "Re-run a saved prompt with its original model and seed to check determinism or drift.",
+      "Reasoning grep",
+      "grep",
+      "Search saved prompts, answers, and reasoning traces through the local FTS ledger.",
+      "Cached model DSL",
+      "models query",
+      "Query a local model cache with DSL terms like ctx>=128k tools reasoning, seed it with documented and console-visible model IDs, and optionally refresh it from live /models.",
+      "Read-only ledger SQL",
+      "sql",
+      "Run SELECT-only SQLite queries over the local ledger, vault, audit, ladder, and model cache tables.",
+      "Savings rollup",
+      "savings",
+      "Roll up saved ledger cost against static GPT or Claude frontier baselines.",
+      "Cheap-vs-frontier compare",
+      "compare",
+      "Run a prompt through a cheap rung and frontier rung, report the cost delta, and attach a local-history quality note."
+    ],
+    "endpoints": [
+      {
+        "tool": "chat.create_completion",
+        "summary": "Create a chat completion for the given model and messages. Required: model, messages. Optional: tools, tool_choice, temperature (plus 3 more).",
+        "params_schema": {
+          "model": "string?",
+          "messages": "array?",
+          "tools": "array?",
+          "tool_choice": "string?",
+          "temperature": "number?",
+          "top_p": "number?",
+          "max_tokens": "integer?",
+          "stream": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat",
+          "create_completion"
+        ]
+      },
+      {
+        "tool": "models.get",
+        "summary": "Retrieve a model by ID. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "models"
+        ]
+      },
+      {
+        "tool": "models.list",
+        "summary": "List all available models. Returns array.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "models",
+          "list"
         ]
       }
     ]
