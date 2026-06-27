@@ -136006,6 +136006,73 @@
     ]
   },
   {
+    "api": "giustizia-amministrativa",
+    "description": "La giurisprudenza amministrativa italiana (TAR, Consiglio di Stato) da terminale: ricerca, testo integrale in Markdown, store locale e ricerca offline.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/giustizia-amministrativa/cmd/giustizia-amministrativa-pp-cli",
+    "auth_type": "none",
+    "category": "productivity",
+    "search_terms": [
+      "giustizia-amministrativa",
+      "Giustizia Amministrativa",
+      "giustizia-amministrativa-pp-cli",
+      "La giurisprudenza amministrativa italiana (TAR, Consiglio di Stato) da terminale: ricerca, testo integrale in Markdown, store locale e ricerca offline.",
+      "Testo integrale in Markdown",
+      "get",
+      "Scarica il testo completo di una sentenza/ordinanza/decreto/parere e lo restituisce in Markdown pulito.",
+      "Watch & Diff query salvate",
+      "watch run",
+      "Salva una ricerca e a ogni esecuzione mostra solo i provvedimenti nuovi dall'ultima volta.",
+      "Corpus export",
+      "corpus build",
+      "Assembla N provvedimenti su un tema in una cartella di Markdown + un CSV manifest (ECLI, sede, data, url).",
+      "Grep sui testi integrali",
+      "grep",
+      "Ricerca regex/prossimita' sui testi integrali scaricati localmente, non solo sugli snippet.",
+      "Estrazione massime",
+      "massime",
+      "Estrae i paragrafi 'principio di diritto'/massima da un corpus in un unico digest.",
+      "Appeal-chain tracer",
+      "appeal-chain",
+      "Esegue il 'verifica appello' in batch e ricostruisce la catena TAR->Consiglio di Stato.",
+      "Statistiche corpus",
+      "stats",
+      "Distribuzione di un tema per sede, sezione, tipo e anno."
+    ],
+    "endpoints": [
+      {
+        "tool": "provvedimenti.get",
+        "summary": "Scarica il testo integrale di un provvedimento. Required: id. Returns the Provvedimento.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "provvedimenti"
+        ]
+      },
+      {
+        "tool": "provvedimenti.cerca",
+        "summary": "Cerca provvedimenti per testo, tipo, sede, anno, numero o NRG. Optional: testo, tipo, sede (plus 4 more). Returns array of Provvedimento.",
+        "params_schema": {
+          "testo": "string?",
+          "tipo": "string?",
+          "sede": "string?",
+          "anno": "int?",
+          "numero": "int?",
+          "nrg": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "provvedimenti",
+          "cerca"
+        ]
+      }
+    ]
+  },
+  {
     "api": "gl-inet",
     "description": "The first maintained CLI for GL.iNet travel routers \u2014 named config profiles, travel macros, and version-aware diagnostics no other GL.iNet tool ships.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/gl-inet/cmd/gl-inet-pp-cli",
