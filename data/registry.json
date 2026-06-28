@@ -1457,6 +1457,48 @@
     ]
   },
   {
+    "api": "air-quality",
+    "description": "Source-aware air-quality recipes for OpenAQ v3 measurements, nearby monitor discovery, point comparison, and AirNow AQI setup/observations.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/air-quality/cmd/air-quality-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "air-quality",
+      "Air Quality",
+      "air-quality-pp-cli",
+      "Source-aware air-quality recipes for OpenAQ v3 measurements, nearby monitor discovery, point comparison, and AirNow AQI setup/observations.",
+      "OpenAQ current snapshot",
+      "current",
+      "Finds a nearby OpenAQ location and returns latest physical pollutant measurements with source caveats.",
+      "Nearby monitoring locations",
+      "nearest",
+      "Lists nearby OpenAQ locations with provider, coordinate, and sensor metadata.",
+      "Location latest measurements",
+      "location",
+      "Fetches a known OpenAQ location by ID and its latest measurements.",
+      "Recent sensor history",
+      "history",
+      "Fetches a bounded recent OpenAQ measurement window for one sensor.",
+      "Two-point comparison",
+      "compare",
+      "Compares nearest OpenAQ snapshots for two coordinate pairs without converting measurements into AQI.",
+      "AirNow current AQI setup",
+      "airnow current",
+      "Fetches AirNow current observations by ZIP when configured and otherwise returns setup guidance with non-regulatory caveats."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Source-aware air-quality recipes for OpenAQ v3 measurements, nearby monitor discovery, point comparison, and AirNow AQI setup/observations. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "airbnb",
     "description": "Search Airbnb and VRBO, find the host's direct booking site, and report the cheapest of three sources side-by-side.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/airbnb/cmd/airbnb-pp-cli",
@@ -147534,6 +147576,55 @@
         "argv_path": [
           "hotel",
           "detail"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "ht-ml",
+    "description": "The only ht-ml.app tool that remembers what you published, a local registry of every site, its once-only update_key, and full version history, plus one-command publish-with-assets.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/cloud/ht-ml/cmd/ht-ml-pp-cli",
+    "auth_type": "none",
+    "category": "cloud",
+    "search_terms": [
+      "ht-ml",
+      "ht-ml.app",
+      "ht-ml-pp-cli",
+      "The only ht-ml.app tool that remembers what you published, a local registry of every site, its once-only update_key, and full version history, plus one-command publish-with-assets.",
+      "Site registry inventory",
+      "list",
+      "See every site you've ever published, with health flags for orphaned sites and broken assets.",
+      "Key vault & recovery",
+      "keys export",
+      "Reveal a single write key, or export/import a passphrase-sealed vault of all your update_keys for disaster recovery and a second machine.",
+      "One-shot asset reconcile",
+      "assets sync",
+      "Parse a site's HTML, find every referenced-but-missing image or video, and upload them all in one pass.",
+      "Broken-asset audit",
+      "assets audit",
+      "Across all your sites, list the ones with publicly-visible broken or missing images.",
+      "Version rollback",
+      "rollback",
+      "Revert a live site to any prior HTML version stored locally, with the update_key resolved for you.",
+      "Living-doc republish by alias",
+      "republish",
+      "Publish a recurring document under a stable local alias: update in place if the alias exists, or create it once and bind it.",
+      "Pre-publish secret/PII scan",
+      "scan",
+      "Mechanically scan HTML for leaked secrets and PII before it becomes a public, permanent URL."
+    ],
+    "endpoints": [
+      {
+        "tool": "sites.get",
+        "summary": "Get a site's status and the assets its HTML references (no auth; public read). Required: site_id. Returns the Site.",
+        "params_schema": {
+          "site_id": "string"
+        },
+        "positionals": [
+          "site_id"
+        ],
+        "argv_path": [
+          "sites"
         ]
       }
     ]
