@@ -147630,6 +147630,42 @@
     ]
   },
   {
+    "api": "human-goat",
+    "description": "Hire real humans from the terminal \u2014 autonomous TaskRabbit checkout with a verified undo, plus Magic remote errands, in one agent-native binary.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/human-goat/cmd/human-goat-pp-cli",
+    "auth_type": "cookie",
+    "category": "productivity",
+    "search_terms": [
+      "human-goat",
+      "human-goat-pp-cli",
+      "Hire real humans from the terminal \u2014 autonomous TaskRabbit checkout with a verified undo, plus Magic remote errands, in one agent-native binary.",
+      "Autonomous soup-to-nuts hire",
+      "hire",
+      "Say the job and the date; goat searches, ranks by review quality and honest all-in price, and checks out against the card on file with no prompt.",
+      "Verified cancel (the safety gate)",
+      "cancel",
+      "Cancels a booking and confirms it landed by re-reading status, reporting whether it was inside the free window and any fee.",
+      "Spend cap",
+      "Refuses to check out when the computed all-in total exceeds a configurable ceiling, printing the total and the cap.",
+      "All-in price",
+      "best",
+      "Folds TaskRabbit's hidden service (~15%) and trust-and-support (5-15%) fees into the displayed hourly rate, honoring the CA/MA service-fee-only rule.",
+      "Cross-source dispatch",
+      "dispatch",
+      "Routes a plain-language task to Magic (remote-doable) or TaskRabbit (in-person) by task shape, with a --via override.",
+      "Cross-source spend analytics",
+      "spend",
+      "SQL over local booking, invoice, and Magic-task history by category, tasker, source, or month, using true effective all-in $/hr for TaskRabbit.",
+      "Availability watch",
+      "watch",
+      "Polls recommendations for a category and date (optionally a favorite or a rate ceiling) and alerts when a match opens.",
+      "Unified in-flight inbox",
+      "status",
+      "One list of every in-flight task across TaskRabbit bookings and Magic requests, joined on the common task model and sorted by state."
+    ],
+    "endpoints": []
+  },
+  {
     "api": "icloud",
     "description": "Query iCloud data stored locally on macOS \u2014 Photos library storage analysis, with Contacts and more coming. All reads hit local SQLite databases directly; no network calls or iCloud API token required.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/icloud/cmd/icloud-pp-cli",
@@ -171830,6 +171866,170 @@
         "argv_path": [
           "users",
           "collections_get-user"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "nutrition",
+    "description": "One agent-native CLI over USDA FoodData Central and NutritionValue.org - with cross-source enrichment, protein-density comparison, nutrient ranking, and a local SQLite cache no other nutrition tool ships.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/nutrition/cmd/nutrition-pp-cli",
+    "auth_type": "api_key",
+    "category": "food-and-dining",
+    "search_terms": [
+      "nutrition",
+      "Nutrition (USDA FoodData Central + NutritionValue.org)",
+      "nutrition-pp-cli",
+      "One agent-native CLI over USDA FoodData Central and NutritionValue.org - with cross-source enrichment, protein-density comparison, nutrient ranking, and a local SQLite cache no other nutrition tool ships.",
+      "Cross-source enrichment overlay",
+      "enrich",
+      "Merge NutritionValue.org's derived analytics (net carbs and omega-6/omega-3 ratio) onto a USDA food record by its shared FDC id.",
+      "Nutrient ranking",
+      "rank",
+      "Top or bottom foods by any single nutrient, filterable by category and dataset, ingested from NutritionValue.org's precomputed ranking pages.",
+      "Common-basis comparison",
+      "compare",
+      "Compare 2-5 foods side by side on a common basis: per 100 g, per serving, or per 100 kcal (protein density).",
+      "Compound nutrient filters",
+      "find",
+      "Find foods that satisfy multiple nutrient thresholds at once (e.g. protein >= 20 g AND kcal <= 165 per 100 g).",
+      "Daily intake log with targets",
+      "log",
+      "A persistent daily food diary with macro/micro targets, backed by local SQLite, with today/summary/progress reports.",
+      "Meal aggregation",
+      "meal",
+      "Total nutrition across several foods at given quantities in one stateless call (id:quantity pairs).",
+      "Citation output",
+      "cite",
+      "Emit an APA or MLA citation for a USDA food record so agent output is verifiable and traceable to a real fdcId."
+    ],
+    "endpoints": [
+      {
+        "tool": "food.get",
+        "summary": "Retrieves a single food item by an FDC ID. Optional format and nutrients can be specified. Required: fdcId. Optional: format, nutrients.",
+        "params_schema": {
+          "fdcId": "string",
+          "format": "string?",
+          "nutrients": "array?"
+        },
+        "positionals": [
+          "fdcId"
+        ],
+        "argv_path": [
+          "food"
+        ]
+      },
+      {
+        "tool": "foods.get",
+        "summary": "Retrieves a list of food items by a list of up to 20 FDC IDs. Optional format and nutrients can be specified. Invalid FDC ID's or ones that are not found are omitted and an empty set is returned if there are no matches. Required: fdcIds. Optional: format, nutrients. Returns array of FoodsGetItem.",
+        "params_schema": {
+          "fdcIds": "array?",
+          "format": "string?",
+          "nutrients": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "foods"
+        ]
+      },
+      {
+        "tool": "foods.get-list",
+        "summary": "Retrieves a paged list of foods. Use the pageNumber parameter to page through the entire result set. Optional: dataType, pageSize, pageNumber (plus 2 more). Returns array of AbridgedFoodItem.",
+        "params_schema": {
+          "dataType": "array?",
+          "pageSize": "int?",
+          "pageNumber": "int?",
+          "sortBy": "string?",
+          "sortOrder": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "foods",
+          "get-list"
+        ]
+      },
+      {
+        "tool": "foods.get-search",
+        "summary": "Search for foods using keywords. Results can be filtered by dataType and there are options for result page sizes or sorting. Required: query. Optional: dataType, pageSize, pageNumber (plus 3 more). Returns array of SearchResult.",
+        "params_schema": {
+          "query": "string?",
+          "dataType": "array?",
+          "pageSize": "int?",
+          "pageNumber": "int?",
+          "sortBy": "string?",
+          "sortOrder": "string?",
+          "brandOwner": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "foods",
+          "get-search"
+        ]
+      },
+      {
+        "tool": "foods.post",
+        "summary": "Retrieves a list of food items by a list of up to 20 FDC IDs. Optional format and nutrients can be specified. Invalid FDC ID's or ones that are not found are omitted and an empty set is returned if there are no matches. Optional: fdcIds, format, nutrients. Returns array of FoodsPostItem.",
+        "params_schema": {
+          "fdcIds": "array?",
+          "format": "string?",
+          "nutrients": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "foods",
+          "post"
+        ]
+      },
+      {
+        "tool": "foods.post-list",
+        "summary": "Retrieves a paged list of foods. Use the pageNumber parameter to page through the entire result set. Optional: dataType, pageNumber, pageSize (plus 2 more). Returns array of AbridgedFoodItem.",
+        "params_schema": {
+          "dataType": "string_csv_array?",
+          "pageNumber": "int?",
+          "pageSize": "int?",
+          "sortBy": "string?",
+          "sortOrder": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "foods",
+          "post-list"
+        ]
+      },
+      {
+        "tool": "foods.post-search",
+        "summary": "Search for foods using keywords. Results can be filtered by dataType and there are options for result page sizes or sorting. Optional: brandOwner, dataType, pageNumber (plus 4 more). Returns array of SearchResult.",
+        "params_schema": {
+          "brandOwner": "string?",
+          "dataType": "string_csv_array?",
+          "pageNumber": "int?",
+          "pageSize": "int?",
+          "query": "string?",
+          "sortBy": "string?",
+          "sortOrder": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "foods",
+          "post-search"
+        ]
+      },
+      {
+        "tool": "json-spec.get",
+        "summary": "The OpenAPI 3.0 specification for the FDC API rendered as JSON (JavaScript Object Notation).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "json-spec"
+        ]
+      },
+      {
+        "tool": "yaml-spec.get",
+        "summary": "The OpenAPI 3.0 specification for the FDC API rendered as YAML (YAML Ain't Markup Language).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "yaml-spec"
         ]
       }
     ]
