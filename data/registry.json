@@ -154139,6 +154139,85 @@
     ]
   },
   {
+    "api": "janeapp",
+    "description": "Book, view, and manage your Jane (janeapp.com) appointments across every clinic from one terminal \u2014 with a unified agenda, next-opening finder, and availability watch the patient portal can't do.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/janeapp/cmd/janeapp-pp-cli",
+    "auth_type": "cookie",
+    "category": "health",
+    "search_terms": [
+      "janeapp",
+      "Jane App",
+      "janeapp-pp-cli",
+      "Book, view, and manage your Jane (janeapp.com) appointments across every clinic from one terminal \u2014 with a unified agenda, next-opening finder, and availability watch the patient portal can't do.",
+      "Jane has no public patient API. Each clinic is a separate subdomain with its\nown patient account. Add a profile for a clinic and log in with your patient\nusername/email and password:\n\n  janeapp-pp-cli profile add embophysio --url https://embophysio.janeapp.com\n  janeapp-pp-cli auth login --profile embophysio\n\nThe CLI performs Jane's two-step sign-in and stores the session cookie for\nthat profile. Repeat for each clinic. `--all-profiles` fans read commands\nacross every logged-in clinic.",
+      "Unified cross-clinic agenda",
+      "agenda",
+      "See every appointment across every Jane clinic you use in one chronological view.",
+      "Next-opening finder",
+      "next-opening",
+      "Find the soonest available slot for a practitioner + treatment, paging past Jane's 7-day availability cap.",
+      "Availability watch",
+      "watch",
+      "Poll availability and alert when an earlier slot than a target opens up.",
+      "Cross-clinic conflict check",
+      "conflict-check",
+      "Before booking, warn if a candidate slot collides with an existing appointment at another clinic."
+    ],
+    "endpoints": [
+      {
+        "tool": "disciplines.list",
+        "summary": "List disciplines (service categories) with descriptions. Returns array of Discipline.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "disciplines"
+        ]
+      },
+      {
+        "tool": "locations.list",
+        "summary": "List clinic locations with address, contact info, and booking URL. Returns array of Location.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "locations"
+        ]
+      },
+      {
+        "tool": "openings.list",
+        "summary": "List available appointment openings for a staff member + treatment at a location over a date window. Jane caps num_days at 1..7; the CLI's next-opening/watch commands page across multiple windows automatically. Required: location_id, treatment_id, staff_member_id, start_date. Optional: num_days (default: 7). Returns array of StaffOpenings.",
+        "params_schema": {
+          "location_id": "integer?",
+          "treatment_id": "integer?",
+          "staff_member_id": "integer?",
+          "start_date": "string?",
+          "num_days": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "openings"
+        ]
+      },
+      {
+        "tool": "staff.list",
+        "summary": "List practitioners, their bookable treatment IDs, and online-booking availability. Returns array of StaffMember.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "staff"
+        ]
+      },
+      {
+        "tool": "treatments.list",
+        "summary": "List treatments (services) with price, duration, discipline, and whether they can be booked online. Returns the TreatmentList.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "treatments"
+        ]
+      }
+    ]
+  },
+  {
     "api": "jimmy-johns",
     "description": "First terminal CLI for Jimmy John's ordering \u2014 local Unwich conversion, agent-native JSON, every endpoint typed.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/jimmy-johns/cmd/jimmy-johns-pp-cli",
@@ -250844,6 +250923,132 @@
     ]
   },
   {
+    "api": "ticketdata",
+    "description": "Every TicketData price signal for any event, performer, or venue, plus a local price-history store for trend math, drift alerts, and cross-event comparisons no ticket tool ships.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/ticketdata/cmd/ticketdata-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "ticketdata",
+      "ticketdata-pp-cli",
+      "Every TicketData price signal for any event, performer, or venue, plus a local price-history store for trend math, drift alerts, and cross-event comparisons no ticket tool ships.",
+      "Watchlist management",
+      "watch",
+      "Track a set of events locally so one sync re-fetches all their current prices.",
+      "Watchlist price board",
+      "board",
+      "One sortable table of every watched event: get-in price, N-day change, forecast direction, and where today sits in its own history.",
+      "Drift and target alerts",
+      "drift",
+      "Diff the two most recent snapshots per watched event, flag floors that moved past a threshold, and fire price-target hits.",
+      "History stats and best time to buy",
+      "stats",
+      "Historical low/high, median, current percentile, volatility, and the weekday the floor is typically lowest, from the local price series.",
+      "Cross-event comparison",
+      "compare",
+      "Rank multiple watched events, or all of one performer's watched events, by get-in price and percent change.",
+      "Best-zone opportunity finder",
+      "zones",
+      "Rank an event's zones by current get-in price and by each zone's drop versus its own history to surface the underpriced section.",
+      "Offline multi-result search",
+      "search",
+      "Local full-text search across synced events, performers, and venues, returning multiple matches."
+    ],
+    "endpoints": [
+      {
+        "tool": "events.get",
+        "summary": "Get an event's current get-in price, forecast, N-day change, marketplace links, and venue/performer detail. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "events"
+        ]
+      },
+      {
+        "tool": "events.history",
+        "summary": "Get the full get-in-price time series for an event (hundreds of points), plus per-zone series and on/presale dates. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "events",
+          "history"
+        ]
+      },
+      {
+        "tool": "events.sections",
+        "summary": "List the section names catalogued for an event. Required: id. Returns array.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "events",
+          "sections"
+        ]
+      },
+      {
+        "tool": "performers.get",
+        "summary": "Get a performer's stats (upcoming events, avg/min/max get-in price) and resale/social links. Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "performers"
+        ]
+      },
+      {
+        "tool": "performers.search",
+        "summary": "Resolve a search query to the best-matching performer. Required: query.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "performers",
+          "search"
+        ]
+      },
+      {
+        "tool": "venues.get",
+        "summary": "Get a venue's stats (upcoming events, location). Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "venues"
+        ]
+      },
+      {
+        "tool": "venues.search",
+        "summary": "Resolve a search query to the best-matching venue. Required: query.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "venues",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "ticketmaster",
     "description": "Every Discovery v2 endpoint plus offline search, multi-venue watchlists, residency dedup, and on-sale tracking no...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/ticketmaster/cmd/ticketmaster-pp-cli",
@@ -251121,6 +251326,159 @@
         "argv_path": [
           "venues",
           "list"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "ticktick",
+    "description": "Every TickTick surface \u2014 tasks, habits, focus, daily notes \u2014 with a corruption-proof daily-note contract and offline analytics no other TickTick tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/ticktick/cmd/ticktick-pp-cli",
+    "auth_type": "api_key",
+    "category": "productivity",
+    "search_terms": [
+      "ticktick",
+      "ticktick-pp-cli",
+      "Every TickTick surface \u2014 tasks, habits, focus, daily notes \u2014 with a corruption-proof daily-note contract and offline analytics no other TickTick tool has.",
+      "Safe Daily-Note Edit",
+      "note edit",
+      "Edit your daily note's content with a corruption-proof contract \u2014 the command can never flip the note's task kind or break its subtasks.",
+      "Agenda",
+      "One command returns today's tasks, habits with checkin state, and focus sessions together.",
+      "Week-in-Review Data Pack",
+      "review",
+      "Gather a week of completed tasks, daily notes, focus totals, and habit checkins as one structured pack ready for synthesis.",
+      "Habit Streaks",
+      "habits streaks",
+      "Current streak, longest streak, and at-risk-today flags for every habit.",
+      "Focus Stats",
+      "Focus/pomodoro time aggregated per day or per project over any window."
+    ],
+    "endpoints": [
+      {
+        "tool": "completed.list",
+        "summary": "Completed tasks in a date window. Optional: from, to, limit (default: 100). Returns array of Task.",
+        "params_schema": {
+          "from": "string?",
+          "to": "string?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "completed"
+        ]
+      },
+      {
+        "tool": "focus.timeline",
+        "summary": "Focus and pomodoro records, most recent first. Optional: to. Returns array of FocusRecord.",
+        "params_schema": {
+          "to": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "focus",
+          "timeline"
+        ]
+      },
+      {
+        "tool": "habits.list",
+        "summary": "List all habits. Returns array of Habit.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "habits"
+        ]
+      },
+      {
+        "tool": "habits.checkin",
+        "summary": "Upsert habit checkins (batch add/update). Optional: add, update. Returns the new BatchResult.",
+        "params_schema": {
+          "add": "array?",
+          "update": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "habits",
+          "checkin"
+        ]
+      },
+      {
+        "tool": "habits.checkins",
+        "summary": "Query habit checkins after a date stamp. Required: habitIds, afterStamp. Returns the new CheckinMap.",
+        "params_schema": {
+          "habitIds": "array?",
+          "afterStamp": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "habits",
+          "checkins"
+        ]
+      },
+      {
+        "tool": "projects.list",
+        "summary": "List all projects. Returns array of Project.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "projects"
+        ]
+      },
+      {
+        "tool": "tags.list",
+        "summary": "List all tags. Returns array of Tag.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tags"
+        ]
+      },
+      {
+        "tool": "tasks.get",
+        "summary": "Get a single task by id (full JSON incl. kind, etag, childIds). Required: taskId, projectId. Returns the Task.",
+        "params_schema": {
+          "taskId": "string",
+          "projectId": "string?"
+        },
+        "positionals": [
+          "taskId"
+        ],
+        "argv_path": [
+          "tasks"
+        ]
+      },
+      {
+        "tool": "tasks.batch",
+        "summary": "Batch create/update/delete tasks (arrays of task objects; updates must carry id, projectId, etag and must NOT include kind). Optional: add, update, delete. Returns the new BatchResult.",
+        "params_schema": {
+          "add": "array?",
+          "update": "array?",
+          "delete": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "batch"
+        ]
+      },
+      {
+        "tool": "tasks.list",
+        "summary": "List all uncompleted tasks (from the V2 sync check). Returns array of Task.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "list"
+        ]
+      },
+      {
+        "tool": "user.profile",
+        "summary": "Authenticated user profile. Returns the UserProfile.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "user",
+          "profile"
         ]
       }
     ]
@@ -261407,6 +261765,114 @@
         "argv_path": [
           "raw-image",
           "get-image"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "vagaro",
+    "description": "Every Vagaro discovery feature, plus the marketplace-wide availability search, price comparison, and local database no Vagaro tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/vagaro/cmd/vagaro-pp-cli",
+    "auth_type": "composed",
+    "category": "health",
+    "search_terms": [
+      "vagaro",
+      "vagaro-pp-cli",
+      "Every Vagaro discovery feature, plus the marketplace-wide availability search, price comparison, and local database no Vagaro tool has.",
+      "Cross-business availability search",
+      "find",
+      "Find nearby businesses with a service open soonest, filtered by price, rating, and a date/time window.",
+      "Business comparison",
+      "compare",
+      "Compare named businesses side by side: rating, review count, price range, matching-service price, and next-available.",
+      "Service price distribution",
+      "price-check",
+      "Show the price spread (min/median/max) for a service across a metro and flag who's below median.",
+      "Market overview",
+      "market",
+      "One-shot landscape of a metro: business count, rating distribution, and price ranges by category.",
+      "History-driven rebook",
+      "me rebook",
+      "Re-run your usual: reads your past appointment (business + service + provider) and lists that provider's open slots in a window so you can pick and book.",
+      "Service-menu diff over time",
+      "menu-diff",
+      "Diff a business's service menu across synced snapshots to catch price changes and added/removed services.",
+      "Availability watch",
+      "watch",
+      "Check one business/provider's next-available against a stored baseline and report if a slot opened up sooner."
+    ],
+    "endpoints": [
+      {
+        "tool": "business.get",
+        "summary": "Get a business profile (name, rating, address, categories). Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "business"
+        ]
+      },
+      {
+        "tool": "business.availability",
+        "summary": "Get a business's next-available booking summary. Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "business",
+          "availability"
+        ]
+      },
+      {
+        "tool": "business.services",
+        "summary": "List a business's services with prices and durations. Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "business",
+          "services"
+        ]
+      },
+      {
+        "tool": "classes.list",
+        "summary": "List upcoming livestream classes. Optional: StartDate, IsCalledFrom (default: 1), page-size (default: 20) (plus 4 more).",
+        "params_schema": {
+          "StartDate": "string?",
+          "IsCalledFrom": "int?",
+          "page-size": "int?",
+          "page": "int?",
+          "loginUserID": "string?",
+          "strLoginUserId": "string?",
+          "TimeOffSet": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "classes"
+        ]
+      },
+      {
+        "tool": "listings.get",
+        "summary": "List businesses for a service in a city (city--state slug). Required: service, location.",
+        "params_schema": {
+          "service": "string",
+          "location": "string"
+        },
+        "positionals": [
+          "service",
+          "location"
+        ],
+        "argv_path": [
+          "listings"
         ]
       }
     ]
