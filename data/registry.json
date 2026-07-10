@@ -173745,6 +173745,68 @@
     ]
   },
   {
+    "api": "juneoven",
+    "description": "Every June oven control from the terminal \u2014 self-pair, preheat, adjust, watch live telemetry, and cancel, over June's cloud with agent-native JSON.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/juneoven/cmd/juneoven-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "devices",
+    "search_terms": [
+      "juneoven",
+      "June Oven",
+      "juneoven-pp-cli",
+      "Block until preheated",
+      "ready",
+      "Wait for the oven to reach its target temperature, then exit 0 (non-zero on timeout).",
+      "Record a cook to local history",
+      "record",
+      "Capture the current cook (session + telemetry/camera activity) into local SQLite.",
+      "Cook history log",
+      "log",
+      "List past cooks (mode, target, duration, outcome) from local history.",
+      "Temperature-curve export",
+      "curve",
+      "Export one recorded cook's temperature/progress samples as JSON or CSV.",
+      "Preheat performance stats",
+      "preheat-stats",
+      "Median/fastest/slowest time-to-target per mode over recorded cooks.",
+      "Predicted time-to-ready",
+      "eta",
+      "Non-blocking estimate of time until the oven reaches target, from the live climb rate.",
+      "Named repeatable cooks",
+      "repeat",
+      "Save a named mode+temp(+timer) preset in local SQLite and replay it with one word."
+    ],
+    "endpoints": [
+      {
+        "tool": "devices.associated",
+        "summary": "List ovens associated with this companion (yields oven_id). Required: device_id. Returns the AssociatedDevices.",
+        "params_schema": {
+          "device_id": "string"
+        },
+        "positionals": [
+          "device_id"
+        ],
+        "argv_path": [
+          "devices",
+          "associated"
+        ]
+      },
+      {
+        "tool": "devices.register",
+        "summary": "Register or re-register a companion device to mint a 7-day access token. Required: device_id, password. Returns the new Token.",
+        "params_schema": {
+          "device_id": "string?",
+          "password": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "devices",
+          "register"
+        ]
+      }
+    ]
+  },
+  {
     "api": "kalshi",
     "description": "Trade prediction markets, persist tick data, and answer category-level P&L questions Kalshi.com cannot.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/payments/kalshi/cmd/kalshi-pp-cli",
