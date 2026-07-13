@@ -40231,6 +40231,53 @@
     ]
   },
   {
+    "api": "bambu",
+    "description": "Agent-ready Bambu print monitoring with exact plate previews and start/finish payloads.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/bambu/cmd/bambu-pp-cli",
+    "auth_type": "api_key",
+    "category": "devices",
+    "search_terms": [
+      "bambu",
+      "Bambu Local",
+      "bambu-pp-cli",
+      "Agent-ready Bambu print monitoring with exact plate previews and start/finish payloads.",
+      "The printer serial and LAN access code are both required. They are used only for direct private-LAN MQTT and FTPS connections.",
+      "Calibrated completion forecast",
+      "job eta",
+      "Correct the printer's finish estimate using the error pattern from prior runs of the same job.",
+      "Filament runway",
+      "ams runway",
+      "Estimate whether the active AMS tray can cover the current plate's remaining weight, with explicit unknown output when tray estimates or multi-material mapping are ambiguous.",
+      "Failure correlation matrix",
+      "history failure-correlations",
+      "Rank the printer, filament, plate, firmware, speed, and temperature contexts most associated with failed jobs.",
+      "Print-stage timeline",
+      "job timeline",
+      "Reconstruct one print's stages, pauses, layers, temperature recovery, and errors as an ordered timeline.",
+      "Firmware field drift",
+      "printer field-diff",
+      "Compare first and latest persisted redacted MQTT schemas for added, removed, and type-changed fields across a selected window.",
+      "Repeat-job comparison",
+      "job repeats",
+      "Compare duration, pauses, material, errors, and outcomes across repeated runs of the same plate."
+    ],
+    "endpoints": [
+      {
+        "tool": "observations.list",
+        "summary": "List locally persisted printer observations. Optional: printer, type, since. Returns array of Observation.",
+        "params_schema": {
+          "printer": "string?",
+          "type": "string?",
+          "since": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations"
+        ]
+      }
+    ]
+  },
+  {
     "api": "bandsintown",
     "description": "Turn Bandsintown's two read-only endpoints into a tour-routing brain: local cache, calendar-gap detection, lineup...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/bandsintown/cmd/bandsintown-pp-cli",
@@ -42789,18 +42836,7 @@
       "Recommend the cheapest vehicle class that fits the party.",
       "Quote ledger + search",
       "log",
-      "Every quote saved to SQLite, full-text searchable and SQL-queryable.",
-      "Account bookings",
-      "bookings",
-      "List your upcoming and past Blacklane rides (requires auth login).",
-      "Account profile",
-      "me",
-      "Show your Blacklane profile (requires auth login).",
-      "Wallet",
-      "Show wallet credits and vouchers (requires auth login).",
-      "Booking handoff",
-      "book",
-      "Quote and assemble a booking, then open browser checkout for payment under --confirm. Never charges."
+      "Every quote saved to SQLite, full-text searchable and SQL-queryable."
     ],
     "endpoints": [
       {
@@ -139289,91 +139325,104 @@
     "search_terms": [
       "everbee",
       "everbee-pp-cli",
-      "Research Etsy products, shops, and keywords from EverBee in a repeatable agent-ready workflow.",
-      "Opportunity Shortlist",
-      "Rank Etsy product opportunities by combining product analytics, keyword demand, competition, and local trend history.",
-      "Niche Score",
-      "Score a niche by weighing search demand, competition, product saturation, pricing, and trend movement.",
-      "Shop Gaps",
-      "Find competitor shop openings from product mix, pricing bands, tags, and keyword coverage.",
-      "Tag Gap",
-      "tags gap",
-      "Compare winning listing tags against a target shop or keyword set to reveal missing SEO coverage.",
-      "Keyword Clusters",
-      "keywords cluster",
-      "Group related keyword suggestions by term overlap, demand, competition, and opportunity score.",
-      "Trend Diff",
-      "trends diff",
-      "Compare saved research snapshots to show which products, shops, or keywords moved over time.",
-      "Competitor Watch",
-      "competitors watch",
-      "Detect competitor changes in top products, price bands, and tags across saved shop snapshots.",
-      "Listing Audit",
-      "Audit a listing's keyword and tag fit using EverBee-derived product and keyword context."
+      "Etsy niche research whose scores come with their evidence attached \u2014 seeded search, honest confidence, and a local store that turns repeat research into trends.",
+      "Evidence-aware niche verdict",
+      "research niche",
+      "Score an Etsy niche from a seed keyword and get the evidence behind the score, not just the number.",
+      "Batch sub-niche discovery",
+      "research subniches",
+      "Expand a parent niche into child niches and rank them on comparable, normalized scores.",
+      "Competitor sampling",
+      "research competitors",
+      "Get the market shape of a niche: result count, median price, review and sales density, listing-age quartiles.",
+      "Tag and title consensus with seasonality",
+      "research tags",
+      "See which tags and title tokens the winning listings in a niche agree on, and whether demand is seasonal or evergreen when EverBee supplies trend data.",
+      "Niche drift vs baseline",
+      "research drift",
+      "Compare a niche against a saved baseline to see what actually moved since last time.",
+      "Listing and handle identity resolution",
+      "research listing",
+      "Resolve an Etsy listing URL or ID to what we actually know about it, and say so plainly when we know nothing.",
+      "Semantic capability self-test",
+      "selftest",
+      "Check that the research path is not just reachable but actually returning relevant data."
     ],
     "endpoints": [
       {
-        "tool": "folders.list_folders",
-        "summary": "GET /folders. Optional: type (default: listing). Returns the folders.",
-        "params_schema": {
-          "type": "string?"
-        },
+        "tool": "account.show",
+        "summary": "Show the EverBee account's current plan, research quota, and usage. Use this to check remaining keyword-search quota before a batch run \u2014 the free Hobby plan allows only 10 keyword searches per month. Returns the account.",
+        "params_schema": {},
         "positionals": [],
         "argv_path": [
-          "folders",
-          "list_folders"
+          "account",
+          "show"
         ]
       },
       {
-        "tool": "keyword.research_list_default_keyword_suggestion",
-        "summary": "GET /keyword_research/default_keyword_suggestion. Optional: order_by (default: new_volume), order_direction (default: desc), page (default: 1) (plus 1 more). Returns the default_keyword_suggestion.",
+        "tool": "keyword.research_list",
+        "summary": "Browse EverBee's default keyword feed (what the UI shows before you search). This is a discovery/browse surface, NOT a search: it ignores any seed and returns EverBee's unranked default suggestions. To research a specific keyword use `keyword-research search --keyword`. Optional: type_of_search (default: keywords_suggestion), order_by (default: new_volume), order_direction (default: desc) (plus 1 more).",
         "params_schema": {
+          "type_of_search": "string?",
           "order_by": "string?",
           "order_direction": "string?",
-          "page": "integer?",
-          "type_of_search": "string?"
+          "page": "integer?"
         },
         "positionals": [],
         "argv_path": [
           "keyword",
-          "research_list_default_keyword_suggestion"
+          "research_list"
         ]
       },
       {
-        "tool": "management.modals_list_management_modals",
-        "summary": "GET /management_modals. Required: last_reset_at, show_manage_keyword_modal, show_manage_listing_modal, show_manage_shop_modal. Returns the management_modals.",
+        "tool": "keyword.research_search",
+        "summary": "Seeded keyword search. Returns keywords related to the seed with volume, competition, score, CPC, and trend, plus the seed's own demand-vs-competition metrics under `searched_keyword`. This is the endpoint the EverBee UI search box calls. Comma-join the keyword value to research multiple seeds at once. Required: keyword. Optional: type_of_search (default: keywords_suggestion), order_by (default: new_volume), order_direction (default: desc) (plus 2 more).",
         "params_schema": {
-          "last_reset_at": "string?",
-          "show_manage_keyword_modal": "boolean?",
-          "show_manage_listing_modal": "boolean?",
-          "show_manage_shop_modal": "boolean?"
-        },
-        "positionals": [],
-        "argv_path": [
-          "management",
-          "modals_list_management_modals"
-        ]
-      },
-      {
-        "tool": "product.analytics_list_default_product_analytics",
-        "summary": "GET /product_analytics/default_product_analytics. Optional: order_by (default: est_mo_revenue), order_direction (default: desc), page (default: 1) (plus 2 more). Returns the default_product_analytics.",
-        "params_schema": {
+          "keyword": "string?",
+          "type_of_search": "string?",
           "order_by": "string?",
           "order_direction": "string?",
           "page": "integer?",
-          "per_page": "integer?",
-          "time_range": "string?"
+          "count_search": "boolean?"
         },
         "positionals": [],
         "argv_path": [
-          "product",
-          "analytics_list_default_product_analytics"
+          "keyword",
+          "research_search"
         ]
       },
       {
-        "tool": "shops.list_shops",
-        "summary": "GET /shops. Optional: order_by (default: revenue), order_direction (default: desc), page (default: 1) (plus 1 more). Returns the shops.",
+        "tool": "products.list",
+        "summary": "Browse EverBee's default product feed (what the UI shows before you search). This is a discovery/browse surface, NOT a search: it ignores any search term. To research a specific product niche use `products search --search-term`. Optional: order_by (default: est_mo_revenue), order_direction (default: desc), time_range (default: last_1_month) (plus 2 more). Returns the default_product_analytics.",
         "params_schema": {
+          "order_by": "string?",
+          "order_direction": "string?",
+          "time_range": "string?",
+          "page": "integer?",
+          "per_page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "products"
+        ]
+      },
+      {
+        "tool": "shops.resolve",
+        "summary": "Resolve an Etsy shop handle to its EverBee identity (shop_id, exact shop name, rating, review count, year created). Use this before any shop workflow so an unresolved handle is reported as unresolved rather than as a shop with zero research evidence. Required: query. Returns array of shop_match.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "shops",
+          "resolve"
+        ]
+      },
+      {
+        "tool": "shops.search",
+        "summary": "Search EverBee's Etsy shop database. Pass a search term to find a specific competitor shop, or omit it to browse top shops by revenue. Optional: search_term, order_by (default: revenue), order_direction (default: desc) (plus 2 more). Returns the shop.",
+        "params_schema": {
+          "search_term": "string?",
           "order_by": "string?",
           "order_direction": "string?",
           "page": "integer?",
@@ -139382,7 +139431,7 @@
         "positionals": [],
         "argv_path": [
           "shops",
-          "list_shops"
+          "search"
         ]
       }
     ]
@@ -140114,7 +140163,7 @@
       "faa-registry",
       "FAA Aircraft Registry",
       "faa-registry-pp-cli",
-      "Every FAA aircraft lookup the registry website offers, plus a daily-synced offline copy of the entire US registry that unlocks fleet reports, hex decoding, ownership history, and expiration alerts no other tool has.",
+      "Look up any US aircraft by tail number from the terminal \u2014 live FAA registry inquiries plus a daily-synced offline copy of the full registry for fleet queries, Mode S hex decoding, and expiration alerts no other tool has.",
       "Fleet composition report",
       "fleet report",
       "One command turns an owner name into a full fleet profile: aircraft count, model mix, jet/turboprop/piston split, average seats and year built.",
@@ -141789,16 +141838,984 @@
     "search_terms": [
       "flight-goat",
       "Flight GOAT",
-      "flight-goat-pp-cli"
+      "flight-goat-pp-cli",
+      "AeroAPI is a simple, query-based API that gives software developers access to a variety of FlightAware's flight data.",
+      "Google Flights Search",
+      "flights",
+      "Query Google Flights via a native Go backend (utls TLS-fingerprint evasion + protobuf RPC parsing, internal/gflights) \u2014 real prices, durations, airlines, legs. No API key.",
+      "Soar / Duffel Search",
+      "soar",
+      "Search Soar (flysoar.ai) Duffel-backed airfare with GUI-parity filters and hand-off to Soar's booking agent (internal/soar).",
+      "Multi-city Itineraries",
+      "flights --multi-city",
+      "Compose and price multi-segment (open-jaw / multi-city) Google Flights itineraries.",
+      "Delay Assessment",
+      "assess",
+      "Decision-support assessment of a flight's on-time reliability and delay risk from historical + live signals.",
+      "Non-Obvious Insight Digest",
+      "transcend",
+      "Domain-archetype insight digest surfacing non-obvious routing/pricing observations across sources."
     ],
     "endpoints": [
       {
-        "tool": "agent-context",
-        "summary": "Search Google Flights, scan Kayak long-haul routes, and join FlightAware AeroAPI reliability, alerts, and tracking from one CLI. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "tool": "aircraft.get-flight-type",
+        "summary": "Returns information about an aircraft type, given an ICAO aircraft type designator string. Data returned includes the description, type, manufacturer, engine type, and engine count. Required: type.",
+        "params_schema": {
+          "type": "string"
+        },
+        "positionals": [
+          "type"
+        ],
+        "argv_path": [
+          "aircraft",
+          "get-flight-type"
+        ]
+      },
+      {
+        "tool": "aircraft.blocked_get-aircraft",
+        "summary": "Given an aircraft identification, returns true if the aircraft is blocked from public tracking per request from the owner/operator, false if it is not blocked. Any IATA-like idents will be translated to ICAO before lookup. When marked as blocked, no associated flight information will be visible in AeroAPI. FlightAware can provide aircraft owner/operators with secure access to their blocked flight data by [contacting FlightAware for help](https://www.flightaware.com/about/contact). Required: ident.",
+        "params_schema": {
+          "ident": "string"
+        },
+        "positionals": [
+          "ident"
+        ],
+        "argv_path": [
+          "aircraft",
+          "blocked_get-aircraft"
+        ]
+      },
+      {
+        "tool": "aircraft.owner_get-aircraft",
+        "summary": "Returns information about the owner of an aircraft, given a flight number or aircraft registration. Data returned includes owner's name, location (typically city and state), and website, if any. Codeshares and alternate idents are automatically searched. Specific owner name information is limited to ownership within the US (sourced by the FAA), Australia, and New Zealand. Note that while this information is updated weekly, there may be a lag in upstream data sources reflecting a change in ownership. Required: ident.",
+        "params_schema": {
+          "ident": "string"
+        },
+        "positionals": [
+          "ident"
+        ],
+        "argv_path": [
+          "aircraft",
+          "owner_get-aircraft"
+        ]
+      },
+      {
+        "tool": "airports.get",
+        "summary": "Returns information about an airport given an ICAO or LID airport code such as KLAX, KIAH, O07, etc. Data returned includes airport name, city, state (when known), latitude, longitude, and timezone. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports"
+        ]
+      },
+      {
+        "tool": "airports.get-all",
+        "summary": "Returns the ICAO identifiers of all known airports. For airports that do not have an ICAO identifier, the FAA LID identifier will be used. Links for further information about each airport are included. Optional: max_pages (default: 1), cursor.",
+        "params_schema": {
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "airports",
+          "get-all"
+        ]
+      },
+      {
+        "tool": "airports.get-delays-for-all",
+        "summary": "Returns a list of airports with delays. There may be multiple reasons returned per airport if there are multiple types of delays reported at an airport. Note that individual flights can be delayed without there being an airport-wide delay returned by this endpoint. Optional: max_pages (default: 1), cursor.",
+        "params_schema": {
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "airports",
+          "get-delays-for-all"
+        ]
+      },
+      {
+        "tool": "airports.get-nearby",
+        "summary": "Returns a list of airports located within a given distance from the given location. Required: latitude, longitude, radius. Optional: only_iap (default: false), max_pages (default: 1), cursor.",
+        "params_schema": {
+          "latitude": "float?",
+          "longitude": "float?",
+          "radius": "int?",
+          "only_iap": "bool?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "airports",
+          "get-nearby"
+        ]
+      },
+      {
+        "tool": "airports.canonical_get-airports",
+        "summary": "Returns a list of ICAO airport codes corresponding to the given IATA or LID airport code. IATA codes can be identical to some LID codes, so if id_type is specified, only 1 ICAO code will be returned. If no id_type is specified and there are two possible ICAO codes, both will be returned. Required: id. Optional: id_type.",
+        "params_schema": {
+          "id": "string",
+          "id_type": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "canonical_get-airports"
+        ]
+      },
+      {
+        "tool": "airports.delays_get-airport",
+        "summary": "Returns a list of reason codes for delays at a specific airport. There may be multiple reasons returned if there are multiple types of delays reported at an airport. Note that individual flights may be delayed without there being an airport delay returned by this endpoint. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "delays_get-airport"
+        ]
+      },
+      {
+        "tool": "airports.flights_get-airport",
+        "summary": "Returns all recent and upcoming flights departing from or arriving at the specified airport. Filtering/ordering behavior for the optional start and end parameters for each type (`scheduled_departures`, `scheduled_arrivals`, `departures`, `arrivals`) match the behavior in their corresponding endpoints. Required: id. Optional: airline, type, start (plus 3 more).",
+        "params_schema": {
+          "id": "string",
+          "airline": "string?",
+          "type": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "flights_get-airport"
+        ]
+      },
+      {
+        "tool": "airports.flights_get-airport-arrived",
+        "summary": "Returns flights that have arrived at an airport, orderd by `actual_on` descending. The start parameter's default value is 24 hours before the current time. The end parameter's default value is the current time. Required: id. Optional: airline, type, start (plus 3 more).",
+        "params_schema": {
+          "id": "string",
+          "airline": "string?",
+          "type": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "flights_get-airport-arrived"
+        ]
+      },
+      {
+        "tool": "airports.flights_get-airport-count",
+        "summary": "Returns counts of flights for an airport broken down by flight status. The returned categories are subtly different from what is returned from the `/airports/{id}/flights` endpoints. Specifically, this operation does not include completed flights in its counts, and it does not count cancelled/diverted flights. It also does not strictly bound the time for which scheduled flights are counted, so all future flights that FlightAware knows about are included in the counts. See the response schema and documentation for the airport flights endpoints for more information. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "flights_get-airport-count"
+        ]
+      },
+      {
+        "tool": "airports.flights_get-airport-departed",
+        "summary": "Returns flights that have departed from an airport and not been diverted, ordered by `actual_off` descending. The optional start and end parameters will be compared against `actual_off` to limit the flights returned. The start parameter's default value is 24 hours before the current time. The end parameter's default value is the current time. Required: id. Optional: airline, type, start (plus 3 more).",
+        "params_schema": {
+          "id": "string",
+          "airline": "string?",
+          "type": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "flights_get-airport-departed"
+        ]
+      },
+      {
+        "tool": "airports.flights_get-airport-scheduled-arrivals",
+        "summary": "Returns flights that are expected to arrive at an airport. This can include both undeparted and en route flights. Flights are ordered by `estimated_on` ascending. The optional start and end parameters will be compared against `estimated_on` to limit the flights returned. The start parameter's default value is 48 hours before the current time (this accounts for delayed flights). The end parameter's default value is 24 hours after the current time. Required: id. Optional: airline, type, start (plus 3 more).",
+        "params_schema": {
+          "id": "string",
+          "airline": "string?",
+          "type": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "flights_get-airport-scheduled-arrivals"
+        ]
+      },
+      {
+        "tool": "airports.flights_get-airport-scheduled-departures",
+        "summary": "Returns flights that are scheduled to depart from an airport or have recently been cancelled, ordered by `estimated_off` (or `scheduled_off` if `estimated_off` is missing) ascending. The optional start and end parameters will be compared against `scheduled_off` to limit the flights returned. The start parameter's default value is 2 hours before the current time. The end parameter's default value is 24 hours after the current time. Required: id. Optional: airline, type, start (plus 3 more).",
+        "params_schema": {
+          "id": "string",
+          "airline": "string?",
+          "type": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "flights_get-airport-scheduled-departures"
+        ]
+      },
+      {
+        "tool": "airports.flights_get-between-airports",
+        "summary": "This endpoint is quite similar to the `FindFlight` operator in prior versions of AeroAPI. Results may include both non-stop and one-stop flights. Note that because the returned flights can include multiple legs, the response format differs from most other flight-returning endpoints. If the optional start or end query parameters are not provided start will default to 1 day in the future, while end will default to 7 days in the past relative to the time the query is made. Required: id, dest_id. Optional: type, connection, start (plus 3 more). Returns array of FullFlight.",
+        "params_schema": {
+          "id": "string",
+          "dest_id": "string",
+          "type": "string?",
+          "connection": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id",
+          "dest_id"
+        ],
+        "argv_path": [
+          "airports",
+          "flights_get-between-airports"
+        ]
+      },
+      {
+        "tool": "airports.nearby_get-airports-near-airport",
+        "summary": "Returns a list of airports located within a given distance from the specified airport. Required: id, radius. Optional: only_iap (default: false), max_pages (default: 1), cursor.",
+        "params_schema": {
+          "id": "string",
+          "radius": "int?",
+          "only_iap": "bool?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "nearby_get-airports-near-airport"
+        ]
+      },
+      {
+        "tool": "airports.routes_get-between-airports",
+        "summary": "Returns information about assigned IFR routings between two airports. Required: id, dest_id. Optional: sort_by (default: count), max_file_age (default: 2 weeks), max_pages (default: 1) (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "dest_id": "string",
+          "sort_by": "string?",
+          "max_file_age": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id",
+          "dest_id"
+        ],
+        "argv_path": [
+          "airports",
+          "routes_get-between-airports"
+        ]
+      },
+      {
+        "tool": "airports.weather_get-airport-forecast",
+        "summary": "Returns the weather forecast for an airport in the form of a decoded TAF (Terminal Area Forecast). Only a single result is returned. Required: id. Optional: timestamp, return_nearby_weather (default: false).",
+        "params_schema": {
+          "id": "string",
+          "timestamp": "string?",
+          "return_nearby_weather": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "weather_get-airport-forecast"
+        ]
+      },
+      {
+        "tool": "airports.weather_get-airport-observations",
+        "summary": "Returns weather for an airport in the form of a decoded METAR, starting from the latest report and working backwards in time as more data is requested. Data is provided in parsed, human-readable, and raw formats. Required: id. Optional: temperature_units (default: Celsius), return_nearby_weather (default: false), timestamp (plus 2 more).",
+        "params_schema": {
+          "id": "string",
+          "temperature_units": "string?",
+          "return_nearby_weather": "bool?",
+          "timestamp": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "airports",
+          "weather_get-airport-observations"
+        ]
+      },
+      {
+        "tool": "alerts.create",
+        "summary": "Create a new AeroAPI flight alert. When the alert is triggered, a callback mechanism will be used to notify the address set via the /alerts/endpoint endpoint. Each callback will be charged as a query and count towards usage for the AeroAPI key that created the alert. If this key is disabled or removed, the alert will no longer be available. If a target_url is provided, then this specific alert will be delivered to that address regardless of the adress set via the /alerts/endpoint endpoint. Required: aircraft_type, destination, end, eta (default: 0), events, ident, origin, start, target_url. Optional: max_weekly.",
+        "params_schema": {
+          "aircraft_type": "string?",
+          "destination": "string?",
+          "end": "string?",
+          "eta": "int?",
+          "events-arrival": "bool?",
+          "events-cancelled": "bool?",
+          "events-departure": "bool?",
+          "events-diverted": "bool?",
+          "events-filed": "bool?",
+          "events-in": "bool?",
+          "events-off": "bool?",
+          "events-on": "bool?",
+          "events-out": "bool?",
+          "ident": "string?",
+          "max_weekly": "int?",
+          "origin": "string?",
+          "start": "string?",
+          "target_url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "alerts"
+        ]
+      },
+      {
+        "tool": "alerts.delete",
+        "summary": "Deletes specific alert with given ID. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "alerts",
+          "delete"
+        ]
+      },
+      {
+        "tool": "alerts.delete-endpoint",
+        "summary": "Remove the default account-wide URL that will be POSTed to for alerts that are not configured with a specific URL. This means that any alerts that are not configured with a specific URL will not be delivered. Destructive.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
-          "agent-context"
+          "alerts",
+          "delete-endpoint"
+        ]
+      },
+      {
+        "tool": "alerts.get",
+        "summary": "Returns the configuration data for an alert with the specified ID. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "alerts",
+          "get"
+        ]
+      },
+      {
+        "tool": "alerts.get-all",
+        "summary": "Returns all configured alerts for the FlightAware account (this includes alerts configured through other means by the FlightAware user owning the AeroAPI account like FlightAware's website or mobile apps). Optional: max_pages (default: 0), cursor.",
+        "params_schema": {
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "alerts",
+          "get-all"
+        ]
+      },
+      {
+        "tool": "alerts.get-endpoint",
+        "summary": "Returns URL that will be POSTed to for alerts that are delivered via AeroAPI.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "alerts",
+          "get-endpoint"
+        ]
+      },
+      {
+        "tool": "alerts.set-endpoint",
+        "summary": "Updates the default URL that will be POSTed to for alerts that are delivered via AeroAPI. This sets the account-wide default URL that all alerts will be delivered to unless the specific alert has a different delivery address configured for it. Required: url.",
+        "params_schema": {
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "alerts",
+          "set-endpoint"
+        ]
+      },
+      {
+        "tool": "alerts.update",
+        "summary": "Modifies the configuration for an alert with the specified ID. If a target URL address is provided, then the alert will be delivered to that address even if it is different than the default account-wide address set through the alerts/endpoint endpoint. Updating an alert that was created with a different AeroAPI key is possible, but will not change the AeroAPI key that the alert is associated with for usage. Required: id, aircraft_type, destination, enabled, end, eta (default: 0), events, ident, origin, start, target_url. Optional: max_weekly.",
+        "params_schema": {
+          "id": "string",
+          "aircraft_type": "string?",
+          "destination": "string?",
+          "enabled": "bool?",
+          "end": "string?",
+          "eta": "int?",
+          "events-arrival": "bool?",
+          "events-cancelled": "bool?",
+          "events-departure": "bool?",
+          "events-diverted": "bool?",
+          "events-filed": "bool?",
+          "events-in": "bool?",
+          "events-off": "bool?",
+          "events-on": "bool?",
+          "events-out": "bool?",
+          "ident": "string?",
+          "max_weekly": "int?",
+          "origin": "string?",
+          "start": "string?",
+          "target_url": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "alerts",
+          "update"
+        ]
+      },
+      {
+        "tool": "disruption-counts.get",
+        "summary": "Returns flight cancellation/delay counts in the specified time period for a particular airline or airport. Required: id, entity_type (default: airline). Optional: time_period (default: today).",
+        "params_schema": {
+          "id": "string",
+          "entity_type": "string",
+          "time_period": "string?"
+        },
+        "positionals": [
+          "id",
+          "entity_type"
+        ],
+        "argv_path": [
+          "disruption-counts"
+        ]
+      },
+      {
+        "tool": "disruption-counts.get-all",
+        "summary": "Returns overall flight cancellation/delay counts in the specified time period for either all airlines or all airports. Required: entity_type (default: airline). Optional: time_period (default: today), max_pages (default: 1), cursor.",
+        "params_schema": {
+          "entity_type": "string",
+          "time_period": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "entity_type"
+        ],
+        "argv_path": [
+          "disruption-counts",
+          "get-all"
+        ]
+      },
+      {
+        "tool": "flights.get",
+        "summary": "Returns the flight info status summary for a registration, ident, or fa_flight_id. If a fa_flight_id is specified then a maximum of 1 flight is returned, unless the flight has been diverted in which case both the original flight and any diversions will be returned with a duplicate fa_flight_id. If a registration or ident is specified, approximately 14 days of recent and scheduled flight information is returned, ordered by `scheduled_out` (or `scheduled_off` if `scheduled_out` is missing) descending. Alternately, specify a start and end parameter to find your flight(s) of interest, including up to 10 days of flight history. Required: ident. Optional: ident_type, start, end (plus 2 more).",
+        "params_schema": {
+          "ident": "string",
+          "ident_type": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "ident"
+        ],
+        "argv_path": [
+          "flights"
+        ]
+      },
+      {
+        "tool": "flights.get-by-advanced-search",
+        "summary": "Returns currently or recently airborne flights based on geospatial search parameters. Query parameters include a latitude/longitude box, aircraft ident with wildcards, type with wildcards, prefix, origin airport, destination airport, origin or destination airport, groundspeed, and altitude. It takes search terms in a single string comprising of {operator key value} elements and returns an array of flight structures. Each search term must be enclosed in curly braces. Multiple search terms can be combined in an implicit boolean 'and' by separating the terms with at least one space. This function only searches flight data representing approximately the last 24 hours. Codeshares and alternate idents are NOT searched when matching against the ident key. The supported operators include (note that operators take different numbers of arguments): * false - results must have the specified boolean key set to a value of false. Example: {false arrived} * true - results must have the specified boolean key set to a value of true. Example: {true lifeguard} * null - results must have the specified key set to a null value. Example: {null waypoints} * notnull - results must have the specified key not set to a null value. Example: {notnull aircraftType} * = - results must have a key that exactly matches the specified value. Example: {= aircraftType C172} * != - results must have a key that must not match the specified value. Example: {!= prefix H} * < - results must have a key that is lexicographically less-than a specified value. Example: {< arrivalTime 1276811040} * > - results must have a key that is lexicographically greater-than a specified value. Example: {> speed 500} * <= - results must have a key that is lexicographically less-than-or-equal-to a specified value. Example: {<= alt 8000} * >= - results must have a key that is lexicographically greater-than-or-equal-to a specified value. * match - results must have a key that matches against a case-insensitive wildcard pattern. Example: {match ident AAL*} * notmatch - results must have a key that does not match against a case-insensitive wildcard pattern. Example: {notmatch aircraftType B76*} * range - results must have a key that is numerically between the two specified values. Example: {range alt 8000 20000} * in - results must have a key that exactly matches one of the specified values. Example: {in orig {KLAX KBUR KSNA KLGB}} * orig_or_dest - results must have either the origin or destination key exactly match one of the specified values. Example: {orig_or_dest {KLAX KBUR KSNA KLGB}} * airline - results will only include airline flight if the argument is 1, or will only include GA flights if the argument is 0. Example: {airline 1} * aircraftType - results must have an aircraftType key that matches one of the specified case-insensitive wildcard patterns. Example: {aircraftType {B76* B77*}} * ident - results must have an ident key that matches one of the specified case-insensitive wildcard patterns. Example: {ident {N123* N456* AAL* UAL*}} * ident_or_reg - results must have an ident key or was known to be operated by an aircraft registration that matches one of the specified case-insensitive wildcard patterns. Example: {ident_or_reg {N123* N456* AAL* UAL*}} The supported key names include (note that not all of these key names are returned in the result structure, and some have slightly different names): * actualDepartureTime - Actual time of departure, or null if not departed yet. UNIX epoch timestamp seconds since 1970 * aircraftType - aircraft type ID (for example: B763) * alt - altitude at last reported position (hundreds of feet or Flight Level) * altChange - altitude change indication (for example: 'C' if climbing, 'D' if descending, and empty if it is level) * arrivalTime - Actual time of arrival, or null if not arrived yet. UNIX epoch timestamp seconds since 1970 * arrived - true if the flight has arrived at its destination. * cancelled - true if the flight has been cancelled. The meaning of cancellation is that the flight is no longer being tracked by FlightAware. There are a number of reasons a flight may be cancelled including cancellation by the airline, but that will not always be the case. * cdt - Controlled Departure Time, set if there is a ground hold on the flight. UNIX epoch timestamp seconds since 1970 * clock - Time of last received position. UNIX epoch timestamp seconds since 1970 * cta - Controlled Time of Arrival, set if there is a ground hold on the flight. UNIX epoch timestamp seconds since 1970 * dest - ICAO airport code of destination (for example: KLAX) * edt - Estimated Departure Time. Epoch timestamp seconds since 1970 * eta - Estimated Time of Arrival. Epoch timestamp seconds since 1970 * fdt - Field Departure Time. UNIX epoch timestamp seconds since 1970 * firstPositionTime - Time when first reported position was received, or 0 if no position has been received yet. Epoch timestamp seconds since 1970 * fixes - intersections and/or VORs along the route (for example: SLS AMERO ARTOM VODIR NOTOS ULAPA ACA NUXCO OLULA PERAS ALIPO UPN GDL KEDMA BRISA CUL PERTI CEN PPE ALTAR ASUTA JLI RONLD LAADY WYVIL OLDEE RAL PDZ ARNES BASET WELLZ CIVET) * fp - unique identifier assigned by FlightAware for this flight, aka fa_flight_id. * gs - ground speed at last reported position, in kts. * heading - direction of travel at last reported position. * hiLat - highest latitude travelled by flight. * hiLon - highest longitude travelled by flight. * ident - flight identifier or registration of aircraft. * lastPositionTime - Time when last reported position was received, or 0 if no position has been received yet. Epoch timestamp seconds since 1970. * lat - latitude of last reported position. * lifeguard - true if a 'lifeguard' rescue flight. * lon - longitude of last reported position. * lowLat - lowest latitude travelled by flight. * lowLon - lowest longitude travelled by flight. * ogta - Original Time of Arrival. UNIX epoch timestamp seconds since 1970 * ogtd - Original Time of Departure. UNIX epoch timestamp seconds since 1970 * orig - ICAO airport code of origin (for example: KIAH) * physClass - physical class (for example: J is jet) * prefix - A one or two character identifier prefix code (common values: G or GG Medevac, L Lifeguard, A Air Taxi, H Heavy, M Medium). * speed - ground speed, in kts. * status - Single letter code for current flight status, can be S Scheduled, F Filed, A Active, Z Completed, or X Cancelled. * updateType - data source of last position (P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration, D=datalink, X=surface and near surface (ADS-B and ASDE-X), S=space-based). * waypoints - all of the intersections and VORs comprising the route. Optional: query, max_pages (default: 1), cursor.",
+        "params_schema": {
+          "query": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "flights",
+          "get-by-advanced-search"
+        ]
+      },
+      {
+        "tool": "flights.get-by-position-search",
+        "summary": "Returns flight positions based on geospatial search parameters. This allows you to locate flights that have ever flown within a specific a latitude/longitude box, groundspeed, and altitude. It takes search terms in a single string comprising of {operator key value} elements and returns an array of flight structures. Each search term must be enclosed in curly braces. Multiple search terms can be combined in an implicit boolean 'and' by separating the terms with at least one space. This function only searches flight data representing approximately the last 24 hours. The supported operators include (note that operators take different numbers of arguments): * false - results must have the specified boolean key set to a value of false. Example: {false preferred} * true - results must have the specified boolean key set to a value of true. Example: {true preferred} * null - results must have the specified key set to a null value. Example: {null waypoints} * notnull - results must have the specified key not set to a null value. Example: {notnull aircraftType} * = - results must have a key that exactly matches the specified value. Example: {= fp C172} * != - results must have a key that must not match the specified value. Example: {!= prefix H} * < - results must have a key that is lexicographically less-than a specified value. Example: {< arrivalTime 1276811040} * > - results must have a key that is lexicographically greater-than a specified value. Example: {> speed 500} * <= - results must have a key that is lexicographically less-than-or-equal-to a specified value. Example: {<= alt 8000} * >= - results must have a key that is lexicographically greater-than-or-equal-to a specified value. * match - results must have a key that matches against a case-insensitive wildcard pattern. Example: {match ident AAL*} * notmatch - results must have a key that does not match against a case-insensitive wildcard pattern. Example: {notmatch aircraftType B76*} * range - results must have a key that is numerically between the two specified values. Example: {range alt 8000 20000} * in - results must have a key that exactly matches one of the specified values. Example: {in orig {KLAX KBUR KSNA KLGB}} The supported key names include (note that not all of these key names are returned in the result structure, and some have slightly different names): * alt - Altitude, measured in hundreds of feet or Flight Level. * altChange - a one-character code indicating the change in altitude. * cid - a three-character cid code * clock - UNIX epoch timestamp seconds since 1970 * fp - unique identifier assigned by FlightAware for this flight, aka fa_flight_id. * gs - ground speed, measured in kts. * lat - latitude of the reported position. * lon - longitude of the reported position * updateType - source of the last reported position (P=projected, O=oceanic, Z=radar, A=ADS-B, M=multilateration, D=datalink, X=surface and near surface (ADS-B and ASDE-X), S=space-based). Optional: query, unique_flights (default: false), max_pages (default: 1) (plus 1 more).",
+        "params_schema": {
+          "query": "string?",
+          "unique_flights": "bool?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "flights",
+          "get-by-position-search"
+        ]
+      },
+      {
+        "tool": "flights.get-by-search",
+        "summary": "Search for airborne flights by matching against various parameters including geospatial data. Uses a simplified query syntax compared to /flights/search/advanced. Optional: query, max_pages (default: 1), cursor. Returns array of FlightsGetBySearchItem.",
+        "params_schema": {
+          "query": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "flights",
+          "get-by-search"
+        ]
+      },
+      {
+        "tool": "flights.get-count-by-search",
+        "summary": "Full search query documentation is available at the /flights/search endpoint. Optional: query. Returns the FlightsGetCountBySearchResponse.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "flights",
+          "get-count-by-search"
+        ]
+      },
+      {
+        "tool": "flights.canonical_get-flights",
+        "summary": "When the ident parameter is a code that could map to multiple other codes, this endpoint returns an array of information about all the possible codes. An optional ident type and country code can be provided to refine ambiguous idents to a single result. The ident type should either be designator or registration to describe the ident being passed in. The country code should represent a country the operator of the flight operates within. Required: ident. Optional: ident_type, country_code.",
+        "params_schema": {
+          "ident": "string",
+          "ident_type": "string?",
+          "country_code": "string?"
+        },
+        "positionals": [
+          "ident"
+        ],
+        "argv_path": [
+          "flights",
+          "canonical_get-flights"
+        ]
+      },
+      {
+        "tool": "flights.intents_post-flights-by-ident",
+        "summary": "This operation informs FlightAware of an upcoming (or recently departed) flight. This information is used solely by FlightAware for improving the accuracy of flight tracking. This method does not transmit to any ANSP/ATC facility for flight separation or operational services. Access to this endpoint requires special account authorization. The FlightAware account must also be subscribed to FlightAware Global and the specified registration or ident must be on the Global account. Required: ident, aircraft_type, destination, intended_off, intended_on, origin. Optional: airspeed, altitude, route.",
+        "params_schema": {
+          "ident": "string",
+          "aircraft_type": "string?",
+          "airspeed": "int?",
+          "altitude": "int?",
+          "destination": "string?",
+          "intended_off": "string?",
+          "intended_on": "string?",
+          "origin": "string?",
+          "route": "string?"
+        },
+        "positionals": [
+          "ident"
+        ],
+        "argv_path": [
+          "flights",
+          "intents_post-flights-by-ident"
+        ]
+      },
+      {
+        "tool": "flights.map_get-flight",
+        "summary": "Returns a flight's track as a base64-encoded image. Image can contain a variety of additional data layers beyond just the track. Data from up to 10 days ago can be obtained. If looking for older data, please use the corresponding historical endpoint. Required: id. Optional: height (default: 480), width (default: 640), layer_on (plus 5 more).",
+        "params_schema": {
+          "id": "string",
+          "height": "int?",
+          "width": "int?",
+          "layer_on": "array?",
+          "layer_off": "array?",
+          "show_data_block": "bool?",
+          "airports_expand_view": "bool?",
+          "show_airports": "bool?",
+          "bounding_box": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "flights",
+          "map_get-flight"
+        ]
+      },
+      {
+        "tool": "flights.position_get-flight",
+        "summary": "Returns the latest position for a flight. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "flights",
+          "position_get-flight"
+        ]
+      },
+      {
+        "tool": "flights.route_get-flight",
+        "summary": "Returns information about a flight's filed route including coordinates, names, and types of fixes along the route. Not all flight routes can be successfully decoded by this endpoint, particularly if the flight is not entirely within the continental U.S. airspace, since this function only has access to navaids within that area. If data on a waypoint is missing then the type will be listed as 'UNKNOWN'. Data from up to 10 days ago can be obtained. If looking for older data, please use the corresponding historical endpoint. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "flights",
+          "route_get-flight"
+        ]
+      },
+      {
+        "tool": "flights.track_get-flight",
+        "summary": "Returns the track for a flight as an array of positions. Data from up to 10 days ago can be obtained. If looking for older data, please use the corresponding historical endpoint. Required: id. Optional: include_estimated_positions.",
+        "params_schema": {
+          "id": "string",
+          "include_estimated_positions": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "flights",
+          "track_get-flight"
+        ]
+      },
+      {
+        "tool": "foresight.get-flight-position-with",
+        "summary": "Get flight's current position, including Foresight data. Required: id. Returns the ForesightGetFlightPositionWithResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "foresight",
+          "get-flight-position-with"
+        ]
+      },
+      {
+        "tool": "foresight.get-flight-with",
+        "summary": "Returns the flight info status summary for a registration, ident, or fa_flight_id, including all available predicted fields. If a fa_flight_id is specified then a maximum of 1 flight is returned, unless the flight has been diverted in which case both the original flight and any diversions will be returned with a duplicate fa_flight_id. Required: ident. Optional: ident_type, start, end (plus 2 more).",
+        "params_schema": {
+          "ident": "string",
+          "ident_type": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "ident"
+        ],
+        "argv_path": [
+          "foresight",
+          "get-flight-with"
+        ]
+      },
+      {
+        "tool": "foresight.get-flights-by-advanced-search-with",
+        "summary": "Returns currently or recently airborne flights based on geospatial search parameters. If available, flights' predicted OOOI fields will be set. Optional: query, max_pages (default: 1), cursor.",
+        "params_schema": {
+          "query": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "foresight",
+          "get-flights-by-advanced-search-with"
+        ]
+      },
+      {
+        "tool": "history.get-aircraft-last-flight",
+        "summary": "Returns flight info status summary for an aircraft's last known flight given its registration. The search is limited to flights flown since January 1, 2011. On a successful response, the body will contain a flights array with only 1 element. If a user queries a registration with it's last known flight before January 1, 2011, an empty flights array will be returned. Required: registration.",
+        "params_schema": {
+          "registration": "string"
+        },
+        "positionals": [
+          "registration"
+        ],
+        "argv_path": [
+          "history",
+          "get-aircraft-last-flight"
+        ]
+      },
+      {
+        "tool": "history.get-flight",
+        "summary": "Returns historical flight info status summary for a registration, ident, or fa_flight_id. If a fa_flight_id is specified then a maximum of 1 flight is returned, unless the flight has been diverted in which case both the original flight and any diversions will be returned with a duplicate fa_flight_id. If a registraion or ident is specified then a start_date and end_date must be specified. The span between start_date and end_date can be up to 7 days. No more than 40 pages may be requested at once. Data is available from now back to 2011-01-01 00:00:00 UTC. The field `inbound_fa_flight_id` will not be populated by this resource. Required: ident. Optional: ident_type, start, end (plus 2 more).",
+        "params_schema": {
+          "ident": "string",
+          "ident_type": "string?",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "ident"
+        ],
+        "argv_path": [
+          "history",
+          "get-flight"
+        ]
+      },
+      {
+        "tool": "history.get-flight-map",
+        "summary": "Returns a historical flight's track as a base64-encoded image. Image can contain a variety of additional data layers beyond just the track. Data is available from now back to 2011-01-01T00:00:00Z. Required: id. Optional: height (default: 480), width (default: 640), layer_on (plus 5 more).",
+        "params_schema": {
+          "id": "string",
+          "height": "int?",
+          "width": "int?",
+          "layer_on": "array?",
+          "layer_off": "array?",
+          "show_data_block": "bool?",
+          "airports_expand_view": "bool?",
+          "show_airports": "bool?",
+          "bounding_box": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "history",
+          "get-flight-map"
+        ]
+      },
+      {
+        "tool": "history.get-flight-route",
+        "summary": "Returns information about a historical flight's filed route including coordinates, names, and types of fixes along the route. Not all flight routes can be successfully decoded by this endpoint, particularly if the flight is not entirely within the continental U.S. airspace, since this function only has access to navaids within that area. If data on a waypoint is missing then the type will be listed as 'UNKNOWN'. Data is available from now back to 2011-01-01T00:00:00Z. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "history",
+          "get-flight-route"
+        ]
+      },
+      {
+        "tool": "history.get-flight-track",
+        "summary": "Returns the track for a historical flight as an array of positions. Data is available from now back to 2011-01-01T00:00:00Z. Required: id. Optional: include_estimated_positions.",
+        "params_schema": {
+          "id": "string",
+          "include_estimated_positions": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "history",
+          "get-flight-track"
+        ]
+      },
+      {
+        "tool": "operators.get",
+        "summary": "Returns information for an operator such as their name, ICAO/IATA codes, headquarter location, etc. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "operators"
+        ]
+      },
+      {
+        "tool": "operators.get-all",
+        "summary": "Returns list of operator references (ICAO/IATA codes and URLs to access more information). Optional: max_pages (default: 1), cursor.",
+        "params_schema": {
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "operators",
+          "get-all"
+        ]
+      },
+      {
+        "tool": "operators.canonical_get-operators",
+        "summary": "Returns all possible matches for a given operator code (ICAO or IATA). An optional country code can be provided to refine ambiguous IATA codes to a single result. The country code should represent a country the operator operates within. Required: id. Optional: country_code.",
+        "params_schema": {
+          "id": "string",
+          "country_code": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "operators",
+          "canonical_get-operators"
+        ]
+      },
+      {
+        "tool": "operators.flights_get-operator",
+        "summary": "Returns all recent and upcoming flights for this operator. Behaviour for optional start and end dates for each type returned (`scheduled`, `arrivals`, `enroute`) match the behaviour in their corresponding endpoints. Required: id. Optional: start, end, max_pages (default: 1) (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "operators",
+          "flights_get-operator"
+        ]
+      },
+      {
+        "tool": "operators.flights_get-operator-arrived",
+        "summary": "Returns flights for this operator that have departed and subsequently arrived, ordered by `actual_on` descending. The optional start and end parameters will be compared against `actual_on` to limit the flights returned. The start parameter's default value is 24 hours before the current time. The end parameter's default value is the current time. Required: id. Optional: start, end, max_pages (default: 1) (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "operators",
+          "flights_get-operator-arrived"
+        ]
+      },
+      {
+        "tool": "operators.flights_get-operator-count",
+        "summary": "Returns counts of both airborne and recently operated flights for operator. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "operators",
+          "flights_get-operator-count"
+        ]
+      },
+      {
+        "tool": "operators.flights_get-operator-enroute",
+        "summary": "Returns flights for this operator that have departed and are currently en route, ordered by `estimated_on` ascending. The optional start and end parameters will be compared against `estimated_on` to limit the flights returned. The start parameter's default value is 48 hours before the current time (this accounts for delayed flights). There is no default end bound. Required: id. Optional: start, end, max_pages (default: 1) (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "operators",
+          "flights_get-operator-enroute"
+        ]
+      },
+      {
+        "tool": "operators.flights_get-operator-scheduled",
+        "summary": "Returns flights for this operator that are scheduled to depart or have recently been cancelled, ordered by `estimated_off` (or `scheduled_off` if `estimated_off` is missing) ascending. The optional start and end parameters will be compared against `scheduled_off` to limit the flights returned. If start is not specified, flights with a `scheduled_off` or cancellation time no further than two hours into the past will be returned. If end is not specified, there is no guaranteed bound for how far in the future scheduled flights will be returned (it will typically be around 48 hours in the future for commercial flights, though). Required: id. Optional: start, end, max_pages (default: 1) (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "start": "string?",
+          "end": "string?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "operators",
+          "flights_get-operator-scheduled"
+        ]
+      },
+      {
+        "tool": "schedules.get-by-date",
+        "summary": "Returns scheduled flights that have been published by airlines. These schedules are available for up to three months in the past as well as one year into the future. Required: date_start, date_end. Optional: origin, destination, airline (plus 5 more).",
+        "params_schema": {
+          "date_start": "string",
+          "date_end": "string",
+          "origin": "string?",
+          "destination": "string?",
+          "airline": "string?",
+          "flight_number": "int?",
+          "include_codeshares": "bool?",
+          "include_regional": "bool?",
+          "max_pages": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "date_start",
+          "date_end"
+        ],
+        "argv_path": [
+          "schedules",
+          "get-by-date"
         ]
       }
     ]
@@ -172828,7 +173845,7 @@
       "janeapp",
       "Jane App",
       "janeapp-pp-cli",
-      "Book, view, and manage your Jane (janeapp.com) appointments across every clinic from one terminal \u2014 with a unified agenda, next-opening finder, and availability watch the patient portal can't do.",
+      "Book, view, and manage your Jane (janeapp.com) appointments across every clinic from the terminal \u2014 unified agenda, next-opening finder, and availability watch the patient portal can't do.",
       "Jane has no public patient API. Each clinic is a separate subdomain with its\nown patient account. Add a profile for a clinic and log in with your patient\nusername/email and password:\n\n  janeapp-pp-cli profile add embophysio --url https://embophysio.janeapp.com\n  janeapp-pp-cli auth login --profile embophysio\n\nThe CLI performs Jane's two-step sign-in and stores the session cookie for\nthat profile. Repeat for each clinic. `--all-profiles` fans read commands\nacross every logged-in clinic.",
       "Unified cross-clinic agenda",
       "agenda",
@@ -172910,13 +173927,22 @@
       "Order Jimmy John's from the terminal \u2014 Freaky Fast Rewards stacking, half-order builder, and one-shot reorder.",
       "Unwich Converter",
       "menu unwich-convert",
-      "Convert a sandwich's modifier set to an Unwich (lettuce wrap) variant \u2014 pure-local computation, no live API call.",
+      "Convert a sandwich's modifier set to an Unwich (lettuce wrap) variant \u2014 pure-local modifier-delta computation, no live API call.",
+      "Half-and-Half Composer",
+      "menu half-and-half",
+      "Compose a two-product share order with the agent-facing note that JJ doesn't natively support half-and-half slicing.",
       "Office Lunch Planner",
       "order plan",
       "Suggest a sized cart for a group order \u2014 sandwiches + sides + cookies + drinks scaled to N people with dietary filters.",
-      "Half-and-Half Composer",
-      "menu half-and-half",
-      "Compose a two-product share order with the agent-facing note that JJ doesn't natively support half-and-half slicing."
+      "Local Stats",
+      "stats",
+      "Local SQL aggregation over synced stores/products/orders \u2014 offline analytics, no live API call.",
+      "Ordering Trends",
+      "trends",
+      "Weekly cadence and ordering breakdown derived from local order history.",
+      "Store Reconcile",
+      "reconcile",
+      "Diff locally synced stores against the live API and report drift."
     ],
     "endpoints": [
       {
@@ -267250,7 +268276,7 @@
       "table-reservation-goat",
       "Table Reservation GOAT",
       "table-reservation-goat-pp-cli",
-      "One reservation CLI for OpenTable, Tock, and Resy \u2014 search all three networks at once, watch for cancellations, book, and track changes from a local store agents can query.",
+      "One reservation CLI for OpenTable, Tock, and Resy \u2014 search all three networks at once, watch for cancellations",
       "Cross-network unified search",
       "goat",
       "One query across OpenTable and Tock simultaneously, ranked by relevance, earliest availability, and price band.",
@@ -267317,7 +268343,7 @@
       },
       {
         "tool": "experiences.list",
-        "summary": "List experiences (PRIX_FIXE, EXPERIENCE, PACKAGE) across both networks. Optional: restaurant, type, cuisine (plus 1 more). Returns array of Experience.",
+        "summary": "List experiences (PRIX_FIXE, EXPERIENCE, PACKAGE) across OpenTable + Tock. Optional: restaurant, type, cuisine (plus 1 more). Returns array of Experience.",
         "params_schema": {
           "restaurant": "string?",
           "type": "string?",
@@ -267387,7 +268413,7 @@
       },
       {
         "tool": "reservations.list",
-        "summary": "List your upcoming and past reservations across both networks. Optional: state, network, limit. Returns array of Reservation.",
+        "summary": "List your upcoming and past reservations across OpenTable + Tock + Resy. Optional: state, network, limit. Returns array of Reservation.",
         "params_schema": {
           "state": "string?",
           "network": "string?",
@@ -267414,7 +268440,7 @@
       },
       {
         "tool": "restaurants.list",
-        "summary": "List restaurants across OpenTable and Tock; filter by location, cuisine, price band, accolades, and party size. Optional: query, latitude, longitude (plus 8 more). Returns array of Restaurant.",
+        "summary": "List restaurants across OpenTable, Tock, and Resy; filter by location, cuisine, price band, accolades, and party size. Optional: query, latitude, longitude (plus 8 more). Returns array of Restaurant.",
         "params_schema": {
           "query": "string?",
           "latitude": "number?",
