@@ -225109,6 +225109,46 @@
     ]
   },
   {
+    "api": "sea-airport-parking",
+    "description": "Check, track, and get alerted on SEA's official on-airport Reserved garage \u2014 with a local price/availability history and sold-out watch that no site or aggregator has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/sea-airport-parking/cmd/sea-airport-parking-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "sea-airport-parking",
+      "SEA Airport Parking",
+      "sea-airport-parking-pp-cli",
+      "Check, track, and get alerted on SEA's official on-airport Reserved garage \u2014 with a local price/availability history and sold-out watch that no site or aggregator has.",
+      "Flexible-date sweep",
+      "sweep",
+      "Search a flexible date window for the cheapest or any-available Reserved stay.",
+      "Sold-out watch",
+      "watch",
+      "Poll a sold-out or target date range until Reserved opens up (or drops below a price), then notify.",
+      "Quote-snapshot history",
+      "history",
+      "List every recorded quote snapshot for a date range: price, availability, promo, captured time.",
+      "Price / availability drift",
+      "drift",
+      "Summarize how a range's price and availability moved across stored snapshots: first vs latest, min/max, sold-out flips.",
+      "Availability calendar",
+      "calendar",
+      "Render price and open/sold-out across many entry days for a fixed-length stay."
+    ],
+    "endpoints": [
+      {
+        "tool": "parking.info",
+        "summary": "Fetch the live SEA parking booking page (product card + date-entry form).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "parking",
+          "info"
+        ]
+      }
+    ]
+  },
+  {
     "api": "seats-aero",
     "description": "Search Seats.aero award-flight availability, route coverage, mileage-program feeds, and trip details from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/seats-aero/cmd/seats-aero-pp-cli",
