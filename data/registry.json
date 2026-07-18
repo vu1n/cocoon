@@ -162563,6 +162563,68 @@
     ]
   },
   {
+    "api": "google-trends",
+    "description": "Every Google Trends workflow pytrends offered, plus the local history and rate-limit resilience that archived, frozen wrapper never had.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/google-trends/cmd/google-trends-pp-cli",
+    "auth_type": "cookie",
+    "category": "marketing",
+    "search_terms": [
+      "google-trends",
+      "Google Trends",
+      "google-trends-pp-cli",
+      "Every Google Trends workflow pytrends offered, plus the local history and rate-limit resilience that archived, frozen wrapper never had.",
+      "Time-Travel Trending Lookup",
+      "trends trending at",
+      "See what was trending on a specific past date and geo \u2014 a question Google Trends' own live UI cannot answer.",
+      "Trend History Search",
+      "trends history search",
+      "Full-text search across every related-term and trending-topic result you've ever synced, offline.",
+      "Snapshot Diff / Rising-Term Watchlist",
+      "trends changes",
+      "See exactly what changed for a keyword's related terms and interest score since your last sync.",
+      "Content Opportunity Ranking",
+      "trends opportunities",
+      "Ranks a keyword's related/rising terms by rising-momentum times parent-topic growth, surfacing the best content ideas first.",
+      "Seasonality Index",
+      "trends seasonality",
+      "Computes monthly averages, peak month, and a seasonality strength score for a keyword from cached history.",
+      "Stale Query Report",
+      "trends stale",
+      "Lists tracked keywords whose local data hasn't been refreshed recently, so you know what to re-sync before you hit a rate limit.",
+      "Geo-Divergence Finder",
+      "trends geo-gap",
+      "Ranks the regions where two keywords' interest diverges most, instead of raw per-region values you'd have to compare by hand."
+    ],
+    "endpoints": [
+      {
+        "tool": "trends.pickers_category",
+        "summary": "Full category id-to-name lookup tree. Openly accessible, no clearance cookie required. Required: hl, tz. Returns the category.",
+        "params_schema": {
+          "hl": "string?",
+          "tz": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "trends",
+          "pickers_category"
+        ]
+      },
+      {
+        "tool": "trends.pickers_geo",
+        "summary": "Full geo code-to-name lookup tree (country/region/DMA/city). Openly accessible, no clearance cookie required. Required: hl, tz. Returns the geo.",
+        "params_schema": {
+          "hl": "string?",
+          "tz": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "trends",
+          "pickers_geo"
+        ]
+      }
+    ]
+  },
+  {
     "api": "gorgias",
     "description": "Gorgias support CLI with offline sync, local search, read-only SQL, and MCP tools for agent-native support workflows.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/gorgias/cmd/gorgias-pp-cli",
@@ -164342,6 +164404,42 @@
         "argv_path": [
           "notes",
           "list"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "grants",
+    "description": "Open US federal research funding from the terminal, keyless \u2014 Grants.gov open opportunities with deadline/agency/award/eligibility filters, plus awarded NIH RePORTER and NSF grants as funding benchmarks.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/grants/cmd/grants-pp-cli",
+    "auth_type": "none",
+    "category": "health",
+    "search_terms": [
+      "grants",
+      "Research Grants Finder",
+      "grants-pp-cli",
+      "Open US federal research funding from the terminal, keyless \u2014 Grants.gov open opportunities with deadline/agency/award/eligibility filters, plus awarded NIH RePORTER and NSF grants as funding benchmarks.",
+      "Award Cap Fallback",
+      "search --min-award",
+      "Filters by the best available award amount \u2014 awardCeiling with an estimatedFunding fallback \u2014 because Grants.gov frequently reports a zero ceiling on real opportunities. Output labels the fallback so users know the number is an estimate.",
+      "Eligibility Substring Filter",
+      "search --eligibility",
+      "Client-side applicant-type filter over per-opportunity fetchOpportunity details, e.g. limit results to universities or small businesses without reading each synopsis.",
+      "Cross-Source Doctor",
+      "doctor",
+      "One command live-checks all three keyless upstreams (Grants.gov Search2, NIH RePORTER, NSF Awards) before a research session, with per-source status.",
+      "Awarded-vs-Open Benchmarking",
+      "nih / nsf",
+      "Pairs open Grants.gov calls with historically awarded NIH RePORTER and NSF grants so applicants can benchmark typical award sizes for a topic before applying."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Open US federal research funding from the terminal, keyless \u2014 Grants.gov open opportunities with deadline/agency/award/eligibility filters, plus awarded NIH RePORTER and NSF grants as funding benchmarks. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
         ]
       }
     ]
@@ -203585,6 +203683,173 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "peloton",
+    "description": "Read-only Peloton workout, class, and structural-provider facts in a private local store.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/peloton/cmd/peloton-pp-cli",
+    "auth_type": "oauth2_refresh",
+    "category": "health",
+    "search_terms": [
+      "peloton",
+      "peloton-pp-cli",
+      "Read-only Peloton workout, class, and structural-provider facts in a private local store.",
+      "Managed OAuth catalog access",
+      "auth setup",
+      "Bootstraps a private OAuth bundle and reuses or refreshes it for bearer-authenticated catalog reads."
+    ],
+    "endpoints": [
+      {
+        "tool": "account.show",
+        "summary": "Show the current profile fact. Returns the Profile.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "show"
+        ]
+      },
+      {
+        "tool": "classes.catalog",
+        "summary": "List a caller-scoped archived class catalog page. Required: browse_category, content_format. Optional: limit (default: 100), page (default: 0), sort_by (default: original_air_time) (plus 3 more). Returns array of Class.",
+        "params_schema": {
+          "browse_category": "string?",
+          "content_format": "string?",
+          "limit": "int?",
+          "page": "int?",
+          "sort_by": "string?",
+          "desc": "bool?",
+          "instructor_id": "string?",
+          "class_type_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "classes",
+          "catalog"
+        ]
+      },
+      {
+        "tool": "classes.filters",
+        "summary": "Show provider class/filter vocabulary and embedded instructor metadata. Required: browse_category. Optional: include_icon_images (default: true), library_type (default: on_demand). Returns the FilterVocabulary.",
+        "params_schema": {
+          "include_icon_images": "bool?",
+          "library_type": "string?",
+          "browse_category": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "classes",
+          "filters"
+        ]
+      },
+      {
+        "tool": "classes.search",
+        "summary": "Search the caller-scoped catalog by factual provider filters; U4 adds offline structural predicates. Required: browse_category, content_format. Optional: limit (default: 100), page (default: 0), sort_by (default: original_air_time) (plus 3 more). Returns array of Class.",
+        "params_schema": {
+          "browse_category": "string?",
+          "content_format": "string?",
+          "limit": "int?",
+          "page": "int?",
+          "sort_by": "string?",
+          "desc": "bool?",
+          "instructor_id": "string?",
+          "class_type_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "classes",
+          "search"
+        ]
+      },
+      {
+        "tool": "classes.show",
+        "summary": "Show class metadata and supported planned structure. Required: ride_id. Returns the ClassDetail.",
+        "params_schema": {
+          "ride_id": "string"
+        },
+        "positionals": [
+          "ride_id"
+        ],
+        "argv_path": [
+          "classes",
+          "show"
+        ]
+      },
+      {
+        "tool": "classes.structure",
+        "summary": "Inspect ordered provider segments and target ranges without coaching labels. Required: ride_id. Returns the ClassDetail.",
+        "params_schema": {
+          "ride_id": "string"
+        },
+        "positionals": [
+          "ride_id"
+        ],
+        "argv_path": [
+          "classes",
+          "structure"
+        ]
+      },
+      {
+        "tool": "strength.movements",
+        "summary": "Inspect provider workout detail containing movement_tracker_data when present; no template fallback. Required: workout_id. Returns the WorkoutDetail.",
+        "params_schema": {
+          "workout_id": "string"
+        },
+        "positionals": [
+          "workout_id"
+        ],
+        "argv_path": [
+          "strength",
+          "movements"
+        ]
+      },
+      {
+        "tool": "workouts.list",
+        "summary": "List workout history in newest-first pages; user_id is supplied by the caller until U3 links the profile fact. Required: user_id. Optional: joins (default: ride), limit (default: 100), page (default: 0) (plus 1 more). Returns array of Workout.",
+        "params_schema": {
+          "user_id": "string",
+          "joins": "string?",
+          "limit": "int?",
+          "page": "int?",
+          "sort": "string?"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "workouts"
+        ]
+      },
+      {
+        "tool": "workouts.performance",
+        "summary": "Show recorded performance samples and summaries for one workout. Required: workout_id. Optional: every_n (default: 1). Returns the PerformanceGraph.",
+        "params_schema": {
+          "workout_id": "string",
+          "every_n": "int?"
+        },
+        "positionals": [
+          "workout_id"
+        ],
+        "argv_path": [
+          "workouts",
+          "performance"
+        ]
+      },
+      {
+        "tool": "workouts.show",
+        "summary": "Show a recorded workout detail payload. Required: workout_id. Returns the WorkoutDetail.",
+        "params_schema": {
+          "workout_id": "string"
+        },
+        "positionals": [
+          "workout_id"
+        ],
+        "argv_path": [
+          "workouts",
+          "show"
         ]
       }
     ]
@@ -247994,6 +248259,225 @@
     ]
   },
   {
+    "api": "soccer-goat",
+    "description": "Type any player or club and get market value, EA FC rating, potential, and stats in one report, joined across sources that live in separate walled silos.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/soccer-goat/cmd/soccer-goat-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "soccer-goat",
+      "soccer-goat-pp-cli",
+      "Unified player dossier",
+      "player",
+      "Type any player name and get market value, EA FC rating, potential, and key stats in one report.",
+      "Team squad value+rating board",
+      "team",
+      "Type a club name and get the full squad with each player's market value and rating, plus squad totals.",
+      "Market-vs-game divergence",
+      "over-under-rated",
+      "Flag players whose transfer-market value is far above or below their EA game rating.",
+      "Potential growth gap",
+      "potential-gap",
+      "Rank players by headroom (potential minus current rating).",
+      "Cross-source head-to-head",
+      "compare",
+      "Side-by-side value, rating, potential, and stats for two players.",
+      "Wonderkid scout query",
+      "wonderkids",
+      "Find young players with high potential and rising market value."
+    ],
+    "endpoints": [
+      {
+        "tool": "clubs.search",
+        "summary": "Search Clubs. Required: club_name. Optional: page_number (default: 1). Returns array of ClubSearchResult.",
+        "params_schema": {
+          "club_name": "string",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "club_name"
+        ],
+        "argv_path": [
+          "clubs",
+          "search"
+        ]
+      },
+      {
+        "tool": "clubs.players_get-club",
+        "summary": "Get Club Players. Required: club_id. Optional: season_id. Returns array of ClubPlayer.",
+        "params_schema": {
+          "club_id": "string",
+          "season_id": "string?"
+        },
+        "positionals": [
+          "club_id"
+        ],
+        "argv_path": [
+          "clubs",
+          "players_get-club"
+        ]
+      },
+      {
+        "tool": "clubs.profile_get-club",
+        "summary": "Get Club Profile. Required: club_id. Returns the ClubProfile.",
+        "params_schema": {
+          "club_id": "string"
+        },
+        "positionals": [
+          "club_id"
+        ],
+        "argv_path": [
+          "clubs",
+          "profile_get-club"
+        ]
+      },
+      {
+        "tool": "competitions.search",
+        "summary": "Search Competitions. Required: competition_name. Optional: page_number (default: 1). Returns array of CompetitionSearchResult.",
+        "params_schema": {
+          "competition_name": "string",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "competition_name"
+        ],
+        "argv_path": [
+          "competitions",
+          "search"
+        ]
+      },
+      {
+        "tool": "competitions.clubs_get-competition",
+        "summary": "Get Competition Clubs. Required: competition_id. Optional: season_id. Returns array of CompetitionClub.",
+        "params_schema": {
+          "competition_id": "string",
+          "season_id": "string?"
+        },
+        "positionals": [
+          "competition_id"
+        ],
+        "argv_path": [
+          "competitions",
+          "clubs_get-competition"
+        ]
+      },
+      {
+        "tool": "players.search",
+        "summary": "Search Players. Required: player_name. Optional: page_number (default: 1). Returns array of PlayerSearchResult.",
+        "params_schema": {
+          "player_name": "string",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "player_name"
+        ],
+        "argv_path": [
+          "players",
+          "search"
+        ]
+      },
+      {
+        "tool": "players.achievements_get-player",
+        "summary": "Get Player Achievements. Required: player_id. Returns array of PlayerAchievement.",
+        "params_schema": {
+          "player_id": "string"
+        },
+        "positionals": [
+          "player_id"
+        ],
+        "argv_path": [
+          "players",
+          "achievements_get-player"
+        ]
+      },
+      {
+        "tool": "players.injuries_get-player",
+        "summary": "Get Player Injuries. Required: player_id. Optional: page_number (default: 1). Returns array of Injury.",
+        "params_schema": {
+          "player_id": "string",
+          "page_number": "string?"
+        },
+        "positionals": [
+          "player_id"
+        ],
+        "argv_path": [
+          "players",
+          "injuries_get-player"
+        ]
+      },
+      {
+        "tool": "players.jersey-numbers_get-player",
+        "summary": "Get Player Jersey Numbers. Required: player_id. Returns array of JerseyNumber.",
+        "params_schema": {
+          "player_id": "string"
+        },
+        "positionals": [
+          "player_id"
+        ],
+        "argv_path": [
+          "players",
+          "jersey-numbers_get-player"
+        ]
+      },
+      {
+        "tool": "players.market-value_get-player",
+        "summary": "Get Player Market Value. Required: player_id. Returns array of MarketValueHistory.",
+        "params_schema": {
+          "player_id": "string"
+        },
+        "positionals": [
+          "player_id"
+        ],
+        "argv_path": [
+          "players",
+          "market-value_get-player"
+        ]
+      },
+      {
+        "tool": "players.profile_get-player",
+        "summary": "Get Player Profile. Required: player_id. Returns array of string.",
+        "params_schema": {
+          "player_id": "string"
+        },
+        "positionals": [
+          "player_id"
+        ],
+        "argv_path": [
+          "players",
+          "profile_get-player"
+        ]
+      },
+      {
+        "tool": "players.stats_get-player",
+        "summary": "Get Player Stats. Required: player_id. Returns array of PlayerStat.",
+        "params_schema": {
+          "player_id": "string"
+        },
+        "positionals": [
+          "player_id"
+        ],
+        "argv_path": [
+          "players",
+          "stats_get-player"
+        ]
+      },
+      {
+        "tool": "players.transfers_get-player",
+        "summary": "Get Player Transfers. Required: player_id. Returns array of PlayerTransfer.",
+        "params_schema": {
+          "player_id": "string"
+        },
+        "positionals": [
+          "player_id"
+        ],
+        "argv_path": [
+          "players",
+          "transfers_get-player"
+        ]
+      }
+    ]
+  },
+  {
     "api": "splitwise",
     "description": "Every Splitwise feature, plus an offline SQLite ledger that powers balance, debt-aging, spend analytics",
     "install_module": "github.com/mvanhorn/printing-press-library/library/payments/splitwise/cmd/splitwise-pp-cli",
@@ -263419,6 +263903,226 @@
       "ASCII calendar of the next 30 days showing scheduled posts across every publication you own. Multi-pub editorial overview in one screen."
     ],
     "endpoints": []
+  },
+  {
+    "api": "substack-reader",
+    "description": "Read any Substack publication as a local, full-text-searchable corpus \u2014 keyless for free posts, your own session for what you subscribe to.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/substack-reader/cmd/substack-reader-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "substack-reader",
+      "Substack Reader",
+      "substack-reader-pp-cli",
+      "Read any Substack publication as a local, full-text-searchable corpus \u2014 keyless for free posts, your own session for what you subscribe to.",
+      "Local publication corpus",
+      "archive",
+      "Archive a whole Substack publication into a local SQLite mirror you can read, search, and query offline \u2014 no other Substack tool builds a persistent corpus.",
+      "Entitlement-aware read",
+      "read",
+      "Read a post's full text; free posts keyless, and paid posts you subscribe to via your own session cookie \u2014 with an honest 'preview only, you're not entitled' signal.",
+      "Cross-publication digest",
+      "digest",
+      "A time-windowed digest across every publication in your local corpus \u2014 what's new since you last synced, ranked, in one view.",
+      "Author comparison",
+      "author-compare",
+      "Compare two publications' cadence, topics, and free/paid mix from the local corpus.",
+      "Local corpus SQL",
+      "sql",
+      "Run read-only SQL over your local Substack corpus for arbitrary analytics \u2014 post cadence, audience mix, longest posts \u2014 from data you've already archived."
+    ],
+    "endpoints": [
+      {
+        "tool": "archive",
+        "summary": "Archive a Substack publication's posts into the local SQLite corpus for offline read, search, and SQL. Accepts a handle (astralcodexten), a bare host (blog.bytebytego.com), or a full URL. Keyless (Tier 0): archives post metadata + previews for any public publication; the full body of paid posts requires your own session (see the read command).",
+        "params_schema": {
+          "data-source": "string?",
+          "db": "string?",
+          "limit": "number?",
+          "publication": "string?",
+          "sort": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "archive",
+          "archive"
+        ]
+      },
+      {
+        "tool": "author.compare",
+        "summary": "Compare two archived publications side by side: how many posts you've\nmirrored, their date range, publishing cadence (posts/week), and free/paid mix.\n\nReads only the local corpus \u2014 archive both publications first\n('substack-reader-pp-cli archive <pub>'). Each publication is matched by the host it\nwas archived under, so pass the same handle/host you archived with.",
+        "params_schema": {
+          "data-source": "string?",
+          "pub-a": "string?",
+          "pub-b": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "author",
+          "compare"
+        ]
+      },
+      {
+        "tool": "categories.list",
+        "summary": "List all Substack categories. Returns array of Category.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "categories.browse",
+        "summary": "List publications in a category. Required: id. Optional: page (default: 0). Returns the CategoryPublications.",
+        "params_schema": {
+          "id": "number?",
+          "page": "number?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "categories",
+          "browse"
+        ]
+      },
+      {
+        "tool": "context",
+        "summary": "Get API domain context: resource taxonomy, auth requirements, query tips, and unique capabilities. Call this first.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "context",
+          "context"
+        ]
+      },
+      {
+        "tool": "digest",
+        "summary": "Summarize what's new across every publication in your local corpus within a\ntime window, grouped by publication and ordered by recency.\n\nReads only the local corpus built by 'substack-reader-pp-cli archive' \u2014 it never hits\nthe network \u2014 so it is a \"what did I miss across my newsletters\" briefing over\nexactly what you have mirrored. Posts without a parseable date are omitted from\nthe window.",
+        "params_schema": {
+          "data-source": "string?",
+          "limit": "number?",
+          "since": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "digest",
+          "digest"
+        ]
+      },
+      {
+        "tool": "publications.search",
+        "summary": "Search Substack publications by name (best-effort; may return few results anonymously). Required: query. Optional: page (default: 0). Returns the PublicationSearchResult.",
+        "params_schema": {
+          "page": "number?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "publications",
+          "search"
+        ]
+      },
+      {
+        "tool": "read",
+        "summary": "Read a single Substack post's full text.\n\nFree posts (audience \"everyone\") are keyless \u2014 zero setup. Paid posts you\nalready subscribe to unlock with your own substack.sid session cookie\n(SUBSTACK_SESSION env, or a JSON cookie file in the config dir); this reads only\nwhat you are entitled to and is never required for free content.\n\nAccepts any Substack URL shape, or the bare \"<pub>/<slug>\" form:\n  substack-reader-pp-cli read astralcodexten/open-thread-441\n  substack-reader-pp-cli read https://uxmentor.substack.com/p/<slug>\n  substack-reader-pp-cli read https://creatoreconomy.so/p/<slug>\n  substack-reader-pp-cli read https://substack.com/home/post/p-<id>\n\nWhen a paid post can't be unlocked, the output is honest about it: you get the\npublic preview plus a clear \"preview only \u2014 not entitled\" signal, never a\nsilent downgrade.",
+        "params_schema": {
+          "data-source": "string?",
+          "post": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "read",
+          "read"
+        ]
+      },
+      {
+        "tool": "search",
+        "summary": "Full-text search across all synced data. Faster than paginating list endpoints. Requires sync first.",
+        "params_schema": {
+          "limit": "number?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "search",
+          "search"
+        ]
+      },
+      {
+        "tool": "sql",
+        "summary": "Run read-only SQL against local database. Use for ad-hoc analysis, aggregations, and joins across synced resources. Requires sync first.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sql",
+          "sql"
+        ]
+      },
+      {
+        "tool": "sync",
+        "summary": "Sync data from the API into a local SQLite database. This API does\nnot declare temporal sync filters, so sync performs full pagination unless an\nexplicit resource declares its own incremental filter.\nOnce synced, use the 'search' command for instant full-text search.\n\nExit codes & warnings:\n  Resources the API denies access to (HTTP 403, or HTTP 400 with an\n  access-policy body) are reported as warnings rather than failing the\n  run. In --json mode each is emitted as a {\"event\":\"sync_warning\",...}\n  line carrying status, reason, and message fields, and a final\n  {\"event\":\"sync_summary\",...} aggregates the run.\n\n  Exit 0 when at least one resource synced and no resource flagged in\n  the spec as critical (x-critical: true) failed; non-critical failures\n  emit {\"event\":\"sync_warning\",\"reason\":\"exit_policy_default_changed\",\n  ...} so callers can detect that a partial failure was tolerated. Pass\n  --strict to exit non-zero on any per-resource failure. Exit is always\n  non-zero when every selected resource failed, regardless of --strict.\n\nResource scoping:\n  --resources runs the named top-level resources, plus any parent-keyed\n  dependent whose own name is listed OR whose parent table is listed.\n  Naming a parent therefore cascades to its dependents (so \"sync this\n  parent and its children\" works without listing every nested resource\n  by hand). There is no flag today to suppress the cascade for a named\n  parent. To run a dependent without re-syncing its parent, list only\n  the dependent by name; the parent table must already be populated\n  from a prior sync.",
+        "params_schema": {
+          "concurrency": "number?",
+          "data-source": "string?",
+          "db": "string?",
+          "full": "boolean?",
+          "global-param": "string?",
+          "latest-only": "boolean?",
+          "max-pages": "number?",
+          "no-prune": "boolean?",
+          "param": "string?",
+          "resource-param": "string?",
+          "resources": "string?",
+          "since": "string?",
+          "strict": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sync",
+          "sync"
+        ]
+      },
+      {
+        "tool": "workflow",
+        "summary": "Compound workflows that combine multiple API operations",
+        "params_schema": {
+          "data-source": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflow",
+          "workflow"
+        ]
+      },
+      {
+        "tool": "workflow.archive",
+        "summary": "Archive fetches all syncable resources from the API and stores them in a\nlocal SQLite database. Supports incremental sync (only new data since last run)\nand full resync. After archiving, use 'search' for instant full-text search.",
+        "params_schema": {
+          "data-source": "string?",
+          "db": "string?",
+          "full": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflow",
+          "archive"
+        ]
+      },
+      {
+        "tool": "workflow.status",
+        "summary": "Show local archive status and sync state for all resources",
+        "params_schema": {
+          "data-source": "string?",
+          "db": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflow",
+          "status"
+        ]
+      }
+    ]
   },
   {
     "api": "sumble",
