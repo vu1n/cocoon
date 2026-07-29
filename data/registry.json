@@ -258026,6 +258026,150 @@
     ]
   },
   {
+    "api": "sculptok",
+    "description": "SculptOK AI depth-map, relief, STL and 3D generation CLI",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/sculptok/cmd/sculptok-pp-cli",
+    "auth_type": "api_key",
+    "category": "ai",
+    "search_terms": [
+      "sculptok",
+      "sculptok-pp-cli",
+      "SculptOK AI depth-map, relief, STL and 3D generation CLI",
+      "One-command depth-map generate",
+      "generate depthmap",
+      "Turn a local image into SculptOK depth-map candidates in one command: upload, submit, auto-poll to completion, and download the results.",
+      "One-command image-to-STL",
+      "generate stl",
+      "Convert a local image straight to a printable STL with full thickness, width, invert, and scale control, polled to completion and saved.",
+      "One-command 3D model generate",
+      "generate threed",
+      "Generate a 3D model from a local image at basic, standard, or high precision, polled and downloaded automatically.",
+      "Credit-cost preflight estimator",
+      "cost",
+      "Estimate exactly how many credits a draw or a whole batch would cost and compare it against your live balance before spending anything.",
+      "Spend analytics by kind and day",
+      "analytics",
+      "Aggregate your locally synced credit events by action type to see where credits actually went.",
+      "Reconcile credits against jobs",
+      "reconcile",
+      "Cross-check synced credit charges against produced draw jobs to surface credits spent with no matching result.",
+      "Offline job search",
+      "search",
+      "Full-text search your local mirror of draws and credit events by kind, status, or parameters without any API call."
+    ],
+    "endpoints": [
+      {
+        "tool": "credits.balance",
+        "summary": "Get the current credit balance (free).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "credits",
+          "balance"
+        ]
+      },
+      {
+        "tool": "credits.history",
+        "summary": "List credit-change history, newest first (free). Optional: page (default: 1), limit (default: 20). Returns array of CreditEvent.",
+        "params_schema": {
+          "page": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "credits",
+          "history"
+        ]
+      },
+      {
+        "tool": "draw.depthmap",
+        "summary": "Submit a depth-map draw. Cost: 10 credits (style=pro 2k 15; style=pro + draw_hd=4k 30). Async: returns promptId; poll with 'draw status'. Required: image-url. Optional: style (default: normal), hd-fix (default: manual), optimal-size (default: true) (plus 3 more).",
+        "params_schema": {
+          "image-url": "string?",
+          "style": "string?",
+          "hd-fix": "string?",
+          "optimal-size": "string?",
+          "ext-info": "string?",
+          "version": "string?",
+          "draw-hd": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "draw",
+          "depthmap"
+        ]
+      },
+      {
+        "tool": "draw.restore",
+        "summary": "Submit background-removal and/or HD restoration. Cost: 2 credits. Async: returns promptId. Required: image-url. Optional: hd-fix, remove-back.",
+        "params_schema": {
+          "image-url": "string?",
+          "hd-fix": "string?",
+          "remove-back": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "draw",
+          "restore"
+        ]
+      },
+      {
+        "tool": "draw.status",
+        "summary": "Get the status of a submitted draw by promptId (free). status/currentStep/position and imgRecords on completion. Required: uuid.",
+        "params_schema": {
+          "uuid": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "draw",
+          "status"
+        ]
+      },
+      {
+        "tool": "draw.stl",
+        "summary": "Submit an image-to-STL job. Cost: 3 credits. Async: returns promptId. Required: image-url. Optional: width-mm (default: 120), min-thickness (default: 1.6), max-thickness (default: 5) (plus 2 more).",
+        "params_schema": {
+          "image-url": "string?",
+          "width-mm": "float?",
+          "min-thickness": "float?",
+          "max-thickness": "float?",
+          "invert": "bool?",
+          "scale-image": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "draw",
+          "stl"
+        ]
+      },
+      {
+        "tool": "draw.threed",
+        "summary": "Submit a 3D draw. Cost: 10 credits. Async: returns promptId. Required: image-url. Optional: hd-fix (default: basic).",
+        "params_schema": {
+          "image-url": "string?",
+          "hd-fix": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "draw",
+          "threed"
+        ]
+      },
+      {
+        "tool": "drawings.list",
+        "summary": "List your past generated images, newest first (free). Optional: page (default: 1), limit (default: 20). Returns array of Drawing.",
+        "params_schema": {
+          "page": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "drawings"
+        ]
+      }
+    ]
+  },
+  {
     "api": "sea-airport-parking",
     "description": "Check, track, and get alerted on SEA's official on-airport Reserved garage \u2014 with a local price/availability history and sold-out watch that no site or aggregator has.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/sea-airport-parking/cmd/sea-airport-parking-pp-cli",
@@ -322627,6 +322771,3174 @@
         "argv_path": [
           "venues",
           "get-menu"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "wordpress",
+    "description": "WP-CLI-grade control over any WordPress site through plain HTTPS \u2014 no SSH, no server-side plugin, one static binary.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/wordpress/cmd/wordpress-pp-cli",
+    "auth_type": "api_key",
+    "category": "developer-tools",
+    "search_terms": [
+      "wordpress",
+      "wordpress-pp-cli",
+      "WP-CLI-grade control over any WordPress site through plain HTTPS \u2014 no SSH, no server-side plugin, one static binary.",
+      "Fleet rollup",
+      "fleet",
+      "See core version, pending updates, admin-account count and sync age for every site you manage, in one table.",
+      "REST reachability diagnosis",
+      "diagnose",
+      "Say in one command why a site's REST API is failing: path-based block, app-layer filter, bot challenge, renamed prefix, or stripped Authorization header.",
+      "Credential capability audit",
+      "caps",
+      "Report what your credentials are actually allowed to do on each route, with zero writes.",
+      "REST visibility gap",
+      "schema",
+      "Find out why a post type, field, or meta key is missing from the REST surface.",
+      "Editorial queue with age",
+      "queue",
+      "See drafts, pending, and scheduled posts bucketed by how long they have been sitting in that state.",
+      "Content hygiene audit",
+      "audit",
+      "Find posts and pages missing a featured image, a real category, an excerpt, or tags.",
+      "Orphaned media",
+      "orphans",
+      "List media files that no post or page references and that are nobody's featured image."
+    ],
+    "endpoints": [
+      {
+        "tool": "abilities.get",
+        "summary": "Describe one ability, including its input schema. Required: name.",
+        "params_schema": {
+          "name": "string"
+        },
+        "positionals": [
+          "name"
+        ],
+        "argv_path": [
+          "abilities"
+        ]
+      },
+      {
+        "tool": "abilities.ability-categories",
+        "summary": "List ability categories. Optional: context (default: view), page (default: 1), per_page (default: 10). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "abilities",
+          "ability-categories"
+        ]
+      },
+      {
+        "tool": "abilities.ability-category",
+        "summary": "Describe one ability category. Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "abilities",
+          "ability-category"
+        ]
+      },
+      {
+        "tool": "abilities.list",
+        "summary": "List abilities this site exposes to agents. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 3 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "category": "string?",
+          "namespace": "string?",
+          "meta": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "abilities",
+          "list"
+        ]
+      },
+      {
+        "tool": "abilities.run",
+        "summary": "Execute an ability with a JSON input payload. Required: name. Optional: input.",
+        "params_schema": {
+          "name": "string",
+          "input": "string?"
+        },
+        "positionals": [
+          "name"
+        ],
+        "argv_path": [
+          "abilities",
+          "run"
+        ]
+      },
+      {
+        "tool": "application-passwords.create",
+        "summary": "Create a new application password. Required: user_id, name. Optional: app_id.",
+        "params_schema": {
+          "user_id": "string",
+          "app_id": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "application-passwords"
+        ]
+      },
+      {
+        "tool": "application-passwords.delete",
+        "summary": "Delete an application password. Required: user_id. Destructive.",
+        "params_schema": {
+          "user_id": "string"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "application-passwords",
+          "delete"
+        ]
+      },
+      {
+        "tool": "application-passwords.get",
+        "summary": "Get an application password. Required: user_id, uuid. Optional: context (default: view).",
+        "params_schema": {
+          "user_id": "string",
+          "uuid": "string",
+          "context": "string?"
+        },
+        "positionals": [
+          "user_id",
+          "uuid"
+        ],
+        "argv_path": [
+          "application-passwords",
+          "get"
+        ]
+      },
+      {
+        "tool": "application-passwords.introspect",
+        "summary": "Get an introspect. Required: user_id. Optional: context (default: view). Returns array.",
+        "params_schema": {
+          "user_id": "string",
+          "context": "string?"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "application-passwords",
+          "introspect"
+        ]
+      },
+      {
+        "tool": "application-passwords.list",
+        "summary": "Get an application password. Required: user_id. Optional: context (default: view). Returns array.",
+        "params_schema": {
+          "user_id": "string",
+          "context": "string?"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "application-passwords",
+          "list"
+        ]
+      },
+      {
+        "tool": "application-passwords.update",
+        "summary": "Create a new application password. Required: user_id, uuid. Optional: app_id, name.",
+        "params_schema": {
+          "user_id": "string",
+          "uuid": "string",
+          "app_id": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "user_id",
+          "uuid"
+        ],
+        "argv_path": [
+          "application-passwords",
+          "update"
+        ]
+      },
+      {
+        "tool": "batch.run",
+        "summary": "Execute up to 25 write requests in one round trip. Required: requests. Optional: validation (default: normal).",
+        "params_schema": {
+          "requests": "string?",
+          "validation": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "batch",
+          "run"
+        ]
+      },
+      {
+        "tool": "block-directory.search",
+        "summary": "List search. Required: term. Optional: context (default: view), page (default: 1), per_page (default: 10). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "term": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "block-directory",
+          "search"
+        ]
+      },
+      {
+        "tool": "block-patterns.list",
+        "summary": "List patterns. Returns array. (public)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "block-patterns"
+        ]
+      },
+      {
+        "tool": "block-patterns.categories",
+        "summary": "List categories. Returns array. (public)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "block-patterns",
+          "categories"
+        ]
+      },
+      {
+        "tool": "block-renderer.render",
+        "summary": "Get a block renderer. Required: name. Optional: name, context, attributes (plus 1 more).",
+        "params_schema": {
+          "name": "string",
+          "name-2": "string?",
+          "context": "string?",
+          "attributes": "string?",
+          "post_id": "int?"
+        },
+        "positionals": [
+          "name"
+        ],
+        "argv_path": [
+          "block-renderer",
+          "render"
+        ]
+      },
+      {
+        "tool": "block-revisions.delete",
+        "summary": "Delete a revision. Required: parent, id. Destructive.",
+        "params_schema": {
+          "parent": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "block-revisions"
+        ]
+      },
+      {
+        "tool": "block-revisions.get",
+        "summary": "Get a revision. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "block-revisions",
+          "get"
+        ]
+      },
+      {
+        "tool": "block-revisions.list",
+        "summary": "Get a revision. Required: parent. Optional: parent, context (default: view), page (default: 1) (plus 7 more). Returns array.",
+        "params_schema": {
+          "parent": "string",
+          "parent-2": "int?",
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "block-revisions",
+          "list"
+        ]
+      },
+      {
+        "tool": "block-types.get",
+        "summary": "Get a block type. Required: namespace. Optional: context (default: view), namespace. (public)",
+        "params_schema": {
+          "namespace": "string",
+          "context": "string?",
+          "namespace-2": "string?"
+        },
+        "positionals": [
+          "namespace"
+        ],
+        "argv_path": [
+          "block-types"
+        ]
+      },
+      {
+        "tool": "block-types.list",
+        "summary": "List block types. Optional: context (default: view), namespace. Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "namespace": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "block-types",
+          "list"
+        ]
+      },
+      {
+        "tool": "blocks.create",
+        "summary": "Create a new block. Optional: date, date_gmt, slug (plus 8 more).",
+        "params_schema": {
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "password": "string?",
+          "title": "string?",
+          "content": "string?",
+          "excerpt": "string?",
+          "meta": "string?",
+          "template": "string?",
+          "wp_pattern_category": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "blocks"
+        ]
+      },
+      {
+        "tool": "blocks.delete",
+        "summary": "Delete a block. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "blocks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "blocks.get",
+        "summary": "Get a block. Required: id. Optional: id, context (default: view), excerpt_length (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?",
+          "excerpt_length": "int?",
+          "password": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "blocks",
+          "get"
+        ]
+      },
+      {
+        "tool": "blocks.list",
+        "summary": "List blocks. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 17 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "after": "string?",
+          "modified_after": "string?",
+          "before": "string?",
+          "modified_before": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "search_semantics": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "search_columns": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "tax_relation": "string?",
+          "wp_pattern_category": "string?",
+          "wp_pattern_category_exclude": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "blocks",
+          "list"
+        ]
+      },
+      {
+        "tool": "blocks.update",
+        "summary": "Create a new block. Required: id. Optional: id, date, date_gmt (plus 9 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "password": "string?",
+          "title": "string?",
+          "content": "string?",
+          "excerpt": "string?",
+          "meta": "string?",
+          "template": "string?",
+          "wp_pattern_category": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "blocks",
+          "update"
+        ]
+      },
+      {
+        "tool": "blocks-autosaves.get",
+        "summary": "Get an autosave. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "blocks-autosaves"
+        ]
+      },
+      {
+        "tool": "categories.create",
+        "summary": "Create a new category. Required: name. Optional: description, slug, parent (plus 1 more).",
+        "params_schema": {
+          "description": "string?",
+          "name": "string?",
+          "slug": "string?",
+          "parent": "int?",
+          "meta": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "categories.delete",
+        "summary": "Delete a category. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "categories",
+          "delete"
+        ]
+      },
+      {
+        "tool": "categories.get",
+        "summary": "Get a category. Required: id. Optional: id, context (default: view). (public)",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "categories",
+          "get"
+        ]
+      },
+      {
+        "tool": "categories.list",
+        "summary": "List categories. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 9 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "order": "string?",
+          "orderby": "string?",
+          "hide_empty": "bool?",
+          "parent": "int?",
+          "post": "int?",
+          "slug": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "categories",
+          "list"
+        ]
+      },
+      {
+        "tool": "categories.update",
+        "summary": "Create a new category. Required: id. Optional: id, description, name (plus 3 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "description": "string?",
+          "name": "string?",
+          "slug": "string?",
+          "parent": "int?",
+          "meta": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "categories",
+          "update"
+        ]
+      },
+      {
+        "tool": "comments.create",
+        "summary": "Create a new comment. Optional: author, author_email, author_ip (plus 10 more).",
+        "params_schema": {
+          "author": "int?",
+          "author_email": "string?",
+          "author_ip": "string?",
+          "author_name": "string?",
+          "author_url": "string?",
+          "author_user_agent": "string?",
+          "content": "string?",
+          "date": "string?",
+          "date_gmt": "string?",
+          "parent": "int?",
+          "post": "int?",
+          "status": "string?",
+          "meta": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "comments"
+        ]
+      },
+      {
+        "tool": "comments.delete",
+        "summary": "Delete a comment. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "comments",
+          "delete"
+        ]
+      },
+      {
+        "tool": "comments.get",
+        "summary": "Get a comment. Required: id. Optional: id, context (default: view), password. (public)",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?",
+          "password": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "comments",
+          "get"
+        ]
+      },
+      {
+        "tool": "comments.list",
+        "summary": "List comments. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 17 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "after": "string?",
+          "author": "string?",
+          "author_exclude": "string?",
+          "author_email": "string?",
+          "before": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "parent": "string?",
+          "parent_exclude": "string?",
+          "post": "string?",
+          "status": "string?",
+          "type": "string?",
+          "password": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "comments",
+          "list"
+        ]
+      },
+      {
+        "tool": "comments.update",
+        "summary": "Create a new comment. Required: id. Optional: id, author, author_email (plus 11 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "author": "int?",
+          "author_email": "string?",
+          "author_ip": "string?",
+          "author_name": "string?",
+          "author_url": "string?",
+          "author_user_agent": "string?",
+          "content": "string?",
+          "date": "string?",
+          "date_gmt": "string?",
+          "parent": "int?",
+          "post": "int?",
+          "status": "string?",
+          "meta": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "comments",
+          "update"
+        ]
+      },
+      {
+        "tool": "font-collections.get",
+        "summary": "Get a font collection. Required: slug. Optional: context (default: view). (public)",
+        "params_schema": {
+          "slug": "string",
+          "context": "string?"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "font-collections"
+        ]
+      },
+      {
+        "tool": "font-collections.list",
+        "summary": "List font collections. Optional: context (default: view), page (default: 1), per_page (default: 10). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "font-collections",
+          "list"
+        ]
+      },
+      {
+        "tool": "font-faces.create",
+        "summary": "Create a new font face. Required: font_family_id, font_family_id, font_face_settings. Optional: theme_json_version (default: 3).",
+        "params_schema": {
+          "font_family_id": "string",
+          "font_family_id-2": "int?",
+          "theme_json_version": "int?",
+          "font_face_settings": "string?"
+        },
+        "positionals": [
+          "font_family_id"
+        ],
+        "argv_path": [
+          "font-faces"
+        ]
+      },
+      {
+        "tool": "font-faces.delete",
+        "summary": "Delete a font face. Required: font_family_id, id. Destructive.",
+        "params_schema": {
+          "font_family_id": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "font_family_id",
+          "id"
+        ],
+        "argv_path": [
+          "font-faces",
+          "delete"
+        ]
+      },
+      {
+        "tool": "font-faces.get",
+        "summary": "Get a font face. Required: font_family_id, id, font_family_id, id. Optional: context (default: view).",
+        "params_schema": {
+          "font_family_id": "string",
+          "id": "string",
+          "font_family_id-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "font_family_id",
+          "id"
+        ],
+        "argv_path": [
+          "font-faces",
+          "get"
+        ]
+      },
+      {
+        "tool": "font-faces.list",
+        "summary": "Get a font face. Required: font_family_id, font_family_id. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 6 more). Returns array.",
+        "params_schema": {
+          "font_family_id": "string",
+          "font_family_id-2": "int?",
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "exclude": "string?",
+          "include": "string?",
+          "search_semantics": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?"
+        },
+        "positionals": [
+          "font_family_id"
+        ],
+        "argv_path": [
+          "font-faces",
+          "list"
+        ]
+      },
+      {
+        "tool": "font-families.create",
+        "summary": "Create a new font family. Required: font_family_settings. Optional: theme_json_version (default: 3).",
+        "params_schema": {
+          "theme_json_version": "int?",
+          "font_family_settings": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "font-families"
+        ]
+      },
+      {
+        "tool": "font-families.delete",
+        "summary": "Delete a font family. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "font-families",
+          "delete"
+        ]
+      },
+      {
+        "tool": "font-families.get",
+        "summary": "Get a font family. Required: id. Optional: id, context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "font-families",
+          "get"
+        ]
+      },
+      {
+        "tool": "font-families.list",
+        "summary": "List font families. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 7 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "exclude": "string?",
+          "include": "string?",
+          "search_semantics": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "slug": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "font-families",
+          "list"
+        ]
+      },
+      {
+        "tool": "font-families.update",
+        "summary": "Create a new font family. Required: id, font_family_settings. Optional: id, theme_json_version (default: 3).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "theme_json_version": "int?",
+          "font_family_settings": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "font-families",
+          "update"
+        ]
+      },
+      {
+        "tool": "global-styles.get",
+        "summary": "Get a global style. Required: id. Optional: id.",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "global-styles"
+        ]
+      },
+      {
+        "tool": "global-styles.theme",
+        "summary": "Get a theme. Required: stylesheet. Optional: stylesheet.",
+        "params_schema": {
+          "stylesheet": "string",
+          "stylesheet-2": "string?"
+        },
+        "positionals": [
+          "stylesheet"
+        ],
+        "argv_path": [
+          "global-styles",
+          "theme"
+        ]
+      },
+      {
+        "tool": "global-styles.update",
+        "summary": "Create a new global style. Required: id. Optional: styles, settings, title.",
+        "params_schema": {
+          "id": "string",
+          "styles": "string?",
+          "settings": "string?",
+          "title": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "global-styles",
+          "update"
+        ]
+      },
+      {
+        "tool": "global-styles.variations",
+        "summary": "Get a variation. Required: stylesheet. Optional: stylesheet.",
+        "params_schema": {
+          "stylesheet": "string",
+          "stylesheet-2": "string?"
+        },
+        "positionals": [
+          "stylesheet"
+        ],
+        "argv_path": [
+          "global-styles",
+          "variations"
+        ]
+      },
+      {
+        "tool": "global-styles-revisions.get",
+        "summary": "Get a revision. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "global-styles-revisions"
+        ]
+      },
+      {
+        "tool": "global-styles-revisions.list",
+        "summary": "Get a revision. Required: parent. Optional: parent, context (default: view), page (default: 1) (plus 2 more). Returns array.",
+        "params_schema": {
+          "parent": "string",
+          "parent-2": "int?",
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "global-styles-revisions",
+          "list"
+        ]
+      },
+      {
+        "tool": "media.create",
+        "summary": "Create a new media. Optional: date, date_gmt, slug (plus 16 more).",
+        "params_schema": {
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "title": "string?",
+          "author": "int?",
+          "featured_media": "int?",
+          "comment_status": "string?",
+          "ping_status": "string?",
+          "meta": "string?",
+          "template": "string?",
+          "jetpack_sharing_enabled": "bool?",
+          "alt_text": "string?",
+          "caption": "string?",
+          "description": "string?",
+          "post": "int?",
+          "generate_sub_sizes": "bool?",
+          "convert_format": "bool?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "media"
+        ]
+      },
+      {
+        "tool": "media.delete",
+        "summary": "Delete a media. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "media",
+          "delete"
+        ]
+      },
+      {
+        "tool": "media.edit",
+        "summary": "Create a new edit. Required: id, src. Optional: modifiers, rotation, x (plus 8 more).",
+        "params_schema": {
+          "id": "string",
+          "src": "string?",
+          "modifiers": "string?",
+          "rotation": "int?",
+          "x": "float?",
+          "y": "float?",
+          "width": "float?",
+          "height": "float?",
+          "caption": "string?",
+          "description": "string?",
+          "title": "string?",
+          "post": "int?",
+          "alt_text": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "media",
+          "edit"
+        ]
+      },
+      {
+        "tool": "media.get",
+        "summary": "Get a media. Required: id. Optional: id, context (default: view). (public)",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "media",
+          "get"
+        ]
+      },
+      {
+        "tool": "media.list",
+        "summary": "List media. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 20 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "after": "string?",
+          "modified_after": "string?",
+          "author": "string?",
+          "author_exclude": "string?",
+          "before": "string?",
+          "modified_before": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "search_semantics": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "parent": "string?",
+          "parent_exclude": "string?",
+          "search_columns": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "media_type": "string?",
+          "mime_type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "media",
+          "list"
+        ]
+      },
+      {
+        "tool": "media.post-process",
+        "summary": "Create a new post process. Required: id, action. Optional: id.",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "action": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "media",
+          "post-process"
+        ]
+      },
+      {
+        "tool": "media.update",
+        "summary": "Create a new media. Required: id. Optional: id, date, date_gmt (plus 14 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "title": "string?",
+          "author": "int?",
+          "featured_media": "int?",
+          "comment_status": "string?",
+          "ping_status": "string?",
+          "meta": "string?",
+          "template": "string?",
+          "jetpack_sharing_enabled": "bool?",
+          "alt_text": "string?",
+          "caption": "string?",
+          "description": "string?",
+          "post": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "media",
+          "update"
+        ]
+      },
+      {
+        "tool": "menu-items.create",
+        "summary": "Create a new menu item. Optional: title, type (default: custom), status (default: publish) (plus 12 more).",
+        "params_schema": {
+          "title": "string?",
+          "type": "string?",
+          "status": "string?",
+          "parent": "int?",
+          "attr_title": "string?",
+          "classes": "string?",
+          "description": "string?",
+          "menu_order": "int?",
+          "object": "string?",
+          "object_id": "int?",
+          "target": "string?",
+          "url": "string?",
+          "xfn": "string?",
+          "menus": "int?",
+          "meta": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "menu-items"
+        ]
+      },
+      {
+        "tool": "menu-items.delete",
+        "summary": "Delete a menu item. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "menu-items",
+          "delete"
+        ]
+      },
+      {
+        "tool": "menu-items.get",
+        "summary": "Get a menu item. Required: id. Optional: id, context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "menu-items",
+          "get"
+        ]
+      },
+      {
+        "tool": "menu-items.list",
+        "summary": "List menu items. Optional: context (default: view), page (default: 1), per_page (default: 100) (plus 18 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "after": "string?",
+          "modified_after": "string?",
+          "before": "string?",
+          "modified_before": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "search_semantics": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "search_columns": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "tax_relation": "string?",
+          "menus": "string?",
+          "menus_exclude": "string?",
+          "menu_order": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "menu-items",
+          "list"
+        ]
+      },
+      {
+        "tool": "menu-items.update",
+        "summary": "Create a new menu item. Required: id. Optional: id, title, type (plus 13 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "title": "string?",
+          "type": "string?",
+          "status": "string?",
+          "parent": "int?",
+          "attr_title": "string?",
+          "classes": "string?",
+          "description": "string?",
+          "menu_order": "int?",
+          "object": "string?",
+          "object_id": "int?",
+          "target": "string?",
+          "url": "string?",
+          "xfn": "string?",
+          "menus": "int?",
+          "meta": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "menu-items",
+          "update"
+        ]
+      },
+      {
+        "tool": "menu-items-autosaves.get",
+        "summary": "Get an autosave. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "menu-items-autosaves"
+        ]
+      },
+      {
+        "tool": "menu-locations.get",
+        "summary": "Get a menu location. Required: location. Optional: location, context (default: view). (public)",
+        "params_schema": {
+          "location": "string",
+          "location-2": "string?",
+          "context": "string?"
+        },
+        "positionals": [
+          "location"
+        ],
+        "argv_path": [
+          "menu-locations"
+        ]
+      },
+      {
+        "tool": "menu-locations.list",
+        "summary": "List menu locations. Optional: context (default: view). Returns array. (public)",
+        "params_schema": {
+          "context": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "menu-locations",
+          "list"
+        ]
+      },
+      {
+        "tool": "menus.create",
+        "summary": "Create a new menu. Required: name. Optional: description, slug, meta (plus 2 more).",
+        "params_schema": {
+          "description": "string?",
+          "name": "string?",
+          "slug": "string?",
+          "meta": "string?",
+          "locations": "string?",
+          "auto_add": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "menus"
+        ]
+      },
+      {
+        "tool": "menus.delete",
+        "summary": "Delete a menu. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "menus",
+          "delete"
+        ]
+      },
+      {
+        "tool": "menus.get",
+        "summary": "Get a menu. Required: id. Optional: id, context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "menus",
+          "get"
+        ]
+      },
+      {
+        "tool": "menus.list",
+        "summary": "List menus. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 9 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "hide_empty": "bool?",
+          "post": "int?",
+          "slug": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "menus",
+          "list"
+        ]
+      },
+      {
+        "tool": "menus.update",
+        "summary": "Create a new menu. Required: id. Optional: id, description, name (plus 4 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "description": "string?",
+          "name": "string?",
+          "slug": "string?",
+          "meta": "string?",
+          "locations": "string?",
+          "auto_add": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "menus",
+          "update"
+        ]
+      },
+      {
+        "tool": "navigation.create",
+        "summary": "Create a new navigation. Optional: date, date_gmt, slug (plus 5 more).",
+        "params_schema": {
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "password": "string?",
+          "title": "string?",
+          "content": "string?",
+          "template": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "navigation"
+        ]
+      },
+      {
+        "tool": "navigation.delete",
+        "summary": "Delete a navigation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "navigation",
+          "delete"
+        ]
+      },
+      {
+        "tool": "navigation.get",
+        "summary": "Get a navigation. Required: id. Optional: id, context (default: view), password.",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?",
+          "password": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "navigation",
+          "get"
+        ]
+      },
+      {
+        "tool": "navigation.list",
+        "summary": "List navigation. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 14 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "after": "string?",
+          "modified_after": "string?",
+          "before": "string?",
+          "modified_before": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "search_semantics": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "search_columns": "string?",
+          "slug": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "navigation",
+          "list"
+        ]
+      },
+      {
+        "tool": "navigation.update",
+        "summary": "Create a new navigation. Required: id. Optional: id, date, date_gmt (plus 6 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "password": "string?",
+          "title": "string?",
+          "content": "string?",
+          "template": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "navigation",
+          "update"
+        ]
+      },
+      {
+        "tool": "navigation-autosaves.get",
+        "summary": "Get an autosave. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "navigation-autosaves"
+        ]
+      },
+      {
+        "tool": "navigation-revisions.delete",
+        "summary": "Delete a revision. Required: parent, id. Destructive.",
+        "params_schema": {
+          "parent": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "navigation-revisions"
+        ]
+      },
+      {
+        "tool": "navigation-revisions.get",
+        "summary": "Get a revision. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "navigation-revisions",
+          "get"
+        ]
+      },
+      {
+        "tool": "navigation-revisions.list",
+        "summary": "Get a revision. Required: parent. Optional: parent, context (default: view), page (default: 1) (plus 7 more). Returns array.",
+        "params_schema": {
+          "parent": "string",
+          "parent-2": "int?",
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "navigation-revisions",
+          "list"
+        ]
+      },
+      {
+        "tool": "oembed.get",
+        "summary": "oEmbed response for a URL on this site. Required: url. Optional: format (default: json), maxwidth. (public)",
+        "params_schema": {
+          "url": "string?",
+          "format": "string?",
+          "maxwidth": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "oembed"
+        ]
+      },
+      {
+        "tool": "oembed.proxy",
+        "summary": "Proxy an external oEmbed request through this site. Required: url. Optional: maxwidth, maxheight, discover (default: true).",
+        "params_schema": {
+          "url": "string?",
+          "maxwidth": "int?",
+          "maxheight": "int?",
+          "discover": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "oembed",
+          "proxy"
+        ]
+      },
+      {
+        "tool": "page-revisions.delete",
+        "summary": "Delete a revision. Required: parent, id. Destructive.",
+        "params_schema": {
+          "parent": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "page-revisions"
+        ]
+      },
+      {
+        "tool": "page-revisions.get",
+        "summary": "Get a revision. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "page-revisions",
+          "get"
+        ]
+      },
+      {
+        "tool": "page-revisions.list",
+        "summary": "Get a revision. Required: parent. Optional: parent, context (default: view), page (default: 1) (plus 7 more). Returns array.",
+        "params_schema": {
+          "parent": "string",
+          "parent-2": "int?",
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "page-revisions",
+          "list"
+        ]
+      },
+      {
+        "tool": "pages.create",
+        "summary": "Create a new page. Optional: date, date_gmt, slug (plus 14 more).",
+        "params_schema": {
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "password": "string?",
+          "parent": "int?",
+          "title": "string?",
+          "content": "string?",
+          "author": "int?",
+          "excerpt": "string?",
+          "featured_media": "int?",
+          "comment_status": "string?",
+          "ping_status": "string?",
+          "menu_order": "int?",
+          "meta": "string?",
+          "template": "string?",
+          "jetpack_sharing_enabled": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pages"
+        ]
+      },
+      {
+        "tool": "pages.delete",
+        "summary": "Delete a page. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "pages",
+          "delete"
+        ]
+      },
+      {
+        "tool": "pages.get",
+        "summary": "Get a page. Required: id. Optional: id, context (default: view), excerpt_length (plus 1 more). (public)",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?",
+          "excerpt_length": "int?",
+          "password": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "pages",
+          "get"
+        ]
+      },
+      {
+        "tool": "pages.list",
+        "summary": "List pages. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 19 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "after": "string?",
+          "modified_after": "string?",
+          "author": "string?",
+          "author_exclude": "string?",
+          "before": "string?",
+          "modified_before": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "menu_order": "int?",
+          "search_semantics": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "parent": "string?",
+          "parent_exclude": "string?",
+          "search_columns": "string?",
+          "slug": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pages",
+          "list"
+        ]
+      },
+      {
+        "tool": "pages.update",
+        "summary": "Create a new page. Required: id. Optional: id, date, date_gmt (plus 15 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "password": "string?",
+          "parent": "int?",
+          "title": "string?",
+          "content": "string?",
+          "author": "int?",
+          "excerpt": "string?",
+          "featured_media": "int?",
+          "comment_status": "string?",
+          "ping_status": "string?",
+          "menu_order": "int?",
+          "meta": "string?",
+          "template": "string?",
+          "jetpack_sharing_enabled": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "pages",
+          "update"
+        ]
+      },
+      {
+        "tool": "pages-autosaves.get",
+        "summary": "Get an autosave. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "pages-autosaves"
+        ]
+      },
+      {
+        "tool": "pattern-categories.create",
+        "summary": "Create a new wp pattern category. Required: name. Optional: description, slug, meta.",
+        "params_schema": {
+          "description": "string?",
+          "name": "string?",
+          "slug": "string?",
+          "meta": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pattern-categories"
+        ]
+      },
+      {
+        "tool": "pattern-categories.delete",
+        "summary": "Delete a wp pattern category. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "pattern-categories",
+          "delete"
+        ]
+      },
+      {
+        "tool": "pattern-categories.get",
+        "summary": "Get a wp pattern category. Required: id. Optional: id, context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "pattern-categories",
+          "get"
+        ]
+      },
+      {
+        "tool": "pattern-categories.list",
+        "summary": "List wp pattern category. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 9 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "hide_empty": "bool?",
+          "post": "int?",
+          "slug": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pattern-categories",
+          "list"
+        ]
+      },
+      {
+        "tool": "pattern-categories.update",
+        "summary": "Create a new wp pattern category. Required: id. Optional: id, description, name (plus 2 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "description": "string?",
+          "name": "string?",
+          "slug": "string?",
+          "meta": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "pattern-categories",
+          "update"
+        ]
+      },
+      {
+        "tool": "pattern-directory.list",
+        "summary": "List patterns. Optional: context (default: view), page (default: 1), per_page (default: 100) (plus 7 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "category": "int?",
+          "keyword": "int?",
+          "slug": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pattern-directory"
+        ]
+      },
+      {
+        "tool": "plugins.create",
+        "summary": "Create a new plugin. Required: slug. Optional: status (default: inactive).",
+        "params_schema": {
+          "slug": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "plugins"
+        ]
+      },
+      {
+        "tool": "plugins.delete",
+        "summary": "Delete a plugin. Required: plugin. Destructive.",
+        "params_schema": {
+          "plugin": "string"
+        },
+        "positionals": [
+          "plugin"
+        ],
+        "argv_path": [
+          "plugins",
+          "delete"
+        ]
+      },
+      {
+        "tool": "plugins.get",
+        "summary": "Get a plugin. Required: plugin. Optional: context (default: view), plugin.",
+        "params_schema": {
+          "plugin": "string",
+          "context": "string?",
+          "plugin-2": "string?"
+        },
+        "positionals": [
+          "plugin"
+        ],
+        "argv_path": [
+          "plugins",
+          "get"
+        ]
+      },
+      {
+        "tool": "plugins.list",
+        "summary": "List plugins. Optional: context (default: view), search, status. Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "search": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "plugins",
+          "list"
+        ]
+      },
+      {
+        "tool": "plugins.update",
+        "summary": "Create a new plugin. Required: plugin. Optional: context (default: view), plugin, status.",
+        "params_schema": {
+          "plugin": "string",
+          "context": "string?",
+          "plugin-2": "string?",
+          "status": "string?"
+        },
+        "positionals": [
+          "plugin"
+        ],
+        "argv_path": [
+          "plugins",
+          "update"
+        ]
+      },
+      {
+        "tool": "post-revisions.delete",
+        "summary": "Delete a revision. Required: parent, id. Destructive.",
+        "params_schema": {
+          "parent": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "post-revisions"
+        ]
+      },
+      {
+        "tool": "post-revisions.get",
+        "summary": "Get a revision. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "post-revisions",
+          "get"
+        ]
+      },
+      {
+        "tool": "post-revisions.list",
+        "summary": "Get a revision. Required: parent. Optional: parent, context (default: view), page (default: 1) (plus 7 more). Returns array.",
+        "params_schema": {
+          "parent": "string",
+          "parent-2": "int?",
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "post-revisions",
+          "list"
+        ]
+      },
+      {
+        "tool": "posts.create",
+        "summary": "Create a new post. Optional: date, date_gmt, slug (plus 17 more).",
+        "params_schema": {
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "password": "string?",
+          "title": "string?",
+          "content": "string?",
+          "author": "int?",
+          "excerpt": "string?",
+          "featured_media": "int?",
+          "comment_status": "string?",
+          "ping_status": "string?",
+          "format": "string?",
+          "meta": "string?",
+          "sticky": "bool?",
+          "template": "string?",
+          "categories": "string?",
+          "tags": "string?",
+          "jetpack_publicize_connections": "string?",
+          "jetpack_sharing_enabled": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts"
+        ]
+      },
+      {
+        "tool": "posts.delete",
+        "summary": "Delete a post. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "posts",
+          "delete"
+        ]
+      },
+      {
+        "tool": "posts.get",
+        "summary": "Get a post. Required: id. Optional: id, context (default: view), excerpt_length (plus 1 more). (public)",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?",
+          "excerpt_length": "int?",
+          "password": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "posts",
+          "get"
+        ]
+      },
+      {
+        "tool": "posts.list",
+        "summary": "List posts. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 24 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "after": "string?",
+          "modified_after": "string?",
+          "author": "string?",
+          "author_exclude": "string?",
+          "before": "string?",
+          "modified_before": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "search_semantics": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "search_columns": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "tax_relation": "string?",
+          "categories": "string?",
+          "categories_exclude": "string?",
+          "tags": "string?",
+          "tags_exclude": "string?",
+          "sticky": "bool?",
+          "ignore_sticky": "bool?",
+          "format": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts",
+          "list"
+        ]
+      },
+      {
+        "tool": "posts.update",
+        "summary": "Create a new post. Required: id. Optional: id, date, date_gmt (plus 18 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "date": "string?",
+          "date_gmt": "string?",
+          "slug": "string?",
+          "status": "string?",
+          "password": "string?",
+          "title": "string?",
+          "content": "string?",
+          "author": "int?",
+          "excerpt": "string?",
+          "featured_media": "int?",
+          "comment_status": "string?",
+          "ping_status": "string?",
+          "format": "string?",
+          "meta": "string?",
+          "sticky": "bool?",
+          "template": "string?",
+          "categories": "string?",
+          "tags": "string?",
+          "jetpack_publicize_connections": "string?",
+          "jetpack_sharing_enabled": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "posts",
+          "update"
+        ]
+      },
+      {
+        "tool": "posts-autosaves.get",
+        "summary": "Get an autosave. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "int?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "posts-autosaves"
+        ]
+      },
+      {
+        "tool": "settings.get",
+        "summary": "List settings.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings"
+        ]
+      },
+      {
+        "tool": "settings.update",
+        "summary": "Create a new setting. Optional: public_post_preview_expiration_time, wordpress_api_key, title (plus 25 more).",
+        "params_schema": {
+          "public_post_preview_expiration_time": "int?",
+          "wordpress_api_key": "string?",
+          "title": "string?",
+          "description": "string?",
+          "timezone": "string?",
+          "date_format": "string?",
+          "time_format": "string?",
+          "start_of_week": "int?",
+          "language": "string?",
+          "use_smilies": "bool?",
+          "default_category": "int?",
+          "default_post_format": "string?",
+          "posts_per_page": "int?",
+          "show_on_front": "string?",
+          "page_on_front": "int?",
+          "page_for_posts": "int?",
+          "default_ping_status": "string?",
+          "default_comment_status": "string?",
+          "site_logo": "int?",
+          "site_icon": "int?",
+          "jetpack_social_image_generator_settings": "string?",
+          "jetpack_social_utm_settings": "string?",
+          "jetpack-social_show_pricing_page": "bool?",
+          "jetpack-social-note": "bool?",
+          "jetpack_social_notes_config": "string?",
+          "jetpack_social_message_template": "string?",
+          "cookie_consent_template": "string?",
+          "Blogroll Recommendations": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "update"
+        ]
+      },
+      {
+        "tool": "sidebars.get",
+        "summary": "Get a sidebar. Required: id. Optional: id, context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "sidebars"
+        ]
+      },
+      {
+        "tool": "sidebars.list",
+        "summary": "List sidebars. Optional: context (default: view). Returns array.",
+        "params_schema": {
+          "context": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sidebars",
+          "list"
+        ]
+      },
+      {
+        "tool": "sidebars.update",
+        "summary": "Create a new sidebar. Required: id. Optional: widgets.",
+        "params_schema": {
+          "id": "string",
+          "widgets": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "sidebars",
+          "update"
+        ]
+      },
+      {
+        "tool": "site-health.authorization-header",
+        "summary": "List authorization header.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "site-health",
+          "authorization-header"
+        ]
+      },
+      {
+        "tool": "site-health.background-updates",
+        "summary": "List background updates.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "site-health",
+          "background-updates"
+        ]
+      },
+      {
+        "tool": "site-health.directory-sizes",
+        "summary": "List directory sizes.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "site-health",
+          "directory-sizes"
+        ]
+      },
+      {
+        "tool": "site-health.dotorg-communication",
+        "summary": "List dotorg communication.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "site-health",
+          "dotorg-communication"
+        ]
+      },
+      {
+        "tool": "site-health.https-status",
+        "summary": "List https status.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "site-health",
+          "https-status"
+        ]
+      },
+      {
+        "tool": "site-health.loopback-requests",
+        "summary": "List loopback requests.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "site-health",
+          "loopback-requests"
+        ]
+      },
+      {
+        "tool": "site-health.page-cache",
+        "summary": "List page cache.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "site-health",
+          "page-cache"
+        ]
+      },
+      {
+        "tool": "statuses.get",
+        "summary": "Get a statuse. Required: status. Optional: status, context (default: view). (public)",
+        "params_schema": {
+          "status": "string",
+          "status-2": "string?",
+          "context": "string?"
+        },
+        "positionals": [
+          "status"
+        ],
+        "argv_path": [
+          "statuses"
+        ]
+      },
+      {
+        "tool": "statuses.list",
+        "summary": "List statuses. Optional: context (default: view). Returns array. (public)",
+        "params_schema": {
+          "context": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "statuses",
+          "list"
+        ]
+      },
+      {
+        "tool": "tags.create",
+        "summary": "Create a new tag. Required: name. Optional: description, slug, meta.",
+        "params_schema": {
+          "description": "string?",
+          "name": "string?",
+          "slug": "string?",
+          "meta": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags"
+        ]
+      },
+      {
+        "tool": "tags.delete",
+        "summary": "Delete a tag. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tags.get",
+        "summary": "Get a tag. Required: id. Optional: id, context (default: view). (public)",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "get"
+        ]
+      },
+      {
+        "tool": "tags.list",
+        "summary": "List tags. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 9 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "hide_empty": "bool?",
+          "post": "int?",
+          "slug": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "list"
+        ]
+      },
+      {
+        "tool": "tags.update",
+        "summary": "Create a new tag. Required: id. Optional: id, description, name (plus 2 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "description": "string?",
+          "name": "string?",
+          "slug": "string?",
+          "meta": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "update"
+        ]
+      },
+      {
+        "tool": "taxonomies.get",
+        "summary": "Get a taxonomy. Required: taxonomy. Optional: taxonomy, context (default: view). (public)",
+        "params_schema": {
+          "taxonomy": "string",
+          "taxonomy-2": "string?",
+          "context": "string?"
+        },
+        "positionals": [
+          "taxonomy"
+        ],
+        "argv_path": [
+          "taxonomies"
+        ]
+      },
+      {
+        "tool": "taxonomies.list",
+        "summary": "List taxonomies. Optional: context (default: view), type. Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "taxonomies",
+          "list"
+        ]
+      },
+      {
+        "tool": "template-part-revisions.delete",
+        "summary": "Delete a revision. Required: parent, id. Destructive.",
+        "params_schema": {
+          "parent": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "template-part-revisions"
+        ]
+      },
+      {
+        "tool": "template-part-revisions.get",
+        "summary": "Get a revision. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "string?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "template-part-revisions",
+          "get"
+        ]
+      },
+      {
+        "tool": "template-part-revisions.list",
+        "summary": "Get a revision. Required: parent. Optional: parent, context (default: view), page (default: 1) (plus 7 more). Returns array.",
+        "params_schema": {
+          "parent": "string",
+          "parent-2": "string?",
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "template-part-revisions",
+          "list"
+        ]
+      },
+      {
+        "tool": "template-parts.create",
+        "summary": "Create a new template part. Required: slug. Optional: theme, type, content (plus 5 more).",
+        "params_schema": {
+          "slug": "string?",
+          "theme": "string?",
+          "type": "string?",
+          "content": "string?",
+          "title": "string?",
+          "description": "string?",
+          "status": "string?",
+          "author": "int?",
+          "area": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "template-parts"
+        ]
+      },
+      {
+        "tool": "template-parts.delete",
+        "summary": "Delete a template part. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "template-parts",
+          "delete"
+        ]
+      },
+      {
+        "tool": "template-parts.get",
+        "summary": "Get a template part. Required: id. Optional: id, context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "template-parts",
+          "get"
+        ]
+      },
+      {
+        "tool": "template-parts.list",
+        "summary": "List template parts. Optional: context (default: view), wp_id, area (plus 1 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "wp_id": "int?",
+          "area": "string?",
+          "post_type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "template-parts",
+          "list"
+        ]
+      },
+      {
+        "tool": "template-parts.lookup",
+        "summary": "List lookup. Required: slug. Optional: is_custom, template_prefix.",
+        "params_schema": {
+          "slug": "string?",
+          "is_custom": "bool?",
+          "template_prefix": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "template-parts",
+          "lookup"
+        ]
+      },
+      {
+        "tool": "template-parts.update",
+        "summary": "Create a new template part. Required: id. Optional: id, slug, theme (plus 7 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "slug": "string?",
+          "theme": "string?",
+          "type": "string?",
+          "content": "string?",
+          "title": "string?",
+          "description": "string?",
+          "status": "string?",
+          "author": "int?",
+          "area": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "template-parts",
+          "update"
+        ]
+      },
+      {
+        "tool": "template-parts-autosaves.get",
+        "summary": "Get an autosave. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "string?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "template-parts-autosaves"
+        ]
+      },
+      {
+        "tool": "template-revisions.delete",
+        "summary": "Delete a revision. Required: parent, id. Destructive.",
+        "params_schema": {
+          "parent": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "template-revisions"
+        ]
+      },
+      {
+        "tool": "template-revisions.get",
+        "summary": "Get a revision. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "string?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "template-revisions",
+          "get"
+        ]
+      },
+      {
+        "tool": "template-revisions.list",
+        "summary": "Get a revision. Required: parent. Optional: parent, context (default: view), page (default: 1) (plus 7 more). Returns array.",
+        "params_schema": {
+          "parent": "string",
+          "parent-2": "string?",
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "template-revisions",
+          "list"
+        ]
+      },
+      {
+        "tool": "templates.create",
+        "summary": "Create a new template. Required: slug. Optional: theme, type, content (plus 4 more).",
+        "params_schema": {
+          "slug": "string?",
+          "theme": "string?",
+          "type": "string?",
+          "content": "string?",
+          "title": "string?",
+          "description": "string?",
+          "status": "string?",
+          "author": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "templates"
+        ]
+      },
+      {
+        "tool": "templates.delete",
+        "summary": "Delete a template. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "templates",
+          "delete"
+        ]
+      },
+      {
+        "tool": "templates.get",
+        "summary": "Get a template. Required: id. Optional: id, context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "templates",
+          "get"
+        ]
+      },
+      {
+        "tool": "templates.list",
+        "summary": "List templates. Optional: context (default: view), wp_id, area (plus 1 more). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "wp_id": "int?",
+          "area": "string?",
+          "post_type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "templates",
+          "list"
+        ]
+      },
+      {
+        "tool": "templates.lookup",
+        "summary": "List lookup. Required: slug. Optional: is_custom, template_prefix.",
+        "params_schema": {
+          "slug": "string?",
+          "is_custom": "bool?",
+          "template_prefix": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "templates",
+          "lookup"
+        ]
+      },
+      {
+        "tool": "templates.update",
+        "summary": "Create a new template. Required: id. Optional: id, slug, theme (plus 6 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "slug": "string?",
+          "theme": "string?",
+          "type": "string?",
+          "content": "string?",
+          "title": "string?",
+          "description": "string?",
+          "status": "string?",
+          "author": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "templates",
+          "update"
+        ]
+      },
+      {
+        "tool": "templates-autosaves.get",
+        "summary": "Get an autosave. Required: parent, id. Optional: parent, id, context (default: view).",
+        "params_schema": {
+          "parent": "string",
+          "id": "string",
+          "parent-2": "string?",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "parent",
+          "id"
+        ],
+        "argv_path": [
+          "templates-autosaves"
+        ]
+      },
+      {
+        "tool": "themes.get",
+        "summary": "Get a theme. Required: stylesheet. Optional: stylesheet.",
+        "params_schema": {
+          "stylesheet": "string",
+          "stylesheet-2": "string?"
+        },
+        "positionals": [
+          "stylesheet"
+        ],
+        "argv_path": [
+          "themes"
+        ]
+      },
+      {
+        "tool": "themes.list",
+        "summary": "List themes. Optional: status. Returns array.",
+        "params_schema": {
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "themes",
+          "list"
+        ]
+      },
+      {
+        "tool": "users.create",
+        "summary": "Create a new user. Required: username, email, password. Optional: name, first_name, last_name (plus 18 more).",
+        "params_schema": {
+          "username": "string?",
+          "name": "string?",
+          "first_name": "string?",
+          "last_name": "string?",
+          "email": "string?",
+          "url": "string?",
+          "description": "string?",
+          "locale": "string?",
+          "nickname": "string?",
+          "slug": "string?",
+          "roles": "string?",
+          "password": "string?",
+          "meta": "string?",
+          "pending_email": "string?",
+          "2fa_required": "bool?",
+          "2fa_available_providers": "string?",
+          "2fa_primary_provider": "string?",
+          "2fa_backup_codes_remaining": "string?",
+          "2fa_revalidation": "string?",
+          "2fa_webauthn_keys": "string?",
+          "2fa_webauthn_register_nonce": "string?",
+          "svn_password_required": "bool?",
+          "svn_password_created": "bool?",
+          "application_passwords": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.delete",
+        "summary": "Delete an user. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "delete"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Get an user. Required: id. Optional: id, context (default: view). (public)",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "get"
+        ]
+      },
+      {
+        "tool": "users.list",
+        "summary": "List users. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 12 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "exclude": "string?",
+          "include": "string?",
+          "offset": "int?",
+          "order": "string?",
+          "orderby": "string?",
+          "slug": "string?",
+          "roles": "string?",
+          "capabilities": "string?",
+          "who": "string?",
+          "has_published_posts": "bool?",
+          "search_columns": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "list"
+        ]
+      },
+      {
+        "tool": "users.update",
+        "summary": "Create a new user. Required: id. Optional: id, username, name (plus 22 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "int?",
+          "username": "string?",
+          "name": "string?",
+          "first_name": "string?",
+          "last_name": "string?",
+          "email": "string?",
+          "url": "string?",
+          "description": "string?",
+          "locale": "string?",
+          "nickname": "string?",
+          "slug": "string?",
+          "roles": "string?",
+          "password": "string?",
+          "meta": "string?",
+          "pending_email": "string?",
+          "2fa_required": "bool?",
+          "2fa_available_providers": "string?",
+          "2fa_primary_provider": "string?",
+          "2fa_backup_codes_remaining": "string?",
+          "2fa_revalidation": "string?",
+          "2fa_webauthn_keys": "string?",
+          "2fa_webauthn_register_nonce": "string?",
+          "svn_password_required": "bool?",
+          "svn_password_created": "bool?",
+          "application_passwords": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "update"
+        ]
+      },
+      {
+        "tool": "widget-types.get",
+        "summary": "Get a widget type. Required: id. Optional: id, context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widget-types"
+        ]
+      },
+      {
+        "tool": "widget-types.encode",
+        "summary": "Create a new encode. Required: id, id. Optional: instance, form_data.",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "instance": "string?",
+          "form_data": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widget-types",
+          "encode"
+        ]
+      },
+      {
+        "tool": "widget-types.list",
+        "summary": "List widget types. Optional: context (default: view). Returns array.",
+        "params_schema": {
+          "context": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widget-types",
+          "list"
+        ]
+      },
+      {
+        "tool": "widget-types.render",
+        "summary": "Create a new render. Required: id, id. Optional: instance.",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "instance": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widget-types",
+          "render"
+        ]
+      },
+      {
+        "tool": "widgets.create",
+        "summary": "Create a new widget. Required: sidebar (default: wp_inactive_widgets). Optional: id, id_base, instance (plus 1 more).",
+        "params_schema": {
+          "id": "string?",
+          "id_base": "string?",
+          "sidebar": "string?",
+          "instance": "string?",
+          "form_data": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widgets"
+        ]
+      },
+      {
+        "tool": "widgets.delete",
+        "summary": "Delete a widget. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widgets",
+          "delete"
+        ]
+      },
+      {
+        "tool": "widgets.get",
+        "summary": "Get a widget. Required: id. Optional: context (default: view).",
+        "params_schema": {
+          "id": "string",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widgets",
+          "get"
+        ]
+      },
+      {
+        "tool": "widgets.list",
+        "summary": "List widgets. Optional: context (default: view), sidebar. Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "sidebar": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "list"
+        ]
+      },
+      {
+        "tool": "widgets.update",
+        "summary": "Create a new widget. Required: id. Optional: id, id_base, sidebar (plus 2 more).",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "id_base": "string?",
+          "sidebar": "string?",
+          "instance": "string?",
+          "form_data": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "widgets",
+          "update"
+        ]
+      },
+      {
+        "tool": "wp.search_query",
+        "summary": "List search. Optional: context (default: view), page (default: 1), per_page (default: 10) (plus 5 more). Returns array. (public)",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "type": "string?",
+          "subtype": "string?",
+          "exclude": "string?",
+          "include": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "wp",
+          "search_query"
+        ]
+      },
+      {
+        "tool": "wp.types_get",
+        "summary": "Get a type. Required: type. Optional: type, context (default: view). (public)",
+        "params_schema": {
+          "type": "string",
+          "type-2": "string?",
+          "context": "string?"
+        },
+        "positionals": [
+          "type"
+        ],
+        "argv_path": [
+          "wp",
+          "types_get"
+        ]
+      },
+      {
+        "tool": "wp.types_list",
+        "summary": "List types. Optional: context (default: view). Returns array. (public)",
+        "params_schema": {
+          "context": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "wp",
+          "types_list"
         ]
       }
     ]
