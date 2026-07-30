@@ -132693,6 +132693,80 @@
     ]
   },
   {
+    "api": "cookunity",
+    "description": "Mirror CookUnity's full weekly menu into a local database so you can plan meals offline \u2014 filter by macros, diet, and budget, and diff the menu week over week, none of which the web app can do.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/cookunity/cmd/cookunity-pp-cli",
+    "auth_type": "api_key",
+    "category": "food-and-dining",
+    "search_terms": [
+      "cookunity",
+      "cookunity-pp-cli",
+      "Mirror CookUnity's full weekly menu into a local database so you can plan meals offline \u2014 filter by macros, diet, and budget, and diff the menu week over week, none of which the web app can do.",
+      "Macro-constrained meal planner",
+      "plan",
+      "Auto-build a set of meals that collectively hit your protein, calorie, budget, and diet targets \u2014 offline, in one command.",
+      "Week-over-week menu drift",
+      "drift",
+      "See exactly which meals were added, removed, or repriced between two weekly menus.",
+      "Best-value leaderboard",
+      "value",
+      "Rank meals by nutritional value per dollar (protein-per-dollar, calories-per-dollar) computed from the local mirror.",
+      "Favorites on this week's menu",
+      "favorites",
+      "Show which of your favorited meals are actually on the current week's menu.",
+      "Meal comparison",
+      "compare",
+      "Side-by-side macro, price, chef, and allergen comparison of two or more meals.",
+      "Chef roster analytics",
+      "chefs",
+      "Leaderboard of chefs by dish count, average rating, average price, and cuisines on the current menu."
+    ],
+    "endpoints": [
+      {
+        "tool": "meals.list",
+        "summary": "List meals (hand-built to read the local store; this endpoint is the upstream source). Returns array of Meal.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "meals"
+        ]
+      },
+      {
+        "tool": "menu.cluster",
+        "summary": "Fetch one meal cluster (category/subcategory slice) of MEAL cards for a delivery date. Required: date. Optional: display-date, order-status (default: confirmed), view (default: {'type':'ClusteredResult'}) (plus 4 more). Returns the MealCluster.",
+        "params_schema": {
+          "date": "string?",
+          "display-date": "string?",
+          "order-status": "string?",
+          "view": "string?",
+          "reference": "string?",
+          "filter-by": "string?",
+          "category-id": "string?",
+          "subcategory-id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "menu",
+          "cluster"
+        ]
+      },
+      {
+        "tool": "menu.view",
+        "summary": "Fetch the menu chrome and lazy meal-cluster references for a delivery date (YYYY-MM-DD). Required: date. Returns the MenuView.",
+        "params_schema": {
+          "date": "string"
+        },
+        "positionals": [
+          "date"
+        ],
+        "argv_path": [
+          "menu",
+          "view"
+        ]
+      }
+    ]
+  },
+  {
     "api": "copper",
     "description": "The Copper CRM command line no one else built: full CRUD plus a local database, weighted pipeline forecasting, stale-deal detection, and the bulk operations Copper's own API refuses to provide.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/copper/cmd/copper-pp-cli",
@@ -196888,6 +196962,480 @@
     ]
   },
   {
+    "api": "judgeme",
+    "description": "A completeness-verified Judge.me review corpus with explicit populations and syndication-aware exports.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/judgeme/cmd/judgeme-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "marketing",
+    "search_terms": [
+      "judgeme",
+      "Judge.me",
+      "judgeme-pp-cli",
+      "A completeness-verified Judge.me review corpus with explicit populations and syndication-aware exports.",
+      "Completeness-safe mirror",
+      "sync",
+      "Mirror the complete review corpus and refuse success when unique IDs do not equal Judge.me's live count.",
+      "Filtered corpus export",
+      "reviews export",
+      "Export explicit published, hidden, pending, or all populations as JSON or CSV.",
+      "Population census",
+      "reviews populations",
+      "Count storefront-visible and internal moderation populations with unambiguous labels.",
+      "Syndication clusters",
+      "reviews syndication",
+      "Find identical normalized review bodies attached to multiple products.",
+      "Unique-body view",
+      "reviews unique-bodies",
+      "Return one deterministic representative per normalized review body while retaining source row counts."
+    ],
+    "endpoints": [
+      {
+        "tool": "private-replies.create",
+        "summary": "Create a private email reply to a [Judge.me](http://judge.me/) review privately via your app interface. Required: private_reply, review_id. Optional: send_private_email.",
+        "params_schema": {
+          "private-reply-email-body": "string?",
+          "private-reply-email-subject": "string?",
+          "review_id": "float?",
+          "send_private_email": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "private-replies"
+        ]
+      },
+      {
+        "tool": "replies.create",
+        "summary": "Create a reply to a Judge.me review on the public [Judge.me](http://judge.me/) review widget via your app interface. Required: reply, review_id. Optional: send_reply_email.",
+        "params_schema": {
+          "reply-content": "string?",
+          "review_id": "float?",
+          "send_reply_email": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "replies"
+        ]
+      },
+      {
+        "tool": "reviewers.get",
+        "summary": "Get information of the reviewers such as name and email. This is useful when you are building automated flow for users to follow up with reviewers. Required: id. Optional: external_id, email. Returns the ReviewersGetResponse.",
+        "params_schema": {
+          "id": "string",
+          "external_id": "float?",
+          "email": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "reviewers"
+        ]
+      },
+      {
+        "tool": "reviewers.data-request",
+        "summary": "Data Request.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reviewers",
+          "data-request"
+        ]
+      },
+      {
+        "tool": "reviewers.update",
+        "summary": "Create or update a reviewer via your app interface. Required: id. Optional: external_id, email, reviewer. Returns the updated ReviewersUpdateResponse.",
+        "params_schema": {
+          "id": "string",
+          "external_id": "float?",
+          "email": "string?",
+          "reviewer-accepts-marketing": "bool?",
+          "reviewer-email": "string?",
+          "reviewer-id": "float?",
+          "reviewer-name": "string?",
+          "reviewer-phone": "string?",
+          "reviewer-tags": "string?",
+          "reviewer-unsubscribed-at": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "reviewers",
+          "update"
+        ]
+      },
+      {
+        "tool": "reviews.create",
+        "summary": "Create a web review in background, similar to submitting a review via the public form on product pages (no authorization required). This endpoint doesn't create any review if the store [disables web reviews](https://help.judge.me/en/articles/8375147-restricting-web-reviews). Required: body, email, name, platform, rating, shop_domain. Optional: cf_answers, id, ip_addr (plus 3 more). (public)",
+        "params_schema": {
+          "body": "string?",
+          "cf_answers": "array?",
+          "email": "string?",
+          "id": "float?",
+          "ip_addr": "string?",
+          "name": "string?",
+          "picture_urls": "string_csv_array?",
+          "platform": "string?",
+          "rating": "float?",
+          "reviewer_name_format": "string?",
+          "shop_domain": "string?",
+          "title": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reviews"
+        ]
+      },
+      {
+        "tool": "reviews.get",
+        "summary": "Get info of a specific review. Required: id. Returns the ReviewsGetResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "reviews",
+          "get"
+        ]
+      },
+      {
+        "tool": "reviews.index",
+        "summary": "Get info of reviews of a product. If `product_id` is not provided, return all product and store reviews of that store. Optional: per_page, page, reviewer_id (plus 3 more). Returns array of ResponseReview.",
+        "params_schema": {
+          "per_page": "float?",
+          "page": "float?",
+          "reviewer_id": "float?",
+          "product_id": "float?",
+          "rating": "float?",
+          "published": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reviews",
+          "index"
+        ]
+      },
+      {
+        "tool": "reviews.reviewers-count",
+        "summary": "Get count of reviews for a specific product or reviewer. If product_id is not provided, return the count of all product and store reviews of that store. Optional: reviewer_id, product_id, rating.",
+        "params_schema": {
+          "reviewer_id": "float?",
+          "product_id": "float?",
+          "rating": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reviews",
+          "reviewers-count"
+        ]
+      },
+      {
+        "tool": "reviews.update",
+        "summary": "Publish or hide a Judge.me review via your app interface. For authenticity reasons, the API does not support editing review content. Required: id, curated. Returns the updated ReviewsUpdateResponse.",
+        "params_schema": {
+          "id": "string",
+          "curated": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "reviews",
+          "update"
+        ]
+      },
+      {
+        "tool": "settings.index",
+        "summary": "Get multiple settings values of the store in [Judge.me](http://judge.me/), which can serve as conditions for your app integrations. Optional: setting_keys[]. Returns the SettingsIndexResponse.",
+        "params_schema": {
+          "setting_keys[]": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "index"
+        ]
+      },
+      {
+        "tool": "shops.update",
+        "summary": "Update store information.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "shops"
+        ]
+      },
+      {
+        "tool": "shops.comments-create",
+        "summary": "Create a checkout comment. Available in Checkout Comments app only. Optional: content, create_from, customer (plus 1 more).",
+        "params_schema": {
+          "content": "string?",
+          "create_from": "string?",
+          "customer-email": "string?",
+          "customer-external-id": "float?",
+          "customer-first-name": "string?",
+          "customer-last-name": "string?",
+          "external_product_id": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "shops",
+          "comments-create"
+        ]
+      },
+      {
+        "tool": "shops.destroy",
+        "summary": "Uninstall the store from Judge.me. Destructive.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "shops",
+          "destroy"
+        ]
+      },
+      {
+        "tool": "shops.info",
+        "summary": "Get the basic information of the store such as [Judge.me](http://judge.me/) plan, owner name, email, e-commerce platform, etc. This is helpful when you are developing your app for specific segment of users (e.g. your integration is only available to Judge.me Awesome users).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "shops",
+          "info"
+        ]
+      },
+      {
+        "tool": "webhooks.create",
+        "summary": "Create a webhook in Judge.me with a `key` and a `url`. When an event associated with `key` happens, Judge.me will send a POST request to the webhook's `url`. Optional: webhook. Returns the new WebhooksCreateResponse.",
+        "params_schema": {
+          "webhook-key": "string?",
+          "webhook-url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "webhooks"
+        ]
+      },
+      {
+        "tool": "webhooks.bulk-create",
+        "summary": "Bulk Create. Optional: webhooks.",
+        "params_schema": {
+          "webhooks": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "webhooks",
+          "bulk-create"
+        ]
+      },
+      {
+        "tool": "webhooks.destroy",
+        "summary": "Delete. Optional: key, url. Returns the WebhooksDestroyResponse. Destructive.",
+        "params_schema": {
+          "key": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "webhooks",
+          "destroy"
+        ]
+      },
+      {
+        "tool": "webhooks.get",
+        "summary": "Get. Required: id. Returns the WebhooksGetResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "get"
+        ]
+      },
+      {
+        "tool": "webhooks.index",
+        "summary": "Index. Returns array of ResponseWebhook.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhooks",
+          "index"
+        ]
+      },
+      {
+        "tool": "webhooks.update",
+        "summary": "Update. Required: id. Optional: webhook. Returns the updated WebhooksUpdateResponse.",
+        "params_schema": {
+          "id": "string",
+          "webhook-key": "string?",
+          "webhook-url": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "update"
+        ]
+      },
+      {
+        "tool": "widgets.all-reviews-count",
+        "summary": "Return a single total number of product and store reviews.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "all-reviews-count"
+        ]
+      },
+      {
+        "tool": "widgets.all-reviews-page",
+        "summary": "All Reviews Page is a dedicated page to showcase all product and store reviews all in one place. Optional: page, review_type.",
+        "params_schema": {
+          "page": "float?",
+          "review_type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "all-reviews-page"
+        ]
+      },
+      {
+        "tool": "widgets.all-reviews-rating",
+        "summary": "Return a single number of average rating of product reviews and store reviews.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "all-reviews-rating"
+        ]
+      },
+      {
+        "tool": "widgets.checkout-comments",
+        "summary": "Return Checkout Comments widget for a product (for Checkout Comments app only). You can use product handle, external ID, or [Judge.me](http://judge.me/) internal ID to specify the product. Optional: handle, external_id, id.",
+        "params_schema": {
+          "handle": "string?",
+          "external_id": "float?",
+          "id": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "checkout-comments"
+        ]
+      },
+      {
+        "tool": "widgets.featured-carousel",
+        "summary": "Reviews Carousel is usually placed on the homepage to showcase specific reviews featured by the store.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "featured-carousel"
+        ]
+      },
+      {
+        "tool": "widgets.html-miracle",
+        "summary": "Return special HTML that helps show essential parts of widgets before the JS and CSS files are loaded.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "html-miracle"
+        ]
+      },
+      {
+        "tool": "widgets.preview-badge",
+        "summary": "Preview Badge is usually placed below product titles on product pages or inside product thumbnails on collection pages. This widget display the average star rating and review count of each product. You can use product handle, external ID, or [Judge.me](http://judge.me/) internal ID to specify the product. Optional: handle, external_id, id.",
+        "params_schema": {
+          "handle": "string?",
+          "external_id": "float?",
+          "id": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "preview-badge"
+        ]
+      },
+      {
+        "tool": "widgets.product-review",
+        "summary": "Review Widget is usually placed at the bottom of each product page, displaying all reviews of a product. You can use product handle, external ID, or [Judge.me](http://judge.me/) internal ID to specify the product. Optional: handle, external_id, id (plus 2 more).",
+        "params_schema": {
+          "handle": "string?",
+          "external_id": "float?",
+          "id": "float?",
+          "page": "float?",
+          "per_page": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "product-review"
+        ]
+      },
+      {
+        "tool": "widgets.reviews-tab",
+        "summary": "Floating Reviews Tab display all product and store reviews via a floating button on any pages. Optional: page, per_page, review_type.",
+        "params_schema": {
+          "page": "float?",
+          "per_page": "float?",
+          "review_type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "reviews-tab"
+        ]
+      },
+      {
+        "tool": "widgets.settings",
+        "summary": "Return widget settings of the shop, under HTML format, containing a `<script>` tag and a `<style>` tag. This contains values of widget customization in [Judge.me](http://judge.me/) such as text and color, which helps you display the widget correctly.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "settings"
+        ]
+      },
+      {
+        "tool": "widgets.shop-reviews-count",
+        "summary": "Return a single total number of store reviews.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "shop-reviews-count"
+        ]
+      },
+      {
+        "tool": "widgets.shop-reviews-rating",
+        "summary": "Return a single number of average rating of store reviews.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "shop-reviews-rating"
+        ]
+      },
+      {
+        "tool": "widgets.verified-badge",
+        "summary": "Verified Reviews Count Badge displays the number of verified published reviews. Stores need at least 20 verified reviews to use this widget.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "widgets",
+          "verified-badge"
+        ]
+      }
+    ]
+  },
+  {
     "api": "juneoven",
     "description": "Every June oven control from the terminal \u2014 self-pair, preheat, adjust, watch live telemetry, and cancel, over June's cloud with agent-native JSON.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/juneoven/cmd/juneoven-pp-cli",
@@ -235734,6 +236282,635 @@
         "argv_path": [
           "workspace-operations",
           "log_get"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "parallel",
+    "description": "Agent-native Parallel web research with a local SQLite memory no other Parallel CLI keeps.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/parallel/cmd/parallel-pp-cli",
+    "auth_type": "api_key",
+    "category": "ai",
+    "search_terms": [
+      "parallel",
+      "parallel-pp-cli",
+      "Agent-native Parallel web research with a local SQLite memory no other Parallel CLI keeps.",
+      "Research session stitch",
+      "session stitch",
+      "Bind search, extract, and task/findall runs into one local session chain for agent resume.",
+      "Balance-aware run cost guard",
+      "tasks guard",
+      "Refuse Task creates when prepaid balance is below a threshold.",
+      "Stale monitor event digest",
+      "monitors digest",
+      "Mechanical per-monitor event counts and top titles since a duration window.",
+      "Cross-run research recall",
+      "research recall",
+      "FTS across local searches, extracts, and task summaries with typed hit IDs.",
+      "FindAll to Task Group promote",
+      "findall promote",
+      "Turn FindAll candidates into a Task Group enrichment job.",
+      "Prepaid burn vs runs",
+      "balance burn",
+      "Diff local balance snapshots against local run volume over a window.",
+      "Task interaction lineage",
+      "tasks lineage",
+      "Print the offline previous_interaction_id follow-up chain for a run."
+    ],
+    "endpoints": [
+      {
+        "tool": "chat.completions",
+        "summary": "Chat completions. This endpoint can be used to get realtime chat completions. It can also be used with the Task API processors to get structured, research outputs via a chat interface. Required: messages, model. Optional: frequency_penalty, max_tokens, n (plus 6 more). Returns the new ChatCompletion.",
+        "params_schema": {
+          "frequency_penalty": "string?",
+          "max_tokens": "string?",
+          "messages": "array?",
+          "model": "string?",
+          "n": "string?",
+          "presence_penalty": "string?",
+          "previous_interaction_id": "string?",
+          "response_format": "string?",
+          "stream": "string?",
+          "temperature": "string?",
+          "top_p": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat",
+          "completions"
+        ]
+      },
+      {
+        "tool": "extract.extract",
+        "summary": "Extracts relevant content from specific web URLs. The legacy Extract API reference (`/v1beta/extract` endpoint) is available [here](https://docs.parallel.ai/api-reference/legacy/extract-beta/extract), and migration guide is [here](https://docs.parallel.ai/extract/extract-migration-guide). Required: urls. Optional: advanced_settings, client_model, max_chars_total (plus 3 more). Returns the new V1ExtractResponse.",
+        "params_schema": {
+          "advanced_settings": "string?",
+          "client_model": "string?",
+          "max_chars_total": "string?",
+          "objective": "string?",
+          "search_queries": "string?",
+          "session_id": "string?",
+          "urls": "string_csv_array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "extract",
+          "extract"
+        ]
+      },
+      {
+        "tool": "findall.cancel-run",
+        "summary": "Cancel an in-progress FindAll run by findall_id so candidates stop generating and billed work ends early. Required: findall_id (UUID path param). Returns the updated run status after cancel. Prefer this over waiting when enrichment is no longer needed.",
+        "params_schema": {
+          "findall_id": "string"
+        },
+        "positionals": [
+          "findall_id"
+        ],
+        "argv_path": [
+          "findall",
+          "cancel-run"
+        ]
+      },
+      {
+        "tool": "findall.enrich-run",
+        "summary": "Add an enrichment to a FindAll run. Required: findall_id, output_schema. Optional: mcp_servers, processor (default: core). Returns array of MatchCondition.",
+        "params_schema": {
+          "findall_id": "string",
+          "mcp_servers": "string?",
+          "output-schema-json-schema": "object?",
+          "output-schema-type": "string?",
+          "processor": "string?"
+        },
+        "positionals": [
+          "findall_id"
+        ],
+        "argv_path": [
+          "findall",
+          "enrich-run"
+        ]
+      },
+      {
+        "tool": "findall.entity-search",
+        "summary": "Return ranked entities matching a natural language objective. This endpoint performs a best-effort search optimized for low latency. To keep responses fast, it returns a fixed set of attributes and supports queries of limited complexity. For comprehensive match evaluation and enrichment, use the [FindAll API](https://docs.parallel.ai/findall-api/findall-quickstart). Required: entity_type, objective. Optional: match_limit (default: 100).",
+        "params_schema": {
+          "entity_type": "string?",
+          "match_limit": "int?",
+          "objective": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "findall",
+          "entity-search"
+        ]
+      },
+      {
+        "tool": "findall.extend-run",
+        "summary": "Extend a FindAll run by adding additional matches to the current match limit. Required: findall_id, additional_match_limit. Returns array of MatchCondition.",
+        "params_schema": {
+          "findall_id": "string",
+          "additional_match_limit": "int?"
+        },
+        "positionals": [
+          "findall_id"
+        ],
+        "argv_path": [
+          "findall",
+          "extend-run"
+        ]
+      },
+      {
+        "tool": "findall.get-events",
+        "summary": "Stream events from a FindAll run. Args: request: The Shapi request findall_id: The FindAll run ID last_event_id: Optional event ID to resume from. timeout: Optional timeout in seconds. If None, keep connection alive as long as the run is going. If set, stop after specified duration. Required: findall_id. Optional: last_event_id, timeout.",
+        "params_schema": {
+          "findall_id": "string",
+          "last_event_id": "string?",
+          "timeout": "string?"
+        },
+        "positionals": [
+          "findall_id"
+        ],
+        "argv_path": [
+          "findall",
+          "get-events"
+        ]
+      },
+      {
+        "tool": "findall.get-result",
+        "summary": "Retrieve the FindAll run result at the time of the request. Required: findall_id. Returns array of FindAllCandidate.",
+        "params_schema": {
+          "findall_id": "string"
+        },
+        "positionals": [
+          "findall_id"
+        ],
+        "argv_path": [
+          "findall",
+          "get-result"
+        ]
+      },
+      {
+        "tool": "findall.get-schema",
+        "summary": "Get FindAll Run Schema. Required: findall_id. Returns array of MatchCondition.",
+        "params_schema": {
+          "findall_id": "string"
+        },
+        "positionals": [
+          "findall_id"
+        ],
+        "argv_path": [
+          "findall",
+          "get-schema"
+        ]
+      },
+      {
+        "tool": "findall.ingest-run",
+        "summary": "Transforms a natural language search objective into a structured FindAll spec. The generated specification serves as a suggested starting point and can be further customized by the user. Required: objective. Returns array of MatchCondition.",
+        "params_schema": {
+          "objective": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "findall",
+          "ingest-run"
+        ]
+      },
+      {
+        "tool": "findall.runs-v1",
+        "summary": "Starts a FindAll run. This endpoint immediately returns a FindAll run object with status set to 'queued'. You can get the run result snapshot using the GET /v1beta/findall/runs/{findall_id}/result endpoint. You can track the progress of the run by: - Polling the status using the GET /v1beta/findall/runs/{findall_id} endpoint, - Subscribing to real-time updates via the /v1beta/findall/runs/{findall_id}/events endpoint, - Or specifying a webhook with relevant event types during run creation to receive notifications. Required: entity_type, generator, match_conditions, match_limit, objective. Optional: exclude_list, metadata, webhook.",
+        "params_schema": {
+          "entity_type": "string?",
+          "exclude_list": "string?",
+          "generator": "string?",
+          "match_conditions": "array?",
+          "match_limit": "int?",
+          "metadata": "string?",
+          "objective": "string?",
+          "webhook": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "findall",
+          "runs-v1"
+        ]
+      },
+      {
+        "tool": "findall.runs-v1-get",
+        "summary": "Retrieve FindAll Run Status. Required: findall_id. Returns the FindAllRun.",
+        "params_schema": {
+          "findall_id": "string"
+        },
+        "positionals": [
+          "findall_id"
+        ],
+        "argv_path": [
+          "findall",
+          "runs-v1-get"
+        ]
+      },
+      {
+        "tool": "monitors.create",
+        "summary": "Create a monitor. Monitors run on a fixed frequency to detect material changes in web content. Set `type=event_stream` to monitor a search query, or `type=snapshot` to monitor a specific task run's output. The monitor runs once immediately at creation, then continues on the configured schedule. Required: frequency, settings, type. Optional: metadata, processor (default: lite), webhook. Returns the new MonitorResponse.",
+        "params_schema": {
+          "frequency": "string?",
+          "metadata": "string?",
+          "processor": "string?",
+          "settings": "string?",
+          "type": "string?",
+          "webhook": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "monitors"
+        ]
+      },
+      {
+        "tool": "monitors.list",
+        "summary": "List monitors ordered by creation time, newest first. Monitors are sorted by `created_at` descending. `limit` defaults to 100. Use `next_cursor` from the response and pass it as `cursor` to fetch the next page. Pagination ends when `next_cursor` is absent. By default only `active` monitors are returned. Pass `status=cancelled` or both values to include cancelled monitors. The legacy Monitor API (`/v1alpha/monitors` endpoints) is documented under the `Monitor (Alpha)` tag. Optional: cursor, limit, type (plus 1 more). Returns array of MonitorResponse.",
+        "params_schema": {
+          "cursor": "string?",
+          "limit": "string?",
+          "type": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "monitors",
+          "list"
+        ]
+      },
+      {
+        "tool": "monitors.retrieve",
+        "summary": "Retrieve a monitor. Retrieves a specific monitor by `monitor_id`. Returns the monitor configuration including status, frequency, query, and webhook settings. Required: monitor_id.",
+        "params_schema": {
+          "monitor_id": "string"
+        },
+        "positionals": [
+          "monitor_id"
+        ],
+        "argv_path": [
+          "monitors",
+          "retrieve"
+        ]
+      },
+      {
+        "tool": "monitors.cancel_monitor",
+        "summary": "Cancel a monitor. Permanently stops the monitor from running. Cancellation is irreversible \u2014 create a new monitor to resume monitoring. Cancelling an already-cancelled monitor is a no-op. Required: monitor_id. Returns the new MonitorResponse.",
+        "params_schema": {
+          "monitor_id": "string"
+        },
+        "positionals": [
+          "monitor_id"
+        ],
+        "argv_path": [
+          "monitors",
+          "cancel_monitor"
+        ]
+      },
+      {
+        "tool": "monitors.events_list-monitor",
+        "summary": "List events for a monitor, newest first. Pass `event_group_id` to narrow results to a single execution. Otherwise returns all executions newest-first; use `next_cursor` to paginate. Set `include_completions=true` to also include no-change executions. Required: monitor_id. Optional: event_group_id, cursor, limit (plus 1 more).",
+        "params_schema": {
+          "monitor_id": "string",
+          "event_group_id": "string?",
+          "cursor": "string?",
+          "limit": "string?",
+          "include_completions": "bool?"
+        },
+        "positionals": [
+          "monitor_id"
+        ],
+        "argv_path": [
+          "monitors",
+          "events_list-monitor"
+        ]
+      },
+      {
+        "tool": "monitors.trigger_monitor-run",
+        "summary": "Trigger an immediate monitor run. Enqueues a one-off execution of the monitor outside its normal schedule. The monitor's regular schedule is not affected. An event is only emitted if the execution detects a material change. Cancelled monitors cannot be triggered. Required: monitor_id.",
+        "params_schema": {
+          "monitor_id": "string"
+        },
+        "positionals": [
+          "monitor_id"
+        ],
+        "argv_path": [
+          "monitors",
+          "trigger_monitor-run"
+        ]
+      },
+      {
+        "tool": "monitors.update_monitor",
+        "summary": "Update a monitor. Only fields explicitly included in the request body are changed. Pass `null` for `webhook` or `metadata` to clear those fields. Pass `type` and `settings` to update type-specific settings on an `event_stream` monitor. At least one field must be provided. Cancelled monitors cannot be updated. Required: monitor_id. Optional: frequency, metadata, settings (plus 2 more). Returns the new MonitorResponse.",
+        "params_schema": {
+          "monitor_id": "string",
+          "frequency": "string?",
+          "metadata": "string?",
+          "settings": "string?",
+          "type": "string?",
+          "webhook": "string?"
+        },
+        "positionals": [
+          "monitor_id"
+        ],
+        "argv_path": [
+          "monitors",
+          "update_monitor"
+        ]
+      },
+      {
+        "tool": "service.account-add-balance",
+        "summary": "Charge the organization's default payment method and add the amount to the prepaid credit balance. The default payment method configured on the org's Stripe customer is always used; no payment method id is accepted from the client. Required: amount_cents, idempotency_key. Returns the new BalanceResponse.",
+        "params_schema": {
+          "amount_cents": "int?",
+          "idempotency_key": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "service",
+          "account-add-balance"
+        ]
+      },
+      {
+        "tool": "service.account-create-app",
+        "summary": "Create a new app for the authenticated organization. Required: app_name. Optional: allow_oauth_app_names (default: false). Returns the new CreateAppResponseModel.",
+        "params_schema": {
+          "allow_oauth_app_names": "bool?",
+          "app_name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "service",
+          "account-create-app"
+        ]
+      },
+      {
+        "tool": "service.account-create-key",
+        "summary": "Create a new API key for an app. Required: app_id, api_key_name. Returns the new CreateKeyResponse.",
+        "params_schema": {
+          "app_id": "string",
+          "api_key_name": "string?"
+        },
+        "positionals": [
+          "app_id"
+        ],
+        "argv_path": [
+          "service",
+          "account-create-key"
+        ]
+      },
+      {
+        "tool": "service.account-delete-app",
+        "summary": "Delete an app from the authenticated organization. Required: app_id. Destructive.",
+        "params_schema": {
+          "app_id": "string"
+        },
+        "positionals": [
+          "app_id"
+        ],
+        "argv_path": [
+          "service",
+          "account-delete-app"
+        ]
+      },
+      {
+        "tool": "service.account-delete-key",
+        "summary": "Delete an API key from an app. Required: app_id, api_key_id. Destructive.",
+        "params_schema": {
+          "app_id": "string",
+          "api_key_id": "string"
+        },
+        "positionals": [
+          "app_id",
+          "api_key_id"
+        ],
+        "argv_path": [
+          "service",
+          "account-delete-key"
+        ]
+      },
+      {
+        "tool": "service.account-get-balance",
+        "summary": "Get the authenticated organization's prepaid credit balance. Returns the BalanceResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "service",
+          "account-get-balance"
+        ]
+      },
+      {
+        "tool": "service.account-list-apps",
+        "summary": "List all apps for the authenticated organization. Returns array of AppItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "service",
+          "account-list-apps"
+        ]
+      },
+      {
+        "tool": "tasks.runs-events-get",
+        "summary": "Streams events for a task run. Returns a stream of events showing progress updates and state changes for the task run. For task runs that did not have enable_events set to true during creation, the frequency of events will be reduced. Required: run_id.",
+        "params_schema": {
+          "run_id": "string"
+        },
+        "positionals": [
+          "run_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "runs-events-get"
+        ]
+      },
+      {
+        "tool": "tasks.runs-events-get-runs",
+        "summary": "Streams events for a task run. Returns a stream of events showing progress updates and state changes for the task run. For task runs that did not have enable_events set to true during creation, the frequency of events will be reduced. Required: run_id.",
+        "params_schema": {
+          "run_id": "string"
+        },
+        "positionals": [
+          "run_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "runs-events-get-runs"
+        ]
+      },
+      {
+        "tool": "tasks.runs-get",
+        "summary": "Retrieves run status by run_id. The run result is available from the `/result` endpoint. Required: run_id. Returns the TaskRun.",
+        "params_schema": {
+          "run_id": "string"
+        },
+        "positionals": [
+          "run_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "runs-get"
+        ]
+      },
+      {
+        "tool": "tasks.runs-input-get",
+        "summary": "Retrieves the input of a run by run_id. Required: run_id. Returns the TaskRunInput.",
+        "params_schema": {
+          "run_id": "string"
+        },
+        "positionals": [
+          "run_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "runs-input-get"
+        ]
+      },
+      {
+        "tool": "tasks.runs-post",
+        "summary": "Initiates a task run. Returns immediately with a run object in status 'queued'. Beta features can be enabled by setting the 'parallel-beta' header. Required: input, processor. Optional: advanced_settings, enable_events, mcp_servers (plus 5 more).",
+        "params_schema": {
+          "advanced_settings": "string?",
+          "enable_events": "string?",
+          "input": "string?",
+          "mcp_servers": "string?",
+          "metadata": "string?",
+          "previous_interaction_id": "string?",
+          "processor": "string?",
+          "source_policy": "string?",
+          "task_spec": "string?",
+          "webhook": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "runs-post"
+        ]
+      },
+      {
+        "tool": "tasks.runs-result-get",
+        "summary": "Retrieves a run result by run_id, blocking until the run is completed. Required: run_id. Optional: timeout (default: 600). Returns the TaskRunResult.",
+        "params_schema": {
+          "run_id": "string",
+          "timeout": "int?"
+        },
+        "positionals": [
+          "run_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "runs-result-get"
+        ]
+      },
+      {
+        "tool": "tasks.sessions-events-get",
+        "summary": "Streams events from a TaskGroup: status updates and run completions. The connection will remain open for up to an hour as long as at least one run in the group is still active. Required: taskgroup_id. Optional: last_event_id, timeout.",
+        "params_schema": {
+          "taskgroup_id": "string",
+          "last_event_id": "string?",
+          "timeout": "string?"
+        },
+        "positionals": [
+          "taskgroup_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "sessions-events-get"
+        ]
+      },
+      {
+        "tool": "tasks.taskgroups-get",
+        "summary": "Retrieves aggregated status across runs in a TaskGroup. Required: taskgroup_id. Returns the TaskGroupResponse.",
+        "params_schema": {
+          "taskgroup_id": "string"
+        },
+        "positionals": [
+          "taskgroup_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "taskgroups-get"
+        ]
+      },
+      {
+        "tool": "tasks.taskgroups-post",
+        "summary": "Initiates a TaskGroup to group and track multiple runs. Optional: metadata. Returns the new TaskGroupResponse.",
+        "params_schema": {
+          "metadata": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "taskgroups-post"
+        ]
+      },
+      {
+        "tool": "tasks.taskgroups-runs-get",
+        "summary": "Retrieves task runs in a TaskGroup and optionally their inputs and outputs. All runs within a TaskGroup are returned as a stream. To get the inputs and/or outputs back in the stream, set the corresponding `include_input` and `include_output` parameters to `true`. The stream is resumable using the `event_id` as the cursor. To resume a stream, specify the `last_event_id` parameter with the `event_id` of the last event in the stream. The stream will resume from the next event after the `last_event_id`. Required: taskgroup_id. Optional: last_event_id, status, include_input (default: false) (plus 1 more).",
+        "params_schema": {
+          "taskgroup_id": "string",
+          "last_event_id": "string?",
+          "status": "string?",
+          "include_input": "bool?",
+          "include_output": "bool?"
+        },
+        "positionals": [
+          "taskgroup_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "taskgroups-runs-get"
+        ]
+      },
+      {
+        "tool": "tasks.taskgroups-runs-id-get",
+        "summary": "Retrieves run status by run_id. This endpoint is equivalent to fetching run status directly using the `retrieve()` method or the `tasks/runs` GET endpoint. The run result is available from the `/result` endpoint. Required: taskgroup_id, run_id. Returns the TaskRun.",
+        "params_schema": {
+          "taskgroup_id": "string",
+          "run_id": "string"
+        },
+        "positionals": [
+          "taskgroup_id",
+          "run_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "taskgroups-runs-id-get"
+        ]
+      },
+      {
+        "tool": "tasks.taskgroups-runs-post",
+        "summary": "Initiates multiple task runs within a TaskGroup. Required: taskgroup_id, inputs. Optional: refresh_status (default: true), default_task_spec. Returns array of string.",
+        "params_schema": {
+          "taskgroup_id": "string",
+          "refresh_status": "bool?",
+          "default_task_spec": "string?",
+          "inputs": "array?"
+        },
+        "positionals": [
+          "taskgroup_id"
+        ],
+        "argv_path": [
+          "tasks",
+          "taskgroups-runs-post"
+        ]
+      },
+      {
+        "tool": "websearch.search",
+        "summary": "Searches the web. The legacy Search API reference (`/v1beta/search` endpoint) is available [here](https://docs.parallel.ai/api-reference/legacy/search-beta/search), and migration guide is [here](https://docs.parallel.ai/search/search-migration-guide). Required: search_queries. Optional: advanced_settings, client_model, max_chars_total (plus 3 more). Returns array of V1WebSearchResult.",
+        "params_schema": {
+          "advanced_settings": "string?",
+          "client_model": "string?",
+          "max_chars_total": "string?",
+          "mode": "string?",
+          "objective": "string?",
+          "search_queries": "string_csv_array?",
+          "session_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "websearch",
+          "search"
         ]
       }
     ]
