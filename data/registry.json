@@ -331096,6 +331096,232 @@
     ]
   },
   {
+    "api": "zillow",
+    "description": "Official Zillow Research data, normalized for explainable housing-market decisions.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/zillow/cmd/zillow-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "zillow",
+      "zillow-pp-cli",
+      "Official Zillow Research data, normalized for explainable housing-market decisions.",
+      "Client affordability gap",
+      "affordability gap",
+      "Compare household income with Zillow's regional homeowner-income-needed estimate.",
+      "Rent/value yield proxy",
+      "yield-proxy",
+      "Join ZORI and ZHVI on a common date for a transparent gross rent-to-value proxy.",
+      "Supply absorption ratio",
+      "supply-ratio",
+      "Join inventory and sales nowcast into an approximate months-of-inventory ratio.",
+      "Market turning points",
+      "turning-points",
+      "Find dated slope sign reversals across temperature, inventory, days pending, and ZHVI.",
+      "Weighted regional shortlist",
+      "shortlist",
+      "Rank regions with explicit user weights and visible min-max-normalized components.",
+      "Sync quality audit",
+      "quality audit",
+      "Detect missing observations, duplicate regions, coverage gaps, and large monthly jumps.",
+      "Market breadth",
+      "breadth",
+      "Measure rising, falling, and unchanged regions by state or geography type.",
+      "Buy versus rent break-even",
+      "buy-vs-rent",
+      "Run a visible-assumption ownership-versus-rent cash-flow scenario.",
+      "Negotiation leverage",
+      "negotiation",
+      "Combine price cuts, sale-to-list ratio, days pending, and inventory into an explainable score.",
+      "Price-tier spread",
+      "tier-spread",
+      "Compare bottom-, middle-, and top-tier ZHVI growth.",
+      "Demand pressure",
+      "demand-pressure",
+      "Combine rental demand and for-sale market momentum with component-level evidence.",
+      "New-construction gap",
+      "new-build-gap",
+      "Compare new-construction pricing and sales activity with typical regional home value.",
+      "Client-ready market brief",
+      "client-brief",
+      "Compose deterministic Markdown or JSON briefs from sourced regional metrics.",
+      "Formula and provenance explainer",
+      "explain",
+      "Show formulas, datasets, freshness behavior, and caveats for compound commands."
+    ],
+    "endpoints": [
+      {
+        "tool": "research.days_pending",
+        "summary": "Download monthly metro mean days-to-pending observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "days_pending"
+        ]
+      },
+      {
+        "tool": "research.homeowner_income",
+        "summary": "Download monthly metro income-needed estimates for a typical home purchase with 20 percent down.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "homeowner_income"
+        ]
+      },
+      {
+        "tool": "research.inventory",
+        "summary": "Download monthly metro for-sale inventory observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "inventory"
+        ]
+      },
+      {
+        "tool": "research.market_temperature",
+        "summary": "Download monthly metro market-temperature index observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "market_temperature"
+        ]
+      },
+      {
+        "tool": "research.new_con_price",
+        "summary": "Download monthly metro new-construction median sale prices.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "new_con_price"
+        ]
+      },
+      {
+        "tool": "research.new_con_price_per_sqft",
+        "summary": "Download monthly metro new-construction median sale price per square foot.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "new_con_price_per_sqft"
+        ]
+      },
+      {
+        "tool": "research.new_con_sales",
+        "summary": "Download monthly metro new-construction sales counts.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "new_con_sales"
+        ]
+      },
+      {
+        "tool": "research.price_cut_share",
+        "summary": "Download monthly metro share of listings with a price cut.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "price_cut_share"
+        ]
+      },
+      {
+        "tool": "research.sale_to_list",
+        "summary": "Download monthly metro mean sale-to-list ratio observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "sale_to_list"
+        ]
+      },
+      {
+        "tool": "research.sales",
+        "summary": "Download monthly metro sales-count nowcast observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "sales"
+        ]
+      },
+      {
+        "tool": "research.total_monthly_payment",
+        "summary": "Download monthly metro total housing payment estimates for a typical home purchase with 20 percent down.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "total_monthly_payment"
+        ]
+      },
+      {
+        "tool": "research.zhvf",
+        "summary": "Download monthly metro Zillow Home Value Forecast growth observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "zhvf"
+        ]
+      },
+      {
+        "tool": "research.zhvi",
+        "summary": "Download monthly metro Zillow Home Value Index observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "zhvi"
+        ]
+      },
+      {
+        "tool": "research.zhvi_bottom_tier",
+        "summary": "Download monthly metro bottom-tier Zillow Home Value Index observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "zhvi_bottom_tier"
+        ]
+      },
+      {
+        "tool": "research.zhvi_top_tier",
+        "summary": "Download monthly metro top-tier Zillow Home Value Index observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "zhvi_top_tier"
+        ]
+      },
+      {
+        "tool": "research.zordi",
+        "summary": "Download monthly metro Zillow Observed Renter Demand Index observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "zordi"
+        ]
+      },
+      {
+        "tool": "research.zori",
+        "summary": "Download monthly metro Zillow Observed Rent Index observations.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "research",
+          "zori"
+        ]
+      }
+    ]
+  },
+  {
     "api": "zoho-expense",
     "description": "Upload receipts, auto-tag expenses from learned merchant memory",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/zoho-expense/cmd/zoho-expense-pp-cli",
