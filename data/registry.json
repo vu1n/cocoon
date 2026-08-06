@@ -127648,6 +127648,337 @@
     ]
   },
   {
+    "api": "conductor",
+    "description": "Conductor Cloud API client with bounded coding-agent launch, monitor, steering, and reporting workflows.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/conductor/cmd/conductor-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "developer-tools",
+    "search_terms": [
+      "conductor",
+      "Conductor Cloud",
+      "conductor-pp-cli",
+      "Conductor Cloud API client with bounded coding-agent launch, monitor, steering, and reporting workflows.",
+      "Launch",
+      "Create a workspace and first session, send a brief, and return the Conductor deep link.",
+      "Monitor",
+      "Poll a session until real completion while streaming only new transcript events.",
+      "Steer",
+      "Send follow-up guidance to an existing Conductor session with a clear delivery receipt.",
+      "Run",
+      "Launch, monitor, and collect the final transcript and deep link with explicit timeout rules.",
+      "Plan and implement",
+      "plan-implement",
+      "Keep a planner or reviewer session separate from the implementation session in one workspace.",
+      "Daily report",
+      "daily-report",
+      "Return recent Conductor session rows and mechanical activity totals from transcript search."
+    ],
+    "endpoints": [
+      {
+        "tool": "me.get",
+        "summary": "Get authenticated identity. Returns the MeGetResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me"
+        ]
+      },
+      {
+        "tool": "messages.get",
+        "summary": "Get a message. Required: messageId. Returns the MessagesGetResponse.",
+        "params_schema": {
+          "messageId": "string"
+        },
+        "positionals": [
+          "messageId"
+        ],
+        "argv_path": [
+          "messages"
+        ]
+      },
+      {
+        "tool": "projects.get",
+        "summary": "Get a project. Required: projectId. Returns the ProjectsGetResponse.",
+        "params_schema": {
+          "projectId": "string"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "projects"
+        ]
+      },
+      {
+        "tool": "projects.list",
+        "summary": "List projects. Optional: limit, offset. Returns array of ProjectsListItem.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "projects",
+          "list"
+        ]
+      },
+      {
+        "tool": "projects.workspaces_list",
+        "summary": "List project workspaces. Required: projectId. Optional: limit, offset, channel. Returns array of WorkspacesListItem.",
+        "params_schema": {
+          "projectId": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "channel": "string?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "projects",
+          "workspaces_list"
+        ]
+      },
+      {
+        "tool": "roundhouse-public-sql.query",
+        "summary": "Runs a single read-only SQL SELECT statement over your organization's session transcripts and returns the matching rows. Queries may ONLY read from the view session_transcripts_view; every other table, view, and function is off-limits. Query it like a table, e.g. SELECT ... FROM session_transcripts_view. Its columns are: - session_id (text): ID of the session (chat). - workspace_id (text): ID of the workspace the session belongs to. - transcript (text): concise plain-text transcript of the session's conversation. - session_title (text, nullable): title of the session. - agent_type (text, nullable): agent that ran the session, e.g. 'claude' or 'codex'. - model (text, nullable): model the session used. - workspace_name (text, nullable): display name of the workspace. - workspace_state (text): workspace lifecycle state, e.g. 'ready' or 'archived'. - repo_url (text): git remote URL of the workspace's repository. - session_created_at (timestamptz): when the session was created. - transcript_updated_at (timestamptz): when the transcript last changed. Limits: at most 500 rows are returned (the response sets truncated: true when the query matched more), statements time out after 5 seconds, and the query text may be at most 10000 characters. The statement must be a single query: semicolon-chained statements, writes, U& Unicode-escape syntax, and queries containing the text set_config anywhere (even inside a search string) are rejected. Errors come back as 400s carrying the Postgres error message. Example queries: - Search transcripts: SELECT session_id, session_title, workspace_name FROM session_transcripts_view WHERE transcript ILIKE '%database migration%' ORDER BY transcript_updated_at DESC LIMIT 20 - Recent sessions in live workspaces: SELECT session_title, workspace_name, transcript_updated_at FROM session_transcripts_view WHERE workspace_state = 'ready' ORDER BY transcript_updated_at DESC LIMIT 50. Required: query.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "roundhouse-public-sql",
+          "query"
+        ]
+      },
+      {
+        "tool": "sessions.create",
+        "summary": "Creates a session in an existing workspace. If the workspace is still initializing, the session is accepted immediately and initialized in the workspace when its first message is delivered. Accepted model ids by agent \u2014 claude: fable-5, opus-5-1m, opus-4-8-1m, opus-4-8, opus-4-7-1m, opus-4-7, opus-1m, opus, opus-4-6-1m, sonnet-5-1m, sonnet-4-6-1m, sonnet, haiku; codex: gpt-5.5, gpt-5.4, gpt-5.6-sol, gpt-5.6-terra, gpt-5.6-luna, gpt-5.3-codex-spark, gpt-5.3-codex, gpt-5.2-codex; cursor: auto, composer-2.5, grok-4.5. Accepted effort levels by agent \u2014 claude: low, medium, high, xhigh, max; codex: none, low, medium, high, xhigh, max, ultra; codex max requires a GPT-5.6 model, and ultra requires GPT-5.6 Sol or Terra. Omit effort to use the agent's default \u2014 claude: high; codex: high. Models accepting fastMode by agent \u2014 claude: opus-5-1m, opus-4-8-1m, opus-4-8, opus-4-7-1m, opus-4-7, opus-1m, opus, opus-4-6-1m; codex: gpt-5.5, gpt-5.4, gpt-5.6-sol, gpt-5.6-terra, gpt-5.6-luna, gpt-5.3-codex-spark, gpt-5.3-codex, gpt-5.2-codex; cursor: auto, composer-2.5, grok-4.5. Omit fastMode (or send false) for other models. Required: agent, workspaceId. Optional: channel, effort, fastMode (plus 3 more). Returns the new SessionsCreateResponse.",
+        "params_schema": {
+          "channel": "string?",
+          "agent": "string?",
+          "effort": "string?",
+          "fastMode": "bool?",
+          "model": "string?",
+          "name": "string?",
+          "sessionId": "string?",
+          "workspaceId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sessions"
+        ]
+      },
+      {
+        "tool": "sessions.get",
+        "summary": "Get a session. Required: sessionId. Optional: channel. Returns the SessionsGetResponse.",
+        "params_schema": {
+          "sessionId": "string",
+          "channel": "string?"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "get"
+        ]
+      },
+      {
+        "tool": "sessions.archive_session",
+        "summary": "Archive a session, like closing its chat tab: it leaves session lists, its running agent is stopped, and its queued messages are dropped. Sending a new message to an archived session reopens it. Idempotent; the session remains readable by id. Required: sessionId. Returns the new ArchiveSessionResponse.",
+        "params_schema": {
+          "sessionId": "string"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "archive_session"
+        ]
+      },
+      {
+        "tool": "sessions.cancel_session",
+        "summary": "Stop the agent's in-progress turn and drop any not-yet-delivered queued messages for the session. Idempotent: a no-op when the agent is already idle. Preserves the workspace and session history. Cancellation completes asynchronously \u2014 poll the session status endpoint until idle to confirm. Required: sessionId. Returns the new CancelSessionResponse.",
+        "params_schema": {
+          "sessionId": "string"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "cancel_session"
+        ]
+      },
+      {
+        "tool": "sessions.messages_create",
+        "summary": "Create a message. Required: sessionId, message. Optional: messageId. Returns the new MessagesCreateResponse.",
+        "params_schema": {
+          "sessionId": "string",
+          "message": "string?",
+          "messageId": "string?"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "messages_create"
+        ]
+      },
+      {
+        "tool": "sessions.messages_list",
+        "summary": "List a session's transcript messages. Page with limit/offset, or pass after=<messageId> to fetch only messages after a known message (ascending sessionIndex order) for incremental polling. after and offset cannot be combined. Required: sessionId. Optional: limit, offset, after. Returns array of MessagesListItem.",
+        "params_schema": {
+          "sessionId": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "after": "string?"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "messages_list"
+        ]
+      },
+      {
+        "tool": "sessions.rename_session",
+        "summary": "Rename a session. Required: sessionId, name. Optional: channel. Returns the new RenameSessionResponse.",
+        "params_schema": {
+          "sessionId": "string",
+          "channel": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "rename_session"
+        ]
+      },
+      {
+        "tool": "sessions.status_get",
+        "summary": "Get session status. Required: sessionId. Returns the StatusGetResponse.",
+        "params_schema": {
+          "sessionId": "string"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "status_get"
+        ]
+      },
+      {
+        "tool": "workspaces.create",
+        "summary": "Creates a cloud workspace and first session, and returns a deep link that opens the workspace in the Conductor desktop app. Pass either projectId or repositoryUrl. With an organization API key, the workspace launches on the organization's machine; the machine must include the repository. Accepted model ids by agent \u2014 claude: fable-5, opus-5-1m, opus-4-8-1m, opus-4-8, opus-4-7-1m, opus-4-7, opus-1m, opus, opus-4-6-1m, sonnet-5-1m, sonnet-4-6-1m, sonnet, haiku; codex: gpt-5.5, gpt-5.4, gpt-5.6-sol, gpt-5.6-terra, gpt-5.6-luna, gpt-5.3-codex-spark, gpt-5.3-codex, gpt-5.2-codex; cursor: auto, composer-2.5, grok-4.5. Accepted effort levels by agent \u2014 claude: low, medium, high, xhigh, max; codex: none, low, medium, high, xhigh, max, ultra; codex max requires a GPT-5.6 model, and ultra requires GPT-5.6 Sol or Terra. Omit effort to use the agent's default \u2014 claude: high; codex: high. Optional: channel.",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workspaces"
+        ]
+      },
+      {
+        "tool": "workspaces.get",
+        "summary": "Get a workspace. Required: workspaceId. Optional: channel. Returns the WorkspacesGetResponse.",
+        "params_schema": {
+          "workspaceId": "string",
+          "channel": "string?"
+        },
+        "positionals": [
+          "workspaceId"
+        ],
+        "argv_path": [
+          "workspaces",
+          "get"
+        ]
+      },
+      {
+        "tool": "workspaces.archive_workspace",
+        "summary": "Stop the workspace and hide it in the app. Idempotent; the workspace can be restored later. Required: workspaceId. Returns the new ArchiveWorkspaceResponse.",
+        "params_schema": {
+          "workspaceId": "string"
+        },
+        "positionals": [
+          "workspaceId"
+        ],
+        "argv_path": [
+          "workspaces",
+          "archive_workspace"
+        ]
+      },
+      {
+        "tool": "workspaces.rename_workspace",
+        "summary": "Rename a workspace. Required: workspaceId, name. Optional: channel. Returns the new RenameWorkspaceResponse.",
+        "params_schema": {
+          "workspaceId": "string",
+          "channel": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "workspaceId"
+        ],
+        "argv_path": [
+          "workspaces",
+          "rename_workspace"
+        ]
+      },
+      {
+        "tool": "workspaces.sessions_list",
+        "summary": "List workspace sessions. Required: workspaceId. Optional: limit, offset, channel. Returns array of SessionsListItem.",
+        "params_schema": {
+          "workspaceId": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "channel": "string?"
+        },
+        "positionals": [
+          "workspaceId"
+        ],
+        "argv_path": [
+          "workspaces",
+          "sessions_list"
+        ]
+      },
+      {
+        "tool": "workspaces.sleep_workspace",
+        "summary": "Put the workspace to sleep. Idempotent for sleeping workspaces. Required: workspaceId. Returns the new SleepWorkspaceResponse.",
+        "params_schema": {
+          "workspaceId": "string"
+        },
+        "positionals": [
+          "workspaceId"
+        ],
+        "argv_path": [
+          "workspaces",
+          "sleep_workspace"
+        ]
+      },
+      {
+        "tool": "workspaces.status_get",
+        "summary": "Get workspace status. Required: workspaceId. Returns the StatusGetResponse.",
+        "params_schema": {
+          "workspaceId": "string"
+        },
+        "positionals": [
+          "workspaceId"
+        ],
+        "argv_path": [
+          "workspaces",
+          "status_get"
+        ]
+      }
+    ]
+  },
+  {
     "api": "conduyt-crm",
     "description": "Manage Conduyt CRM contacts, deals, pipelines, automations, campaigns, invoices, and local insight reports from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/conduyt-crm/cmd/conduyt-crm-pp-cli",
@@ -133952,6 +134283,37 @@
         ]
       }
     ]
+  },
+  {
+    "api": "crestron",
+    "description": "Every Crestron product, spec sheet, and firmware release \u2014 searchable offline, with fleet-wide currency checks the website cannot do.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/crestron/cmd/crestron-pp-cli",
+    "auth_type": "cookie",
+    "category": "devices",
+    "search_terms": [
+      "crestron",
+      "crestron-pp-cli",
+      "Every Crestron product, spec sheet, and firmware release \u2014 searchable offline, with fleet-wide currency checks the website cannot do.",
+      "Fleet firmware status",
+      "fleet status",
+      "Check every model in your installed fleet against current firmware in one command.",
+      "Release-note full-text search",
+      "search",
+      "Search every firmware release note and change log at once for a term.",
+      "Release-note diff",
+      "firmware diff",
+      "Show what changed between two firmware versions for a model.",
+      "Submittal package builder",
+      "submittal",
+      "Download every documentation asset for a list of models into per-model folders with a coverage report.",
+      "Lifecycle and replacement trace",
+      "lifecycle",
+      "Report whether a model is still sellable and trace its replacement chain.",
+      "Spec table comparison",
+      "specs compare",
+      "Compare two models field by field across the full specification table."
+    ],
+    "endpoints": []
   },
   {
     "api": "customer-io",
@@ -213452,6 +213814,58 @@
     ]
   },
   {
+    "api": "nejm",
+    "description": "Browse, search, and triage New England Journal of Medicine articles from the terminal, backed by a local corpus and a browser-compatible transport that clears Cloudflare.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/nejm/cmd/nejm-pp-cli",
+    "auth_type": "none",
+    "category": "health",
+    "search_terms": [
+      "nejm",
+      "New England Journal of Medicine",
+      "nejm-pp-cli",
+      "Browse, search, and triage New England Journal of Medicine articles from the terminal, backed by a local corpus and a browser-compatible transport that clears Cloudflare.",
+      "Time-windowed new articles",
+      "since",
+      "List new NEJM articles published within a specified time window.",
+      "Current-issue reading digest",
+      "digest",
+      "Generate a reading digest of the current issue.",
+      "Personal reading list",
+      "reading-list",
+      "Manage a personal reading list of NEJM articles.",
+      "Specialty and type trends",
+      "trends",
+      "Show specialty and type trends across NEJM publications.",
+      "Open-access finder",
+      "open-access",
+      "Find open-access articles in NEJM."
+    ],
+    "endpoints": [
+      {
+        "tool": "article.get",
+        "summary": "Fetch an NEJM article's metadata and abstract by DOI (e.g. 10.1056/NEJMoa2506905). Required: doi. Returns the Article.",
+        "params_schema": {
+          "doi": "string"
+        },
+        "positionals": [
+          "doi"
+        ],
+        "argv_path": [
+          "article"
+        ]
+      },
+      {
+        "tool": "specialty.list",
+        "summary": "List NEJM specialty sections. Returns array of Specialty.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "specialty"
+        ]
+      }
+    ]
+  },
+  {
     "api": "netlify",
     "description": "Every Netlify API endpoint, plus a local SQLite mirror of your whole account so you can search, diff, and audit across all sites at once \u2014 offline and agent-native.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/cloud/netlify/cmd/netlify-pp-cli",
@@ -216429,6 +216843,35 @@
         ]
       }
     ]
+  },
+  {
+    "api": "notebooklm",
+    "description": "Unofficial Go CLI for Gemini Notebook \u2014 notebooks, sources, chat, Studio artifacts, SQLite cache, and MCP via batchexecute RPC with Chrome session auth.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/notebooklm/cmd/notebooklm-pp-cli",
+    "auth_type": "cookie",
+    "category": "ai",
+    "search_terms": [
+      "notebooklm",
+      "Gemini Notebook (NotebookLM)",
+      "notebooklm-pp-cli",
+      "Unofficial Go CLI for Gemini Notebook \u2014 notebooks, sources, chat, Studio artifacts, SQLite cache, and MCP via batchexecute RPC with Chrome session auth.",
+      "Chrome session auth",
+      "auth login",
+      "Import Google session cookies from Chrome without manual DevTools copying.",
+      "Offline notebook search",
+      "search",
+      "Search synced notebooks locally by title or id without another API round-trip.",
+      "Grounded chat with citations",
+      "chat ask",
+      "Ask questions against notebook sources via streamed batchexecute RPC.",
+      "Studio quiz generation",
+      "studio generate-quiz",
+      "Kick off NotebookLM Studio quiz artifact generation and optionally wait for completion.",
+      "Doctor health gate",
+      "doctor",
+      "Validate config, cookie presence, and session bootstrap tokens before live calls."
+    ],
+    "endpoints": []
   },
   {
     "api": "notion",
@@ -256923,6 +257366,202 @@
     ]
   },
   {
+    "api": "scientific-consensus",
+    "description": "Aggregate PubMed, OpenAlex, Crossref, and Europe PMC into evidence summaries, consensus scores, and study-design pyramids no single search tool produces.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/scientific-consensus/cmd/scientific-consensus-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "scientific-consensus",
+      "Scientific Consensus",
+      "scientific-consensus-pp-cli",
+      "Aggregate PubMed, OpenAlex, Crossref, and Europe PMC into evidence summaries, consensus scores, and study-design pyramids no single search tool produces.",
+      "Consensus engine",
+      "consensus",
+      "Answer 'what does the evidence say about X' with a Consensus Score, Confidence Score, and Evidence Strength across all sources.",
+      "Evidence engine + pyramid",
+      "evidence",
+      "Classify retrieved studies by design (meta-analysis to case report) and render the evidence pyramid for a topic.",
+      "Claim comparison",
+      "compare",
+      "Run two consensus analyses side-by-side to compare competing claims or interventions.",
+      "Research gap detector",
+      "gaps",
+      "Identify understudied populations, missing long-term/replication/RCT studies, and future directions for a topic.",
+      "Controversy detector",
+      "controversies",
+      "Surface conflicting studies, contradictory conclusions, and rapidly changing evidence for a topic.",
+      "Emerging topics",
+      "emerging",
+      "Detect the fastest-growing research areas and exploding publication trends.",
+      "Topic drift",
+      "drift",
+      "Compare a field's topic distribution between two year windows to spot emerging and fading subtopics.",
+      "Reproducibility signals",
+      "reproducibility",
+      "Estimate reproducibility by detecting replication studies, sample sizes, and pre-registration cues.",
+      "Study quality estimate",
+      "quality",
+      "Estimate overall study quality from design, venue prestige, sample-size cues, and citation mass.",
+      "Funding analysis",
+      "funding",
+      "Analyze funding patterns and funder concentration for a research topic.",
+      "Topic watch",
+      "watch",
+      "Monitor a topic and report major new publications since the last run."
+    ],
+    "endpoints": [
+      {
+        "tool": "authors.get",
+        "summary": "Get a single author by OpenAlex ID. Required: id. Returns array of AuthorsGetItem.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "authors"
+        ]
+      },
+      {
+        "tool": "authors.search",
+        "summary": "Search authors. Optional: search, filter, group_by (plus 2 more). Returns array of Author.",
+        "params_schema": {
+          "search": "string?",
+          "filter": "string?",
+          "group_by": "string?",
+          "per-page": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "authors",
+          "search"
+        ]
+      },
+      {
+        "tool": "funders.search",
+        "summary": "Search funders. Optional: search, filter, per-page (default: 25) (plus 1 more). Returns array of Funder.",
+        "params_schema": {
+          "search": "string?",
+          "filter": "string?",
+          "per-page": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "funders",
+          "search"
+        ]
+      },
+      {
+        "tool": "institutions.get",
+        "summary": "Get a single institution by OpenAlex ID. Required: id. Returns the Institution.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "institutions"
+        ]
+      },
+      {
+        "tool": "institutions.search",
+        "summary": "Search institutions. Optional: search, filter, group_by (plus 2 more). Returns array of Institution.",
+        "params_schema": {
+          "search": "string?",
+          "filter": "string?",
+          "group_by": "string?",
+          "per-page": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "institutions",
+          "search"
+        ]
+      },
+      {
+        "tool": "sources.get",
+        "summary": "Get a journal (source) by ISSN or OpenAlex ID. Required: id. Returns the Source.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "sources"
+        ]
+      },
+      {
+        "tool": "sources.search",
+        "summary": "Search sources (journals). Optional: search, filter, group_by (plus 2 more). Returns array of Source.",
+        "params_schema": {
+          "search": "string?",
+          "filter": "string?",
+          "group_by": "string?",
+          "per-page": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sources",
+          "search"
+        ]
+      },
+      {
+        "tool": "topics.search",
+        "summary": "Search topics. Optional: search, filter, per-page (default: 25) (plus 1 more). Returns array of Topic.",
+        "params_schema": {
+          "search": "string?",
+          "filter": "string?",
+          "per-page": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "topics",
+          "search"
+        ]
+      },
+      {
+        "tool": "works.get",
+        "summary": "Get a single work by OpenAlex ID, DOI, or PMID. Required: id. Returns array of WorksGetItem.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "works"
+        ]
+      },
+      {
+        "tool": "works.search",
+        "summary": "Search scholarly works. Optional: search, filter, sort (plus 4 more). Returns array of Work.",
+        "params_schema": {
+          "search": "string?",
+          "filter": "string?",
+          "sort": "string?",
+          "group_by": "string?",
+          "per-page": "int?",
+          "page": "int?",
+          "select": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "works",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "scrape-creators",
     "description": "The easiest way to scrape public social media data at scale. Extract profiles, posts, videos, comments, and more from TikTok, Instagram, YouTube, Twitter, LinkedIn, Facebook, Reddit, and 27+ platforms.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/scrape-creators/cmd/scrape-creators-pp-cli",
@@ -273527,7 +274166,7 @@
     "search_terms": [
       "shopper",
       "shopper-pp-cli",
-      "The first CLI for Shopper \u2014 every catalog, cart, and delivery surface plus a local price/basket history the web app throws away each cycle.",
+      "Every Shopper storefront in one CLI \u2014 catalog, cart, delivery schedule, charge calendar, and spend analytics no web UI surfaces.",
       "Charge & Edit Calendar",
       "charge-calendar",
       "Every upcoming cycle's charge date, edit-lock deadline, and delivery date in one timeline so you never miss an edit window or get surprised by a charge.",
@@ -273544,12 +274183,15 @@
       "Flags products you buy that were discontinued, silently swapped, or kept their price while shrinking the pack, surfacing the real R$/kg or R$/L change.",
       "Cashback Threshold Optimizer",
       "cashback optimize",
-      "Computes the cheapest set of items to add (or whether to wait) to cross the next cashback tier, favoring things you'll need anyway."
+      "Computes the cheapest set of items to add (or whether to wait) to cross the next cashback tier, favoring things you'll need anyway.",
+      "Cross-Store Checkout Preview",
+      "checkout preview",
+      "Aggregates cart totals, next delivery date, charge date, minimum-order status, and accepted payment types into one pre-checkout view before you open the browser."
     ],
     "endpoints": [
       {
         "tool": "address.list_address",
-        "summary": "GET /address/. Returns the address.",
+        "summary": "List delivery addresses and which stores are available at each address. Returns the address.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -273573,7 +274215,7 @@
       },
       {
         "tool": "cart.list_summary",
-        "summary": "GET /cart/summary. Returns the summary.",
+        "summary": "Show current basket: items, quantities, totals, cashback, and minimum-order status. Returns the summary.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -273596,7 +274238,7 @@
       },
       {
         "tool": "catalog.create_count",
-        "summary": "POST /catalog/search/count. Required: brands, metadata, types. Optional: query. Returns the new count.",
+        "summary": "Count products matching a search query and optional filters. Optional: query, brands, metadata (plus 1 more). Returns the new count.",
         "params_schema": {
           "query": "string?",
           "brands": "array?",
@@ -273611,7 +274253,7 @@
       },
       {
         "tool": "catalog.create_filters",
-        "summary": "POST /catalog/search/filters. Required: brands, metadata, types. Optional: query. Returns the new filters.",
+        "summary": "Get available filter options for a search query. Optional: query, brands, metadata (plus 1 more). Returns the new filters.",
         "params_schema": {
           "query": "string?",
           "brands": "array?",
@@ -273626,11 +274268,10 @@
       },
       {
         "tool": "catalog.create_search",
-        "summary": "POST /catalog/search. Required: brands, metadata, types. Optional: page, query, size. Returns the new search.",
+        "summary": "Search the product catalog by query with optional brand/type/metadata filters. Optional: page, query, brands (plus 2 more). Returns the new search.",
         "params_schema": {
           "page": "integer?",
           "query": "string?",
-          "size": "integer?",
           "brands": "array?",
           "metadata": "array?",
           "types": "array?"
@@ -273643,7 +274284,7 @@
       },
       {
         "tool": "catalog.get_view",
-        "summary": "GET /catalog/banners/{banner_id}/view. Required: banner_id. Returns the view.",
+        "summary": "Get details for a specific catalog banner. Required: banner_id. Returns the view.",
         "params_schema": {
           "banner_id": "string"
         },
@@ -273657,10 +274298,8 @@
       },
       {
         "tool": "catalog.list_banners",
-        "summary": "GET /catalog/banners. Optional: imageSize. Returns the banners.",
-        "params_schema": {
-          "imageSize": "string?"
-        },
+        "summary": "List promotional banners for the current store. Returns the banners.",
+        "params_schema": {},
         "positionals": [],
         "argv_path": [
           "catalog",
@@ -273669,7 +274308,7 @@
       },
       {
         "tool": "catalog.list_departments",
-        "summary": "GET /catalog/departments. Returns the departments.",
+        "summary": "List product departments/categories for the current store. Returns the departments.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -273679,7 +274318,7 @@
       },
       {
         "tool": "catalog.list_news",
-        "summary": "GET /catalog/products/news. Returns the news.",
+        "summary": "List new product arrivals for the current store. Returns the news.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -273689,7 +274328,7 @@
       },
       {
         "tool": "catalog.list_suggest",
-        "summary": "GET /catalog/search/suggest. Optional: query. Returns the suggest.",
+        "summary": "Get search suggestions for a query prefix. Required: query. Returns the suggest.",
         "params_schema": {
           "query": "string?"
         },
@@ -273701,7 +274340,7 @@
       },
       {
         "tool": "delivery.list_calendar",
-        "summary": "GET /delivery/v2/calendar. Returns the calendar.",
+        "summary": "Get delivery reschedule calendar \u2014 allowed date range and disabled days. Returns the calendar.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -273711,7 +274350,7 @@
       },
       {
         "tool": "delivery.list_summary",
-        "summary": "GET /delivery/summary. Returns the summary.",
+        "summary": "Show scheduled delivery date, current delivery status, and store message. Returns the summary.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -273721,7 +274360,7 @@
       },
       {
         "tool": "features.create_select",
-        "summary": "POST /features/stores/select. Required: store_id. Returns the new select.",
+        "summary": "Select active store (sets session context; no-op for header-scoped reads). Required: store_id. Returns the new select.",
         "params_schema": {
           "store_id": "integer?"
         },
@@ -273733,7 +274372,7 @@
       },
       {
         "tool": "features.create_start",
-        "summary": "POST /features/timer/start. Required: name. Returns the new start.",
+        "summary": "Start a named feature timer. Required: name. Returns the new start.",
         "params_schema": {
           "name": "string?"
         },
@@ -273745,7 +274384,7 @@
       },
       {
         "tool": "features.create_view",
-        "summary": "POST /features/toggle/view. Required: toggle. Returns the new view.",
+        "summary": "Mark a feature toggle as viewed. Required: toggle. Returns the new view.",
         "params_schema": {
           "toggle": "string?"
         },
@@ -273757,7 +274396,7 @@
       },
       {
         "tool": "features.list_stores",
-        "summary": "GET /features/stores. Optional: toggles. Returns the stores.",
+        "summary": "List all available storefronts with store IDs, cluster IDs, payment parameters, and feature flags. Optional: toggles. Returns the stores.",
         "params_schema": {
           "toggles": "string?"
         },
@@ -273769,7 +274408,7 @@
       },
       {
         "tool": "features.list_tick",
-        "summary": "GET /features/timer/tick. Returns the tick.",
+        "summary": "Get current timer state. Returns the tick.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -273779,7 +274418,7 @@
       },
       {
         "tool": "features.list_toggle",
-        "summary": "GET /features/toggle. Returns the toggle.",
+        "summary": "Get active feature toggles for the current store. Returns the toggle.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -273788,8 +274427,20 @@
         ]
       },
       {
+        "tool": "orders.list_orders",
+        "summary": "List past orders for the active store (newest-first, paginated by size). Optional: size. Returns the orders.",
+        "params_schema": {
+          "size": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "orders",
+          "list_orders"
+        ]
+      },
+      {
         "tool": "session.list_social",
-        "summary": "GET /auth/validation/social. Returns the social.",
+        "summary": "Validate social-login session status. Returns the social.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -274012,6 +274663,69 @@
     ]
   },
   {
+    "api": "simplefin",
+    "description": "Pull every bank, card, and brokerage account through SimpleFIN into a local SQLite ledger \u2014 with net worth, cash flow, recurring-charge detection, and holdings gain/loss no single bank app can show.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/simplefin/cmd/simplefin-pp-cli",
+    "auth_type": "api_key",
+    "category": "payments",
+    "search_terms": [
+      "simplefin",
+      "simplefin-pp-cli",
+      "Pull every bank, card, and brokerage account through SimpleFIN into a local SQLite ledger \u2014 with net worth, cash flow, recurring-charge detection, and holdings gain/loss no single bank app can show.",
+      "Net worth + trajectory",
+      "networth",
+      "Total net worth across every institution, with a balance trajectory over time no bank app can show.",
+      "Cash flow analysis",
+      "cashflow",
+      "Income vs outflow by month and top-spend merchants across all accounts.",
+      "Recurring/subscription detection",
+      "recurring",
+      "Surfaces subscriptions and regular obligations by detecting repeated payees with regular cadence.",
+      "Holdings gain/loss",
+      "portfolio",
+      "Investment positions with market value vs cost basis and total gain/loss across brokerages.",
+      "Rules-based categorization",
+      "categorize",
+      "Assigns categories to transactions with deterministic keyword/regex rules (the protocol has none).",
+      "Ledger/plaintext export",
+      "export",
+      "Exports the local ledger to ledger, beancount, csv, or qif for plaintextaccounting tools.",
+      "Content-based dedup",
+      "reconcile",
+      "Finds and merges duplicate transactions created by SimpleFIN's unstable, mirrored IDs using content hashing.",
+      "Recent activity since last check",
+      "since",
+      "What's new across all accounts since a date or your last sync \u2014 new transactions and balance changes, neutrally framed."
+    ],
+    "endpoints": [
+      {
+        "tool": "accounts.list",
+        "summary": "Live fetch the full Account Set (all institutions) from the SimpleFIN server. Optional: start-date, end-date, pending (plus 3 more). Returns the AccountSet.",
+        "params_schema": {
+          "start-date": "string?",
+          "end-date": "string?",
+          "pending": "int?",
+          "account": "string?",
+          "balances-only": "int?",
+          "version": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "accounts"
+        ]
+      },
+      {
+        "tool": "info.get",
+        "summary": "Report which SimpleFIN protocol versions the server supports. Returns the ServerInfo.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "info"
+        ]
+      }
+    ]
+  },
+  {
     "api": "skool",
     "description": "Every Skool community feature, plus a local SQLite mirror, FTS, and cross-community ops no other Skool tool ships.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/skool/cmd/skool-pp-cli",
@@ -274043,21 +274757,1231 @@
     "api": "slack",
     "description": "Send messages, search conversations, monitor channels, and manage your Slack workspace from the terminal",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/slack/cmd/slack-pp-cli",
-    "auth_type": "api_key",
+    "auth_type": "bearer_token",
     "category": "productivity",
     "search_terms": [
       "slack",
       "slack-pp-cli",
-      "Send messages, search conversations, monitor channels, and manage your Slack workspace from the terminal"
+      "Every Slack read your token can make, mirrored to local SQLite so your history outlives Slack's own retention wall.",
+      "Archive Recall",
+      "Find messages in your local archive, including ones Slack has already hidden behind the 90-day retention wall.",
+      "Archive Coverage",
+      "Show what date range your local mirror actually holds per channel, and where the gaps are.",
+      "Catch-up",
+      "catchup",
+      "See what happened while you were away: new volume per channel, messages that mention you, and threads still waiting on your reply.",
+      "Stale Thread Radar",
+      "threads stale",
+      "List threads across the archive where the last reply is not yours and nobody has answered since.",
+      "Channel Health",
+      "health",
+      "Compare your channels by messages per day, distinct posters, median first-reply latency, and days idle.",
+      "User Activity",
+      "users activity",
+      "Profile where one person posts, which threads they carry, and when they were last seen.",
+      "Identity Card",
+      "users whois",
+      "Turn an opaque Slack ID, handle, or email into one card with shared channels, timezone, DND state, and last-seen."
     ],
     "endpoints": [
       {
-        "tool": "agent-context",
-        "summary": "Send messages, search conversations, monitor channels, and manage your Slack workspace from the terminal (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "tool": "api-test.test",
+        "summary": "Checks API calling code. Optional: error, foo. Returns the ApiTestSuccessSchema. (public)",
+        "params_schema": {
+          "error": "string?",
+          "foo": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "api-test",
+          "test"
+        ]
+      },
+      {
+        "tool": "auth.api_revoke",
+        "summary": "Revoke the current authentication token. Optional: test.",
+        "params_schema": {
+          "test": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "auth",
+          "api_revoke"
+        ]
+      },
+      {
+        "tool": "auth.api_test",
+        "summary": "Test the authentication token and get identity info.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
-          "agent-context"
+          "auth",
+          "api_test"
+        ]
+      },
+      {
+        "tool": "bots.get",
+        "summary": "Get information about a bot user. Required: bot.",
+        "params_schema": {
+          "bot": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bots"
+        ]
+      },
+      {
+        "tool": "chat-delete-scheduled-message.chat_delete_scheduled_message",
+        "summary": "Deletes a pending scheduled message from the queue. Required: channel, scheduled_message_id. Optional: as_user. Returns the new ChatDeleteScheduledMessageSchema. (public)",
+        "params_schema": {
+          "as_user": "bool?",
+          "channel": "string?",
+          "scheduled_message_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat-delete-scheduled-message",
+          "chat_delete_scheduled_message"
+        ]
+      },
+      {
+        "tool": "chat-me-message.chat_me_message",
+        "summary": "Share a me message into a channel. Optional: channel, text. Returns the new ChatMeMessageSchema. (public)",
+        "params_schema": {
+          "channel": "string?",
+          "text": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat-me-message",
+          "chat_me_message"
+        ]
+      },
+      {
+        "tool": "chat-post-ephemeral.chat_post_ephemeral",
+        "summary": "Sends an ephemeral message to a user in a channel. Required: channel, user. Optional: as_user, attachments, blocks (plus 7 more). Returns the new ChatPostEphemeralSuccessSchema. (public)",
+        "params_schema": {
+          "as_user": "bool?",
+          "attachments": "string?",
+          "blocks": "string?",
+          "channel": "string?",
+          "icon_emoji": "string?",
+          "icon_url": "string?",
+          "link_names": "bool?",
+          "parse": "string?",
+          "text": "string?",
+          "thread_ts": "string?",
+          "user": "string?",
+          "username": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat-post-ephemeral",
+          "chat_post_ephemeral"
+        ]
+      },
+      {
+        "tool": "chat-unfurl.chat_unfurl",
+        "summary": "Provide custom unfurl behavior for user-posted URLs. Required: channel, ts. Optional: unfurls, user_auth_message, user_auth_required (plus 1 more). Returns the new ChatUnfurlSuccessSchema. (public)",
+        "params_schema": {
+          "channel": "string?",
+          "ts": "string?",
+          "unfurls": "string?",
+          "user_auth_message": "string?",
+          "user_auth_required": "bool?",
+          "user_auth_url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat-unfurl",
+          "chat_unfurl"
+        ]
+      },
+      {
+        "tool": "conversations.create",
+        "summary": "Create a new channel. Required: name. Optional: is_private.",
+        "params_schema": {
+          "name": "string?",
+          "is_private": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations"
+        ]
+      },
+      {
+        "tool": "conversations.archive",
+        "summary": "Archive a channel. Required: channel.",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "archive"
+        ]
+      },
+      {
+        "tool": "conversations.get",
+        "summary": "Get information about a channel. Required: channel.",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "get"
+        ]
+      },
+      {
+        "tool": "conversations.history",
+        "summary": "Fetch message history for a channel. Required: channel. Optional: limit, cursor, oldest (plus 1 more).",
+        "params_schema": {
+          "channel": "string?",
+          "limit": "integer?",
+          "cursor": "string?",
+          "oldest": "string?",
+          "latest": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "history"
+        ]
+      },
+      {
+        "tool": "conversations.invite",
+        "summary": "Invite users to a channel. Required: channel, users.",
+        "params_schema": {
+          "channel": "string?",
+          "users": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "invite"
+        ]
+      },
+      {
+        "tool": "conversations.list",
+        "summary": "List all channels in the workspace. Optional: types, limit, cursor (plus 1 more). Returns array of Channel.",
+        "params_schema": {
+          "types": "string?",
+          "limit": "integer?",
+          "cursor": "string?",
+          "exclude_archived": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "list"
+        ]
+      },
+      {
+        "tool": "conversations.mark",
+        "summary": "Mark a channel as read up to a specific message. Required: channel, ts.",
+        "params_schema": {
+          "channel": "string?",
+          "ts": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "mark"
+        ]
+      },
+      {
+        "tool": "conversations.members",
+        "summary": "List members of a channel. Required: channel. Optional: limit, cursor.",
+        "params_schema": {
+          "channel": "string?",
+          "limit": "integer?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "members"
+        ]
+      },
+      {
+        "tool": "conversations.replies",
+        "summary": "Fetch replies in a thread. Required: channel, ts. Optional: limit, cursor.",
+        "params_schema": {
+          "channel": "string?",
+          "ts": "string?",
+          "limit": "integer?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "replies"
+        ]
+      },
+      {
+        "tool": "conversations.set_purpose",
+        "summary": "Set the purpose for a channel. Required: channel, purpose.",
+        "params_schema": {
+          "channel": "string?",
+          "purpose": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "set_purpose"
+        ]
+      },
+      {
+        "tool": "conversations.set_topic",
+        "summary": "Set the topic for a channel. Required: channel, topic.",
+        "params_schema": {
+          "channel": "string?",
+          "topic": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "set_topic"
+        ]
+      },
+      {
+        "tool": "conversations.unarchive",
+        "summary": "Unarchive a channel. Required: channel.",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "unarchive"
+        ]
+      },
+      {
+        "tool": "conversations-close.conversations_close",
+        "summary": "Closes a direct message or multi-person direct message. Optional: channel. Returns the new ConversationsCloseSuccessSchema. (public)",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations-close",
+          "conversations_close"
+        ]
+      },
+      {
+        "tool": "conversations-join.conversations_join",
+        "summary": "Joins an existing conversation. Optional: channel. Returns array of ConversationsJoinConversationsJoinItem. (public)",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations-join",
+          "conversations_join"
+        ]
+      },
+      {
+        "tool": "conversations-kick.conversations_kick",
+        "summary": "Removes a user from a conversation. Optional: channel, user. Returns the new ConversationsKickSuccessSchema. (public)",
+        "params_schema": {
+          "channel": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations-kick",
+          "conversations_kick"
+        ]
+      },
+      {
+        "tool": "conversations-leave.conversations_leave",
+        "summary": "Leaves a conversation. Optional: channel. Returns the new ConversationsLeaveSuccessSchema. (public)",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations-leave",
+          "conversations_leave"
+        ]
+      },
+      {
+        "tool": "conversations-open.conversations_open",
+        "summary": "Opens or resumes a direct message or multi-person direct message. Optional: channel, return_im, users. Returns array of ConversationsOpenConversationsOpenItem. (public)",
+        "params_schema": {
+          "channel": "string?",
+          "return_im": "bool?",
+          "users": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations-open",
+          "conversations_open"
+        ]
+      },
+      {
+        "tool": "conversations-rename.conversations_rename",
+        "summary": "Renames a conversation. Optional: channel, name. Returns array of ConversationsRenameConversationsRenameItem. (public)",
+        "params_schema": {
+          "channel": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations-rename",
+          "conversations_rename"
+        ]
+      },
+      {
+        "tool": "dnd.get",
+        "summary": "Get DND status for the authenticated user. Optional: user.",
+        "params_schema": {
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "dnd"
+        ]
+      },
+      {
+        "tool": "dnd.end_dnd",
+        "summary": "End the current Do Not Disturb session immediately.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "dnd",
+          "end_dnd"
+        ]
+      },
+      {
+        "tool": "dnd.end_snooze",
+        "summary": "End the current Do Not Disturb session.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "dnd",
+          "end_snooze"
+        ]
+      },
+      {
+        "tool": "dnd.set_snooze",
+        "summary": "Turn on Do Not Disturb for a specified number of minutes. Required: num_minutes.",
+        "params_schema": {
+          "num_minutes": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "dnd",
+          "set_snooze"
+        ]
+      },
+      {
+        "tool": "dnd.team_info",
+        "summary": "Get DND status for multiple users. Required: users.",
+        "params_schema": {
+          "users": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "dnd",
+          "team_info"
+        ]
+      },
+      {
+        "tool": "emoji.list",
+        "summary": "List all custom emoji for the workspace.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "emoji"
+        ]
+      },
+      {
+        "tool": "files.delete",
+        "summary": "Delete a file. Required: file.",
+        "params_schema": {
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files"
+        ]
+      },
+      {
+        "tool": "files.get",
+        "summary": "Get information about a file. Required: file.",
+        "params_schema": {
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "get"
+        ]
+      },
+      {
+        "tool": "files.list",
+        "summary": "List files in the workspace. Optional: channel, user, types (plus 2 more). Returns array of File.",
+        "params_schema": {
+          "channel": "string?",
+          "user": "string?",
+          "types": "string?",
+          "count": "integer?",
+          "page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "list"
+        ]
+      },
+      {
+        "tool": "files.upload",
+        "summary": "Upload a file to Slack. Optional: channels, content, filename (plus 2 more).",
+        "params_schema": {
+          "channels": "string?",
+          "content": "string?",
+          "filename": "string?",
+          "title": "string?",
+          "initial_comment": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "upload"
+        ]
+      },
+      {
+        "tool": "files-comments-delete.files_comments_delete",
+        "summary": "Deletes an existing comment on a file. Optional: file, id. Returns the new FilesCommentsDeleteSchema. (public)",
+        "params_schema": {
+          "file": "string?",
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-comments-delete",
+          "files_comments_delete"
+        ]
+      },
+      {
+        "tool": "files-remote-add.files_remote_add",
+        "summary": "Adds a file from a remote service. Optional: external_id, external_url, filetype (plus 4 more). Returns the new DefaultSuccessTemplate. (public)",
+        "params_schema": {
+          "external_id": "string?",
+          "external_url": "string?",
+          "filetype": "string?",
+          "indexable_file_contents": "string?",
+          "preview_image": "string?",
+          "title": "string?",
+          "token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-remote-add",
+          "files_remote_add"
+        ]
+      },
+      {
+        "tool": "files-remote-info.files_remote_info",
+        "summary": "Retrieve information about a remote file added to Slack. Optional: token, file, external_id. Returns the DefaultSuccessTemplate. (public)",
+        "params_schema": {
+          "token": "string?",
+          "file": "string?",
+          "external_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-remote-info",
+          "files_remote_info"
+        ]
+      },
+      {
+        "tool": "files-remote-list.files_remote_list",
+        "summary": "Retrieve information about a remote file added to Slack. Optional: token, channel, ts_from (plus 3 more). Returns the DefaultSuccessTemplate. (public)",
+        "params_schema": {
+          "token": "string?",
+          "channel": "string?",
+          "ts_from": "float?",
+          "ts_to": "float?",
+          "limit": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-remote-list",
+          "files_remote_list"
+        ]
+      },
+      {
+        "tool": "files-remote-remove.files_remote_remove",
+        "summary": "Remove a remote file. Optional: external_id, file, token. Returns the new DefaultSuccessTemplate. (public)",
+        "params_schema": {
+          "external_id": "string?",
+          "file": "string?",
+          "token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-remote-remove",
+          "files_remote_remove"
+        ]
+      },
+      {
+        "tool": "files-remote-share.files_remote_share",
+        "summary": "Share a remote file into a channel. Optional: token, file, external_id (plus 1 more). Returns the DefaultSuccessTemplate. (public)",
+        "params_schema": {
+          "token": "string?",
+          "file": "string?",
+          "external_id": "string?",
+          "channels": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-remote-share",
+          "files_remote_share"
+        ]
+      },
+      {
+        "tool": "files-remote-update.files_remote_update",
+        "summary": "Updates an existing remote file. Optional: external_id, external_url, file (plus 5 more). Returns the new DefaultSuccessTemplate. (public)",
+        "params_schema": {
+          "external_id": "string?",
+          "external_url": "string?",
+          "file": "string?",
+          "filetype": "string?",
+          "indexable_file_contents": "string?",
+          "preview_image": "string?",
+          "title": "string?",
+          "token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-remote-update",
+          "files_remote_update"
+        ]
+      },
+      {
+        "tool": "files-revoke-public-url.files_revoke_public_url",
+        "summary": "Revokes public/external sharing access for a file. Optional: file. Returns the new FilesRevokePublicUrlSchema. (public)",
+        "params_schema": {
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-revoke-public-url",
+          "files_revoke_public_url"
+        ]
+      },
+      {
+        "tool": "files-shared-public-url.files_shared_public_url",
+        "summary": "Enables a file for public/external sharing. Optional: file. Returns the new FilesSharedPublicUrlSchema. (public)",
+        "params_schema": {
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files-shared-public-url",
+          "files_shared_public_url"
+        ]
+      },
+      {
+        "tool": "messages.delete_message",
+        "summary": "Delete a message. Required: channel, ts.",
+        "params_schema": {
+          "channel": "string?",
+          "ts": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "delete_message"
+        ]
+      },
+      {
+        "tool": "messages.get_permalink",
+        "summary": "Get a permalink URL for a message. Required: channel, message_ts.",
+        "params_schema": {
+          "channel": "string?",
+          "message_ts": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "get_permalink"
+        ]
+      },
+      {
+        "tool": "messages.list_scheduled",
+        "summary": "List scheduled messages. Optional: channel.",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "list_scheduled"
+        ]
+      },
+      {
+        "tool": "messages.post_message",
+        "summary": "Send a message to a channel, DM, or thread. Required: channel, text. Optional: thread_ts, unfurl_links.",
+        "params_schema": {
+          "channel": "string?",
+          "text": "string?",
+          "thread_ts": "string?",
+          "unfurl_links": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "post_message"
+        ]
+      },
+      {
+        "tool": "messages.schedule_message",
+        "summary": "Schedule a message for later delivery. Required: channel, text, post_at.",
+        "params_schema": {
+          "channel": "string?",
+          "text": "string?",
+          "post_at": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "schedule_message"
+        ]
+      },
+      {
+        "tool": "messages.update_message",
+        "summary": "Update an existing message. Required: channel, ts, text.",
+        "params_schema": {
+          "channel": "string?",
+          "ts": "string?",
+          "text": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "update_message"
+        ]
+      },
+      {
+        "tool": "pins.list",
+        "summary": "List pinned items in a channel. Required: channel.",
+        "params_schema": {
+          "channel": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pins"
+        ]
+      },
+      {
+        "tool": "pins.add",
+        "summary": "Pin a message to a channel. Required: channel, timestamp.",
+        "params_schema": {
+          "channel": "string?",
+          "timestamp": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pins",
+          "add"
+        ]
+      },
+      {
+        "tool": "pins.remove",
+        "summary": "Unpin a message from a channel. Required: channel, timestamp.",
+        "params_schema": {
+          "channel": "string?",
+          "timestamp": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pins",
+          "remove"
+        ]
+      },
+      {
+        "tool": "reactions.get",
+        "summary": "Get reactions for a message. Required: channel, timestamp.",
+        "params_schema": {
+          "channel": "string?",
+          "timestamp": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reactions"
+        ]
+      },
+      {
+        "tool": "reactions.add",
+        "summary": "Add an emoji reaction to a message. Required: channel, name, timestamp.",
+        "params_schema": {
+          "channel": "string?",
+          "name": "string?",
+          "timestamp": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reactions",
+          "add"
+        ]
+      },
+      {
+        "tool": "reactions.list",
+        "summary": "List reactions made by the authenticated user. Optional: count, cursor, user. Returns array of ReactionItem.",
+        "params_schema": {
+          "count": "integer?",
+          "cursor": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reactions",
+          "list"
+        ]
+      },
+      {
+        "tool": "reactions.remove",
+        "summary": "Remove an emoji reaction from a message. Required: channel, name, timestamp.",
+        "params_schema": {
+          "channel": "string?",
+          "name": "string?",
+          "timestamp": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reactions",
+          "remove"
+        ]
+      },
+      {
+        "tool": "reminders.delete",
+        "summary": "Delete a reminder. Required: reminder.",
+        "params_schema": {
+          "reminder": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reminders"
+        ]
+      },
+      {
+        "tool": "reminders.add",
+        "summary": "Create a new reminder. Required: text, time. Optional: user.",
+        "params_schema": {
+          "text": "string?",
+          "time": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reminders",
+          "add"
+        ]
+      },
+      {
+        "tool": "reminders.complete",
+        "summary": "Mark a reminder as complete. Required: reminder.",
+        "params_schema": {
+          "reminder": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reminders",
+          "complete"
+        ]
+      },
+      {
+        "tool": "reminders.get",
+        "summary": "Get info about a reminder. Required: reminder.",
+        "params_schema": {
+          "reminder": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reminders",
+          "get"
+        ]
+      },
+      {
+        "tool": "reminders.list",
+        "summary": "List all reminders for the authenticated user. Returns array of Reminder.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reminders",
+          "list"
+        ]
+      },
+      {
+        "tool": "search.api_messages",
+        "summary": "Search for messages matching a query. Required: query. Optional: count, page, sort (plus 1 more).",
+        "params_schema": {
+          "query": "string?",
+          "count": "integer?",
+          "page": "integer?",
+          "sort": "string?",
+          "sort_dir": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "search",
+          "api_messages"
+        ]
+      },
+      {
+        "tool": "stars.list",
+        "summary": "List starred items. Optional: count, cursor. Returns array of StarItem.",
+        "params_schema": {
+          "count": "integer?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stars"
+        ]
+      },
+      {
+        "tool": "stars.add",
+        "summary": "Star a message, file, or channel. Optional: channel, timestamp, file.",
+        "params_schema": {
+          "channel": "string?",
+          "timestamp": "string?",
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stars",
+          "add"
+        ]
+      },
+      {
+        "tool": "stars.remove",
+        "summary": "Remove a star from an item. Optional: channel, timestamp, file.",
+        "params_schema": {
+          "channel": "string?",
+          "timestamp": "string?",
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stars",
+          "remove"
+        ]
+      },
+      {
+        "tool": "team.get",
+        "summary": "Get information about the workspace.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "team"
+        ]
+      },
+      {
+        "tool": "team.access_logs",
+        "summary": "Get workspace access logs (requires admin). Optional: count, page.",
+        "params_schema": {
+          "count": "integer?",
+          "page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "team",
+          "access_logs"
+        ]
+      },
+      {
+        "tool": "team.billable_info",
+        "summary": "Get billable information for workspace users. Optional: user.",
+        "params_schema": {
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "team",
+          "billable_info"
+        ]
+      },
+      {
+        "tool": "team-integration-logs.team_integration_logs",
+        "summary": "Gets the integration logs for the current team. Required: token. Optional: app_id, change_type, count (plus 3 more). Returns array of TeamIntegrationLogsTeamIntegrationLogsItem. (public)",
+        "params_schema": {
+          "token": "string?",
+          "app_id": "string?",
+          "change_type": "string?",
+          "count": "string?",
+          "page": "string?",
+          "service_id": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "team-integration-logs",
+          "team_integration_logs"
+        ]
+      },
+      {
+        "tool": "team-profile-get.team_profile_get",
+        "summary": "Retrieve a team's profile. Required: token. Optional: visibility. Returns the TeamProfileGetSuccessSchema. (public)",
+        "params_schema": {
+          "token": "string?",
+          "visibility": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "team-profile-get",
+          "team_profile_get"
+        ]
+      },
+      {
+        "tool": "usergroups.create",
+        "summary": "Create a new user group. Required: name. Optional: handle, description, channels.",
+        "params_schema": {
+          "name": "string?",
+          "handle": "string?",
+          "description": "string?",
+          "channels": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usergroups"
+        ]
+      },
+      {
+        "tool": "usergroups.list",
+        "summary": "List all user groups in the workspace. Optional: include_users, include_disabled. Returns array of Usergroup.",
+        "params_schema": {
+          "include_users": "boolean?",
+          "include_disabled": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usergroups",
+          "list"
+        ]
+      },
+      {
+        "tool": "usergroups.update",
+        "summary": "Update an existing user group. Required: usergroup. Optional: name, handle, description.",
+        "params_schema": {
+          "usergroup": "string?",
+          "name": "string?",
+          "handle": "string?",
+          "description": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usergroups",
+          "update"
+        ]
+      },
+      {
+        "tool": "usergroups.users_list",
+        "summary": "List users in a user group. Required: usergroup.",
+        "params_schema": {
+          "usergroup": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usergroups",
+          "users_list"
+        ]
+      },
+      {
+        "tool": "usergroups.users_update",
+        "summary": "Update the members of a user group. Required: usergroup, users.",
+        "params_schema": {
+          "usergroup": "string?",
+          "users": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usergroups",
+          "users_update"
+        ]
+      },
+      {
+        "tool": "usergroups-disable.usergroups_disable",
+        "summary": "Disable an existing User Group. Required: usergroup. Optional: include_count. Returns the new UsergroupsDisableSchema. (public)",
+        "params_schema": {
+          "include_count": "bool?",
+          "usergroup": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usergroups-disable",
+          "usergroups_disable"
+        ]
+      },
+      {
+        "tool": "usergroups-enable.usergroups_enable",
+        "summary": "Enable a User Group. Required: usergroup. Optional: include_count. Returns the new UsergroupsEnableSchema. (public)",
+        "params_schema": {
+          "include_count": "bool?",
+          "usergroup": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "usergroups-enable",
+          "usergroups_enable"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Get information about a user. Required: user.",
+        "params_schema": {
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.get_presence",
+        "summary": "Get a user's online presence status. Required: user.",
+        "params_schema": {
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get_presence"
+        ]
+      },
+      {
+        "tool": "users.list",
+        "summary": "List all users in the workspace. Optional: limit, cursor. Returns array of User.",
+        "params_schema": {
+          "limit": "integer?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "list"
+        ]
+      },
+      {
+        "tool": "users.lookup_by_email",
+        "summary": "Find a user by their email address. Required: email.",
+        "params_schema": {
+          "email": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "lookup_by_email"
+        ]
+      },
+      {
+        "tool": "users.profile_get",
+        "summary": "Get a user's profile information. Optional: user.",
+        "params_schema": {
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "profile_get"
+        ]
+      },
+      {
+        "tool": "users.profile_set",
+        "summary": "Set the user's profile fields. Optional: profile, name, value.",
+        "params_schema": {
+          "profile": "string?",
+          "name": "string?",
+          "value": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "profile_set"
+        ]
+      },
+      {
+        "tool": "users.set_presence",
+        "summary": "Set the user's presence status. Required: presence.",
+        "params_schema": {
+          "presence": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "set_presence"
+        ]
+      },
+      {
+        "tool": "users-conversations.users_conversations",
+        "summary": "List conversations the calling user may access. Optional: token, user, types (plus 3 more). Returns array of ObjsConversation. (public)",
+        "params_schema": {
+          "token": "string?",
+          "user": "string?",
+          "types": "string?",
+          "exclude_archived": "bool?",
+          "limit": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users-conversations",
+          "users_conversations"
+        ]
+      },
+      {
+        "tool": "users-delete-photo.users_delete_photo",
+        "summary": "Delete the user profile photo. Required: token. Returns the new UsersDeletePhotoSchema. (public)",
+        "params_schema": {
+          "token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users-delete-photo",
+          "users_delete_photo"
+        ]
+      },
+      {
+        "tool": "users-identity.users_identity",
+        "summary": "Get a user's identity. Optional: token. Returns array of UsersIdentityUsersIdentityItem. (public)",
+        "params_schema": {
+          "token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users-identity",
+          "users_identity"
+        ]
+      },
+      {
+        "tool": "users-set-active.users_set_active",
+        "summary": "Marked a user as active. Deprecated and non-functional. Returns the new UsersSetActiveSchema. (public)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users-set-active",
+          "users_set_active"
+        ]
+      },
+      {
+        "tool": "users-set-photo.users_set_photo",
+        "summary": "Set the user profile photo. Required: token. Optional: crop_w, crop_x, crop_y (plus 1 more). Returns the new UsersSetPhotoSchema. (public)",
+        "params_schema": {
+          "crop_w": "string?",
+          "crop_x": "string?",
+          "crop_y": "string?",
+          "image": "string?",
+          "token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users-set-photo",
+          "users_set_photo"
         ]
       }
     ]
@@ -316924,6 +318848,685 @@
         "argv_path": [
           "raw-image",
           "get-image"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "v0",
+    "description": "Generate and iterate on web apps with v0 from the terminal: create chats from prompts, stream agent output, sync history to a local SQLite mirror, and track credit spend across models.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/v0/cmd/v0-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "ai",
+    "search_terms": [
+      "v0",
+      "v0-pp-cli",
+      "Generate and iterate on web apps with v0 from the terminal: create chats from prompts, stream agent output, sync history to a local SQLite mirror, and track credit spend across models.",
+      "Credit spend analytics",
+      "spend",
+      "Aggregate v0 credit cost and token usage from the synced message mirror, grouped by chat, day, or model.",
+      "Streaming capture",
+      "chats stream",
+      "Create a chat and stream the SSE response live, rendering each event and recording model attribution for spend analytics.",
+      "Tail chat generation",
+      "messages tail",
+      "Poll a chat until the newest assistant message finishes, with --follow for continuous watching.",
+      "Chat file tree",
+      "chats files",
+      "Render a chat's generated source files as an indented directory tree.",
+      "Preview URL helper",
+      "chats preview",
+      "Print only the live preview URL for a chat, ready for embedding or scripting.",
+      "Offline search",
+      "search",
+      "Full-text search over synced chats and messages without hitting the API.",
+      "Local sync mirror",
+      "sync",
+      "Cursor-paginated sync of chats and messages into a local SQLite mirror for offline search and spend analytics.",
+      "Auth diagnostics",
+      "doctor",
+      "Validate V0_API_KEY and API reachability with a live check."
+    ],
+    "endpoints": [
+      {
+        "tool": "chats.create",
+        "summary": "Create a chat from a prompt (blocks until the model response is complete). Required: message. Optional: systemPrompt, modelConfiguration, attachments (plus 5 more). Returns the new ChatResult.",
+        "params_schema": {
+          "message": "string?",
+          "systemPrompt": "string?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?",
+          "attachments": "array?",
+          "mcpServerIds": "array?",
+          "skills": "array?",
+          "privacy": "string?",
+          "title": "string?",
+          "metadata": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats"
+        ]
+      },
+      {
+        "tool": "chats.connect_status",
+        "summary": "Get the setup status of a Vercel Connect integration. Required: chatId, requestId. Returns the ConnectStatus.",
+        "params_schema": {
+          "chatId": "string",
+          "requestId": "string?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "connect_status"
+        ]
+      },
+      {
+        "tool": "chats.create_async",
+        "summary": "Create a chat asynchronously; poll the returned messageId for completion. Required: message. Optional: systemPrompt, modelConfiguration, attachments (plus 5 more). Returns the new AsyncResult.",
+        "params_schema": {
+          "message": "string?",
+          "systemPrompt": "string?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?",
+          "attachments": "array?",
+          "mcpServerIds": "array?",
+          "skills": "array?",
+          "privacy": "string?",
+          "title": "string?",
+          "metadata": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "create_async"
+        ]
+      },
+      {
+        "tool": "chats.create_from_files",
+        "summary": "Create a chat from source files. Required: files. Optional: privacy, title, metadata. Returns the new ChatResult.",
+        "params_schema": {
+          "files": "array?",
+          "privacy": "string?",
+          "title": "string?",
+          "metadata": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "create_from_files"
+        ]
+      },
+      {
+        "tool": "chats.create_from_repo",
+        "summary": "Create a chat from a GitHub repository. Required: repo. Optional: privacy, title, metadata. Returns the new ChatResult.",
+        "params_schema": {
+          "repo-url": "string?",
+          "repo-branch": "string?",
+          "privacy": "string?",
+          "title": "string?",
+          "metadata": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "create_from_repo"
+        ]
+      },
+      {
+        "tool": "chats.create_from_zip",
+        "summary": "Create a chat from a ZIP archive URL. Required: url. Optional: privacy, title, metadata. Returns the new ChatResult.",
+        "params_schema": {
+          "url": "string?",
+          "privacy": "string?",
+          "title": "string?",
+          "metadata": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "create_from_zip"
+        ]
+      },
+      {
+        "tool": "chats.create_stream",
+        "summary": "Create a chat and stream the model response as Server-Sent Events. Required: message. Optional: systemPrompt, modelConfiguration, attachments (plus 5 more). Returns the new StreamEvent.",
+        "params_schema": {
+          "message": "string?",
+          "systemPrompt": "string?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?",
+          "attachments": "array?",
+          "mcpServerIds": "array?",
+          "skills": "array?",
+          "privacy": "string?",
+          "title": "string?",
+          "metadata": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "create_stream"
+        ]
+      },
+      {
+        "tool": "chats.create_vercel_project",
+        "summary": "Create a Vercel project for a chat. Required: chatId. Optional: name. Returns the new VercelProject.",
+        "params_schema": {
+          "chatId": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "create_vercel_project"
+        ]
+      },
+      {
+        "tool": "chats.delete",
+        "summary": "Delete a chat permanently. Required: chatId. Returns the DeleteResult. Destructive.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "delete"
+        ]
+      },
+      {
+        "tool": "chats.deploy",
+        "summary": "Deploy a chat to Vercel. Required: chatId. Returns the new Deployment.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "deploy"
+        ]
+      },
+      {
+        "tool": "chats.download_files",
+        "summary": "Download all chat files as an archive. Required: chatId.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "download_files"
+        ]
+      },
+      {
+        "tool": "chats.duplicate",
+        "summary": "Duplicate a chat. Required: chatId, privacy. Optional: title. Returns the new Chat.",
+        "params_schema": {
+          "chatId": "string",
+          "privacy": "string?",
+          "title": "string?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "duplicate"
+        ]
+      },
+      {
+        "tool": "chats.files",
+        "summary": "Get all source files in a chat. Required: chatId. Returns the FileList.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "files"
+        ]
+      },
+      {
+        "tool": "chats.get",
+        "summary": "Get a chat by ID. Required: chatId. Returns the Chat.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "get"
+        ]
+      },
+      {
+        "tool": "chats.list",
+        "summary": "List chats accessible to the authenticated user. Optional: limit (default: 20), cursor, authorId (plus 2 more). Returns array of Chat.",
+        "params_schema": {
+          "limit": "int?",
+          "cursor": "string?",
+          "authorId": "string?",
+          "vercelProjectId": "string?",
+          "metadata": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "list"
+        ]
+      },
+      {
+        "tool": "chats.preview",
+        "summary": "Get the preview URL and short-lived access token for a chat. Required: chatId. Returns the Preview.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "preview"
+        ]
+      },
+      {
+        "tool": "chats.restore_message",
+        "summary": "Restore files from a previous assistant message. Required: chatId, messageId. Returns the new MessageList.",
+        "params_schema": {
+          "chatId": "string",
+          "messageId": "string?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "restore_message"
+        ]
+      },
+      {
+        "tool": "chats.resume_stream",
+        "summary": "Reconnect to an active chat stream. Required: chatId. Returns the new StreamEvent.",
+        "params_schema": {
+          "chatId": "string"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "resume_stream"
+        ]
+      },
+      {
+        "tool": "chats.update",
+        "summary": "Update a chat title, privacy, or metadata. Required: chatId. Optional: title, privacy, metadata. Returns the updated Chat.",
+        "params_schema": {
+          "chatId": "string",
+          "title": "string?",
+          "privacy": "string?",
+          "metadata": "object?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "update"
+        ]
+      },
+      {
+        "tool": "chats.update_files",
+        "summary": "Create, update, or delete files in a chat. Required: chatId, files. Returns the updated MessageList.",
+        "params_schema": {
+          "chatId": "string",
+          "files": "array?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "chats",
+          "update_files"
+        ]
+      },
+      {
+        "tool": "hooks.create",
+        "summary": "Create a webhook subscribed to chat and message events. Required: name, events, url. Optional: chatId. Returns the new Webhook.",
+        "params_schema": {
+          "name": "string?",
+          "events": "array?",
+          "url": "string?",
+          "chatId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hooks"
+        ]
+      },
+      {
+        "tool": "hooks.delete",
+        "summary": "Delete a webhook. Required: hookId. Returns the WebhookDeleteResult. Destructive.",
+        "params_schema": {
+          "hookId": "string"
+        },
+        "positionals": [
+          "hookId"
+        ],
+        "argv_path": [
+          "hooks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "hooks.get",
+        "summary": "Get a webhook by ID. Required: hookId. Returns the Webhook.",
+        "params_schema": {
+          "hookId": "string"
+        },
+        "positionals": [
+          "hookId"
+        ],
+        "argv_path": [
+          "hooks",
+          "get"
+        ]
+      },
+      {
+        "tool": "hooks.list",
+        "summary": "List all webhooks in the workspace. Returns array of Webhook.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "hooks",
+          "list"
+        ]
+      },
+      {
+        "tool": "hooks.update",
+        "summary": "Update a webhook configuration. Required: hookId. Optional: name, events, url. Returns the updated Webhook.",
+        "params_schema": {
+          "hookId": "string",
+          "name": "string?",
+          "events": "array?",
+          "url": "string?"
+        },
+        "positionals": [
+          "hookId"
+        ],
+        "argv_path": [
+          "hooks",
+          "update"
+        ]
+      },
+      {
+        "tool": "mcp-servers.create",
+        "summary": "Register a new MCP server. Required: name, url, enabled, auth, scope. Optional: description. Returns the new MCPServer.",
+        "params_schema": {
+          "name": "string?",
+          "url": "string?",
+          "description": "string?",
+          "enabled": "bool?",
+          "auth": "string?",
+          "scope": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "mcp-servers"
+        ]
+      },
+      {
+        "tool": "mcp-servers.delete",
+        "summary": "Delete an MCP server. Required: mcpServerId. Returns the SuccessResult. Destructive.",
+        "params_schema": {
+          "mcpServerId": "string"
+        },
+        "positionals": [
+          "mcpServerId"
+        ],
+        "argv_path": [
+          "mcp-servers",
+          "delete"
+        ]
+      },
+      {
+        "tool": "mcp-servers.get",
+        "summary": "Get an MCP server by ID. Required: mcpServerId. Returns the MCPServer.",
+        "params_schema": {
+          "mcpServerId": "string"
+        },
+        "positionals": [
+          "mcpServerId"
+        ],
+        "argv_path": [
+          "mcp-servers",
+          "get"
+        ]
+      },
+      {
+        "tool": "mcp-servers.list",
+        "summary": "List MCP servers configured for the account. Returns array of MCPServer.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mcp-servers",
+          "list"
+        ]
+      },
+      {
+        "tool": "mcp-servers.update",
+        "summary": "Update an MCP server configuration. Required: mcpServerId. Optional: name, url, description (plus 3 more). Returns the updated MCPServer.",
+        "params_schema": {
+          "mcpServerId": "string",
+          "name": "string?",
+          "url": "string?",
+          "description": "string?",
+          "enabled": "bool?",
+          "auth": "string?",
+          "scope": "string?"
+        },
+        "positionals": [
+          "mcpServerId"
+        ],
+        "argv_path": [
+          "mcp-servers",
+          "update"
+        ]
+      },
+      {
+        "tool": "messages.get",
+        "summary": "Get a single message. Required: chatId, messageId. Returns the Message.",
+        "params_schema": {
+          "chatId": "string",
+          "messageId": "string"
+        },
+        "positionals": [
+          "chatId",
+          "messageId"
+        ],
+        "argv_path": [
+          "messages"
+        ]
+      },
+      {
+        "tool": "messages.list",
+        "summary": "List messages in a chat, newest first. Required: chatId. Optional: limit (default: 20), cursor. Returns array of Message.",
+        "params_schema": {
+          "chatId": "string",
+          "limit": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "messages",
+          "list"
+        ]
+      },
+      {
+        "tool": "messages.resolve_task",
+        "summary": "Resolve a chat blocked waiting for user input. Required: chatId, task. Optional: modelConfiguration. Returns the new Message.",
+        "params_schema": {
+          "chatId": "string",
+          "task": "object?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "messages",
+          "resolve_task"
+        ]
+      },
+      {
+        "tool": "messages.resolve_task_async",
+        "summary": "Resolve a blocked chat asynchronously. Required: chatId, task. Optional: modelConfiguration. Returns the new AsyncResult.",
+        "params_schema": {
+          "chatId": "string",
+          "task": "object?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "messages",
+          "resolve_task_async"
+        ]
+      },
+      {
+        "tool": "messages.resolve_task_stream",
+        "summary": "Resolve a blocked chat and stream the response. Required: chatId, task. Optional: modelConfiguration. Returns the new StreamEvent.",
+        "params_schema": {
+          "chatId": "string",
+          "task": "object?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "messages",
+          "resolve_task_stream"
+        ]
+      },
+      {
+        "tool": "messages.send",
+        "summary": "Send a message and wait for the model response. Required: chatId, message. Optional: systemPrompt, modelConfiguration, mcpServerIds (plus 2 more). Returns the new Message.",
+        "params_schema": {
+          "chatId": "string",
+          "message": "string?",
+          "systemPrompt": "string?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?",
+          "mcpServerIds": "array?",
+          "attachments": "array?",
+          "skills": "array?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "messages",
+          "send"
+        ]
+      },
+      {
+        "tool": "messages.send_async",
+        "summary": "Send a message asynchronously; poll the returned messageId for completion. Required: chatId, message. Optional: systemPrompt, modelConfiguration, mcpServerIds (plus 2 more). Returns the new AsyncResult.",
+        "params_schema": {
+          "chatId": "string",
+          "message": "string?",
+          "systemPrompt": "string?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?",
+          "mcpServerIds": "array?",
+          "attachments": "array?",
+          "skills": "array?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "messages",
+          "send_async"
+        ]
+      },
+      {
+        "tool": "messages.send_stream",
+        "summary": "Send a message and stream the response as Server-Sent Events. Required: chatId, message. Optional: systemPrompt, modelConfiguration, mcpServerIds (plus 2 more). Returns the new StreamEvent.",
+        "params_schema": {
+          "chatId": "string",
+          "message": "string?",
+          "systemPrompt": "string?",
+          "model-configuration-model-id": "string?",
+          "model-configuration-image-generations": "bool?",
+          "mcpServerIds": "array?",
+          "attachments": "array?",
+          "skills": "array?"
+        },
+        "positionals": [
+          "chatId"
+        ],
+        "argv_path": [
+          "messages",
+          "send_stream"
+        ]
+      },
+      {
+        "tool": "messages.stop",
+        "summary": "Stop an in-flight message generation. Required: chatId, messageId. Returns the new StopResult.",
+        "params_schema": {
+          "chatId": "string",
+          "messageId": "string"
+        },
+        "positionals": [
+          "chatId",
+          "messageId"
+        ],
+        "argv_path": [
+          "messages",
+          "stop"
+        ]
+      },
+      {
+        "tool": "settings.preview_hosts",
+        "summary": "Get trusted hostname patterns allowed to embed previews. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "preview_hosts"
+        ]
+      },
+      {
+        "tool": "settings.set_preview_hosts",
+        "summary": "Set the complete list of trusted preview hosts. Required: hosts. Returns array of string.",
+        "params_schema": {
+          "hosts": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "set_preview_hosts"
         ]
       }
     ]
