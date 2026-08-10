@@ -134285,6 +134285,132 @@
     ]
   },
   {
+    "api": "crates-io",
+    "description": "Read-only endpoints for crates.io ecosystem intelligence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/crates-io/cmd/crates-io-pp-cli",
+    "auth_type": "none",
+    "category": "developer-tools",
+    "search_terms": [
+      "crates-io",
+      "Crates Io Registry",
+      "crates-io-pp-cli",
+      "Read-only endpoints for crates.io ecosystem intelligence.",
+      "Crate search",
+      "crates search",
+      "Search crates.io for Rust packages with bounded result counts for dependency discovery.",
+      "Crate metadata lookup",
+      "crates get",
+      "Inspect crate metadata, versions, keywords, and categories from the public registry API.",
+      "Dependency and owner intelligence",
+      "crates dependencies list-version",
+      "Review version dependencies, crate owners, reverse dependencies, and download signals for ecosystem analysis."
+    ],
+    "endpoints": [
+      {
+        "tool": "crates.get",
+        "summary": "Get crate metadata. Required: crate_name. Returns the CrateResponse.",
+        "params_schema": {
+          "crate_name": "string"
+        },
+        "positionals": [
+          "crate_name"
+        ],
+        "argv_path": [
+          "crates"
+        ]
+      },
+      {
+        "tool": "crates.search",
+        "summary": "Search crates. Required: q. Optional: page (default: 1), per_page (default: 10), sort. Returns array of CrateSummary.",
+        "params_schema": {
+          "q": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "sort": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "crates",
+          "search"
+        ]
+      },
+      {
+        "tool": "crates.dependencies_list-version",
+        "summary": "List dependencies for a crate version. Required: crate_name, version. Returns array of Dependency.",
+        "params_schema": {
+          "crate_name": "string",
+          "version": "string"
+        },
+        "positionals": [
+          "crate_name",
+          "version"
+        ],
+        "argv_path": [
+          "crates",
+          "dependencies_list-version"
+        ]
+      },
+      {
+        "tool": "crates.downloads_get-crate",
+        "summary": "Get recent crate download counts. Required: crate_name. Returns array of DownloadsGetCrateItem.",
+        "params_schema": {
+          "crate_name": "string"
+        },
+        "positionals": [
+          "crate_name"
+        ],
+        "argv_path": [
+          "crates",
+          "downloads_get-crate"
+        ]
+      },
+      {
+        "tool": "crates.owners_list-crate",
+        "summary": "List crate owners. Required: crate_name. Returns array of Owner.",
+        "params_schema": {
+          "crate_name": "string"
+        },
+        "positionals": [
+          "crate_name"
+        ],
+        "argv_path": [
+          "crates",
+          "owners_list-crate"
+        ]
+      },
+      {
+        "tool": "crates.reverse-dependencies_list",
+        "summary": "List crates depending on this crate. Required: crate_name. Optional: page (default: 1), per_page (default: 10). Returns array of ReverseDependency.",
+        "params_schema": {
+          "crate_name": "string",
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [
+          "crate_name"
+        ],
+        "argv_path": [
+          "crates",
+          "reverse-dependencies_list"
+        ]
+      },
+      {
+        "tool": "crates.versions_list-crate",
+        "summary": "List crate versions. Required: crate_name. Returns array of Version.",
+        "params_schema": {
+          "crate_name": "string"
+        },
+        "positionals": [
+          "crate_name"
+        ],
+        "argv_path": [
+          "crates",
+          "versions_list-crate"
+        ]
+      }
+    ]
+  },
+  {
     "api": "crestron",
     "description": "Every Crestron product, spec sheet, and firmware release \u2014 searchable offline, with fleet-wide currency checks the website cannot do.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/crestron/cmd/crestron-pp-cli",
@@ -152373,6 +152499,35 @@
         ]
       }
     ]
+  },
+  {
+    "api": "eero",
+    "description": "Inspect an eero mesh network from the terminal with agent-friendly output for networks, nodes, connected devices, diagnostics, and speed tests.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/eero/cmd/eero-pp-cli",
+    "auth_type": "cookie",
+    "category": "devices",
+    "search_terms": [
+      "eero",
+      "eero-pp-cli",
+      "Inspect an eero mesh network from the terminal with agent-friendly output for networks, nodes, connected devices, diagnostics, and speed tests.",
+      "Set EERO_SESSION_TOKEN to an eero session token, or use auth login --chrome with a browser profile that is already signed in.",
+      "Network health snapshot",
+      "network",
+      "One agent-friendly read combines network status, speed summary, client count, node count, DNS, and feature settings.",
+      "Eero inventory",
+      "eero list",
+      "List all eero nodes in a network with compact agent-friendly output.",
+      "Connected-device inventory",
+      "device list",
+      "List connected client devices for a network, with filters and compact JSON for downstream automation.",
+      "Diagnostic report lookup",
+      "diagnostics",
+      "Fetch the latest diagnostic report for a network through the same authenticated CLI surface.",
+      "Speed-test history lookup",
+      "speed-test",
+      "Read the latest available speed-test results for a network as structured output."
+    ],
+    "endpoints": []
   },
   {
     "api": "elevenlabs",
@@ -172365,6 +172520,51 @@
         "argv_path": [
           "users",
           "tokens_user-get"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "forkable",
+    "description": "A CLI and MCP server for your Forkable office-lunch program, with a local database and history, spend, and preference queries the web app cannot answer, plus commands to set, confirm, and skip meal orders (dry-run by default; --confirm to apply).",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/forkable/cmd/forkable-pp-cli",
+    "auth_type": "cookie",
+    "category": "food-and-dining",
+    "search_terms": [
+      "forkable",
+      "forkable-pp-cli",
+      "A CLI and MCP server for your Forkable office-lunch program, with a local database and history, spend, and preference queries the web app cannot answer, plus commands to set, confirm, and skip meal orders (dry-run by default; --confirm to apply).",
+      "Served-meal history",
+      "served-history",
+      "See every meal actually served to you over time, with date, venue, price, and dietary level.",
+      "Preference-vs-served drift",
+      "preference-drift",
+      "Flag served meals that violate your stated dislikes or dietary restrictions, or miss your likes.",
+      "Auto-selection explainer",
+      "why-picked",
+      "Explain why a delivery's meal was auto-selected by ranking candidate items and their scores.",
+      "Spend trend over time",
+      "spend-trend",
+      "Bucket lunch spend into per-week or per-month totals with CSV export.",
+      "Allowance utilization",
+      "allowance-burn",
+      "Show granted-vs-consumed allowance utilization per club, including multi-club comparison.",
+      "Week-ahead digest",
+      "upcoming-digest",
+      "One agent-shaped line per upcoming day: date, venue, auto-selected item, price, allowance headroom.",
+      "Venue rotation",
+      "venue-rotation",
+      "Rank venues by how often they've served you and how recently."
+    ],
+    "endpoints": [
+      {
+        "tool": "csrf.token",
+        "summary": "Fetch a CSRF token. Read-only. Used as the handshake before authenticated GraphQL queries and as the reachability/health probe.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "csrf",
+          "token"
         ]
       }
     ]
@@ -222504,6 +222704,90 @@
     ]
   },
   {
+    "api": "open-food-facts",
+    "description": "Read-only Open Food Facts recipes for barcode product lookup, structured search, nutrition summaries, allergen and ingredient inspection, bounded comparison, category samples, and source posture checks.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/open-food-facts/cmd/open-food-facts-pp-cli",
+    "auth_type": "none",
+    "category": "food-and-dining",
+    "search_terms": [
+      "open-food-facts",
+      "Open Food Facts",
+      "open-food-facts-pp-cli",
+      "Read-only Open Food Facts recipes for barcode product lookup, structured search, nutrition summaries, allergen and ingredient inspection, bounded comparison, category samples, and source posture checks.",
+      "Barcode product lookup",
+      "product",
+      "Fetches one Open Food Facts v3 product record and returns compact identity, labels, countries, nutrition, allergen, data-quality, image, and source URL fields.",
+      "Bounded structured search",
+      "search",
+      "Uses the documented v2 structured search endpoint with category, brand, country, label, nutrition-grade, page, and page-size controls.",
+      "Nutrition summary",
+      "nutrition",
+      "Extracts key nutriments, serving basis, Nutri-Score, NOVA, Eco-Score, source URL, and data-quality tags for one barcode.",
+      "Ingredient and allergen inspection",
+      "allergens",
+      "Reports ingredient text, ingredient analysis tags, allergens, traces, additives, and voluntary-data caveats.",
+      "Small product comparison",
+      "compare",
+      "Compares two to five barcode records while preserving per-barcode lookup errors and successful product output.",
+      "Source and rate posture",
+      "sources, doctor",
+      "Reports read-only auth, custom User-Agent configuration, documented rate limits, anti-bulk non-goals, and local configuration."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Read-only Open Food Facts recipes for barcode product lookup, structured search, nutrition summaries, allergen and ingredient inspection, bounded comparison, category samples, and source posture checks. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "open-library",
+    "description": "Read-only Open Library recipes for book search, ISBN edition lookup, author works, work metadata, bounded editions, and subject browsing with source/rate-limit caveats.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/open-library/cmd/open-library-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "open-library",
+      "Open Library",
+      "open-library-pp-cli",
+      "Read-only Open Library recipes for book search, ISBN edition lookup, author works, work metadata, bounded editions, and subject browsing with source/rate-limit caveats.",
+      "Compact book/work search",
+      "book",
+      "Searches Open Library's preferred search endpoint and returns compact ranked work candidates with author, edition, ISBN, language, and source URL fields.",
+      "ISBN edition resolver",
+      "isbn",
+      "Resolves ISBN-10 or ISBN-13 values to edition metadata without account actions or borrowing flows.",
+      "Author works sampler",
+      "author",
+      "Searches author records or accepts an Open Library author ID, then fetches a bounded works sample for bibliography-building agents.",
+      "Work and editions metadata",
+      "work, editions",
+      "Fetches canonical work JSON and bounded edition lists from documented Open Library work APIs.",
+      "Subject discovery with caveats",
+      "subjects",
+      "Fetches subject works and optional facets while clearly marking the Subjects API as experimental.",
+      "Source/rate posture",
+      "sources, doctor",
+      "Reports keyless auth, optional contact-bearing User-Agent configuration, documented rate limits, and anti-bulk non-goals."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Read-only Open Library recipes for book search, ISBN edition lookup, author works, work metadata, bounded editions, and subject browsing with source/rate-limit caveats. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "open-meteo",
     "description": "Forecasts, historicals, marine, air quality, flood, climate, ensemble, and seasonal data from Open-Meteo's free tier.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/open-meteo/cmd/open-meteo-pp-cli",
@@ -224013,6 +224297,73 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "opensky",
+    "description": "Public OpenSky Network API (https://opensky-network.org/api).",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/opensky/cmd/opensky-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "opensky",
+      "Opensky Network",
+      "opensky-pp-cli",
+      "Public OpenSky Network API (https://opensky-network.org/api).",
+      "Bare-invocation time windows",
+      "flights get-departures",
+      "begin/end default to the last hour on every /flights/* command (OpenSky requires the window and anonymous access caps it at 1h), so live queries work with zero epoch math. Override with --begin/--end.",
+      "Empty-window 404 handling",
+      "flights get-aircraft-trajectory",
+      "OpenSky answers HTTP 404 with an empty array when a window has no flights; the CLI treats that as an empty result (exit 0) instead of the generic resource-not-found error.",
+      "No-auth live tracking",
+      "states",
+      "Live ADS-B state vectors over any bounding box with no API key; --icao24 filters to one transponder for a single-aircraft view."
+    ],
+    "endpoints": [
+      {
+        "tool": "flights.get-aircraft-trajectory",
+        "summary": "Full trajectory for one aircraft within a time window. Required: icao24. Optional: begin, end. Returns array of FlightsGetAircraftTrajectoryItem.",
+        "params_schema": {
+          "icao24": "string?",
+          "begin": "int?",
+          "end": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "flights",
+          "get-aircraft-trajectory"
+        ]
+      },
+      {
+        "tool": "flights.get-departures",
+        "summary": "Flights departing an airport within a time window. Required: airport. Optional: begin, end. Returns array of FlightsGetDeparturesItem.",
+        "params_schema": {
+          "airport": "string?",
+          "begin": "int?",
+          "end": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "flights",
+          "get-departures"
+        ]
+      },
+      {
+        "tool": "states.list",
+        "summary": "Live aircraft states over a bounding box or for one transponder. Optional: lamin, lomin, lamax (plus 2 more). Returns array of StatesListItem.",
+        "params_schema": {
+          "lamin": "float?",
+          "lomin": "float?",
+          "lamax": "float?",
+          "lomax": "float?",
+          "icao24": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "states"
         ]
       }
     ]
@@ -287208,6 +287559,208 @@
     ]
   },
   {
+    "api": "stac",
+    "description": "The first Go single-binary STAC CLI: every search filter the Python tools have, plus an offline cache, scene ranking, coverage, and asset resolution no other STAC tool offers.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/maps/stac/cmd/stac-pp-cli",
+    "auth_type": "none",
+    "category": "maps",
+    "search_terms": [
+      "stac",
+      "STAC API",
+      "stac-pp-cli",
+      "The first Go single-binary STAC CLI: every search filter the Python tools have, plus an offline cache, scene ranking, coverage, and asset resolution no other STAC tool offers.",
+      "Least-cloudy scene",
+      "scenes best",
+      "Pick the single clearest scene over an area and date range.",
+      "Cloud-cover histogram",
+      "clouds",
+      "Show the cloud-cover distribution over an area and date range.",
+      "Coverage check",
+      "coverage",
+      "Answer whether data exists over an area and when, with a temporal summary.",
+      "Scene timeline",
+      "timeline",
+      "Build a per-date time series of scenes for change detection.",
+      "Temporal gaps",
+      "gaps",
+      "Find missing acquisition windows over an area versus expected revisit.",
+      "Watch new scenes",
+      "watch",
+      "Report scenes published over an area since the last check.",
+      "Asset URL resolution",
+      "assets",
+      "Resolve an item's band and asset download URLs, provider-aware.",
+      "Compare collections",
+      "compare",
+      "Compare two collections over the same area and date range.",
+      "xarray stack snippet",
+      "stack-snippet",
+      "Emit a ready-to-paste stackstac/odc-stac Python snippet for matched scenes."
+    ],
+    "endpoints": [
+      {
+        "tool": "aggregate.get",
+        "summary": "Executes one or more aggregations (e.g. cloud_cover_frequency, datetime_frequency) over the items matching the given filters. Returns frequency-distribution buckets or scalar values. Optional: collections, bbox, datetime (plus 1 more).",
+        "params_schema": {
+          "collections": "string?",
+          "bbox": "string?",
+          "datetime": "string?",
+          "aggregations": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "aggregate"
+        ]
+      },
+      {
+        "tool": "aggregations.get",
+        "summary": "Lists the aggregations available across the catalog (e.g. total_count, datetime_frequency, cloud_cover_frequency). Returns the AggregationsGetResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "aggregations"
+        ]
+      },
+      {
+        "tool": "aggregations.get-collection",
+        "summary": "Lists the aggregations available for a single collection. Required: collectionId. Returns the AggregationsGetCollectionResponse.",
+        "params_schema": {
+          "collectionId": "string"
+        },
+        "positionals": [
+          "collectionId"
+        ],
+        "argv_path": [
+          "aggregations",
+          "get-collection"
+        ]
+      },
+      {
+        "tool": "collections.get",
+        "summary": "A body of Feature Collections that belong or are used together with additional links. Request may not return the full set of metadata per Feature Collection. Returns the Collections.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "collections"
+        ]
+      },
+      {
+        "tool": "collections.describe",
+        "summary": "A single Feature Collection for the given if `collectionId`. Request this endpoint to get a full list of metadata for the Feature Collection. Required: collectionId. Returns the Collection.",
+        "params_schema": {
+          "collectionId": "string"
+        },
+        "positionals": [
+          "collectionId"
+        ],
+        "argv_path": [
+          "collections",
+          "describe"
+        ]
+      },
+      {
+        "tool": "collections.items_get-feature",
+        "summary": "Fetch the feature with id `featureId` in the feature collection with id `collectionId`. Required: collectionId, featureId. Returns the Item.",
+        "params_schema": {
+          "collectionId": "string",
+          "featureId": "string"
+        },
+        "positionals": [
+          "collectionId",
+          "featureId"
+        ],
+        "argv_path": [
+          "collections",
+          "items_get-feature"
+        ]
+      },
+      {
+        "tool": "collections.items_get-features",
+        "summary": "Fetch features of the feature collection with id `collectionId`. Every feature in a dataset belongs to a collection. A dataset may consist of multiple feature collections. A feature collection is often a collection of features of a similar type, based on a common schema. Required: collectionId. Optional: limit (default: 10), bbox, datetime. Returns the FeatureCollectionGeoJson.",
+        "params_schema": {
+          "collectionId": "string",
+          "limit": "int?",
+          "bbox": "array?",
+          "datetime": "string?"
+        },
+        "positionals": [
+          "collectionId"
+        ],
+        "argv_path": [
+          "collections",
+          "items_get-features"
+        ]
+      },
+      {
+        "tool": "conformance.get-declaration",
+        "summary": "A list of all conformance classes specified in a standard that the server conforms to. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "conformance",
+          "get-declaration"
+        ]
+      },
+      {
+        "tool": "items.get-search",
+        "summary": "Retrieve Items matching filters. Intended as a shorthand API for simple queries. This method is required to implement. If this endpoint is implemented on a server, it is required to add a link referring to this endpoint with `rel` set to `search` to the `links` array in `GET /`. As `GET` is the default method, the `method` may not be set explicitly in the link. Optional: bbox, intersects, datetime (plus 3 more). Returns the ItemCollection.",
+        "params_schema": {
+          "bbox": "array?",
+          "intersects": "string?",
+          "datetime": "string?",
+          "limit": "int?",
+          "ids": "array?",
+          "collections": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "items",
+          "get-search"
+        ]
+      },
+      {
+        "tool": "items.post-search",
+        "summary": "Retrieve items matching filters. Intended as the standard, full-featured query API. This method is optional to implement, but recommended. If this endpoint is implemented on a server, it is required to add a link referring to this endpoint with `rel` set to `search` and `method` set to `POST` to the `links` array in `GET /`. Optional: bbox, collections, datetime (plus 3 more). Returns the new ItemCollection.",
+        "params_schema": {
+          "bbox": "array?",
+          "collections": "string_csv_array?",
+          "datetime": "string?",
+          "ids": "string_csv_array?",
+          "intersects": "string?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "items",
+          "post-search"
+        ]
+      },
+      {
+        "tool": "queryables.get",
+        "summary": "Returns the set of queryable properties (JSON Schema) usable in query/filter across the whole catalog.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "queryables"
+        ]
+      },
+      {
+        "tool": "queryables.get-collection",
+        "summary": "Returns the set of queryable properties (JSON Schema) for a single collection, usable in query/filter and sortby. Required: collectionId.",
+        "params_schema": {
+          "collectionId": "string"
+        },
+        "positionals": [
+          "collectionId"
+        ],
+        "argv_path": [
+          "queryables",
+          "get-collection"
+        ]
+      }
+    ]
+  },
+  {
     "api": "stackadapt",
     "description": "The first agent-native StackAdapt CLI: pacing, delivery drift",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/stackadapt/cmd/stackadapt-pp-cli",
@@ -304823,6 +305376,253 @@
     ]
   },
   {
+    "api": "surfline",
+    "description": "Every Surfline forecast, scriptable from your terminal \u2014 plus multi-spot ranking, a local forecast journal, and cron-able alerts no Surfline tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/surfline/cmd/surfline-pp-cli",
+    "auth_type": "api_key",
+    "category": "other",
+    "search_terms": [
+      "surfline",
+      "surfline-pp-cli",
+      "Every Surfline forecast, scriptable from your terminal \u2014 plus multi-spot ranking, a local forecast journal, and cron-able alerts no Surfline tool has.",
+      "Dawn-patrol one-shot",
+      "now",
+      "One spot's next few hours as a paddle/no-paddle line readout: swell, wind, tide and rating joined per hour.",
+      "Multi-spot rank",
+      "rank",
+      "Score and sort several spots best-first on a transparent sum of wave, wind and swell optimalScore.",
+      "Optimal-window scanner",
+      "windows",
+      "Emit only the contiguous time blocks where wave, wind and swell optimalScore are all good, daylight-only.",
+      "Raw conditions dump",
+      "raw",
+      "Pipe-friendly table/JSON of min/max/optimalScore/humanRelation plus swell components and wind directionType/gust, no rating editorializing.",
+      "Scriptable alert rules",
+      "alert run",
+      "Store swell/wind/tide threshold rules locally; alert run fetches a fresh forecast, evaluates them, prints matches and sets an exit code for cron.",
+      "Buoy vs forecast cross-check",
+      "buoy-check",
+      "Show nearby-buoy observed swell against the spot's wave forecast for the same window, side by side.",
+      "Forecast-history journal",
+      "journal show",
+      "Snapshot the current forecast into local SQLite and review a spot's snapshots over time.",
+      "Offline spot search",
+      "search",
+      "Resolve spot names to spotIds via FTS over the locally-synced taxonomy, with no network."
+    ],
+    "endpoints": [
+      {
+        "tool": "buoys.nearby",
+        "summary": "Buoys near a lat/lon with observed swell readings. Required: lat, lon. Optional: distance, limit (default: 5).",
+        "params_schema": {
+          "lat": "float?",
+          "lon": "float?",
+          "distance": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "buoys",
+          "nearby"
+        ]
+      },
+      {
+        "tool": "regions.conditions",
+        "summary": "Subregion conditions forecast (multi-day AM/PM rating across a subregion). Required: subregion. Optional: days (default: 3).",
+        "params_schema": {
+          "subregion": "string?",
+          "days": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "regions",
+          "conditions"
+        ]
+      },
+      {
+        "tool": "spots.batch",
+        "summary": "Rich per-spot info for many spots in one call (conditions, cameras, current swell/wind/tide). Required: spotIds.",
+        "params_schema": {
+          "spotIds": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "batch"
+        ]
+      },
+      {
+        "tool": "spots.conditions",
+        "summary": "AM/PM conditions: rating, observation, surf range, forecaster notes, humanRelation. Required: spot. Optional: days (default: 3).",
+        "params_schema": {
+          "spot": "string?",
+          "days": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "conditions"
+        ]
+      },
+      {
+        "tool": "spots.details",
+        "summary": "Spot metadata: name, location, ability levels, travel info. Required: spot.",
+        "params_schema": {
+          "spot": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "details"
+        ]
+      },
+      {
+        "tool": "spots.find",
+        "summary": "Live spot search by name (online); returns hits with spotIds. For offline name lookup after a sync, use the top-level `search` command instead. Required: q. Optional: query-size (default: 10), suggestion-size (default: 10), news (default: false).",
+        "params_schema": {
+          "q": "string",
+          "query-size": "int?",
+          "suggestion-size": "int?",
+          "news": "bool?"
+        },
+        "positionals": [
+          "q"
+        ],
+        "argv_path": [
+          "spots",
+          "find"
+        ]
+      },
+      {
+        "tool": "spots.forecast",
+        "summary": "Combined forecast: forecasts + tides + sunrise/sunset in one call. Required: spot. Optional: days (default: 3).",
+        "params_schema": {
+          "spot": "string?",
+          "days": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "forecast"
+        ]
+      },
+      {
+        "tool": "spots.rating",
+        "summary": "Rating forecast: VERY_POOR..EPIC key plus numeric value per time point. Required: spot. Optional: days (default: 3), interval.",
+        "params_schema": {
+          "spot": "string?",
+          "days": "int?",
+          "interval": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "rating"
+        ]
+      },
+      {
+        "tool": "spots.report",
+        "summary": "Spot report: forecaster narrative, current conditions, cameras. Required: spot.",
+        "params_schema": {
+          "spot": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "report"
+        ]
+      },
+      {
+        "tool": "spots.sunlight",
+        "summary": "Sunlight forecast: dawn, sunrise, sunset, dusk local times. Required: spot. Optional: days (default: 3).",
+        "params_schema": {
+          "spot": "string?",
+          "days": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "sunlight"
+        ]
+      },
+      {
+        "tool": "spots.tides",
+        "summary": "Tide forecast: HIGH/LOW/NORMAL extremes with heights and local times. Required: spot. Optional: days (default: 3), tide-units.",
+        "params_schema": {
+          "spot": "string?",
+          "days": "int?",
+          "tide-units": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "tides"
+        ]
+      },
+      {
+        "tool": "spots.wave",
+        "summary": "Wave and swell forecast: surf min/max, optimalScore, swell components (height/period/direction). Required: spot. Optional: days (default: 3), interval, swell-units.",
+        "params_schema": {
+          "spot": "string?",
+          "days": "int?",
+          "interval": "int?",
+          "swell-units": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "wave"
+        ]
+      },
+      {
+        "tool": "spots.weather",
+        "summary": "Weather forecast: temperature, condition, pressure, plus sunlight times. Required: spot. Optional: days (default: 3), interval, temp-units.",
+        "params_schema": {
+          "spot": "string?",
+          "days": "int?",
+          "interval": "int?",
+          "temp-units": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "weather"
+        ]
+      },
+      {
+        "tool": "spots.wind",
+        "summary": "Wind forecast: speed, direction, directionType (Onshore/Offshore/Cross-shore), gust, optimalScore. Required: spot. Optional: days (default: 3), interval, corrected (plus 1 more).",
+        "params_schema": {
+          "spot": "string?",
+          "days": "int?",
+          "interval": "int?",
+          "corrected": "bool?",
+          "wind-units": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "wind"
+        ]
+      },
+      {
+        "tool": "taxonomy.get",
+        "summary": "Fetch a taxonomy node and its children (ancestors via `in`, children via `contains`). Required: id. Optional: type (default: taxonomy), max-depth (default: 0).",
+        "params_schema": {
+          "id": "string",
+          "type": "string?",
+          "max-depth": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "taxonomy"
+        ]
+      }
+    ]
+  },
+  {
     "api": "surgegraph",
     "description": "SurgeGraph is the Answer Engine Optimization (AEO) platform that tracks AI citations, scores pages for citation readiness, and one-click fixes the gaps \u2014 now every workflow runs from the terminal or any agent.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/surgegraph/cmd/surgegraph-pp-cli",
@@ -308142,7 +308942,13 @@
       "Render a markdown 'what's on' report grouped by night \u2192 venue \u2192 events with classification labels and price bands, suitable for newsletter, Obsidian, iMessage, or agent context.",
       "Price-band distribution",
       "events price-bands",
-      "Bucket events by priceRanges.min into <$50 / $50-100 / $100-200 / $200+ bands and report count + sample events per band, grouped by classification."
+      "Bucket events by priceRanges.min into <$50 / $50-100 / $100-200 / $200+ bands and report count + sample events per band, grouped by classification.",
+      "Real presale window planner",
+      "events presales",
+      "Query sales.presales directly, classify each window as upcoming, open, or ended, and filter by how soon it opens.",
+      "Safe checkout handoff",
+      "events checkout",
+      "Select an open or named official presale URL, fall back to the event purchase page, and require --launch before opening a browser."
     ],
     "endpoints": [
       {
@@ -326069,6 +326875,443 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "weaviate-collections",
+    "description": "Full collection-config control for Weaviate Cloud, plus schema history, drift diffing, and lint that no other Weaviate tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/weaviate-collections/cmd/weaviate-collections-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "developer-tools",
+    "search_terms": [
+      "weaviate-collections",
+      "Weaviate Collections",
+      "weaviate-collections-pp-cli",
+      "Full collection-config control for Weaviate Cloud, plus schema history, drift diffing, and lint that no other Weaviate tool has.",
+      "Schema snapshot & history",
+      "schema snapshot",
+      "Save a point-in-time copy of every collection's config to the local store, then browse history over time.",
+      "Schema drift diff",
+      "schema diff",
+      "Diff a collection's live config against a saved snapshot or another collection.",
+      "Collection config lint",
+      "collections lint",
+      "Flag risky collection configs: no vectorizer set, replication factor of 1, unindexed high-cardinality properties.",
+      "Cross-collection tenant audit",
+      "tenants audit",
+      "See tenant counts and activity status across every collection in one view.",
+      "Schema export/import bundle",
+      "schema export",
+      "Export every collection's config as one portable JSON bundle for backup or promotion to another environment."
+    ],
+    "endpoints": [
+      {
+        "tool": "indexes.get",
+        "summary": "Returns per-property index state including active reindex progress. This powers the UI to show live migration status. Required: className.",
+        "params_schema": {
+          "className": "string"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "indexes"
+        ]
+      },
+      {
+        "tool": "properties.add",
+        "summary": "Adds a new property definition to an existing collection (`className`) definition. Required: className. Optional: bucketGeneration, dataType, description (plus 11 more). Returns the new Property.",
+        "params_schema": {
+          "className": "string",
+          "bucketGeneration": "int?",
+          "dataType": "string_csv_array?",
+          "description": "string?",
+          "disableDuplicatedReferences": "bool?",
+          "indexFilterable": "bool?",
+          "indexInverted": "bool?",
+          "indexRangeFilters": "bool?",
+          "indexSearchable": "bool?",
+          "moduleConfig": "object?",
+          "name": "string?",
+          "nestedProperties": "array?",
+          "searchableBlockmax": "bool?",
+          "text-analyzer-ascii-fold": "bool?",
+          "text-analyzer-ascii-fold-ignore": "string_csv_array?",
+          "text-analyzer-stopword-preset": "string?",
+          "tokenization": "string?"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "properties",
+          "add"
+        ]
+      },
+      {
+        "tool": "properties.index_cancel",
+        "summary": "Cancels the in-flight reindex task targeting this property's index. No request body. Idempotent: succeeds whether or not a task was in flight (a `202` with `{'status':'NO_OP'}` is returned when there is nothing to cancel). `indexName` accepts `rangeable` as an alias for `rangeFilters`. Required: className, propertyName, indexName (default: filterable). Returns the new IndexUpdateResponse.",
+        "params_schema": {
+          "className": "string",
+          "propertyName": "string",
+          "indexName": "string"
+        },
+        "positionals": [
+          "className",
+          "propertyName",
+          "indexName"
+        ],
+        "argv_path": [
+          "properties",
+          "index_cancel"
+        ]
+      },
+      {
+        "tool": "properties.index_objects-properties-delete",
+        "summary": "Deletes an inverted index of a specific property within a collection (`className`). The index to delete is identified by `indexName` and must be one of `filterable`, `searchable`, or `rangeFilters` (with `rangeable` accepted as an alias for `rangeFilters`). Required: className, propertyName, indexName (default: filterable). Destructive.",
+        "params_schema": {
+          "className": "string",
+          "propertyName": "string",
+          "indexName": "string"
+        },
+        "positionals": [
+          "className",
+          "propertyName",
+          "indexName"
+        ],
+        "argv_path": [
+          "properties",
+          "index_objects-properties-delete"
+        ]
+      },
+      {
+        "tool": "properties.index_rebuild",
+        "summary": "Rebuilds the inverted index from the stored objects with its current configuration (repair / format refresh). No request body. Index-mutating work is asynchronous: a `202` with a task ID is returned. `indexName` accepts `rangeable` as an alias for `rangeFilters`. Required: className, propertyName, indexName (default: filterable). Optional: tenants. Returns the new IndexUpdateResponse.",
+        "params_schema": {
+          "className": "string",
+          "propertyName": "string",
+          "indexName": "string",
+          "tenants": "array?"
+        },
+        "positionals": [
+          "className",
+          "propertyName",
+          "indexName"
+        ],
+        "argv_path": [
+          "properties",
+          "index_rebuild"
+        ]
+      },
+      {
+        "tool": "properties.index_upsert",
+        "summary": "Upserts the inverted index of a property, identified by `indexName`. The body describes the desired index configuration; the server diffs it against the current state and either creates the index, migrates its configuration, or does nothing. Index-mutating work is asynchronous: a `202` with a task ID is returned when a reindex task is submitted, and `200` with `{'status':'NO_OP'}` is returned when the desired configuration is already in place. `indexName` accepts `rangeable` as an alias for `rangeFilters`. Required: className, propertyName, indexName (default: filterable). Optional: tenants, algorithm, tokenization. Returns the updated IndexUpdateResponse.",
+        "params_schema": {
+          "className": "string",
+          "propertyName": "string",
+          "indexName": "string",
+          "tenants": "array?",
+          "algorithm": "string?",
+          "tokenization": "string?"
+        },
+        "positionals": [
+          "className",
+          "propertyName",
+          "indexName"
+        ],
+        "argv_path": [
+          "properties",
+          "index_upsert"
+        ]
+      },
+      {
+        "tool": "properties.tokenize_objects-properties",
+        "summary": "Tokenizes the provided text using the tokenization method configured for the specified property. This endpoint automatically applies the property's tokenization setting and the collection's stopword configuration, making it useful for understanding exactly how text will be processed for a given property during indexing and querying. Required: className, propertyName, text. Returns the new TokenizeResponse.",
+        "params_schema": {
+          "className": "string",
+          "propertyName": "string",
+          "text": "string?"
+        },
+        "positionals": [
+          "className",
+          "propertyName"
+        ],
+        "argv_path": [
+          "properties",
+          "tokenize_objects-properties"
+        ]
+      },
+      {
+        "tool": "schema.dump",
+        "summary": "Retrieves the definitions of all collections (classes) currently in the database schema. Returns array of Class.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "schema",
+          "dump"
+        ]
+      },
+      {
+        "tool": "schema.objects-create",
+        "summary": "Defines and creates a new collection (class). If [`AutoSchema`](https://docs.weaviate.io/weaviate/config-refs/collections#auto-schema) is enabled (not recommended for production), Weaviate might attempt to infer schema from data during import. Manual definition via this endpoint provides explicit control. Optional: class, description, invertedIndexConfig (plus 10 more). Returns array of Property.",
+        "params_schema": {
+          "class": "string?",
+          "description": "string?",
+          "inverted-index-config-bm25-b": "float?",
+          "inverted-index-config-bm25-k1": "float?",
+          "inverted-index-config-cleanup-interval-seconds": "float?",
+          "inverted-index-config-index-null-state": "bool?",
+          "inverted-index-config-index-property-length": "bool?",
+          "inverted-index-config-index-timestamps": "bool?",
+          "inverted-index-config-stopword-presets": "object?",
+          "inverted-index-config-stopwords-additions": "string_csv_array?",
+          "inverted-index-config-stopwords-preset": "string?",
+          "inverted-index-config-stopwords-removals": "string_csv_array?",
+          "inverted-index-config-tokenizer-user-dict": "array?",
+          "inverted-index-config-using-block-max-wand": "bool?",
+          "moduleConfig": "object?",
+          "multiTenancyConfig": "string?",
+          "objectTtlConfig": "string?",
+          "properties": "array?",
+          "replication-config-async-config-diff-batch-size": "int?",
+          "replication-config-async-config-diff-per-node-timeout": "int?",
+          "replication-config-async-config-frequency": "int?",
+          "replication-config-async-config-frequency-while-propagating": "int?",
+          "replication-config-async-config-hashtree-height": "int?",
+          "replication-config-async-config-logging-frequency": "int?",
+          "replication-config-async-config-pre-propagation-timeout": "int?",
+          "replication-config-async-config-propagation-batch-size": "int?",
+          "replication-config-async-config-propagation-concurrency": "int?",
+          "replication-config-async-config-propagation-delay": "int?",
+          "replication-config-async-config-propagation-limit": "int?",
+          "replication-config-async-config-propagation-timeout": "int?",
+          "replication-config-deletion-strategy": "string?",
+          "replication-config-factor": "int?",
+          "shardingConfig": "object?",
+          "vectorConfig": "object?",
+          "vectorIndexConfig": "object?",
+          "vectorIndexType": "string?",
+          "vectorizer": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "schema",
+          "objects-create"
+        ]
+      },
+      {
+        "tool": "schema.objects-delete",
+        "summary": "Removes a collection definition from the schema. WARNING: This action permanently deletes all data objects stored within the collection. Required: className. Destructive.",
+        "params_schema": {
+          "className": "string"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "schema",
+          "objects-delete"
+        ]
+      },
+      {
+        "tool": "schema.objects-get",
+        "summary": "Retrieve the definition of a specific collection (`className`), including its properties, configuration, and vectorizer settings. Required: className. Returns array of Property.",
+        "params_schema": {
+          "className": "string"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "schema",
+          "objects-get"
+        ]
+      },
+      {
+        "tool": "schema.objects-update",
+        "summary": "Updates the configuration settings of an existing collection (`className`) based on the provided definition. Note: This operation modifies mutable settings specified in the request body. It does not add properties (use `POST /schema/{className}/properties` for that) or change the collection name. Required: className. Optional: class, description, invertedIndexConfig (plus 10 more). Returns array of Property.",
+        "params_schema": {
+          "className": "string",
+          "class": "string?",
+          "description": "string?",
+          "inverted-index-config-bm25-b": "float?",
+          "inverted-index-config-bm25-k1": "float?",
+          "inverted-index-config-cleanup-interval-seconds": "float?",
+          "inverted-index-config-index-null-state": "bool?",
+          "inverted-index-config-index-property-length": "bool?",
+          "inverted-index-config-index-timestamps": "bool?",
+          "inverted-index-config-stopword-presets": "object?",
+          "inverted-index-config-stopwords-additions": "string_csv_array?",
+          "inverted-index-config-stopwords-preset": "string?",
+          "inverted-index-config-stopwords-removals": "string_csv_array?",
+          "inverted-index-config-tokenizer-user-dict": "array?",
+          "inverted-index-config-using-block-max-wand": "bool?",
+          "moduleConfig": "object?",
+          "multiTenancyConfig": "string?",
+          "objectTtlConfig": "string?",
+          "properties": "array?",
+          "replication-config-async-config-diff-batch-size": "int?",
+          "replication-config-async-config-diff-per-node-timeout": "int?",
+          "replication-config-async-config-frequency": "int?",
+          "replication-config-async-config-frequency-while-propagating": "int?",
+          "replication-config-async-config-hashtree-height": "int?",
+          "replication-config-async-config-logging-frequency": "int?",
+          "replication-config-async-config-pre-propagation-timeout": "int?",
+          "replication-config-async-config-propagation-batch-size": "int?",
+          "replication-config-async-config-propagation-concurrency": "int?",
+          "replication-config-async-config-propagation-delay": "int?",
+          "replication-config-async-config-propagation-limit": "int?",
+          "replication-config-async-config-propagation-timeout": "int?",
+          "replication-config-deletion-strategy": "string?",
+          "replication-config-factor": "int?",
+          "shardingConfig": "object?",
+          "vectorConfig": "object?",
+          "vectorIndexConfig": "object?",
+          "vectorIndexType": "string?",
+          "vectorizer": "string?"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "schema",
+          "objects-update"
+        ]
+      },
+      {
+        "tool": "shards.get",
+        "summary": "Retrieves the status of all shards associated with the specified collection (`className`). For multi-tenant collections, use the `tenant` query parameter to retrieve status for a specific tenant's shards. Required: className. Optional: tenant. Returns array of ShardStatusGetResponse.",
+        "params_schema": {
+          "className": "string",
+          "tenant": "string?"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "shards"
+        ]
+      },
+      {
+        "tool": "shards.update",
+        "summary": "Updates the status of a specific shard within a collection (e.g., sets it to `READY` or `READONLY`). This is typically used after resolving an underlying issue (like disk space) that caused a shard to become non-operational. There is also a convenience function in each client to set the status of all shards of a collection. Required: className, shardName. Optional: status. Returns the updated ShardStatus.",
+        "params_schema": {
+          "className": "string",
+          "shardName": "string",
+          "status": "string?"
+        },
+        "positionals": [
+          "className",
+          "shardName"
+        ],
+        "argv_path": [
+          "shards",
+          "update"
+        ]
+      },
+      {
+        "tool": "tenants.create",
+        "summary": "Creates one or more new tenants for a specified collection (`className`). Multi-tenancy must be enabled for the collection via its definition. Required: className. Returns array of Tenant.",
+        "params_schema": {
+          "className": "string"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "tenants"
+        ]
+      },
+      {
+        "tool": "tenants.delete",
+        "summary": "Deletes one or more specified tenants from a collection (`className`). WARNING: This action permanently deletes all data associated with the specified tenants. Required: className. Destructive.",
+        "params_schema": {
+          "className": "string"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "tenants",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tenants.exists",
+        "summary": "Checks for the existence of a specific tenant within the given collection (`className`). Required: className, tenantName.",
+        "params_schema": {
+          "className": "string",
+          "tenantName": "string"
+        },
+        "positionals": [
+          "className",
+          "tenantName"
+        ],
+        "argv_path": [
+          "tenants",
+          "exists"
+        ]
+      },
+      {
+        "tool": "tenants.get",
+        "summary": "Retrieves a list of all tenants currently associated with the specified collection. Required: className. Returns array of Tenant.",
+        "params_schema": {
+          "className": "string"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "tenants",
+          "get"
+        ]
+      },
+      {
+        "tool": "tenants.get-one",
+        "summary": "Retrieves details about a specific tenant within the given collection (`className`), such as its current activity status. Required: className, tenantName. Returns the Tenant.",
+        "params_schema": {
+          "className": "string",
+          "tenantName": "string"
+        },
+        "positionals": [
+          "className",
+          "tenantName"
+        ],
+        "argv_path": [
+          "tenants",
+          "get-one"
+        ]
+      },
+      {
+        "tool": "tenants.update",
+        "summary": "Updates the activity status (e.g., `ACTIVE`, `INACTIVE`, etc.) of one or more specified tenants within a collection (`className`). Required: className. Returns array of Tenant.",
+        "params_schema": {
+          "className": "string"
+        },
+        "positionals": [
+          "className"
+        ],
+        "argv_path": [
+          "tenants",
+          "update"
+        ]
+      },
+      {
+        "tool": "vectors.index_objects-vectors-delete",
+        "summary": "Deletes a specific vector index within a collection (`className`). The vector index to delete is identified by `vectorIndexName`. Required: className, vectorIndexName. Destructive.",
+        "params_schema": {
+          "className": "string",
+          "vectorIndexName": "string"
+        },
+        "positionals": [
+          "className",
+          "vectorIndexName"
+        ],
+        "argv_path": [
+          "vectors",
+          "index_objects-vectors-delete"
         ]
       }
     ]
