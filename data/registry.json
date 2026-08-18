@@ -21230,6 +21230,175 @@
     ]
   },
   {
+    "api": "aol-puglia",
+    "description": "Accesso pubblico all'Albo Pretorio Online delle 13 aziende sanitarie pugliesi: ricerca atti, download allegati, esportazione CSV. Zero config: autenticazione OAuth2 automatica.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/aol-puglia/cmd/aol-puglia-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "other",
+    "search_terms": [
+      "aol-puglia",
+      "Albo Online Sanit\u00e0 Puglia",
+      "aol-puglia-pp-cli",
+      "Accesso pubblico all'Albo Pretorio Online delle 13 aziende sanitarie pugliesi: ricerca atti, download allegati, esportazione CSV. Zero config: autenticazione OAuth2 automatica.",
+      "Auto-auth OAuth2",
+      "doctor",
+      "Il CLI ottiene automaticamente un token OAuth2 client_credentials pubblico senza che l'utente debba configurare credenziali.",
+      "Elenco aziende sanitarie",
+      "orgs",
+      "Lista le 13 aziende sanitarie pugliesi con i valori esatti da usare nei flag --azienda.",
+      "Ricerca atti paginata",
+      "atti search",
+      "Ricerca per parola chiave, data, proponente, CIG su bandi, concorsi, delibere e determine.",
+      "Download allegati",
+      "atti download-allegato",
+      "Scarica PDF e altri allegati decodificando automaticamente il base64 restituito dall'API.",
+      "Esportazione CSV",
+      "fileexport",
+      "Esporta i risultati di una ricerca come file CSV lato server (fino a 500 record)."
+    ],
+    "endpoints": [
+      {
+        "tool": "atti.download-allegato",
+        "summary": "Restituisce il contenuto dell'allegato come base64 con il nome originale del file. L'allegato ID \u00e8 disponibile nel campo listaAllegati di ogni atto. Required: id. Returns the AllegatoResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "atti",
+          "download-allegato"
+        ]
+      },
+      {
+        "tool": "atti.get-atto",
+        "summary": "Restituisce il dettaglio completo di un singolo atto inclusa la lista allegati. Required: id. Returns the AttoResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "atti",
+          "get-atto"
+        ]
+      },
+      {
+        "tool": "atti.get-trasparenza",
+        "summary": "Restituisce le sezioni di trasparenza disponibili per l'azienda. Required: azienda. Returns array of TrasparenzaEntry.",
+        "params_schema": {
+          "azienda": "string"
+        },
+        "positionals": [
+          "azienda"
+        ],
+        "argv_path": [
+          "atti",
+          "get-trasparenza"
+        ]
+      },
+      {
+        "tool": "atti.search",
+        "summary": "Ricerca paginata degli atti pubblicati. Senza autenticazione utente sono visibili solo bandi e concorsi (logged=false). Supporta filtri per data, proponente, oggetto, CIG. Required: azienda, logged, numElementi, page, tipoItem. Optional: annoRepertorio, dataAdozioneAl, dataAdozioneDal (plus 8 more). Returns array of Atto.",
+        "params_schema": {
+          "annoRepertorio": "int?",
+          "azienda": "string?",
+          "dataAdozioneAl": "string?",
+          "dataAdozioneDal": "string?",
+          "dataScadenzaAl": "string?",
+          "dataScadenzaDal": "string?",
+          "logged": "bool?",
+          "numElementi": "int?",
+          "numero": "int?",
+          "numeroRepertorio": "int?",
+          "oggetto": "string?",
+          "page": "int?",
+          "proponenteSelezionato": "string?",
+          "statoAtto": "string?",
+          "tipoDocumentazione": "string?",
+          "tipoItem": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "atti",
+          "search"
+        ]
+      },
+      {
+        "tool": "config.get-configurazione-item",
+        "summary": "Restituisce la configurazione di durata pubblicazione e proroga per ogni tipo di atto dell'azienda. Required: azienda. Returns array of ConfigItemEntry.",
+        "params_schema": {
+          "azienda": "string"
+        },
+        "positionals": [
+          "azienda"
+        ],
+        "argv_path": [
+          "config",
+          "get-configurazione-item"
+        ]
+      },
+      {
+        "tool": "config.list-proponenti",
+        "summary": "Restituisce tutti i proponenti configurati per l'azienda e il tipo di documento. Required: azienda, tipoItem (default: bando). Returns array of Proponente.",
+        "params_schema": {
+          "azienda": "string",
+          "tipoItem": "string"
+        },
+        "positionals": [
+          "azienda",
+          "tipoItem"
+        ],
+        "argv_path": [
+          "config",
+          "list-proponenti"
+        ]
+      },
+      {
+        "tool": "config.list-proponenti-attivi",
+        "summary": "Come getProponenti ma filtra solo i proponenti con attivo=true. Required: azienda, tipoItem (default: bando). Returns array of Proponente.",
+        "params_schema": {
+          "azienda": "string",
+          "tipoItem": "string"
+        },
+        "positionals": [
+          "azienda",
+          "tipoItem"
+        ],
+        "argv_path": [
+          "config",
+          "list-proponenti-attivi"
+        ]
+      },
+      {
+        "tool": "fileexport.export-to-csv",
+        "summary": "Esporta i risultati di una ricerca come file CSV. Accetta gli stessi parametri di getListaAttiPaginata (senza page/numElementi). Required: azienda, logged, tipoItem. Optional: annoRepertorio, dataAdozioneAl, dataAdozioneDal (plus 7 more). Returns the new FileexportExportToCsvResponse.",
+        "params_schema": {
+          "annoRepertorio": "int?",
+          "azienda": "string?",
+          "dataAdozioneAl": "string?",
+          "dataAdozioneDal": "string?",
+          "dataScadenzaAl": "string?",
+          "dataScadenzaDal": "string?",
+          "logged": "bool?",
+          "numero": "int?",
+          "numeroRepertorio": "int?",
+          "oggetto": "string?",
+          "proponenteSelezionato": "string?",
+          "statoAtto": "string?",
+          "tipoItem": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "fileexport",
+          "export-to-csv"
+        ]
+      }
+    ]
+  },
+  {
     "api": "apartments",
     "description": "Search Apartments.com listings, sync results to a local SQLite store, and run workflows the website never built \u2014 diff saved searches, rank by $/sqft, compare shortlists, and surface price drops or phantom listings.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/apartments/cmd/apartments-pp-cli",
@@ -196758,6 +196927,3319 @@
     ]
   },
   {
+    "api": "inaturalist",
+    "description": "Explore iNaturalist's full API, plus privacy-safe field briefings and identification progress that ordinary endpoint wrappers miss.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/inaturalist/cmd/inaturalist-pp-cli",
+    "auth_type": "api_key",
+    "category": "other",
+    "search_terms": [
+      "inaturalist",
+      "inaturalist-pp-cli",
+      "Explore iNaturalist's full API, plus privacy-safe field briefings and identification progress that ordinary endpoint wrappers miss.",
+      "Nearby highlights",
+      "Get a transparent, recent wildlife briefing for an area without exposing observation coordinates.",
+      "Nature scavenger hunt",
+      "hunt create",
+      "Create a factual, balanced nature scavenger-hunt checklist from taxa actually observed nearby.",
+      "Current identification status",
+      "observations id-status",
+      "See which of an observer's recent observations are identified, need IDs, disagree, or have no taxon.",
+      "Identification changes since sync",
+      "observations id-changes",
+      "Report observations that became identified, changed, withdrew, or still need IDs since a previous privacy-safe sync.",
+      "Seasonal shift briefing",
+      "nearby seasonal-shift",
+      "Compare two field windows and surface taxa that newly appeared, returned, or changed materially."
+    ],
+    "endpoints": [
+      {
+        "tool": "annotations.create",
+        "summary": "Create an annotation. Optional: annotation.",
+        "params_schema": {
+          "annotation-controlled-attribute-id": "int?",
+          "annotation-controlled-value-id": "int?",
+          "annotation-resource-id": "int?",
+          "annotation-resource-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "annotations"
+        ]
+      },
+      {
+        "tool": "annotations.delete",
+        "summary": "Delete an annotation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "annotations",
+          "delete"
+        ]
+      },
+      {
+        "tool": "colored-heatmap.y-grid-json_get",
+        "summary": "Given zero to many of following parameters, returns a JSON file following the UTFGrid spec, representing observations matching the search criteria. Required: zoom, x, y. Optional: color, acc, captive (plus 95 more).",
+        "params_schema": {
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?"
+        },
+        "positionals": [
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "colored-heatmap",
+          "y-grid-json_get"
+        ]
+      },
+      {
+        "tool": "colored-heatmap.y-png_get",
+        "summary": "Given zero to many of following parameters, returns a PNG image representing the matching observations within a map tile, following the XYZ tiling scheme. Required: zoom, x, y. Optional: color, acc, captive (plus 95 more).",
+        "params_schema": {
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?"
+        },
+        "positionals": [
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "colored-heatmap",
+          "y-png_get"
+        ]
+      },
+      {
+        "tool": "comments.create",
+        "summary": "Create a comment. Optional: comment.",
+        "params_schema": {
+          "comment-body": "string?",
+          "comment-parent-id": "int?",
+          "comment-parent-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "comments"
+        ]
+      },
+      {
+        "tool": "comments.delete",
+        "summary": "Delete a comment. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "comments",
+          "delete"
+        ]
+      },
+      {
+        "tool": "comments.update",
+        "summary": "Update a comment. Required: id. Optional: comment.",
+        "params_schema": {
+          "id": "string",
+          "comment-body": "string?",
+          "comment-parent-id": "int?",
+          "comment-parent-type": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "comments",
+          "update"
+        ]
+      },
+      {
+        "tool": "controlled-terms.list",
+        "summary": "List all attribute controlled terms.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "controlled-terms"
+        ]
+      },
+      {
+        "tool": "controlled-terms.list-controlledterms",
+        "summary": "Returns attribute controlled terms relevant to a taxon. Required: taxon_id.",
+        "params_schema": {
+          "taxon_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "controlled-terms",
+          "list-controlledterms"
+        ]
+      },
+      {
+        "tool": "flags.create",
+        "summary": "Create a flag. To create a custom flag beyond the standard `spam` and `inappropriate` flags, set `flag` to `other` and include a `flag_explanation`. Optional: flag, flag_explanation.",
+        "params_schema": {
+          "flag-flag": "string?",
+          "flag-flaggable-id": "int?",
+          "flag-flaggable-type": "string?",
+          "flag_explanation": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "flags"
+        ]
+      },
+      {
+        "tool": "flags.delete",
+        "summary": "Delete a flag. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "flags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "flags.update",
+        "summary": "Update a flag. Generally only used to resolve the flag. Required: id. Optional: flag.",
+        "params_schema": {
+          "id": "string",
+          "flag-resolved": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "flags",
+          "update"
+        ]
+      },
+      {
+        "tool": "grid.y-grid-json_get",
+        "summary": "Given zero to many of following parameters, returns a JSON file following the UTFGrid spec, representing observations matching the search criteria. Required: zoom, x, y. Optional: color, acc, captive (plus 95 more).",
+        "params_schema": {
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?"
+        },
+        "positionals": [
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "grid",
+          "y-grid-json_get"
+        ]
+      },
+      {
+        "tool": "grid.y-png_get",
+        "summary": "Given zero to many of following parameters, returns a PNG image representing the matching observations within a map tile, following the XYZ tiling scheme. Required: zoom, x, y. Optional: color, acc, captive (plus 95 more).",
+        "params_schema": {
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?"
+        },
+        "positionals": [
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "grid",
+          "y-png_get"
+        ]
+      },
+      {
+        "tool": "heatmap.y-grid-json_get",
+        "summary": "Given zero to many of following parameters, returns a JSON file following the UTFGrid spec, representing observations matching the search criteria. Required: zoom, x, y. Optional: color, acc, captive (plus 95 more).",
+        "params_schema": {
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?"
+        },
+        "positionals": [
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "heatmap",
+          "y-grid-json_get"
+        ]
+      },
+      {
+        "tool": "heatmap.y-png_get",
+        "summary": "Given zero to many of following parameters, returns a PNG image representing the matching observations within a map tile, following the XYZ tiling scheme. Required: zoom, x, y. Optional: color, acc, captive (plus 95 more).",
+        "params_schema": {
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?"
+        },
+        "positionals": [
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "heatmap",
+          "y-png_get"
+        ]
+      },
+      {
+        "tool": "identifications.create",
+        "summary": "Create an identification. Optional: identification.",
+        "params_schema": {
+          "identification-body": "string?",
+          "identification-current": "bool?",
+          "identification-observation-id": "int?",
+          "identification-taxon-id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "identifications"
+        ]
+      },
+      {
+        "tool": "identifications.delete",
+        "summary": "Delete an identification. See description of `PUT /identifications/{id} for notes on withdrawing and restoring identifications. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "identifications",
+          "delete"
+        ]
+      },
+      {
+        "tool": "identifications.get",
+        "summary": "Given an ID, or an array of IDs in comma-delimited format, returns corresponding identifications. A maximum of 30 results will be returned. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "identifications",
+          "get"
+        ]
+      },
+      {
+        "tool": "identifications.list",
+        "summary": "Given zero to many of following parameters, returns identifications matching the search criteria. Optional: current_taxon, own_observation, is_change (plus 35 more).",
+        "params_schema": {
+          "current_taxon": "bool?",
+          "own_observation": "bool?",
+          "is_change": "bool?",
+          "taxon_active": "bool?",
+          "observation_taxon_active": "bool?",
+          "id": "array?",
+          "rank": "array?",
+          "observation_rank": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "current": "bool?",
+          "category": "array?",
+          "place_id": "array?",
+          "quality_grade": "array?",
+          "taxon_change_id": "array?",
+          "taxon_id": "array?",
+          "observation_taxon_id": "array?",
+          "iconic_taxon_id": "array?",
+          "observation_iconic_taxon_id": "array?",
+          "lrank": "string?",
+          "hrank": "string?",
+          "observation_lrank": "string?",
+          "observation_hrank": "string?",
+          "without_taxon_id": "array?",
+          "without_observation_taxon_id": "array?",
+          "d1": "string?",
+          "d2": "string?",
+          "observation_created_d1": "string?",
+          "observation_created_d2": "string?",
+          "observed_d1": "string?",
+          "observed_d2": "string?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "page": "string?",
+          "per_page": "string?",
+          "order": "string?",
+          "order_by": "string?",
+          "only_id": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "identifications",
+          "list"
+        ]
+      },
+      {
+        "tool": "identifications.list-categories",
+        "summary": "Given zero to many of following parameters, return counts of the categories of identifications matching the search criteria. Optional: current_taxon, own_observation, is_change (plus 35 more).",
+        "params_schema": {
+          "current_taxon": "bool?",
+          "own_observation": "bool?",
+          "is_change": "bool?",
+          "taxon_active": "bool?",
+          "observation_taxon_active": "bool?",
+          "id": "array?",
+          "rank": "array?",
+          "observation_rank": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "current": "bool?",
+          "category": "array?",
+          "place_id": "array?",
+          "quality_grade": "array?",
+          "taxon_change_id": "array?",
+          "taxon_id": "array?",
+          "observation_taxon_id": "array?",
+          "iconic_taxon_id": "array?",
+          "observation_iconic_taxon_id": "array?",
+          "lrank": "string?",
+          "hrank": "string?",
+          "observation_lrank": "string?",
+          "observation_hrank": "string?",
+          "without_taxon_id": "array?",
+          "without_observation_taxon_id": "array?",
+          "d1": "string?",
+          "d2": "string?",
+          "observation_created_d1": "string?",
+          "observation_created_d2": "string?",
+          "observed_d1": "string?",
+          "observed_d2": "string?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "page": "string?",
+          "per_page": "string?",
+          "order": "string?",
+          "order_by": "string?",
+          "only_id": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "identifications",
+          "list-categories"
+        ]
+      },
+      {
+        "tool": "identifications.list-identifiers",
+        "summary": "Given zero to many of following parameters, returns creators of identifications matching the search criteria and the count of matching identifications, ordered by count descending. A maximum of 500 results will be returned. Optional: current_taxon, own_observation, is_change (plus 35 more).",
+        "params_schema": {
+          "current_taxon": "bool?",
+          "own_observation": "bool?",
+          "is_change": "bool?",
+          "taxon_active": "bool?",
+          "observation_taxon_active": "bool?",
+          "id": "array?",
+          "rank": "array?",
+          "observation_rank": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "current": "bool?",
+          "category": "array?",
+          "place_id": "array?",
+          "quality_grade": "array?",
+          "taxon_change_id": "array?",
+          "taxon_id": "array?",
+          "observation_taxon_id": "array?",
+          "iconic_taxon_id": "array?",
+          "observation_iconic_taxon_id": "array?",
+          "lrank": "string?",
+          "hrank": "string?",
+          "observation_lrank": "string?",
+          "observation_hrank": "string?",
+          "without_taxon_id": "array?",
+          "without_observation_taxon_id": "array?",
+          "d1": "string?",
+          "d2": "string?",
+          "observation_created_d1": "string?",
+          "observation_created_d2": "string?",
+          "observed_d1": "string?",
+          "observed_d2": "string?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "page": "string?",
+          "per_page": "string?",
+          "order": "string?",
+          "order_by": "string?",
+          "only_id": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "identifications",
+          "list-identifiers"
+        ]
+      },
+      {
+        "tool": "identifications.list-observers",
+        "summary": "Given zero to many of following parameters, returns creators of observations of identifications matching the search criteria and the count of matching observations, ordered by count descending. Optional: current_taxon, own_observation, is_change (plus 35 more).",
+        "params_schema": {
+          "current_taxon": "bool?",
+          "own_observation": "bool?",
+          "is_change": "bool?",
+          "taxon_active": "bool?",
+          "observation_taxon_active": "bool?",
+          "id": "array?",
+          "rank": "array?",
+          "observation_rank": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "current": "bool?",
+          "category": "array?",
+          "place_id": "array?",
+          "quality_grade": "array?",
+          "taxon_change_id": "array?",
+          "taxon_id": "array?",
+          "observation_taxon_id": "array?",
+          "iconic_taxon_id": "array?",
+          "observation_iconic_taxon_id": "array?",
+          "lrank": "string?",
+          "hrank": "string?",
+          "observation_lrank": "string?",
+          "observation_hrank": "string?",
+          "without_taxon_id": "array?",
+          "without_observation_taxon_id": "array?",
+          "d1": "string?",
+          "d2": "string?",
+          "observation_created_d1": "string?",
+          "observation_created_d2": "string?",
+          "observed_d1": "string?",
+          "observed_d2": "string?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "page": "string?",
+          "per_page": "string?",
+          "order": "string?",
+          "order_by": "string?",
+          "only_id": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "identifications",
+          "list-observers"
+        ]
+      },
+      {
+        "tool": "identifications.list-recenttaxa",
+        "summary": "Returns an array of objects each containing an identification and a taxon. Returns IDs representing the earliest occurrence of taxa associated with identifications in the filtered set of results. Optional: current_taxon, own_observation, is_change (plus 35 more).",
+        "params_schema": {
+          "current_taxon": "bool?",
+          "own_observation": "bool?",
+          "is_change": "bool?",
+          "taxon_active": "bool?",
+          "observation_taxon_active": "bool?",
+          "id": "array?",
+          "rank": "array?",
+          "observation_rank": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "current": "bool?",
+          "category": "array?",
+          "place_id": "array?",
+          "quality_grade": "array?",
+          "taxon_change_id": "array?",
+          "taxon_id": "array?",
+          "observation_taxon_id": "array?",
+          "iconic_taxon_id": "array?",
+          "observation_iconic_taxon_id": "array?",
+          "lrank": "string?",
+          "hrank": "string?",
+          "observation_lrank": "string?",
+          "observation_hrank": "string?",
+          "without_taxon_id": "array?",
+          "without_observation_taxon_id": "array?",
+          "d1": "string?",
+          "d2": "string?",
+          "observation_created_d1": "string?",
+          "observation_created_d2": "string?",
+          "observed_d1": "string?",
+          "observed_d2": "string?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "page": "string?",
+          "per_page": "string?",
+          "order": "string?",
+          "order_by": "string?",
+          "only_id": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "identifications",
+          "list-recenttaxa"
+        ]
+      },
+      {
+        "tool": "identifications.list-similarspecies",
+        "summary": "Returns species attached to IDs of observations of this taxon, or attached to observations identified as this species, ordered by combined frequency descending. This will only return species in the same iconic taxon, and will never return descendants of the chosen taxon. Required: taxon_id. Optional: acc, captive, endemic (plus 93 more).",
+        "params_schema": {
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?",
+          "taxon_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "identifications",
+          "list-similarspecies"
+        ]
+      },
+      {
+        "tool": "identifications.list-speciescounts",
+        "summary": "Given zero to many of following parameters, returns `leaf taxa` associated with identifications matching the search criteria and the count of identifications they are associated with, ordered by count descending. `Leaf taxa` are the leaves of the taxonomic tree containing only the taxa associated with observations matching the search criteria. Optional: current_taxon, own_observation, is_change (plus 36 more).",
+        "params_schema": {
+          "current_taxon": "bool?",
+          "own_observation": "bool?",
+          "is_change": "bool?",
+          "taxon_active": "bool?",
+          "observation_taxon_active": "bool?",
+          "id": "array?",
+          "rank": "array?",
+          "observation_rank": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "current": "bool?",
+          "category": "array?",
+          "place_id": "array?",
+          "quality_grade": "array?",
+          "taxon_change_id": "array?",
+          "taxon_id": "array?",
+          "observation_taxon_id": "array?",
+          "iconic_taxon_id": "array?",
+          "observation_iconic_taxon_id": "array?",
+          "lrank": "string?",
+          "hrank": "string?",
+          "observation_lrank": "string?",
+          "observation_hrank": "string?",
+          "without_taxon_id": "array?",
+          "without_observation_taxon_id": "array?",
+          "d1": "string?",
+          "d2": "string?",
+          "observation_created_d1": "string?",
+          "observation_created_d2": "string?",
+          "observed_d1": "string?",
+          "observed_d2": "string?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "page": "string?",
+          "per_page": "string?",
+          "order": "string?",
+          "order_by": "string?",
+          "only_id": "bool?",
+          "taxon_of": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "identifications",
+          "list-speciescounts"
+        ]
+      },
+      {
+        "tool": "identifications.update",
+        "summary": "Update an identification. Note that to 'withdraw' an observation you send a `PUT` request to this endpoint and set the `current` attribute to false. To 'restore' it you do the same but set `current` to `true`. Only one identification by a given user can be `current` for a given observation, so if you 'restore' one all the other identifications by the authenticated user for the given observation will be withdrawn. Required: id. Optional: identification.",
+        "params_schema": {
+          "id": "string",
+          "identification-body": "string?",
+          "identification-current": "bool?",
+          "identification-observation-id": "int?",
+          "identification-taxon-id": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "identifications",
+          "update"
+        ]
+      },
+      {
+        "tool": "messages.create",
+        "summary": "Create and deliver a new message to another user. Optional: message. Returns array of MessagesCreateItem.",
+        "params_schema": {
+          "message-body": "string?",
+          "message-subject": "string?",
+          "message-thread-id": "int?",
+          "message-to-user-id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages"
+        ]
+      },
+      {
+        "tool": "messages.delete",
+        "summary": "This will all of the authenticated user's copies of the messages in tha thread to which the specified message belongs. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "messages",
+          "delete"
+        ]
+      },
+      {
+        "tool": "messages.get",
+        "summary": "Retrieves all messages in the thread the specified message belongs to and marks them all as read. Required: id. Returns array of Message.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "messages",
+          "get"
+        ]
+      },
+      {
+        "tool": "messages.list",
+        "summary": "Retrieve messages for the authenticated user. This does not mark them as read. Optional: page, box (default: inbox), q (plus 2 more).",
+        "params_schema": {
+          "page": "string?",
+          "box": "string?",
+          "q": "string?",
+          "user_id": "string?",
+          "threads": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "list"
+        ]
+      },
+      {
+        "tool": "messages.list-unread",
+        "summary": "Gets a count of messages the authenticated user has not read. Returns the MessagesListUnreadResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "list-unread"
+        ]
+      },
+      {
+        "tool": "observation-field-values.create",
+        "summary": "Create an observation field value. Optional: observation_field_value.",
+        "params_schema": {
+          "observation-field-value-observation-field-id": "int?",
+          "observation-field-value-observation-id": "int?",
+          "observation-field-value-value": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observation-field-values"
+        ]
+      },
+      {
+        "tool": "observation-field-values.delete",
+        "summary": "Delete an observation field value. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observation-field-values",
+          "delete"
+        ]
+      },
+      {
+        "tool": "observation-field-values.update",
+        "summary": "Update an observation field value. Required: id. Optional: observation_field_value.",
+        "params_schema": {
+          "id": "string",
+          "observation-field-value-observation-field-id": "int?",
+          "observation-field-value-observation-id": "int?",
+          "observation-field-value-value": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observation-field-values",
+          "update"
+        ]
+      },
+      {
+        "tool": "observation-photos.create",
+        "summary": "Create an observation photo. Optional: file, observation_photo[observation_id], observation_photo[uuid].",
+        "params_schema": {
+          "file": "string?",
+          "observation_photo[observation_id]": "int?",
+          "observation_photo[uuid]": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observation-photos"
+        ]
+      },
+      {
+        "tool": "observation-photos.delete",
+        "summary": "Delete an observation photo. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observation-photos",
+          "delete"
+        ]
+      },
+      {
+        "tool": "observation-photos.update",
+        "summary": "Update an observation photo. Required: id. Optional: file, observation_photo[position].",
+        "params_schema": {
+          "id": "string",
+          "file": "string?",
+          "observation_photo[position]": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observation-photos",
+          "update"
+        ]
+      },
+      {
+        "tool": "observations.create",
+        "summary": "Create an observation. Optional: observation.",
+        "params_schema": {
+          "observation-description": "string?",
+          "observation-species-guess": "string?",
+          "observation-taxon-id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations"
+        ]
+      },
+      {
+        "tool": "observations.delete",
+        "summary": "Delete an observation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "delete"
+        ]
+      },
+      {
+        "tool": "observations.get",
+        "summary": "Given an ID, or an array of IDs in comma-delimited format, returns corresponding observations. A maximum of 200 results will be returned. Required: id. Returns the ObservationsShowResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "get"
+        ]
+      },
+      {
+        "tool": "observations.list",
+        "summary": "Given zero to many of following parameters, returns observations matching the search criteria. The large size of the observations index prevents us from supporting the `page` parameter when retrieving records from large result sets. If you need to retrieve large numbers of records, use the `per_page` and `id_above` or `id_below` parameters instead. Optional: acc, captive, endemic (plus 102 more).",
+        "params_schema": {
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?",
+          "locale": "string?",
+          "preferred_place_id": "int?",
+          "ttl": "string?",
+          "page": "string?",
+          "per_page": "string?",
+          "order": "string?",
+          "order_by": "string?",
+          "only_id": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations",
+          "list"
+        ]
+      },
+      {
+        "tool": "observations.list-deleted",
+        "summary": "Given a starting date, return an array of IDs of the authenticated user's observations that have been deleted since that date. Requires authentication. Required: since.",
+        "params_schema": {
+          "since": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations",
+          "list-deleted"
+        ]
+      },
+      {
+        "tool": "observations.list-histogram",
+        "summary": "Given zero to many of following parameters, returns histogram data about observations matching the search criteria. Optional: acc, captive, endemic (plus 99 more).",
+        "params_schema": {
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?",
+          "locale": "string?",
+          "preferred_place_id": "int?",
+          "ttl": "string?",
+          "date_field": "string?",
+          "interval": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations",
+          "list-histogram"
+        ]
+      },
+      {
+        "tool": "observations.list-identifiers",
+        "summary": "Given zero to many of following parameters, returns identifiers of observations matching the search criteria and the count of observations they have identified, ordered by count descending. A maximum of 500 results will be returned. Optional: acc, captive, endemic (plus 97 more).",
+        "params_schema": {
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?",
+          "locale": "string?",
+          "preferred_place_id": "int?",
+          "ttl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations",
+          "list-identifiers"
+        ]
+      },
+      {
+        "tool": "observations.list-observers",
+        "summary": "Given zero to many of following parameters, returns observers of observations matching the search criteria and the count of observations and distinct taxa of rank `species` they have observed. A maximum of 500 results will be returned. Optional: acc, captive, endemic (plus 97 more).",
+        "params_schema": {
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?",
+          "locale": "string?",
+          "preferred_place_id": "int?",
+          "ttl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations",
+          "list-observers"
+        ]
+      },
+      {
+        "tool": "observations.list-popularfieldvalues",
+        "summary": "Given zero to many of following parameters, returns an array of relevant controlled terms values and a monthly histogram. Optional: acc, captive, endemic (plus 97 more).",
+        "params_schema": {
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?",
+          "locale": "string?",
+          "preferred_place_id": "int?",
+          "ttl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations",
+          "list-popularfieldvalues"
+        ]
+      },
+      {
+        "tool": "observations.list-speciescounts",
+        "summary": "Given zero to many of following parameters, returns `leaf taxa` associated with observations matching the search criteria and the count of observations they are associated with, ordered by count descending. `Leaf taxa` are the leaves of the taxonomic tree containing only the taxa associated with observations matching the search criteria. Optional: acc, captive, endemic (plus 100 more).",
+        "params_schema": {
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?",
+          "locale": "string?",
+          "preferred_place_id": "int?",
+          "ttl": "string?",
+          "include_ancestors": "bool?",
+          "page": "string?",
+          "per_page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations",
+          "list-speciescounts"
+        ]
+      },
+      {
+        "tool": "observations.list-updates",
+        "summary": "Given zero to many of following parameters, returns an array of objects representing new comments and identifications on observations the authenticated user has subscribed to. Requires authentication. Optional: created_after, viewed, observations_by (plus 2 more).",
+        "params_schema": {
+          "created_after": "string?",
+          "viewed": "bool?",
+          "observations_by": "string?",
+          "page": "string?",
+          "per_page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "observations",
+          "list-updates"
+        ]
+      },
+      {
+        "tool": "observations.update",
+        "summary": "Update an observation. Required: id. Optional: observation.",
+        "params_schema": {
+          "id": "string",
+          "observation-description": "string?",
+          "observation-species-guess": "string?",
+          "observation-taxon-id": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "update"
+        ]
+      },
+      {
+        "tool": "observations.fave_create",
+        "summary": "Fave an observation. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "fave_create"
+        ]
+      },
+      {
+        "tool": "observations.quality_create",
+        "summary": "Set the value of a quality metric. Required: id, metric (default: date). Optional: agree.",
+        "params_schema": {
+          "id": "string",
+          "metric": "string",
+          "agree": "bool?"
+        },
+        "positionals": [
+          "id",
+          "metric"
+        ],
+        "argv_path": [
+          "observations",
+          "quality_create"
+        ]
+      },
+      {
+        "tool": "observations.quality_delete",
+        "summary": "Delete a quality metric. Required: id, metric (default: date). Destructive.",
+        "params_schema": {
+          "id": "string",
+          "metric": "string"
+        },
+        "positionals": [
+          "id",
+          "metric"
+        ],
+        "argv_path": [
+          "observations",
+          "quality_delete"
+        ]
+      },
+      {
+        "tool": "observations.review_create",
+        "summary": "Review an observation. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "review_create"
+        ]
+      },
+      {
+        "tool": "observations.review_delete",
+        "summary": "Unreview an observation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "review_delete"
+        ]
+      },
+      {
+        "tool": "observations.subscriptions_get",
+        "summary": "Fetches any subscriptions the current user has to this observation or the observer. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "subscriptions_get"
+        ]
+      },
+      {
+        "tool": "observations.taxon-summary_get",
+        "summary": "Fetches information about this observation's taxon, within the context of this observation's location. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "taxon-summary_get"
+        ]
+      },
+      {
+        "tool": "observations.unfave_delete",
+        "summary": "Unfave an observation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "unfave_delete"
+        ]
+      },
+      {
+        "tool": "observations.viewed-updates_update",
+        "summary": "Mark all updates associated with this observation as viewed by logged-in user. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "observations",
+          "viewed-updates_update"
+        ]
+      },
+      {
+        "tool": "photos.create",
+        "summary": "Create a photo. Optional: file.",
+        "params_schema": {
+          "file": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "photos"
+        ]
+      },
+      {
+        "tool": "places.get",
+        "summary": "Given an ID, or an array of IDs in comma-delimited format, returns corresponding places. A maximum of 500 results will be returned. Required: id. Optional: admin_level. Returns the PlacesResponse.",
+        "params_schema": {
+          "id": "string",
+          "admin_level": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "places"
+        ]
+      },
+      {
+        "tool": "places.list",
+        "summary": "Given an string, returns places with names starting with the search term. Required: q. Optional: order_by.",
+        "params_schema": {
+          "q": "string?",
+          "order_by": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "places",
+          "list"
+        ]
+      },
+      {
+        "tool": "places.list-nearby",
+        "summary": "Given an bounding box, and an optional name query, return `standard` iNaturalist curator approved and `community` non-curated places nearby. Required: nelat, nelng, swlat, swlng. Optional: name, per_page. Returns the NearbyPlacesResponse.",
+        "params_schema": {
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "name": "string?",
+          "per_page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "places",
+          "list-nearby"
+        ]
+      },
+      {
+        "tool": "places.y-png_get",
+        "summary": "Returns a PNG map tile representing the boundary of this place, following the XYZ tiling scheme. Required: place_id, zoom, x, y. Optional: ttl.",
+        "params_schema": {
+          "place_id": "string",
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "ttl": "string?"
+        },
+        "positionals": [
+          "place_id",
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "places",
+          "y-png_get"
+        ]
+      },
+      {
+        "tool": "points.y-grid-json_get",
+        "summary": "Given zero to many of following parameters, returns a JSON file following the UTFGrid spec, representing observations matching the search criteria. Required: zoom, x, y. Optional: color, acc, captive (plus 95 more).",
+        "params_schema": {
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?"
+        },
+        "positionals": [
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "points",
+          "y-grid-json_get"
+        ]
+      },
+      {
+        "tool": "points.y-png_get",
+        "summary": "Given zero to many of following parameters, returns a PNG image representing the matching observations within a map tile, following the XYZ tiling scheme. Required: zoom, x, y. Optional: color, acc, captive (plus 95 more).",
+        "params_schema": {
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "acc": "bool?",
+          "captive": "bool?",
+          "endemic": "bool?",
+          "geo": "bool?",
+          "id_please": "bool?",
+          "identified": "bool?",
+          "introduced": "bool?",
+          "mappable": "bool?",
+          "native": "bool?",
+          "out_of_range": "bool?",
+          "pcid": "bool?",
+          "photos": "bool?",
+          "popular": "bool?",
+          "sounds": "bool?",
+          "taxon_is_active": "bool?",
+          "threatened": "bool?",
+          "verifiable": "bool?",
+          "licensed": "bool?",
+          "photo_licensed": "bool?",
+          "expected_nearby": "bool?",
+          "id": "array?",
+          "not_id": "array?",
+          "license": "array?",
+          "ofv_datatype": "array?",
+          "photo_license": "array?",
+          "place_id": "array?",
+          "project_id": "array?",
+          "rank": "array?",
+          "site_id": "array?",
+          "sound_license": "array?",
+          "taxon_id": "array?",
+          "without_taxon_id": "array?",
+          "taxon_name": "array?",
+          "user_id": "array?",
+          "user_login": "array?",
+          "ident_user_id": "int?",
+          "hour": "array?",
+          "day": "array?",
+          "month": "array?",
+          "year": "array?",
+          "created_day": "array?",
+          "created_month": "array?",
+          "created_year": "array?",
+          "term_id": "array?",
+          "term_value_id": "array?",
+          "without_term_id": "int?",
+          "without_term_value_id": "array?",
+          "term_id_or_unknown": "array?",
+          "annotation_user_id": "array?",
+          "acc_above": "string?",
+          "acc_below": "string?",
+          "acc_below_or_unknown": "string?",
+          "d1": "string?",
+          "d2": "string?",
+          "created_d1": "string?",
+          "created_d2": "string?",
+          "created_on": "string?",
+          "observed_on": "string?",
+          "unobserved_by_user_id": "int?",
+          "apply_project_rules_for": "string?",
+          "cs": "string?",
+          "csa": "string?",
+          "csi": "array?",
+          "geoprivacy": "array?",
+          "taxon_geoprivacy": "array?",
+          "obscuration": "array?",
+          "hrank": "string?",
+          "lrank": "string?",
+          "iconic_taxa": "array?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "identifications": "string?",
+          "lat": "float?",
+          "lng": "float?",
+          "radius": "string?",
+          "nelat": "float?",
+          "nelng": "float?",
+          "swlat": "float?",
+          "swlng": "float?",
+          "list_id": "int?",
+          "not_in_project": "string?",
+          "not_matching_project_rules_for": "string?",
+          "observation_accuracy_experiment_id": "array?",
+          "fails_dqa_accurate": "bool?",
+          "fails_dqa_date": "bool?",
+          "fails_dqa_evidence": "bool?",
+          "fails_dqa_location": "bool?",
+          "fails_dqa_needs_id": "bool?",
+          "fails_dqa_recent": "bool?",
+          "fails_dqa_subject": "bool?",
+          "fails_dqa_wild": "bool?",
+          "q": "string?",
+          "search_on": "string?",
+          "quality_grade": "string?",
+          "updated_since": "string?",
+          "viewer_id": "string?",
+          "reviewed": "bool?"
+        },
+        "positionals": [
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "points",
+          "y-png_get"
+        ]
+      },
+      {
+        "tool": "posts.create",
+        "summary": "Create a post. Optional: commit, post.",
+        "params_schema": {
+          "commit": "string?",
+          "post-body": "string?",
+          "post-parent-id": "float?",
+          "post-parent-type": "string?",
+          "post-preferred-formatting": "string?",
+          "post-title": "string?",
+          "post-user-id": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts"
+        ]
+      },
+      {
+        "tool": "posts.delete",
+        "summary": "Delete a post. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "posts",
+          "delete"
+        ]
+      },
+      {
+        "tool": "posts.list",
+        "summary": "Return journal posts from the iNaturalist site. Optional: login, project_id, page (plus 1 more).",
+        "params_schema": {
+          "login": "string?",
+          "project_id": "int?",
+          "page": "string?",
+          "per_page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts",
+          "list"
+        ]
+      },
+      {
+        "tool": "posts.list-foruser",
+        "summary": "Return journal posts from the iNaturalist site. If the user is logged-in, also return posts from projects the user is subscribed to. Optional: newer_than, older_than, page.",
+        "params_schema": {
+          "newer_than": "int?",
+          "older_than": "int?",
+          "page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts",
+          "list-foruser"
+        ]
+      },
+      {
+        "tool": "posts.update",
+        "summary": "Update a post. Required: id. Optional: commit, post.",
+        "params_schema": {
+          "id": "string",
+          "commit": "string?",
+          "post-body": "string?",
+          "post-parent-id": "float?",
+          "post-parent-type": "string?",
+          "post-preferred-formatting": "string?",
+          "post-title": "string?",
+          "post-user-id": "float?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "posts",
+          "update"
+        ]
+      },
+      {
+        "tool": "project-observations.create",
+        "summary": "Add an observation to a project. Optional: observation_id, project_id.",
+        "params_schema": {
+          "observation_id": "int?",
+          "project_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "project-observations"
+        ]
+      },
+      {
+        "tool": "project-observations.delete",
+        "summary": "Delete a project observation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "project-observations",
+          "delete"
+        ]
+      },
+      {
+        "tool": "project-observations.update",
+        "summary": "Update a project observation. Required: id. Optional: project_observation.",
+        "params_schema": {
+          "id": "string",
+          "project-observation-observation-id": "int?",
+          "project-observation-prefers-curator-coordinate-access": "bool?",
+          "project-observation-project-id": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "project-observations",
+          "update"
+        ]
+      },
+      {
+        "tool": "projects.get",
+        "summary": "Given an ID, or an array of IDs in comma-delimited format, returns corresponding projects. A maximum of 100 results will be returned. Required: id. Optional: rule_details. Returns the ProjectsResponse.",
+        "params_schema": {
+          "id": "string",
+          "rule_details": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "projects"
+        ]
+      },
+      {
+        "tool": "projects.list",
+        "summary": "Given zero to many of following parameters, returns projects matching the search criteria. Optional: q, id, not_id (plus 14 more).",
+        "params_schema": {
+          "q": "string?",
+          "id": "array?",
+          "not_id": "array?",
+          "lat": "float?",
+          "lng": "float?",
+          "place_id": "array?",
+          "radius": "string?",
+          "featured": "string?",
+          "noteworthy": "string?",
+          "site_id": "int?",
+          "rule_details": "string?",
+          "type": "array?",
+          "member_id": "int?",
+          "has_params": "bool?",
+          "has_posts": "bool?",
+          "per_page": "string?",
+          "order_by": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "projects",
+          "list"
+        ]
+      },
+      {
+        "tool": "projects.list-autocomplete",
+        "summary": "Given an string, returns projects with titles starting with the search term. Required: q. Optional: id, not_id, lat (plus 12 more).",
+        "params_schema": {
+          "q": "string?",
+          "id": "array?",
+          "not_id": "array?",
+          "lat": "float?",
+          "lng": "float?",
+          "place_id": "array?",
+          "radius": "string?",
+          "featured": "string?",
+          "noteworthy": "string?",
+          "site_id": "int?",
+          "rule_details": "string?",
+          "type": "array?",
+          "member_id": "int?",
+          "has_params": "bool?",
+          "has_posts": "bool?",
+          "per_page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "projects",
+          "list-autocomplete"
+        ]
+      },
+      {
+        "tool": "projects.add_create",
+        "summary": "Add an observation to a project. Required: id. Optional: observation_id.",
+        "params_schema": {
+          "id": "string",
+          "observation_id": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "projects",
+          "add_create"
+        ]
+      },
+      {
+        "tool": "projects.join_create",
+        "summary": "Join a project. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "projects",
+          "join_create"
+        ]
+      },
+      {
+        "tool": "projects.leave_delete",
+        "summary": "Leave a project. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "projects",
+          "leave_delete"
+        ]
+      },
+      {
+        "tool": "projects.members_get",
+        "summary": "Given an ID, return members of the project. Required: id. Optional: role, skip_counts (default: false), page (plus 1 more). Returns the ProjectMembersResponse.",
+        "params_schema": {
+          "id": "string",
+          "role": "string?",
+          "skip_counts": "bool?",
+          "page": "string?",
+          "per_page": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "projects",
+          "members_get"
+        ]
+      },
+      {
+        "tool": "projects.membership_get",
+        "summary": "Given an ID, or an array of IDs in comma-delimited format, return the details of the authenticated user's membership in these projects. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "projects",
+          "membership_get"
+        ]
+      },
+      {
+        "tool": "projects.remove_delete",
+        "summary": "Remove an observation from a project. Required: id. Optional: observation_id. Destructive.",
+        "params_schema": {
+          "id": "string",
+          "observation_id": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "projects",
+          "remove_delete"
+        ]
+      },
+      {
+        "tool": "projects.subscriptions_get",
+        "summary": "[Deprecated] Subscriptions to projects are managed through joining and leaving projects, so this will not return any useful information. Given an ID, return subscription of the current user. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "projects",
+          "subscriptions_get"
+        ]
+      },
+      {
+        "tool": "site.search_list",
+        "summary": "Given zero to many of following parameters, returns object matching the search criteria. Optional: q, sources, place_id (plus 4 more).",
+        "params_schema": {
+          "q": "string?",
+          "sources": "array?",
+          "place_id": "array?",
+          "include_taxon_ancestors": "bool?",
+          "per_page": "string?",
+          "locale": "string?",
+          "preferred_place_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "site",
+          "search_list"
+        ]
+      },
+      {
+        "tool": "subscriptions.create",
+        "summary": "Toggles current user's subscription to this observation. If the logged-in user is not subscribed, POSTing here will subscribe them. If they are already subscribed, this will remove the subscription. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "subscriptions"
+        ]
+      },
+      {
+        "tool": "subscriptions.create-project",
+        "summary": "Toggles current user's subscription to this project. If the logged-in user is not subscribed, POSTing here will subscribe them. If they are already subscribed, this will remove the subscription. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "subscriptions",
+          "create-project"
+        ]
+      },
+      {
+        "tool": "taxa.get",
+        "summary": "Given an ID, or an array of IDs in comma-delimited format, returns corresponding taxa. A maximum of 30 results will be returned. Required: id. Optional: rank_level. Returns the TaxaShowResponse.",
+        "params_schema": {
+          "id": "string",
+          "rank_level": "float?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "taxa"
+        ]
+      },
+      {
+        "tool": "taxa.list",
+        "summary": "Given zero to many of following parameters, returns taxa matching the search criteria. Optional: q, is_active, id (plus 12 more).",
+        "params_schema": {
+          "q": "string?",
+          "is_active": "bool?",
+          "id": "array?",
+          "parent_id": "int?",
+          "rank": "array?",
+          "rank_level": "float?",
+          "id_above": "string?",
+          "id_below": "string?",
+          "per_page": "string?",
+          "locale": "string?",
+          "preferred_place_id": "int?",
+          "only_id": "bool?",
+          "all_names": "bool?",
+          "order": "string?",
+          "order_by": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "taxa",
+          "list"
+        ]
+      },
+      {
+        "tool": "taxa.list-autocomplete",
+        "summary": "Given an string, returns taxa with names starting with the search term. Required: q. Optional: is_active, taxon_id, rank (plus 5 more).",
+        "params_schema": {
+          "q": "string?",
+          "is_active": "bool?",
+          "taxon_id": "array?",
+          "rank": "array?",
+          "rank_level": "float?",
+          "per_page": "string?",
+          "locale": "string?",
+          "preferred_place_id": "int?",
+          "all_names": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "taxa",
+          "list-autocomplete"
+        ]
+      },
+      {
+        "tool": "taxon-places.y-png_get",
+        "summary": "Returns a PNG map tile representing the boundaries of places this taxon is known to occur, following the XYZ tiling scheme. Required: taxon_id, zoom, x, y. Optional: ttl.",
+        "params_schema": {
+          "taxon_id": "string",
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "ttl": "string?"
+        },
+        "positionals": [
+          "taxon_id",
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "taxon-places",
+          "y-png_get"
+        ]
+      },
+      {
+        "tool": "taxon-ranges.y-png_get",
+        "summary": "Returns a PNG map tile representing the range of this taxon, following the XYZ tiling scheme. Required: taxon_id, zoom, x, y. Optional: color, ttl.",
+        "params_schema": {
+          "taxon_id": "string",
+          "zoom": "string",
+          "x": "string",
+          "y": "string",
+          "color": "string?",
+          "ttl": "string?"
+        },
+        "positionals": [
+          "taxon_id",
+          "zoom",
+          "x",
+          "y"
+        ],
+        "argv_path": [
+          "taxon-ranges",
+          "y-png_get"
+        ]
+      },
+      {
+        "tool": "users.create",
+        "summary": "Resend an email confirmation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Given an ID, returns corresponding user. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "get"
+        ]
+      },
+      {
+        "tool": "users.list",
+        "summary": "Given an string, returns users with names or logins starting with the search term. Required: q. Optional: project_id, per_page.",
+        "params_schema": {
+          "q": "string?",
+          "project_id": "int?",
+          "per_page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "list"
+        ]
+      },
+      {
+        "tool": "users.list-me",
+        "summary": "Fetch the logged-in user.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "list-me"
+        ]
+      },
+      {
+        "tool": "users.update",
+        "summary": "Update the logged-in user's session. Optional: preferred_taxon_page_ancestors_shown, preferred_taxon_page_place_id, preferred_taxon_page_tab (plus 8 more).",
+        "params_schema": {
+          "preferred_taxon_page_ancestors_shown": "bool?",
+          "preferred_taxon_page_place_id": "int?",
+          "preferred_taxon_page_tab": "string?",
+          "prefers_hide_obs_show_annotations": "bool?",
+          "prefers_hide_obs_show_copyright": "bool?",
+          "prefers_hide_obs_show_identifiers": "bool?",
+          "prefers_hide_obs_show_observation_fields": "bool?",
+          "prefers_hide_obs_show_projects": "bool?",
+          "prefers_hide_obs_show_quality_metrics": "bool?",
+          "prefers_hide_obs_show_tags": "bool?",
+          "prefers_skip_coarer_id_modal": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "update"
+        ]
+      },
+      {
+        "tool": "users.update-id",
+        "summary": "Update a user. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "update-id"
+        ]
+      },
+      {
+        "tool": "users.mute_create",
+        "summary": "Make it so the authenticated user stops receiving notifications about activity by the user specified by {id}. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "mute_create"
+        ]
+      },
+      {
+        "tool": "users.mute_delete",
+        "summary": "Remove a mute on the user specified by {id}. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "mute_delete"
+        ]
+      },
+      {
+        "tool": "users.projects_get",
+        "summary": "Return projects as user has joined / followed. Required: id. Optional: rule_details, project_type, page (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "rule_details": "string?",
+          "project_type": "string?",
+          "page": "string?",
+          "per_page": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "users",
+          "projects_get"
+        ]
+      },
+      {
+        "tool": "votes.create",
+        "summary": "Vote on an annotation. Required: id. Optional: vote.",
+        "params_schema": {
+          "id": "string",
+          "vote": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "votes"
+        ]
+      },
+      {
+        "tool": "votes.create-vote",
+        "summary": "Vote on an observation. A vote with an empty `scope` is recorded as a `fave` of the observation. A vote with scope `needs_id` is recorded as a vote on the Quality Grade criterion 'can the Community ID still be confirmed or improved?', and can be an up or down vote. Required: id. Optional: scope, vote.",
+        "params_schema": {
+          "id": "string",
+          "scope": "string?",
+          "vote": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "votes",
+          "create-vote"
+        ]
+      },
+      {
+        "tool": "votes.delete",
+        "summary": "Remove a vote from annotation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "votes",
+          "delete"
+        ]
+      },
+      {
+        "tool": "votes.delete-unvote",
+        "summary": "Remove a vote from an observation. Required: id. Optional: scope, vote. Destructive.",
+        "params_schema": {
+          "id": "string",
+          "scope": "string?",
+          "vote": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "votes",
+          "delete-unvote"
+        ]
+      }
+    ]
+  },
+  {
     "api": "infotbm",
     "description": "Every Bordeaux tram, bus, and ferry schedule offline in SQLite, plus real-time arrivals, ghost service detection",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/infotbm/cmd/infotbm-pp-cli",
@@ -275597,6 +279079,180 @@
     ]
   },
   {
+    "api": "screener",
+    "description": "Every Screener.in feature, plus offline search, screen intersections, and a local fundamentals mirror no other tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/screener/cmd/screener-pp-cli",
+    "auth_type": "cookie",
+    "category": "other",
+    "search_terms": [
+      "screener",
+      "Screener.in",
+      "screener-pp-cli",
+      "Company compare",
+      "compare",
+      "See two to four companies' fundamentals side by side (valuation, margins, growth, insider activity) without tab-switching.",
+      "Quarterly trend",
+      "qtrend",
+      "Spot whether a company's quarterly profit/sales growth is accelerating or deteriorating, with YOY change and margin drift computed automatically.",
+      "Screen overlap",
+      "overlap",
+      "Find companies that appear in two or more stock screens in one command, replacing spreadsheet dedup.",
+      "Screen rank",
+      "rank",
+      "Re-score a screen's companies with a composite of fundamentals (P/E, ROCE, growth), sorted by what matters to you.",
+      "Insider flow",
+      "insider-flow",
+      "Answer 'who is net buying the most this month?' with per-company insider buy/sell aggregation."
+    ],
+    "endpoints": [
+      {
+        "tool": "company.by_id",
+        "summary": "Fetch a company page by numeric ID (redirects to symbol page). Required: company_id. Returns the CompanyPage.",
+        "params_schema": {
+          "company_id": "string"
+        },
+        "positionals": [
+          "company_id"
+        ],
+        "argv_path": [
+          "company",
+          "by_id"
+        ]
+      },
+      {
+        "tool": "company.chart",
+        "summary": "Fetch price/technical chart data for a company. Required: company_id. Optional: q (default: Price-DMA50-DMA200-Volume), days (default: 365), consolidated (default: true). Returns array of ChartDataset.",
+        "params_schema": {
+          "company_id": "string",
+          "q": "string?",
+          "days": "int?",
+          "consolidated": "bool?"
+        },
+        "positionals": [
+          "company_id"
+        ],
+        "argv_path": [
+          "company",
+          "chart"
+        ]
+      },
+      {
+        "tool": "company.peers",
+        "summary": "Fetch peer comparison table for a company. Required: company_id. Returns the PeerTable.",
+        "params_schema": {
+          "company_id": "string"
+        },
+        "positionals": [
+          "company_id"
+        ],
+        "argv_path": [
+          "company",
+          "peers"
+        ]
+      },
+      {
+        "tool": "company.profile",
+        "summary": "Fetch the full company profile page (key metrics, analysis, quarterly results, P&L, balance sheet, cash flow, ratios, shareholding, documents). Required: symbol. Returns the CompanyPage.",
+        "params_schema": {
+          "symbol": "string"
+        },
+        "positionals": [
+          "symbol"
+        ],
+        "argv_path": [
+          "company",
+          "profile"
+        ]
+      },
+      {
+        "tool": "company.profile_standalone",
+        "summary": "Fetch standalone (parent-only) company profile page. Required: symbol. Returns the CompanyPage.",
+        "params_schema": {
+          "symbol": "string"
+        },
+        "positionals": [
+          "symbol"
+        ],
+        "argv_path": [
+          "company",
+          "profile_standalone"
+        ]
+      },
+      {
+        "tool": "company.search",
+        "summary": "Search for companies by name or ticker (live autocomplete API). Required: q. Optional: v (default: 5), fts (default: 1). Returns array of SearchResult.",
+        "params_schema": {
+          "q": "string?",
+          "v": "int?",
+          "fts": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "company",
+          "search"
+        ]
+      },
+      {
+        "tool": "explore.list",
+        "summary": "Browse popular themes, formulas, and sector categories. Returns the HtmlPage.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "explore"
+        ]
+      },
+      {
+        "tool": "ipo.list",
+        "summary": "List upcoming IPOs with subscription status. Returns the HtmlPage.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "ipo"
+        ]
+      },
+      {
+        "tool": "market.sector",
+        "summary": "List companies in a market sector (e.g. IN08/IN0801/IN080101 = IT - Software). Required: sector_path. Returns the HtmlPage.",
+        "params_schema": {
+          "sector_path": "string"
+        },
+        "positionals": [
+          "sector_path"
+        ],
+        "argv_path": [
+          "market",
+          "sector"
+        ]
+      },
+      {
+        "tool": "screens.list",
+        "summary": "List all stock screening screens. Returns the HtmlPage.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "screens"
+        ]
+      },
+      {
+        "tool": "screens.run",
+        "summary": "Run a stock screen and get ranked results (CMP, P/E, Mar Cap, Div Yld, NP Qtr, Qtr Profit Var, Sales Qtr, Qtr Sales Var, ROCE). Required: screen_id, slug. Optional: page (default: 1). Returns the HtmlPage.",
+        "params_schema": {
+          "screen_id": "string",
+          "slug": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "screen_id",
+          "slug"
+        ],
+        "argv_path": [
+          "screens",
+          "run"
+        ]
+      }
+    ]
+  },
+  {
     "api": "sculptok",
     "description": "SculptOK AI depth-map, relief, STL and 3D generation CLI",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/sculptok/cmd/sculptok-pp-cli",
@@ -344875,6 +348531,36 @@
         "argv_path": [
           "venues",
           "get-menu"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "woot",
+    "description": "Search Woot's live All Deals catalog with filters, prices, offline full-text search, and read-only GraphQL access.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/woot/cmd/woot-pp-cli",
+    "auth_type": "api_key",
+    "category": "commerce",
+    "search_terms": [
+      "woot",
+      "woot-pp-cli",
+      "Search Woot's live All Deals catalog with filters, prices, offline full-text search, and read-only GraphQL access.",
+      "Woot All Deals Search",
+      "deals",
+      "Scan Woot's paged All Deals results and filter live offers by keyword.",
+      "Uses the same frontend searchOffers paging, category, price, and page filters that Woot's All Deals UI uses."
+    ],
+    "endpoints": [
+      {
+        "tool": "graphql.list_graphql",
+        "summary": "Execute a read-only GraphQL query against Woot's browser API. Required: query containing one query operation; mutation and subscription operations are rejected. Returns a validated GraphQL response envelope. Prefer the deals tool for paged All Deals scans with keyword filtering.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "graphql",
+          "list_graphql"
         ]
       }
     ]
