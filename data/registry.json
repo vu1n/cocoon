@@ -55716,7 +55716,10 @@
       "Compare several businesses side by side on rating, review count, and cheapest matching service price \u2014 from the local cache.",
       "Cheapest haircut nearby",
       "cheapest",
-      "Scan search results in a city and rank businesses by the cheapest service matching your query (e.g. haircut), with rating alongside price."
+      "Scan search results in a city and rank businesses by the cheapest service matching your query (e.g. haircut), with rating alongside price.",
+      "Cancel appointment",
+      "cancel",
+      "Cancel one of your Booksy appointments by id \u2014 previews the appointment first and only cancels with --confirm."
     ],
     "endpoints": [
       {
@@ -216582,6 +216585,113 @@
         "argv_path": [
           "webhook-subscriptions",
           "update-awebhook-subscription"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "logitech-docs",
+    "description": "Every Logitech manual, spec sheet, and install guide \u2014 searchable offline, agent-native, no browser.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/logitech-docs/cmd/logitech-docs-pp-cli",
+    "auth_type": "none",
+    "category": "devices",
+    "search_terms": [
+      "logitech-docs",
+      "Logitech",
+      "logitech-docs-pp-cli",
+      "Every Logitech manual, spec sheet, and install guide \u2014 searchable offline, agent-native, no browser.",
+      "Friendly doc-type search",
+      "docs",
+      "Search Logitech support docs by friendly type: spec sheet, manual, install guide, FAQ, download, warranty.",
+      "Offline full-text search",
+      "find",
+      "Full-text search inside synced manuals and spec sheets from the local store.",
+      "Download resolver",
+      "download",
+      "Resolve download01.logi.com file links in an article and fetch them (with --dry-run and local cache).",
+      "Spec comparison",
+      "compare",
+      "Side-by-side spec comparison between two products from synced spec sheets."
+    ],
+    "endpoints": [
+      {
+        "tool": "articles.get",
+        "summary": "Get a single article including its HTML body. Required: article_id. Returns the Article.",
+        "params_schema": {
+          "article_id": "string"
+        },
+        "positionals": [
+          "article_id"
+        ],
+        "argv_path": [
+          "articles"
+        ]
+      },
+      {
+        "tool": "articles.by_section",
+        "summary": "List articles in one section (server-side scoped). Required: section_id. Optional: page-size (default: 100), cursor. Returns array of ArticleSummary.",
+        "params_schema": {
+          "section_id": "string",
+          "page-size": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "section_id"
+        ],
+        "argv_path": [
+          "articles",
+          "by_section"
+        ]
+      },
+      {
+        "tool": "articles.list",
+        "summary": "List articles (filter by label). Optional: label_names, page-size (default: 100), cursor. Returns array of ArticleSummary.",
+        "params_schema": {
+          "label_names": "string?",
+          "page-size": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "articles",
+          "list"
+        ]
+      },
+      {
+        "tool": "articles.search",
+        "summary": "Search articles by text. Required: query. Optional: label_names, per_page (default: 25), page (default: 1). Returns array of ArticleSummary.",
+        "params_schema": {
+          "query": "string?",
+          "label_names": "string?",
+          "per_page": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "articles",
+          "search"
+        ]
+      },
+      {
+        "tool": "categories.list",
+        "summary": "List the top-level Logitech support categories (Mice and Pointers, Keyboards, Webcams, Gaming, Video Collaboration, and so on). Takes no parameters. Returns an array of Category objects with id, name, description, html_url, and position. Call this first when you need a category id to narrow sections_list; prefer articles_search or the docs command when you already know the product name or keyword.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "sections.list",
+        "summary": "List sections (optionally filtered by category). Optional: category_id, per_page (default: 100), page (default: 1). Returns array of Section.",
+        "params_schema": {
+          "category_id": "string?",
+          "per_page": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sections"
         ]
       }
     ]
