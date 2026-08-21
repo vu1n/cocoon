@@ -20070,6 +20070,54 @@
     ]
   },
   {
+    "api": "amazon-jobs",
+    "description": "Every Amazon.jobs feature, plus a local job store, new-since diffing, and aggregation Amazon's own site can't do \u2014 no login required.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/amazon-jobs/cmd/amazon-jobs-pp-cli",
+    "auth_type": "none",
+    "category": "productivity",
+    "search_terms": [
+      "amazon-jobs",
+      "Amazon Jobs",
+      "amazon-jobs-pp-cli",
+      "Every Amazon.jobs feature, plus a local job store, new-since diffing, and aggregation Amazon's own site can't do \u2014 no login required.",
+      "New-since diff",
+      "new",
+      "See only the Amazon reqs that appeared since you last synced a saved search \u2014 no more re-scanning the whole list every morning.",
+      "Saved searches",
+      "save",
+      "Persist a named query plus its filters and diff cursor so a search and its new-since state survive between runs.",
+      "Facet aggregation",
+      "stats",
+      "Count synced reqs grouped by city, state, team, or category \u2014 the aggregation Amazon's own empty facets[] never returns.",
+      "Qualification-demand scan",
+      "skills",
+      "Rank teams and cities by how many synced reqs demand a given skill keyword in their basic/preferred qualifications.",
+      "Pipeline facet filters",
+      "find",
+      "Filter live results by intern, manager, university, and schedule type \u2014 fields the .json endpoint silently ignores as server params."
+    ],
+    "endpoints": [
+      {
+        "tool": "postings.search",
+        "summary": "Search Amazon job listings by keyword, location, and sort order. Optional: base-query, country, state (plus 4 more). Returns array of Job.",
+        "params_schema": {
+          "base-query": "string?",
+          "country": "string?",
+          "state": "string?",
+          "city": "string?",
+          "offset": "int?",
+          "limit": "int?",
+          "sort": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "postings",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "amazon-orders",
     "description": "Walk your Amazon order history offline \u2014 every order, item, shipment, and dollar in a local SQLite store no other...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/amazon-orders/cmd/amazon-orders-pp-cli",
@@ -25760,7 +25808,7 @@
       "Mostra per ognuno dei 12 archivi ARS: timestamp ultima sync, n. record locali, et\u00e0 della sync, eventuale segnalazione di staleness.",
       "Cronologia inversa di una legge",
       "legge cronologia",
-      "Partendo da una legge regionale promulgata (archivio 201), risale al DDL originario, agli emendamenti citati nei resoconti d'aula e ai pareri di commissione: l'inverso temporale di ddl iter."
+      "Partendo da una legge regionale promulgata (archivio 201), risale al DDL originario, ai pareri di commissione e al voto d'aula: l'inverso temporale di ddl iter."
     ],
     "endpoints": [
       {
@@ -70888,6 +70936,188 @@
         "argv_path": [
           "workspaces",
           "tasks_update-time-estimates-by-user"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "clinical-trials",
+    "description": "A multi-source clinical-trials intelligence system \u2014 aggregates, normalizes, and analyzes trials across ClinicalTrials.gov, EU CTIS, and biomedical sources, with an offline SQLite engine no single-registry tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/clinical-trials/cmd/clinical-trials-pp-cli",
+    "auth_type": "none",
+    "category": "health",
+    "search_terms": [
+      "clinical-trials",
+      "ClinicalTrials.gov",
+      "clinical-trials-pp-cli",
+      "A multi-source clinical-trials intelligence system \u2014 aggregates, normalizes, and analyzes trials across ClinicalTrials.gov, EU CTIS, and biomedical sources, with an offline SQLite engine no single-registry tool has.",
+      "Emerging therapy detection",
+      "emerging",
+      "See the fastest-growing trial categories for a disease area, with percent change.",
+      "Recruitment velocity",
+      "velocity",
+      "Measure how fast a disease area's trials and enrollment are growing over time.",
+      "Drug compare",
+      "compare",
+      "Compare two drugs head-to-head across trial counts, phases, sponsors, and recruiting status.",
+      "Trial risk score",
+      "risk",
+      "Get an explainable risk read on a single trial from termination, enrollment, site count, sponsor track record, and phase factor (earlier phases = higher risk).",
+      "Watch with change diff",
+      "watch",
+      "Track a term and report new, changed, and terminated trials since the last run.",
+      "Sponsor dominance",
+      "sponsors",
+      "Rank who runs the most trials in an area, classified as industry, academic, or government.",
+      "Multi-source merge",
+      "search",
+      "Search a single normalized trial model aggregated and deduplicated across ClinicalTrials.gov, EU CTIS, and OpenAlex.",
+      "Evidence linkage",
+      "evidence",
+      "Link a trial to its publications and citation context via PubMed and OpenAlex.",
+      "Safety signals",
+      "safety",
+      "Surface FDA adverse-event signals for a trial's intervention drug.",
+      "Clinician landscape report",
+      "report",
+      "Compose search, emerging, hotspots, and sponsors into one markdown or CSV briefing for a topic.",
+      "Per-provider health",
+      "health",
+      "Show live status, latency, and failure rate for every data source in the fallback chain."
+    ],
+    "endpoints": [
+      {
+        "tool": "clinicaltrials-gov-version.version",
+        "summary": "API and data versions. API version follows [Semantic Versioning 2.0.0 Schema](https://semver.org/spec/v2.0.0.html). Data version is UTC timestamp in `yyyy-MM-dd'T'HH:mm:ss` format. Returns the Version.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "clinicaltrials-gov-version",
+          "version"
+        ]
+      },
+      {
+        "tool": "stats.field-values",
+        "summary": "Value statistics of the study leaf fields. Optional: types (default: []), fields. Returns array of FieldValuesStats.",
+        "params_schema": {
+          "types": "array?",
+          "fields": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "field-values"
+        ]
+      },
+      {
+        "tool": "stats.list-field-sizes",
+        "summary": "Sizes of list/array fields. To search studies by a list field size, use `AREA[FieldName:size]` search operator. For example, [AREA[Phase:size] 2](https://clinicaltrials.gov/search?term=AREA%5BPhase:size%5D%202) query finds studies with 2 phases. Optional: fields. Returns array of ListSizes.",
+        "params_schema": {
+          "fields": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "list-field-sizes"
+        ]
+      },
+      {
+        "tool": "stats.size",
+        "summary": "Statistics of study JSON sizes. Returns the GzipStats.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "size"
+        ]
+      },
+      {
+        "tool": "studies.list",
+        "summary": "Returns data of studies matching query and filter parameters. The studies are returned page by page. If response contains `nextPageToken`, use its value in `pageToken` to get next page. The last page will not contain `nextPageToken`. A page may have empty `studies` array. Request for each subsequent page **must** have the same parameters as for the first page, except `countTotal`, `pageSize`, and `pageToken` parameters. If neither queries nor filters are set, all studies will be returned. If any query parameter contains only NCT IDs (comma- and/or space-separated), filters are ignored. `query.*` parameters are in [Essie expression syntax](/find-studies/constructing-complex-search-queries). Those parameters affect ranking of studies, if sorted by relevance. See `sort` parameter for details. `filter.*` and `postFilter.*` parameters have same effect as there is no aggregation calculation. Both are available just to simplify applying parameters from search request. Both do not affect ranking of studies. Note: When trying JSON format in your browser, do not set too large `pageSize` parameter, if `fields` is unlimited. That may return too much data for the browser to parse and render. Optional: format (default: json), markupFormat (default: markdown), query.cond (plus 26 more).",
+        "params_schema": {
+          "format": "string?",
+          "markupFormat": "string?",
+          "query.cond": "string?",
+          "query.term": "string?",
+          "query.locn": "string?",
+          "query.titles": "string?",
+          "query.intr": "string?",
+          "query.outc": "string?",
+          "query.spons": "string?",
+          "query.lead": "string?",
+          "query.id": "string?",
+          "query.patient": "string?",
+          "filter.overallStatus": "array?",
+          "filter.geo": "string?",
+          "filter.ids": "array?",
+          "filter.advanced": "string?",
+          "filter.synonyms": "array?",
+          "postFilter.overallStatus": "array?",
+          "postFilter.geo": "string?",
+          "postFilter.ids": "array?",
+          "postFilter.advanced": "string?",
+          "postFilter.synonyms": "array?",
+          "aggFilters": "string?",
+          "geoDecay": "string?",
+          "fields": "array?",
+          "sort": "array?",
+          "countTotal": "bool?",
+          "pageSize": "int?",
+          "pageToken": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "studies"
+        ]
+      },
+      {
+        "tool": "studies.enums",
+        "summary": "Returns enumeration types and their values. Every item of the returning array represents enum type and contains the following properties: * `type` - enum type name * `pieces` - array of names of all data pieces having the enum type * `values` - all available values of the enum; every item contains the following properties: * `value` - data value * `legacyValue` - data value in legacy API * `exceptions` - map from data piece name to legacy value when different from `legacyValue` (some data pieces had special enum values in legacy API).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "studies",
+          "enums"
+        ]
+      },
+      {
+        "tool": "studies.fetch-study",
+        "summary": "Returns data of a single study. Required: nctId. Optional: format (default: json), markupFormat (default: markdown), fields.",
+        "params_schema": {
+          "nctId": "string",
+          "format": "string?",
+          "markupFormat": "string?",
+          "fields": "array?"
+        },
+        "positionals": [
+          "nctId"
+        ],
+        "argv_path": [
+          "studies",
+          "fetch-study"
+        ]
+      },
+      {
+        "tool": "studies.metadata",
+        "summary": "Returns study data model fields. Optional: includeIndexedOnly (default: false), includeHistoricOnly (default: false).",
+        "params_schema": {
+          "includeIndexedOnly": "bool?",
+          "includeHistoricOnly": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "studies",
+          "metadata"
+        ]
+      },
+      {
+        "tool": "studies.search-areas",
+        "summary": "Search Docs and their Search Areas. Returns array of SearchDocument.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "studies",
+          "search-areas"
         ]
       }
     ]
@@ -132088,6 +132318,29 @@
     ]
   },
   {
+    "api": "concur",
+    "description": "Every expense-report and travel workflow Concur's web app offers, plus real flight and hotel search and duplicate detection no Concur tool has -- filed through the same session your browser already uses.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/concur/cmd/concur-pp-cli",
+    "auth_type": "cookie",
+    "category": "productivity",
+    "search_terms": [
+      "concur",
+      "SAP Concur",
+      "concur-pp-cli",
+      "Every expense-report and travel workflow Concur's web app offers, plus real flight and hotel search and duplicate detection no Concur tool has -- filed through the same session your browser already uses.",
+      "Cross-report duplicate-charge detector",
+      "expenses scan-duplicates",
+      "Local SQLite scan across synced expenses for vendor+amount+date-proximity duplicates. LIVE-VERIFIED (scorecard live-check pass).",
+      "Real flight search",
+      "flights search --from <origin> --to <dest> --depart <date> [--return <date>]",
+      "Searches real, live flight availability and fares via the GraphQL BFF's air-shopping mutation+poll flow -- not just already-booked trips. LIVE-VERIFIED 2026-08-17: real JetBlue LAX-JFK/EWR fares ($194-$2217 across cabin tiers) with policy compliance flags. Also ships 'flights locations' (metro-to-airport resolution, e.g. NYC expands to JFK/LGA/EWR/HPN) and 'flights preferences' (policy search defaults), both pure reads. KNOWN GAP: --return is accepted and included in the search, but only the outbound leg's results are rendered -- combined round-trip fares need an unmapped select-then-refine step. Net-new capability beyond the original absorb manifest; see .printing-press-patches/flights-hotels-search.json.",
+      "Real hotel search",
+      "hotels search --to <destination> --check-in <date> --check-out <date>",
+      "Searches real, live hotel availability and rates. Architecturally unique in this CLI: the session-creation mutation is confirmed blocked from scripted replay (even a byte-for-byte replay of a request that had just succeeded natively still failed), so this command drives the real Hotel Search form via agent-browser for that one step, then reads results directly via HTTP once the session exists (confirmed working via scripted replay). Requires agent-browser installed and a live, logged-in Chrome session. LIVE-VERIFIED 2026-08-17 across two separate runs: The Greenwich Hotel ($11,553/5-star), Hilton Brooklyn New York ($3,654/4-star), Moxy Nyc East Village ($3,456/4-star) on one run; Soho House New York, Hotel On Rivington, Public on a second, confirming repeatability. Net-new capability; see .printing-press-patches/flights-hotels-search.json."
+    ],
+    "endpoints": []
+  },
+  {
     "api": "conductor",
     "description": "Conductor Cloud API client with bounded coding-agent launch, monitor, steering, and reporting workflows.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/conductor/cmd/conductor-pp-cli",
@@ -170515,6 +170768,52 @@
     ]
   },
   {
+    "api": "extron",
+    "description": "Every Extron spec sheet and user manual, browsable and searchable offline with revision tracking no other Extron tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/extron/cmd/extron-pp-cli",
+    "auth_type": "",
+    "category": "devices",
+    "search_terms": [
+      "extron",
+      "extron-pp-cli",
+      "Every Extron spec sheet and user manual, browsable and searchable offline with revision tracking no other Extron tool has.",
+      "Revision drift check",
+      "literature updates",
+      "See which downloaded spec sheets and manuals have a newer revision available upstream, so project shares never run stale docs.",
+      "Doc-set completeness",
+      "catalog completeness",
+      "Per-model gap report across Brochure, Declaration of Conformity, Design Guide, Product Guide, Manual, and Revit BIM \u2014 see which doc types each model is missing.",
+      "Library what's-new",
+      "literature recent",
+      "Newest Extron literature across the whole library, ordered by date, filterable by category and age.",
+      "BOM doc bundle",
+      "literature rack",
+      "Assemble the full official doc set for every model in a rack bill of materials \u2014 report or batch-download in one pass.",
+      "Series grouping",
+      "literature family",
+      "Browse every document for a product family (DTP, MAV, IPL, DVS, ...) across all alphabetical letters at once.",
+      "Download integrity",
+      "catalog verify",
+      "Compare local PDF sizes against the download ledger to flag truncated or mismatched downloads."
+    ],
+    "endpoints": [
+      {
+        "tool": "literature.index",
+        "summary": "Fetch the alphabetical literature index for a letter. Optional: id (default: All), tabid (default: 5), defaultLang (default: true).",
+        "params_schema": {
+          "id": "string?",
+          "tabid": "int?",
+          "defaultLang": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "literature",
+          "index"
+        ]
+      }
+    ]
+  },
+  {
     "api": "faa-registry",
     "description": "Every FAA aircraft lookup the registry website offers, plus a daily-synced offline copy of the entire US registry that unlocks fleet reports, hex decoding, ownership history, and expiration alerts no other tool has.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/faa-registry/cmd/faa-registry-pp-cli",
@@ -173422,6 +173721,120 @@
         "argv_path": [
           "recipes",
           "browse"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "foodpanda",
+    "description": "Every foodpanda restaurant, menu and price in a local database \u2014 with cross-restaurant dish search, price history and fee comparison the app cannot do.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/foodpanda/cmd/foodpanda-pp-cli",
+    "auth_type": "composed",
+    "category": "food-and-dining",
+    "search_terms": [
+      "foodpanda",
+      "foodpanda-pp-cli",
+      "Home delivery-fee board",
+      "home",
+      "Rank every restaurant near your saved home address by what delivery actually costs you.",
+      "Cross-restaurant dish search",
+      "dish",
+      "Find which nearby restaurant sells a specific dish cheapest, searching every synced menu at once.",
+      "Menu and price drift",
+      "menu-diff",
+      "Show what changed in a restaurant's menu and prices between two syncs.",
+      "Commercial posture signals",
+      "posture",
+      "Rank vendors by advertising and placement signals: CPC ad participation, promoted and premium status, and ranking score.",
+      "Delivery coverage test",
+      "coverage",
+      "Determine which vendors actually deliver to an arbitrary point using each vendor's published delivery radius.",
+      "True cost fee board",
+      "fees",
+      "Compare the full cost structure across an area: delivery fee, minimum order, service fee and VAT together.",
+      "Review topic breakdown",
+      "digest",
+      "Split a restaurant's blended star rating into per-topic scores so food quality and delivery quality are separated.",
+      "Cross-market comparison",
+      "market-compare",
+      "Run the same query across every foodpanda market and compare vendor counts, ratings and fees side by side.",
+      "Live search with match confidence",
+      "find",
+      "Search vendors live upstream and label how strongly each result actually matched the query."
+    ],
+    "endpoints": [
+      {
+        "tool": "menu.get",
+        "summary": "Fetch one vendor with full menu, deals and delivery conditions. Required: vendor-code. Optional: include (default: menus), language-id (default: 1), opening-type (default: delivery) (plus 1 more). Returns the VendorDetail.",
+        "params_schema": {
+          "vendor-code": "string",
+          "include": "string?",
+          "language-id": "int?",
+          "opening-type": "string?",
+          "basket-currency": "string?"
+        },
+        "positionals": [
+          "vendor-code"
+        ],
+        "argv_path": [
+          "menu"
+        ]
+      },
+      {
+        "tool": "reviews.list",
+        "summary": "List reviews for a vendor, newest first. Required: vendor-code. Optional: limit (default: 30), offset (default: 0). Returns array of Review.",
+        "params_schema": {
+          "vendor-code": "string",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "vendor-code"
+        ],
+        "argv_path": [
+          "reviews"
+        ]
+      },
+      {
+        "tool": "vendors.list",
+        "summary": "List vendors near a coordinate, with filters and sorting. Required: latitude, longitude. Optional: country (default: pk), vertical (default: restaurants), sort (plus 6 more). Returns array of Vendor.",
+        "params_schema": {
+          "latitude": "float?",
+          "longitude": "float?",
+          "country": "string?",
+          "vertical": "string?",
+          "sort": "string?",
+          "limit": "int?",
+          "offset": "int?",
+          "language-id": "int?",
+          "configuration": "string?",
+          "customer-type": "string?",
+          "include": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "vendors"
+        ]
+      },
+      {
+        "tool": "vendors.search",
+        "summary": "Full-text search vendors and dishes near a coordinate. Required: query, latitude, longitude. Optional: country (default: pk), vertical (default: restaurants), limit (default: 48) (plus 4 more). Returns array of Vendor.",
+        "params_schema": {
+          "query": "string?",
+          "latitude": "float?",
+          "longitude": "float?",
+          "country": "string?",
+          "vertical": "string?",
+          "limit": "int?",
+          "offset": "int?",
+          "language-id": "int?",
+          "configuration": "string?",
+          "customer-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "vendors",
+          "search"
         ]
       }
     ]
@@ -252220,6 +252633,191 @@
     ]
   },
   {
+    "api": "peekaboo",
+    "description": "Every Peekaboo deal, branch, and bank-card offer from the terminal \u2014 plus city-wide deal ranking, bank-card reverse lookup, and bulk branch map-link export the Peekaboo site has no button for.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/peekaboo/cmd/peekaboo-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "commerce",
+    "search_terms": [
+      "peekaboo",
+      "peekaboo-pp-cli",
+      "Every Peekaboo deal, branch, and bank-card offer from the terminal \u2014 plus city-wide deal ranking, bank-card reverse lookup, and bulk branch map-link export the Peekaboo site has no button for.",
+      "Branch directions URLs",
+      "directions",
+      "Get a ready-to-open Google Maps directions link for every branch of a restaurant at once.",
+      "Nearest branch",
+      "nearest",
+      "Find the single closest branch of a restaurant to a city or coordinates, with its directions link.",
+      "Card to merchants",
+      "wallet",
+      "List every merchant in a city that honors a given bank card's deal (card to merchants).",
+      "Top deals ranking",
+      "top-deals",
+      "Rank a city's merchants by discount percentage and return the biggest current discounts.",
+      "Expiring deals",
+      "expiring",
+      "List deals whose validity window closes within N days.",
+      "Open now",
+      "open-now",
+      "Keep only merchants with a branch open at the current local time."
+    ],
+    "endpoints": [
+      {
+        "tool": "amenities.list",
+        "summary": "List amenities for a merchant. Required: entity-id, country (default: Pakistan), limit (default: 50), offset (default: 0). Returns array of Amenity.",
+        "params_schema": {
+          "entity-id": "int?",
+          "country": "string?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "amenities"
+        ]
+      },
+      {
+        "tool": "branches.list",
+        "summary": "List all branches of a merchant with latitude/longitude for map directions. Required: entityId, city, country (default: Pakistan), entity, lat, long. Optional: language (default: en), limit (default: 100), offset (default: 0). Returns array of Branch.",
+        "params_schema": {
+          "entityId": "string",
+          "city": "string?",
+          "country": "string?",
+          "entity": "string?",
+          "language": "string?",
+          "lat": "float?",
+          "long": "float?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "entityId"
+        ],
+        "argv_path": [
+          "branches"
+        ]
+      },
+      {
+        "tool": "brands.list",
+        "summary": "List brands and card-deal sources in a city. Required: country (default: Pakistan), city, limit (default: 20), offset (default: 0), latitude, longitude. Returns array of Brand.",
+        "params_schema": {
+          "country": "string?",
+          "city": "string?",
+          "limit": "int?",
+          "offset": "int?",
+          "latitude": "float?",
+          "longitude": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brands"
+        ]
+      },
+      {
+        "tool": "cards.list",
+        "summary": "List the banks/card sources that offer deals at a merchant. Required: entityId, city, country (default: Pakistan), entity, lat, long. Optional: language (default: en), limit (default: 100), offset (default: 0). Returns array of CardSource.",
+        "params_schema": {
+          "entityId": "string",
+          "city": "string?",
+          "country": "string?",
+          "entity": "string?",
+          "language": "string?",
+          "lat": "float?",
+          "long": "float?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "entityId"
+        ],
+        "argv_path": [
+          "cards"
+        ]
+      },
+      {
+        "tool": "categories.list",
+        "summary": "List deal categories for a city. Required: language (default: en), country (default: Pakistan), city, lat, long. Returns array of Category.",
+        "params_schema": {
+          "language": "string?",
+          "country": "string?",
+          "city": "string?",
+          "lat": "float?",
+          "long": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "deals.list",
+        "summary": "List deals/offers for a merchant, including bank-card offers. Required: target-entity-id, city, country (default: Pakistan), lat, long, language (default: en), offset (default: 0), limit (default: 100), associatedDeals (default: true), card (default: All). Returns array of Deal.",
+        "params_schema": {
+          "target-entity-id": "int?",
+          "city": "string?",
+          "country": "string?",
+          "lat": "float?",
+          "long": "float?",
+          "language": "string?",
+          "offset": "int?",
+          "limit": "int?",
+          "associatedDeals": "string?",
+          "card": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "deals"
+        ]
+      },
+      {
+        "tool": "locations.list",
+        "summary": "List cities/locations Peekaboo covers. Public: works without auth. Required: limit (default: 100), offset (default: 0). Returns array of Location.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "locations"
+        ]
+      },
+      {
+        "tool": "places.list",
+        "summary": "List merchants offering deals in a city and category. Required: country (default: Pakistan), city, category, limit (default: 20), offset (default: 0), latitude, longitude. Returns array of Entity.",
+        "params_schema": {
+          "country": "string?",
+          "city": "string?",
+          "category": "int?",
+          "limit": "int?",
+          "offset": "int?",
+          "latitude": "float?",
+          "longitude": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "places"
+        ]
+      },
+      {
+        "tool": "places.detail",
+        "summary": "Get full detail for a merchant (social, menu, gallery, rating, stats). Required: entity-id, city, country (default: Pakistan), lat, long, language (default: en). Returns the new EntityDetail.",
+        "params_schema": {
+          "entity-id": "string?",
+          "city": "string?",
+          "country": "string?",
+          "lat": "float?",
+          "long": "float?",
+          "language": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "places",
+          "detail"
+        ]
+      }
+    ]
+  },
+  {
     "api": "peerspace",
     "description": "Tech-event venue scout for Peerspace: rank fit, gap-check shortlists, and export proposal packs for Luma/Eventbrite.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/peerspace/cmd/peerspace-pp-cli",
@@ -252596,9 +253194,9 @@
       "peloton",
       "peloton-pp-cli",
       "Read-only Peloton workout, class, and structural-provider facts in a private local store.",
-      "Managed OAuth catalog access",
+      "Automatic Peloton login",
       "auth setup",
-      "Bootstraps a private OAuth bundle and reuses or refreshes it for bearer-authenticated catalog reads."
+      "Shows how to supply PELOTON_OAUTH_USERNAME/PELOTON_OAUTH_PASSWORD; the CLI logs in and persists credentials automatically, no external provisioning service involved."
     ],
     "endpoints": [
       {
@@ -266086,6 +266684,303 @@
     ]
   },
   {
+    "api": "psx",
+    "description": "Every PSX data-portal surface in one Go binary, plus the local price history the exchange itself throws away.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/psx/cmd/psx-pp-cli",
+    "auth_type": "none",
+    "category": "payments",
+    "search_terms": [
+      "psx",
+      "Pakistan Stock Exchange",
+      "psx-pp-cli",
+      "Every PSX data-portal surface in one Go binary, plus the local price history the exchange itself throws away.",
+      "Corporate-action digest",
+      "actions",
+      "See every announcement, payout, AGM date and circuit-breaker event for the symbols you track, in one place.",
+      "Snapshot delta",
+      "diff",
+      "Show what changed in price, volume and valuation metrics between two synced snapshots.",
+      "Local watchlist",
+      "watchlist",
+      "Keep a saved symbol set and price it on demand, with change measured from the day you added each name.",
+      "Baseline-relative anomaly scan",
+      "unusual",
+      "Find names trading abnormally against their own trailing history, not just the day's biggest movers.",
+      "Sector rotation",
+      "rotation",
+      "Rank sectors by movement over a window and name the constituents that drove each move.",
+      "Valuation drift",
+      "drift",
+      "Trace one symbol's PE, dividend yield, market cap or free float across time.",
+      "Futures basis",
+      "basis",
+      "Compare futures-board prices against the regular spot board to see premium or discount per symbol.",
+      "Regulatory document search",
+      "docs search",
+      "Search PSX regulatory documents, listing guides and notices by keyword, with last-updated dates."
+    ],
+    "endpoints": [
+      {
+        "tool": "announcements.list",
+        "summary": "Search announcements across company, PSX, SECP, NCCPL and CDC streams. Optional: stream (default: C), symbol, query (plus 5 more).",
+        "params_schema": {
+          "stream": "string?",
+          "symbol": "string?",
+          "query": "string?",
+          "limit": "int?",
+          "offset": "int?",
+          "from": "string?",
+          "to": "string?",
+          "page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "announcements"
+        ]
+      },
+      {
+        "tool": "board.show",
+        "summary": "Trading board for one market and board combination. Required: market, board.",
+        "params_schema": {
+          "market": "string",
+          "board": "string"
+        },
+        "positionals": [
+          "market",
+          "board"
+        ],
+        "argv_path": [
+          "board",
+          "show"
+        ]
+      },
+      {
+        "tool": "calendar.list",
+        "summary": "AGM and EOGM events in a date window. Required: from, to. Returns array of CalendarEvent.",
+        "params_schema": {
+          "from": "string?",
+          "to": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "calendar"
+        ]
+      },
+      {
+        "tool": "circuit-breakers.list",
+        "summary": "Instruments halted by a price circuit breaker, with the limit band and halt state that triggered the suspension.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "circuit-breakers"
+        ]
+      },
+      {
+        "tool": "company.profile",
+        "summary": "Company profile and quote page for an instrument. Required: symbol.",
+        "params_schema": {
+          "symbol": "string"
+        },
+        "positionals": [
+          "symbol"
+        ],
+        "argv_path": [
+          "company",
+          "profile"
+        ]
+      },
+      {
+        "tool": "company.reports",
+        "summary": "Financial report index for an instrument. Required: symbol.",
+        "params_schema": {
+          "symbol": "string"
+        },
+        "positionals": [
+          "symbol"
+        ],
+        "argv_path": [
+          "company",
+          "reports"
+        ]
+      },
+      {
+        "tool": "debt.list",
+        "summary": "TFCs, Sukuks and other debt instruments with coupon, maturity and yields.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "debt"
+        ]
+      },
+      {
+        "tool": "eligible-scrips.list",
+        "summary": "Securities eligible for margin trading and margin financing.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "eligible-scrips"
+        ]
+      },
+      {
+        "tool": "history.get",
+        "summary": "Full OHLCV history for a symbol. PSX ignores date parameters and always returns the complete series. Required: symbol.",
+        "params_schema": {
+          "symbol": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "history"
+        ]
+      },
+      {
+        "tool": "indices.list",
+        "summary": "All PSX indices with current level and change.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "indices"
+        ]
+      },
+      {
+        "tool": "listings.table",
+        "summary": "Listed companies filtered by board and listing status. Required: board, status.",
+        "params_schema": {
+          "board": "string",
+          "status": "string"
+        },
+        "positionals": [
+          "board",
+          "status"
+        ],
+        "argv_path": [
+          "listings",
+          "table"
+        ]
+      },
+      {
+        "tool": "market.debt_performers",
+        "summary": "Most active debt instruments by turnover, covering TFCs, Sukuks and government paper on the bonds board.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "market",
+          "debt_performers"
+        ]
+      },
+      {
+        "tool": "market.performers",
+        "summary": "Top active, gainer and loser tables for the equity market.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "market",
+          "performers"
+        ]
+      },
+      {
+        "tool": "market.watch",
+        "summary": "Whole-market snapshot table: LDCP, open, high, low, current, change, volume.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "market",
+          "watch"
+        ]
+      },
+      {
+        "tool": "payouts.list",
+        "summary": "Payout history across all instruments. Optional: symbol, limit (default: 25), offset (default: 0).",
+        "params_schema": {
+          "symbol": "string?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "payouts"
+        ]
+      },
+      {
+        "tool": "payouts.company",
+        "summary": "Full payout history for one instrument. Required: symbol.",
+        "params_schema": {
+          "symbol": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "payouts",
+          "company"
+        ]
+      },
+      {
+        "tool": "screener.list",
+        "summary": "Market cap, price, PE (TTM), dividend yield, free float, 30-day average volume and 1-year change.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "screener"
+        ]
+      },
+      {
+        "tool": "sectors.summary",
+        "summary": "Per-sector aggregates: advances, declines, turnover and market cap.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sectors",
+          "summary"
+        ]
+      },
+      {
+        "tool": "sectors.top",
+        "summary": "Top sectors ranked by traded volume. Returns array of SectorVolume.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sectors",
+          "top"
+        ]
+      },
+      {
+        "tool": "symbols.list",
+        "summary": "List every listed instrument with sector, ETF and debt flags. Returns array of Symbol.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "symbols"
+        ]
+      },
+      {
+        "tool": "timeseries.eod",
+        "summary": "End-of-day series as [epoch, close, volume, open] tuples. Required: symbol. Returns array.",
+        "params_schema": {
+          "symbol": "string"
+        },
+        "positionals": [
+          "symbol"
+        ],
+        "argv_path": [
+          "timeseries",
+          "eod"
+        ]
+      },
+      {
+        "tool": "timeseries.intraday",
+        "summary": "Intraday tick series as [epoch, price, volume] tuples (last active session). Required: symbol. Returns array.",
+        "params_schema": {
+          "symbol": "string"
+        },
+        "positionals": [
+          "symbol"
+        ],
+        "argv_path": [
+          "timeseries",
+          "intraday"
+        ]
+      }
+    ]
+  },
+  {
     "api": "pushover",
     "description": "Pushover from the terminal: send alerts, watch emergency receipts, inspect quota, and keep a redacted local...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/social-and-messaging/pushover/cmd/pushover-pp-cli",
@@ -266920,6 +267815,163 @@
         "argv_path": [
           "vendors",
           "get"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "qsys",
+    "description": "Q-SYS product specs, configuration procedures, and connection guides in one local index - with equipment-list compatibility checks neither QSC website can do.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/qsys/cmd/qsys-pp-cli",
+    "auth_type": "none",
+    "category": "devices",
+    "search_terms": [
+      "qsys",
+      "Q-SYS",
+      "qsys-pp-cli",
+      "Q-SYS product specs, configuration procedures, and connection guides in one local index - with equipment-list compatibility checks neither QSC website can do.",
+      "Unified product card",
+      "product get",
+      "See a Q-SYS product's overview, spec-sheet text, configuration pages, and connection guidance in one record.",
+      "BOM compatibility check",
+      "compat check",
+      "Check a whole equipment list against a Q-SYS Designer version and get back what is supported and what is not.",
+      "Deprecation sweep",
+      "compat deprecated",
+      "Flag which models in a list are deprecated or discontinued before they reach a quote.",
+      "Connection guidance by model",
+      "connect",
+      "Get the networking, wiring, and I/O guidance that actually applies to a given model.",
+      "BOM sweep \u2014 one report per model",
+      "bom verify",
+      "One report per model in an equipment list: version support, EOL status, and spec-sheet availability in a single pass.",
+      "Version-aware page reads",
+      "page get",
+      "Read a help page as of a specific Q-SYS Designer version from the versioned doc tree.",
+      "Extraction coverage report",
+      "coverage",
+      "Report how many products resolved a spec sheet and how many pages parsed, so extraction gaps are visible.",
+      "UC platform integration lookup",
+      "integrations",
+      "Find which UC platforms (Teams, Zoom, Meet) a device is certified or integrated with."
+    ],
+    "endpoints": [
+      {
+        "tool": "compat.by_product",
+        "summary": "List the Q-SYS Designer versions and compatibility notes for a hardware product, per the compatibility matrix.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "compat",
+          "by_product"
+        ]
+      },
+      {
+        "tool": "compat.by_version",
+        "summary": "List hardware support by Q-SYS Designer version: which hardware was added or removed in each release of the compatibility matrix.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "compat",
+          "by_version"
+        ]
+      },
+      {
+        "tool": "compat.deprecations",
+        "summary": "List deprecated hardware and feature notices with the release in which each item was deprecated.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "compat",
+          "deprecations"
+        ]
+      },
+      {
+        "tool": "compat.upgrade_path",
+        "summary": "Show firmware and Q-SYS Designer upgrade path requirements, including the supported upgrade sequences.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "compat",
+          "upgrade_path"
+        ]
+      },
+      {
+        "tool": "networking.get",
+        "summary": "Fetch a Q-SYS networking or connection guidance page. Required: topic.",
+        "params_schema": {
+          "topic": "string"
+        },
+        "positionals": [
+          "topic"
+        ],
+        "argv_path": [
+          "networking"
+        ]
+      },
+      {
+        "tool": "page.get",
+        "summary": "Fetch a Q-SYS Help documentation page as clean text. Required: topic.",
+        "params_schema": {
+          "topic": "string"
+        },
+        "positionals": [
+          "topic"
+        ],
+        "argv_path": [
+          "page"
+        ]
+      },
+      {
+        "tool": "page.index",
+        "summary": "Fetch the Q-SYS Help sitemap listing every documentation page.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "page",
+          "index"
+        ]
+      },
+      {
+        "tool": "product.index",
+        "summary": "Fetch the qsys.com sitemap listing every product page.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "product",
+          "index"
+        ]
+      },
+      {
+        "tool": "product.page",
+        "summary": "Fetch a qsys.com product page as clean text. Required: family, slug.",
+        "params_schema": {
+          "family": "string",
+          "slug": "string"
+        },
+        "positionals": [
+          "family",
+          "slug"
+        ],
+        "argv_path": [
+          "product",
+          "page"
+        ]
+      },
+      {
+        "tool": "product.resources",
+        "summary": "List spec-sheet and manual PDF links for a product. Required: family, slug.",
+        "params_schema": {
+          "family": "string",
+          "slug": "string"
+        },
+        "positionals": [
+          "family",
+          "slug"
+        ],
+        "argv_path": [
+          "product",
+          "resources"
         ]
       }
     ]
@@ -332177,6 +333229,108 @@
     ]
   },
   {
+    "api": "tessie",
+    "description": "Live Tesla vehicle data and commands from the terminal via the Tessie API",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/tessie/cmd/tessie-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "devices",
+    "search_terms": [
+      "tessie",
+      "tessie-pp-cli",
+      "Live Tesla vehicle data and commands from the terminal via the Tessie API",
+      "assume-vehicle",
+      "use",
+      "Persist an assumed vehicle (matched by display name, VIN, or VIN suffix) so vehicle state/battery/location/wake subcommands fall back to it when no VIN is given; current prints it.",
+      "Tessie vehicle endpoints are VIN-keyed; assume-a-car gives a single-token flow where the user sets which car once and every command targets it without repeating a VIN."
+    ],
+    "endpoints": [
+      {
+        "tool": "commands.send",
+        "summary": "Send a vehicle command (honk, flash_lights, start_climate, etc.). Required: vin, command.",
+        "params_schema": {
+          "vin": "string",
+          "command": "string"
+        },
+        "positionals": [
+          "vin",
+          "command"
+        ],
+        "argv_path": [
+          "commands",
+          "send"
+        ]
+      },
+      {
+        "tool": "vehicle.battery",
+        "summary": "Get the current battery state of a vehicle: charge level percent, estimated driving range, and charging status. Required: vin.",
+        "params_schema": {
+          "vin": "string"
+        },
+        "positionals": [
+          "vin"
+        ],
+        "argv_path": [
+          "vehicle",
+          "battery"
+        ]
+      },
+      {
+        "tool": "vehicle.location",
+        "summary": "Get the vehicle geolocation metadata: latitude, longitude, street address, and any saved location associated with the car. Required: vin.",
+        "params_schema": {
+          "vin": "string"
+        },
+        "positionals": [
+          "vin"
+        ],
+        "argv_path": [
+          "vehicle",
+          "location"
+        ]
+      },
+      {
+        "tool": "vehicle.state",
+        "summary": "Get the latest full state object of a vehicle: model, lock status, odometer, sentry mode, charge, and climate details. Required: vin. Optional: cache.",
+        "params_schema": {
+          "vin": "string",
+          "cache": "bool?"
+        },
+        "positionals": [
+          "vin"
+        ],
+        "argv_path": [
+          "vehicle",
+          "state"
+        ]
+      },
+      {
+        "tool": "vehicle.wake",
+        "summary": "Wake a sleeping vehicle so subsequent commands can reach it. Returns once the car is awake or after a timeout. Required: vin.",
+        "params_schema": {
+          "vin": "string"
+        },
+        "positionals": [
+          "vin"
+        ],
+        "argv_path": [
+          "vehicle",
+          "wake"
+        ]
+      },
+      {
+        "tool": "vehicles.list",
+        "summary": "List all vehicles with their latest state. Optional: active.",
+        "params_schema": {
+          "active": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "vehicles"
+        ]
+      }
+    ]
+  },
+  {
     "api": "thelancet",
     "description": "Search Lancet articles offline and analyze author impact, institutional networks, and editorial trends \u2014 powered by the free OpenAlex scholarly graph.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/thelancet/cmd/thelancet-pp-cli",
@@ -334101,6 +335255,126 @@
         "argv_path": [
           "tasks",
           "deleted"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "travelclick",
+    "description": "Search any TravelClick-powered hotel's own rates directly -- room types, rate plans, fee-inclusive pricing, and the cheapest night to book -- without opening a browser tab per property.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/travelclick/cmd/travelclick-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "travel",
+    "search_terms": [
+      "travelclick",
+      "travelclick-pp-cli",
+      "Multi-hotel rate compare",
+      "rates compare",
+      "Check several boutique hotels for the same dates in one call, ranked by lowest fee-inclusive total.",
+      "Cheapest night across saved hotels",
+      "rates cheapest-night",
+      "Scan several hotels' calendars at once and return the single best hotel+date combination.",
+      "Saved hotel aliases",
+      "hotels alias list",
+      "Give a memorable name to a TravelClick hotel ID instead of memorizing a 6-digit number.",
+      "Rate-snapshot price-drift history",
+      "analytics price-drift",
+      "Track how a hotel's rates move over time from your own saved search history.",
+      "Rate-code check across saved hotels",
+      "codes check-all",
+      "Test one corporate or group code against every saved hotel at once."
+    ],
+    "endpoints": [
+      {
+        "tool": "codes.validate_corporate",
+        "summary": "Check whether a corporate / rate-access code is valid for this hotel. Returns 200 when valid; returns a structured error (surfaced by the CLI) when the code is unrecognized. Required: hotel_id, code.",
+        "params_schema": {
+          "hotel_id": "string",
+          "code": "string"
+        },
+        "positionals": [
+          "hotel_id",
+          "code"
+        ],
+        "argv_path": [
+          "codes",
+          "validate_corporate"
+        ]
+      },
+      {
+        "tool": "codes.validate_group",
+        "summary": "Check whether a group-attendee code is valid for this hotel. Returns 200 when valid; returns a structured error (surfaced by the CLI) when the code is unrecognized. Required: hotel_id, code.",
+        "params_schema": {
+          "hotel_id": "string",
+          "code": "string"
+        },
+        "positionals": [
+          "hotel_id",
+          "code"
+        ],
+        "argv_path": [
+          "codes",
+          "validate_group"
+        ]
+      },
+      {
+        "tool": "hotel.info",
+        "summary": "Fetch a hotel's public profile: name, address, geolocation, check-in/out times, accepted cards, and textual policies (cancellation, pets, parking, resort/curation fees). Required: hotel_id. Optional: lang (default: EN_US). Returns the HotelInfo.",
+        "params_schema": {
+          "hotel_id": "string",
+          "lang": "string?"
+        },
+        "positionals": [
+          "hotel_id"
+        ],
+        "argv_path": [
+          "hotel",
+          "info"
+        ]
+      },
+      {
+        "tool": "rates.calendar",
+        "summary": "Scan a date range (up to ~60 days) for the lowest available rate per night -- use this to find the cheapest night to check in before running a full search. Required: hotel_id, hotelCode, from, to, multiRoomOccupancy. Optional: lang (default: EN_US), currency (default: USD), bookerIdentifier (plus 1 more). Returns array of MultiRoomDate.",
+        "params_schema": {
+          "hotel_id": "string",
+          "hotelCode": "int?",
+          "from": "string?",
+          "to": "string?",
+          "lang": "string?",
+          "currency": "string?",
+          "bookerIdentifier": "string?",
+          "channel": "string?",
+          "multiRoomOccupancy": "array?"
+        },
+        "positionals": [
+          "hotel_id"
+        ],
+        "argv_path": [
+          "rates",
+          "calendar"
+        ]
+      },
+      {
+        "tool": "rates.search",
+        "summary": "Search available rooms and rate plans for a hotel between check-in and check-out. Required: hotel_id, check-in, check-out. Optional: adults (default: 2), infants (default: 0), rooms (default: 1) (plus 4 more). Returns array of AvailRoomStay.",
+        "params_schema": {
+          "hotel_id": "string",
+          "check-in": "string?",
+          "check-out": "string?",
+          "adults": "int?",
+          "infants": "int?",
+          "rooms": "int?",
+          "currency": "string?",
+          "lang": "string?",
+          "channel": "string?",
+          "bookerIdentifier": "string?"
+        },
+        "positionals": [
+          "hotel_id"
+        ],
+        "argv_path": [
+          "rates",
+          "search"
         ]
       }
     ]
@@ -362706,39 +363980,109 @@
     "category": "media-and-entertainment",
     "search_terms": [
       "youtube",
-      "Youtube Data",
       "youtube-pp-cli",
-      "Bulk search from stdin",
-      "youtube search-bulk",
-      "Take a list of search terms from stdin or args, return top-N YouTube videos per term in one JSON document with titles, channels, embed URLs, and thumbnails.",
-      "Transcript fetcher",
-      "youtube videos-transcript",
-      "Fetch the spoken-content transcript of a YouTube video using the timedtext endpoint. Works for auto-generated and manual captions on any public video. Caches into the local store.",
-      "Embed snippet generator",
-      "youtube videos-embed",
-      "Print embed HTML, iframe, or markdown-style embed for a video ID. Direct copy-paste into a blog draft.",
-      "Topic-similarity related videos",
-      "youtube videos-related",
-      "Find videos related to a target video using topicDetails + same-channel + tag overlap from the local store. Best-effort replacement for the deprecated relatedToVideoId parameter.",
-      "Top comments by likes",
-      "youtube videos-comments",
-      "Fetch top comments on a video, ranked locally by likeCount. Pulls up to 5 pages from commentThreads.list and sorts so most-liked floats regardless of API order.",
-      "Channel uploads in one call",
-      "youtube channel-uploads",
-      "List a channel's most recent uploads in one call. Resolves @handle or channelId, walks the auto-generated uploads playlist, returns video IDs + titles + publish times."
+      "A self-maintained competitor-monitoring machine for YouTube: full read API coverage plus a local databank of channel histories, snapshots, comments, and packaging assets - market data hours old, not weeks.",
+      "Competitor watchlist",
+      "watch list",
+      "Register the competitor channels your monitoring machine tracks, in a typed watchlist table you own.",
+      "Watchlist monitor",
+      "monitor",
+      "Refresh every watched channel in one run: stats snapshot, new uploads, re-snapshot of recent video statistics.",
+      "Video velocity",
+      "velocity",
+      "See which tracked videos are gaining views fastest right now, computed from real between-snapshot deltas.",
+      "Growth between snapshots",
+      "growth",
+      "Channel-level subscriber, view, and upload-count deltas between dated local snapshots.",
+      "Breakout finder",
+      "breakouts",
+      "Chain search filters into a matrix (terms x upload window x duration x region), join results to channel size, and rank fresh high-momentum videos.",
+      "Comment intelligence",
+      "comments-mine",
+      "Sync comments into a typed full-text-searchable table and report top-liked comments, keyword frequencies, and audience questions.",
+      "Channel history backfill",
+      "backfill",
+      "Pull a channel's complete upload history with statistics into the local databank in one command.",
+      "Packaging collector",
+      "packaging",
+      "Collect titles, thumbnails (downloaded as local image files), and hook text from transcript openings into a packaging table.",
+      "Workspaces",
+      "workspace list",
+      "Named databanks: keep the competitor machine in one database and explore a new niche in another, switching instantly.",
+      "API key ring",
+      "keys list",
+      "Store multiple named YouTube API keys, switch between them instantly, and optionally fail over automatically via --rotate when one runs out of quota."
     ],
     "endpoints": [
       {
-        "tool": "youtube.channels-list",
-        "summary": "Retrieves a list of resources, possibly filtered. Optional: categoryId, forUsername, hl (plus 4 more). Returns the ChannelListResponse.",
+        "tool": "youtube.activities-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: channelId, home, maxResults (plus 5 more). Returns array of Activity.",
         "params_schema": {
+          "part": "array?",
+          "channelId": "string?",
+          "home": "bool?",
+          "maxResults": "int?",
+          "mine": "bool?",
+          "pageToken": "string?",
+          "publishedAfter": "string?",
+          "publishedBefore": "string?",
+          "regionCode": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "youtube",
+          "activities-list"
+        ]
+      },
+      {
+        "tool": "youtube.captions-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part, videoId. Optional: id, onBehalfOf, onBehalfOfContentOwner. Returns array of Caption.",
+        "params_schema": {
+          "part": "array?",
+          "videoId": "string?",
+          "id": "array?",
+          "onBehalfOf": "string?",
+          "onBehalfOfContentOwner": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "youtube",
+          "captions-list"
+        ]
+      },
+      {
+        "tool": "youtube.channel-sections-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: channelId, hl, id (plus 2 more). Returns array of ChannelSection.",
+        "params_schema": {
+          "part": "array?",
+          "channelId": "string?",
+          "hl": "string?",
+          "id": "array?",
+          "mine": "bool?",
+          "onBehalfOfContentOwner": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "youtube",
+          "channel-sections-list"
+        ]
+      },
+      {
+        "tool": "youtube.channels-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: categoryId, forUsername, hl (plus 8 more). Returns array of Channel.",
+        "params_schema": {
+          "part": "array?",
           "categoryId": "string?",
           "forUsername": "string?",
           "hl": "string?",
           "id": "array?",
           "managedByMe": "bool?",
+          "maxResults": "int?",
           "mine": "bool?",
-          "mySubscribers": "bool?"
+          "mySubscribers": "bool?",
+          "onBehalfOfContentOwner": "string?",
+          "pageToken": "string?",
+          "forHandle": "string?"
         },
         "positionals": [],
         "argv_path": [
@@ -362747,10 +364091,62 @@
         ]
       },
       {
-        "tool": "youtube.playlist-items-list",
-        "summary": "Retrieves a list of resources, possibly filtered. Optional: id, playlistId, videoId. Returns the PlaylistItemListResponse.",
+        "tool": "youtube.comment-threads-list",
+        "summary": "Retrieves a list of top-level comment threads, filterable by video, channel, or thread id. Public read-only when filtered by videoId, channelId, or id; moderationStatus filtering is OAuth-only and not exposed here. Required: part. Optional: videoId, channelId, id (plus 7 more). Returns array of CommentThread.",
         "params_schema": {
+          "part": "array?",
+          "videoId": "string?",
+          "channelId": "string?",
+          "id": "string?",
+          "maxResults": "int?",
+          "order": "string?",
+          "pageToken": "string?",
+          "searchTerms": "string?",
+          "textFormat": "string?",
+          "postId": "string?",
+          "allThreadsRelatedToChannelId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "youtube",
+          "comment-threads-list"
+        ]
+      },
+      {
+        "tool": "youtube.i18n-languages-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: hl. Returns array of I18nLanguage.",
+        "params_schema": {
+          "part": "array?",
+          "hl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "youtube",
+          "i18n-languages-list"
+        ]
+      },
+      {
+        "tool": "youtube.i18n-regions-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: hl. Returns array of I18nRegion.",
+        "params_schema": {
+          "part": "array?",
+          "hl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "youtube",
+          "i18n-regions-list"
+        ]
+      },
+      {
+        "tool": "youtube.playlist-items-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: id, maxResults, onBehalfOfContentOwner (plus 3 more). Returns array of PlaylistItem.",
+        "params_schema": {
+          "part": "array?",
           "id": "array?",
+          "maxResults": "int?",
+          "onBehalfOfContentOwner": "string?",
+          "pageToken": "string?",
           "playlistId": "string?",
           "videoId": "string?"
         },
@@ -362762,13 +364158,17 @@
       },
       {
         "tool": "youtube.playlists-list",
-        "summary": "Retrieves a list of resources, possibly filtered. Optional: channelId, hl, id (plus 2 more). Returns the PlaylistListResponse.",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: channelId, hl, id (plus 5 more). Returns array of Playlist.",
         "params_schema": {
+          "part": "array?",
           "channelId": "string?",
           "hl": "string?",
           "id": "array?",
+          "maxResults": "int?",
           "mine": "bool?",
-          "onBehalfOfContentOwnerChannel": "string?"
+          "onBehalfOfContentOwner": "string?",
+          "onBehalfOfContentOwnerChannel": "string?",
+          "pageToken": "string?"
         },
         "positionals": [],
         "argv_path": [
@@ -362778,8 +364178,9 @@
       },
       {
         "tool": "youtube.search-list",
-        "summary": "Retrieves a list of search resources. Optional: channelId, channelType, eventType (plus 24 more). Returns the SearchListResponse.",
+        "summary": "Retrieves a list of search resources. Required: part. Optional: channelId, channelType, eventType (plus 28 more). Returns array of SearchResult.",
         "params_schema": {
+          "part": "array?",
           "channelId": "string?",
           "channelType": "string?",
           "eventType": "string?",
@@ -362788,7 +364189,10 @@
           "forMine": "bool?",
           "location": "string?",
           "locationRadius": "string?",
+          "maxResults": "int?",
+          "onBehalfOfContentOwner": "string?",
           "order": "string?",
+          "pageToken": "string?",
           "publishedAfter": "string?",
           "publishedBefore": "string?",
           "q": "string?",
@@ -362806,7 +364210,8 @@
           "videoEmbeddable": "string?",
           "videoLicense": "string?",
           "videoSyndicated": "string?",
-          "videoType": "string?"
+          "videoType": "string?",
+          "videoPaidProductPlacement": "string?"
         },
         "positionals": [],
         "argv_path": [
@@ -362815,16 +364220,35 @@
         ]
       },
       {
-        "tool": "youtube.videos-list",
-        "summary": "Retrieves a list of resources, possibly filtered. Optional: chart, hl, id (plus 6 more). Returns the VideoListResponse.",
+        "tool": "youtube.video-categories-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: hl, id, regionCode. Returns array of VideoCategory.",
         "params_schema": {
+          "part": "array?",
+          "hl": "string?",
+          "id": "array?",
+          "regionCode": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "youtube",
+          "video-categories-list"
+        ]
+      },
+      {
+        "tool": "youtube.videos-list",
+        "summary": "Retrieves a list of resources, possibly filtered. Required: part. Optional: chart, hl, id (plus 9 more). Returns array of Video.",
+        "params_schema": {
+          "part": "array?",
           "chart": "string?",
           "hl": "string?",
           "id": "array?",
           "locale": "string?",
           "maxHeight": "int?",
+          "maxResults": "int?",
           "maxWidth": "int?",
           "myRating": "string?",
+          "onBehalfOfContentOwner": "string?",
+          "pageToken": "string?",
           "regionCode": "string?",
           "videoCategoryId": "string?"
         },
