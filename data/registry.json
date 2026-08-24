@@ -25808,7 +25808,7 @@
       "Mostra per ognuno dei 12 archivi ARS: timestamp ultima sync, n. record locali, et\u00e0 della sync, eventuale segnalazione di staleness.",
       "Cronologia inversa di una legge",
       "legge cronologia",
-      "Partendo da una legge regionale promulgata (archivio 201), risale al DDL originario, ai pareri di commissione e al voto d'aula: l'inverso temporale di ddl iter."
+      "Partendo da una legge regionale promulgata (archivio 201), risale al DDL originario, agli emendamenti citati nei resoconti d'aula e ai pareri di commissione: l'inverso temporale di ddl iter."
     ],
     "endpoints": [
       {
@@ -221418,6 +221418,191 @@
     ]
   },
   {
+    "api": "jules",
+    "description": "Jules Planning & Progress API for async coding tasks",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/jules/cmd/jules-pp-cli",
+    "auth_type": "api_key",
+    "category": "developer-tools",
+    "search_terms": [
+      "jules",
+      "jules-pp-cli",
+      "Jules Planning & Progress API for async coding tasks",
+      "Quota-Aware Dispatch with Backoff",
+      "sessions create --quota-safe",
+      "Check quota before dispatching a session and retry with exponential backoff on 429/400 rate-limit errors, up to --max-retries (default 5).",
+      "Pre-flight Conflict Detection",
+      "sessions create --check-conflicts",
+      "Detect merge conflicts with in-flight sessions on the same repo before dispatching a new session, blocking creation unless overridden with --yes.",
+      "Continuous Session Monitoring",
+      "monitor",
+      "Poll one or more sessions for progress and state changes; --reconcile detects and reports stalled sessions with no activity for a configurable duration.",
+      "Working Tree Checkpoints",
+      "checkpoint",
+      "Save, list, and restore session state and activity snapshots locally, enabling safe mid-session work recovery after interruptions.",
+      "Zombie Session Archival",
+      "archive",
+      "Identify sessions with no activity for a configurable duration (default 7 days) and archive them to free quota, with --dry-run to preview.",
+      "Pre-submission Diff Validation",
+      "diff-validate",
+      "Validate a session's diff isn't empty, isn't whitespace-only, stays within size limits, and has a meaningful commit message before submission.",
+      "Workflow Trigger Chaining",
+      "trigger",
+      "Chain cron schedules with GitHub workflow_run events to run Jules tasks on a schedule or automatically trigger workflows when sessions complete.",
+      "Persona Memory Learning",
+      "persona",
+      "Record successful Jules task decomposition strategies and prompt patterns as reusable personas, backed by local SQLite persistence.",
+      "Compliance & Safety Gating",
+      "compliance",
+      "Check that Jules-generated changes comply with organizational policies (code review, security scanning, license, dependency, and API usage rules) before allowing submission."
+    ],
+    "endpoints": [
+      {
+        "tool": "sessions.create",
+        "summary": "Create new coding task session. Required: prompt. Optional: automationMode, requirePlanApproval, sourceContext (plus 1 more).",
+        "params_schema": {
+          "automationMode": "string?",
+          "prompt": "string?",
+          "requirePlanApproval": "bool?",
+          "sourceContext": "object?",
+          "title": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sessions"
+        ]
+      },
+      {
+        "tool": "sessions.approve-plan",
+        "summary": "Approve the pending plan for a session created with requirePlanApproval, letting Jules proceed with the work it planned. Required: sessionId (path). Only sessions awaiting plan approval accept this call; check sessions_get first if you're unsure of the session's current state.",
+        "params_schema": {
+          "sessionId": "string"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "approve-plan"
+        ]
+      },
+      {
+        "tool": "sessions.delete",
+        "summary": "Permanently delete a Jules session by its sessionId. Destructive: the session and its history are removed from the Jules service and cannot be recovered. Required: sessionId (path). Confirm the sessionId with sessions_get or sessions_list before calling this.",
+        "params_schema": {
+          "sessionId": "string"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "delete"
+        ]
+      },
+      {
+        "tool": "sessions.get",
+        "summary": "Get the full details of one Jules coding session by its sessionId, including its current state (e.g. planning, in-progress, awaiting plan approval, completed). Required: sessionId (path). Use sessions_list first if you don't already have the sessionId; call this once you do, or to poll a specific session's progress.",
+        "params_schema": {
+          "sessionId": "string"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "get"
+        ]
+      },
+      {
+        "tool": "sessions.list",
+        "summary": "List all sessions. Optional: pageSize (default: 30), pageToken.",
+        "params_schema": {
+          "pageSize": "int?",
+          "pageToken": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sessions",
+          "list"
+        ]
+      },
+      {
+        "tool": "sessions.send-message",
+        "summary": "Send a follow-up message to an already-running Jules session, adding new instructions or feedback while it works. Required: sessionId (path) and prompt (request body, the message text). Use this to steer a session after it has started; use sessions_create to start a new session instead.",
+        "params_schema": {
+          "sessionId": "string",
+          "prompt": "string?"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "send-message"
+        ]
+      },
+      {
+        "tool": "sessions.activities_get-activity",
+        "summary": "Get the full details of a single activity (a plan step, message, or artifact such as a code diff) within a session. Required: sessionId and activityId (both path parameters). Use sessions_activities_list first to discover activityId values for a session, then call this to inspect one activity's full content.",
+        "params_schema": {
+          "sessionId": "string",
+          "activityId": "string"
+        },
+        "positionals": [
+          "sessionId",
+          "activityId"
+        ],
+        "argv_path": [
+          "sessions",
+          "activities_get-activity"
+        ]
+      },
+      {
+        "tool": "sessions.activities_list",
+        "summary": "List session activities. Required: sessionId. Optional: pageSize (default: 50), pageToken.",
+        "params_schema": {
+          "sessionId": "string",
+          "pageSize": "int?",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "sessionId"
+        ],
+        "argv_path": [
+          "sessions",
+          "activities_list"
+        ]
+      },
+      {
+        "tool": "sources.get",
+        "summary": "Get the full details of one connected repository (source) by its sourceId, such as its name and connection status. Required: sourceId (path). Use sources_list first if you don't already have the sourceId.",
+        "params_schema": {
+          "sourceId": "string"
+        },
+        "positionals": [
+          "sourceId"
+        ],
+        "argv_path": [
+          "sources"
+        ]
+      },
+      {
+        "tool": "sources.list",
+        "summary": "List connected repositories. Optional: pageSize (default: 30), pageToken, filter.",
+        "params_schema": {
+          "pageSize": "int?",
+          "pageToken": "string?",
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sources",
+          "list"
+        ]
+      }
+    ]
+  },
+  {
     "api": "juneoven",
     "description": "Every June oven control from the terminal \u2014 self-pair, preheat, adjust, watch live telemetry, and cancel, over June's cloud with agent-native JSON.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/juneoven/cmd/juneoven-pp-cli",
@@ -293359,6 +293544,89 @@
     ]
   },
   {
+    "api": "rundown",
+    "description": "Search the community's AI workflows offline, and rank them by week - two things the site's own API cannot do.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/rundown/cmd/rundown-pp-cli",
+    "auth_type": "none",
+    "category": "ai",
+    "search_terms": [
+      "rundown",
+      "The Rundown University",
+      "rundown-pp-cli",
+      "Search the community's AI workflows offline, and rank them by week - two things the site's own API cannot do.",
+      "Time-windowed top workflows",
+      "top",
+      "Rank the highest-upvoted workflows inside a time window like 7d or 30d.",
+      "Use-case finder",
+      "use-cases",
+      "Answer 'are there any workflows for X' by blending the server's semantic search with local full-text search, then ranking by upvotes.",
+      "Full workflow reader",
+      "show",
+      "Print one workflow in full - body, tools, industries, author and comments - in a single call.",
+      "Community digest",
+      "digest",
+      "Summarise a time window: how many workflows landed, the top posts, the most-used tools and the busiest authors.",
+      "Tool adoption ranking",
+      "tools rank",
+      "Rank AI tools by how often they appear in workflows and by the upvotes those workflows earned.",
+      "Tool co-occurrence stacks",
+      "stack",
+      "Show which other tools appear alongside a given tool, so you can see the stacks people really run."
+    ],
+    "endpoints": [
+      {
+        "tool": "comments.list",
+        "summary": "List comments on a workflow post. Required: post_id. Optional: cursor. Returns array of Comment.",
+        "params_schema": {
+          "post_id": "string",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "post_id"
+        ],
+        "argv_path": [
+          "comments"
+        ]
+      },
+      {
+        "tool": "leaderboard.list",
+        "summary": "This week's top contributors by points (server always returns the weekly window).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "leaderboard"
+        ]
+      },
+      {
+        "tool": "posts.list",
+        "summary": "List community workflow posts with server-side filters. Optional: sort (default: new), type, query (plus 5 more). Returns array of Post.",
+        "params_schema": {
+          "sort": "string?",
+          "type": "string?",
+          "query": "string?",
+          "tag": "string?",
+          "tool": "string?",
+          "industry": "string?",
+          "limit": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts"
+        ]
+      },
+      {
+        "tool": "tools.list",
+        "summary": "List every tool slug the community can tag a workflow with. Returns array of Tool.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tools"
+        ]
+      }
+    ]
+  },
+  {
     "api": "running-race-results",
     "description": "Look up running race results across NYRR, Mika Timing, Athlinks, and RaceResult by fuzzy race name, bib, runner name, or athlete history.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/running-race-results/cmd/running-race-results-pp-cli",
@@ -297272,6 +297540,483 @@
         "argv_path": [
           "screens",
           "run"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "scryfall",
+    "description": "Magic: The Gathering card database CLI: search, prices, rulings, sets, and batch collection valuation against api.scryfall.com (keyless).",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/scryfall/cmd/scryfall-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "scryfall",
+      "scryfall-pp-cli",
+      "Magic: The Gathering card database CLI: search, prices, rulings, sets, and batch collection valuation against api.scryfall.com (keyless).",
+      "Batch collection valuation",
+      "cards post-collection --identifiers '[{\"name\":\"Lightning Bolt\"},{\"name\":\"Sol Ring\"}]'",
+      "Price up to 75 cards in one call; the binder/deck-list workflow the API is most used for and the endpoint the community spec was missing.",
+      "Marketplace ID lookup",
+      "cards get-by-tcgplayer-id <id> / cards get-by-cardmarket-id <id>",
+      "Collectors and store owners work in marketplace IDs, not Scryfall UUIDs.",
+      "Compact price-first output",
+      "cards get-named --exact 'Sol Ring' --compact",
+      "Name + USD + EUR is the answer; full card JSON on demand."
+    ],
+    "endpoints": [
+      {
+        "tool": "bulk-data.get-all",
+        "summary": "Returns a List of all bulk data items on Scryfall.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bulk-data",
+          "get-all"
+        ]
+      },
+      {
+        "tool": "cards.autocomplete",
+        "summary": "Autocomplete. Required: q. Returns array of string.",
+        "params_schema": {
+          "q": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "cards",
+          "autocomplete"
+        ]
+      },
+      {
+        "tool": "cards.get-all",
+        "summary": "Returns a `List` object that contains all cards in Scryfall\u2019s database. This method is paginated, returning 175 cards at a time. The cards are ordered roughly newest to oldest. Optional: page, format, pretty.",
+        "params_schema": {
+          "page": "int?",
+          "format": "string?",
+          "pretty": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "cards",
+          "get-all"
+        ]
+      },
+      {
+        "tool": "cards.get-by-arena-id",
+        "summary": "Get by arena id. Required: id. Returns the Card.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "get-by-arena-id"
+        ]
+      },
+      {
+        "tool": "cards.get-by-cardmarket-id",
+        "summary": "Fetch a card by its Cardmarket ID. Required: id. Returns the Card.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "get-by-cardmarket-id"
+        ]
+      },
+      {
+        "tool": "cards.get-by-code-by-number",
+        "summary": "Get by code by number. Required: code, number. Returns the Card.",
+        "params_schema": {
+          "code": "string",
+          "number": "string"
+        },
+        "positionals": [
+          "code",
+          "number"
+        ],
+        "argv_path": [
+          "cards",
+          "get-by-code-by-number"
+        ]
+      },
+      {
+        "tool": "cards.get-by-id",
+        "summary": "Get by id. Required: id. Returns the Card.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "cards.get-by-mtgo-id",
+        "summary": "Get by mtgo id. Required: id. Returns the Card.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "get-by-mtgo-id"
+        ]
+      },
+      {
+        "tool": "cards.get-by-multiverse-id",
+        "summary": "Get by multiverse id. Required: id. Returns the Card.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "get-by-multiverse-id"
+        ]
+      },
+      {
+        "tool": "cards.get-by-tcgplayer-id",
+        "summary": "Fetch a card by its TCGplayer ID. Required: id. Returns the Card.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "get-by-tcgplayer-id"
+        ]
+      },
+      {
+        "tool": "cards.get-named",
+        "summary": "Get named. Optional: exact, fuzzy, set (plus 4 more). Returns the Card.",
+        "params_schema": {
+          "exact": "string?",
+          "fuzzy": "string?",
+          "set": "string?",
+          "format": "string?",
+          "face": "string?",
+          "version": "string?",
+          "pretty": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "cards",
+          "get-named"
+        ]
+      },
+      {
+        "tool": "cards.get-random",
+        "summary": "Get random. Returns the Card.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "cards",
+          "get-random"
+        ]
+      },
+      {
+        "tool": "cards.post-collection",
+        "summary": "Accepts a JSON body with an identifiers array (max 75). Supported identifier keys: id, mtgo_id, arena_id, multiverse_id, name, set + collector_number, collector_number. Required: identifiers. Returns array of Card.",
+        "params_schema": {
+          "identifiers": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "cards",
+          "post-collection"
+        ]
+      },
+      {
+        "tool": "cards.rulings-get-by-mtgo-id",
+        "summary": "Rulings get by mtgo id. Required: id. Returns array of Ruling.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "rulings-get-by-mtgo-id"
+        ]
+      },
+      {
+        "tool": "cards.rulings-get-by-multiverse-id",
+        "summary": "Rulings get by multiverse id. Required: id. Returns array of Ruling.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "rulings-get-by-multiverse-id"
+        ]
+      },
+      {
+        "tool": "cards.search",
+        "summary": "Returns a List object containing Cards found using a fulltext search string. This string supports the same [fulltext search system](https://scryfall.com/docs/syntax) that the main site uses. Required: q. Optional: unique, order, dir (plus 2 more).",
+        "params_schema": {
+          "q": "string?",
+          "unique": "string?",
+          "order": "string?",
+          "dir": "string?",
+          "include_extras": "bool?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "cards",
+          "search"
+        ]
+      },
+      {
+        "tool": "cards.rulings_get-by-code-by-number-id",
+        "summary": "Get by code by number id. Required: code, number. Returns array of Ruling.",
+        "params_schema": {
+          "code": "string",
+          "number": "string"
+        },
+        "positionals": [
+          "code",
+          "number"
+        ],
+        "argv_path": [
+          "cards",
+          "rulings_get-by-code-by-number-id"
+        ]
+      },
+      {
+        "tool": "cards.rulings_get-by-id",
+        "summary": "Get by id. Required: id. Returns array of Ruling.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "cards",
+          "rulings_get-by-id"
+        ]
+      },
+      {
+        "tool": "catalog.get-artifact-types",
+        "summary": "Get artifact types. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-artifact-types"
+        ]
+      },
+      {
+        "tool": "catalog.get-card-names",
+        "summary": "Get card names. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-card-names"
+        ]
+      },
+      {
+        "tool": "catalog.get-creature-types",
+        "summary": "Get creature types. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-creature-types"
+        ]
+      },
+      {
+        "tool": "catalog.get-enchantment-types",
+        "summary": "Get enchantment types. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-enchantment-types"
+        ]
+      },
+      {
+        "tool": "catalog.get-land-types",
+        "summary": "Get land types. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-land-types"
+        ]
+      },
+      {
+        "tool": "catalog.get-loyalties",
+        "summary": "Get loyalties. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-loyalties"
+        ]
+      },
+      {
+        "tool": "catalog.get-planeswalker-types",
+        "summary": "Get planeswalker types. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-planeswalker-types"
+        ]
+      },
+      {
+        "tool": "catalog.get-powers",
+        "summary": "Get powers. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-powers"
+        ]
+      },
+      {
+        "tool": "catalog.get-spell-types",
+        "summary": "Get spell types. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-spell-types"
+        ]
+      },
+      {
+        "tool": "catalog.get-toughnesses",
+        "summary": "Get toughnesses. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-toughnesses"
+        ]
+      },
+      {
+        "tool": "catalog.get-watermarks",
+        "summary": "Get watermarks. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-watermarks"
+        ]
+      },
+      {
+        "tool": "catalog.get-word-bank",
+        "summary": "Get word bank. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "get-word-bank"
+        ]
+      },
+      {
+        "tool": "sets.get-all",
+        "summary": "Returns a List object of all Sets on Scryfall. Optional: format, pretty.",
+        "params_schema": {
+          "format": "string?",
+          "pretty": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sets",
+          "get-all"
+        ]
+      },
+      {
+        "tool": "sets.get-by-code",
+        "summary": "Returns a `Set` with the given set code. The code can be either the `code` or the `mtgo_code` for the set. Required: code. Optional: format, pretty.",
+        "params_schema": {
+          "code": "string",
+          "format": "string?",
+          "pretty": "bool?"
+        },
+        "positionals": [
+          "code"
+        ],
+        "argv_path": [
+          "sets",
+          "get-by-code"
+        ]
+      },
+      {
+        "tool": "sets.get-by-id",
+        "summary": "Returns a `Set` with the given Scryfall `id`. Required: id. Optional: format, pretty.",
+        "params_schema": {
+          "id": "string",
+          "format": "string?",
+          "pretty": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "sets",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "sets.get-by-tcgplayer-id",
+        "summary": "Returns a `Set` with the given `tcgplayer_id`, also known as the `groupId` on [TCGplayer\u2019s API](https://docs.tcgplayer.com/docs). Required: id. Optional: format, pretty.",
+        "params_schema": {
+          "id": "string",
+          "format": "string?",
+          "pretty": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "sets",
+          "get-by-tcgplayer-id"
+        ]
+      },
+      {
+        "tool": "symbology.get-all",
+        "summary": "Get all. Returns array of CardSymbol.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "symbology",
+          "get-all"
+        ]
+      },
+      {
+        "tool": "symbology.parse-mana",
+        "summary": "Parse mana. Required: cost. Returns the ManaCost.",
+        "params_schema": {
+          "cost": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "symbology",
+          "parse-mana"
         ]
       }
     ]
@@ -372574,6 +373319,289 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "wanderlog",
+    "description": "Clone shared Wanderlog plans into editable trips, then mine guides and places for agent-ready planning.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/wanderlog/cmd/wanderlog-pp-cli",
+    "auth_type": "api_key",
+    "category": "travel",
+    "search_terms": [
+      "wanderlog",
+      "wanderlog-pp-cli",
+      "Clone shared Wanderlog plans into editable trips, then mine guides and places for agent-ready planning.",
+      "Shared plan clone/fill",
+      "plan clone",
+      "Create a new Wanderlog trip from a shared or public source plan, then fill it with the source plan template.",
+      "Existing trip fill from template",
+      "plan fill",
+      "Fill an existing Wanderlog trip from a shared or public source plan with dry-run and force safeguards.",
+      "Clone preview and copyability report",
+      "plan preview",
+      "Inspect a shared plan and report dates, sections, blocks, resources, and clone warnings before any write."
+    ],
+    "endpoints": [
+      {
+        "tool": "account.me",
+        "summary": "Get the current Wanderlog account for WANDERLOG_COOKIE. Returns the GenericObject. (requires API key)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "me"
+        ]
+      },
+      {
+        "tool": "geos.autocomplete",
+        "summary": "Search destinations by name. Required: query. Returns array of Geo.",
+        "params_schema": {
+          "query": "string"
+        },
+        "positionals": [
+          "query"
+        ],
+        "argv_path": [
+          "geos",
+          "autocomplete"
+        ]
+      },
+      {
+        "tool": "geos.good_guides",
+        "summary": "List destinations known to have good public guides. Returns the GenericObject.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "geos",
+          "good_guides"
+        ]
+      },
+      {
+        "tool": "guides.get",
+        "summary": "Get a public guide or shared trip by view key. Required: view_key. Optional: client-schema-version (default: 2). Returns the TripPlanResponse.",
+        "params_schema": {
+          "view_key": "string",
+          "client-schema-version": "int?"
+        },
+        "positionals": [
+          "view_key"
+        ],
+        "argv_path": [
+          "guides"
+        ]
+      },
+      {
+        "tool": "guides.comments",
+        "summary": "List comments for a public trip or guide key. Required: trip_key. Returns the GenericObject.",
+        "params_schema": {
+          "trip_key": "string"
+        },
+        "positionals": [
+          "trip_key"
+        ],
+        "argv_path": [
+          "guides",
+          "comments"
+        ]
+      },
+      {
+        "tool": "guides.distinction",
+        "summary": "Get distinction metadata for a public trip or guide key. Required: trip_key. Returns the GenericObject.",
+        "params_schema": {
+          "trip_key": "string"
+        },
+        "positionals": [
+          "trip_key"
+        ],
+        "argv_path": [
+          "guides",
+          "distinction"
+        ]
+      },
+      {
+        "tool": "guides.list_for_geo",
+        "summary": "List public guides for a destination geo id. Required: geo_id. Returns the GenericObject.",
+        "params_schema": {
+          "geo_id": "string"
+        },
+        "positionals": [
+          "geo_id"
+        ],
+        "argv_path": [
+          "guides",
+          "list_for_geo"
+        ]
+      },
+      {
+        "tool": "pages.explore",
+        "summary": "Fetch a destination explore page. Required: geo_id, slug.",
+        "params_schema": {
+          "geo_id": "string",
+          "slug": "string"
+        },
+        "positionals": [
+          "geo_id",
+          "slug"
+        ],
+        "argv_path": [
+          "pages",
+          "explore"
+        ]
+      },
+      {
+        "tool": "pages.geo_category_page",
+        "summary": "Fetch a public geo category list page. Required: geo_category_id, slug.",
+        "params_schema": {
+          "geo_category_id": "string",
+          "slug": "string"
+        },
+        "positionals": [
+          "geo_category_id",
+          "slug"
+        ],
+        "argv_path": [
+          "pages",
+          "geo_category_page"
+        ]
+      },
+      {
+        "tool": "pages.shared_view",
+        "summary": "Fetch a public shared itinerary page. Required: view_key, slug.",
+        "params_schema": {
+          "view_key": "string",
+          "slug": "string"
+        },
+        "positionals": [
+          "view_key",
+          "slug"
+        ],
+        "argv_path": [
+          "pages",
+          "shared_view"
+        ]
+      },
+      {
+        "tool": "place.lists_geo_category",
+        "summary": "Get places in a destination category list. Required: geo_category_id. Optional: include-related-pages-data (default: true). Returns the GenericObject.",
+        "params_schema": {
+          "geo_category_id": "string",
+          "include-related-pages-data": "bool?"
+        },
+        "positionals": [
+          "geo_category_id"
+        ],
+        "argv_path": [
+          "place",
+          "lists_geo_category"
+        ]
+      },
+      {
+        "tool": "places.autocomplete",
+        "summary": "Search places with Wanderlog's Places API autocomplete request envelope. Required: request. Returns the GenericObject.",
+        "params_schema": {
+          "request": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "places",
+          "autocomplete"
+        ]
+      },
+      {
+        "tool": "places.card",
+        "summary": "Get rich place details and card data. Required: place-id. Optional: language (default: en). Returns the PlaceDetailsResponse.",
+        "params_schema": {
+          "place-id": "string?",
+          "language": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "places",
+          "card"
+        ]
+      },
+      {
+        "tool": "places.details",
+        "summary": "Get details for a Google/Wanderlog place id. Required: place-id. Optional: language (default: en). Returns the PlaceDetailsResponse.",
+        "params_schema": {
+          "place-id": "string?",
+          "language": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "places",
+          "details"
+        ]
+      },
+      {
+        "tool": "session.get",
+        "summary": "Get current anonymous session preferences. Returns the SessionStoreResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "session"
+        ]
+      },
+      {
+        "tool": "trips.create",
+        "summary": "Create a Wanderlog trip for the authenticated account. Required: geo-ids. Optional: title, start-date, end-date (plus 6 more). Returns the new GenericObject. (requires API key)",
+        "params_schema": {
+          "geo-ids": "string?",
+          "title": "string?",
+          "start-date": "string?",
+          "end-date": "string?",
+          "privacy": "string?",
+          "type": "string?",
+          "language": "string?",
+          "initial-maps-place-ids": "string?",
+          "initial-email-id": "string?",
+          "is-map-embed": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "trips"
+        ]
+      },
+      {
+        "tool": "trips.delete",
+        "summary": "Delete an authenticated Wanderlog trip. Required: trip_key. Returns the GenericObject. Destructive. (requires API key)",
+        "params_schema": {
+          "trip_key": "string"
+        },
+        "positionals": [
+          "trip_key"
+        ],
+        "argv_path": [
+          "trips",
+          "delete"
+        ]
+      },
+      {
+        "tool": "trips.get",
+        "summary": "Get an authenticated trip with resources. Required: trip_key. Optional: client-schema-version (default: 2), register-view (default: true). Returns the TripPlanResponse. (requires API key)",
+        "params_schema": {
+          "trip_key": "string",
+          "client-schema-version": "int?",
+          "register-view": "bool?"
+        },
+        "positionals": [
+          "trip_key"
+        ],
+        "argv_path": [
+          "trips",
+          "get"
+        ]
+      },
+      {
+        "tool": "trips.home",
+        "summary": "List home trips for the authenticated Wanderlog account. Returns the GenericObject. (requires API key)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "trips",
+          "home"
         ]
       }
     ]
