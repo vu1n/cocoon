@@ -26244,6 +26244,38 @@
     ]
   },
   {
+    "api": "ashby",
+    "description": "Unauthenticated, read-only access to currently published postings on a named Ashby job board.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/job-boards/ashby/cmd/ashby-pp-cli",
+    "auth_type": "none",
+    "category": "job-boards",
+    "search_terms": [
+      "ashby",
+      "ashby-pp-cli",
+      "Unauthenticated, read-only access to currently published postings on a named Ashby job board.",
+      "Visibility-safe structured job discovery",
+      "postings list",
+      "Lists only publicly listed Ashby jobs and supports structured filtering across department, team, location, workplace type, employment type, publication date, currency, and compensation range."
+    ],
+    "endpoints": [
+      {
+        "tool": "posting-api.list-job-postings",
+        "summary": "Returns currently published postings. Consumers displaying a normal board listing must exclude jobs where isListed is false. Required: jobBoardName. Optional: includeCompensation (default: false).",
+        "params_schema": {
+          "jobBoardName": "string",
+          "includeCompensation": "bool?"
+        },
+        "positionals": [
+          "jobBoardName"
+        ],
+        "argv_path": [
+          "posting-api",
+          "list-job-postings"
+        ]
+      }
+    ]
+  },
+  {
     "api": "atlas-obscura",
     "description": "Every Atlas Obscura search, plus a local database, road-trip corridor routing, and saved trips no other Atlas Obscura tool has.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/atlas-obscura/cmd/atlas-obscura-pp-cli",
@@ -219973,7 +220005,10 @@
       "isitagentready",
       "Is It Agent Ready",
       "isitagentready-pp-cli",
-      "The terminal scanner for AI-agent readiness: every check the web tool runs, plus copy-paste fixes, CI gating, scan history, and a local store the web UI has no answer for.",
+      "Two agent-readiness scanners in one terminal: every check isitagentready.com and is-agentic.com run, plus copy-paste fixes, CI gating, scan history, and a local store neither web UI has an answer for.",
+      "Cross-scanner verdict comparison",
+      "crossref",
+      "Show isitagentready.com's Level 0-5 and is-agentic.com's score 0-100 side by side for one URL, each in its own native scale and never merged, plus an agreement verdict on the four checks that genuinely measure the same thing.",
       "CI readiness gate",
       "gate",
       "Fail a build when a site drops below a target readiness level or when a previously-passing check regresses.",
@@ -279910,31 +279945,31 @@
       "qsys",
       "Q-SYS",
       "qsys-pp-cli",
-      "Q-SYS product specs, configuration procedures, and connection guides in one local index - with equipment-list compatibility checks neither QSC website can do.",
+      "Q-SYS specs, configuration, wiring, compatibility, and fault articles in one offline index - answering equipment-list questions no QSC website can take as input.",
       "Unified product card",
       "product get",
-      "See a Q-SYS product's overview, spec-sheet text, configuration pages, and connection guidance in one record.",
-      "BOM compatibility check",
+      "See a Q-SYS product's specs, configuration pages, wiring guidance, known gotchas, and factory-reset procedure in one record.",
+      "BOM pre-quote sweep",
+      "bom verify",
+      "One report per model in an equipment list: Designer-version support, end-of-life status, LTS carry date, and spec-sheet availability.",
+      "BOM known-issue sweep",
+      "bom risks",
+      "Surface every known issue, awareness note, and troubleshooting article that touches any model on an equipment list, filtered to a Designer release.",
+      "Version-support verdict for a list",
       "compat check",
       "Check a whole equipment list against a Q-SYS Designer version and get back what is supported and what is not.",
-      "Deprecation sweep",
-      "compat deprecated",
-      "Flag which models in a list are deprecated or discontinued before they reach a quote.",
+      "Designer release brief",
+      "qds",
+      "For one Q-SYS Designer release: known issues, LTS status and end date, and which hardware was removed.",
+      "Designer fault-string lookup",
+      "fault",
+      "Paste the literal fault or status string Q-SYS Designer displays and get the article that explains it, plus the models it applies to.",
       "Connection guidance by model",
       "connect",
-      "Get the networking, wiring, and I/O guidance that actually applies to a given model.",
-      "BOM sweep \u2014 one report per model",
-      "bom verify",
-      "One report per model in an equipment list: version support, EOL status, and spec-sheet availability in a single pass.",
-      "Version-aware page reads",
-      "page get",
-      "Read a help page as of a specific Q-SYS Designer version from the versioned doc tree.",
-      "Extraction coverage report",
+      "Get the networking, wiring, and I/O guidance that actually applies to a given model, including third-party application notes.",
+      "Corpus extraction depth report",
       "coverage",
-      "Report how many products resolved a spec sheet and how many pages parsed, so extraction gaps are visible.",
-      "UC platform integration lookup",
-      "integrations",
-      "Find which UC platforms (Teams, Zoom, Meet) a device is certified or integrated with."
+      "Report per source how many pages parsed, how many spec-sheet PDFs were linked versus actually text-extracted, and how many support articles were indexed."
     ],
     "endpoints": [
       {
@@ -280053,6 +280088,32 @@
         "argv_path": [
           "product",
           "resources"
+        ]
+      },
+      {
+        "tool": "support.article",
+        "summary": "Fetch a Q-SYS support article as clean text. Required: category, slug.",
+        "params_schema": {
+          "category": "string",
+          "slug": "string"
+        },
+        "positionals": [
+          "category",
+          "slug"
+        ],
+        "argv_path": [
+          "support",
+          "article"
+        ]
+      },
+      {
+        "tool": "support.index",
+        "summary": "Fetch the support.qsys.com sitemap listing every knowledge-base article.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "support",
+          "index"
         ]
       }
     ]
@@ -350744,6 +350805,593 @@
     ]
   },
   {
+    "api": "synology",
+    "description": "Query and operate Synology DSM NAS units - system health, storage, SMART, shares, users",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/synology/cmd/synology-pp-cli",
+    "auth_type": "session_handshake",
+    "category": "devices",
+    "search_terms": [
+      "synology",
+      "synology-pp-cli",
+      "Query and operate Synology DSM NAS units - system health, storage, SMART, shares, users",
+      "API namespace inventory",
+      "session apis",
+      "List every API namespace this particular NAS exposes, with its version range and CGI path.",
+      "SMART attribute table",
+      "storage smart",
+      "Read a drive's raw SMART attribute table; 'storage smart-schedule' reads the scheduled SMART test configuration."
+    ],
+    "endpoints": [
+      {
+        "tool": "files.list",
+        "summary": "List the contents of one folder. Required: folder_path. Optional: additional, filetype, pattern (plus 4 more).",
+        "params_schema": {
+          "folder_path": "string?",
+          "additional": "string?",
+          "filetype": "string?",
+          "pattern": "string?",
+          "sort_by": "string?",
+          "sort_direction": "string?",
+          "offset": "integer?",
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files"
+        ]
+      },
+      {
+        "tool": "files.copy_start",
+        "summary": "Start a background copy or move and return its task id. Required: path, dest_folder_path. Optional: overwrite, remove_src.",
+        "params_schema": {
+          "path": "string?",
+          "dest_folder_path": "string?",
+          "overwrite": "boolean?",
+          "remove_src": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "copy_start"
+        ]
+      },
+      {
+        "tool": "files.copy_status",
+        "summary": "Report the progress of a running copy or move. Required: taskid.",
+        "params_schema": {
+          "taskid": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "copy_status"
+        ]
+      },
+      {
+        "tool": "files.copy_stop",
+        "summary": "Stop a running copy or move. Required: taskid.",
+        "params_schema": {
+          "taskid": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "copy_stop"
+        ]
+      },
+      {
+        "tool": "files.delete_start",
+        "summary": "Start a background delete and return its task id. Required: path. Optional: recursive.",
+        "params_schema": {
+          "path": "string?",
+          "recursive": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "delete_start"
+        ]
+      },
+      {
+        "tool": "files.delete_status",
+        "summary": "Report the progress of a running delete. Required: taskid.",
+        "params_schema": {
+          "taskid": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "delete_status"
+        ]
+      },
+      {
+        "tool": "files.delete_stop",
+        "summary": "Stop a running delete. Required: taskid.",
+        "params_schema": {
+          "taskid": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "delete_stop"
+        ]
+      },
+      {
+        "tool": "files.download",
+        "summary": "Download a file or folder. Required: path. Optional: mode.",
+        "params_schema": {
+          "path": "string?",
+          "mode": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "download"
+        ]
+      },
+      {
+        "tool": "files.info",
+        "summary": "Show File Station capabilities and limits.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "info"
+        ]
+      },
+      {
+        "tool": "files.mkdir",
+        "summary": "Create a folder. Required: folder_path, name. Optional: force_parent.",
+        "params_schema": {
+          "folder_path": "string?",
+          "name": "string?",
+          "force_parent": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "mkdir"
+        ]
+      },
+      {
+        "tool": "files.rename",
+        "summary": "Rename a file or folder. Required: path, name.",
+        "params_schema": {
+          "path": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "rename"
+        ]
+      },
+      {
+        "tool": "files.search_results",
+        "summary": "Read the results of a running or finished search. Required: taskid. Optional: additional, offset, limit.",
+        "params_schema": {
+          "taskid": "string?",
+          "additional": "string?",
+          "offset": "integer?",
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "search_results"
+        ]
+      },
+      {
+        "tool": "files.search_start",
+        "summary": "Start a background search and return its task id. Required: folder_path. Optional: pattern, extension, recursive (plus 1 more).",
+        "params_schema": {
+          "folder_path": "string?",
+          "pattern": "string?",
+          "extension": "string?",
+          "recursive": "boolean?",
+          "filetype": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "search_start"
+        ]
+      },
+      {
+        "tool": "files.search_stop",
+        "summary": "Stop a running search and release its task. Required: taskid.",
+        "params_schema": {
+          "taskid": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "search_stop"
+        ]
+      },
+      {
+        "tool": "files.shares",
+        "summary": "List the shared folders File Station can browse. Optional: additional, sort_by, sort_direction (plus 2 more).",
+        "params_schema": {
+          "additional": "string?",
+          "sort_by": "string?",
+          "sort_direction": "string?",
+          "offset": "integer?",
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "shares"
+        ]
+      },
+      {
+        "tool": "files.stat",
+        "summary": "Show metadata for one file or folder. Required: path. Optional: additional.",
+        "params_schema": {
+          "path": "string?",
+          "additional": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "stat"
+        ]
+      },
+      {
+        "tool": "folder.get",
+        "summary": "Show one shared folder in detail. Required: name. Optional: additional.",
+        "params_schema": {
+          "name": "string?",
+          "additional": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "folder"
+        ]
+      },
+      {
+        "tool": "folder.list",
+        "summary": "List shared folders. Optional: additional, limit, offset.",
+        "params_schema": {
+          "additional": "string?",
+          "limit": "integer?",
+          "offset": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "folder",
+          "list"
+        ]
+      },
+      {
+        "tool": "folder.permissions",
+        "summary": "List the accounts and groups that hold permissions on one shared folder. Required: name. Optional: user_group_type (default: local_user), limit, offset.",
+        "params_schema": {
+          "name": "string?",
+          "user_group_type": "string?",
+          "limit": "integer?",
+          "offset": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "folder",
+          "permissions"
+        ]
+      },
+      {
+        "tool": "group.list",
+        "summary": "List local groups. Optional: additional, limit, offset.",
+        "params_schema": {
+          "additional": "string?",
+          "limit": "integer?",
+          "offset": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "group"
+        ]
+      },
+      {
+        "tool": "group.members",
+        "summary": "List the accounts that belong to one group. Required: group. Optional: limit, offset.",
+        "params_schema": {
+          "group": "string?",
+          "limit": "integer?",
+          "offset": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "group",
+          "members"
+        ]
+      },
+      {
+        "tool": "log.list",
+        "summary": "Read the DSM system log with filtering by level, date range and keyword. Optional: logtype, level, keyword (plus 6 more).",
+        "params_schema": {
+          "logtype": "string?",
+          "level": "string?",
+          "keyword": "string?",
+          "date_from": "integer?",
+          "date_to": "integer?",
+          "target": "string?",
+          "dir": "string?",
+          "start": "integer?",
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "log"
+        ]
+      },
+      {
+        "tool": "nfs.status",
+        "summary": "Show whether the NFS service is enabled and which protocol versions it offers.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "nfs",
+          "status"
+        ]
+      },
+      {
+        "tool": "package.list",
+        "summary": "List installed packages with their version and running state. Optional: additional.",
+        "params_schema": {
+          "additional": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "package"
+        ]
+      },
+      {
+        "tool": "session.apis",
+        "summary": "Enumerate every API namespace the NAS exposes, with its version range and CGI path. (public)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "session",
+          "apis"
+        ]
+      },
+      {
+        "tool": "session.login",
+        "summary": "Log in to DSM and obtain a session id plus a SynoToken. Required: account, passwd. Optional: otp_code, device_id, device_name. (public)",
+        "params_schema": {
+          "account": "string?",
+          "passwd": "string?",
+          "otp_code": "string?",
+          "device_id": "string?",
+          "device_name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "session",
+          "login"
+        ]
+      },
+      {
+        "tool": "session.logout",
+        "summary": "Invalidate the current session id.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "session",
+          "logout"
+        ]
+      },
+      {
+        "tool": "storage.disks",
+        "summary": "List physical disks with model, serial number, temperature and health status. Optional: limit, offset.",
+        "params_schema": {
+          "limit": "integer?",
+          "offset": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "disks"
+        ]
+      },
+      {
+        "tool": "storage.esata",
+        "summary": "List attached eSATA storage devices. Optional: additional.",
+        "params_schema": {
+          "additional": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "esata"
+        ]
+      },
+      {
+        "tool": "storage.luns",
+        "summary": "List iSCSI LUNs.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "luns"
+        ]
+      },
+      {
+        "tool": "storage.overview",
+        "summary": "Show the complete storage picture DSM Storage Manager renders, covering disks, pools and volumes in one call.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "overview"
+        ]
+      },
+      {
+        "tool": "storage.pools",
+        "summary": "List storage pools with their RAID level and member disks. Optional: limit, offset.",
+        "params_schema": {
+          "limit": "integer?",
+          "offset": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "pools"
+        ]
+      },
+      {
+        "tool": "storage.smart",
+        "summary": "Show the full SMART attribute table for one disk. Required: device.",
+        "params_schema": {
+          "device": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "smart"
+        ]
+      },
+      {
+        "tool": "storage.smart_schedule",
+        "summary": "List scheduled SMART tests.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "smart_schedule"
+        ]
+      },
+      {
+        "tool": "storage.usb",
+        "summary": "List attached USB storage devices. Optional: additional.",
+        "params_schema": {
+          "additional": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "usb"
+        ]
+      },
+      {
+        "tool": "storage.volumes",
+        "summary": "List volumes with size, used space and status. Optional: limit, offset.",
+        "params_schema": {
+          "limit": "integer?",
+          "offset": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "storage",
+          "volumes"
+        ]
+      },
+      {
+        "tool": "system.dsm",
+        "summary": "Show DSM product identity as the web UI reports it.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "dsm"
+        ]
+      },
+      {
+        "tool": "system.health",
+        "summary": "Show the aggregate system health verdict DSM shows on its dashboard.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "health"
+        ]
+      },
+      {
+        "tool": "system.info",
+        "summary": "Show model, serial number, firmware version, uptime and temperature. Optional: type.",
+        "params_schema": {
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "info"
+        ]
+      },
+      {
+        "tool": "system.network",
+        "summary": "Show hostname, DNS, gateway and every network interface.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "network"
+        ]
+      },
+      {
+        "tool": "system.services",
+        "summary": "List DSM services and whether each one is enabled. Optional: offset, limit.",
+        "params_schema": {
+          "offset": "integer?",
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "services"
+        ]
+      },
+      {
+        "tool": "system.ups",
+        "summary": "Show the state of an attached uninterruptible power supply.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "ups"
+        ]
+      },
+      {
+        "tool": "system.utilization",
+        "summary": "Show current CPU, memory, disk and network utilization.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "utilization"
+        ]
+      },
+      {
+        "tool": "user.get",
+        "summary": "Show one local user account in detail. Required: name. Optional: additional.",
+        "params_schema": {
+          "name": "string?",
+          "additional": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "user"
+        ]
+      },
+      {
+        "tool": "user.list",
+        "summary": "List local user accounts. Optional: type, additional, limit (plus 1 more).",
+        "params_schema": {
+          "type": "string?",
+          "additional": "string?",
+          "limit": "integer?",
+          "offset": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "user",
+          "list"
+        ]
+      }
+    ]
+  },
+  {
     "api": "table-reservation-goat",
     "description": "One reservation CLI for OpenTable, Tock, and Resy \u2014 search all three networks at once, watch for cancellations, book, and track changes from a local store agents can query.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/table-reservation-goat/cmd/table-reservation-goat-pp-cli",
@@ -373333,7 +373981,7 @@
       "wanderlog",
       "wanderlog-pp-cli",
       "Clone shared Wanderlog plans into editable trips, then mine guides and places for agent-ready planning.",
-      "Shared plan clone/fill",
+      "Shared plan clone",
       "plan clone",
       "Create a new Wanderlog trip from a shared or public source plan, then fill it with the source plan template.",
       "Existing trip fill from template",
@@ -373341,7 +373989,99 @@
       "Fill an existing Wanderlog trip from a shared or public source plan with dry-run and force safeguards.",
       "Clone preview and copyability report",
       "plan preview",
-      "Inspect a shared plan and report dates, sections, blocks, resources, and clone warnings before any write."
+      "Inspect a shared plan and report dates, sections, blocks, resources, and clone warnings before any write.",
+      "Trip key discovery",
+      "trips home",
+      "List the authenticated account's home trips together with their 16-character plan `key`s. Also: list my trips, own itineraries.",
+      "Slim itinerary outline",
+      "plan outline",
+      "Show a slim itinerary outline: days, section headings, and stop names, optionally for a single day. Also: show days in my plan, slim day list.",
+      "Itinerary consistency checks",
+      "plan inspect",
+      "Inspect a slim itinerary outline and, with `--check`, report counts, unformatted notes, lodging coverage, closed places, and text-vs-schedule mismatches. Also: verify an itinerary after edits.",
+      "Plan vote counts",
+      "plan votes",
+      "List place and hotel block upvote counts for a Wanderlog plan. Also: who upvoted places, upvotedBy counts.",
+      "Lodging candidate search",
+      "lodging search",
+      "Search Wanderlog's lodging aggregator across Airbnb, Expedia, Google, and Kayak for a geo and date range, and return compact candidates carrying price, rating, coordinates, and booking URL. Also: search hotels, find a place to stay, compare stays.",
+      "Section index listing",
+      "plan sections",
+      "List editable section indexes, day numbers, section ids, dates, and block counts for a plan.",
+      "Note blocks",
+      "plan note add",
+      "Add a note block to a selected day or section through ShareDB.",
+      "Place blocks",
+      "plan place add",
+      "Add a real place block to a selected day or section from a Google/Wanderlog place id, or from a query with location bias. Also: geocode a place by query, verify an address.",
+      "Place swap in place",
+      "plan place replace",
+      "Replace only the nested place on an existing itinerary block, keeping its times and notes.",
+      "Batch day fill",
+      "plan fill-day",
+      "Insert a batch of place stops into one Wanderlog day from a JSON array of stops with optional times and notes.",
+      "Block move",
+      "plan block move",
+      "Move a note or place block within or across days.",
+      "Block delete",
+      "plan block delete",
+      "Delete a note or place block from a selected day or section.",
+      "Rich-text note editing",
+      "plan block edit-text",
+      "Replace the rich-text note attached to an existing block, as plain text or compiled markdown with `--markdown`. Also: replace a stop note as plain text.",
+      "Markdown note formatting",
+      "plan block edit-text --markdown",
+      "Compile a markdown note into Wanderlog rich text: **bold**, `-`/`*` bullets, and `#` label lines. Also: format notes with bullets, bold text, rich text on a stop.",
+      "Block display rename",
+      "plan block rename",
+      "Rename the display name on an existing place or lodging block. Also: rename a place or hotel, change a display name.",
+      "Arbitrary block fields",
+      "plan block set-field",
+      "Set or remove a non-protected field on a block, including newly observed fields from live plan data.",
+      "Block scheduling",
+      "plan block schedule",
+      "Set or clear first-class schedule fields on an existing block. Also: set stop times, duration.",
+      "Block attachments",
+      "plan block attachment",
+      "List, add, or remove attachment metadata on a block. Also: tickets, booking links, PDFs.",
+      "Reservation blocks",
+      "plan reservation add",
+      "Add a flight, lodging, rental car, restaurant, transit, cruise, or standalone attachment block with dates, times, and confirmation details. Also: record a hotel stay, check-in and check-out dates.",
+      "Checklists",
+      "plan checklist",
+      "Add checklist blocks and add, check, or remove checklist items. Also: packing lists, todo items.",
+      "Plan comments",
+      "List, add, edit, delete, or vote on Wanderlog plan comments using the confirmed comments API. Also: friend discussion, replies, comment votes.",
+      "Collaborators and sharing",
+      "plan collaborators",
+      "Inspect collaborator/share metadata, list pending invites, send email/user invites, add or remove collaborators by user id, and create share keys. Also: invite a friend, share links, share keys, pending invites, permissions.",
+      "Trip budget",
+      "plan budget",
+      "Summarize, export, and edit Wanderlog trip budget expenses and settlement payments. Also: add an expense, costs, splits, payers, record a payment or settlement, CSV export.",
+      "Route optimization",
+      "plan route",
+      "Build route optimization request bodies or call Wanderlog's optimizeRoute endpoint. Also: optimize a route, better travel order.",
+      "Edit journal with undo/redo",
+      "plan history",
+      "List, preview, undo, and redo local-journaled ShareDB itinerary edits (`plan history`, `plan undo`, `plan redo`). Also: undo my last edit, redo my last edit, revert an itinerary change.",
+      "Add a day",
+      "plan section add-day",
+      "Insert a new day section and update trip day/date bounds.",
+      "Section fields",
+      "plan section set-field",
+      "Set or remove a field on a section, including day headings or rich text.",
+      "Section delete",
+      "plan section delete",
+      "Delete an empty section and update trip day/date bounds.",
+      "Day swap",
+      "plan section swap-days",
+      "Swap the block arrays of two day sections in one JSON0 batch.",
+      "JSON0 batch apply",
+      "plan block apply",
+      "Preview or apply a JSON0 operation array read from disk with --ops-file. Also: apply an ops-file batch of plan edits.",
+      "Raw JSON0 escape hatch",
+      "plan raw op",
+      "Preview or apply an explicit ShareDB JSON0 operation array."
     ],
     "endpoints": [
       {
@@ -376831,6 +377571,204 @@
         "argv_path": [
           "venues",
           "get-menu"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "woolworths",
+    "description": "Every Woolworths catalogue, specials, store and trolley surface, plus a local price history that can tell a genuine half-price from an inflated was-price.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/woolworths/cmd/woolworths-pp-cli",
+    "auth_type": "cookie",
+    "category": "commerce",
+    "search_terms": [
+      "woolworths",
+      "woolworths-pp-cli",
+      "Every Woolworths catalogue, specials, store and trolley surface, plus a local price history that can tell a genuine half-price from an inflated was-price.",
+      "Genuine-special verdict",
+      "real-special",
+      "Tells you whether an advertised special is genuinely cheap or just a lower number next to an inflated was-price.",
+      "Half-price cycle forecast",
+      "cycle",
+      "Estimates when a product's next half-price window is likely to open, from its own recorded discount episodes.",
+      "Cheaper substitute finder",
+      "swap",
+      "Ranks in-stock alternatives by unit price normalised across different measure bases, so per-100g and per-1kg tiles compare correctly.",
+      "Basket costing from a list",
+      "basket",
+      "Prices a whole shopping list, showing which lines moved since the last time you ran it and what it did to the total.",
+      "Specials rollover diff",
+      "specials-diff",
+      "Shows what entered and left each specials group since your last sync, with how long since each entrant was last discounted.",
+      "Multi-buy effective unit price",
+      "multibuy",
+      "Works out what a multi-buy offer actually costs per unit at the quantity it demands, versus buying singly or buying a larger pack."
+    ],
+    "endpoints": [
+      {
+        "tool": "categories.list",
+        "summary": "Full department tree including the five specials groups and their product counts. Returns array.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "categories.browse",
+        "summary": "Browse or page one category or specials group by node id. Required: category-id. Optional: page (default: 1), page-size (default: 24), sort (default: TraderRelevance) (plus 3 more).",
+        "params_schema": {
+          "category-id": "string?",
+          "page": "int?",
+          "page-size": "int?",
+          "sort": "string?",
+          "specials-only": "bool?",
+          "url": "string?",
+          "format-object": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "categories",
+          "browse"
+        ]
+      },
+      {
+        "tool": "products.batch",
+        "summary": "Fetch several products in one call by comma-separated stockcodes. Required: stockcodes.",
+        "params_schema": {
+          "stockcodes": "string"
+        },
+        "positionals": [
+          "stockcodes"
+        ],
+        "argv_path": [
+          "products",
+          "batch"
+        ]
+      },
+      {
+        "tool": "products.count",
+        "summary": "Cheap result counts for a term - products, specials, recipes - without fetching tiles. Required: term.",
+        "params_schema": {
+          "term": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "products",
+          "count"
+        ]
+      },
+      {
+        "tool": "products.detail",
+        "summary": "Full product record including nutrition, variants and country of origin. Required: stockcode.",
+        "params_schema": {
+          "stockcode": "string"
+        },
+        "positionals": [
+          "stockcode"
+        ],
+        "argv_path": [
+          "products",
+          "detail"
+        ]
+      },
+      {
+        "tool": "products.schemaorg",
+        "summary": "Product as schema.org JSON-LD; an independent path from products detail. Required: stockcode.",
+        "params_schema": {
+          "stockcode": "string"
+        },
+        "positionals": [
+          "stockcode"
+        ],
+        "argv_path": [
+          "products",
+          "schemaorg"
+        ]
+      },
+      {
+        "tool": "products.search",
+        "summary": "Search products by term, with optional specials-only filter and sort. Required: term. Optional: page (default: 1), page-size (default: 24), sort (default: TraderRelevance) (plus 1 more).",
+        "params_schema": {
+          "term": "string?",
+          "page": "int?",
+          "page-size": "int?",
+          "sort": "string?",
+          "specials-only": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "products",
+          "search"
+        ]
+      },
+      {
+        "tool": "products.suggestions",
+        "summary": "Ranked search suggestions and autocorrect for a partial term. Required: term.",
+        "params_schema": {
+          "term": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "products",
+          "suggestions"
+        ]
+      },
+      {
+        "tool": "settings.list",
+        "summary": "Site settings and feature flags.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings"
+        ]
+      },
+      {
+        "tool": "settings.bootstrap",
+        "summary": "App bootstrap config including current site version.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "bootstrap"
+        ]
+      },
+      {
+        "tool": "stores.list",
+        "summary": "Find stores near a postcode or coordinate, with trading hours and facilities. Optional: postcode, latitude, longitude (plus 2 more).",
+        "params_schema": {
+          "postcode": "string?",
+          "latitude": "float?",
+          "longitude": "float?",
+          "max": "int?",
+          "division": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stores"
+        ]
+      },
+      {
+        "tool": "trolley.get",
+        "summary": "Current trolley contents.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "trolley"
+        ]
+      },
+      {
+        "tool": "trolley.add",
+        "summary": "Add a product to the trolley by stockcode. Required: stock-code. Optional: quantity (default: 1), source (default: Search).",
+        "params_schema": {
+          "stock-code": "int?",
+          "quantity": "int?",
+          "source": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "trolley",
+          "add"
         ]
       }
     ]
