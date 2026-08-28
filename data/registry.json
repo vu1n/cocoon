@@ -182813,6 +182813,103 @@
     ]
   },
   {
+    "api": "flighty",
+    "description": "Every Flighty Airports meltdown map feature, plus cross-airport intelligence no web page can answer.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/flighty/cmd/flighty-pp-cli",
+    "auth_type": "",
+    "category": "travel",
+    "search_terms": [
+      "flighty",
+      "Flighty Airports",
+      "flighty-pp-cli",
+      "Every Flighty Airports meltdown map feature, plus cross-airport intelligence no web page can answer.",
+      "Worst-airports ranking",
+      "airports worst",
+      "Rank the network's airports right now by cumulative delay and cancellations \u2014 the web map color-codes but never ranks.",
+      "Flight lookup by number",
+      "airports find-flight",
+      "Find one flight by number across arrivals and departures boards \u2014 status, original vs actual time, gate, belt, terminal.",
+      "Network airline disruption",
+      "airports airline",
+      "One airline's delay/cancel/divert footprint aggregated across every synced airport \u2014 impossible per-airport on the site.",
+      "Airport comparison",
+      "airports compare",
+      "Side-by-side status, delays, warnings, and flight rules for two airports.",
+      "Route disruption check",
+      "airports route",
+      "Both directions of one origin-destination pair's delay/cancel/divert stats, joined from each side's disrupted routes.",
+      "Healthy-alternates finder",
+      "airports nearby",
+      "Distance-ranked nearby airports, flagging which have normal operations right now.",
+      "Change diff since last sync",
+      "airports diff",
+      "What changed since the last sync: status transitions, new/cleared warnings, delay deltas."
+    ],
+    "endpoints": [
+      {
+        "tool": "airports.list",
+        "summary": "List the tracked airports with live delay status (meltdown map catalog). Returns array of AirportSummary.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "airports"
+        ]
+      },
+      {
+        "tool": "airports.arrivals",
+        "summary": "Show the live arrivals board for an airport. Required: airport. Returns array of FlightBoardEntry.",
+        "params_schema": {
+          "airport": "string"
+        },
+        "positionals": [
+          "airport"
+        ],
+        "argv_path": [
+          "airports",
+          "arrivals"
+        ]
+      },
+      {
+        "tool": "airports.departures",
+        "summary": "Show the live departures board for an airport. Required: airport. Returns array of FlightBoardEntry.",
+        "params_schema": {
+          "airport": "string"
+        },
+        "positionals": [
+          "airport"
+        ],
+        "argv_path": [
+          "airports",
+          "departures"
+        ]
+      },
+      {
+        "tool": "airports.show",
+        "summary": "Show live status, weather, and performance for one airport. Required: airport. Returns the AirportDetail.",
+        "params_schema": {
+          "airport": "string"
+        },
+        "positionals": [
+          "airport"
+        ],
+        "argv_path": [
+          "airports",
+          "show"
+        ]
+      },
+      {
+        "tool": "airports.tv",
+        "summary": "List disrupted airports from the TV dashboard (same catalog, status-sorted). Returns array of AirportSummary.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "airports",
+          "tv"
+        ]
+      }
+    ]
+  },
+  {
     "api": "food52",
     "description": "Search, browse, and read Food52 from your terminal \u2014 with offline FTS, pantry matching, recipe scaling, and the editorial signals other tools throw away.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/food52/cmd/food52-pp-cli",
@@ -229845,6 +229942,42 @@
     ]
   },
   {
+    "api": "kuma",
+    "description": "Inspect Uptime Kuma v2 monitors, heartbeats, and incident context; retry changes are explicitly gated.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/monitoring/kuma/cmd/kuma-pp-cli",
+    "auth_type": "none",
+    "category": "monitoring",
+    "search_terms": [
+      "kuma",
+      "Uptime Kuma Operator",
+      "kuma-pp-cli",
+      "Inspect Uptime Kuma v2 monitors, heartbeats, and incident context; retry changes are explicitly gated.",
+      "Incident context composite",
+      "incident-context",
+      "Combines monitor identity, recent heartbeat timeline, and current status into one redacted operator brief.",
+      "No single Kuma call provides an incident-ready context packet.",
+      "Complete-object retry safety gate",
+      "set-retries",
+      "Previews and, only with explicit --yes, applies a complete monitor edit while preserving unrelated fields and verifying readback.",
+      "Kuma editMonitor is full replacement; a narrow patch risks silently clearing settings.",
+      "Socket.IO heartbeat normalization",
+      "heartbeats",
+      "Normalizes Kuma Socket.IO heartbeat records into a bounded time-window timeline with redacted output.",
+      "Kuma exposes management data over Socket.IO, not a conventional REST resource."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Inspect Uptime Kuma v2 monitors, heartbeats, and incident context; retry changes are explicitly gated. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "lawhub",
     "description": "Local-first LSAT practice analytics from authenticated LawHub score metadata, with SQLite, weakness reports, question notes, and safe review links back to LawHub.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/education/lawhub/cmd/lawhub-pp-cli",
@@ -238764,6 +238897,102 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "mcpmarket",
+    "description": "Every MCP Market search, leaderboard, and skill lookup \u2014 plus trending deltas, sync diffs, and author portfolios no other tool tracks.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/mcpmarket/cmd/mcpmarket-pp-cli",
+    "auth_type": "none",
+    "category": "developer-tools",
+    "search_terms": [
+      "mcpmarket",
+      "mcpmarket-pp-cli",
+      "Trending Delta",
+      "trending",
+      "See which MCP servers/skills are rising fastest vs. holding steady, computed from your own browse history.",
+      "Sync Diff",
+      "diff",
+      "See exactly which servers, clients, or skills were added, removed, or changed between two snapshots.",
+      "Author Portfolio",
+      "author",
+      "See everything one GitHub org has published across servers, skills, and clients in one view.",
+      "Time-Travel Leaderboard",
+      "leaderboard",
+      "See what the top-100 leaderboard looked like on a past date, not just right now.",
+      "Stack Recommendation",
+      "stack",
+      "Chain the similar-tools recommendation graph multiple hops to build a ranked shortlist around a server you already use.",
+      "Category Watch",
+      "watch category",
+      "Flag newly-appeared listings in a category since your last check.",
+      "Duplicate Detector",
+      "dedupe",
+      "Surface near-identical listings from different authors within a category."
+    ],
+    "endpoints": [
+      {
+        "tool": "category.list",
+        "summary": "List every MCP Market catalog category (e.g. Developer Tools, API Development) with its live server count and slug. Returns array.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "category"
+        ]
+      },
+      {
+        "tool": "mcpclient.get",
+        "summary": "Get details for one MCP client. Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "mcpclient"
+        ]
+      },
+      {
+        "tool": "server.get",
+        "summary": "Get details for one MCP server. Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "server"
+        ]
+      },
+      {
+        "tool": "server.similar",
+        "summary": "Related/similar servers or skills. Required: slug, category, type (default: server). Returns array.",
+        "params_schema": {
+          "slug": "string?",
+          "category": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "server",
+          "similar"
+        ]
+      },
+      {
+        "tool": "skill.get",
+        "summary": "Get details for one Agent Skill. Required: slug.",
+        "params_schema": {
+          "slug": "string"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "skill"
         ]
       }
     ]
@@ -288402,6 +288631,215 @@
         "argv_path": [
           "user",
           "get-stats"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "rapidapi",
+    "description": "RapidAPI Hub marketplace CLI - search APIs, browse categories & collections, inspect providers",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/rapidapi/cmd/rapidapi-pp-cli",
+    "auth_type": "api_key",
+    "category": "developer-tools",
+    "search_terms": [
+      "rapidapi",
+      "rapidapi-pp-cli",
+      "RapidAPI Hub marketplace CLI - search APIs, browse categories & collections, inspect providers",
+      "Offline sync & search",
+      "sync",
+      "Sync marketplace data into a local SQLite store with sync-state tracking, then search it offline.",
+      "Hub analytics with aggregation",
+      "analytics",
+      "Hub-wide metrics plus per-day API traffic aggregated from the local store (SUM, AVG, error rates).",
+      "Marketplace export",
+      "export",
+      "Export cached marketplace records to JSON or CSV for offline analysis.",
+      "Chrome TLS transport",
+      "system csrf",
+      "uTLS Chrome-fingerprint HTTP/2 transport that passes the Cloudflare bot gate, enabling live CLI access to the hub gateway.",
+      "Cache freshness doctor",
+      "doctor",
+      "Doctor reports cache freshness with schema-gated auto-refresh."
+    ],
+    "endpoints": [
+      {
+        "tool": "account.notifications",
+        "summary": "List your notifications. Required: operationName (default: getNotifications), query, variables. Returns array of Notification.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "notifications"
+        ]
+      },
+      {
+        "tool": "account.saved",
+        "summary": "List APIs you saved as favorites. Required: operationName (default: getUserSavedApis), query, variables. Returns array of SavedApi.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "saved"
+        ]
+      },
+      {
+        "tool": "account.subscriptions",
+        "summary": "List your API subscriptions with plan details and status. Required: operationName (default: getApiSubscriptions), query, variables. Returns array of Subscription.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "subscriptions"
+        ]
+      },
+      {
+        "tool": "account.whoami",
+        "summary": "Show the active logged-in user, their entities, and tenant. Required: operationName (default: activeUser), query, variables. Returns the new ActiveUser.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "whoami"
+        ]
+      },
+      {
+        "tool": "account.workspace",
+        "summary": "Show your workspace: owned APIs, subscribed APIs, metrics. Required: operationName (default: getWorkspaceData), query, variables. Returns the new WorkspaceData.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "workspace"
+        ]
+      },
+      {
+        "tool": "apis.show",
+        "summary": "Show a single API's full detail: endpoints, versions, billing plans, rating, owner. Required: owner, api, operationName (default: getApiBySlugAndOwner), query, variables. Returns the new ApiDetail.",
+        "params_schema": {
+          "owner": "string?",
+          "api": "string?",
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "apis",
+          "show"
+        ]
+      },
+      {
+        "tool": "categories.list",
+        "summary": "List top-level marketplace categories with weights and descriptions. Required: operationName (default: getCategoriesByCtx), query, variables. Returns array of Category.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "collections.list",
+        "summary": "List curated collections (Recommended, Popular, Free, AI-based). Required: operationName (default: GetCollectionsCollapsed), query, variables. Returns array of Collection.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "collections"
+        ]
+      },
+      {
+        "tool": "collections.show",
+        "summary": "Show a collection's detail and its APIs. Required: slug, operationName (default: getCollectionBySlug), query, variables. Returns the new CollectionDetail.",
+        "params_schema": {
+          "slug": "string?",
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "collections",
+          "show"
+        ]
+      },
+      {
+        "tool": "marketplace.search",
+        "summary": "Search APIs across the marketplace with filters, facets, scores, and pagination. Required: operationName (default: searchApis), query, variables. Returns the new SearchResponse.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "marketplace",
+          "search"
+        ]
+      },
+      {
+        "tool": "metrics.show",
+        "summary": "Show public marketplace metrics: total APIs, users, consumers, API traffic. Required: operationName (default: getHubMetrics), query, variables. Returns the new HubMetrics.",
+        "params_schema": {
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "metrics",
+          "show"
+        ]
+      },
+      {
+        "tool": "system.csrf",
+        "summary": "Fetch the session-bound CSRF token used to authenticate GraphQL gateway calls. Returns the CsrfToken.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "csrf"
+        ]
+      },
+      {
+        "tool": "users.show",
+        "summary": "Show a user profile and their published APIs. Required: username, operationName (default: getUserProfile), query, variables. Returns the new UserProfile.",
+        "params_schema": {
+          "username": "string?",
+          "operationName": "string?",
+          "query": "string?",
+          "variables": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "show"
         ]
       }
     ]
@@ -362404,6 +362842,89 @@
     ]
   },
   {
+    "api": "teslatracker",
+    "description": "Every used Tesla TeslaTracker lists, in a local store that answers questions the site cannot \u2014 price paths, cohort placement, warranty left, and what already left the lot.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/teslatracker/cmd/teslatracker-pp-cli",
+    "auth_type": "none",
+    "category": "commerce",
+    "search_terms": [
+      "teslatracker",
+      "teslatracker-pp-cli",
+      "Every used Tesla TeslaTracker lists, in a local store that answers questions the site cannot \u2014 price paths, cohort placement, warranty left, and what already left the lot.",
+      "Remaining-warranty ledger",
+      "warranty",
+      "See exactly how many months and miles of Tesla warranty are left on the day you would take delivery, and which limit runs out first.",
+      "Range delta with cohort placement",
+      "degradation",
+      "Compare a car's actual range against its rated range, and see where that gap sits among every similar car in your local store.",
+      "Cohort price placement",
+      "comps",
+      "See where one car's landed cost sits in the distribution of comparable cars, with the sample size and the arithmetic shown.",
+      "Departure log",
+      "gone",
+      "See which cars left inventory, at what landed price, and after how many days listed.",
+      "Per-VIN price trajectory",
+      "price-history",
+      "See a single car's full observed price path: every cut, its size, and how long it has held the current price.",
+      "Configuration premium analysis",
+      "premium",
+      "See what a configuration attribute actually costs across the market, computed within matched cohorts.",
+      "Aging leaderboard",
+      "stale",
+      "Rank the corpus by days listed and flag cars that are both long-listed and have never had a price cut.",
+      "Landed-cost distance curve",
+      "radius",
+      "See how the price floor and median change as you widen your search radius, with real transport fees included at every step.",
+      "Saved searches with a change cursor",
+      "watch",
+      "Save a named search and see only what is new, price-changed, or departed since the last time you ran it.",
+      "Mirror provenance and gap report",
+      "coverage",
+      "See how complete and how fresh your local mirror is, field by field, including whether any pages were dropped during sync."
+    ],
+    "endpoints": [
+      {
+        "tool": "inventory.get",
+        "summary": "Fetch the full TeslaTracker detail record for one used Tesla by VIN. Required: vin (17-character VIN, in the path). Returns model, trim, year, condition, mileage, rated range, acceleration, top speed, drive type, hardware version, FSD flag, wheels, exterior/interior color, locationCity and locationState with latitude/longitude, purchasePrice and transportFee (both in cents), the four warranty fields (battery and vehicle expiry date plus their mileage limits), teslaUrl, and vehiclePhotos. Use this when rated spec, location, and warranty are enough; prefer inventory_report when you also need measured range, availability, or listing age.",
+        "params_schema": {
+          "vin": "string"
+        },
+        "positionals": [
+          "vin"
+        ],
+        "argv_path": [
+          "inventory"
+        ]
+      },
+      {
+        "tool": "inventory.list",
+        "summary": "List the used-Tesla inventory index one page at a time. Optional: page (integer, roughly 23 listings per page; omit for the first page). This endpoint serves HTML, so the tool returns link records \u2014 name, text, image, url, slug \u2014 one per listing, not full vehicle records. Use it to enumerate the VINs currently listed, then call inventory_get or inventory_report per VIN for specs, pricing, and warranty data.",
+        "params_schema": {
+          "page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "inventory",
+          "list"
+        ]
+      },
+      {
+        "tool": "inventory.report",
+        "summary": "Fetch the vehicle history report for one used Tesla by VIN \u2014 a superset of inventory_get. Required: vin (17-character VIN, in the path). On top of the detail fields it adds optionCodeList, factoryCode, factoryGatedDate, actualRange (measured, as opposed to the rated range field), category, currentPrice, totalPrice, discount, leaseMonthly and financing detail (term, interest rate, monthly payment, cash down), autopilot options, isAvailable, and firstSeenAt/lastSeenAt. All money fields are in cents. Prefer this over inventory_get whenever the question involves real range, whether the car is still available, or how long it has been listed.",
+        "params_schema": {
+          "vin": "string"
+        },
+        "positionals": [
+          "vin"
+        ],
+        "argv_path": [
+          "inventory",
+          "report"
+        ]
+      }
+    ]
+  },
+  {
     "api": "tessie",
     "description": "Live Tesla vehicle data and commands from the terminal via the Tessie API",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/tessie/cmd/tessie-pp-cli",
@@ -374615,6 +375136,1607 @@
         "argv_path": [
           "sites",
           "wifi_update-broadcast"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "unipile",
+    "description": "Every Unipile endpoint as a typed command, plus a local mirror that makes cross-provider search possible and an invitation ledger that shows how much LinkedIn headroom you have left.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/social-and-messaging/unipile/cmd/unipile-pp-cli",
+    "auth_type": "api_key",
+    "category": "social-and-messaging",
+    "search_terms": [
+      "unipile",
+      "unipile-pp-cli",
+      "Every Unipile endpoint as a typed command, plus a local mirror that makes cross-provider search possible and an invitation ledger that shows how much LinkedIn headroom you have left.",
+      "Rate-budget ledger",
+      "budget",
+      "See how many LinkedIn invitations you have left today and this week, counted from your synced invitation history.",
+      "Offline cross-provider search",
+      "search",
+      "Full-text search every message, email, attendee, and relation across all connected providers at once, offline.",
+      "Contact 360",
+      "contact",
+      "Everything the local mirror knows about one person: connection state, invitation history, and every conversation with per-direction message counts.",
+      "Unified unread inbox",
+      "inbox",
+      "One table of everything unread across LinkedIn, WhatsApp, Telegram, Instagram, Messenger, and email.",
+      "Silence detection",
+      "silent",
+      "Find conversations where you sent the last message and got no reply for N days.",
+      "Accepted but not messaged",
+      "accepted",
+      "New LinkedIn connections since your last sync that you have not messaged yet.",
+      "Invitation funnel",
+      "funnel",
+      "Sent, accepted, and replied counts with conversion rates over a time window.",
+      "Cross-provider digest",
+      "digest",
+      "What changed across every connected provider since the last sync.",
+      "Resolved thread view",
+      "thread",
+      "Read one conversation end to end with attendee IDs resolved to real names.",
+      "Post engagement crossmatch",
+      "engagement",
+      "Who reacted to or commented on your posts, flagged by whether they are already a connection."
+    ],
+    "endpoints": [
+      {
+        "tool": "accounts.delete",
+        "summary": "Unlink the given account to Unipile. Required: id. Returns the AccountsDeleteResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "accounts"
+        ]
+      },
+      {
+        "tool": "accounts.connect",
+        "summary": "Link to Uniple an account of the given type and provider. Returns the new AccountsConnectResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "accounts",
+          "connect"
+        ]
+      },
+      {
+        "tool": "accounts.get",
+        "summary": "Retrieve the details of an account. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "accounts",
+          "get"
+        ]
+      },
+      {
+        "tool": "accounts.list",
+        "summary": "Returns a list of the accounts linked to Unipile. Optional: limit.",
+        "params_schema": {
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "accounts",
+          "list"
+        ]
+      },
+      {
+        "tool": "accounts.reconnect",
+        "summary": "Reconnect an account previously linked to Unipile that has been disconnected. Required: id. Returns the new AccountsReconnectResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "accounts",
+          "reconnect"
+        ]
+      },
+      {
+        "tool": "accounts.resend-checkpoint",
+        "summary": "Might it be 2FA, OTP or In-app Validation, this route makes you able on certain providers to resend the notification. Required: account_id, provider. Returns the new AccountsResendCheckpointResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "provider": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "accounts",
+          "resend-checkpoint"
+        ]
+      },
+      {
+        "tool": "accounts.solve-checkpoint",
+        "summary": "Allows you to provide a code which will solve a checkpoint encountered during a native authentication. A checkpoint is a security step added by a provider which needs to be solved to complete the authentication. Checkpoints that require a code are 2FA (two-factor authentication) and OTP (one-time password). Depending on the way you have configured the account you are trying to authenticate, you can get your code from various ways such as a mail, a SMS or from a two-factor authentication app. Required: account_id, code, provider. Returns the new AccountsSolveCheckpointResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "code": "string?",
+          "provider": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "accounts",
+          "solve-checkpoint"
+        ]
+      },
+      {
+        "tool": "accounts.update",
+        "summary": "Update the proxy configuration of an existing account. You can provide a custom proxy, or request a new Unipile proxy by country/IP. Required: id. Optional: country, ip, proxy. Returns the updated AccountsUpdateResponse.",
+        "params_schema": {
+          "id": "string",
+          "country": "string?",
+          "ip": "string?",
+          "proxy-host": "string?",
+          "proxy-password": "string?",
+          "proxy-port": "float?",
+          "proxy-protocol": "string?",
+          "proxy-username": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "accounts",
+          "update"
+        ]
+      },
+      {
+        "tool": "accounts.restart_account",
+        "summary": "Restart the sources of a frozen account. Required: id. Returns the new RestartAccountResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "accounts",
+          "restart_account"
+        ]
+      },
+      {
+        "tool": "accounts.sync_resync-account",
+        "summary": "This route can be used both to initiate a sync process (from scratch or within a specific time span) and to monitor its status via regular polling. Supported providers: LinkedIn and Telegram. Instagram and WhatsApp are not supported by this route. Required: account_id. Optional: chunk_size, partial, linkedin_product (plus 2 more). Returns the SyncResyncAccountResponse.",
+        "params_schema": {
+          "account_id": "string",
+          "chunk_size": "float?",
+          "partial": "bool?",
+          "linkedin_product": "string?",
+          "before": "float?",
+          "after": "float?"
+        },
+        "positionals": [
+          "account_id"
+        ],
+        "argv_path": [
+          "accounts",
+          "sync_resync-account"
+        ]
+      },
+      {
+        "tool": "calendars.get",
+        "summary": "Retrieve the details of a calendar. Required: account_id, calendar_id. Returns the CalendarsGetResponse.",
+        "params_schema": {
+          "calendar_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "calendar_id"
+        ],
+        "argv_path": [
+          "calendars"
+        ]
+      },
+      {
+        "tool": "calendars.list",
+        "summary": "Returns a list of calendars. Required: account_id. Optional: offset, limit.",
+        "params_schema": {
+          "offset": "float?",
+          "limit": "float?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "calendars",
+          "list"
+        ]
+      },
+      {
+        "tool": "calendars.events_create",
+        "summary": "Create a calendar event. Required: account_id, calendar_id, attendees, end, start, title. Optional: body, color, conference (plus 7 more). Returns the new EventsCreateResponse.",
+        "params_schema": {
+          "calendar_id": "string",
+          "account_id": "string?",
+          "attendees": "array?",
+          "body": "string?",
+          "color": "string?",
+          "conference-conference-id": "string?",
+          "conference-provider": "string?",
+          "conference-url": "string?",
+          "end": "string?",
+          "guests_can_modify": "bool?",
+          "is_attendees_list_hidden": "bool?",
+          "location": "string?",
+          "notify": "bool?",
+          "recurrence": "string_csv_array?",
+          "start": "string?",
+          "title": "string?",
+          "transparency": "string?",
+          "visibility": "string?"
+        },
+        "positionals": [
+          "calendar_id"
+        ],
+        "argv_path": [
+          "calendars",
+          "events_create"
+        ]
+      },
+      {
+        "tool": "calendars.events_delete",
+        "summary": "Delete a calendar event. Required: calendar_id, event_id, account_id. Returns the EventsDeleteResponse. Destructive.",
+        "params_schema": {
+          "calendar_id": "string",
+          "event_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "calendar_id",
+          "event_id"
+        ],
+        "argv_path": [
+          "calendars",
+          "events_delete"
+        ]
+      },
+      {
+        "tool": "calendars.events_get",
+        "summary": "Retrieve the details of a calendar event. Required: account_id, event_id, calendar_id. Returns the EventsGetResponse.",
+        "params_schema": {
+          "event_id": "string",
+          "calendar_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "event_id",
+          "calendar_id"
+        ],
+        "argv_path": [
+          "calendars",
+          "events_get"
+        ]
+      },
+      {
+        "tool": "calendars.events_list",
+        "summary": "Returns a list of calendar events related to the given calendar. Required: account_id, calendar_id. Optional: expand_recurring, event_type, attendees (plus 12 more).",
+        "params_schema": {
+          "calendar_id": "string",
+          "expand_recurring": "bool?",
+          "event_type": "string?",
+          "attendees": "string?",
+          "updated_after": "string?",
+          "updated_before": "string?",
+          "busy": "bool?",
+          "end": "string?",
+          "start": "string?",
+          "location": "string?",
+          "ical_uid": "string?",
+          "description": "string?",
+          "title": "string?",
+          "is_cancelled": "bool?",
+          "offset": "float?",
+          "limit": "float?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "calendar_id"
+        ],
+        "argv_path": [
+          "calendars",
+          "events_list"
+        ]
+      },
+      {
+        "tool": "calendars.events_update",
+        "summary": "Edit a calendar event. Required: account_id, event_id, calendar_id. Optional: attendees, body, color (plus 11 more). Returns the updated EventsUpdateResponse.",
+        "params_schema": {
+          "event_id": "string",
+          "calendar_id": "string",
+          "account_id": "string?",
+          "attendees": "array?",
+          "body": "string?",
+          "color": "string?",
+          "conference-conference-id": "string?",
+          "conference-provider": "string?",
+          "conference-url": "string?",
+          "end": "string?",
+          "guests_can_modify": "bool?",
+          "is_attendees_list_hidden": "bool?",
+          "location": "string?",
+          "notify": "bool?",
+          "recurrence": "string_csv_array?",
+          "start": "string?",
+          "title": "string?",
+          "transparency": "string?",
+          "visibility": "string?"
+        },
+        "positionals": [
+          "event_id",
+          "calendar_id"
+        ],
+        "argv_path": [
+          "calendars",
+          "events_update"
+        ]
+      },
+      {
+        "tool": "chat-attendees.get",
+        "summary": "The id of the wanted attendee. Required: id, account_id. Returns the ChatAttendeesGetResponse.",
+        "params_schema": {
+          "id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "chat-attendees"
+        ]
+      },
+      {
+        "tool": "chat-attendees.list",
+        "summary": "Returns a list of messaging attendees. Some optional parameters are available to filter the results. Required: account_id. Optional: limit.",
+        "params_schema": {
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat-attendees",
+          "list"
+        ]
+      },
+      {
+        "tool": "chat-attendees.chats_list",
+        "summary": "Returns a list of chats where a given attendee is involved. Required: account_id, attendee_id. Optional: before, after, limit.",
+        "params_schema": {
+          "attendee_id": "string",
+          "before": "string?",
+          "after": "string?",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "attendee_id"
+        ],
+        "argv_path": [
+          "chat-attendees",
+          "chats_list"
+        ]
+      },
+      {
+        "tool": "chat-attendees.messages_list",
+        "summary": "Returns a list of messages where a given attendee is involved. Required: account_id, sender_id. Optional: before, after, limit.",
+        "params_schema": {
+          "sender_id": "string",
+          "before": "string?",
+          "after": "string?",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "sender_id"
+        ],
+        "argv_path": [
+          "chat-attendees",
+          "messages_list"
+        ]
+      },
+      {
+        "tool": "chat-attendees.picture_chat-attendees",
+        "summary": "Download the profile picture of an attendee or picture of a group chat. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "chat-attendees",
+          "picture_chat-attendees"
+        ]
+      },
+      {
+        "tool": "chat-attendees.sync_chat-attendees",
+        "summary": "Starts or monitors the synchronization of all chats for a given attendee. Required: account_id, attendee_id. Returns the SyncChatAttendeesResponse.",
+        "params_schema": {
+          "attendee_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "attendee_id"
+        ],
+        "argv_path": [
+          "chat-attendees",
+          "sync_chat-attendees"
+        ]
+      },
+      {
+        "tool": "chats.delete",
+        "summary": "Delete a chat. Supported for WhatsApp and LinkedIn only. Required: chat_id. Returns the ChatsDeleteResponse. Destructive.",
+        "params_schema": {
+          "chat_id": "string"
+        },
+        "positionals": [
+          "chat_id"
+        ],
+        "argv_path": [
+          "chats"
+        ]
+      },
+      {
+        "tool": "chats.get",
+        "summary": "Retrieve the details of a chat. Required: account_id, chat_id. Returns the ChatsGetResponse.",
+        "params_schema": {
+          "chat_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "chat_id"
+        ],
+        "argv_path": [
+          "chats",
+          "get"
+        ]
+      },
+      {
+        "tool": "chats.list",
+        "summary": "Returns a list of chats. Some optional parameters are available to filter the results. Required: account_id. Optional: unread, before, after (plus 2 more).",
+        "params_schema": {
+          "unread": "bool?",
+          "before": "string?",
+          "after": "string?",
+          "limit": "int?",
+          "account_type": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "list"
+        ]
+      },
+      {
+        "tool": "chats.start",
+        "summary": "Start a new conversation with one or more attendee. \u26a0\ufe0f Interactive documentation does not work for Linkedin specific parameters (child parameters not correctly applied in snippet), the correct format is linkedin[inmail] = true, linkedin[api]... Required: account_id, attendees_ids. Optional: attachments, linkedin, subject (plus 3 more). Returns the new ChatsStartResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "attachments": "array?",
+          "attendees_ids": "array?",
+          "linkedin": "string?",
+          "subject": "string?",
+          "text": "string?",
+          "video_message": "string?",
+          "voice_message": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chats",
+          "start"
+        ]
+      },
+      {
+        "tool": "chats.update",
+        "summary": "Perform an action like changing the read status, muting the chat, retrieving a group invite link, etc. Required: chat_id, action. Optional: value. Returns the updated ChatsUpdateResponse.",
+        "params_schema": {
+          "chat_id": "string",
+          "action": "string?",
+          "value": "string?"
+        },
+        "positionals": [
+          "chat_id"
+        ],
+        "argv_path": [
+          "chats",
+          "update"
+        ]
+      },
+      {
+        "tool": "chats.attendees_list",
+        "summary": "Returns a list of messaging attendees related to a given chat. Some optional parameters are available to filter the results. Required: chat_id.",
+        "params_schema": {
+          "chat_id": "string"
+        },
+        "positionals": [
+          "chat_id"
+        ],
+        "argv_path": [
+          "chats",
+          "attendees_list"
+        ]
+      },
+      {
+        "tool": "chats.messages_list",
+        "summary": "Returns a list of messages related to the given chat. Some parameters are available to filter the results. Required: chat_id. Optional: before, after, limit (plus 1 more).",
+        "params_schema": {
+          "chat_id": "string",
+          "before": "string?",
+          "after": "string?",
+          "limit": "int?",
+          "sender_id": "string?"
+        },
+        "positionals": [
+          "chat_id"
+        ],
+        "argv_path": [
+          "chats",
+          "messages_list"
+        ]
+      },
+      {
+        "tool": "chats.messages_send",
+        "summary": "Send a message to the given chat with the possibility to link some attachments. Required: chat_id. Optional: account_id, attachments, quote_id (plus 5 more). Returns the new MessagesSendResponse.",
+        "params_schema": {
+          "chat_id": "string",
+          "account_id": "string?",
+          "attachments": "array?",
+          "quote_id": "string?",
+          "text": "string?",
+          "thread_id": "string?",
+          "typing_duration": "string?",
+          "video_message": "string?",
+          "voice_message": "string?"
+        },
+        "positionals": [
+          "chat_id"
+        ],
+        "argv_path": [
+          "chats",
+          "messages_send"
+        ]
+      },
+      {
+        "tool": "chats.sync_chats",
+        "summary": "This route can be used both to initiate a synchronization process and to monitor its status via regular polling. Required: account_id, chat_id. Returns the SyncChatsResponse.",
+        "params_schema": {
+          "chat_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "chat_id"
+        ],
+        "argv_path": [
+          "chats",
+          "sync_chats"
+        ]
+      },
+      {
+        "tool": "drafts.create",
+        "summary": "\u26a0\ufe0f Interactive documentation does not work on this route (child parameters not correctly applied in snippet), Create a new draft. Required: account_id, body, to. Optional: attachments, bcc, cc (plus 5 more). Returns the new DraftsCreateResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "attachments": "array?",
+          "bcc": "array?",
+          "body": "string?",
+          "cc": "array?",
+          "custom_headers": "array?",
+          "from": "object?",
+          "reply_to": "string?",
+          "subject": "string?",
+          "to": "array?",
+          "tracking_options": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "drafts"
+        ]
+      },
+      {
+        "tool": "emails.delete",
+        "summary": "Delete an email by moving it to the Trash folder. Required: email_id, account_id. Returns the EmailsDeleteResponse. Destructive.",
+        "params_schema": {
+          "email_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "email_id"
+        ],
+        "argv_path": [
+          "emails"
+        ]
+      },
+      {
+        "tool": "emails.get",
+        "summary": "Retrieve the details of an email. Required: email_id, account_id. Optional: include_headers.",
+        "params_schema": {
+          "email_id": "string",
+          "account_id": "string?",
+          "include_headers": "bool?"
+        },
+        "positionals": [
+          "email_id"
+        ],
+        "argv_path": [
+          "emails",
+          "get"
+        ]
+      },
+      {
+        "tool": "emails.list",
+        "summary": "Returns a list of emails. Required: account_id. Optional: message_id, thread_id, meta_only (plus 10 more).",
+        "params_schema": {
+          "message_id": "string?",
+          "thread_id": "string?",
+          "meta_only": "bool?",
+          "include_headers": "bool?",
+          "before": "string?",
+          "after": "string?",
+          "limit": "int?",
+          "search": "string?",
+          "any_email": "string?",
+          "to": "string?",
+          "from": "string?",
+          "exclude_folders": "string?",
+          "folder": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "emails",
+          "list"
+        ]
+      },
+      {
+        "tool": "emails.list-contacts",
+        "summary": "Returns a list of contacts from the email provider. Supported for Gmail (Google OAuth) and Microsoft (Outlook) only. Required: account_id. Optional: limit.",
+        "params_schema": {
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "emails",
+          "list-contacts"
+        ]
+      },
+      {
+        "tool": "emails.send",
+        "summary": "\u26a0\ufe0f Interactive documentation does not work on this route (child parameters not correctly applied in snippet), please use our ready to copy past example of this page : https://developer.unipile.com/docs/send-email. Required: account_id, body, to. Optional: Idempotency-Key, attachments, bcc (plus 6 more). Returns the new EmailsSendResponse.",
+        "params_schema": {
+          "Idempotency-Key": "string?",
+          "account_id": "string?",
+          "attachments": "array?",
+          "bcc": "array?",
+          "body": "string?",
+          "cc": "array?",
+          "custom_headers": "array?",
+          "from": "object?",
+          "reply_to": "string?",
+          "subject": "string?",
+          "to": "array?",
+          "tracking_options": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "emails",
+          "send"
+        ]
+      },
+      {
+        "tool": "emails.update",
+        "summary": "Update an email. Required: email_id, account_id. Optional: categories, folders, unread. Returns the updated EmailsUpdateResponse.",
+        "params_schema": {
+          "email_id": "string",
+          "account_id": "string?",
+          "categories": "string_csv_array?",
+          "folders": "string_csv_array?",
+          "unread": "bool?"
+        },
+        "positionals": [
+          "email_id"
+        ],
+        "argv_path": [
+          "emails",
+          "update"
+        ]
+      },
+      {
+        "tool": "emails.attachments_emails",
+        "summary": "Retrieve one of the attachment linked to an email. Required: email_id, account_id, attachment_id.",
+        "params_schema": {
+          "email_id": "string",
+          "attachment_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "email_id",
+          "attachment_id"
+        ],
+        "argv_path": [
+          "emails",
+          "attachments_emails"
+        ]
+      },
+      {
+        "tool": "folders.get",
+        "summary": "Retrieve the details of a mail folder. Required: folder_id, account_id. Returns the FoldersGetResponse.",
+        "params_schema": {
+          "folder_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "folder_id"
+        ],
+        "argv_path": [
+          "folders"
+        ]
+      },
+      {
+        "tool": "folders.list",
+        "summary": "Returns a list of all email folders. Required: account_id.",
+        "params_schema": {
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "folders",
+          "list"
+        ]
+      },
+      {
+        "tool": "hosted.link",
+        "summary": "Create a url which redirect to Unipile's hosted authentication to connect or reconnect an account. Returns the new HostedLinkResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "hosted",
+          "link"
+        ]
+      },
+      {
+        "tool": "linkedin.action-user",
+        "summary": "Add a candidate to a Recruiter pipeline, save a Sales Navigator lead, etc. Required: user_id. Returns the new LinkedinActionUserResponse.",
+        "params_schema": {
+          "user_id": "string"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "action-user"
+        ]
+      },
+      {
+        "tool": "linkedin.close-jobs",
+        "summary": "Close a job offer you have posted. Required: id, account_id. Optional: service. Returns the new LinkedinCloseJobsResponse.",
+        "params_schema": {
+          "id": "string",
+          "service": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "close-jobs"
+        ]
+      },
+      {
+        "tool": "linkedin.company",
+        "summary": "Get a company profile from its name or ID. Required: account_id, identifier. Returns the LinkedinCompanyResponse.",
+        "params_schema": {
+          "identifier": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "identifier"
+        ],
+        "argv_path": [
+          "linkedin",
+          "company"
+        ]
+      },
+      {
+        "tool": "linkedin.create-jobs",
+        "summary": "Create a new job offer draft. Required: account_id, company, description, job_title, location, workplace. Optional: apply_method, auto_rejection_template, employment_status (plus 2 more). Returns the new LinkedinCreateJobsResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "apply_method": "string?",
+          "auto_rejection_template": "string?",
+          "company-id": "string?",
+          "company-text": "string?",
+          "description": "string?",
+          "employment_status": "string?",
+          "job-title-id": "string?",
+          "job-title-text": "string?",
+          "location": "string?",
+          "recruiter-additional-compensation-currency": "string?",
+          "recruiter-additional-compensation-max": "float?",
+          "recruiter-additional-compensation-min": "float?",
+          "recruiter-additional-compensation-pay-frequency": "string?",
+          "recruiter-apply-method": "string?",
+          "recruiter-auto-archive-applicants-outside-of-country": "bool?",
+          "recruiter-auto-archive-applicants-screening-questions": "bool?",
+          "recruiter-company-job-id": "string?",
+          "recruiter-functions": "string_csv_array?",
+          "recruiter-include-poster-info": "bool?",
+          "recruiter-industries": "string_csv_array?",
+          "recruiter-project": "string?",
+          "recruiter-salary-currency": "string?",
+          "recruiter-salary-max": "float?",
+          "recruiter-salary-min": "float?",
+          "recruiter-salary-pay-frequency": "string?",
+          "recruiter-send-rejection-notification": "bool?",
+          "recruiter-seniority": "string?",
+          "recruiter-skills": "string_csv_array?",
+          "recruiter-tracking-pixel-url": "string?",
+          "screening_questions": "array?",
+          "workplace": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "create-jobs"
+        ]
+      },
+      {
+        "tool": "linkedin.endorse-profile",
+        "summary": "This route can be used to endorse a skill of a user profile. Required: account_id, profile_id, skill_endorsement_id. Returns the new LinkedinEndorseProfileResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "profile_id": "string?",
+          "skill_endorsement_id": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "endorse-profile"
+        ]
+      },
+      {
+        "tool": "linkedin.get-applicants",
+        "summary": "Retrieve the details of a user that has applied to a given offer. Applies to Classic job posting only. Required: account_id, applicant_id. Returns the LinkedinGetApplicantsResponse.",
+        "params_schema": {
+          "applicant_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "applicant_id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "get-applicants"
+        ]
+      },
+      {
+        "tool": "linkedin.get-jobs",
+        "summary": "Retrieve a job offer. Required: job_id, service, account_id. Returns the LinkedinGetJobsResponse.",
+        "params_schema": {
+          "job_id": "string",
+          "service": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "job_id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "get-jobs"
+        ]
+      },
+      {
+        "tool": "linkedin.get-projects",
+        "summary": "Retrieve Recruiter hiring project from ID. Required: account_id, id. Returns the LinkedinGetProjectsResponse.",
+        "params_schema": {
+          "id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "get-projects"
+        ]
+      },
+      {
+        "tool": "linkedin.inmail-balance",
+        "summary": "Get balance for subscribed premium features. Required: account_id. Returns the LinkedinInmailBalanceResponse.",
+        "params_schema": {
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "inmail-balance"
+        ]
+      },
+      {
+        "tool": "linkedin.list-applicants",
+        "summary": "Retrieve all the users that have applied to a given offer. Required: account_id, id. Optional: max_years_in_company, min_years_in_company, max_years_in_position (plus 10 more). Returns array of LinkedinListApplicantsItem.",
+        "params_schema": {
+          "id": "string",
+          "max_years_in_company": "float?",
+          "min_years_in_company": "float?",
+          "max_years_in_position": "float?",
+          "min_years_in_position": "float?",
+          "max_years_of_experience": "float?",
+          "min_years_of_experience": "float?",
+          "exclude_degree": "array?",
+          "include_degree": "array?",
+          "ratings": "string?",
+          "keywords": "string?",
+          "sort_by": "string?",
+          "service": "string?",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "list-applicants"
+        ]
+      },
+      {
+        "tool": "linkedin.list-contracts",
+        "summary": "Returns a list of your LinkedIn available contracts. Required: account_id.",
+        "params_schema": {
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "list-contracts"
+        ]
+      },
+      {
+        "tool": "linkedin.list-jobs",
+        "summary": "Retrieve the job offers you have posted on LinkedIn whether they are open, closed or still drafts. Required: account_id. Optional: limit, category. Returns array of LinkedinListJobsItem.",
+        "params_schema": {
+          "limit": "int?",
+          "category": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "list-jobs"
+        ]
+      },
+      {
+        "tool": "linkedin.list-projects",
+        "summary": "Retrieve list of LinkedIn Recruiter hiring projects. Required: account_id. Optional: limit (default: 10), sort_order, sort_by. Returns array of LinkedinListProjectsItem.",
+        "params_schema": {
+          "limit": "int?",
+          "sort_order": "string?",
+          "sort_by": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "list-projects"
+        ]
+      },
+      {
+        "tool": "linkedin.parameters-search",
+        "summary": "LinkedIn doesn't accept raw text as search parameters, but IDs. This route will help you get the right IDs for your inputs. Check out our Guide with examples to master LinkedIn search : https://developer.unipile.com/docs/linkedin-search. Required: type, account_id. Optional: limit (default: 10), keywords, service. Returns array of LinkedinParametersSearchItem.",
+        "params_schema": {
+          "limit": "int?",
+          "keywords": "string?",
+          "service": "string?",
+          "type": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "parameters-search"
+        ]
+      },
+      {
+        "tool": "linkedin.publish-jobs",
+        "summary": "Publish the job posting draft you have been working on. Required: draft_id.",
+        "params_schema": {
+          "draft_id": "string"
+        },
+        "positionals": [
+          "draft_id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "publish-jobs"
+        ]
+      },
+      {
+        "tool": "linkedin.raw",
+        "summary": "This magic route is intended for advanced users who wish to use LinkedIn's features beyond our current capabilities. It enables you to create custom functionalities that are not yet supported by our platform, using connected accounts. To utilize this route, you will need to identify the specific endpoint containing the desired data using web developer tools on LinkedIn, and then copy the URL along with its parameters for implementation. Required: account_id, request_url. Optional: body, bypass_redirect (default: true), encoding (default: true) (plus 4 more). Returns the new LinkedinRawResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "body": "object?",
+          "bypass_redirect": "bool?",
+          "encoding": "bool?",
+          "force_api": "bool?",
+          "headers": "object?",
+          "method": "string?",
+          "query_params": "object?",
+          "request_url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "raw"
+        ]
+      },
+      {
+        "tool": "linkedin.resume-applicants",
+        "summary": "This route can be used to download the resume of a job applicant. Required: applicant_id, account_id. Optional: service.",
+        "params_schema": {
+          "applicant_id": "string",
+          "service": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "applicant_id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "resume-applicants"
+        ]
+      },
+      {
+        "tool": "linkedin.search",
+        "summary": "Search people and companies from the Linkedin Classic as well as Sales Navigator APIs. Check out our Guide with examples to master LinkedIn search : https://developer.unipile.com/docs/linkedin-search. Required: account_id. Optional: cursor, limit (default: 10). Returns array of LinkedinSearchItem.",
+        "params_schema": {
+          "cursor": "string?",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "linkedin",
+          "search"
+        ]
+      },
+      {
+        "tool": "linkedin.select-contracts",
+        "summary": "Select a Recruiter or Sales navigator contract to be used on your account. Required: id, account_id. Returns the new LinkedinSelectContractsResponse.",
+        "params_schema": {
+          "id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "select-contracts"
+        ]
+      },
+      {
+        "tool": "linkedin.solve-checkpoint-jobs",
+        "summary": "Solve a checkpoint to verify your member privilegies. Required: draft_id, account_id, input.",
+        "params_schema": {
+          "draft_id": "string",
+          "account_id": "string?",
+          "input": "string?"
+        },
+        "positionals": [
+          "draft_id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "solve-checkpoint-jobs"
+        ]
+      },
+      {
+        "tool": "linkedin.update-jobs",
+        "summary": "Edit an existing job posting. Required: job_id, account_id. Optional: apply_method, auto_rejection_template, company (plus 7 more). Returns the updated LinkedinUpdateJobsResponse.",
+        "params_schema": {
+          "job_id": "string",
+          "account_id": "string?",
+          "apply_method": "string?",
+          "auto_rejection_template": "string?",
+          "company-id": "string?",
+          "company-text": "string?",
+          "description": "string?",
+          "employment_status": "string?",
+          "job-title-id": "string?",
+          "job-title-text": "string?",
+          "location": "string?",
+          "recruiter-additional-compensation-currency": "string?",
+          "recruiter-additional-compensation-max": "float?",
+          "recruiter-additional-compensation-min": "float?",
+          "recruiter-additional-compensation-pay-frequency": "string?",
+          "recruiter-apply-method": "string?",
+          "recruiter-auto-archive-applicants-outside-of-country": "bool?",
+          "recruiter-auto-archive-applicants-screening-questions": "bool?",
+          "recruiter-company-job-id": "string?",
+          "recruiter-functions": "string_csv_array?",
+          "recruiter-include-poster-info": "bool?",
+          "recruiter-industries": "string_csv_array?",
+          "recruiter-project-id": "string?",
+          "recruiter-salary-currency": "string?",
+          "recruiter-salary-max": "float?",
+          "recruiter-salary-min": "float?",
+          "recruiter-salary-pay-frequency": "string?",
+          "recruiter-send-rejection-notification": "bool?",
+          "recruiter-seniority": "string?",
+          "recruiter-skills": "string_csv_array?",
+          "recruiter-tracking-pixel-url": "string?",
+          "screening_questions": "array?",
+          "workplace": "string?"
+        },
+        "positionals": [
+          "job_id"
+        ],
+        "argv_path": [
+          "linkedin",
+          "update-jobs"
+        ]
+      },
+      {
+        "tool": "messages.delete",
+        "summary": "Delete a message. Supported for WhatsApp and LinkedIn only. For LinkedIn, it is only possible within the first 60 minutes after the message is sent. Required: message_id. Returns the MessagesDeleteResponse. Destructive.",
+        "params_schema": {
+          "message_id": "string"
+        },
+        "positionals": [
+          "message_id"
+        ],
+        "argv_path": [
+          "messages"
+        ]
+      },
+      {
+        "tool": "messages.get",
+        "summary": "Retrieve the details of a message. Required: message_id. Returns the MessagesGetResponse.",
+        "params_schema": {
+          "message_id": "string"
+        },
+        "positionals": [
+          "message_id"
+        ],
+        "argv_path": [
+          "messages",
+          "get"
+        ]
+      },
+      {
+        "tool": "messages.list",
+        "summary": "Returns a list of messages. Some optional parameters are available to filter the results. Required: account_id. Optional: before, after, limit (plus 1 more).",
+        "params_schema": {
+          "before": "string?",
+          "after": "string?",
+          "limit": "int?",
+          "sender_id": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "list"
+        ]
+      },
+      {
+        "tool": "messages.update",
+        "summary": "Edit a message. Supported for WhatsApp and LinkedIn Classic only. WhatsApp may reject edits after an indicative 15-minute window following the original send time. LinkedIn Classic edits are only possible within the first 60 minutes after the message is sent. Required: message_id, text. Returns the updated MessagesUpdateResponse.",
+        "params_schema": {
+          "message_id": "string",
+          "text": "string?"
+        },
+        "positionals": [
+          "message_id"
+        ],
+        "argv_path": [
+          "messages",
+          "update"
+        ]
+      },
+      {
+        "tool": "messages.attachments_messages",
+        "summary": "Retrieve one of the attachment linked to a message. Required: attachment_id, message_id.",
+        "params_schema": {
+          "attachment_id": "string",
+          "message_id": "string"
+        },
+        "positionals": [
+          "attachment_id",
+          "message_id"
+        ],
+        "argv_path": [
+          "messages",
+          "attachments_messages"
+        ]
+      },
+      {
+        "tool": "messages.forward_messages",
+        "summary": "Forward a message to a chat. (Whatsapp only). Required: message_id, chat_id. Returns the new ForwardMessagesResponse.",
+        "params_schema": {
+          "message_id": "string",
+          "chat_id": "string?"
+        },
+        "positionals": [
+          "message_id"
+        ],
+        "argv_path": [
+          "messages",
+          "forward_messages"
+        ]
+      },
+      {
+        "tool": "messages.reaction_react-messages",
+        "summary": "Add a reaction to a message. (Whatsapp, LinkedIn). Required: message_id, reaction. Returns the new ReactionReactMessagesResponse.",
+        "params_schema": {
+          "message_id": "string",
+          "reaction": "string?"
+        },
+        "positionals": [
+          "message_id"
+        ],
+        "argv_path": [
+          "messages",
+          "reaction_react-messages"
+        ]
+      },
+      {
+        "tool": "posts.create",
+        "summary": "Publish a post. Required: account_id, text. Optional: as_organization, attachments, external_link (plus 6 more). Returns the new PostsCreateResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "as_organization": "string?",
+          "attachments": "array?",
+          "external_link": "string?",
+          "include_job_posting": "string?",
+          "location": "string?",
+          "mentions": "array?",
+          "post_type": "string?",
+          "repost": "string?",
+          "text": "string?",
+          "video_thumbnail": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts"
+        ]
+      },
+      {
+        "tool": "posts.get",
+        "summary": "Retrieve the details of a post. Required: post_id, account_id. Returns the PostsGetResponse.",
+        "params_schema": {
+          "post_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "post_id"
+        ],
+        "argv_path": [
+          "posts",
+          "get"
+        ]
+      },
+      {
+        "tool": "posts.react",
+        "summary": "React to either a post or a post comment. Required: account_id, post_id. Optional: as_organization, comment_id, reaction_type. Returns the new PostsReactResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "as_organization": "string?",
+          "comment_id": "string?",
+          "post_id": "string?",
+          "reaction_type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts",
+          "react"
+        ]
+      },
+      {
+        "tool": "posts.comments_create",
+        "summary": "Comment a post or reply to a post comment. Required: post_id, account_id, text. Optional: as_organization, attachments, comment_id (plus 2 more). Returns the new CommentsCreateResponse.",
+        "params_schema": {
+          "post_id": "string",
+          "account_id": "string?",
+          "as_organization": "string?",
+          "attachments": "array?",
+          "comment_id": "string?",
+          "external_link": "string?",
+          "mentions": "array?",
+          "text": "string?"
+        },
+        "positionals": [
+          "post_id"
+        ],
+        "argv_path": [
+          "posts",
+          "comments_create"
+        ]
+      },
+      {
+        "tool": "posts.comments_list",
+        "summary": "Returns a list of either comments on a given post or replies on a given comment. Required: account_id, post_id. Optional: limit, sort_by, comment_id.",
+        "params_schema": {
+          "post_id": "string",
+          "limit": "int?",
+          "sort_by": "string?",
+          "comment_id": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "post_id"
+        ],
+        "argv_path": [
+          "posts",
+          "comments_list"
+        ]
+      },
+      {
+        "tool": "posts.reactions_list",
+        "summary": "Returns a list of reactions to either a post or a post comment. Required: account_id, post_id. Optional: limit, comment_id.",
+        "params_schema": {
+          "post_id": "string",
+          "limit": "int?",
+          "comment_id": "string?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "post_id"
+        ],
+        "argv_path": [
+          "posts",
+          "reactions_list"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Retrieve the profile of a user. Ensure careful implementation of this action and consult provider limits and restrictions: https://developer.unipile.com/docs/provider-limits-and-restrictions. Required: account_id, identifier. Optional: linkedin_sections, linkedin_api, notify.",
+        "params_schema": {
+          "identifier": "string",
+          "linkedin_sections": "array?",
+          "linkedin_api": "string?",
+          "notify": "bool?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "identifier"
+        ],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.cancel-sent",
+        "summary": "Cancel a pending invitation sent to someone. `Instagram`: You can also use this route to unfollow users you have previously followed. Required: account_id, invitation_id. Returns the UsersCancelSentResponse. Destructive.",
+        "params_schema": {
+          "invitation_id": "string",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "invitation_id"
+        ],
+        "argv_path": [
+          "users",
+          "cancel-sent"
+        ]
+      },
+      {
+        "tool": "users.edit-me",
+        "summary": "Modify informations on account owner profile. For WhatsApp accounts, only `headline` (profile display name), `summary` (profile About/status) and `picture` are available. For Instagram accounts, only `summary` (profile bio) and `picture` are available. \u26a0\ufe0f Interactive documentation does not provide the expected format for nested parameters in code snippet. They should be formatted with brackets like the following examples : `location[id]=105015875`, `picture_settings[filter]=STUDIO` or `picture_settings[layout][bottomLeft][x]=1.25`. When working with arrays, just set one field for each value with the same key, for example : `experience[skills]=development experience[skills]=management`. Returns the updated UsersEditMeResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "edit-me"
+        ]
+      },
+      {
+        "tool": "users.followers",
+        "summary": "Returns a list of all the followers of the current user. Ensure careful implementation of this action and consult provider limits and restrictions: https://developer.unipile.com/docs/provider-limits-and-restrictions. Required: account_id. Optional: user_id, limit.",
+        "params_schema": {
+          "user_id": "string?",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "followers"
+        ]
+      },
+      {
+        "tool": "users.following",
+        "summary": "Returns a list of all the followed accounts of an account. Ensure careful implementation of this action and consult provider limits and restrictions: https://developer.unipile.com/docs/provider-limits-and-restrictions. Required: user_id, account_id. Optional: limit.",
+        "params_schema": {
+          "user_id": "string?",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "following"
+        ]
+      },
+      {
+        "tool": "users.invite",
+        "summary": "Send an invitation to add someone to your contacts. Ensure careful implementation of this action and consult provider limits and restrictions: https://developer.unipile.com/docs/provider-limits-and-restrictions. Required: account_id, provider_id. Optional: message, user_email. Returns the new UsersInviteResponse.",
+        "params_schema": {
+          "account_id": "string?",
+          "message": "string?",
+          "provider_id": "string?",
+          "user_email": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "invite"
+        ]
+      },
+      {
+        "tool": "users.list-received",
+        "summary": "Returns a list of all invitations that have been received. Required: account_id. Optional: limit (default: 10).",
+        "params_schema": {
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "list-received"
+        ]
+      },
+      {
+        "tool": "users.list-sent",
+        "summary": "Returns a list of all invitations sent that are pending. Required: account_id. Optional: limit.",
+        "params_schema": {
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "list-sent"
+        ]
+      },
+      {
+        "tool": "users.me",
+        "summary": "Retrieve informations about account owner. Required: account_id.",
+        "params_schema": {
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "me"
+        ]
+      },
+      {
+        "tool": "users.relations",
+        "summary": "Returns a list of all the relations of an account. Ensure careful implementation of this action and consult provider limits and restrictions: https://developer.unipile.com/docs/provider-limits-and-restrictions. Required: account_id. Optional: filter, limit.",
+        "params_schema": {
+          "filter": "string?",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "relations"
+        ]
+      },
+      {
+        "tool": "users.respond-received",
+        "summary": "Accept or decline a connection invitation. Required: invitation_id. Returns the new UsersRespondReceivedResponse.",
+        "params_schema": {
+          "invitation_id": "string"
+        },
+        "positionals": [
+          "invitation_id"
+        ],
+        "argv_path": [
+          "users",
+          "respond-received"
+        ]
+      },
+      {
+        "tool": "users.comments_list",
+        "summary": "Returns a list of comments written by a user. Required: account_id, identifier. Optional: limit.",
+        "params_schema": {
+          "identifier": "string",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "identifier"
+        ],
+        "argv_path": [
+          "users",
+          "comments_list"
+        ]
+      },
+      {
+        "tool": "users.posts_list",
+        "summary": "Returns a list of posts written by a user or a company. Required: account_id, identifier. Optional: limit, is_company.",
+        "params_schema": {
+          "identifier": "string",
+          "limit": "int?",
+          "is_company": "bool?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "identifier"
+        ],
+        "argv_path": [
+          "users",
+          "posts_list"
+        ]
+      },
+      {
+        "tool": "users.reactions_list",
+        "summary": "Returns a list of reactions to posts or comments from a user. Required: account_id, identifier. Optional: limit.",
+        "params_schema": {
+          "identifier": "string",
+          "limit": "int?",
+          "account_id": "string?"
+        },
+        "positionals": [
+          "identifier"
+        ],
+        "argv_path": [
+          "users",
+          "reactions_list"
+        ]
+      },
+      {
+        "tool": "webhooks.create",
+        "summary": "Create a webhook. Returns the new WebhooksCreateResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhooks"
+        ]
+      },
+      {
+        "tool": "webhooks.delete",
+        "summary": "Delete a webhook. Required: id. Returns the WebhooksDeleteResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "webhooks.list",
+        "summary": "Returns a list of the webhooks. Optional: limit.",
+        "params_schema": {
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "webhooks",
+          "list"
         ]
       }
     ]
