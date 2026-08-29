@@ -206091,6 +206091,411 @@
     ]
   },
   {
+    "api": "groq",
+    "description": "Every Groq endpoint in your terminal, plus a local ledger that tracks token cost and rate-limit budget.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/groq/cmd/groq-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "ai",
+    "search_terms": [
+      "groq",
+      "Groq Cloud",
+      "groq-pp-cli",
+      "Every Groq endpoint in your terminal, plus a local ledger that tracks token cost and rate-limit budget.",
+      "Groq API key (create one at console.groq.com/keys).",
+      "Rate-limit budget",
+      "rate-limits",
+      "See remaining per-model request/token budget from every API call, with reset windows.",
+      "Cost ledger analytics",
+      "costs",
+      "Aggregate token and dollar spend from your local completion history, grouped by model or day.",
+      "Multi-model prompt runner",
+      "compare",
+      "Run one prompt across several models and rank them by latency, tokens/sec, usage, and cost.",
+      "Batch request pre-flight",
+      "batch validate",
+      "Validate every line of a .jsonl batch request file against the endpoint schema and estimate tokens/cost before uploading.",
+      "Batch results diagnosis",
+      "batch diagnose",
+      "Tabulate a completed batch's per-line status codes and errors, highlighting retry-worthy failures.",
+      "Paced bulk audio runner",
+      "audio batch",
+      "Transcribe, translate, or synthesize speech over many audio files with rate-limit-aware pacing and a results manifest."
+    ],
+    "endpoints": [
+      {
+        "tool": "audio.speech",
+        "summary": "Generates audio from the input text. Required: input, model, voice. Optional: response_format (default: mp3), sample_rate (default: 48000), speed (default: 1).",
+        "params_schema": {
+          "input": "string?",
+          "model": "string?",
+          "response_format": "string?",
+          "sample_rate": "int?",
+          "speed": "float?",
+          "voice": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "audio",
+          "speech"
+        ]
+      },
+      {
+        "tool": "audio.transcribe",
+        "summary": "Transcribes audio into the input language. Required: model. Optional: file, language, prompt (plus 4 more). Returns the new CreateTranscriptionResponseJson.",
+        "params_schema": {
+          "file": "string?",
+          "language": "string?",
+          "model": "string?",
+          "prompt": "string?",
+          "response_format": "string?",
+          "temperature": "float?",
+          "timestamp_granularities": "array?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "audio",
+          "transcribe"
+        ]
+      },
+      {
+        "tool": "audio.translate",
+        "summary": "Translates audio into English. Required: model. Optional: file, prompt, response_format (default: json) (plus 2 more). Returns the new CreateTranslationResponseJson.",
+        "params_schema": {
+          "file": "string?",
+          "model": "string?",
+          "prompt": "string?",
+          "response_format": "string?",
+          "temperature": "float?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "audio",
+          "translate"
+        ]
+      },
+      {
+        "tool": "batches.create",
+        "summary": "Creates and executes a batch from an uploaded file of requests. Required: completion_window, endpoint, input_file_id. Optional: metadata. Returns the new Batch.",
+        "params_schema": {
+          "completion_window": "string?",
+          "endpoint": "string?",
+          "input_file_id": "string?",
+          "metadata": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "batches"
+        ]
+      },
+      {
+        "tool": "batches.cancel",
+        "summary": "Cancels a batch. Required: batch_id. Returns the new Batch.",
+        "params_schema": {
+          "batch_id": "string"
+        },
+        "positionals": [
+          "batch_id"
+        ],
+        "argv_path": [
+          "batches",
+          "cancel"
+        ]
+      },
+      {
+        "tool": "batches.get",
+        "summary": "Retrieves a batch. Required: batch_id. Returns the Batch.",
+        "params_schema": {
+          "batch_id": "string"
+        },
+        "positionals": [
+          "batch_id"
+        ],
+        "argv_path": [
+          "batches",
+          "get"
+        ]
+      },
+      {
+        "tool": "batches.list",
+        "summary": "Returns a list of the user's batches with their current status and request counts.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "batches",
+          "list"
+        ]
+      },
+      {
+        "tool": "chat.completions",
+        "summary": "Creates a model response for the given chat conversation. Required: messages, model. Optional: citation_options, compound_custom, custom_template (plus 34 more). Returns the new CreateChatCompletionResponse.",
+        "params_schema": {
+          "citation_options": "string?",
+          "compound-custom-models-answering-model": "string?",
+          "compound-custom-models-reasoning-model": "string?",
+          "compound-custom-tools-enabled-tools": "string_csv_array?",
+          "custom-template-preserve-system-message-order": "bool?",
+          "custom-template-relaxed-message-ordering": "bool?",
+          "custom-template-template": "string?",
+          "debug": "bool?",
+          "disable_tool_validation": "bool?",
+          "documents": "array?",
+          "exclude_domains": "string_csv_array?",
+          "exclude_instance_ids": "string_csv_array?",
+          "frequency_penalty": "float?",
+          "function_call": "string?",
+          "functions": "array?",
+          "include_domains": "string_csv_array?",
+          "include_reasoning": "bool?",
+          "logit_bias": "object?",
+          "logprobs": "bool?",
+          "max_completion_tokens": "int?",
+          "max_tokens": "int?",
+          "messages": "array?",
+          "metadata": "object?",
+          "model": "string?",
+          "n": "int?",
+          "parallel_tool_calls": "bool?",
+          "presence_penalty": "float?",
+          "reasoning_effort": "string?",
+          "reasoning_format": "string?",
+          "response_format": "string?",
+          "search-settings-country": "string?",
+          "search-settings-exclude-domains": "string_csv_array?",
+          "search-settings-include-domains": "string_csv_array?",
+          "search-settings-include-images": "bool?",
+          "seed": "int?",
+          "service_tier": "string?",
+          "stop": "string?",
+          "store": "bool?",
+          "stream": "bool?",
+          "stream-options-include-usage": "bool?",
+          "temperature": "float?",
+          "tool_choice": "string?",
+          "tools": "array?",
+          "top_logprobs": "int?",
+          "top_p": "float?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "chat",
+          "completions"
+        ]
+      },
+      {
+        "tool": "embeddings.create",
+        "summary": "Creates an embedding vector representing the input text. Required: input, model. Optional: encoding_format (default: float), user. Returns array of Embedding.",
+        "params_schema": {
+          "encoding_format": "string?",
+          "input": "string?",
+          "model": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "embeddings"
+        ]
+      },
+      {
+        "tool": "files.delete",
+        "summary": "Delete a file. Required: file_id. Returns the DeleteFileResponse. Destructive.",
+        "params_schema": {
+          "file_id": "string"
+        },
+        "positionals": [
+          "file_id"
+        ],
+        "argv_path": [
+          "files"
+        ]
+      },
+      {
+        "tool": "files.download",
+        "summary": "Returns the contents of the specified file. Required: file_id.",
+        "params_schema": {
+          "file_id": "string"
+        },
+        "positionals": [
+          "file_id"
+        ],
+        "argv_path": [
+          "files",
+          "download"
+        ]
+      },
+      {
+        "tool": "files.list",
+        "summary": "Returns a list of files that belong to the user's organization, with id, filename, purpose, bytes, and timestamps.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "list"
+        ]
+      },
+      {
+        "tool": "files.retrieve",
+        "summary": "Returns detailed information about a specific file by its ID. Required: file_id.",
+        "params_schema": {
+          "file_id": "string"
+        },
+        "positionals": [
+          "file_id"
+        ],
+        "argv_path": [
+          "files",
+          "retrieve"
+        ]
+      },
+      {
+        "tool": "files.upload",
+        "summary": "Upload a file that can be used across various endpoints. The Batch API only supports `.jsonl` files up to 100 MB in size. The input also has a specific required. Required: file, purpose. Returns the new File.",
+        "params_schema": {
+          "file": "string?",
+          "purpose": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "upload"
+        ]
+      },
+      {
+        "tool": "fine.tunings_create",
+        "summary": "Creates a new fine tuning for the already uploaded files This endpoint is in closed beta. Optional: base_model, input_file_id, name (plus 1 more). Returns the new ReadFineTuningResponse.",
+        "params_schema": {
+          "base_model": "string?",
+          "input_file_id": "string?",
+          "name": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "fine",
+          "tunings_create"
+        ]
+      },
+      {
+        "tool": "fine.tunings_delete",
+        "summary": "Deletes an existing fine tuning by id This endpoint is in closed beta. Required: id. Returns the DeleteFineTuningResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "fine",
+          "tunings_delete"
+        ]
+      },
+      {
+        "tool": "fine.tunings_get",
+        "summary": "Retrieves an existing fine tuning by id This endpoint is in closed beta. Required: id. Returns the ReadFineTuningResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "fine",
+          "tunings_get"
+        ]
+      },
+      {
+        "tool": "fine.tunings_list",
+        "summary": "Lists all previously created fine tunings. This endpoint is in closed beta. Returns array of FineTuningsListItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "fine",
+          "tunings_list"
+        ]
+      },
+      {
+        "tool": "models.delete",
+        "summary": "Delete a model. Required: model. Returns the DeleteModelResponse. Destructive.",
+        "params_schema": {
+          "model": "string"
+        },
+        "positionals": [
+          "model"
+        ],
+        "argv_path": [
+          "models"
+        ]
+      },
+      {
+        "tool": "models.list",
+        "summary": "Lists all models currently available on the account, including context window, pricing, and capabilities. Returns array of Model.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "models",
+          "list"
+        ]
+      },
+      {
+        "tool": "models.retrieve",
+        "summary": "Returns detailed information about a specific model by ID. Required: model.",
+        "params_schema": {
+          "model": "string"
+        },
+        "positionals": [
+          "model"
+        ],
+        "argv_path": [
+          "models",
+          "retrieve"
+        ]
+      },
+      {
+        "tool": "reranking.create",
+        "summary": "Given a query and a list of documents, returns the documents ranked by their relevance to the query. The documents are scored and sorted in descending order of relevance. Required: docs, model, query. Optional: instruction.",
+        "params_schema": {
+          "docs": "string_csv_array?",
+          "instruction": "string?",
+          "model": "string?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reranking"
+        ]
+      },
+      {
+        "tool": "responses.create",
+        "summary": "Creates a model response for the given input. Required: input, model. Optional: instructions, max_output_tokens, metadata (plus 12 more). Returns the new CreateResponseResponse.",
+        "params_schema": {
+          "input": "string?",
+          "instructions": "string?",
+          "max_output_tokens": "int?",
+          "metadata": "object?",
+          "model": "string?",
+          "parallel_tool_calls": "bool?",
+          "reasoning-effort": "string?",
+          "service_tier": "string?",
+          "store": "bool?",
+          "stream": "bool?",
+          "temperature": "float?",
+          "text-format": "string?",
+          "tool_choice": "string?",
+          "tools": "array?",
+          "top_p": "float?",
+          "truncation": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "responses"
+        ]
+      }
+    ]
+  },
+  {
     "api": "grubhub",
     "description": "Every Grubhub restaurant search, plus a sortable delivery-fee comparison board, a cross-restaurant deal radar, and offline menu-item search no Grubhub tool has.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/grubhub/cmd/grubhub-pp-cli",
