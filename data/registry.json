@@ -23377,7 +23377,7 @@
       },
       {
         "tool": "items.list",
-        "summary": "List items in a shopping list. Required: list. Optional: checked (default: false), unchecked (default: false), category. Returns array of ListItem.",
+        "summary": "List items in a shopping list. Required: list. Optional: checked (default: false), unchecked (default: false), category. Returns array of ListItem with cached package size, photo IDs, prices, store IDs, category match IDs, and category assignments when available.",
         "params_schema": {
           "list": "string?",
           "checked": "bool?",
@@ -23811,16 +23811,27 @@
       },
       {
         "tool": "recipes.import",
-        "summary": "Import a recipe from a URL. Required: url. Optional: add-to-list, scale (default: 0). Returns the new Recipe.",
+        "summary": "Import a recipe from a URL. Required: url. Optional: add-to-list, scale (default: 0), on-duplicate (default: skip). Exact-name duplicates are skipped by default; update requires a unique match and allow creates another copy. Returns the selected Recipe.",
         "params_schema": {
           "url": "string?",
           "add-to-list": "string?",
-          "scale": "integer?"
+          "scale": "integer?",
+          "on-duplicate": "string?"
         },
         "positionals": [],
         "argv_path": [
           "recipes",
           "import"
+        ]
+      },
+      {
+        "tool": "recipes.duplicates",
+        "summary": "Report recipes with duplicate names from the local cache without changing anything. Returns duplicate groups.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "recipes",
+          "duplicates"
         ]
       },
       {
@@ -369784,7 +369795,7 @@
       "Cancel a waitlist request. The upstream body requires waitlistRequestId as a JSON number (string flags 400); siteId is the store extref.",
       "Sniffed waitlist check-in",
       "texasroadhouse checkin",
-      "Check in at the host stand via sniffed POST /waitlist/{extref}/checkin (no public API).",
+      "Confirm arrival after the guest receives the Texas Roadhouse text and replies HERE via sniffed POST /waitlist/{extref}/checkin (no public API).",
       "Quote MinQuote lookup",
       "texasroadhouse get-quote",
       "Read per-party-size MinQuote/MaxQuote for a store extref so submit can send the required WaitMinutes.",
@@ -369846,7 +369857,7 @@
       },
       {
         "tool": "texasroadhouse.checkin",
-        "summary": "Check in once the party is at the host stand (destructive). Live check-in requires yes=true; dry-run=true previews without POSTing. Required: waitlist_id. Optional: yes, dry-run. Returns the new WaitlistCheckinResult.",
+        "summary": "Confirm arrival after the guest receives the Texas Roadhouse text and replies HERE (destructive). Live check-in requires yes=true; dry-run=true previews without POSTing. Required: waitlist_id. Optional: yes, dry-run. Returns the new WaitlistCheckinResult.",
         "params_schema": {
           "waitlist_id": "string",
           "yes": "boolean?",
