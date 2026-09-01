@@ -167572,6 +167572,808 @@
     ]
   },
   {
+    "api": "e-boekhouden",
+    "description": "Balance, profit & loss, and journal entries for e-Boekhouden from your terminal",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/e-boekhouden/cmd/e-boekhouden-pp-cli",
+    "auth_type": "api_key",
+    "category": "payments",
+    "search_terms": [
+      "e-boekhouden",
+      "e-boekhouden-pp-cli",
+      "Administration Safety Banner",
+      "mutation create",
+      "Refuses to actually write a mutation or invoice without --confirm, and blocks an ambiguous write across multiple linked administrations unless --company names the exact target.",
+      "Invoice-Mutation Reconciliation Health",
+      "invoice reconcile",
+      "Lists invoices with no matching payment mutation, and mutations that reference an invoice number the CLI doesn't recognize.",
+      "Mutation Ledger/VAT Suggest",
+      "mutation suggest",
+      "Suggests the ledger and VAT code most often used for past mutations with a similar description.",
+      "Administration Portfolio Overview",
+      "administration overview",
+      "Lists every administration linked to this API token, alongside ledger balances and outstanding invoices for the one administration this session is actually authenticated against.",
+      "Relation Statement",
+      "Full chronological history of invoices and mutations for one relation, with a computed running balance.",
+      "Ledger Drill-Down (T-Account)",
+      "ledger history",
+      "Itemized chronological mutation rows for one ledger account with a computed running balance."
+    ],
+    "endpoints": [
+      {
+        "tool": "administration.get",
+        "summary": "Get all administrations managed by the authorized accountant. Optional: limit, offset. Returns array of AdministrationResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "administration"
+        ]
+      },
+      {
+        "tool": "administration.get-linked",
+        "summary": "Get all administrations that are linked to the authorized administration. Please note that this endpoint will always return administrations linked to the administration of the user that created the API credentials. Optional: limit, offset. Returns array of AdministrationResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "administration",
+          "get-linked"
+        ]
+      },
+      {
+        "tool": "costcenter.create-cost-center",
+        "summary": "Create a new cost center. Optional: active, description, parentId. Returns the new CostCenterCreateResponse.",
+        "params_schema": {
+          "active": "bool?",
+          "description": "string?",
+          "parentId": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "costcenter",
+          "create-cost-center"
+        ]
+      },
+      {
+        "tool": "costcenter.delete-cost-center",
+        "summary": "Permanently delete a cost center by id. Required: id (the cost center's numeric identifier, in the URL path). Returns 204 No Content on success, 404 if the id doesn't match an existing cost center, or 400 if id is malformed. Irreversible \u2014 there is no undo or restore endpoint for cost centers. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "costcenter",
+          "delete-cost-center"
+        ]
+      },
+      {
+        "tool": "costcenter.get-cost-center",
+        "summary": "Get a cost center. Required: id. Returns the CostCenterResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "costcenter",
+          "get-cost-center"
+        ]
+      },
+      {
+        "tool": "costcenter.get-cost-centers",
+        "summary": "Get all cost centers. Optional: limit, offset, parentId (plus 1 more). Returns array of CostCenterSearchResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "parentId": "string?",
+          "description": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "costcenter",
+          "get-cost-centers"
+        ]
+      },
+      {
+        "tool": "costcenter.update-cost-center",
+        "summary": "Update a cost center. Required: id. Optional: active, description. Partial update.",
+        "params_schema": {
+          "id": "string",
+          "active": "bool?",
+          "description": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "costcenter",
+          "update-cost-center"
+        ]
+      },
+      {
+        "tool": "emailtemplate.get-email-templates",
+        "summary": "Get all email templates. Optional: limit, offset. Returns array of EmailTemplateDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "emailtemplate",
+          "get-email-templates"
+        ]
+      },
+      {
+        "tool": "invoice.create",
+        "summary": "Create a new invoice. Required: items, relationId, templateId, termOfPayment (default: 0). Optional: date, directDebit, email (plus 7 more). Returns the new CreatedInvoice.",
+        "params_schema": {
+          "date": "string?",
+          "directDebit": "string?",
+          "email": "string?",
+          "emailTemplateId": "int?",
+          "inExVat": "string?",
+          "invoiceNumber": "string?",
+          "items": "array?",
+          "mutation": "string?",
+          "print": "bool?",
+          "reference": "string?",
+          "relationId": "int?",
+          "templateId": "int?",
+          "termOfPayment": "int?",
+          "text": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "invoice"
+        ]
+      },
+      {
+        "tool": "invoice.get",
+        "summary": "Search for invoices. Optional: limit, offset, invoiceNumber (plus 2 more). Returns array of InvoicesResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "invoiceNumber": "string?",
+          "relationId": "int?",
+          "date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "invoice",
+          "get"
+        ]
+      },
+      {
+        "tool": "invoice.get-id",
+        "summary": "Get an invoice. Required: id. Returns array of InvoiceItem.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "invoice",
+          "get-id"
+        ]
+      },
+      {
+        "tool": "invoicetemplate.get-invoice-templates",
+        "summary": "Get all invoice templates. Optional: limit, offset, name (plus 2 more). Returns array of InvoiceTemplateDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "name": "string?",
+          "type": "string?",
+          "active": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "invoicetemplate",
+          "get-invoice-templates"
+        ]
+      },
+      {
+        "tool": "ledger.create",
+        "summary": "Create a new ledger. Required: code, description. Optional: category, group. Returns the new CreatedLedger.",
+        "params_schema": {
+          "category": "string?",
+          "code": "string?",
+          "description": "string?",
+          "group": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ledger"
+        ]
+      },
+      {
+        "tool": "ledger.get",
+        "summary": "Get all ledgers. Optional: limit, offset, code (plus 1 more). Returns array of LedgersResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "code": "string?",
+          "category": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ledger",
+          "get"
+        ]
+      },
+      {
+        "tool": "ledger.get-balances",
+        "summary": "Get the balances on all ledgers with optional filters. Optional: costCenterId, from, to. Returns array of LedgerBalanceResponseDto.",
+        "params_schema": {
+          "costCenterId": "int?",
+          "from": "string?",
+          "to": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ledger",
+          "get-balances"
+        ]
+      },
+      {
+        "tool": "ledger.get-id",
+        "summary": "Get a ledger. Required: id. Returns the Ledger.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "ledger",
+          "get-id"
+        ]
+      },
+      {
+        "tool": "ledger.update",
+        "summary": "Update a ledger. Required: id. Optional: category, code, description (plus 1 more). Partial update.",
+        "params_schema": {
+          "id": "string",
+          "category": "string?",
+          "code": "string?",
+          "description": "string?",
+          "group": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "ledger",
+          "update"
+        ]
+      },
+      {
+        "tool": "ledger.balance_get",
+        "summary": "Get the balance on the given ledger with optional filters. Required: id. Optional: costCenterId, from, to. Returns the LedgerBalance.",
+        "params_schema": {
+          "id": "string",
+          "costCenterId": "int?",
+          "from": "string?",
+          "to": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "ledger",
+          "balance_get"
+        ]
+      },
+      {
+        "tool": "member.create",
+        "summary": "Create a new member (only available to clubs or associations). Required: name. Optional: address, bic, city (plus 30 more). Returns the new MembersResponse.",
+        "params_schema": {
+          "address": "string?",
+          "bic": "string?",
+          "city": "string?",
+          "country": "string?",
+          "doNotReceiveNewsletters": "bool?",
+          "emailAddress": "string?",
+          "emailAddressInvoice": "string?",
+          "emailAddressReminder": "string?",
+          "faxNumber": "string?",
+          "freeText1": "string?",
+          "freeText10": "string?",
+          "freeText2": "string?",
+          "freeText3": "string?",
+          "freeText4": "string?",
+          "freeText5": "string?",
+          "freeText6": "string?",
+          "freeText7": "string?",
+          "freeText8": "string?",
+          "freeText9": "string?",
+          "gender": "string?",
+          "iban": "string?",
+          "ledgerId": "int?",
+          "mandate": "bool?",
+          "mandateId": "string?",
+          "mandateSignedDate": "object?",
+          "mandateType": "string?",
+          "memberNumber": "string?",
+          "mobilePhoneNumber": "string?",
+          "name": "string?",
+          "note": "string?",
+          "phoneNumber": "string?",
+          "postalCode": "string?",
+          "salutation": "string?",
+          "termOfPayment": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "member"
+        ]
+      },
+      {
+        "tool": "member.get",
+        "summary": "Get all members (only available to clubs or associations). Optional: limit, offset, memberNumber (plus 3 more). Returns array of MembersResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "memberNumber": "string?",
+          "name": "string?",
+          "email": "string?",
+          "city": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "member",
+          "get"
+        ]
+      },
+      {
+        "tool": "member.get-id",
+        "summary": "Get a member (only available to clubs or associations). Required: id. Returns the Member.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "member",
+          "get-id"
+        ]
+      },
+      {
+        "tool": "member.update",
+        "summary": "Update an existing member (only available to clubs or associations). Required: id, name. Optional: address, bic, city (plus 30 more). Partial update.",
+        "params_schema": {
+          "id": "string",
+          "address": "string?",
+          "bic": "string?",
+          "city": "string?",
+          "country": "string?",
+          "doNotReceiveNewsletters": "bool?",
+          "emailAddress": "string?",
+          "emailAddressInvoice": "string?",
+          "emailAddressReminder": "string?",
+          "faxNumber": "string?",
+          "freeText1": "string?",
+          "freeText10": "string?",
+          "freeText2": "string?",
+          "freeText3": "string?",
+          "freeText4": "string?",
+          "freeText5": "string?",
+          "freeText6": "string?",
+          "freeText7": "string?",
+          "freeText8": "string?",
+          "freeText9": "string?",
+          "gender": "string?",
+          "iban": "string?",
+          "ledgerId": "int?",
+          "mandate": "bool?",
+          "mandateId": "string?",
+          "mandateSignedDate": "object?",
+          "mandateType": "string?",
+          "memberNumber": "string?",
+          "mobilePhoneNumber": "string?",
+          "name": "string?",
+          "note": "string?",
+          "phoneNumber": "string?",
+          "postalCode": "string?",
+          "salutation": "string?",
+          "termOfPayment": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "member",
+          "update"
+        ]
+      },
+      {
+        "tool": "mutation.create",
+        "summary": "Create a new mutation. Required: date, ledgerId, type. Optional: checkPaymentReference, description, entryNumber (plus 6 more). Returns the new CreatedMutation.",
+        "params_schema": {
+          "checkPaymentReference": "bool?",
+          "date": "string?",
+          "description": "string?",
+          "entryNumber": "string?",
+          "inExVat": "string?",
+          "invoiceNumber": "string?",
+          "ledgerId": "int?",
+          "paymentReference": "string?",
+          "relationId": "int?",
+          "rows": "array?",
+          "termOfPayment": "int?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "mutation"
+        ]
+      },
+      {
+        "tool": "mutation.get",
+        "summary": "Get all mutations. Optional: limit, offset, type (plus 4 more). Returns array of MutationsResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "type": "int?",
+          "id": "int?",
+          "description": "string?",
+          "invoiceNumber": "string?",
+          "date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "mutation",
+          "get"
+        ]
+      },
+      {
+        "tool": "mutation.get-id",
+        "summary": "Get a mutation by id. Required: id. Returns the Mutation.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "mutation",
+          "get-id"
+        ]
+      },
+      {
+        "tool": "mutation.get-outstanding-invoices",
+        "summary": "Get all outstanding invoices. Required: credDeb. Optional: limit, offset, invoiceNumber. Returns array of OutstandingInvoiceDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "credDeb": "string?",
+          "invoiceNumber": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "mutation",
+          "get-outstanding-invoices"
+        ]
+      },
+      {
+        "tool": "product.create",
+        "summary": "Create a new product. Required: code, description, ledgerId, vat. Optional: active (default: true), costCenterId, groupId (plus 5 more). Returns the new CreateProduct.",
+        "params_schema": {
+          "active": "bool?",
+          "code": "string?",
+          "costCenterId": "int?",
+          "description": "string?",
+          "groupId": "int?",
+          "inStockManagement": "bool?",
+          "ledgerId": "int?",
+          "priceExcl": "float?",
+          "priceIncl": "float?",
+          "purchasePriceExcl": "float?",
+          "unitId": "int?",
+          "vat": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "product"
+        ]
+      },
+      {
+        "tool": "product.delete",
+        "summary": "Permanently delete a product by id. Required: id (the product's numeric identifier, in the URL path). Returns 204 No Content on success, 404 if the id doesn't match an existing product, or 400 if id is malformed. Irreversible \u2014 there is no undo or restore endpoint for products. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "product",
+          "delete"
+        ]
+      },
+      {
+        "tool": "product.get",
+        "summary": "Get all products. Optional: limit, offset, code (plus 1 more). Returns array of ProductsResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "code": "string?",
+          "groupCode": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "product",
+          "get"
+        ]
+      },
+      {
+        "tool": "product.get-group",
+        "summary": "Get all product groups. Returns array of ProductGroupDto.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "product",
+          "get-group"
+        ]
+      },
+      {
+        "tool": "product.get-id",
+        "summary": "Get a product. Required: id. Returns the Product.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "product",
+          "get-id"
+        ]
+      },
+      {
+        "tool": "product.update",
+        "summary": "Update a product. Required: id. Optional: active (default: true), code, costCenterId (plus 10 more). Partial update.",
+        "params_schema": {
+          "id": "string",
+          "active": "bool?",
+          "code": "string?",
+          "costCenterId": "int?",
+          "description": "string?",
+          "groupId": "int?",
+          "inStockManagement": "bool?",
+          "ledgerId": "int?",
+          "priceExcl": "float?",
+          "priceIncl": "float?",
+          "purchasePriceExcl": "float?",
+          "unitId": "int?",
+          "updateSubscriptions": "string?",
+          "vat": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "product",
+          "update"
+        ]
+      },
+      {
+        "tool": "relation.create",
+        "summary": "Create a new relation. Required: name. Optional: address, address2, bic (plus 40 more). Returns the new CreatedRelation.",
+        "params_schema": {
+          "address": "string?",
+          "address2": "string?",
+          "bic": "string?",
+          "city": "string?",
+          "city2": "string?",
+          "code": "string?",
+          "companyRegistrationNumber": "string?",
+          "contact": "string?",
+          "country": "string?",
+          "country2": "string?",
+          "doNotReceiveNewsletters": "bool?",
+          "emailAddress": "string?",
+          "emailAddressInvoice": "string?",
+          "emailAddressReminder": "string?",
+          "faxNumber": "string?",
+          "freeText1": "string?",
+          "freeText10": "string?",
+          "freeText2": "string?",
+          "freeText3": "string?",
+          "freeText4": "string?",
+          "freeText5": "string?",
+          "freeText6": "string?",
+          "freeText7": "string?",
+          "freeText8": "string?",
+          "freeText9": "string?",
+          "gender": "string?",
+          "iban": "string?",
+          "inactive": "bool?",
+          "ledgerId": "int?",
+          "mandate": "bool?",
+          "mandateId": "string?",
+          "mandateSignedDate": "object?",
+          "mandateType": "string?",
+          "mobilePhoneNumber": "string?",
+          "name": "string?",
+          "note": "string?",
+          "phoneNumber": "string?",
+          "postalCode": "string?",
+          "postalCode2": "string?",
+          "salutation": "string?",
+          "termOfPayment": "int?",
+          "type": "string?",
+          "vatNumber": "string?",
+          "website": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "relation"
+        ]
+      },
+      {
+        "tool": "relation.get",
+        "summary": "Get all relations. Optional: limit, offset, code (plus 5 more). Returns array of RelationsResponseDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "code": "string?",
+          "type": "string?",
+          "email": "string?",
+          "name": "string?",
+          "contact": "string?",
+          "city": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "relation",
+          "get"
+        ]
+      },
+      {
+        "tool": "relation.get-id",
+        "summary": "Get a relation. Required: id. Returns the Relation.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "relation",
+          "get-id"
+        ]
+      },
+      {
+        "tool": "relation.update",
+        "summary": "Update an existing relation. Required: id, name. Optional: address, address2, bic (plus 40 more). Partial update.",
+        "params_schema": {
+          "id": "string",
+          "address": "string?",
+          "address2": "string?",
+          "bic": "string?",
+          "city": "string?",
+          "city2": "string?",
+          "code": "string?",
+          "companyRegistrationNumber": "string?",
+          "contact": "string?",
+          "country": "string?",
+          "country2": "string?",
+          "doNotReceiveNewsletters": "bool?",
+          "emailAddress": "string?",
+          "emailAddressInvoice": "string?",
+          "emailAddressReminder": "string?",
+          "faxNumber": "string?",
+          "freeText1": "string?",
+          "freeText10": "string?",
+          "freeText2": "string?",
+          "freeText3": "string?",
+          "freeText4": "string?",
+          "freeText5": "string?",
+          "freeText6": "string?",
+          "freeText7": "string?",
+          "freeText8": "string?",
+          "freeText9": "string?",
+          "gender": "string?",
+          "iban": "string?",
+          "inactive": "bool?",
+          "ledgerId": "int?",
+          "mandate": "bool?",
+          "mandateId": "string?",
+          "mandateSignedDate": "object?",
+          "mandateType": "string?",
+          "mobilePhoneNumber": "string?",
+          "name": "string?",
+          "note": "string?",
+          "phoneNumber": "string?",
+          "postalCode": "string?",
+          "postalCode2": "string?",
+          "salutation": "string?",
+          "termOfPayment": "int?",
+          "type": "string?",
+          "vatNumber": "string?",
+          "website": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "relation",
+          "update"
+        ]
+      },
+      {
+        "tool": "session.end",
+        "summary": "Revoke the current session token, immediately ending the authenticated session. No parameters. Returns 204 No Content on success or 401 if the session is already invalid. After calling this, the CLI must re-authenticate (exchange the long-lived API token for a new session token) before making further API calls. Destructive.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "session",
+          "end"
+        ]
+      },
+      {
+        "tool": "session.start",
+        "summary": "Start a new session. The response session token can be used as the `Authorization` header. Required: accessToken, source. Returns the new Session.",
+        "params_schema": {
+          "accessToken": "string?",
+          "source": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "session",
+          "start"
+        ]
+      },
+      {
+        "tool": "swagger.get",
+        "summary": "Fetch a specific page of e-Boekhouden's raw Swagger/OpenAPI documentation. Required: catchAll (the sub-path under /swagger to retrieve, e.g. a spec file or UI asset name). Returns whatever content the API serves at that sub-path \u2014 useful for inspecting the provider's own API metadata directly rather than this CLI's bundled spec.",
+        "params_schema": {
+          "catchAll": "string"
+        },
+        "positionals": [
+          "catchAll"
+        ],
+        "argv_path": [
+          "swagger"
+        ]
+      },
+      {
+        "tool": "swagger.list",
+        "summary": "Fetch the root of e-Boekhouden's Swagger/OpenAPI documentation endpoint. No parameters. Returns whatever content the API serves at /swagger, typically the Swagger UI or an index of documentation sub-paths. Use swagger_get with a specific catchAll value to fetch one sub-resource directly.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "swagger",
+          "list"
+        ]
+      },
+      {
+        "tool": "unit.get",
+        "summary": "Get all units. Optional: limit, offset, singular (plus 1 more). Returns array of UnitDto.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "singular": "string?",
+          "plural": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "unit"
+        ]
+      }
+    ]
+  },
+  {
     "api": "ebay",
     "description": "Buyer-power-user CLI for eBay. Sold-comp intelligence, true sniper bidding, watchlist intelligence, saved-search feeds, and a local SQLite store for cross-listing analytics.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/ebay/cmd/ebay-pp-cli",
@@ -183163,6 +183965,101 @@
         "argv_path": [
           "airports",
           "tv"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "flow",
+    "description": "Everything Flow's community CLIs and MCP servers do, plus the two things none of them do: real Google Drive ingestion and an honest audio-drama pipeline that closes the loop Flow itself cannot.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/flow/cmd/flow-pp-cli",
+    "auth_type": "session_handshake",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "flow",
+      "Google Flow",
+      "flow-pp-cli",
+      "Everything Flow's community CLIs and MCP servers do, plus the two things none of them do: real Google Drive ingestion and an honest audio-drama pipeline that closes the loop Flow itself cannot.",
+      "Beat-to-prompt drafter",
+      "script draft-prompts",
+      "Turn a Scribe recap-script JSON into a ready-to-approve queue of per-segment Flow prompts, each matched to the right seed image automatically.",
+      "Episode import",
+      "Pull a whole episode's assets from two separate Google Drive folders -- Scribe's session output and the images folder -- into a Flow project and draft the prompt queue, in one command.",
+      "Audio mux-back",
+      "mux",
+      "Lay your real audio-drama mp3 back over the rendered Flow clips, in the right order and at the right offsets, with one local command.",
+      "Queue credit-affordability check",
+      "queue estimate",
+      "See whether a prepared batch of generations fits your remaining Flow credits before you spend a single one.",
+      "Drive import scene auto-tagging",
+      "drive import",
+      "Pull seed images straight out of a local Google Drive folder into a Flow project, with character tags inferred automatically from filenames (requires --project for character names).",
+      "Batch aggregate status watch",
+      "video watch",
+      "Check on an entire submitted batch of generations with one command instead of clicking through each one.",
+      "Scene/character/asset gap check",
+      "scenes gaps",
+      "Find characters missing a reference image and see a media-status breakdown for a project, before you submit a batch."
+    ],
+    "endpoints": [
+      {
+        "tool": "credits.get",
+        "summary": "Check remaining Flow/Veo credit balance. Required: api-key. Returns the CreditBalance.",
+        "params_schema": {
+          "api-key": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "credits"
+        ]
+      },
+      {
+        "tool": "flow.workflows_get",
+        "summary": "Fetch a generation workflow's current state. Required: workflowId. Returns the FlowWorkflow.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "flow",
+          "workflows_get"
+        ]
+      },
+      {
+        "tool": "project.contents",
+        "summary": "Fetch a project's full contents: media assets, character/scene entities, and generation workflows -- everything the web UI's Images/Characters/Scenes tabs filter client-side from this one call. Required: input. Returns the ProjectContents.",
+        "params_schema": {
+          "input": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "project",
+          "contents"
+        ]
+      },
+      {
+        "tool": "projects.list",
+        "summary": "List the authenticated user's Flow projects. Required: input. Returns array of Project.",
+        "params_schema": {
+          "input": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "projects"
+        ]
+      },
+      {
+        "tool": "video.status",
+        "summary": "Poll status for one or more in-flight/queued video generations. Required: names. Returns array of VideoGenerationStatus.",
+        "params_schema": {
+          "names": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "video",
+          "status"
         ]
       }
     ]
@@ -209573,6 +210470,1411 @@
     ]
   },
   {
+    "api": "hostex",
+    "description": "Every Hostex v3 operation, plus a local SQLite mirror that answers cross-property questions no single Hostex call can \u2014 occupancy gaps, revenue rollups, and guest-message SLA, offline.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/hostex/cmd/hostex-pp-cli",
+    "auth_type": "api_key",
+    "category": "travel",
+    "search_terms": [
+      "hostex",
+      "hostex-pp-cli",
+      "Every Hostex v3 operation, plus a local SQLite mirror that answers cross-property questions no single Hostex call can \u2014 occupancy gaps, revenue rollups, and guest-message SLA, offline.",
+      "Operations gap finder",
+      "ops-gaps",
+      "Find imminent or occupied stays with no cleaning task or missing check-in details.",
+      "Stay brief dossier",
+      "stay-brief",
+      "One dossier for a single stay: reservation, guest, thread state, tasks, transactions, and review.",
+      "Inbox SLA triage",
+      "inbox-sla",
+      "Rank open guest conversations by age since the last guest message and flag threads past your SLA.",
+      "Automation preview",
+      "automation-preview",
+      "List pending automated messages and reviews and flag any whose thread a human has already handled.",
+      "Cross-channel price parity",
+      "price-parity",
+      "Flag property-dates where per-channel listing price or min-stay diverges across channels.",
+      "Oversell / double-sell watch",
+      "oversell-watch",
+      "Flag dates a channel still shows bookable on a property that is blocked or booked on the master calendar.",
+      "Revenue rollup",
+      "revenue-rollup",
+      "Net income minus expense by property or month over a date range, from the live ledger."
+    ],
+    "endpoints": [
+      {
+        "tool": "automation.delete-action",
+        "summary": "Removes a **waiting** message or review automation plan without running it (same as deleting an upcoming action in the app). Requires a **writable** access token. Only `send_message` and `review` plan types are supported. Required: plan_id. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "plan_id": "string"
+        },
+        "positionals": [
+          "plan_id"
+        ],
+        "argv_path": [
+          "automation",
+          "delete-action"
+        ]
+      },
+      {
+        "tool": "automation.execute-action",
+        "summary": "Dispatches a **waiting** message or review automation plan immediately (same behavior as executing an upcoming action in the app). For **review** plans, the reservation must have reached check-out date in the operator timezone. Requires a **writable** access token. Only `send_message` and `review` plan types are supported. Required: plan_id. Returns the new CommonResponse.",
+        "params_schema": {
+          "plan_id": "string"
+        },
+        "positionals": [
+          "plan_id"
+        ],
+        "argv_path": [
+          "automation",
+          "execute-action"
+        ]
+      },
+      {
+        "tool": "automation.query-actions",
+        "summary": "Returns scheduled automation **actions** that are waiting to run: either automated **messages** (`type=message`, same scope as the in-app \u201cupcoming message actions\u201d list, within the next 30 days) or automated **reviews** (`type=review`). Filters mirror the internal automation plan lists (keyword, property IDs, time range, channel types, rule event filters). Pagination uses `offset` and `limit` like other v3 list endpoints. Required: type. Optional: keyword, stay_code, property_ids (plus 5 more).",
+        "params_schema": {
+          "type": "string?",
+          "keyword": "string?",
+          "stay_code": "string?",
+          "property_ids": "string?",
+          "start_time": "string?",
+          "end_time": "string?",
+          "channel_types": "string?",
+          "offset": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "automation",
+          "query-actions"
+        ]
+      },
+      {
+        "tool": "availabilities.update",
+        "summary": "Use this endpoint to update property availabilities. Please be aware that a successful response indicates only that we have initiated an asynchronous task to handle your submission; it <b>DOES NOT</b> ensure that the channel inventories have been modified successfully. If you wish to view detailed results of the task execution, please visit the [Host Portal](https://hostex.io/app/calendar). Required: available, property_ids. Optional: dates, end_date, start_date. Returns the new CommonResponse.",
+        "params_schema": {
+          "available": "bool?",
+          "dates": "string_csv_array?",
+          "end_date": "string?",
+          "property_ids": "array?",
+          "start_date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "availabilities"
+        ]
+      },
+      {
+        "tool": "availabilities.query",
+        "summary": "By sending a request to this endpoint, you can retrieve the availabilities of the properties. Required: property_ids, start_date, end_date. Returns the AvailabilitiesQueryResponse.",
+        "params_schema": {
+          "property_ids": "string?",
+          "start_date": "string?",
+          "end_date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "availabilities",
+          "query"
+        ]
+      },
+      {
+        "tool": "calendar-share-links.create",
+        "summary": "Create a new public calendar share link. `scope = entire` exposes every property in the operator's account; `scope = partial` exposes only the properties listed in `property_ids`. Each operator can have at most one entire-scope link: requesting one when it already exists simply returns the existing link. Required: scope. Optional: property_ids.",
+        "params_schema": {
+          "property_ids": "array?",
+          "scope": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "calendar-share-links"
+        ]
+      },
+      {
+        "tool": "calendar-share-links.delete",
+        "summary": "Permanently invalidate a calendar share link. The public URL will start returning a `share link invalid` error to anyone who tries to open it. Required: id. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "calendar-share-links",
+          "delete"
+        ]
+      },
+      {
+        "tool": "calendar-share-links.query",
+        "summary": "List the operator's public calendar share links. Each link exposes a read-only calendar (and reservation list) of either every property (`scope = entire`) or a selected subset (`scope = partial`) and is reachable by anyone who has the URL. Optional: offset, limit, id. Returns the CalendarShareLinksQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "calendar-share-links",
+          "query"
+        ]
+      },
+      {
+        "tool": "channel-accounts.query",
+        "summary": "Query the third-party channel accounts (Airbnb, Booking.com, etc.) that the operator has connected. Each entry exposes the account identity and current authorization status. Use `id` to fetch a single account. Optional: id, channel_type, offset (default: 0) (plus 1 more). Returns the ChannelAccountsQueryResponse.",
+        "params_schema": {
+          "id": "int?",
+          "channel_type": "string?",
+          "offset": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "channel-accounts",
+          "query"
+        ]
+      },
+      {
+        "tool": "conversations.get-details",
+        "summary": "This endpoint is used to retrieve the messages and details of a conversation. We are constantly improving our API which could mean that message schema may change. In order to maintain a healthy integration, your Application must parse and ignore unexpected parameters instead of throwing errors. Required: conversation_id. Returns the ConversationsGetDetailsResponse.",
+        "params_schema": {
+          "conversation_id": "string"
+        },
+        "positionals": [
+          "conversation_id"
+        ],
+        "argv_path": [
+          "conversations",
+          "get-details"
+        ]
+      },
+      {
+        "tool": "conversations.query",
+        "summary": "This endpoint is used to query the list of conversations regarding guest inquiries. Optional: offset (default: 0), limit (default: 20). Returns the ConversationsQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "conversations",
+          "query"
+        ]
+      },
+      {
+        "tool": "conversations.send-message",
+        "summary": "Send a text or image message to the guest. Required: conversation_id. Optional: jpeg_base64, message. Returns the new CommonResponse.",
+        "params_schema": {
+          "conversation_id": "string",
+          "jpeg_base64": "string?",
+          "message": "string?"
+        },
+        "positionals": [
+          "conversation_id"
+        ],
+        "argv_path": [
+          "conversations",
+          "send-message"
+        ]
+      },
+      {
+        "tool": "conversations.note_update-conversation",
+        "summary": "Set or clear the host's private note attached to a conversation thread. The note is stored only in Hostex (visible in the Hostex Inbox), is **never** sent to the guest or pushed to any channel, and is shared across operators inside the same account. Pass an empty string or `null` in `note` to clear the existing note. Required: conversation_id, note. Returns the updated NoteUpdateConversationResponse.",
+        "params_schema": {
+          "conversation_id": "string",
+          "note": "string?"
+        },
+        "positionals": [
+          "conversation_id"
+        ],
+        "argv_path": [
+          "conversations",
+          "note_update-conversation"
+        ]
+      },
+      {
+        "tool": "conversations.preapprovals_send",
+        "summary": "Pre-approve the guest's inquiry in a conversation, inviting them to book the listing and dates they asked about at the standard price. Supported on Airbnb conversations only; requests on other channels return an error. The pre-approval typically expires 24 hours after being sent. No request body is required. Required: conversation_id. Returns the new CommonResponse.",
+        "params_schema": {
+          "conversation_id": "string"
+        },
+        "positionals": [
+          "conversation_id"
+        ],
+        "argv_path": [
+          "conversations",
+          "preapprovals_send"
+        ]
+      },
+      {
+        "tool": "conversations.special-offers_get",
+        "summary": "List the special offers and pre-approvals that have been sent in a conversation, with their current status. Use the returned `id` to withdraw an offer that is still active. Only Airbnb and booking-site (direct booking) conversations can contain special offers. Required: conversation_id. Returns the SpecialOffersGetResponse.",
+        "params_schema": {
+          "conversation_id": "string"
+        },
+        "positionals": [
+          "conversation_id"
+        ],
+        "argv_path": [
+          "conversations",
+          "special-offers_get"
+        ]
+      },
+      {
+        "tool": "conversations.special-offers_send",
+        "summary": "Send a special offer to the guest in a conversation. A special offer invites the guest to book the given listing for the given dates at a custom total price, and typically expires 24 hours after being sent. Supported on Airbnb and booking-site (direct booking) conversations only; requests on other channels return an error. For booking-site conversations, `rate_plan_id` and `currency` are also required. Required: conversation_id, check_in_date, check_out_date, listing_id, number_of_adults, price. Optional: currency, number_of_children, number_of_infants (plus 2 more). Returns the new CommonResponse.",
+        "params_schema": {
+          "conversation_id": "string",
+          "check_in_date": "string?",
+          "check_out_date": "string?",
+          "currency": "string?",
+          "listing_id": "string?",
+          "number_of_adults": "int?",
+          "number_of_children": "int?",
+          "number_of_infants": "int?",
+          "number_of_pets": "int?",
+          "price": "float?",
+          "rate_plan_id": "string?"
+        },
+        "positionals": [
+          "conversation_id"
+        ],
+        "argv_path": [
+          "conversations",
+          "special-offers_send"
+        ]
+      },
+      {
+        "tool": "conversations.special-offers_withdraw",
+        "summary": "Withdraw a previously sent special offer or pre-approval that is still active. `special_offer_id` is the offer `id` returned by `GET /conversations/{conversation_id}/special_offers`. Required: conversation_id, special_offer_id. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "conversation_id": "string",
+          "special_offer_id": "string"
+        },
+        "positionals": [
+          "conversation_id",
+          "special_offer_id"
+        ],
+        "argv_path": [
+          "conversations",
+          "special-offers_withdraw"
+        ]
+      },
+      {
+        "tool": "custom-channels.query",
+        "summary": "Query custom channels created from the [Custom Options Page](https://hostex.io/app/settings/custom-options). Returns the CustomChannelsQueryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "custom-channels",
+          "query"
+        ]
+      },
+      {
+        "tool": "expense-items.query",
+        "summary": "Query the dictionary of expense item categorizations available to the operator. The returned `id` matches the `item_id` returned by `GET /transactions` for entries with `direction=expense`. Returns the ExpenseItemsQueryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "expense-items",
+          "query"
+        ]
+      },
+      {
+        "tool": "expense-methods.query",
+        "summary": "Query the dictionary of payment methods available to the operator for expense entries. The returned `id` matches the `payment_method_id` returned by `GET /transactions` for entries with `direction=expense`. Returns the ExpenseMethodsQueryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "expense-methods",
+          "query"
+        ]
+      },
+      {
+        "tool": "groups.create",
+        "summary": "Create a new property group. Optionally pre-attach properties at creation time via `property_ids`. The group name must be unique within the operator's account. Required: name. Optional: property_ids. Returns the new GroupsCreateResponse.",
+        "params_schema": {
+          "name": "string?",
+          "property_ids": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "groups"
+        ]
+      },
+      {
+        "tool": "groups.delete",
+        "summary": "Delete a property group. All property-group pivot rows are removed automatically; the underlying properties themselves are unaffected. Required: id. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "groups",
+          "delete"
+        ]
+      },
+      {
+        "tool": "groups.query",
+        "summary": "You can query property groups by making a request to this endpoint. Optional: offset (default: 0), limit (default: 20), id. Returns the GroupsQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "groups",
+          "query"
+        ]
+      },
+      {
+        "tool": "groups.update",
+        "summary": "Update a property group. Pass `name` to rename it; pass `property_ids` to **replace** the group's full property assignment with the supplied list (pass an empty array to detach all properties). Omitted fields are left unchanged. Required: id. Optional: name, property_ids. Returns the updated CommonResponse.",
+        "params_schema": {
+          "id": "string",
+          "name": "string?",
+          "property_ids": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "groups",
+          "update"
+        ]
+      },
+      {
+        "tool": "income-items.query",
+        "summary": "Query the dictionary of income item categorizations available to the operator. The returned `id` matches the `item_id` returned by `GET /transactions` for entries with `direction=income`. Returns the IncomeItemsQueryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "income-items",
+          "query"
+        ]
+      },
+      {
+        "tool": "income-methods.query",
+        "summary": "Query the dictionary of payment methods available to the operator for income entries. The returned `id` matches the `payment_method_id` returned by `GET /transactions` for entries with `direction=income`. Returns the IncomeMethodsQueryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "income-methods",
+          "query"
+        ]
+      },
+      {
+        "tool": "knowledge-bases.create",
+        "summary": "Create a new knowledge base entry for the HostGPT automation assistant. The entry defines AI content and the property/channel scope where it applies. Required: contents, is_enable, scope_channel, scope_property. Optional: title. Returns the new CommonResponse.",
+        "params_schema": {
+          "contents": "array?",
+          "is_enable": "bool?",
+          "scope-channel-channels": "string_csv_array?",
+          "scope-channel-type": "string?",
+          "scope-property-ids": "array?",
+          "scope-property-type": "string?",
+          "title": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "knowledge-bases"
+        ]
+      },
+      {
+        "tool": "knowledge-bases.delete",
+        "summary": "Delete a knowledge base entry by its ID. Required: id. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "knowledge-bases",
+          "delete"
+        ]
+      },
+      {
+        "tool": "knowledge-bases.get",
+        "summary": "Retrieve the full details of a single knowledge base entry by its ID. Required: id. Returns the KnowledgeBasesGetResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "knowledge-bases",
+          "get"
+        ]
+      },
+      {
+        "tool": "knowledge-bases.query",
+        "summary": "You can query knowledge base entries by making a request to this endpoint. Results are paginated and can be filtered by property or channel. Optional: offset (default: 0), limit (default: 10), property_ids (plus 1 more). Returns the KnowledgeBasesQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "property_ids": "string?",
+          "channel_types": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "knowledge-bases",
+          "query"
+        ]
+      },
+      {
+        "tool": "knowledge-bases.update",
+        "summary": "Replace an existing knowledge base entry. This endpoint performs a **full replacement** \u2014 `scope_property`, `scope_channel`, `contents` and `is_enable` must all be supplied. Use `GET /knowledge_bases/{id}` first if you only want to change one field. Required: id, contents, is_enable, scope_channel, scope_property. Optional: title. Returns the updated CommonResponse.",
+        "params_schema": {
+          "id": "string",
+          "contents": "array?",
+          "is_enable": "bool?",
+          "scope-channel-channels": "string_csv_array?",
+          "scope-channel-type": "string?",
+          "scope-property-ids": "array?",
+          "scope-property-type": "string?",
+          "title": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "knowledge-bases",
+          "update"
+        ]
+      },
+      {
+        "tool": "listings.get-airbnb-price-and-rules",
+        "summary": "Fetch the current pricing, availability rules and booking settings of an Airbnb listing in real time from Airbnb. The response fields mirror the `settings` object accepted by `POST /listings/airbnb/price_and_rules`, so values read here can be written back as-is. This endpoint calls multiple Airbnb APIs per request and therefore shares the stricter rate limit of write operations (120 requests per minute). Required: listing_id. Returns the ListingsGetAirbnbPriceAndRulesResponse.",
+        "params_schema": {
+          "listing_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "get-airbnb-price-and-rules"
+        ]
+      },
+      {
+        "tool": "listings.get-vrbo-price-and-rules",
+        "summary": "Get the pricing and rules of a Vrbo listing as currently recorded by Hostex. The data is the snapshot Hostex keeps in sync with Vrbo (updated when changes are made through Hostex or the listing is re-synced), not a real-time read from Vrbo. The response fields mirror the `settings` object accepted by `POST /listings/vrbo/price_and_rules`. Required: listing_id. Returns the ListingsGetVrboPriceAndRulesResponse.",
+        "params_schema": {
+          "listing_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "get-vrbo-price-and-rules"
+        ]
+      },
+      {
+        "tool": "listings.query",
+        "summary": "Query the listings (third-party properties) synced from the operator's connected channel accounts. A listing is a property as it exists on a specific channel, identified by `listing_id` (the channel-side property id). Filter by `channel_account_id`, `listing_id` and/or `channel_type` to scope results. Optional: channel_account_id, listing_id, channel_type (plus 2 more). Returns the ListingsQueryResponse.",
+        "params_schema": {
+          "channel_account_id": "int?",
+          "listing_id": "string?",
+          "channel_type": "string?",
+          "offset": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "query"
+        ]
+      },
+      {
+        "tool": "listings.query-calendars",
+        "summary": "By sending a request to this endpoint, you can retrieve calendar information for multiple listings. This endpoint will return daily details on price, inventory, and restrictions for each listing. Required: end_date, listings, start_date. Returns the new ListingsQueryCalendarsResponse.",
+        "params_schema": {
+          "end_date": "string?",
+          "listings": "array?",
+          "start_date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "query-calendars"
+        ]
+      },
+      {
+        "tool": "listings.update-airbnb-price-and-rules",
+        "summary": "Update the listing-level pricing, fees, booking settings and availability rules of an Airbnb listing. Unlike the calendar endpoints, this updates the listing's default settings (not a specific date range). Only the fields you provide are updated; omit a field to leave it unchanged. This request is processed synchronously against Airbnb: a successful response means the changes were accepted by Airbnb. Required: listing_id, settings. Returns the new CommonResponse.",
+        "params_schema": {
+          "listing_id": "string?",
+          "settings-advance-notice": "int?",
+          "settings-allow-rtb-above-max-nights": "bool?",
+          "settings-availability-window": "int?",
+          "settings-base-price": "float?",
+          "settings-cancellation-policy": "string?",
+          "settings-check-in-end-time": "string?",
+          "settings-check-in-start-time": "string?",
+          "settings-check-out-before": "int?",
+          "settings-cleaning-fee": "float?",
+          "settings-day-of-week-min-nights": "string?",
+          "settings-days-of-week-check-in": "array?",
+          "settings-days-of-week-check-out": "array?",
+          "settings-early-bird-discount-days": "int?",
+          "settings-early-bird-discount-discount": "int?",
+          "settings-extra-guest-fee": "float?",
+          "settings-high-rated-guest-discount": "bool?",
+          "settings-instant-booking": "bool?",
+          "settings-last-minute-discount-days": "int?",
+          "settings-last-minute-discount-discount": "int?",
+          "settings-listing-currency": "string?",
+          "settings-long-term-cancellation-policy": "string?",
+          "settings-long-term-discount-days": "int?",
+          "settings-long-term-discount-discount": "int?",
+          "settings-max-guests": "int?",
+          "settings-maximum-stay": "int?",
+          "settings-minimum-stay": "int?",
+          "settings-mobile-only-discount": "bool?",
+          "settings-new-listing-promotion": "bool?",
+          "settings-non-refundable-price-factor": "float?",
+          "settings-pet-fee": "float?",
+          "settings-pet-fee-obj-amount": "float?",
+          "settings-pet-fee-obj-charge-period": "string?",
+          "settings-pet-fee-obj-charge-type": "string?",
+          "settings-preparation-time": "int?",
+          "settings-seasonal-min-stay": "array?",
+          "settings-security-deposit": "float?",
+          "settings-short-term-cleaning-fee": "float?",
+          "settings-weekend-price": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "update-airbnb-price-and-rules"
+        ]
+      },
+      {
+        "tool": "listings.update-inventories",
+        "summary": "Update the inventories of channel listings. Please be aware that a successful response indicates only that we have initiated an asynchronous task to handle your submission; it <b>DOES NOT</b> ensure that the channel inventories have been modified successfully. If you wish to view detailed results of the task execution, please visit the [Host Portal](https://hostex.io/app/price). Furthermore, you should be aware that this endpoint only modifies the listing's inventory and <b>DOES NOT</b> affect the property availability. If the property availability is modified, it may still result in the channel inventory being overwritten again. Required: channel_type, inventories, listing_id. Returns the new CommonResponse.",
+        "params_schema": {
+          "channel_type": "string?",
+          "inventories": "array?",
+          "listing_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "update-inventories"
+        ]
+      },
+      {
+        "tool": "listings.update-prices",
+        "summary": "Update the prices of channel listings. Please be aware that a successful response indicates only that we have initiated an asynchronous task to handle your submission; it <b>DOES NOT</b> ensure that the channel prices have been modified successfully. If you wish to view detailed results of the task execution, please visit the [Host Portal](https://hostex.io/app/price). Required: channel_type, listing_id, prices. Returns the new CommonResponse.",
+        "params_schema": {
+          "channel_type": "string?",
+          "listing_id": "string?",
+          "prices": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "update-prices"
+        ]
+      },
+      {
+        "tool": "listings.update-restrictions",
+        "summary": "Update the restrictions of channel listings. Please be aware that a successful response indicates only that we have initiated an asynchronous task to handle your submission; it <b>DOES NOT</b> ensure that the channel restrictions have been modified successfully. If you wish to view detailed results of the task execution, please visit the [Host Portal](https://hostex.io/app/price). Required: channel_type, listing_id, restrictions. Returns the new CommonResponse.",
+        "params_schema": {
+          "channel_type": "string?",
+          "listing_id": "string?",
+          "restrictions": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "update-restrictions"
+        ]
+      },
+      {
+        "tool": "listings.update-vrbo-price-and-rules",
+        "summary": "Update the listing-level pricing, fees and booking rules of a Vrbo listing. Unlike the calendar endpoints, this updates the listing's default settings (not a specific date range). Only the fields you provide are updated; omit a field to leave it unchanged. This request is processed synchronously against Vrbo: a successful response means the changes were accepted by Vrbo. Required: listing_id, settings. Returns the new CommonResponse.",
+        "params_schema": {
+          "listing_id": "string?",
+          "settings-advance-notice": "int?",
+          "settings-availability-window": "int?",
+          "settings-base-price": "float?",
+          "settings-check-in-start-time": "string?",
+          "settings-check-out-before": "string?",
+          "settings-cleaning-fee": "float?",
+          "settings-extra-guest-fee": "float?",
+          "settings-extra-guest-number": "int?",
+          "settings-instant-booking": "bool?",
+          "settings-max-guests": "int?",
+          "settings-minimum-stay": "int?",
+          "settings-monthly-discount": "float?",
+          "settings-nightly-rate-friday": "float?",
+          "settings-nightly-rate-monday": "float?",
+          "settings-nightly-rate-saturday": "float?",
+          "settings-nightly-rate-sunday": "float?",
+          "settings-nightly-rate-thursday": "float?",
+          "settings-nightly-rate-tuesday": "float?",
+          "settings-nightly-rate-wednesday": "float?",
+          "settings-security-deposit": "float?",
+          "settings-weekly-discount": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "update-vrbo-price-and-rules"
+        ]
+      },
+      {
+        "tool": "oauth.obtain-token",
+        "summary": "This endpoint is used to obtain a new access token using various OAuth 2.0 grant types or refresh an existing token. Required: client_id, client_secret, grant_type. Optional: code, refresh_token. Returns the new OauthObtainTokenResponse.",
+        "params_schema": {
+          "client_id": "string?",
+          "client_secret": "string?",
+          "code": "string?",
+          "grant_type": "string?",
+          "refresh_token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "oauth",
+          "obtain-token"
+        ]
+      },
+      {
+        "tool": "oauth.revoke-token",
+        "summary": "This endpoint allows clients to revoke an access or refresh token. Deleting/revoking a token will disconnect the Host from your application. Required: client_id, client_secret, token. Returns the new OauthRevokeTokenResponse.",
+        "params_schema": {
+          "client_id": "string?",
+          "client_secret": "string?",
+          "token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "oauth",
+          "revoke-token"
+        ]
+      },
+      {
+        "tool": "pricing-ratios.query",
+        "summary": "Return the per-channel pricing ratio of each OTA listing linked to a property (`property_id`) or a room type (`room_type_id`). Pricing ratio is the **percentage** Hostex multiplies a base (property/room-type level) price by to derive the actual price pushed to each listing. Use this endpoint at the skill layer to compose a 'change price by property / room type' workflow: read the ratios, compute `target_price = round(base_price * ratio / 100)` for every non-readonly listing, then call `POST /listings/prices` once per listing. Listings marked `readonly: true` are silently controlled by the channel (e.g. Airbnb child rate plans) and cannot be repriced via `POST /listings/prices`; skip them. Optional: property_id, room_type_id. Returns the PricingRatiosQueryResponse.",
+        "params_schema": {
+          "property_id": "int?",
+          "room_type_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pricing-ratios",
+          "query"
+        ]
+      },
+      {
+        "tool": "properties.create-property",
+        "summary": "Create a new property (room) under the current operator. Hostex properties are physical room units; OTA listings can be attached to a property afterwards via the Hostex Host Portal. The newly created property has no address, channels or pictures and starts with the operator's default check-in / check-out time settings. Subject to the property quantity limit of the operator's subscription. Required: title. Returns the new PropertiesCreatePropertyResponse.",
+        "params_schema": {
+          "title": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "properties",
+          "create-property"
+        ]
+      },
+      {
+        "tool": "properties.query",
+        "summary": "You can query properties by making a request to this endpoint. Optional: offset (default: 0), limit (default: 20), id (plus 2 more). Returns the PropertiesQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "id": "int?",
+          "group_id": "int?",
+          "tag_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "properties",
+          "query"
+        ]
+      },
+      {
+        "tool": "reservation-tags.create",
+        "summary": "Create a new reservation tag in the operator's dictionary. Color is auto-assigned from the Hostex palette. Names must be unique across both system default tags and the operator's own tags (a soft-deleted tag with the same name will be restored). Operators are capped at 500 tags. Required: tag_name. Returns the new ReservationTagsCreateResponse.",
+        "params_schema": {
+          "tag_name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reservation-tags"
+        ]
+      },
+      {
+        "tool": "reservation-tags.delete",
+        "summary": "Delete one of the operator's custom reservation tags. System default tags (`is_default = true`) cannot be deleted via this API and will return 404. Deleting a tag also removes it from any reservations it had been applied to. Required: id. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "reservation-tags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "reservation-tags.query",
+        "summary": "List the operator's reservation tag dictionary. Includes both system default tags (`is_default = true`, shared across all operators) and the operator's own custom tags. These are the tags that `POST /reservations/{stay_code}/tags` can attach to a reservation. Optional: offset, limit, id (plus 1 more). Returns the ReservationTagsQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "id": "int?",
+          "keyword": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reservation-tags",
+          "query"
+        ]
+      },
+      {
+        "tool": "reservations.create",
+        "summary": "Create a reservation (Direct Booking) in Hostex. Required: check_in_date, check_out_date, commission_amount, currency, custom_channel_id, guest_name, income_method_id, property_id, rate_amount, received_amount. Optional: email, mobile, number_of_guests (plus 1 more). Returns the new CommonResponse.",
+        "params_schema": {
+          "check_in_date": "string?",
+          "check_out_date": "string?",
+          "commission_amount": "int?",
+          "currency": "string?",
+          "custom_channel_id": "int?",
+          "email": "string?",
+          "guest_name": "string?",
+          "income_method_id": "int?",
+          "mobile": "string?",
+          "number_of_guests": "int?",
+          "property_id": "int?",
+          "rate_amount": "int?",
+          "received_amount": "int?",
+          "remarks": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reservations"
+        ]
+      },
+      {
+        "tool": "reservations.cancel",
+        "summary": "Cancel a direct booking reservation in Hostex. Note that this endpoint does not support the cancellation of channel bookings. Required: reservation_code. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "reservation_code": "string"
+        },
+        "positionals": [
+          "reservation_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "cancel"
+        ]
+      },
+      {
+        "tool": "reservations.query",
+        "summary": "You can query reservations by making a request to this endpoint. Optional: reservation_code, channel_id, property_id (plus 9 more). Returns the ReservationsQueryResponse.",
+        "params_schema": {
+          "reservation_code": "string?",
+          "channel_id": "string?",
+          "property_id": "int?",
+          "status": "string?",
+          "start_check_in_date": "string?",
+          "end_check_in_date": "string?",
+          "start_check_out_date": "string?",
+          "end_check_out_date": "string?",
+          "order_by": "string?",
+          "channel_type": "string?",
+          "offset": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reservations",
+          "query"
+        ]
+      },
+      {
+        "tool": "reservations.update-basic-info",
+        "summary": "Update basic information of a stay including guest details, dates, pricing, and other attributes. Required: stay_code. Optional: check_in_date, check_out_date, commission_amount (plus 9 more). Returns the updated CommonResponse.",
+        "params_schema": {
+          "stay_code": "string",
+          "check_in_date": "string?",
+          "check_out_date": "string?",
+          "commission_amount": "float?",
+          "creator": "string?",
+          "currency": "string?",
+          "custom_channel_id": "int?",
+          "email": "string?",
+          "guest_name": "string?",
+          "mobile": "string?",
+          "number_of_guests": "int?",
+          "rate_amount": "float?",
+          "remarks": "string?"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "update-basic-info"
+        ]
+      },
+      {
+        "tool": "reservations.allocate_reservation",
+        "summary": "Allocate a reservation to a specific property. This action is used to assign or reassign a reservation to a particular property. If there is already a stay for the target property, it will be marked as a conflicting stay and move to the reservation box. Required: stay_code, property_id. Returns the new CommonResponse.",
+        "params_schema": {
+          "stay_code": "string",
+          "property_id": "int?"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "allocate_reservation"
+        ]
+      },
+      {
+        "tool": "reservations.approve_reservation",
+        "summary": "Approve a pending reservation request. The reservation must be in `wait_accept` status. This endpoint communicates with the channel to confirm the booking. Required: reservation_code. Returns the new CommonResponse.",
+        "params_schema": {
+          "reservation_code": "string"
+        },
+        "positionals": [
+          "reservation_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "approve_reservation"
+        ]
+      },
+      {
+        "tool": "reservations.check-in-details_update",
+        "summary": "Update check-in details for a stay including lock code, arrival/departure times, and deposit information. Required: stay_code. Optional: arrival_at, departure_at, deposit (plus 3 more). Returns the updated CommonResponse.",
+        "params_schema": {
+          "stay_code": "string",
+          "arrival-at-hour": "int?",
+          "arrival-at-minute": "int?",
+          "departure-at-hour": "int?",
+          "departure-at-minute": "int?",
+          "deposit": "int?",
+          "id_required": "string?",
+          "lock_code": "string?",
+          "lock_code_visible_after": "string?"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "check-in-details_update"
+        ]
+      },
+      {
+        "tool": "reservations.custom-fields_query",
+        "summary": "Query custom fields for a stay. For more information, please refer to the [Custom Fields Guide](/reference/custom-fields-guide). Required: stay_code. Returns the CustomFieldsQueryResponse.",
+        "params_schema": {
+          "stay_code": "string"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "custom-fields_query"
+        ]
+      },
+      {
+        "tool": "reservations.custom-fields_update",
+        "summary": "Update custom fields for a stay. For more information, please refer to the [Custom Fields Guide](/reference/custom-fields-guide). Required: stay_code. Optional: custom_fields. Returns the updated CustomFieldsUpdateResponse.",
+        "params_schema": {
+          "stay_code": "string",
+          "custom-fields-online-checkin-url": "string?"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "custom-fields_update"
+        ]
+      },
+      {
+        "tool": "reservations.decline_reservation",
+        "summary": "Decline a pending reservation request. The reservation must be in `wait_accept` status. This endpoint communicates with the channel to reject the booking. Required: reservation_code. Returns the new CommonResponse.",
+        "params_schema": {
+          "reservation_code": "string"
+        },
+        "positionals": [
+          "reservation_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "decline_reservation"
+        ]
+      },
+      {
+        "tool": "reservations.move-to-box_move-reservation-to-box",
+        "summary": "Move a stay of the reservation to the reservation box. This action is typically used when you want to temporarily remove a reservation from the active calendar view. Required: stay_code. Returns the new CommonResponse.",
+        "params_schema": {
+          "stay_code": "string"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "move-to-box_move-reservation-to-box"
+        ]
+      },
+      {
+        "tool": "reservations.stay-status_update",
+        "summary": "Update the stay status of a reservation. This endpoint allows you to change the status of a stay between different states such as check-in pending, in-house, and stay completed. Required: stay_code, stay_status. Returns the updated CommonResponse.",
+        "params_schema": {
+          "stay_code": "string",
+          "stay_status": "string?"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "stay-status_update"
+        ]
+      },
+      {
+        "tool": "reservations.tags_add",
+        "summary": "Add a tag to a reservation. If the tag does not exist, it will be created automatically. Required: stay_code, tag_name. Returns the new CommonResponse.",
+        "params_schema": {
+          "stay_code": "string",
+          "tag_name": "string?"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "tags_add"
+        ]
+      },
+      {
+        "tool": "reservations.tags_remove",
+        "summary": "Remove a tag from a reservation. Required: stay_code, tag_name. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "stay_code": "string",
+          "tag_name": "string?"
+        },
+        "positionals": [
+          "stay_code"
+        ],
+        "argv_path": [
+          "reservations",
+          "tags_remove"
+        ]
+      },
+      {
+        "tool": "reviews.create",
+        "summary": "Create review or reply for a reservation. Required: reservation_code. Optional: category_ratings, host_reply_content, host_review_content (plus 1 more). Returns the new CommonResponse.",
+        "params_schema": {
+          "reservation_code": "string",
+          "category-ratings-cleanliness": "float?",
+          "category-ratings-communication": "float?",
+          "category-ratings-overall-rating": "float?",
+          "category-ratings-recommend": "float?",
+          "category-ratings-respect-of-house-rules": "float?",
+          "host_reply_content": "string?",
+          "host_review_content": "string?",
+          "host_review_score": "float?"
+        },
+        "positionals": [
+          "reservation_code"
+        ],
+        "argv_path": [
+          "reviews"
+        ]
+      },
+      {
+        "tool": "reviews.query",
+        "summary": "Query reviews like the [Reviews Page](https://hostex.io/app/reviews). Required: offset (default: 0), limit (default: 20). Optional: reservation_code, property_id, review_status (plus 2 more). Returns the ReviewsQueryResponse.",
+        "params_schema": {
+          "reservation_code": "string?",
+          "property_id": "int?",
+          "review_status": "string?",
+          "start_check_out_date": "string?",
+          "end_check_out_date": "string?",
+          "offset": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reviews",
+          "query"
+        ]
+      },
+      {
+        "tool": "room-types.create",
+        "summary": "Create a new room type under the current operator. A room type is a group of interchangeable properties (rooms) sold as a single inventory pool. Optionally link existing properties at creation time via `property_ids` \u2014 each linked property must not already belong to another room type. Subject to the room type quantity limit of the operator's subscription (capped by the property quantity limit) and not available on Basic editions. Required: title. Optional: property_ids. Returns the new RoomTypesCreateResponse.",
+        "params_schema": {
+          "property_ids": "array?",
+          "title": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "room-types"
+        ]
+      },
+      {
+        "tool": "room-types.query",
+        "summary": "You can query room types by making a request to this endpoint. Optional: offset (default: 0), limit (default: 20), id (plus 1 more). Returns the RoomTypesQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "id": "int?",
+          "tag_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "room-types",
+          "query"
+        ]
+      },
+      {
+        "tool": "staffs.create",
+        "summary": "Create a schedule staff. The staff is created as active by default. Use `property_ids` to limit the staff to specific properties; the staff will be created with access to all properties when omitted. For international operators, `mobile` must be in `+<country code> <number>` format (e.g. `+86 13800138000`). Required: mobile, name. Optional: email, note, property_ids. Returns the new StaffsCreateResponse.",
+        "params_schema": {
+          "email": "string?",
+          "mobile": "string?",
+          "name": "string?",
+          "note": "string?",
+          "property_ids": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "staffs"
+        ]
+      },
+      {
+        "tool": "staffs.delete",
+        "summary": "Delete a staff permanently along with their property assignments. Returns 404 if the staff does not exist or is not accessible to the current operator. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "staffs",
+          "delete"
+        ]
+      },
+      {
+        "tool": "staffs.query",
+        "summary": "You can query schedule staffs (cleaners / operators / receptionists, etc.) by making a request to this endpoint. Optional: offset (default: 0), limit (default: 20), id (plus 1 more). Returns the StaffsQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "id": "int?",
+          "is_active": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "staffs",
+          "query"
+        ]
+      },
+      {
+        "tool": "staffs.update",
+        "summary": "Update an existing staff. All fields are optional; only the supplied fields are changed. Passing `property_ids` replaces the staff's full property assignment list (use an empty array to clear). Use `is_active` to enable or disable the staff. Required: id. Optional: email, is_active, mobile (plus 3 more). Returns the updated CommonResponse.",
+        "params_schema": {
+          "id": "string",
+          "email": "string?",
+          "is_active": "bool?",
+          "mobile": "string?",
+          "name": "string?",
+          "note": "string?",
+          "property_ids": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "staffs",
+          "update"
+        ]
+      },
+      {
+        "tool": "tags.create",
+        "summary": "Create a new property tag. Optionally pre-attach properties via `property_ids` and / or room types via `room_type_ids`. The name must be unique within the operator's account (soft-deleted same-name tags are restored). Color is auto-assigned from the Hostex palette unless one of the allowed hex strings is supplied. Operators are capped at 500 property tags. Required: name. Optional: color, property_ids, room_type_ids. Returns the new TagsCreateResponse.",
+        "params_schema": {
+          "color": "string?",
+          "name": "string?",
+          "property_ids": "array?",
+          "room_type_ids": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags"
+        ]
+      },
+      {
+        "tool": "tags.delete",
+        "summary": "Delete a property tag. All property-tag and room-type-tag pivot rows are removed automatically; the underlying properties / room types themselves are unaffected. Required: id. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tags.query",
+        "summary": "You can query tags by making a request to this endpoint. Optional: offset (default: 0), limit (default: 20), id. Returns the TagsQueryResponse.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "query"
+        ]
+      },
+      {
+        "tool": "tags.update",
+        "summary": "Update a property tag. Pass `name` and / or `color` to change the tag itself; pass `property_ids` and / or `room_type_ids` to **replace** the tag's full assignment list. Pass an empty array to detach all properties / all room types. Omitted fields are left unchanged. Required: id. Optional: color, name, property_ids (plus 1 more). Returns the updated CommonResponse.",
+        "params_schema": {
+          "id": "string",
+          "color": "string?",
+          "name": "string?",
+          "property_ids": "array?",
+          "room_type_ids": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "update"
+        ]
+      },
+      {
+        "tool": "tasks.create",
+        "summary": "Create a schedule task. The task may be linked to a property (`property_id`), to a specific stay (`stay_code`), and/or assigned to a staff (`staff_id`); all are optional. When `stay_code` is provided the task is linked to the reservation; `property_id` is inferred from the stay when omitted (and must match the stay's property when both are supplied). The `type` selects the task category and `level` is only meaningful for cleaning tasks. Required: currency, expected_date, type. Optional: expected_time, fee, level (plus 4 more). Returns the new TasksCreateResponse.",
+        "params_schema": {
+          "currency": "string?",
+          "expected_date": "string?",
+          "expected_time": "string?",
+          "fee": "float?",
+          "level": "string?",
+          "note": "string?",
+          "property_id": "int?",
+          "staff_id": "int?",
+          "stay_code": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks"
+        ]
+      },
+      {
+        "tool": "tasks.delete",
+        "summary": "Delete a task permanently. Returns 404 if the task does not exist or is not accessible to the current operator. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tasks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tasks.query",
+        "summary": "You can query schedule tasks (cleaning / maintain / reception / housekeeping / others) by making a request to this endpoint. Optional: id, offset (default: 0), limit (default: 20) (plus 6 more). Returns the TasksQueryResponse.",
+        "params_schema": {
+          "id": "int?",
+          "offset": "int?",
+          "limit": "int?",
+          "start_date": "string?",
+          "end_date": "string?",
+          "staff_id": "int?",
+          "property_id": "int?",
+          "type": "string?",
+          "status": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tasks",
+          "query"
+        ]
+      },
+      {
+        "tool": "tasks.update",
+        "summary": "Update an existing task. All fields are optional; only the supplied fields are changed. Pass `property_id=0` or `staff_id=0` to detach the task from the related property or staff. Required: id. Optional: currency, expected_date, expected_time (plus 7 more). Returns the updated CommonResponse.",
+        "params_schema": {
+          "id": "string",
+          "currency": "string?",
+          "expected_date": "string?",
+          "expected_time": "string?",
+          "fee": "float?",
+          "level": "string?",
+          "note": "string?",
+          "property_id": "int?",
+          "staff_id": "int?",
+          "status": "string?",
+          "type": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tasks",
+          "update"
+        ]
+      },
+      {
+        "tool": "transactions.create",
+        "summary": "Record a new income or expense entry. What the entry is linked to is inferred from the request: - provide `stay_code` to record an entry against a specific stay, - provide `property_id` to record an entry against a specific property, - provide neither to record an operator-level entry (not tied to any specific property or stay; only available to the master operator). `stay_code` and `property_id` are mutually exclusive. The `direction` field decides whether the entry is an `income` or an `expense`, which in turn determines which dictionaries are used for `item_id` (`GET /income_items` or `GET /expense_items`) and `payment_method_id` (`GET /income_methods` or `GET /expense_methods`). The `amount` is always provided as a positive number; the sign is derived from `direction`. The `currency` accompanies the amount and must be supplied unless `stay_code` is provided, in which case it is inherited from the reservation order and, if you do provide it, it must match the order's currency. Required: amount, direction, item_id, payment_method_id. Optional: action_at, currency, note (plus 2 more). Returns the new TransactionsCreateResponse.",
+        "params_schema": {
+          "action_at": "string?",
+          "amount": "float?",
+          "currency": "string?",
+          "direction": "string?",
+          "item_id": "int?",
+          "note": "string?",
+          "payment_method_id": "int?",
+          "property_id": "int?",
+          "stay_code": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "transactions"
+        ]
+      },
+      {
+        "tool": "transactions.delete",
+        "summary": "Delete a transaction entry. The operation is irreversible. Returns 404 if the entry does not exist or is not accessible to the current operator. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "transactions",
+          "delete"
+        ]
+      },
+      {
+        "tool": "transactions.query",
+        "summary": "Query income and expense entries (also known as `transactions`) recorded against the operator, properties or reservations. The response provides each entry with its categorization (`item_id` / `item_name`) and payment method (`payment_method_id` / `payment_method_name`). The values of `item_id` and `payment_method_id` reference the dictionaries returned by `GET /income_items`, `GET /expense_items`, `GET /income_methods` and `GET /expense_methods` (which dictionary applies depends on `direction`). Optional: id, start_date, end_date (plus 9 more). Returns the TransactionsQueryResponse.",
+        "params_schema": {
+          "id": "int?",
+          "start_date": "string?",
+          "end_date": "string?",
+          "offset": "int?",
+          "limit": "int?",
+          "property_id": "int?",
+          "stay_code": "string?",
+          "direction": "string?",
+          "item_id": "int?",
+          "payment_method_id": "int?",
+          "currency": "string?",
+          "keyword": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "transactions",
+          "query"
+        ]
+      },
+      {
+        "tool": "transactions.update",
+        "summary": "Update an existing transaction entry. Only the fields listed below can be modified. The entry's `direction`, link target (related property / reservation / operator) and `currency` are immutable; if you need to change any of these, delete the entry and create a new one. Required: id. Optional: action_at, amount, item_id (plus 2 more). Returns the updated CommonResponse.",
+        "params_schema": {
+          "id": "string",
+          "action_at": "string?",
+          "amount": "float?",
+          "item_id": "int?",
+          "note": "string?",
+          "payment_method_id": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "transactions",
+          "update"
+        ]
+      },
+      {
+        "tool": "webhooks.create",
+        "summary": "Create a webhook. Required: url. Optional: events. Returns the new CommonResponse.",
+        "params_schema": {
+          "events": "string_csv_array?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "webhooks"
+        ]
+      },
+      {
+        "tool": "webhooks.delete",
+        "summary": "You can only delete webhooks created by your own app if they are manageable. Attempting to delete non-manageable webhooks from other apps will result in a 403 error. Required: id. Returns the CommonResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "webhooks.query",
+        "summary": "Query Webhooks like the [Webhooks Page](https://hostex.io/app/api/web-hooks). Returns the WebhooksQueryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "webhooks",
+          "query"
+        ]
+      },
+      {
+        "tool": "webhooks.update",
+        "summary": "Update the url or event subscriptions for a webhook. You can only update webhooks created by your own app. Required: id. Optional: events, url. Returns the updated CommonResponse.",
+        "params_schema": {
+          "id": "string",
+          "events": "string_csv_array?",
+          "url": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "update"
+        ]
+      }
+    ]
+  },
+  {
     "api": "hotel-goat",
     "description": "Every Google Hotels feature, plus per-OTA price breakdown, local price-drift history, brand-loyalty filters",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/hotel-goat/cmd/hotel-goat-pp-cli",
@@ -230636,6 +232938,194 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "kvmctl",
+    "description": "The verified REST subset used by kvmctl for KVMD-compatible GLKVM devices.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/devices/kvmctl/cmd/kvmctl-pp-cli",
+    "auth_type": "api_key",
+    "category": "devices",
+    "search_terms": [
+      "kvmctl",
+      "Kvmd Compatible Kvm",
+      "kvmctl-pp-cli",
+      "The verified REST subset used by kvmctl for KVMD-compatible GLKVM devices.",
+      "Structured semantic dispatch",
+      "semantic capabilities",
+      "Expose named KVMD operations through stable evidence envelopes with explicit read/write policy.",
+      "Target-bound workflows",
+      "workflow-list",
+      "List immutable named KVM workflows in deterministic order."
+    ],
+    "endpoints": [
+      {
+        "tool": "hid.get-state",
+        "summary": "Get state. Returns the JsonResult.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "hid",
+          "get-state"
+        ]
+      },
+      {
+        "tool": "hid.reset",
+        "summary": "Reset.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "hid",
+          "reset"
+        ]
+      },
+      {
+        "tool": "hid.send-key",
+        "summary": "Send key. Required: key. Optional: state, finish. Returns the new JsonResult.",
+        "params_schema": {
+          "key": "string?",
+          "state": "bool?",
+          "finish": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hid",
+          "send-key"
+        ]
+      },
+      {
+        "tool": "hid.send-mouse-button",
+        "summary": "Send mouse button. Required: button, state.",
+        "params_schema": {
+          "button": "string?",
+          "state": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hid",
+          "send-mouse-button"
+        ]
+      },
+      {
+        "tool": "hid.send-mouse-move",
+        "summary": "Send mouse move. Required: x, y.",
+        "params_schema": {
+          "x": "int?",
+          "y": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hid",
+          "send-mouse-move"
+        ]
+      },
+      {
+        "tool": "hid.send-mouse-wheel",
+        "summary": "Send mouse wheel. Required: delta.",
+        "params_schema": {
+          "delta": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hid",
+          "send-mouse-wheel"
+        ]
+      },
+      {
+        "tool": "hid.send-shortcut",
+        "summary": "Send shortcut. Required: keys. Returns the new JsonResult.",
+        "params_schema": {
+          "keys": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hid",
+          "send-shortcut"
+        ]
+      },
+      {
+        "tool": "info.get",
+        "summary": "Get an info. Returns the JsonResult.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "info"
+        ]
+      },
+      {
+        "tool": "kvmd-compatible-kvm-auth.check",
+        "summary": "Check. Returns the JsonResult.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "kvmd-compatible-kvm-auth",
+          "check"
+        ]
+      },
+      {
+        "tool": "kvmd-compatible-kvm-auth.login",
+        "summary": "Login. Required: passwd, user. Optional: expire (default: 0). Returns the new JsonResult. (public)",
+        "params_schema": {
+          "expire": "int?",
+          "passwd": "string?",
+          "user": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "kvmd-compatible-kvm-auth",
+          "login"
+        ]
+      },
+      {
+        "tool": "kvmd-compatible-kvm-auth.logout",
+        "summary": "Logout. Returns the new JsonResult.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "kvmd-compatible-kvm-auth",
+          "logout"
+        ]
+      },
+      {
+        "tool": "streamer.get-snapshot",
+        "summary": "Get snapshot. Optional: preview (default: true), preview_max_width, preview_quality.",
+        "params_schema": {
+          "preview": "bool?",
+          "preview_max_width": "int?",
+          "preview_quality": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "streamer",
+          "get-snapshot"
+        ]
+      },
+      {
+        "tool": "streamer.set-params",
+        "summary": "Set params. Optional: desired_fps, quality.",
+        "params_schema": {
+          "desired_fps": "int?",
+          "quality": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "streamer",
+          "set-params"
+        ]
+      },
+      {
+        "tool": "system.set-otg-functions",
+        "summary": "Set otg functions. Required: start_cdrom, start_flash.",
+        "params_schema": {
+          "start_cdrom": "bool?",
+          "start_flash": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "set-otg-functions"
         ]
       }
     ]
@@ -369795,7 +372285,7 @@
       "Cancel a waitlist request. The upstream body requires waitlistRequestId as a JSON number (string flags 400); siteId is the store extref.",
       "Sniffed waitlist check-in",
       "texasroadhouse checkin",
-      "Confirm arrival after the guest receives the Texas Roadhouse text and replies HERE via sniffed POST /waitlist/{extref}/checkin (no public API).",
+      "Mark the party HERE after the guest texts HERE once everyone has arrived (REMOVE to leave) via sniffed POST /waitlist/{extref}/checkin. Not a host-stand visit.",
       "Quote MinQuote lookup",
       "texasroadhouse get-quote",
       "Read per-party-size MinQuote/MaxQuote for a store extref so submit can send the required WaitMinutes.",
@@ -369841,7 +372331,7 @@
       },
       {
         "tool": "texasroadhouse.cancel",
-        "summary": "Cancel a waitlist request (destructive). Live cancel requires yes=true; dry-run=true previews without POSTing. Required: waitlistRequestId, siteId. Optional: clientid, yes, dry-run. Returns the new WaitlistCancelResult.",
+        "summary": "Cancel a waitlist request (destructive). Guests can also text REMOVE to leave; CLI leave is texasroadhouse cancel. Live cancel requires yes=true; dry-run=true previews without POSTing. Required: waitlistRequestId, siteId. Optional: clientid, yes, dry-run. Returns the new WaitlistCancelResult.",
         "params_schema": {
           "clientid": "string?",
           "waitlistRequestId": "integer?",
@@ -369857,7 +372347,7 @@
       },
       {
         "tool": "texasroadhouse.checkin",
-        "summary": "Confirm arrival after the guest receives the Texas Roadhouse text and replies HERE (destructive). Live check-in requires yes=true; dry-run=true previews without POSTing. Required: waitlist_id. Optional: yes, dry-run. Returns the new WaitlistCheckinResult.",
+        "summary": "Mark the party HERE after the guest texts HERE once everyone has arrived (text REMOVE to leave). Not a host-stand visit (destructive). Live check-in requires yes=true; dry-run=true previews without POSTing. Required: waitlist_id. Optional: yes, dry-run. Returns the new WaitlistCheckinResult.",
         "params_schema": {
           "waitlist_id": "string",
           "yes": "boolean?",
@@ -369928,33 +372418,6 @@
         "argv_path": [
           "texasroadhouse",
           "get_test"
-        ]
-      },
-      {
-        "tool": "texasroadhouse.submit",
-        "summary": "Join a store waitlist (destructive). Live join requires yes=true; dry-run=true previews without POSTing. Required: waitlist_id, EmailAddress, FirstName, LastName, PrimaryPhoneAreaCode, PrimaryPhoneNumber, PartySize, WaitMinutes. Optional: IsSmoking, PrimaryPhoneExtension, PrimaryPhoneType, Platform, yes, dry-run. Returns the new WaitlistSubmitResult.",
-        "params_schema": {
-          "waitlist_id": "string",
-          "EmailAddress": "string?",
-          "FirstName": "string?",
-          "LastName": "string?",
-          "IsSmoking": "bool?",
-          "PrimaryPhoneAreaCode": "string?",
-          "PrimaryPhoneExtension": "string?",
-          "PrimaryPhoneNumber": "string?",
-          "PrimaryPhoneType": "integer?",
-          "PartySize": "number?",
-          "WaitMinutes": "integer?",
-          "Platform": "string?",
-          "yes": "boolean?",
-          "dry-run": "boolean?"
-        },
-        "positionals": [
-          "waitlist_id"
-        ],
-        "argv_path": [
-          "texasroadhouse",
-          "submit"
         ]
       }
     ]
