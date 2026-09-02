@@ -23023,6 +23023,103 @@
     ]
   },
   {
+    "api": "anac-pl",
+    "description": "Cerca bandi, esiti e avvisi di gara della piattaforma ANAC dalla riga di comando, con dettaglio JSON, cronologia, store locale e ricerca offline.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/anac-pl/cmd/anac-pl-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "anac-pl",
+      "ANAC Pubblicit\u00e0 a Valore Legale",
+      "anac-pl-pp-cli",
+      "Cerca bandi, esiti e avvisi di gara della piattaforma ANAC dalla riga di comando, con dettaglio JSON, cronologia, store locale e ricerca offline.",
+      "Store locale + sync",
+      "sync",
+      "Scarica e conserva gli avvisi in un database SQLite locale per analisi offline.",
+      "Ricerca offline FTS",
+      "search-local",
+      "Cerca tra gli avvisi gia' sincronizzati in locale, senza rete.",
+      "Export CSV/JSON",
+      "export",
+      "Esporta gli avvisi sincronizzati in CSV o JSON per fogli di calcolo e pipeline dati."
+    ],
+    "endpoints": [
+      {
+        "tool": "avvisi.get",
+        "summary": "Dettaglio completo di un avviso/esito in formato JSON, incluse sezioni e committente. Required: id. Returns the AvvisoDetail.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "avvisi"
+        ]
+      },
+      {
+        "tool": "avvisi.cronologia",
+        "summary": "Cronologia delle versioni/rettifiche di un avviso nel tempo. Required: id. Optional: archive (default: false), appalto. Returns array of Avviso.",
+        "params_schema": {
+          "id": "string",
+          "archive": "bool?",
+          "appalto": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "avvisi",
+          "cronologia"
+        ]
+      },
+      {
+        "tool": "avvisi.search",
+        "summary": "Ricerca full-text di avvisi (bandi, esiti, altri avvisi) con ranking di rilevanza e filtri. Optional: query, scheda, cpv (plus 9 more). Returns array of Avviso.",
+        "params_schema": {
+          "query": "string?",
+          "scheda": "string?",
+          "cpv": "string?",
+          "amount": "string?",
+          "published-from": "string?",
+          "published-to": "string?",
+          "archive": "bool?",
+          "sort-field": "string?",
+          "sort-dir": "string?",
+          "fuzzy": "bool?",
+          "page": "int?",
+          "size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "avvisi",
+          "search"
+        ]
+      },
+      {
+        "tool": "news.list",
+        "summary": "Ultime news pubblicate sulla piattaforma. Optional: size (default: 10). Returns array of News.",
+        "params_schema": {
+          "size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "news"
+        ]
+      },
+      {
+        "tool": "tipologie.map",
+        "summary": "Mappa di categorie, tipologie e codici scheda usati per filtrare la ricerca. Returns the TipologieMap.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tipologie",
+          "map"
+        ]
+      }
+    ]
+  },
+  {
     "api": "ankiweb",
     "description": "The only terminal-native way to search, rank",
     "install_module": "github.com/mvanhorn/printing-press-library/library/education/ankiweb/cmd/ankiweb-pp-cli",
@@ -60467,6 +60564,53 @@
         "positionals": [],
         "argv_path": [
           "reviews"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "bookmakersreview",
+    "description": "Every sportsbook's price, BMR's own sharp consensus, and full line history \u2014 for free, from the terminal, no API key required.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/bookmakersreview/cmd/bookmakersreview-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "bookmakersreview",
+      "bookmakersreview-pp-cli",
+      "Odds Value (+EV Finder)",
+      "odds value",
+      "See which sportsbook's current price beats the vig-free fair line before you bet.",
+      "Steam Move Detector",
+      "steam scan",
+      "Scan today's whole slate for fast, coordinated line moves that signal sharp money before the market fully reacts.",
+      "Record a Bet",
+      "bets record",
+      "Log your own wager (event, market, price, book, timestamp) to a local ledger.",
+      "Grade a Bet's Closing Line Value",
+      "bets grade",
+      "Compare one recorded bet's price to the market's closing line to compute its CLV.",
+      "Aggregate CLV Report",
+      "bets report",
+      "See your running closing-line-value percentage and win rate across every recorded bet.",
+      "Arbitrage Scan",
+      "arb scan",
+      "Find risk-free two-sided price mismatches across sportsbooks for one event.",
+      "Line Movement Chart",
+      "odds movement",
+      "See the full open-to-current price timeline for one event and market, across books."
+    ],
+    "endpoints": [
+      {
+        "tool": "graphql.query",
+        "summary": "Execute a raw GraphQL query against the odds-v2 service. Required: query. Optional: variables.",
+        "params_schema": {
+          "query": "string?",
+          "variables": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "graphql",
+          "query"
         ]
       }
     ]
@@ -206856,6 +207000,44 @@
         "argv_path": [
           "widgets",
           "update"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "govspend",
+    "description": "Read-only public-sector spending and opportunity research CLI for USAspending awards, agency and vendor footprints, Grants.gov opportunities, and SAM.gov opportunity setup.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/govspend/cmd/govspend-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "govspend",
+      "govspend-pp-cli",
+      "Read-only public-sector spending and opportunity research CLI for USAspending awards, agency and vendor footprints, Grants.gov opportunities, and SAM.gov opportunity setup.",
+      "Vendor footprint",
+      "vendor",
+      "Searches USAspending awards for a recipient/vendor and rolls the returned page into agencies, categories, recent awards, source URL, and freshness caveats.",
+      "Agency spend profile",
+      "agency",
+      "Matches a federal agency from USAspending references, then produces a compact recent-awards view for the matched agency name.",
+      "Award search",
+      "awards",
+      "Searches USAspending awards by keyword, vendor, awarding agency, NAICS, PSC, and date window with dry-run request visibility.",
+      "Grant opportunity search",
+      "grants",
+      "Searches the public Grants.gov search endpoint without credentials and reports opportunity number, title, agency, status, and open/close dates.",
+      "SAM.gov opportunity setup",
+      "opportunities",
+      "Builds SAM.gov Opportunities API searches when GOVSPEND_SAM_API_KEY is configured and returns structured setup guidance when it is not."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Read-only public-sector spending and opportunity research CLI for USAspending awards, agency and vendor footprints, Grants.gov opportunities, and SAM.gov opportunity setup. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
         ]
       }
     ]
