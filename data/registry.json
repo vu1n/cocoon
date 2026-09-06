@@ -56616,25 +56616,28 @@
     "search_terms": [
       "beehiiv",
       "beehiiv-pp-cli",
-      "Manage beehiiv publications, subscribers, segments, posts, automations, and newsletter analytics from the terminal.",
-      "Growth Summary",
-      "insights growth-summary",
-      "Summarize publication, subscriber, post, referral, and custom-field health in one read-only response.",
+      "Beehiiv v2 REST API. Auth: Bearer token via BEEHIIV_API_KEY. Rate limit: 180 requests per minute per organization.",
       "Subscriber Sources",
       "insights subscriber-sources",
-      "Group subscribers by UTM, channel, and referring-site fields to see where audience growth is coming from.",
+      "See exactly where new subscribers come from: UTM, channel, and referring site, grouped in one call.",
       "Post Performance",
       "insights post-performance",
-      "List recent posts with status, audience, publish timing, and any available expanded stats.",
-      "Field Coverage",
-      "insights field-coverage",
-      "Inspect custom-field definitions alongside subscriber sample size for enrichment planning.",
+      "Review recent sends with status, timing, and expanded stats in one compact table.",
       "Referral Health",
       "insights referral-health",
-      "Summarize referral-program configuration and subscriber referral-code coverage.",
+      "Check referral-program config and how many subscribers actually carry referral codes.",
       "Subscriber Lookup",
       "insights subscriber-lookup",
-      "Find one subscriber by email or subscription ID and return a compact subscriber record."
+      "Find one subscriber by email or subscription ID and get a compact record instantly.",
+      "Churn Sources",
+      "insights churn-sources",
+      "See which sources, channels, and campaigns drive unsubscribes.",
+      "Send-Times",
+      "insights send-times",
+      "Find your best send slot: open rate by weekday and hour from your own history.",
+      "Compare Publications",
+      "insights compare-publications",
+      "Side-by-side growth and engagement across every synced publication."
     ],
     "endpoints": [
       {
@@ -56686,10 +56689,10 @@
       },
       {
         "tool": "automations.index",
-        "summary": "List automations <Badge intent='info' minimal outlined>OAuth Scope: automations:read</Badge>. Required: publicationId. Optional: expand[], limit, page. Returns array of Automation.",
+        "summary": "List automations <Badge intent='info' minimal outlined>OAuth Scope: automations:read</Badge>. Required: publicationId. Optional: expand, limit, page. Returns array of Automation.",
         "params_schema": {
           "publicationId": "string",
-          "expand[]": "array?",
+          "expand": "array?",
           "limit": "int?",
           "page": "int?"
         },
@@ -56703,11 +56706,11 @@
       },
       {
         "tool": "automations.show",
-        "summary": "Get automation <Badge intent='info' minimal outlined>OAuth Scope: automations:read</Badge>. Required: publicationId, automationId. Optional: expand[]. Returns the AutomationsGetResponse.",
+        "summary": "Get automation <Badge intent='info' minimal outlined>OAuth Scope: automations:read</Badge>. Required: publicationId, automationId. Optional: expand. Returns the AutomationsGetResponse.",
         "params_schema": {
           "publicationId": "string",
           "automationId": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -56838,6 +56841,40 @@
         ]
       },
       {
+        "tool": "complimentary-access.index",
+        "summary": "Retrieve complimentary access objects for the publication. Required: publicationId. Optional: expand, limit, cursor. Returns array of ComplimentaryAccess.",
+        "params_schema": {
+          "publicationId": "string",
+          "expand": "array?",
+          "limit": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "publicationId"
+        ],
+        "argv_path": [
+          "complimentary-access",
+          "index"
+        ]
+      },
+      {
+        "tool": "complimentary-access.show",
+        "summary": "Retrieve a single complimentary access object. Required: publicationId, complimentaryAccessId. Optional: expand. Returns the ComplimentaryAccessGetResponse.",
+        "params_schema": {
+          "publicationId": "string",
+          "complimentaryAccessId": "string",
+          "expand": "array?"
+        },
+        "positionals": [
+          "publicationId",
+          "complimentaryAccessId"
+        ],
+        "argv_path": [
+          "complimentary-access",
+          "show"
+        ]
+      },
+      {
         "tool": "condition-sets.index",
         "summary": "Retrieve all active condition sets for a publication. Condition sets define reusable audience segments for targeting content to specific subscribers. Use the `purpose` parameter to filter by a specific use case. Required: publicationId. Optional: limit, cursor, page (plus 1 more). Returns array of ConditionSetListItem.",
         "params_schema": {
@@ -56857,11 +56894,11 @@
       },
       {
         "tool": "condition-sets.show",
-        "summary": "Retrieve a single active dynamic content condition set for a publication. Use `expand[]=stats` to calculate and return the active subscriber count synchronously. Required: publicationId, conditionSetId. Optional: expand[]. Returns the ConditionSetShowResponse.",
+        "summary": "Retrieve a single active dynamic content condition set for a publication. Use `expand[]=stats` to calculate and return the active subscriber count synchronously. Required: publicationId, conditionSetId. Optional: expand. Returns the ConditionSetShowResponse.",
         "params_schema": {
           "publicationId": "string",
           "conditionSetId": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57014,10 +57051,10 @@
       },
       {
         "tool": "email-blasts.index",
-        "summary": "List email blasts <Badge intent='info' minimal outlined>OAuth Scope: posts:read</Badge>. Required: publicationId. Optional: expand[], status, limit (plus 3 more). Returns array of EmailBlast.",
+        "summary": "List email blasts <Badge intent='info' minimal outlined>OAuth Scope: posts:read</Badge>. Required: publicationId. Optional: expand, status, limit (plus 3 more). Returns array of EmailBlast.",
         "params_schema": {
           "publicationId": "string",
-          "expand[]": "array?",
+          "expand": "array?",
           "status": "string?",
           "limit": "int?",
           "page": "int?",
@@ -57034,11 +57071,11 @@
       },
       {
         "tool": "email-blasts.show",
-        "summary": "Get email blast <Badge intent='info' minimal outlined>OAuth Scope: posts:read</Badge>. Required: publicationId, emailBlastId. Optional: expand[]. Returns the EmailBlastsGetResponse.",
+        "summary": "Get email blast <Badge intent='info' minimal outlined>OAuth Scope: posts:read</Badge>. Required: publicationId, emailBlastId. Optional: expand. Returns the EmailBlastsGetResponse.",
         "params_schema": {
           "publicationId": "string",
           "emailBlastId": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57051,7 +57088,7 @@
       },
       {
         "tool": "engagements.index",
-        "summary": "Retrieve email engagement metrics for a specific publication over a defined date range and granularity.<br><br> By default, the endpoint returns metrics for the past day, aggregated daily. The max number of days allowed is 31. All dates and times are in UTC. Required: publicationId. Optional: start_date, number_of_days, granularity (plus 2 more).",
+        "summary": "Retrieve email engagement metrics for a specific publication over a defined date range and granularity. By default, the endpoint returns metrics for the past day, aggregated daily. The max number of days allowed is 31. All dates and times are in UTC. Required: publicationId. Optional: start_date, number_of_days, granularity (plus 2 more).",
         "params_schema": {
           "publicationId": "string",
           "start_date": "string?",
@@ -57066,6 +57103,55 @@
         "argv_path": [
           "engagements",
           "index"
+        ]
+      },
+      {
+        "tool": "exports.subscription-create",
+        "summary": "Start a subscription export. Returns an existing in-progress export instead of starting a duplicate. Required: publicationId, variant. Optional: segment_id.",
+        "params_schema": {
+          "publicationId": "string",
+          "segment_id": "string?",
+          "variant": "string?"
+        },
+        "positionals": [
+          "publicationId"
+        ],
+        "argv_path": [
+          "exports",
+          "subscription-create"
+        ]
+      },
+      {
+        "tool": "exports.subscription-index",
+        "summary": "List subscription exports for the publication, newest first. Required: publicationId. Optional: limit, cursor, page. Returns array of SubscriptionExport.",
+        "params_schema": {
+          "publicationId": "string",
+          "limit": "int?",
+          "cursor": "string?",
+          "page": "int?"
+        },
+        "positionals": [
+          "publicationId"
+        ],
+        "argv_path": [
+          "exports",
+          "subscription-index"
+        ]
+      },
+      {
+        "tool": "exports.subscription-show",
+        "summary": "Get a subscription export. Poll until status is completed, then read download_url. Gated feature requiring enablement. Required: publicationId, id. Returns the SubscriptionExportGetResponse.",
+        "params_schema": {
+          "publicationId": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "publicationId",
+          "id"
+        ],
+        "argv_path": [
+          "exports",
+          "subscription-show"
         ]
       },
       {
@@ -57196,6 +57282,152 @@
         ]
       },
       {
+        "tool": "podcasts.index",
+        "summary": "List podcasts for the publication. Required: publicationId. Optional: limit, cursor, page (plus 1 more). Returns array of Podcast.",
+        "params_schema": {
+          "publicationId": "string",
+          "limit": "int?",
+          "cursor": "string?",
+          "page": "int?",
+          "status": "string?"
+        },
+        "positionals": [
+          "publicationId"
+        ],
+        "argv_path": [
+          "podcasts",
+          "index"
+        ]
+      },
+      {
+        "tool": "podcasts.show",
+        "summary": "Retrieve a single podcast. Required: publicationId, podcastShowId. Returns the PodcastGetResponse.",
+        "params_schema": {
+          "publicationId": "string",
+          "podcastShowId": "string"
+        },
+        "positionals": [
+          "publicationId",
+          "podcastShowId"
+        ],
+        "argv_path": [
+          "podcasts",
+          "show"
+        ]
+      },
+      {
+        "tool": "podcasts.episodes_podcast-index",
+        "summary": "List episodes for a podcast. Required: publicationId, podcastShowId. Optional: limit, cursor, page (plus 3 more). Returns array of PodcastEpisode.",
+        "params_schema": {
+          "publicationId": "string",
+          "podcastShowId": "string",
+          "limit": "int?",
+          "cursor": "string?",
+          "page": "int?",
+          "status": "string?",
+          "order_by": "string?",
+          "direction": "string?"
+        },
+        "positionals": [
+          "publicationId",
+          "podcastShowId"
+        ],
+        "argv_path": [
+          "podcasts",
+          "episodes_podcast-index"
+        ]
+      },
+      {
+        "tool": "podcasts.episodes_podcast-show",
+        "summary": "Retrieve a single episode. Required: publicationId, podcastShowId, podcastEpisodeId. Returns the PodcastEpisodeGetResponse.",
+        "params_schema": {
+          "publicationId": "string",
+          "podcastShowId": "string",
+          "podcastEpisodeId": "string"
+        },
+        "positionals": [
+          "publicationId",
+          "podcastShowId",
+          "podcastEpisodeId"
+        ],
+        "argv_path": [
+          "podcasts",
+          "episodes_podcast-show"
+        ]
+      },
+      {
+        "tool": "podcasts.private-feeds_podcast-send-email",
+        "summary": "Email the private RSS feed link to a subscription by subscription ID. Returns 422 when the feed token is inactive. Required: publicationId, podcastShowId, subscriptionId.",
+        "params_schema": {
+          "publicationId": "string",
+          "podcastShowId": "string",
+          "subscriptionId": "string"
+        },
+        "positionals": [
+          "publicationId",
+          "podcastShowId",
+          "subscriptionId"
+        ],
+        "argv_path": [
+          "podcasts",
+          "private-feeds_podcast-send-email"
+        ]
+      },
+      {
+        "tool": "podcasts.private-feeds_podcast-send-email-by-email",
+        "summary": "Email the private RSS feed link to a subscription by subscriber email (URL-encoded). Required: publicationId, podcastShowId, email. Returns the new PodcastPrivateFeedGetResponse.",
+        "params_schema": {
+          "publicationId": "string",
+          "podcastShowId": "string",
+          "email": "string"
+        },
+        "positionals": [
+          "publicationId",
+          "podcastShowId",
+          "email"
+        ],
+        "argv_path": [
+          "podcasts",
+          "private-feeds_podcast-send-email-by-email"
+        ]
+      },
+      {
+        "tool": "podcasts.private-feeds_podcast-show",
+        "summary": "Retrieve a subscription private RSS feed for a podcast. Returns 422 when the podcast is fully public. Required: publicationId, podcastShowId, subscriptionId.",
+        "params_schema": {
+          "publicationId": "string",
+          "podcastShowId": "string",
+          "subscriptionId": "string"
+        },
+        "positionals": [
+          "publicationId",
+          "podcastShowId",
+          "subscriptionId"
+        ],
+        "argv_path": [
+          "podcasts",
+          "private-feeds_podcast-show"
+        ]
+      },
+      {
+        "tool": "podcasts.private-feeds_podcast-show-by-email",
+        "summary": "Retrieve a subscription private RSS feed by subscriber email (URL-encoded). Required: publicationId, podcastShowId, email. Returns the PodcastPrivateFeedGetResponse.",
+        "params_schema": {
+          "publicationId": "string",
+          "podcastShowId": "string",
+          "email": "string"
+        },
+        "positionals": [
+          "publicationId",
+          "podcastShowId",
+          "email"
+        ],
+        "argv_path": [
+          "podcasts",
+          "private-feeds_podcast-show-by-email"
+        ]
+      },
+      {
         "tool": "polls.index",
         "summary": "Retrieve all polls belonging to a specific publication. Poll choices are always included. Use `expand[]=stats` to include aggregate vote counts per choice. Required: publicationId. Optional: limit, cursor, page (plus 4 more). Returns array of Poll.",
         "params_schema": {
@@ -57205,7 +57437,7 @@
           "page": "int?",
           "order_by": "string?",
           "direction": "string?",
-          "expand[]": "array?",
+          "expand": "array?",
           "post_id": "string?"
         },
         "positionals": [
@@ -57218,11 +57450,11 @@
       },
       {
         "tool": "polls.show",
-        "summary": "Retrieve detailed information about a specific poll belonging to a publication. Use `expand[]=stats` for aggregate vote counts, or `expand[]=poll_responses` for individual subscriber responses. Required: publicationId, pollId. Optional: expand[]. Returns the PollShowResponse.",
+        "summary": "Retrieve detailed information about a specific poll belonging to a publication. Use `expand[]=stats` for aggregate vote counts, or `expand[]=poll_responses` for individual subscriber responses. Required: publicationId, pollId. Optional: expand. Returns the PollShowResponse.",
         "params_schema": {
           "publicationId": "string",
           "pollId": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57244,7 +57476,7 @@
           "page": "int?",
           "order_by": "string?",
           "direction": "string?",
-          "expand[]": "array?",
+          "expand": "array?",
           "post_id": "string?"
         },
         "positionals": [
@@ -57276,29 +57508,51 @@
       },
       {
         "tool": "posts.create",
-        "summary": "<Note title='Currently in beta' icon='b'> This feature is currently in beta, the API is subject to change, and available only to Enterprise users.<br/><br/>To inquire about Enterprise pricing, please visit our <a href='https://www.beehiiv.com/enterprise'>Enterprise page</a>. </Note> Create a post for a specific publication. For a detailed walkthrough including setup, testing workflows, and working with custom HTML and templates, see the <a href='https://www.beehiiv.com/support/article/36759164012439-using-the-send-api-and-create-post-endpoint'>Using the Send API and Create Post Endpoint</a> guide. ## Content methods There are three ways to provide content for a post. You must provide either `blocks` or `body_content`, but not both. ### 1. Blocks Use the `blocks` field to build your post with structured content blocks such as paragraphs, images, headings, buttons, tables, and more. Each block has a `type` and its own set of properties. This method gives you fine-grained control over individual content elements and supports features like visual settings, visibility settings, and dynamic content targeting. ### 2. Raw HTML (`body_content`) Use the `body_content` field to provide a single string of raw HTML. The HTML is wrapped in an `htmlSnippet` block internally. This is useful when you have pre-built HTML content or are migrating from another platform. ### 3. HTML blocks within blocks Use `type: html` blocks inside the `blocks` array to embed raw HTML snippets alongside other structured blocks. This lets you mix structured content (paragraphs, images, etc.) with custom HTML where needed. ## CSS and styling guardrails beehiiv processes all HTML content through a sanitization pipeline. When using `body_content` or `html` blocks, be aware of the following: - **`<style>` tags are removed.** All `<style>` block elements are stripped during sanitization. Do not rely on embedded stylesheets. - **`<link>` tags are removed.** External stylesheet references are not allowed. - **Inline styles are preserved.** Styles applied directly to elements via the `style` attribute (e.g., `<div style='color: red;'>`) are kept intact. - **CSS classes have no effect.** While class attributes are not stripped, no corresponding stylesheets are loaded to apply them. - **beehiiv's email template wraps your content.** Your HTML is rendered inside beehiiv's email table structure, which applies its own layout and spacing. This may affect the appearance of your content. - **Use inline styles for all visual styling.** Since `<style>` and `<link>` tags are removed, inline styles on individual elements are the only reliable way to control appearance. Required: publicationId, title. Optional: blocks, body_content, content_tags (plus 16 more). Returns the new PostsCreateResponse.",
+        "summary": "<Note title='Currently in beta' icon='b'> This feature is currently in beta, the API is subject to change, and available only to Enterprise users. To inquire about Enterprise pricing, please visit our Enterprise page . </Note> Create a post for a specific publication. For a detailed walkthrough including setup, testing workflows, and working with custom HTML and templates, see the Using the Send API and Create Post Endpoint guide. ## Content methods There are three ways to provide content for a post. You must provide either `blocks` or `body_content`, but not both. ### 1. Blocks Use the `blocks` field to build your post with structured content blocks such as paragraphs, images, headings, buttons, tables, and more. Each block has a `type` and its own set of properties. This method gives you fine-grained control over individual content elements and supports features like visual settings, visibility settings, and dynamic content targeting. ### 2. Raw HTML (`body_content`) Use the `body_content` field to provide a single string of raw HTML. The HTML is wrapped in an `htmlSnippet` block internally. This is useful when you have pre-built HTML content or are migrating from another platform. ### 3. HTML blocks within blocks Use `type: html` blocks inside the `blocks` array to embed raw HTML snippets alongside other structured blocks. This lets you mix structured content (paragraphs, images, etc.) with custom HTML where needed. ## CSS and styling guardrails beehiiv processes all HTML content through a sanitization pipeline. When using `body_content` or `html` blocks, be aware of the following: - **`<style>` tags are removed.** All `<style>` block elements are stripped during sanitization. Do not rely on embedded stylesheets. - **`<link>` tags are removed.** External stylesheet references are not allowed. - **Inline styles are preserved.** Styles applied directly to elements via the `style` attribute (e.g., ` `) are kept intact. - **CSS classes have no effect.** While class attributes are not stripped, no corresponding stylesheets are loaded to apply them. - **beehiiv's email template wraps your content.** Your HTML is rendered inside beehiiv's email table structure, which applies its own layout and spacing. This may affect the appearance of your content. - **Use inline styles for all visual styling.** Since `<style>` and `<link>` tags are removed, inline styles on individual elements are the only reliable way to control appearance. Required: publicationId, title. Optional: blocks, body_content, content_tags (plus 16 more). Returns the new PostsCreateResponse.",
         "params_schema": {
           "publicationId": "string",
           "blocks": "array?",
           "body_content": "string?",
-          "content_tags": "array?",
+          "content_tags": "string_csv_array?",
           "custom_fields": "object?",
           "custom_link_tracking_enabled": "bool?",
           "email_capture_type_override": "string?",
-          "email_settings": "object?",
+          "email-settings-custom-live-url": "string?",
+          "email-settings-display-byline-in-email": "bool?",
+          "email-settings-display-subtitle-in-email": "bool?",
+          "email-settings-display-title-in-email": "bool?",
+          "email-settings-email-header-engagement-buttons": "string?",
+          "email-settings-email-header-social-share": "string?",
+          "email-settings-email-preview-text": "string?",
+          "email-settings-email-subject-line": "string?",
+          "email-settings-from-address": "string?",
           "headers": "object?",
           "newsletter_list_id": "string?",
           "override_scheduled_at": "string?",
           "post_template_id": "string?",
-          "recipients": "object?",
+          "recipients-email-exclude-segment-ids": "string_csv_array?",
+          "recipients-email-include-segment-ids": "string_csv_array?",
+          "recipients-email-tier-ids": "string_csv_array?",
+          "recipients-web-exclude-segment-ids": "string_csv_array?",
+          "recipients-web-include-segment-ids": "string_csv_array?",
+          "recipients-web-tier-ids": "string_csv_array?",
           "scheduled_at": "string?",
-          "seo_settings": "object?",
+          "seo-settings-default-description": "string?",
+          "seo-settings-default-title": "string?",
+          "seo-settings-og-description": "string?",
+          "seo-settings-og-title": "string?",
+          "seo-settings-twitter-description": "string?",
+          "seo-settings-twitter-title": "string?",
           "social_share": "string?",
           "status": "string?",
           "subtitle": "string?",
           "thumbnail_image_url": "string?",
           "title": "string?",
-          "web_settings": "object?"
+          "web-settings-display-thumbnail-on-web": "bool?",
+          "web-settings-hide-from-feed": "bool?",
+          "web-settings-paywall-break-price-id": "string?",
+          "web-settings-paywall-id": "string?",
+          "web-settings-slug": "string?"
         },
         "positionals": [
           "publicationId"
@@ -57315,8 +57569,8 @@
           "audience": "string?",
           "platform": "string?",
           "status": "string?",
-          "content_tags[]": "array?",
-          "authors[]": "array?",
+          "content_tags": "array?",
+          "authors": "array?",
           "hidden_from_feed": "string?"
         },
         "positionals": [
@@ -57352,9 +57606,9 @@
           "audience": "string?",
           "platform": "string?",
           "status": "string?",
-          "content_tags[]": "array?",
-          "slugs[]": "array?",
-          "authors[]": "array?",
+          "content_tags": "array?",
+          "slugs": "array?",
+          "authors": "array?",
           "premium_tiers": "array?",
           "limit": "int?",
           "page": "int?",
@@ -57390,24 +57644,41 @@
       },
       {
         "tool": "posts.update",
-        "summary": "<Note title='Currently in beta' icon='b'> This feature is currently in beta, the API is subject to change, and available only to Enterprise users.<br/><br/>To inquire about Enterprise pricing, please visit our <a href='https://www.beehiiv.com/enterprise'>Enterprise page</a>. </Note> Update an existing post for a specific publication. Only the fields provided in the request body will be updated \u2014 all other fields remain unchanged. For a detailed walkthrough of content methods and working with custom HTML, see the <a href='https://www.beehiiv.com/support/article/36759164012439-using-the-send-api-and-create-post-endpoint'>Using the Send API and Create Post Endpoint</a> guide. To update post content, provide either `blocks` or `body_content` (not both). If neither is provided, the existing content is preserved. The same content methods and CSS guardrails described in the create endpoint apply here. Required: publicationId, postId. Optional: blocks, body_content, content_tags (plus 11 more). Returns the updated PostsGetResponse.",
+        "summary": "<Note title='Currently in beta' icon='b'> This feature is currently in beta, the API is subject to change, and available only to Enterprise users. To inquire about Enterprise pricing, please visit our Enterprise page . </Note> Update an existing post for a specific publication. Only the fields provided in the request body will be updated \u2014 all other fields remain unchanged. For a detailed walkthrough of content methods and working with custom HTML, see the Using the Send API and Create Post Endpoint guide. To update post content, provide either `blocks` or `body_content` (not both). If neither is provided, the existing content is preserved. The same content methods and CSS guardrails described in the create endpoint apply here. Required: publicationId, postId. Optional: blocks, body_content, content_tags (plus 11 more). Returns the updated PostsGetResponse.",
         "params_schema": {
           "publicationId": "string",
           "postId": "string",
           "blocks": "array?",
           "body_content": "string?",
-          "content_tags": "array?",
+          "content_tags": "string_csv_array?",
           "custom_link_tracking_enabled": "bool?",
           "email_capture_type_override": "string?",
-          "email_settings": "object?",
+          "email-settings-custom-live-url": "string?",
+          "email-settings-display-byline-in-email": "bool?",
+          "email-settings-display-subtitle-in-email": "bool?",
+          "email-settings-display-title-in-email": "bool?",
+          "email-settings-email-header-engagement-buttons": "string?",
+          "email-settings-email-header-social-share": "string?",
+          "email-settings-email-preview-text": "string?",
+          "email-settings-email-subject-line": "string?",
+          "email-settings-from-address": "string?",
           "override_scheduled_at": "string?",
           "scheduled_at": "string?",
-          "seo_settings": "object?",
+          "seo-settings-default-description": "string?",
+          "seo-settings-default-title": "string?",
+          "seo-settings-og-description": "string?",
+          "seo-settings-og-title": "string?",
+          "seo-settings-twitter-description": "string?",
+          "seo-settings-twitter-title": "string?",
           "social_share": "string?",
           "subtitle": "string?",
           "thumbnail_image_url": "string?",
           "title": "string?",
-          "web_settings": "object?"
+          "web-settings-display-thumbnail-on-web": "bool?",
+          "web-settings-hide-from-feed": "bool?",
+          "web-settings-paywall-break-price-id": "string?",
+          "web-settings-paywall-id": "string?",
+          "web-settings-slug": "string?"
         },
         "positionals": [
           "publicationId",
@@ -57416,6 +57687,43 @@
         "argv_path": [
           "posts",
           "update"
+        ]
+      },
+      {
+        "tool": "posts.preview_posts",
+        "summary": "Get a parameterized preview URL for a post. Required: publicationId, postId. Optional: platform, subscriber_type, tier_ids (plus 1 more). Returns the PostPreviewGetResponse.",
+        "params_schema": {
+          "publicationId": "string",
+          "postId": "string",
+          "platform": "string?",
+          "subscriber_type": "string?",
+          "tier_ids": "array?",
+          "subscriber_id": "string?"
+        },
+        "positionals": [
+          "publicationId",
+          "postId"
+        ],
+        "argv_path": [
+          "posts",
+          "preview_posts"
+        ]
+      },
+      {
+        "tool": "posts.test-sends_posts",
+        "summary": "Send a test copy of the post to email addresses. Counts against the daily test send limit. Required: publicationId, postId, recipient_emails. Returns the new PostTestSendResponse.",
+        "params_schema": {
+          "publicationId": "string",
+          "postId": "string",
+          "recipient_emails": "string_csv_array?"
+        },
+        "positionals": [
+          "publicationId",
+          "postId"
+        ],
+        "argv_path": [
+          "posts",
+          "test-sends_posts"
         ]
       },
       {
@@ -57467,7 +57775,7 @@
       },
       {
         "tool": "segments.create",
-        "summary": "Create a new segment.<br><br> **Manual segments** \u2014 Use `subscriptions` or `emails` input to create a segment from an explicit list of subscription IDs or email addresses. The segment is processed synchronously and returns with `status: completed`. Net new email addresses will be ignored; create subscriptions using the `Create Subscription` endpoint.<br><br> **Dynamic segments** \u2014 Use `custom_fields` input to create a segment that filters subscribers by custom field values. The segment is processed asynchronously and returns with `status: pending`. Results will be available in the `List Segment Subscribers` endpoint after processing is complete. Required: publicationId, input, name.",
+        "summary": "Create a new segment. **Manual segments** \u2014 Use `subscriptions` or `emails` input to create a segment from an explicit list of subscription IDs or email addresses. The segment is processed synchronously and returns with `status: completed`. Net new email addresses will be ignored; create subscriptions using the `Create Subscription` endpoint. **Dynamic segments** \u2014 Use `custom_fields` input to create a segment that filters subscribers by custom field values. The segment is processed asynchronously and returns with `status: pending`. Results will be available in the `List Segment Subscribers` endpoint after processing is complete. Required: publicationId, input, name.",
         "params_schema": {
           "publicationId": "string",
           "input": "string?",
@@ -57507,7 +57815,7 @@
           "page": "int?",
           "order_by": "string?",
           "direction": "string?",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId"
@@ -57519,11 +57827,11 @@
       },
       {
         "tool": "segments.show",
-        "summary": "Get segment <Badge intent='info' minimal outlined>OAuth Scope: segments:read</Badge>. Required: publicationId, segmentId. Optional: expand[]. Returns the SegmentShowResponse.",
+        "summary": "Get segment <Badge intent='info' minimal outlined>OAuth Scope: segments:read</Badge>. Required: publicationId, segmentId. Optional: expand. Returns the SegmentShowResponse.",
         "params_schema": {
           "publicationId": "string",
           "segmentId": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57536,13 +57844,13 @@
       },
       {
         "tool": "segments.members_segments-list",
-        "summary": "List all members in a segment with full subscription data. Each member is returned as a subscription object containing complete subscriber information and their subscription details. Supports optional expansions for stats, custom fields, tags, referrals, and premium tiers. **Use this endpoint when you need detailed subscriber information.** If you only need subscriber IDs, use `/segments/{segmentId}/results` for a lighter-weight response. Required: publicationId, segmentId. Optional: limit, page, expand[]. Returns array of Subscription.",
+        "summary": "List all members in a segment with full subscription data. Each member is returned as a subscription object containing complete subscriber information and their subscription details. Supports optional expansions for stats, custom fields, tags, referrals, and premium tiers. **Use this endpoint when you need detailed subscriber information.** If you only need subscriber IDs, use `/segments/{segmentId}/results` for a lighter-weight response. Required: publicationId, segmentId. Optional: limit, page, expand. Returns array of Subscription.",
         "params_schema": {
           "publicationId": "string",
           "segmentId": "string",
           "limit": "int?",
           "page": "int?",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57592,13 +57900,13 @@
         "summary": "Create subscription <Badge intent='info' minimal outlined>OAuth Scope: subscriptions:write</Badge>. Required: publicationId, email. Optional: automation_ids, custom_fields, double_opt_override (plus 15 more). Returns the new SubscriptionResponse.",
         "params_schema": {
           "publicationId": "string",
-          "automation_ids": "array?",
+          "automation_ids": "string_csv_array?",
           "custom_fields": "array?",
           "double_opt_override": "string?",
           "email": "string?",
-          "newsletter_list_ids": "array?",
-          "premium_tier_ids": "array?",
-          "premium_tiers": "array?",
+          "newsletter_list_ids": "string_csv_array?",
+          "premium_tier_ids": "string_csv_array?",
+          "premium_tiers": "string_csv_array?",
           "reactivate_existing": "bool?",
           "referral_code": "string?",
           "referring_site": "string?",
@@ -57640,7 +57948,7 @@
         "params_schema": {
           "publicationId": "string",
           "new_status": "string?",
-          "subscription_ids": "array?"
+          "subscription_ids": "string_csv_array?"
         },
         "positionals": [
           "publicationId"
@@ -57671,7 +57979,7 @@
         "params_schema": {
           "publicationId": "string",
           "new_status": "string?",
-          "subscription_ids": "array?"
+          "subscription_ids": "string_csv_array?"
         },
         "positionals": [
           "publicationId"
@@ -57699,11 +58007,11 @@
       },
       {
         "tool": "subscriptions.get-by-email",
-        "summary": "<Info>Please note that this endpoint requires the email to be URL encoded. Please reference your language's documentation for the correct method of encoding.</Info> Retrieve a single subscription belonging to a specific email address in a specific publication. Required: publicationId, email. Optional: expand[]. Returns the SubscriptionResponse.",
+        "summary": "<Info>Please note that this endpoint requires the email to be URL encoded. Please reference your language's documentation for the correct method of encoding.</Info> Retrieve a single subscription belonging to a specific email address in a specific publication. Required: publicationId, email. Optional: expand. Returns the SubscriptionResponse.",
         "params_schema": {
           "publicationId": "string",
           "email": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57716,11 +58024,11 @@
       },
       {
         "tool": "subscriptions.get-by-id",
-        "summary": "<Info>In previous versions of the API, another endpoint existed to retrieve a subscription by the subscriber ID. This endpoint is now deprecated and will be removed in a future version of the API. Please use this endpoint instead. The subscription ID can be found by exporting a list of subscriptions either via the `Settings > Publications > Export Data` or by exporting a CSV in a segment.</Info> Retrieve a single subscription belonging to a specific publication. Required: publicationId, subscriptionId. Optional: expand[]. Returns the SubscriptionResponse.",
+        "summary": "<Info>In previous versions of the API, another endpoint existed to retrieve a subscription by the subscriber ID. This endpoint is now deprecated and will be removed in a future version of the API. Please use this endpoint instead. The subscription ID can be found by exporting a list of subscriptions either via the `Settings > Publications > Export Data` or by exporting a CSV in a segment.</Info> Retrieve a single subscription belonging to a specific publication. Required: publicationId, subscriptionId. Optional: expand. Returns the SubscriptionResponse.",
         "params_schema": {
           "publicationId": "string",
           "subscriptionId": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57733,11 +58041,11 @@
       },
       {
         "tool": "subscriptions.get-by-subscriber-id",
-        "summary": "Get subscription by subscriber ID <Badge intent='info' minimal outlined>OAuth Scope: subscriptions:read</Badge>. Required: publicationId, subscriberId. Optional: expand[]. Returns the SubscriptionResponse.",
+        "summary": "Get subscription by subscriber ID <Badge intent='info' minimal outlined>OAuth Scope: subscriptions:read</Badge>. Required: publicationId, subscriberId. Optional: expand. Returns the SubscriptionResponse.",
         "params_schema": {
           "publicationId": "string",
           "subscriberId": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57750,14 +58058,14 @@
       },
       {
         "tool": "subscriptions.index",
-        "summary": "Retrieve all subscriptions belonging to a specific publication. <Info> **New**: This endpoint now supports cursor-based pagination for better performance and consistency. Use the `cursor` parameter instead of `page` for new integrations. </Info> <Warning> **Deprecation Notice**: Offset-based pagination (using `page` parameter) is deprecated and limited to 100 pages maximum. Please migrate to cursor-based pagination. See our [Pagination Guide](/welcome/pagination) for details. </Warning>. Required: publicationId. Optional: expand[], status, tier (plus 9 more). Returns array of Subscription.",
+        "summary": "Retrieve all subscriptions belonging to a specific publication. <Info> **New**: This endpoint now supports cursor-based pagination for better performance and consistency. Use the `cursor` parameter instead of `page` for new integrations. </Info> <Warning> **Deprecation Notice**: Offset-based pagination (using `page` parameter) is deprecated and limited to 100 pages maximum. Please migrate to cursor-based pagination. See our [Pagination Guide](/welcome/pagination) for details. </Warning>. Required: publicationId. Optional: expand, status, tier (plus 9 more). Returns array of Subscription.",
         "params_schema": {
           "publicationId": "string",
-          "expand[]": "array?",
+          "expand": "array?",
           "status": "string?",
           "tier": "string?",
-          "premium_tiers[]": "array?",
-          "premium_tier_ids[]": "array?",
+          "premium_tiers": "array?",
+          "premium_tier_ids": "array?",
           "limit": "int?",
           "cursor": "string?",
           "page": "int?",
@@ -57782,8 +58090,8 @@
           "subscriptionId": "string",
           "custom_fields": "array?",
           "email": "string?",
-          "premium_tier_ids": "array?",
-          "premium_tiers": "array?",
+          "premium_tier_ids": "string_csv_array?",
+          "premium_tiers": "string_csv_array?",
           "stripe_customer_id": "string?",
           "tier": "string?",
           "unsubscribe": "bool?"
@@ -57805,8 +58113,8 @@
           "subscriptionId": "string",
           "custom_fields": "array?",
           "email": "string?",
-          "premium_tier_ids": "array?",
-          "premium_tiers": "array?",
+          "premium_tier_ids": "string_csv_array?",
+          "premium_tiers": "string_csv_array?",
           "stripe_customer_id": "string?",
           "tier": "string?",
           "unsubscribe": "bool?"
@@ -57822,13 +58130,14 @@
       },
       {
         "tool": "subscriptions.update-by-email",
-        "summary": "Update subscription by email <Badge intent='info' minimal outlined>OAuth Scope: subscriptions:write</Badge>. Required: publicationId, email. Optional: custom_fields, premium_tier_ids, premium_tiers (plus 3 more). Returns the updated SubscriptionResponse.",
+        "summary": "Update subscription by email <Badge intent='info' minimal outlined>OAuth Scope: subscriptions:write</Badge>. Required: publicationId, email. Optional: custom_fields, email, premium_tier_ids (plus 4 more). Returns the updated SubscriptionResponse.",
         "params_schema": {
           "publicationId": "string",
           "email": "string",
           "custom_fields": "array?",
-          "premium_tier_ids": "array?",
-          "premium_tiers": "array?",
+          "email-2": "string?",
+          "premium_tier_ids": "string_csv_array?",
+          "premium_tiers": "string_csv_array?",
           "stripe_customer_id": "string?",
           "tier": "string?",
           "unsubscribe": "bool?"
@@ -57864,7 +58173,7 @@
         "params_schema": {
           "publicationId": "string",
           "subscriptionId": "string",
-          "tags": "array?"
+          "tags": "string_csv_array?"
         },
         "positionals": [
           "publicationId",
@@ -57893,10 +58202,10 @@
       },
       {
         "tool": "tiers.index",
-        "summary": "List tiers <Badge intent='info' minimal outlined>OAuth Scope: tiers:read</Badge>. Required: publicationId. Optional: expand[], limit, page (plus 1 more). Returns array of Tier.",
+        "summary": "List tiers <Badge intent='info' minimal outlined>OAuth Scope: tiers:read</Badge>. Required: publicationId. Optional: expand, limit, page (plus 1 more). Returns array of Tier.",
         "params_schema": {
           "publicationId": "string",
-          "expand[]": "array?",
+          "expand": "array?",
           "limit": "int?",
           "page": "int?",
           "direction": "string?"
@@ -57949,11 +58258,11 @@
       },
       {
         "tool": "tiers.show",
-        "summary": "Get tier <Badge intent='info' minimal outlined>OAuth Scope: tiers:read</Badge>. Required: publicationId, tierId. Optional: expand[]. Returns the TierResponse.",
+        "summary": "Get tier <Badge intent='info' minimal outlined>OAuth Scope: tiers:read</Badge>. Required: publicationId, tierId. Optional: expand. Returns the TierResponse.",
         "params_schema": {
           "publicationId": "string",
           "tierId": "string",
-          "expand[]": "array?"
+          "expand": "array?"
         },
         "positionals": [
           "publicationId",
@@ -57980,7 +58289,7 @@
         "params_schema": {
           "publicationId": "string",
           "description": "string?",
-          "event_types": "array?",
+          "event_types": "string_csv_array?",
           "url": "string?"
         },
         "positionals": [
@@ -58044,7 +58353,7 @@
           "publicationId": "string",
           "endpointId": "string",
           "description": "string?",
-          "event_types": "array?"
+          "event_types": "string_csv_array?"
         },
         "positionals": [
           "publicationId",
@@ -58079,6 +58388,16 @@
         "argv_path": [
           "workspaces",
           "identify"
+        ]
+      },
+      {
+        "tool": "workspaces.permissions-show",
+        "summary": "Retrieve the permissions granted to the OAuth or API token for this workspace. Returns the WorkspacePermissionsGetResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "workspaces",
+          "permissions-show"
         ]
       },
       {
@@ -253238,6 +253557,263 @@
         ],
         "argv_path": [
           "metadata"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "nccpl",
+    "description": "Pakistan's clearing-layer data as a local research panel with a coverage audit and an arithmetic self-check, not another dashboard.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/nccpl/cmd/nccpl-pp-cli",
+    "auth_type": "composed",
+    "category": "payments",
+    "search_terms": [
+      "nccpl",
+      "nccpl-pp-cli",
+      "Pakistan's clearing-layer data as a local research panel with a coverage audit and an arithmetic self-check, not another dashboard.",
+      "Arithmetic invariant validator",
+      "verify",
+      "Prove a date's flow numbers are internally consistent before they reach a regression.",
+      "Per-resource coverage and gap ledger",
+      "coverage",
+      "List which sessions are missing per resource, how stale each one is, and how wide each date's data actually is.",
+      "Live endpoint self-test",
+      "contract-check",
+      "Assert every endpoint family still answers correctly for a date it just reported as its own latest.",
+      "Vintage-stamped research panel export",
+      "panel",
+      "Emit any synced resource as a tidy long-format panel, with gaps marked rather than filled.",
+      "Point-in-time symbol roster",
+      "universe",
+      "Reconstruct which symbols were listed and clearing-eligible on any past date.",
+      "Risk-parameter change detector",
+      "risk-changes",
+      "Date every step change in a symbol's free float, VAR margin and haircut.",
+      "Unified leverage and short-interest panel",
+      "leverage",
+      "Join MTS, MFS and MSF open positions with SLB net open position into one per-symbol cross-section.",
+      "Gate-free FIPI/LIPI flow feed",
+      "flows",
+      "Fetch daily FIPI/LIPI sector flows into the local store without a browser.",
+      "Browser-capture ingest",
+      "ingest",
+      "Load NCCPL responses captured through your own browser into the same local store.",
+      "Browser-assisted capture",
+      "capture",
+      "Fetch the gated NCCPL datasets through a controlled browser and store them locally; opt in with --launch, and add --headless to run with no window."
+    ],
+    "endpoints": [
+      {
+        "tool": "fipi.latest-date",
+        "summary": "Most recent publication date available for fipi. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "fipi",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "fipi-normal.latest-date",
+        "summary": "Most recent publication date available for fipi-normal. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "fipi-normal",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "fipi-sector.latest-date",
+        "summary": "Most recent publication date available for fipi-sector. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "fipi-sector",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "lipi.latest-date",
+        "summary": "Most recent publication date available for lipi. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "lipi",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "lipi-normal.latest-date",
+        "summary": "Most recent publication date available for lipi-normal. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "lipi-normal",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "lipi-sector.latest-date",
+        "summary": "Most recent publication date available for lipi-sector. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "lipi-sector",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "market.latest",
+        "summary": "Most recent market-wide traded value or volume series. Needs Cloudflare clearance only. Required: graph-type (default: value). Optional: limit (default: 30). Returns the GraphSeries.",
+        "params_schema": {
+          "graph-type": "string?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "market",
+          "latest"
+        ]
+      },
+      {
+        "tool": "mfs.latest-date",
+        "summary": "Most recent publication date available for mfs. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mfs",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "mfs-top.latest-date",
+        "summary": "Most recent publication date available for mfs-top. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mfs-top",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "msf.latest-date",
+        "summary": "Most recent publication date available for msf. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "msf",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "msf-top.latest-date",
+        "summary": "Most recent publication date available for msf-top. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "msf-top",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "mts.latest-date",
+        "summary": "Most recent publication date available for mts. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mts",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "mts-financiers.latest-date",
+        "summary": "Most recent publication date available for mts-financiers. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mts-financiers",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "mts-force-release.latest-date",
+        "summary": "Most recent publication date available for mts-force-release. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mts-force-release",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "mts-refinanced.latest-date",
+        "summary": "Most recent publication date available for mts-refinanced. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mts-refinanced",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "mts-top-financiers.latest-date",
+        "summary": "Most recent publication date available for mts-top-financiers. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mts-top-financiers",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "settlement-cm.latest-date",
+        "summary": "Most recent publication date available for settlement-cm. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settlement-cm",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "settlement-uin.latest-date",
+        "summary": "Most recent publication date available for settlement-uin. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settlement-uin",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "slb.latest-date",
+        "summary": "Most recent publication date available for slb. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "slb",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "tfc.latest-date",
+        "summary": "Most recent publication date available for tfc. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tfc",
+          "latest-date"
+        ]
+      },
+      {
+        "tool": "var-margins.latest-date",
+        "summary": "Most recent publication date available for var-margins. Needs Cloudflare clearance only; no CSRF or session. Returns the LatestDate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "var-margins",
+          "latest-date"
         ]
       }
     ]
