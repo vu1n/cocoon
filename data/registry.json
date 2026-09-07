@@ -329862,28 +329862,142 @@
     "category": "travel",
     "search_terms": [
       "seats-aero",
-      "Seats Aero Partner",
+      "Seats.aero",
       "seats-aero-pp-cli",
-      "Seats.aero Partner API for award travel availability, cached search, route lists, and trip revalidation details.",
-      "Seats.aero Partner API key from https://seats.aero/partner-api.",
-      "Award deal finder",
-      "seats-aero-partner-search",
-      "Find bookable award seats between airports with cabin, direct-flight, carrier, date, and lowest-mileage filters in one agent-safe command.",
-      "Program route atlas",
-      "routes",
-      "List every route tracked for a mileage program so agents can discover origin-destination coverage before searching availability.",
-      "Bulk award calendar",
-      "availability",
-      "Pull a mileage program availability feed by cabin, date window, and regions to build award calendars and destination shortlists."
+      "Every Seats.aero Partner API endpoint, plus a local award-availability store that tells you what is new, what is still live, and where your miles reach nonstop.",
+      "New-since award watch",
+      "new-since",
+      "See which award seats appeared on a route since you last looked, from your synced local data.",
+      "Credit-aware recheck",
+      "recheck",
+      "Re-verify aging award rows are still live right before booking. It performs one live quota probe per run (1 daily call), and --apply is refused when quota is unknown unless --ignore-quota is passed.",
+      "Cross-program direct-only scan",
+      "direct-scan",
+      "Find direct-flight award seats under a mileage ceiling across every synced program at once.",
+      "Cabin/date calendar matrix",
+      "calendar",
+      "Turn one route's synced availability into a date-by-cabin matrix you can scan at a glance.",
+      "Nonstop reach finder",
+      "reach",
+      "Discover where your miles can take you nonstop from one airport, ranked by cost and cross-checked against real dated seats."
     ],
     "endpoints": [
       {
-        "tool": "agent-context",
-        "summary": "Search Seats.aero award-flight availability, route coverage, mileage-program feeds, and trip details from the terminal. (no tools-manifest upstream; call agent-context to capture the real schema)",
-        "params_schema": {},
+        "tool": "availability.bulk",
+        "summary": "Retrieve a large amount of availability objects from one specific mileage program. Required: source. Optional: cabin, start_date, end_date (plus 7 more). Returns array of Availability.",
+        "params_schema": {
+          "source": "string?",
+          "cabin": "string?",
+          "start_date": "string?",
+          "end_date": "string?",
+          "origin_region": "string?",
+          "destination_region": "string?",
+          "take": "int?",
+          "cursor": "int?",
+          "skip": "int?",
+          "include_filtered": "bool?",
+          "min_cabin_pct": "int?"
+        },
         "positionals": [],
         "argv_path": [
-          "agent-context"
+          "availability",
+          "bulk"
+        ]
+      },
+      {
+        "tool": "awards.cached-search",
+        "summary": "Search Seats.aero cached award availability between one or more origin and destination airports, across one or more mileage programs. This is the flagship cached-search endpoint behind seats.aero's own web app. Required: origin_airport, destination_airport. Optional: start_date, end_date, cursor (plus 11 more). Returns array of Availability.",
+        "params_schema": {
+          "origin_airport": "string?",
+          "destination_airport": "string?",
+          "start_date": "string?",
+          "end_date": "string?",
+          "cursor": "int?",
+          "take": "int?",
+          "skip": "int?",
+          "order_by": "string?",
+          "include_trips": "bool?",
+          "only_direct_flights": "bool?",
+          "carriers": "string?",
+          "include_filtered": "bool?",
+          "sources": "string?",
+          "minify_trips": "bool?",
+          "cabins": "string?",
+          "min_cabin_pct": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "awards",
+          "cached-search"
+        ]
+      },
+      {
+        "tool": "destinations.get",
+        "summary": "Returns the airports reachable from (or to) a single airport, along with the cheapest raw nonstop mileage price per cabin, aggregated across every source. Only direct/nonstop itineraries are considered; connecting prices are excluded. Supply exactly one of origin_airport or destination_airport. A cabin with no nonstop availability is returned as null (never 0). Optional: origin_airport, destination_airport.",
+        "params_schema": {
+          "origin_airport": "string?",
+          "destination_airport": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "destinations"
+        ]
+      },
+      {
+        "tool": "live.search",
+        "summary": "Commercial-agreement API keys only; Pro keys receive 403 -- do not retry. 5-15 s latency. Required: departure_date, destination_airport, origin_airport, source. Optional: disable_filters (default: false), seat_count (default: 1), show_dynamic_pricing (default: false) (plus 1 more). Returns the new LiveSearchResponse.",
+        "params_schema": {
+          "departure_date": "string?",
+          "destination_airport": "string?",
+          "disable_filters": "bool?",
+          "origin_airport": "string?",
+          "seat_count": "int?",
+          "show_dynamic_pricing": "bool?",
+          "smart_cache": "bool?",
+          "source": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "live",
+          "search"
+        ]
+      },
+      {
+        "tool": "refresh.availability",
+        "summary": "Use this endpoint to refresh old cached data. Pro API keys only; commercial-agreement keys cannot use /refresh (use /live). Credit-metered -- the response quota block shows remaining refreshes. Required: availability_ids. Returns array of RefreshAvailabilityItem.",
+        "params_schema": {
+          "availability_ids": "string_csv_array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "refresh",
+          "availability"
+        ]
+      },
+      {
+        "tool": "routes.get",
+        "summary": "Get all origin-destination routes tracked for a mileage program. Required: source. Returns array of Route.",
+        "params_schema": {
+          "source": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "routes"
+        ]
+      },
+      {
+        "tool": "trips.get",
+        "summary": "Retrieve flight-level information from an Availability object by its revalidation/trip ID from search or availability results. Required: id. Optional: include_filtered (default: false), min_cabin_pct (default: 100). Returns array of Trip.",
+        "params_schema": {
+          "id": "string",
+          "include_filtered": "bool?",
+          "min_cabin_pct": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "trips"
         ]
       }
     ]
@@ -407594,7 +407708,31 @@
       "Preview or apply a JSON0 operation array read from disk with --ops-file. Also: apply an ops-file batch of plan edits.",
       "Raw JSON0 escape hatch",
       "plan raw op",
-      "Preview or apply an explicit ShareDB JSON0 operation array."
+      "Preview or apply an explicit ShareDB JSON0 operation array.",
+      "Full itinerary block read",
+      "plan block get",
+      "Read a complete note, schedule and place details by stable block ID.",
+      "Semantic batch edits",
+      "plan edit",
+      "Preview and atomically apply named Markdown, label and schedule changes by block ID.",
+      "Saved travel legs",
+      "plan route legs",
+      "Read saved driving and walking durations and distances in itinerary order, missing coverage and explicit-mode schedule slack.",
+      "Saved place suggestions",
+      "plan suggestions",
+      "Read saved candidate places for an itinerary section without duplicating planned stops.",
+      "Efficient day planning",
+      "plan day",
+      "Read complete day constraints and saved travel in one deduplicated response, with opt-in verified local state changes.",
+      "Trip orientation",
+      "plan overview",
+      "Orient across every day with stop locations, schedules, saved travel, accommodation changes and global constraints.",
+      "Multi-day planning",
+      "plan days",
+      "Read full selected days with shared notes, reservations and place metadata represented once.",
+      "Batch itinerary creation",
+      "plan block add-batch",
+      "Validate and preview multiple stops, notes, checklists and schedules before one ShareDB transaction."
     ],
     "endpoints": [
       {
