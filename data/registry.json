@@ -59906,6 +59906,820 @@
     ]
   },
   {
+    "api": "bing-webmaster",
+    "description": "The Bing Webmaster Tools API: manage sites, submit URLs, and read query/traffic/crawl/link stats from the Bing search index.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/bing-webmaster/cmd/bing-webmaster-pp-cli",
+    "auth_type": "api_key",
+    "category": "developer-tools",
+    "search_terms": [
+      "bing-webmaster",
+      "Bing Webmaster Tools",
+      "bing-webmaster-pp-cli",
+      "The Bing Webmaster Tools API: manage sites, submit URLs, and read query/traffic/crawl/link stats from the Bing search index.",
+      "Query-performance delta review",
+      "review",
+      "See which Bing queries you gained or lost, and how CTR and average position shifted, vs the previous period \u2014 not just a raw snapshot.",
+      "Ranking-drift detection",
+      "drift",
+      "Track average-position movement per query and page over time and surface the biggest climbers and droppers.",
+      "Quota-aware submission planning",
+      "publish plan",
+      "Read a real sitemap or URL file and live Bing quota, deduplicate the supplied URLs, and calculate quota-capped batches without submitting anything.",
+      "Crawl-error triage",
+      "triage",
+      "Categorize crawl issues by severity, diff them against your last sync, and map each issue to the affected child URLs in one view.",
+      "Submission quota intelligence",
+      "quota",
+      "One view of URL and content submission quota \u2014 daily and monthly remaining \u2014 plus a pacing recommendation.",
+      "Bing-vs-Google coverage gap",
+      "gap",
+      "Reconcile your Bing query/page performance against a Google Search Console export to find queries and pages you rank for on one engine but not the other.",
+      "Feed/sitemap health monitor",
+      "feed-health",
+      "Track submitted, discovered, and indexed counts for each feed over time and flag drops.",
+      "Indexation watch",
+      "watch",
+      "Diff the latest sync against the previous one and surface indexation, crawl, and impression regressions per site."
+    ],
+    "endpoints": [
+      {
+        "tool": "blocked.list",
+        "summary": "List blocked pages and directories. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "blocked"
+        ]
+      },
+      {
+        "tool": "blocked.add",
+        "summary": "Block a page or directory from the index. Required: site, blockedUrl.",
+        "params_schema": {
+          "site": "string?",
+          "blocked-url-url": "string?",
+          "blocked-url-entity-type": "string?",
+          "blocked-url-request-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "blocked",
+          "add"
+        ]
+      },
+      {
+        "tool": "blocked.add-preview-block",
+        "summary": "Block the page preview for a URL. Required: site, url, blockReason.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?",
+          "blockReason": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "blocked",
+          "add-preview-block"
+        ]
+      },
+      {
+        "tool": "blocked.preview-blocks",
+        "summary": "List active page-preview blocks. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "blocked",
+          "preview-blocks"
+        ]
+      },
+      {
+        "tool": "blocked.remove",
+        "summary": "Unblock a previously blocked page or directory. Required: site, blockedUrl.",
+        "params_schema": {
+          "site": "string?",
+          "blocked-url-url": "string?",
+          "blocked-url-entity-type": "string?",
+          "blocked-url-request-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "blocked",
+          "remove"
+        ]
+      },
+      {
+        "tool": "blocked.remove-preview-block",
+        "summary": "Remove a page-preview block. Required: site, url.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "blocked",
+          "remove-preview-block"
+        ]
+      },
+      {
+        "tool": "crawl.children-info",
+        "summary": "Read index details for the pages under a directory using wrapped JSON POST. Required: site, url. Optional: page. Returns array.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "crawl",
+          "children-info"
+        ]
+      },
+      {
+        "tool": "crawl.issues",
+        "summary": "Crawl issues found for a site. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "crawl",
+          "issues"
+        ]
+      },
+      {
+        "tool": "crawl.save-settings",
+        "summary": "Save crawl settings for a site. Required: site, crawlSettings.",
+        "params_schema": {
+          "site": "string?",
+          "crawl-settings-crawl-rate": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "crawl",
+          "save-settings"
+        ]
+      },
+      {
+        "tool": "crawl.settings",
+        "summary": "Get crawl settings for a site. Required: site.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "crawl",
+          "settings"
+        ]
+      },
+      {
+        "tool": "crawl.stats",
+        "summary": "Daily crawl statistics for a site. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "crawl",
+          "stats"
+        ]
+      },
+      {
+        "tool": "crawl.url-info",
+        "summary": "Index details for a single page. Required: site, url.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "crawl",
+          "url-info"
+        ]
+      },
+      {
+        "tool": "deeplinks.update",
+        "summary": "[OBSOLETE in Bing API] Update a deep link weight. Required: site, market, searchUrl, weight.",
+        "params_schema": {
+          "site": "string?",
+          "market": "string?",
+          "searchUrl": "string?",
+          "weight": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "deeplinks"
+        ]
+      },
+      {
+        "tool": "deeplinks.add-block",
+        "summary": "Block a deep link. Required: site, market, searchUrl, deepLinkUrl.",
+        "params_schema": {
+          "site": "string?",
+          "market": "string?",
+          "searchUrl": "string?",
+          "deepLinkUrl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "deeplinks",
+          "add-block"
+        ]
+      },
+      {
+        "tool": "deeplinks.blocks",
+        "summary": "List deep link blocks for a site. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "deeplinks",
+          "blocks"
+        ]
+      },
+      {
+        "tool": "deeplinks.remove-block",
+        "summary": "Remove a deep link block. Required: site, market, searchUrl, deepLinkUrl.",
+        "params_schema": {
+          "site": "string?",
+          "market": "string?",
+          "searchUrl": "string?",
+          "deepLinkUrl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "deeplinks",
+          "remove-block"
+        ]
+      },
+      {
+        "tool": "feeds.list",
+        "summary": "List all top-level feeds (sitemaps) for a site. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "feeds"
+        ]
+      },
+      {
+        "tool": "feeds.details",
+        "summary": "Get details for a feed or sitemap index. Required: site, feedUrl. Returns array.",
+        "params_schema": {
+          "site": "string?",
+          "feedUrl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "feeds",
+          "details"
+        ]
+      },
+      {
+        "tool": "feeds.remove",
+        "summary": "Remove a submitted feed. Required: site, feedUrl.",
+        "params_schema": {
+          "site": "string?",
+          "feedUrl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "feeds",
+          "remove"
+        ]
+      },
+      {
+        "tool": "feeds.submit",
+        "summary": "Submit a sitemap or feed URL. Required: site, feedUrl.",
+        "params_schema": {
+          "site": "string?",
+          "feedUrl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "feeds",
+          "submit"
+        ]
+      },
+      {
+        "tool": "geo.add",
+        "summary": "Add a country/region targeting setting. Required: site, settings.",
+        "params_schema": {
+          "site": "string?",
+          "settings-url": "string?",
+          "settings-two-letter-iso-country-region-name": "string?",
+          "settings-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "geo",
+          "add"
+        ]
+      },
+      {
+        "tool": "geo.remove",
+        "summary": "Remove a country/region targeting setting. Required: site, settings.",
+        "params_schema": {
+          "site": "string?",
+          "settings-url": "string?",
+          "settings-two-letter-iso-country-region-name": "string?",
+          "settings-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "geo",
+          "remove"
+        ]
+      },
+      {
+        "tool": "geo.settings",
+        "summary": "List country/region targeting settings. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "geo",
+          "settings"
+        ]
+      },
+      {
+        "tool": "keywords.get",
+        "summary": "Keyword impressions for a period. Required: query. Optional: country, language, startDate (plus 1 more).",
+        "params_schema": {
+          "query": "string?",
+          "country": "string?",
+          "language": "string?",
+          "startDate": "string?",
+          "endDate": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "keywords"
+        ]
+      },
+      {
+        "tool": "keywords.related",
+        "summary": "Keywords related to a query for a period. Required: query. Optional: country, language, startDate (plus 1 more). Returns array.",
+        "params_schema": {
+          "query": "string?",
+          "country": "string?",
+          "language": "string?",
+          "startDate": "string?",
+          "endDate": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "keywords",
+          "related"
+        ]
+      },
+      {
+        "tool": "keywords.stats",
+        "summary": "Historical stats for a keyword. Required: query. Optional: country, language. Returns array.",
+        "params_schema": {
+          "query": "string?",
+          "country": "string?",
+          "language": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "keywords",
+          "stats"
+        ]
+      },
+      {
+        "tool": "links.add-connected",
+        "summary": "Add a connected page to the site. Required: site, masterUrl.",
+        "params_schema": {
+          "site": "string?",
+          "masterUrl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "links",
+          "add-connected"
+        ]
+      },
+      {
+        "tool": "links.connected",
+        "summary": "List pages connected to the site. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "links",
+          "connected"
+        ]
+      },
+      {
+        "tool": "links.counts",
+        "summary": "Pages with inbound link counts (paged). Required: site. Optional: page.",
+        "params_schema": {
+          "site": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "links",
+          "counts"
+        ]
+      },
+      {
+        "tool": "links.url-links",
+        "summary": "Inbound links for a specific URL (paged). Required: site, link. Optional: page.",
+        "params_schema": {
+          "site": "string?",
+          "link": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "links",
+          "url-links"
+        ]
+      },
+      {
+        "tool": "params.list",
+        "summary": "List query-parameter normalization rules. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "params"
+        ]
+      },
+      {
+        "tool": "params.add",
+        "summary": "Add a query-parameter normalization rule. Required: site, queryParameter.",
+        "params_schema": {
+          "site": "string?",
+          "queryParameter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "params",
+          "add"
+        ]
+      },
+      {
+        "tool": "params.remove",
+        "summary": "Remove a query-parameter rule. Required: site, queryParameter.",
+        "params_schema": {
+          "site": "string?",
+          "queryParameter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "params",
+          "remove"
+        ]
+      },
+      {
+        "tool": "params.toggle",
+        "summary": "Enable or disable a query-parameter rule. Required: site, queryParameter, isEnabled.",
+        "params_schema": {
+          "site": "string?",
+          "queryParameter": "string?",
+          "isEnabled": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "params",
+          "toggle"
+        ]
+      },
+      {
+        "tool": "sites.list",
+        "summary": "List all verified sites for the current user. Returns array.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sites"
+        ]
+      },
+      {
+        "tool": "sites.add",
+        "summary": "Add a new site to your account. Required: site.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sites",
+          "add"
+        ]
+      },
+      {
+        "tool": "sites.add-role",
+        "summary": "Delegate site access to another user. Required: site, delegatedUrl, email. Optional: businessVerificationCode, canDelegate, isAdministrator.",
+        "params_schema": {
+          "site": "string?",
+          "delegatedUrl": "string?",
+          "email": "string?",
+          "businessVerificationCode": "string?",
+          "canDelegate": "bool?",
+          "isAdministrator": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sites",
+          "add-role"
+        ]
+      },
+      {
+        "tool": "sites.remove",
+        "summary": "Remove a site from your account. Required: site.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sites",
+          "remove"
+        ]
+      },
+      {
+        "tool": "sites.remove-role",
+        "summary": "Revoke a user's delegated access to a site. Required: site, siteRole.",
+        "params_schema": {
+          "site": "string?",
+          "siteRole": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sites",
+          "remove-role"
+        ]
+      },
+      {
+        "tool": "sites.roles",
+        "summary": "Get delegated user roles for a site. Required: site. Optional: isCurrentUserAdmin.",
+        "params_schema": {
+          "site": "string?",
+          "isCurrentUserAdmin": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sites",
+          "roles"
+        ]
+      },
+      {
+        "tool": "sites.submit-move",
+        "summary": "Submit a site migration. Required: site. Optional: settings.",
+        "params_schema": {
+          "site": "string?",
+          "settings-target-url": "string?",
+          "settings-type": "string?",
+          "settings-scope": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sites",
+          "submit-move"
+        ]
+      },
+      {
+        "tool": "sites.verify",
+        "summary": "Attempt verification of a site you have added. Required: site.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sites",
+          "verify"
+        ]
+      },
+      {
+        "tool": "submission.content-quota",
+        "summary": "Get content submission quota. Required: site.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "submission",
+          "content-quota"
+        ]
+      },
+      {
+        "tool": "submission.fetch",
+        "summary": "Request that Bing fetch a single URL. Required: site, url.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "submission",
+          "fetch"
+        ]
+      },
+      {
+        "tool": "submission.fetched",
+        "summary": "List URLs Bing has fetched on request. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "submission",
+          "fetched"
+        ]
+      },
+      {
+        "tool": "submission.fetched-details",
+        "summary": "Get details of a fetched URL. Required: site, url.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "submission",
+          "fetched-details"
+        ]
+      },
+      {
+        "tool": "submission.submit-batch",
+        "summary": "Submit up to 500 URLs for indexing in one request. Required: site, urlList.",
+        "params_schema": {
+          "site": "string?",
+          "urlList": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "submission",
+          "submit-batch"
+        ]
+      },
+      {
+        "tool": "submission.submit-content",
+        "summary": "Submit page content directly to Bing. Required: site, url, httpMessage. Optional: structuredData, httpStatus.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?",
+          "httpMessage": "string?",
+          "structuredData": "string?",
+          "httpStatus": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "submission",
+          "submit-content"
+        ]
+      },
+      {
+        "tool": "submission.submit-url",
+        "summary": "Submit a single URL for indexing. Required: site, url.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "submission",
+          "submit-url"
+        ]
+      },
+      {
+        "tool": "submission.url-quota",
+        "summary": "Get daily and monthly URL submission quota. Required: site.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "submission",
+          "url-quota"
+        ]
+      },
+      {
+        "tool": "traffic.children-traffic",
+        "summary": "Index and traffic info for the pages under a directory. Required: site, url. Optional: page. Returns array.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "children-traffic"
+        ]
+      },
+      {
+        "tool": "traffic.page-queries",
+        "summary": "Queries that lead to a given page. Required: site, page. Returns array.",
+        "params_schema": {
+          "site": "string?",
+          "page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "page-queries"
+        ]
+      },
+      {
+        "tool": "traffic.pages",
+        "summary": "Top pages for a site. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "pages"
+        ]
+      },
+      {
+        "tool": "traffic.queries",
+        "summary": "Top query stats for a site (may be empty below Bing's data threshold). Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "queries"
+        ]
+      },
+      {
+        "tool": "traffic.query-page-detail",
+        "summary": "Detailed stats for a specific query and page pair. Required: site, query, page. Returns array.",
+        "params_schema": {
+          "site": "string?",
+          "query": "string?",
+          "page": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "query-page-detail"
+        ]
+      },
+      {
+        "tool": "traffic.query-pages",
+        "summary": "Pages that rank for a given query. Required: site, query. Returns array.",
+        "params_schema": {
+          "site": "string?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "query-pages"
+        ]
+      },
+      {
+        "tool": "traffic.query-traffic",
+        "summary": "Traffic stats for a single query. Required: site, query. Returns array.",
+        "params_schema": {
+          "site": "string?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "query-traffic"
+        ]
+      },
+      {
+        "tool": "traffic.rank-traffic",
+        "summary": "Daily impressions and clicks for a site. Required: site. Returns array.",
+        "params_schema": {
+          "site": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "rank-traffic"
+        ]
+      },
+      {
+        "tool": "traffic.url-traffic",
+        "summary": "Index and traffic info for a single page. Required: site, url.",
+        "params_schema": {
+          "site": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "traffic",
+          "url-traffic"
+        ]
+      }
+    ]
+  },
+  {
     "api": "bird",
     "description": "A terminal-native CLI for Bird's Conversations and SMS APIs, with offline search, batch reconcile, and a local...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/social-and-messaging/bird/cmd/bird-pp-cli",
@@ -70245,6 +71059,44 @@
         ]
       }
     ]
+  },
+  {
+    "api": "cdc-pakistan",
+    "description": "The only machine-readable view of Pakistani custody data \u2014 per-security CDS penetration and a twenty-year eligibility record, from a source no tool has ever automated.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/cdc-pakistan/cmd/cdc-pakistan-pp-cli",
+    "auth_type": "cookie",
+    "category": "payments",
+    "search_terms": [
+      "cdc-pakistan",
+      "CDC Pakistan",
+      "cdc-pakistan-pp-cli",
+      "The only machine-readable view of Pakistani custody data \u2014 per-security CDS penetration and a twenty-year eligibility record, from a source no tool has ever automated.",
+      "Coverage map + paginator integrity",
+      "coverage map",
+      "See exactly which document buckets are mirrored, which are genuinely absent at source, and which were never asked for.",
+      "Identity ledger and point-in-time resolve",
+      "identity ledger",
+      "Reconstruct a security's symbol, name and ISIN history so you never splice two different issuers into one return series.",
+      "CDS eligibility state machine",
+      "eligibility state",
+      "Get a security's full CDS-eligibility history folded from twenty years of notices into a six-state lifecycle.",
+      "Row-level extraction audit",
+      "verify rows",
+      "Prove the PDF extraction is trustworthy by asserting the report's own percentage column against its own share and capital columns.",
+      "Schema and seam gate",
+      "verify schema",
+      "Refuse to blend vintages whose column sets are incompatible, and refuse a month that is missing one of its parts.",
+      "Three-way float reconciliation",
+      "float triangulate",
+      "Put CDC custody penetration beside PSX free-float shares and NCCPL free-float percent, with each denominator named.",
+      "Per-symbol Government of Pakistan stake",
+      "gop stake",
+      "Derive state-held capital per security from the difference between the including-GoP and excluding-GoP capital columns.",
+      "Append-only statistics history",
+      "stats history",
+      "Track the sixteen CDS aggregate metrics forward from your first sync, with archived rows labelled as such."
+    ],
+    "endpoints": []
   },
   {
     "api": "cf-domain",
@@ -236857,6 +237709,89 @@
     ]
   },
   {
+    "api": "keyword-planner",
+    "description": "Turn Google Keyword Planner reads into an immutable local evidence portfolio for offline research and safe warehouse handoff.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/keyword-planner/cmd/keyword-planner-pp-cli",
+    "auth_type": "oauth2_refresh",
+    "category": "marketing",
+    "search_terms": [
+      "keyword-planner",
+      "Google Keyword Planner",
+      "keyword-planner-pp-cli",
+      "Turn Google Keyword Planner reads into an immutable local evidence portfolio for offline research and safe warehouse handoff.",
+      "Evidence trace",
+      "portfolio trace",
+      "Trace one stored monthly value back to the exact request and raw receipt that produced it.",
+      "Coverage accountability",
+      "portfolio coverage",
+      "See requested, returned, missing, unavailable, raw-only, and incomplete coverage for a saved collection.",
+      "Variant-aware lineage",
+      "portfolio variants",
+      "Follow submitted keywords through returned terms and close variants without double-counting demand.",
+      "Immutable snapshot diff",
+      "portfolio diff",
+      "Compare two preserved collections to see changed terms, monthly values, flags, and coverage.",
+      "Portfolio integrity check",
+      "portfolio integrity",
+      "Verify that raw receipts, hashes, normalized rows, and coverage still reconcile.",
+      "Policy-safe local statistics",
+      "portfolio safe-stats",
+      "Compute descriptive monthly aggregates while excluding unavailable, ambiguous, anomalous, and incomplete rows."
+    ],
+    "endpoints": [
+      {
+        "tool": "customers.generate_keyword_historical_metrics",
+        "summary": "Returns a list of keyword historical metrics. List of thrown errors: [AuthenticationError]() [AuthorizationError]() [CollectionSizeError]() [HeaderError]() [InternalError]() [QuotaError]() [RequestError](). Required: customerId. Optional: access_token, historicalMetricsOptions, language (plus 5 more).",
+        "params_schema": {
+          "customerId": "string",
+          "access_token": "string?",
+          "historicalMetricsOptions": "object?",
+          "language": "string?",
+          "includeAdultKeywords": "boolean?",
+          "geoTargetConstants": "array?",
+          "keywordPlanNetwork": "string?",
+          "keywords": "array?",
+          "aggregateMetrics": "object?"
+        },
+        "positionals": [
+          "customerId"
+        ],
+        "argv_path": [
+          "customers",
+          "generate_keyword_historical_metrics"
+        ]
+      },
+      {
+        "tool": "customers.generate_keyword_ideas",
+        "summary": "Returns a list of keyword ideas. List of thrown errors: [AuthenticationError]() [AuthorizationError]() [CollectionSizeError]() [HeaderError]() [InternalError]() [KeywordPlanIdeaError]() [QuotaError]() [RequestError](). Required: customerId. Optional: access_token, includeAdultKeywords, geoTargetConstants (plus 11 more).",
+        "params_schema": {
+          "customerId": "string",
+          "access_token": "string?",
+          "includeAdultKeywords": "boolean?",
+          "geoTargetConstants": "array?",
+          "pageToken": "string?",
+          "keywordSeed": "object?",
+          "keywordAndUrlSeed": "object?",
+          "urlSeed": "object?",
+          "aggregateMetrics": "object?",
+          "siteSeed": "object?",
+          "keywordPlanNetwork": "string?",
+          "historicalMetricsOptions": "object?",
+          "keywordAnnotation": "array?",
+          "language": "string?",
+          "pageSize": "integer?"
+        },
+        "positionals": [
+          "customerId"
+        ],
+        "argv_path": [
+          "customers",
+          "generate_keyword_ideas"
+        ]
+      }
+    ]
+  },
+  {
     "api": "kie",
     "description": "Unified CLI for Kie.ai's AI generation platform: 120+ Market models (image, video, audio) via one create/query task pair, plus dedicated Suno, Veo3.1, Runway, Flux Kontext, 4o Image, and per-model chat completion endpoints.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/kie/cmd/kie-pp-cli",
@@ -251882,6 +252817,142 @@
         "argv_path": [
           "tv",
           "seasons_get"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "mufap",
+    "description": "Pakistan's mutual fund industry as a dated local panel: two decades of daily NAVs, monthly PKR asset allocation, and a market-implied short rate no other tool derives.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/mufap/cmd/mufap-pp-cli",
+    "auth_type": "none",
+    "category": "payments",
+    "search_terms": [
+      "mufap",
+      "mufap-pp-cli",
+      "Pakistan's mutual fund industry as a dated local panel: two decades of daily NAVs, monthly PKR asset allocation, and a market-implied short rate no other tool derives.",
+      "Market-implied PKR short rate",
+      "rates",
+      "Derive a daily short-term interest rate series from the cross-section of money-market fund yields.",
+      "Mutual fund equity exposure",
+      "exposure",
+      "Total PKR the mutual fund industry holds in listed equities, by month, from per-fund asset allocation.",
+      "Dated panel backfill",
+      "backfill daily",
+      "Fetch the daily fund panel or monthly allocation across a date range into the local store.",
+      "Panel query",
+      "panel",
+      "Query the stored daily NAV and return panel by date, fund, category or sector.",
+      "Coverage ledger",
+      "coverage",
+      "Show which dates were fetched, which returned zero rows, and which were never attempted.",
+      "Arithmetic invariant check",
+      "verify allocation",
+      "Check that fund asset-class percentages net to 100 and flag months whose percent columns are unpopulated.",
+      "Universe width",
+      "universe",
+      "Report how many funds reported on each date, by sector and category.",
+      "Return dispersion",
+      "dispersion",
+      "Cross-sectional spread of fund returns within a category on each date.",
+      "Validity freshness audit",
+      "freshness",
+      "Detect funds whose published NAV validity date lags the requested date.",
+      "Bulk dump",
+      "dump",
+      "Dump the stored panel, allocation or coverage tables as JSONL for piping, a single JSON array for agents, or CSV."
+    ],
+    "endpoints": [
+      {
+        "tool": "allocation.get",
+        "summary": "Asset allocation for one fund in one month. ID is the INTEGER fund code; Date is M-YYYY. Required: fund-code, month.",
+        "params_schema": {
+          "fund-code": "string?",
+          "month": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "allocation"
+        ]
+      },
+      {
+        "tool": "amcs.list",
+        "summary": "List the 27 asset management companies MUFAP tracks. Returns each AMC's GUID, which every fund lookup keys on, plus its display name. Start here: `funds by-amc` needs the GUID, not the name.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "amcs"
+        ]
+      },
+      {
+        "tool": "dates.list",
+        "summary": "List the Year/Month periods MUFAP has published industry statistics for. Use it to plan a monthly backfill window instead of guessing which months exist. Note the envelope's message field reads 'No data found' even when periods are returned; trust the row count.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "dates"
+        ]
+      },
+      {
+        "tool": "funds.by-amc",
+        "summary": "List funds for one AMC (AMCId is the GUID from `amcs list`). Required: amc-id.",
+        "params_schema": {
+          "amc-id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "funds",
+          "by-amc"
+        ]
+      },
+      {
+        "tool": "payouts.list",
+        "summary": "List announced fund payouts and distributions, with the per-unit amount and the ex-NAV the payout is struck against. Use it to separate a NAV fall caused by a distribution from a genuine loss.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "payouts"
+        ]
+      },
+      {
+        "tool": "unitholders.get",
+        "summary": "Unit-holder pattern for one calendar year (Date is YYYY). Required: year.",
+        "params_schema": {
+          "year": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "unitholders"
+        ]
+      },
+      {
+        "tool": "vps.age-wise",
+        "summary": "VPS allocation broken down by contributor age band.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "vps",
+          "age-wise"
+        ]
+      },
+      {
+        "tool": "vps.retired-cash",
+        "summary": "Break down Voluntary Pension Scheme assets held as retired cash. Shows how much pension money has been moved out of market exposure into cash on retirement, which the headline VPS allocation does not separate.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "vps",
+          "retired-cash"
+        ]
+      },
+      {
+        "tool": "vps.withdrawals",
+        "summary": "Report cash withdrawn from Voluntary Pension Scheme funds. Pairs with `vps retired-cash` to show whether pension outflows are being drawn down or merely reallocated to cash.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "vps",
+          "withdrawals"
         ]
       }
     ]
@@ -343361,21 +344432,21 @@
     "search_terms": [
       "shelters",
       "shelters-pp-cli",
-      "Credible, real-time disaster shelter information for AI agents and people",
+      "Credible, real-time US (and territories) disaster shelter information, unioning FEMA OpenShelters and the American Red Cross feed, for AI agents and people",
       "Closest open shelter, including pet-friendly",
       "near",
-      "Ranks open shelters by straight-line distance from a lat,lon, ZIP, or street address; geocodes shelters that are missing coordinates and reports any it cannot locate rather than dropping them.",
+      "Ranks open shelters by straight-line distance from a lat,lon, ZIP, or street address; geocodes shelters that are missing coordinates and reports any it cannot locate rather than dropping them; filterable by pets, ADA, wheelchair, county/parish, and confirmed onsite generator.",
       "Honest capacity, never a fabricated denominator",
       "capacity",
       "Computes utilization only where both a population and a capacity are reported, labeling the denominator (evacuation vs post-impact), and surfaces shelters reported FULL without asserting it as ground truth.",
       "One-call situational briefing",
       "brief",
-      "One command returns the open count, a breakdown by state, pet-friendly and accessible counts, and the capacity picture, with an optional human briefing.",
+      "One command returns the open count, breakdowns by state and by the driving incident, pet-friendly and accessible counts, and the capacity picture, with an optional human briefing.",
       "Filtered open-shelter listing",
-      "Open shelters flattened from the feed and filterable by state, pets, ADA, wheelchair, managing org, and status.",
+      "Open shelters from the union of FEMA OpenShelters and the American Red Cross feed (deduped, each tagged with a source field: fema, redcross, or fema+redcross), flattened and filterable by state, pets, ADA, wheelchair, managing org, status, county/parish, and confirmed onsite generator; FEMA rows best-effort enriched with the richer FEMA_NSS/0 layer (county, the driving incident, generator and floodplain/surge attributes).",
       "Flattened shelter detail by stable id",
       "shelter",
-      "Full detail for one shelter joined on the stable shelter_id rather than the churning objectid, with unreported fields as explicit null."
+      "Full detail for one shelter joined on the stable shelter_id rather than the churning objectid, with unreported fields as explicit null; enriched with FEMA_NSS/0 fields (county, the driving incident, open date, generator, floodplain/surge, and the population breakdown) when reported."
     ],
     "endpoints": [
       {
