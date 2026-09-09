@@ -285040,6 +285040,67 @@
     ]
   },
   {
+    "api": "pbs",
+    "description": "The only machine-readable Pakistani price panel \u2014 every urban centre and essential item the Bureau prices weekly, accrued locally because the Bureau itself does not keep the series.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/pbs/cmd/pbs-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "pbs",
+      "Pakistan Bureau of Statistics",
+      "pbs-pp-cli",
+      "The only machine-readable Pakistani price panel \u2014 every urban centre and essential item the Bureau prices weekly, accrued locally because the Bureau itself does not keep the series.",
+      "Cross-city price spread",
+      "spread",
+      "See the cheapest and dearest city for any essential item in any week, and how that gap has moved over time.",
+      "Single-item multi-city series",
+      "drift",
+      "Follow one item's price across named cities and weeks, with missing weeks shown as gaps rather than filled.",
+      "Custom re-weighted basket",
+      "basket",
+      "Build your own price index over any subset of items using the weight vector PBS republishes every week.",
+      "Weight-vector drift",
+      "weights",
+      "Read the item weight vector for any release, diff two releases, and check the totals sum to 100.",
+      "Extraction verification",
+      "verify",
+      "Audit parsed cell values against the source's own arithmetic invariants, including the weight totals and min-avg-max ordering.",
+      "Coverage and gap map",
+      "coverage",
+      "Show which releases exist upstream, which the local store holds, and every hole named as a hole.",
+      "Upstream revision detector",
+      "revisions",
+      "Detect releases the Bureau has rewritten, re-pointed, or deleted since you captured them.",
+      "Top movers from levels",
+      "movers",
+      "Rank every item in a release by percent change recomputed from price levels, nationally or per city, with outliers flagged."
+    ],
+    "endpoints": [
+      {
+        "tool": "file.get",
+        "summary": "Fetch one annexure, report, or CPI annex file by exact filename. Formats: .xlsx for the 44 most recent weekly releases (2025-10-23 onward) and .pdf for the other 104 -- so the text-layer PDF path covers 70% of the panel and is not optional. Never construct this filename; take it from `releases`. Required: filename.",
+        "params_schema": {
+          "filename": "string"
+        },
+        "positionals": [
+          "filename"
+        ],
+        "argv_path": [
+          "file"
+        ]
+      },
+      {
+        "tool": "index.get",
+        "summary": "Fetch the release-index page. THE ONLY ENUMERATOR -- release URLs are UNCONSTRUCTIBLE: 35 distinct annexure filename shapes across 148 rows (top shape covers only 53), including one `Annex.pdf` with no date at all, plus load-bearing typos (SumarySPI, SummaryReport, USCCP, Annexture). A guessed URL returns a clean HTTP 404, never a soft 200. This endpoint's html_extract returns the raw file-link list; the authoritative date-paired index comes from the hand-written JS-literal parser in `releases`.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "index"
+        ]
+      }
+    ]
+  },
+  {
     "api": "pcgs",
     "description": "The first CLI for the PCGS Public API \u2014 cert lookup, full CoinFacts extraction, and the 1,000-call-per-day budget...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/pcgs/cmd/pcgs-pp-cli",
@@ -331206,6 +331267,65 @@
         ],
         "argv_path": [
           "submissions"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "seek",
+    "description": "Every SEEK search and job-detail feature, plus a local job history, salary distributions, and hiring trends no other SEEK tool has.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/seek/cmd/seek-pp-cli",
+    "auth_type": "cookie",
+    "category": "productivity",
+    "search_terms": [
+      "seek",
+      "seek-pp-cli",
+      "Every SEEK search and job-detail feature, plus a local job history, salary distributions, and hiring trends no other SEEK tool has.",
+      "Salary distribution over live listings",
+      "salary",
+      "Get salary percentiles, a histogram, and the pay-disclosure rate for a role and location by sampling matching listings (which it also caches locally).",
+      "Hiring-volume trend series",
+      "trends",
+      "See how job-listing volume for a classification, region, or work arrangement changes over time, bucketed from the listing dates of every job the CLI has cached, with period-over-period deltas.",
+      "Company hiring scan",
+      "company",
+      "Profile one advertiser: their company details and review ratings plus every current opening and a local history of how many roles they've posted.",
+      "Live facet breakdown",
+      "listings facets",
+      "Break a live query down by classification, work type, pay band, or region by tallying the sampled result pages \u2014 no local store needed.",
+      "Classification taxonomy resolver",
+      "classifications",
+      "Browse or resolve SEEK's numeric classification and subclassification IDs so filtered searches can target them precisely.",
+      "New listings across every saved search",
+      "me new-jobs",
+      "Run every one of your SEEK saved searches and return only the postings that aren't already in your local store, tagged by which search matched."
+    ],
+    "endpoints": [
+      {
+        "tool": "listings.search",
+        "summary": "Search job listings by keyword, location, and filters. Optional: keywords, where, site (default: AU-Main) (plus 13 more). Returns array of JobSummary.",
+        "params_schema": {
+          "keywords": "string?",
+          "where": "string?",
+          "site": "string?",
+          "sourcesystem": "string?",
+          "page": "int?",
+          "page-size": "int?",
+          "classification": "string?",
+          "subclassification": "string?",
+          "work-type": "string?",
+          "salary-range": "string?",
+          "salary-type": "string?",
+          "posted-within-days": "int?",
+          "sort": "string?",
+          "work-arrangement": "string?",
+          "distance": "int?",
+          "locale": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "search"
         ]
       }
     ]
