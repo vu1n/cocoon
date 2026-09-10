@@ -22610,6 +22610,108 @@
     ]
   },
   {
+    "api": "amc-theatres",
+    "description": "Browser-captured docs-derived contract for AMC Theatres Showtime API v2.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/amc-theatres/cmd/amc-theatres-pp-cli",
+    "auth_type": "api_key",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "amc-theatres",
+      "Amc Theatres Showtime",
+      "amc-theatres-pp-cli",
+      "Browser-captured docs-derived contract for AMC Theatres Showtime API v2.",
+      "Movie plan",
+      "movie-plan",
+      "Find, filter, and rank AMC showtimes by theatre or current location without purchasing tickets."
+    ],
+    "endpoints": [
+      {
+        "tool": "showtimes.get-by-id",
+        "summary": "Retrieves showtime details for the provided ID. Required: id. Returns the FlexibleResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "showtimes",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "showtimes.search-by-lat-long",
+        "summary": "Retrieves a paged list of showtimes for a date and coordinates. Required: searchDate, latitude, longitude. Optional: page-number, page-size. Returns the FlexibleResponse.",
+        "params_schema": {
+          "searchDate": "string",
+          "latitude": "string",
+          "longitude": "string",
+          "page-number": "int?",
+          "page-size": "int?"
+        },
+        "positionals": [
+          "searchDate",
+          "latitude",
+          "longitude"
+        ],
+        "argv_path": [
+          "showtimes",
+          "search-by-lat-long"
+        ]
+      },
+      {
+        "tool": "theatres.movies_get-earliest-showtime-by-theatre",
+        "summary": "Retrieves the earliest movie showtime for a theatre number and movie ID. Required: theatreNumber, movieId. Returns the FlexibleResponse.",
+        "params_schema": {
+          "theatreNumber": "string",
+          "movieId": "string"
+        },
+        "positionals": [
+          "theatreNumber",
+          "movieId"
+        ],
+        "argv_path": [
+          "theatres",
+          "movies_get-earliest-showtime-by-theatre"
+        ]
+      },
+      {
+        "tool": "theatres.showtimes_get-by-theatre",
+        "summary": "Retrieves a paged list of showtimes for a theatre number. Required: theatreNumber. Optional: page-number, page-size. Returns the FlexibleResponse.",
+        "params_schema": {
+          "theatreNumber": "string",
+          "page-number": "int?",
+          "page-size": "int?"
+        },
+        "positionals": [
+          "theatreNumber"
+        ],
+        "argv_path": [
+          "theatres",
+          "showtimes_get-by-theatre"
+        ]
+      },
+      {
+        "tool": "theatres.showtimes_search",
+        "summary": "Retrieves a paged list of showtimes for a theatre number and date. Required: theatreNumber, searchDate. Optional: page-number, page-size. Returns the FlexibleResponse.",
+        "params_schema": {
+          "theatreNumber": "string",
+          "searchDate": "string",
+          "page-number": "int?",
+          "page-size": "int?"
+        },
+        "positionals": [
+          "theatreNumber",
+          "searchDate"
+        ],
+        "argv_path": [
+          "theatres",
+          "showtimes_search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "american-reindustrialization",
     "description": "Browse, slice, and analyze the curated American Reindustrialization directory \u2014 with diffs, geo clusters, sector...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/american-reindustrialization/cmd/american-reindustrialization-pp-cli",
@@ -211082,6 +211184,369 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "google-tag-manager",
+    "description": "Mirror any GTM container into a local database, then audit, diff, and query it from the terminal \u2014 everything the GTM console can't do, read-only and safe against production.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/google-tag-manager/cmd/google-tag-manager-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "marketing",
+    "search_terms": [
+      "google-tag-manager",
+      "Google Tag Manager",
+      "google-tag-manager-pp-cli",
+      "Mirror any GTM container into a local database, then audit, diff, and query it from the terminal \u2014 everything the GTM console can't do, read-only and safe against production.",
+      "Mirror container to SQLite",
+      "pull",
+      "Walk an entire GTM container \u2014 every tag, trigger, variable, folder, template, client, zone, and gtag config \u2014 into a local SQLite store in one command.",
+      "Hygiene audit",
+      "audit",
+      "Run a battery of hygiene checks against the mirror: dead tags, orphan triggers, unused variables, paused tags, Custom HTML tags, and tags firing on All Pages.",
+      "Snapshot diff",
+      "diff",
+      "Field-level diff between two snapshots: workspace vs live, version vs version, or container vs container, with stable name+type keys so renames are not add+remove.",
+      "Cross-container fleet matrix",
+      "fleet",
+      "One table across all pulled containers: GA4/measurement-id inventory, Consent Mode coverage, Custom HTML count, and entity counts per container.",
+      "Consent Mode v2 readiness",
+      "consent-report",
+      "Per-tag consentSettings coverage and a list of tags that fire without consent gating, classified by vendor (ads vs analytics).",
+      "Full-text search across config",
+      "search",
+      "Substring search across every entity's name, type, parameters, and notes \u2014 find hardcoded GA4 ids, stray pixels, or leftover URLs across all pulled containers.",
+      "Reverse-dependency blast radius",
+      "uses",
+      "Show everything that references a variable or trigger \u2014 the safe-to-delete / what-breaks-if-I-touch-this check.",
+      "Runtime fire graph",
+      "fires",
+      "Bidirectional graph walk: which tags fire on a trigger, or which triggers and variables a tag depends on.",
+      "Git-friendly export",
+      "export",
+      "Emit a deterministic flattened representation of the container for clean version-control diffs, or container-export-compatible JSON."
+    ],
+    "endpoints": [
+      {
+        "tool": "tagmanager.accounts-containers-destinations-list",
+        "summary": "Lists all Destinations linked to a GTM Container. Required: parent. Returns array of Destination.",
+        "params_schema": {
+          "parent": "string"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-destinations-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-environments-list",
+        "summary": "Lists all GTM Environments of a GTM Container. Required: parent. Optional: pageToken. Returns array of Environment.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-environments-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-list",
+        "summary": "Lists all Containers that belongs to a GTM Account. Required: parent. Optional: pageToken. Returns array of Container.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-lookup",
+        "summary": "Looks up a Container by destination ID. Optional: destinationId. Returns the Container.",
+        "params_schema": {
+          "destinationId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-lookup"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-snippet",
+        "summary": "Gets the tagging snippet for a Container. Required: path. Returns the GetContainerSnippetResponse.",
+        "params_schema": {
+          "path": "string"
+        },
+        "positionals": [
+          "path"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-snippet"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-version-headers-latest",
+        "summary": "Gets the latest container version header. Required: parent. Returns the ContainerVersionHeader.",
+        "params_schema": {
+          "parent": "string"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-version-headers-latest"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-version-headers-list",
+        "summary": "Lists all Container Versions of a GTM Container. Required: parent. Optional: includeDeleted, pageToken. Returns array of ContainerVersionHeader.",
+        "params_schema": {
+          "parent": "string",
+          "includeDeleted": "bool?",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-version-headers-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-versions-live",
+        "summary": "Gets the live (i.e. published) container version. Required: parent. Returns the ContainerVersion.",
+        "params_schema": {
+          "parent": "string"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-versions-live"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-built-in-variables-list",
+        "summary": "Lists all the enabled Built-In Variables of a GTM Container. Required: parent. Optional: pageToken. Returns array of BuiltInVariable.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-built-in-variables-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-clients-list",
+        "summary": "Lists all GTM Clients of a GTM container workspace. Required: parent. Optional: pageToken. Returns array of Client.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-clients-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-folders-list",
+        "summary": "Lists all GTM Folders of a Container. Required: parent. Optional: pageToken. Returns array of Folder.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-folders-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-get-status",
+        "summary": "Finds conflicting and modified entities in the workspace. Required: path. Returns the GetWorkspaceStatusResponse.",
+        "params_schema": {
+          "path": "string"
+        },
+        "positionals": [
+          "path"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-get-status"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-gtag-config-list",
+        "summary": "Lists all Google tag configs in a Container. Required: parent. Optional: pageToken. Returns array of GtagConfig.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-gtag-config-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-list",
+        "summary": "Lists all Workspaces that belong to a GTM Container. Required: parent. Optional: pageToken. Returns array of Workspace.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-tags-list",
+        "summary": "Lists all GTM Tags of a Container. Required: parent. Optional: pageToken. Returns array of Tag.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-tags-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-templates-list",
+        "summary": "Lists all GTM Templates of a GTM container workspace. Required: parent. Optional: pageToken. Returns array of CustomTemplate.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-templates-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-triggers-list",
+        "summary": "Lists all GTM Triggers of a Container. Required: parent. Optional: pageToken. Returns array of Trigger.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-triggers-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-variables-list",
+        "summary": "Lists all GTM Variables of a Container. Required: parent. Optional: pageToken. Returns array of Variable.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-variables-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-containers-workspaces-zones-list",
+        "summary": "Lists all GTM Zones of a GTM container workspace. Required: parent. Optional: pageToken. Returns array of Zone.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-containers-workspaces-zones-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-list",
+        "summary": "Lists all GTM Accounts that a user has access to. Optional: includeGoogleTags, pageToken. Returns array of Account.",
+        "params_schema": {
+          "includeGoogleTags": "bool?",
+          "pageToken": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tagmanager",
+          "accounts-list"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-user-permissions-get",
+        "summary": "Gets a user's Account & Container access. Required: path. Optional: containerVersionId. Returns array of ContainerAccess.",
+        "params_schema": {
+          "path": "string",
+          "containerVersionId": "string?"
+        },
+        "positionals": [
+          "path"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-user-permissions-get"
+        ]
+      },
+      {
+        "tool": "tagmanager.accounts-user-permissions-list",
+        "summary": "List all users that have access to the account along with Account and Container user access granted to each of them. Required: parent. Optional: pageToken. Returns array of UserPermission.",
+        "params_schema": {
+          "parent": "string",
+          "pageToken": "string?"
+        },
+        "positionals": [
+          "parent"
+        ],
+        "argv_path": [
+          "tagmanager",
+          "accounts-user-permissions-list"
         ]
       }
     ]
