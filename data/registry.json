@@ -254634,6 +254634,699 @@
     ]
   },
   {
+    "api": "myanimelist",
+    "description": "Every public MyAnimeList surface in one binary, plus offline analytics the site itself cannot answer",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/myanimelist/cmd/myanimelist-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "myanimelist",
+      "myanimelist-pp-cli",
+      "Every public MyAnimeList surface in one binary, plus offline analytics the site itself cannot answer",
+      "Divisiveness index",
+      "anime divisive",
+      "See whether a title is universally loved or bitterly split, instead of reading one average score.",
+      "Reception drift and movers",
+      "drift",
+      "See how a title's score, member count, favorites, and rank have moved since you last looked.",
+      "Weekly viewing grid",
+      "week",
+      "Get a timezone-correct seven-day grid of just the shows you track, with same-hour collisions flagged.",
+      "Drop-risk score",
+      "anime drop-risk",
+      "Judge how likely a title is to be abandoned before you commit dozens of episodes to it.",
+      "Episode reception curve",
+      "anime consistency",
+      "See whether a show improves, holds, or falls apart across its episodes using per-episode poll data.",
+      "Anime-to-manga source coverage",
+      "adaptation",
+      "Learn whether an anime covered its source manga and how much source material is left.",
+      "Franchise gap finder",
+      "franchise gap",
+      "Find the sequel, movie, or side story you skipped in every franchise you have already started."
+    ],
+    "endpoints": [
+      {
+        "tool": "anime.get",
+        "summary": "Fetch one anime title's full detail page by MyAnimeList id. Required: id. Returns the AnimeDetail.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime"
+        ]
+      },
+      {
+        "tool": "anime.characters",
+        "summary": "Characters and their Japanese/English voice actors for an anime. Required: id. Returns array of CharacterRole.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "characters"
+        ]
+      },
+      {
+        "tool": "anime.episodes",
+        "summary": "Episode table with titles, air dates, poll averages, and reply counts. Required: id. Optional: page (default: 1). Returns array of Episode.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "episodes"
+        ]
+      },
+      {
+        "tool": "anime.forum",
+        "summary": "Discussion boards attached to an anime title. Required: id. Returns array of ForumBoard.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "forum"
+        ]
+      },
+      {
+        "tool": "anime.list",
+        "summary": "Search anime with the site's full advanced filters (query, format, score, airing status, rating, year range, genre, sort). Optional: query, format, min-score (plus 7 more). Returns array of AnimeSummary.",
+        "params_schema": {
+          "query": "string?",
+          "format": "int?",
+          "min-score": "int?",
+          "airing-status": "int?",
+          "page": "int?",
+          "rating": "int?",
+          "start-year": "int?",
+          "end-year": "int?",
+          "genre": "int?",
+          "sort": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "anime",
+          "list"
+        ]
+      },
+      {
+        "tool": "anime.moreinfo",
+        "summary": "Extended credits, external links, and full theme-song credits. Required: id. Returns the AnimeDetail.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "moreinfo"
+        ]
+      },
+      {
+        "tool": "anime.pictures",
+        "summary": "Image gallery (posters, key visuals, screenshots) for an anime. Required: id. Returns array of Picture.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "pictures"
+        ]
+      },
+      {
+        "tool": "anime.recommendations",
+        "summary": "Community recommendations for an anime, with recommendation counts. Required: id. Optional: page (default: 1). Returns array of Recommendation.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "recommendations"
+        ]
+      },
+      {
+        "tool": "anime.reviews",
+        "summary": "Community reviews with scores, helpful counts, and spoiler flags. Required: id. Optional: page (default: 1), include-spoilers. Returns array of Review.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "include-spoilers": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "reviews"
+        ]
+      },
+      {
+        "tool": "anime.stats",
+        "summary": "Score distribution (1-10 with vote counts) and status distribution for an anime. Required: id. Returns the TitleStats.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "stats"
+        ]
+      },
+      {
+        "tool": "anime.streaming",
+        "summary": "Streaming episodes and promos for an anime (the site's own video JSON, no auth) with a real pager. Required: id. Optional: page (default: 1). Returns array of StreamingVideo.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "streaming"
+        ]
+      },
+      {
+        "tool": "anime.videos",
+        "summary": "Promotional videos and trailers for an anime. Required: id. Returns array of Video.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "anime",
+          "videos"
+        ]
+      },
+      {
+        "tool": "character.get",
+        "summary": "A character's profile with appearances and voice actors. Required: id. Returns the CharacterDetail.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "character"
+        ]
+      },
+      {
+        "tool": "feed.featured",
+        "summary": "Featured-article RSS feed (XML). Returns array of NewsItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "feed",
+          "featured"
+        ]
+      },
+      {
+        "tool": "feed.news",
+        "summary": "News RSS feed (XML). Returns array of NewsItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "feed",
+          "news"
+        ]
+      },
+      {
+        "tool": "feed.user",
+        "summary": "A member's public activity feed (needs ?u=; without it the endpoint 404s). Required: feed-type, username. Returns array of NewsItem.",
+        "params_schema": {
+          "feed-type": "string?",
+          "username": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "feed",
+          "user"
+        ]
+      },
+      {
+        "tool": "forum.boards",
+        "summary": "All forum boards with their current topic counts. Returns array of ForumBoard.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "forum",
+          "boards"
+        ]
+      },
+      {
+        "tool": "forum.topic",
+        "summary": "One forum topic and its posts. Required: topic-id. Returns the ForumTopicDetail.",
+        "params_schema": {
+          "topic-id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "forum",
+          "topic"
+        ]
+      },
+      {
+        "tool": "forum.topics",
+        "summary": "Topics in one forum board. Required: board. Optional: page (default: 1). Returns array of ForumTopic.",
+        "params_schema": {
+          "board": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "forum",
+          "topics"
+        ]
+      },
+      {
+        "tool": "genre.anime",
+        "summary": "Anime in a genre, theme, or demographic. Required: id. Optional: page (default: 1). Returns array of RankedTitle.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "genre",
+          "anime"
+        ]
+      },
+      {
+        "tool": "genre.manga",
+        "summary": "Manga in a genre, theme, or demographic. Required: id. Optional: page (default: 1). Returns array of RankedTitle.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "genre",
+          "manga"
+        ]
+      },
+      {
+        "tool": "instant.search",
+        "summary": "Instant search across anime, manga, characters, and people (the site's own suggest API, JSON). Required: query, entity-type. Returns the SuggestResult.",
+        "params_schema": {
+          "query": "string?",
+          "entity-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "instant",
+          "search"
+        ]
+      },
+      {
+        "tool": "magazine.get",
+        "summary": "A magazine's page with every serialized title. Required: id. Optional: page (default: 1). Returns array of RankedTitle.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "magazine"
+        ]
+      },
+      {
+        "tool": "manga.get",
+        "summary": "Fetch one manga title's full detail page by MyAnimeList id. Required: id. Returns the MangaDetail.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "manga"
+        ]
+      },
+      {
+        "tool": "manga.characters",
+        "summary": "Characters credited in a manga. Required: id. Returns array of CharacterRole.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "manga",
+          "characters"
+        ]
+      },
+      {
+        "tool": "manga.list",
+        "summary": "Search manga with the site's advanced filters. Optional: query, format, min-score (plus 7 more). Returns array of MangaSummary.",
+        "params_schema": {
+          "query": "string?",
+          "format": "int?",
+          "min-score": "int?",
+          "publish-status": "int?",
+          "page": "int?",
+          "rating": "int?",
+          "start-year": "int?",
+          "end-year": "int?",
+          "genre": "int?",
+          "sort": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "manga",
+          "list"
+        ]
+      },
+      {
+        "tool": "manga.moreinfo",
+        "summary": "Extended credits and external links for a manga. Required: id. Returns the MangaDetail.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "manga",
+          "moreinfo"
+        ]
+      },
+      {
+        "tool": "manga.pictures",
+        "summary": "Image gallery for a manga. Required: id. Returns array of Picture.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "manga",
+          "pictures"
+        ]
+      },
+      {
+        "tool": "manga.recommendations",
+        "summary": "Community recommendations for a manga. Required: id. Optional: page (default: 1). Returns array of Recommendation.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "manga",
+          "recommendations"
+        ]
+      },
+      {
+        "tool": "manga.reviews",
+        "summary": "Community reviews for a manga. Required: id. Optional: page (default: 1). Returns array of Review.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "manga",
+          "reviews"
+        ]
+      },
+      {
+        "tool": "manga.stats",
+        "summary": "Score distribution and status distribution for a manga. Required: id. Returns the TitleStats.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "manga",
+          "stats"
+        ]
+      },
+      {
+        "tool": "member.get",
+        "summary": "A public member profile: statistics, favorites, and recent activity (no credential required). Required: username. Returns the UserProfile.",
+        "params_schema": {
+          "username": "string"
+        },
+        "positionals": [
+          "username"
+        ],
+        "argv_path": [
+          "member"
+        ]
+      },
+      {
+        "tool": "member.anime-list",
+        "summary": "A public anime list as JSON rows (status, score, progress, tags); no credential required. Required: username. Optional: offset (default: 0), list-status. Returns array of ListRow.",
+        "params_schema": {
+          "username": "string",
+          "offset": "int?",
+          "list-status": "int?"
+        },
+        "positionals": [
+          "username"
+        ],
+        "argv_path": [
+          "member",
+          "anime-list"
+        ]
+      },
+      {
+        "tool": "member.manga-list",
+        "summary": "A public manga list as JSON rows; no credential required. Required: username. Optional: offset (default: 0), list-status. Returns array of ListRow.",
+        "params_schema": {
+          "username": "string",
+          "offset": "int?",
+          "list-status": "int?"
+        },
+        "positionals": [
+          "username"
+        ],
+        "argv_path": [
+          "member",
+          "manga-list"
+        ]
+      },
+      {
+        "tool": "member.statistics",
+        "summary": "A member's public aggregate statistics. Required: username. Returns the UserProfile.",
+        "params_schema": {
+          "username": "string"
+        },
+        "positionals": [
+          "username"
+        ],
+        "argv_path": [
+          "member",
+          "statistics"
+        ]
+      },
+      {
+        "tool": "news.get",
+        "summary": "A single news article, body included. Required: id. Returns the NewsArticle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "news"
+        ]
+      },
+      {
+        "tool": "news.list",
+        "summary": "Latest news headlines with pagination. Optional: page (default: 1). Returns array of NewsItem.",
+        "params_schema": {
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "news",
+          "list"
+        ]
+      },
+      {
+        "tool": "person.get",
+        "summary": "A person's page: animeography, voice roles, and staff credits. Required: id. Returns the PersonDetail.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "person"
+        ]
+      },
+      {
+        "tool": "ranking.anime",
+        "summary": "Top anime by type: all, airing, upcoming, tv, movie, ova, ona, special, bypopularity, favorite. Optional: list, page (default: 1), limit (default: 50). Returns array of RankedTitle.",
+        "params_schema": {
+          "list": "string?",
+          "page": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ranking",
+          "anime"
+        ]
+      },
+      {
+        "tool": "ranking.manga",
+        "summary": "Top manga by type: all, manga, novels, lightnovels, oneshots, doujin, manhwa, manhua, bypopularity, favorite. Optional: list, page (default: 1), limit (default: 50). Returns array of RankedTitle.",
+        "params_schema": {
+          "list": "string?",
+          "page": "int?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ranking",
+          "manga"
+        ]
+      },
+      {
+        "tool": "season.list",
+        "summary": "Full seasonal chart for a year and season, grouped by format. Required: year, season. Optional: page (default: 1). Returns array of SeasonEntry.",
+        "params_schema": {
+          "year": "string",
+          "season": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "year",
+          "season"
+        ],
+        "argv_path": [
+          "season"
+        ]
+      },
+      {
+        "tool": "season.archive",
+        "summary": "Index of every past season. Returns array of SeasonArchiveEntry.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "season",
+          "archive"
+        ]
+      },
+      {
+        "tool": "season.current",
+        "summary": "The season airing right now. Returns array of SeasonEntry.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "season",
+          "current"
+        ]
+      },
+      {
+        "tool": "season.later",
+        "summary": "Upcoming seasons announced but not yet airing (the `upcoming` path 404s; `later` is the real route). Returns array of SeasonEntry.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "season",
+          "later"
+        ]
+      },
+      {
+        "tool": "season.schedule",
+        "summary": "The weekly airing schedule, optionally shifted to a timezone the site understands. Optional: timezone. Returns array of ScheduleEntry.",
+        "params_schema": {
+          "timezone": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "season",
+          "schedule"
+        ]
+      },
+      {
+        "tool": "sitemap.index",
+        "summary": "Sitemap index listing every catalog shard (XML). Returns array of SitemapRef.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sitemap",
+          "index"
+        ]
+      },
+      {
+        "tool": "sitemap.shard",
+        "summary": "One sitemap shard, e.g. anime-001, manga-001, character-001, people-001, news-001 (XML). Required: shard. Returns array of SitemapRef.",
+        "params_schema": {
+          "shard": "string"
+        },
+        "positionals": [
+          "shard"
+        ],
+        "argv_path": [
+          "sitemap",
+          "shard"
+        ]
+      },
+      {
+        "tool": "studio.get",
+        "summary": "A studio's or licensor's page with its full production list. Required: id. Optional: page (default: 1). Returns array of RankedTitle.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "studio"
+        ]
+      }
+    ]
+  },
+  {
     "api": "myfitnesspal",
     "description": "Pull every meal you ever logged out of MyFitnessPal \u2014 per-food CSV, agent-shaped trends, and a local SQLite store...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/myfitnesspal/cmd/myfitnesspal-pp-cli",
