@@ -23177,7 +23177,7 @@
       },
       {
         "tool": "avvisi.search",
-        "summary": "Ricerca full-text di avvisi (bandi, esiti, altri avvisi) con ranking di rilevanza e filtri. Optional: query, scheda, cpv (plus 9 more). Returns array of Avviso.",
+        "summary": "Ricerca full-text di avvisi (bandi, esiti, altri avvisi) con ranking di rilevanza e filtri. Optional: query, scheda, cpv (plus 8 more). Returns array of Avviso.",
         "params_schema": {
           "query": "string?",
           "scheda": "string?",
@@ -23189,7 +23189,6 @@
           "sort-field": "string?",
           "sort-dir": "string?",
           "fuzzy": "bool?",
-          "page": "int?",
           "size": "int?"
         },
         "positionals": [],
@@ -204057,6 +204056,449 @@
     ]
   },
   {
+    "api": "garmin",
+    "description": "Your whole Garmin history in a local database, not one 28-day page at a time.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/garmin/cmd/garmin-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "health",
+    "search_terms": [
+      "garmin",
+      "Garmin Connect",
+      "garmin-pp-cli",
+      "Your whole Garmin history in a local database, not one 28-day page at a time.",
+      "Sleep over a window, joined and compared",
+      "insights sleep",
+      "Duration, score, stage split and resting heart rate for a window of nights, with the equally long window before it beside them.",
+      "Training load, zone split and fitness trend in one read",
+      "insights training",
+      "Archived activities grouped by type with their time and distance, time summed per heart-rate zone, weekly load buckets, and the VO2-max and readiness trends beside them.",
+      "Oldest-first archive fill of the 28-day-capped series",
+      "history",
+      "Fills a local SQLite archive of every Garmin daily series from the oldest day forward, keeping one bookmark per series so an interrupted run resumes instead of restarting.",
+      "SQL over the whole archive, read-only by construction",
+      "sql",
+      "Ask the archive anything in SQL: one read-only SELECT across every series `history` has filled.",
+      "Loopback browser login with identity assertion",
+      "auth login",
+      "Refuses to store a token whose account is not the address you named, so a shared browser cannot sign the wrong household member in."
+    ],
+    "endpoints": [
+      {
+        "tool": "account.personal-information",
+        "summary": "Returns the identity block for the signed-in account, including the account email. That email is the only field on any Garmin response that names which account a token belongs to, so `auth login` reads it immediately after the token exchange and refuses to store a token whose account does not match the one the operator named. Run it before trusting a home that a shared browser session may have filled with the wrong household member. Optional: DI-Backend.",
+        "params_schema": {
+          "DI-Backend": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "personal-information"
+        ]
+      },
+      {
+        "tool": "account.settings",
+        "summary": "Returns the account's settings. Read this once per home to learn whether the account reports distances in metric or statute units before formatting any distance, pace or weight. Optional: DI-Backend.",
+        "params_schema": {
+          "DI-Backend": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "settings"
+        ]
+      },
+      {
+        "tool": "account.social-profile",
+        "summary": "Returns the account's public profile. The `displayName` field is the account key that several other Garmin paths interpolate, so this is the first call after a login and the cheapest way to confirm a stored token still works: a 401 or 403 here means the token was rejected by the data tier. Optional: DI-Backend.",
+        "params_schema": {
+          "DI-Backend": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "account",
+          "social-profile"
+        ]
+      },
+      {
+        "tool": "activities.get",
+        "summary": "Everything Garmin holds about one activity at summary level: type, timing, distance and elevation. Aggregate heart rate and power come with it. Take the id from the activity list. Required: activityId. Optional: DI-Backend. Returns the ActivitySummary.",
+        "params_schema": {
+          "activityId": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "activityId"
+        ],
+        "argv_path": [
+          "activities"
+        ]
+      },
+      {
+        "tool": "activities.breakdown",
+        "summary": "Server-side aggregation of every activity on the account into totals per parent activity type, by duration or distance. Answers 'what does this account actually do, and how much' in one request instead of paging the whole activity list. Required: startDate, endDate, aggregation (default: lifetime), groupByParentActivityType (default: true), metric (default: distance). Optional: DI-Backend. Returns the FreeFormObject.",
+        "params_schema": {
+          "DI-Backend": "string?",
+          "startDate": "string?",
+          "endDate": "string?",
+          "aggregation": "string?",
+          "groupByParentActivityType": "bool?",
+          "metric": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "activities",
+          "breakdown"
+        ]
+      },
+      {
+        "tool": "activities.download-original",
+        "summary": "Fetches the original recorded file for one activity as a ZIP containing the device FIT file. This is the sanctioned export route for raw per-second data that the JSON endpoints do not expose. Binary response; write it to a file rather than parsing it. Required: activityId. Optional: DI-Backend.",
+        "params_schema": {
+          "activityId": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "activityId"
+        ],
+        "argv_path": [
+          "activities",
+          "download-original"
+        ]
+      },
+      {
+        "tool": "activities.hr-time-in-zones",
+        "summary": "Seconds spent in each configured heart-rate zone during one activity. That is the raw material for a training-polarisation ratio across a season. Combine with the zone settings to label the zones. Required: activityId. Optional: DI-Backend. Returns the FreeFormObject.",
+        "params_schema": {
+          "activityId": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "activityId"
+        ],
+        "argv_path": [
+          "activities",
+          "hr-time-in-zones"
+        ]
+      },
+      {
+        "tool": "activities.list",
+        "summary": "The account's activity feed, one row per recorded activity, newest first. Pages with `--offset` and `--limit`; an empty page means the end of the account's history. Optional filters narrow by date range, activity type and sort order. Distinct local start dates over this list are how 'days active' is counted \u2014 Garmin exposes no server-side count. Optional: DI-Backend, offset (default: 0), limit (default: 20) (plus 5 more). Returns array of ActivitySummary.",
+        "params_schema": {
+          "DI-Backend": "string?",
+          "offset": "int?",
+          "limit": "int?",
+          "startDate": "string?",
+          "endDate": "string?",
+          "activityType": "string?",
+          "activitySubType": "string?",
+          "sortOrder": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "activities",
+          "list"
+        ]
+      },
+      {
+        "tool": "activities.splits",
+        "summary": "The lap or split breakdown of a single activity, each with its own distance, duration and averages. Present for activities the device or the user split. Required: activityId. Optional: DI-Backend. Returns the FreeFormObject.",
+        "params_schema": {
+          "activityId": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "activityId"
+        ],
+        "argv_path": [
+          "activities",
+          "splits"
+        ]
+      },
+      {
+        "tool": "fitness.age",
+        "summary": "Garmin's fitness-age estimate and the components it was computed from for a single date. There is no range form, so a fitness-age trend costs one request per day and is what the local archive exists for. Required: date. Optional: DI-Backend. Returns the FreeFormObject.",
+        "params_schema": {
+          "date": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "date"
+        ],
+        "argv_path": [
+          "fitness",
+          "age"
+        ]
+      },
+      {
+        "tool": "fitness.max-metrics",
+        "summary": "Fitness-level trend: VO2 max, generic and cycling, plus Garmin's max-met value, one row per date. Only dates with a measurement appear; days without a qualifying activity are absent rather than zero. At most 28 calendar days per request. Required: start, end. Optional: DI-Backend. Returns the FreeFormObject.",
+        "params_schema": {
+          "start": "string",
+          "end": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "start",
+          "end"
+        ],
+        "argv_path": [
+          "fitness",
+          "max-metrics"
+        ]
+      },
+      {
+        "tool": "heart.rate_daily",
+        "summary": "The intraday heart-rate series for a single date plus the resting, minimum and maximum values Garmin derived from it. Sampled values only exist for dates a wearable was worn. This is the account-scoped path variant. Required: displayName, date. Optional: DI-Backend. Returns array of HeartRateDailyItem.",
+        "params_schema": {
+          "displayName": "string",
+          "DI-Backend": "string?",
+          "date": "string?"
+        },
+        "positionals": [
+          "displayName"
+        ],
+        "argv_path": [
+          "heart",
+          "rate_daily"
+        ]
+      },
+      {
+        "tool": "heart.rate_daily-alt",
+        "summary": "Identical payload to `daily`, on the wellness-service path that takes the date as a query parameter. It needs no displayName, so it is kept as a fallback and for use before the bootstrap profile call has run. Required: date. Optional: DI-Backend. Returns array of HeartRateDailyAltItem.",
+        "params_schema": {
+          "DI-Backend": "string?",
+          "date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "heart",
+          "rate_daily-alt"
+        ]
+      },
+      {
+        "tool": "heart.rate_zones",
+        "summary": "The zone boundaries the account has configured, per sport. These are settings, not measurements: read them to label time-in-zone numbers, and expect them to change only when the user edits them or Garmin auto-detects a new threshold. Optional: DI-Backend. Returns array of FreeFormObject.",
+        "params_schema": {
+          "DI-Backend": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "heart",
+          "rate_zones"
+        ]
+      },
+      {
+        "tool": "sleep.night",
+        "summary": "Everything Garmin recorded for a single night: stage minutes, sleep windows, restlessness and the sleep-score breakdown. One request per night, so a trend question should use the range commands instead. This is the account-scoped path variant; `night-alt` is the same payload without the displayName in the path. Required: displayName, date. Optional: DI-Backend, nonSleepBufferMinutes (default: 60). Returns the DailySleepData.",
+        "params_schema": {
+          "displayName": "string",
+          "DI-Backend": "string?",
+          "date": "string?",
+          "nonSleepBufferMinutes": "int?"
+        },
+        "positionals": [
+          "displayName"
+        ],
+        "argv_path": [
+          "sleep",
+          "night"
+        ]
+      },
+      {
+        "tool": "sleep.night-alt",
+        "summary": "Identical payload to `night`, on the sleep-service path that takes the date as a query parameter. It needs no displayName, so it works before the bootstrap profile call has run, and it is the fallback if the account-scoped path ever changes. Required: date. Optional: DI-Backend. Returns the DailySleepData.",
+        "params_schema": {
+          "DI-Backend": "string?",
+          "date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sleep",
+          "night-alt"
+        ]
+      },
+      {
+        "tool": "sleep.score-stats",
+        "summary": "The sleep score trend: one row per calendar date with the score value and qualifier. Cheaper than fetching per-night detail when the question is about a trend rather than one night. At most 28 calendar days per request. Required: start, end. Optional: DI-Backend. Returns array of SleepScoreDay.",
+        "params_schema": {
+          "start": "string",
+          "end": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "start",
+          "end"
+        ],
+        "argv_path": [
+          "sleep",
+          "score-stats"
+        ]
+      },
+      {
+        "tool": "sleep.stats",
+        "summary": "One row per night between `start` and `end`, aggregated by Garmin. At most 28 calendar days per request; `history` fills longer ranges into the local archive in 28-day windows, oldest day first, de-duplicating on the calendar date. Rows arrive under `individualStats`. Required: start, end. Optional: DI-Backend. Returns array of SleepStatsDay.",
+        "params_schema": {
+          "start": "string",
+          "end": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "start",
+          "end"
+        ],
+        "argv_path": [
+          "sleep",
+          "stats"
+        ]
+      },
+      {
+        "tool": "steps.daily",
+        "summary": "One row per calendar date with total steps, the step goal and the distance walked. At most 28 calendar days per request; `history` fills longer ranges into the local archive in 28-day windows, oldest day first. Required: start, end. Optional: DI-Backend. Returns array of DailyStepsDay.",
+        "params_schema": {
+          "start": "string",
+          "end": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "start",
+          "end"
+        ],
+        "argv_path": [
+          "steps",
+          "daily"
+        ]
+      },
+      {
+        "tool": "steps.weekly",
+        "summary": "Weekly step buckets instead of daily ones, about a year of them in a single request. The daily form would take thirteen requests for the same span. Use this for long-horizon trend questions and fall back to the daily form when a specific date matters. Required: end, weeks (default: 52). Optional: DI-Backend. Returns array of WeeklyStepsRow.",
+        "params_schema": {
+          "end": "string",
+          "weeks": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "end",
+          "weeks"
+        ],
+        "argv_path": [
+          "steps",
+          "weekly"
+        ]
+      },
+      {
+        "tool": "training.readiness",
+        "summary": "Garmin's training-readiness score for a single date, with the inputs it was built from. Those inputs are sleep, recovery, HRV and acute load. One request per day; a readiness trend comes from the local archive, not from this endpoint. Requires `--date`. Required: date. Optional: DI-Backend. Returns array of FreeFormObject.",
+        "params_schema": {
+          "date": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "date"
+        ],
+        "argv_path": [
+          "training",
+          "readiness"
+        ]
+      },
+      {
+        "tool": "training.status",
+        "summary": "Training status with acute and chronic load, for the days ending on the given date. The status values are productive, maintaining, unproductive, detraining and their siblings. Returns a page of days, not a single day; treat the end date as the anchor. Requires `--end`. Required: end. Optional: DI-Backend.",
+        "params_schema": {
+          "end": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "end"
+        ],
+        "argv_path": [
+          "training",
+          "status"
+        ]
+      },
+      {
+        "tool": "wellness.daily-summary",
+        "summary": "The single-day roll-up: steps, floors, intensity minutes, calories, resting heart rate and stress. Check `includesWellnessData` before reading any wellness field \u2014 an account with no wearable returns the envelope with the series absent, not zeroes. Required: displayName, calendarDate. Optional: DI-Backend.",
+        "params_schema": {
+          "displayName": "string",
+          "DI-Backend": "string?",
+          "calendarDate": "string?"
+        },
+        "positionals": [
+          "displayName"
+        ],
+        "argv_path": [
+          "wellness",
+          "daily-summary"
+        ]
+      },
+      {
+        "tool": "wellness.hydration",
+        "summary": "Water intake logged for a single date against the day's goal. Only populated for accounts where the user logs hydration by hand or from a paired bottle. Required: date. Optional: DI-Backend. Returns the FreeFormObject.",
+        "params_schema": {
+          "date": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "date"
+        ],
+        "argv_path": [
+          "wellness",
+          "hydration"
+        ]
+      },
+      {
+        "tool": "wellness.hydration-alt",
+        "summary": "The hydration payload plus the activity sweat-loss and goal-adjustment fields. It is a superset of everything the shorter path returns; prefer this variant unless the extra fields are unwanted. Required: date. Optional: DI-Backend. Returns the FreeFormObject.",
+        "params_schema": {
+          "date": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "date"
+        ],
+        "argv_path": [
+          "wellness",
+          "hydration-alt"
+        ]
+      },
+      {
+        "tool": "wellness.intensity-minutes-weekly",
+        "summary": "Weekly buckets of moderate and vigorous intensity minutes against the account's weekly goal. This is the series behind Garmin's 'intensity minutes' badge. Required: start, end. Optional: DI-Backend. Returns array of WeeklyIntensityMinutesRow.",
+        "params_schema": {
+          "start": "string",
+          "end": "string",
+          "DI-Backend": "string?"
+        },
+        "positionals": [
+          "start",
+          "end"
+        ],
+        "argv_path": [
+          "wellness",
+          "intensity-minutes-weekly"
+        ]
+      },
+      {
+        "tool": "wellness.metrics-daily",
+        "summary": "A single named metric as a daily time series over a date range, selected by the numeric metric id. Metric 60 is resting heart rate. Longer ranges are accepted here than on the 28-day stats endpoints, but the exact ceiling is not published. Required: displayName, fromDate, untilDate, metricId (default: [60]). Optional: DI-Backend. Returns the WellnessMetricsResponse.",
+        "params_schema": {
+          "displayName": "string",
+          "DI-Backend": "string?",
+          "fromDate": "string?",
+          "untilDate": "string?",
+          "metricId": "array?"
+        },
+        "positionals": [
+          "displayName"
+        ],
+        "argv_path": [
+          "wellness",
+          "metrics-daily"
+        ]
+      }
+    ]
+  },
+  {
     "api": "gfonts",
     "description": "Search, browse, and download Google Fonts from the terminal. Zero auth required \u2014 uses the same public metadata endpoint that powers fonts.google.com.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/gfonts/cmd/gfonts-pp-cli",
@@ -222355,6 +222797,127 @@
       "Inspect the authenticated Harris Teeter cart and shopping-list surfaces without exposing mutating checkout or order actions."
     ],
     "endpoints": []
+  },
+  {
+    "api": "haven-hot-chicken",
+    "description": "Browse Haven menus, compare locations, and plan a meal from saved prices.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/haven-hot-chicken/cmd/haven-hot-chicken-pp-cli",
+    "auth_type": "none",
+    "category": "food-and-dining",
+    "search_terms": [
+      "haven-hot-chicken",
+      "Haven Hot Chicken",
+      "haven-hot-chicken-pp-cli",
+      "Browse Haven menus, compare locations, and plan a meal from saved prices.",
+      "Location price comparison",
+      "haven compare",
+      "Compare the same named menu item across saved location menus.",
+      "Base-price meal subtotal",
+      "haven subtotal",
+      "Estimate a meal base-price subtotal from explicit item IDs and quantities.",
+      "Saved menu changes",
+      "haven changes",
+      "Show additions, removals, price and availability changes between two complete saved menus.",
+      "Shared availability",
+      "haven common",
+      "Find items marked available in every selected saved location menu.",
+      "Nearby locations",
+      "haven nearby",
+      "Rank saved shops by straight-line distance from supplied coordinates."
+    ],
+    "endpoints": [
+      {
+        "tool": "items.modifiers_get-item",
+        "summary": "Get item modifiers. Required: item_id, location_id. Optional: Accept-Version (default: v3.5), Thanx-Merchant (default: havenhotchicken). Returns array of ModifiersGetItemItem.",
+        "params_schema": {
+          "item_id": "string",
+          "Accept-Version": "string?",
+          "Thanx-Merchant": "string?",
+          "location_id": "int?"
+        },
+        "positionals": [
+          "item_id"
+        ],
+        "argv_path": [
+          "items",
+          "modifiers_get-item"
+        ]
+      },
+      {
+        "tool": "locations.get",
+        "summary": "Get location. Required: location_id. Optional: Accept-Version (default: v3.5), Thanx-Merchant (default: havenhotchicken). Returns the LocationsGetResponse.",
+        "params_schema": {
+          "location_id": "string",
+          "Accept-Version": "string?",
+          "Thanx-Merchant": "string?"
+        },
+        "positionals": [
+          "location_id"
+        ],
+        "argv_path": [
+          "locations"
+        ]
+      },
+      {
+        "tool": "locations.list",
+        "summary": "List locations. Optional: Accept-Version (default: v3.5), Thanx-Merchant (default: havenhotchicken). Returns array of LocationsListItem.",
+        "params_schema": {
+          "Accept-Version": "string?",
+          "Thanx-Merchant": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "locations",
+          "list"
+        ]
+      },
+      {
+        "tool": "menu-categories.list",
+        "summary": "List menu categories. Required: location_id. Optional: Accept-Version (default: v3.5), Thanx-Merchant (default: havenhotchicken), wanted_at (plus 1 more). Returns array of MenuCategoriesListItem.",
+        "params_schema": {
+          "Accept-Version": "string?",
+          "Thanx-Merchant": "string?",
+          "location_id": "int?",
+          "wanted_at": "string?",
+          "handoff": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "menu-categories"
+        ]
+      },
+      {
+        "tool": "menus.list",
+        "summary": "List menus. Required: location_id. Optional: Accept-Version (default: v3.5), Thanx-Merchant (default: havenhotchicken). Returns array of MenusListItem.",
+        "params_schema": {
+          "Accept-Version": "string?",
+          "Thanx-Merchant": "string?",
+          "location_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "menus"
+        ]
+      },
+      {
+        "tool": "menus.categories_get-menu",
+        "summary": "Get menu categories. Required: menu_id. Optional: Accept-Version (default: v3.5), Thanx-Merchant (default: havenhotchicken), include_hidden (default: true) (plus 1 more). Returns array of CategoriesGetMenuItem.",
+        "params_schema": {
+          "menu_id": "string",
+          "Accept-Version": "string?",
+          "Thanx-Merchant": "string?",
+          "include_hidden": "bool?",
+          "include_unavailable": "bool?"
+        },
+        "positionals": [
+          "menu_id"
+        ],
+        "argv_path": [
+          "menus",
+          "categories_get-menu"
+        ]
+      }
+    ]
   },
   {
     "api": "hayward-omnilogic",
