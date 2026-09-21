@@ -220959,11 +220959,12 @@
       },
       {
         "tool": "notes.list",
-        "summary": "List notes. Optional: created_before, created_after, updated_after (plus 2 more). Returns the ListNotesOutput.",
+        "summary": "List notes. Optional: created_before, created_after, updated_after, folder_id, cursor, page_size. Returns the ListNotesOutput.",
         "params_schema": {
           "created_before": "string?",
           "created_after": "string?",
           "updated_after": "string?",
+          "folder_id": "string?",
           "cursor": "string?",
           "page_size": "int?"
         },
@@ -262864,6 +262865,168 @@
         "positionals": [],
         "argv_path": [
           "specialty"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "nepra",
+    "description": "Pakistan's electricity regulator publishes the country's only plant-level power data as Excel-exported HTML that reads as empty and PDFs nobody extracts \u2014 this turns it into a queryable panel and names every gap.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/nepra/cmd/nepra-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "nepra",
+      "nepra-pp-cli",
+      "Pakistan's electricity regulator publishes the country's only plant-level power data as Excel-exported HTML that reads as empty and PDFs nobody extracts \u2014 this turns it into a queryable panel and names every gap.",
+      "Plant-month generation extract",
+      "gen",
+      "Pull every power plant's monthly generation and utilisation for a fiscal year as rows you can pipe, with unreported months kept distinct from real zeros.",
+      "Operator and ticker fleet panel",
+      "fleet",
+      "Follow one plant or a listed operator's whole fleet across the fiscal years the crosswalk has observed, through renames and re-sorted row numbers.",
+      "Conflict and break ledger",
+      "conflicts",
+      "List every place NEPRA's own published figures disagree \u2014 two sources on one key, an unexplained step inside a single series, or a row that fails its own arithmetic \u2014 showing both values and both citations without picking a winner.",
+      "DISCO reliability panel",
+      "disco",
+      "Per-distribution-company transmission losses, recovery, interruption frequency and duration against the regulator's own targets, across report years.",
+      "Regulatory determination feed",
+      "events",
+      "A dated feed of tariff determinations and orders by company, distribution company or docket, with the verbatim document link.",
+      "Generation licence register",
+      "licence",
+      "The licence register with gross capacity, plant type, fuel and the modification trail, searchable by name or fuel.",
+      "Fetch and staleness gate",
+      "verify",
+      "Assert every published NEPRA surface against status, byte floor, content checksum, in-document year token and the frozen column fingerprint, exiting non-zero when stale or drifted.",
+      "Capacity by status and system",
+      "capacity",
+      "Installed and dependable capacity broken out by plant status and system, so each headline megawatt figure is labelled and derivable.",
+      "Fuel cost adjustment series",
+      "fca",
+      "The monthly requested-versus-allowed fuel cost adjustment series with cumulative disallowance, bounded to the window the source actually covers.",
+      "Source catalogue and enumerator diff",
+      "sources",
+      "Catalogue every reachable published document with size, coverage window, text-layer flag and reachability state, and diff it against the shipped manifest."
+    ],
+    "endpoints": [
+      {
+        "tool": "events.list",
+        "summary": "The determinations feed. REQUIRES gzip: without Accept-Encoding this page silently truncates under a 30 s timeout and returns a partial list under an HTTP 200.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "events"
+        ]
+      },
+      {
+        "tool": "fca.list",
+        "summary": "The consolidated FCA table. Coverage is hard-bounded Jul-2018 to Jun-2022; negatives are written in accounting parentheses.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "fca"
+        ]
+      },
+      {
+        "tool": "generation.index",
+        "summary": "The site's own generation index. INCOMPLETE \u2014 links 5 of the 7 reachable years; never use as the sole enumerator.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "generation",
+          "index"
+        ]
+      },
+      {
+        "tool": "generation.year",
+        "summary": "Fetch one fiscal year's generation workbook payload. windows-1252 encoded; the HTTP header declares no charset. Required: fy.",
+        "params_schema": {
+          "fy": "string"
+        },
+        "positionals": [
+          "fy"
+        ],
+        "argv_path": [
+          "generation",
+          "year"
+        ]
+      },
+      {
+        "tool": "hydel.list",
+        "summary": "Hydel data. Dependable capacities are pinned upstream to 'July 2018 - June 2022'.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "hydel"
+        ]
+      },
+      {
+        "tool": "licence.list",
+        "summary": "The licence register accordion. Key lookup must be typo-aliased: the page misspells its own column as 'Gross Capacityy', hiding the largest entry.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "licence"
+        ]
+      },
+      {
+        "tool": "quarterly.list",
+        "summary": "Quarterly index. FROZEN upstream at 'April 2022- June 2022 (4th Quarter)' with 'Not Yet Issued' against every DISCO; nothing on the page says it is stale.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "quarterly"
+        ]
+      },
+      {
+        "tool": "reliability.report",
+        "summary": "Fetch one Performance Evaluation Report PDF. Filenames are unconstructible across years \u2014 always scrape from sources, never build the path. Required: path.",
+        "params_schema": {
+          "path": "string"
+        },
+        "positionals": [
+          "path"
+        ],
+        "argv_path": [
+          "reliability",
+          "report"
+        ]
+      },
+      {
+        "tool": "sir.get",
+        "summary": "One State of Industry Report, returned as PDF bytes. Very large: 2025 is ~316 MB. Required: year.",
+        "params_schema": {
+          "year": "string"
+        },
+        "positionals": [
+          "year"
+        ],
+        "argv_path": [
+          "sir"
+        ]
+      },
+      {
+        "tool": "sro.list",
+        "summary": "SRO notification index.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sro"
+        ]
+      },
+      {
+        "tool": "tariff.get",
+        "summary": "One DISCO's tariff page. UTF-8 on this surface, unlike the generation workbooks. Rate schedules themselves are image-only PDFs and are NOT extractable. Required: disco.",
+        "params_schema": {
+          "disco": "string"
+        },
+        "positionals": [
+          "disco"
+        ],
+        "argv_path": [
+          "tariff"
         ]
       }
     ]
