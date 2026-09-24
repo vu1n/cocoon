@@ -230651,6 +230651,73 @@
     ]
   },
   {
+    "api": "immovlan",
+    "description": "Search Immovlan from the terminal with every site filter, keep a local history, and cross it with Immoweb: exclusives, re-listings, rented PEB F/G traps and division candidates.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/immovlan/cmd/immovlan-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "immovlan",
+      "immovlan-pp-cli",
+      "Search Immovlan from the terminal with every site filter, keep a local history, and cross it with Immoweb: exclusives, re-listings, rented PEB F/G traps and division candidates.",
+      "Cross-portal match",
+      "same-as",
+      "Tell whether a stored Immovlan listing is also on Immoweb, at what price, or is Immovlan-only.",
+      "PEB trap",
+      "peb-trap",
+      "List PEB F or G properties that are currently rented: owners who can no longer re-let in Brussels since 2026.",
+      "Bulk detail enrichment",
+      "enrich",
+      "Fill missing detail fields (PEB letter, street, geo, rented, cadastral income, agency software) for many stored listings in one resumable pass.",
+      "Division candidates",
+      "split-candidates",
+      "Houses large enough to divide, ranked by \u20ac/m\u00b2 within their postcode, with land, year, PEB and rented flags.",
+      "Re-listing detector",
+      "relisted",
+      "Listings that came back under a new reference, with their true first-seen date and price at each reference.",
+      "Agency leaderboard",
+      "agencies",
+      "Which agencies list in a zone, their PEB F/G share, private-seller share and the CRM software behind each feed."
+    ],
+    "endpoints": [
+      {
+        "tool": "listings.get",
+        "summary": "Fetch one listing page by reference (e.g. vbe69761); Immovlan redirects to the canonical URL. Returns the schema.org JSON-LD RealEstateListing. Required: reference.",
+        "params_schema": {
+          "reference": "string"
+        },
+        "positionals": [
+          "reference"
+        ],
+        "argv_path": [
+          "listings"
+        ]
+      },
+      {
+        "tool": "listings.search",
+        "summary": "Search listings; returns the detail links of one result page (20 per page). Use the promoted 'find' command for parsed cards. Optional: transaction-types, property-types, towns (plus 8 more).",
+        "params_schema": {
+          "transaction-types": "string?",
+          "property-types": "string?",
+          "towns": "string?",
+          "epc-ratings": "string?",
+          "min-price": "int?",
+          "max-price": "int?",
+          "min-bedrooms": "int?",
+          "max-bedrooms": "int?",
+          "sort-by": "string?",
+          "sort-direction": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "immoweb",
     "description": "Search Immoweb from the terminal with every site filter, then get the answers the site can't give: price cuts, days on market, commune medians and rental yield.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/immoweb/cmd/immoweb-pp-cli",
