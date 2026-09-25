@@ -271735,6 +271735,207 @@
     ]
   },
   {
+    "api": "oneword-domains",
+    "description": "Check a word across every TLD with registrar prices, watch the aftermarket, and generate names with DomainsGPT, all from the terminal with a local store the site itself does not offer.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/oneword-domains/cmd/oneword-domains-pp-cli",
+    "auth_type": "cookie",
+    "category": "developer-tools",
+    "search_terms": [
+      "oneword-domains",
+      "One Word Domains",
+      "oneword-domains-pp-cli",
+      "Check a word across every TLD with registrar prices, watch the aftermarket, and generate names with DomainsGPT, all from the terminal with a local store the site itself does not offer.",
+      "Brainstorm pipeline",
+      "brainstorm",
+      "Generate DomainsGPT names, keep only the available ones with price, cheapest registrar, and a dictionary flag, and save the batch locally; one call per TLD, quota 10 anonymous.",
+      "Shortlist recheck",
+      "recheck",
+      "Re-check every word and TLD you looked up before and report what changed: taken, freed, premium, price, or popularity.",
+      "Auction ranking",
+      "listings rank",
+      "Rank aftermarket auctions by how contested the word is across TLDs, price relative to fresh registration, and bid pace.",
+      "Cross-TLD intersection",
+      "domains intersect",
+      "Find dictionary words that are free on every TLD you list, or free on one and taken on another; needs the lifetime-pass session from auth login --chrome or auth login --cookies-file.",
+      "Dictionary mining",
+      "words mine",
+      "Filter the 27,627-word dictionary by several categories at once, length, prefix, or glob, offline after a one-time words mine --refresh.",
+      "TLD inventory",
+      "tlds inventory",
+      "Compare how many available one-word domains each TLD still has for a category and length filter, next to its cheapest registration price (public route).",
+      "Cross-TLD check",
+      "check",
+      "Check one word, or a file of words, across the most-viewed TLDs or all 93, with availability, premium flag, popularity, and the cheapest registrar price per TLD.",
+      "Side-by-side compare",
+      "compare",
+      "Compare several full domains in one table: available, premium, price, popularity, and cheapest registrar, with the cheapest available one called out.",
+      "Domain hacks",
+      "hacks",
+      "Find domain hacks: split a word so its ending is one of the 93 TLDs (sm.art), or list dictionary words ending in a TLD.",
+      "TLD price drift",
+      "tlds drift",
+      "Record registrar price snapshots for every TLD and report which prices moved since an earlier snapshot.",
+      "Aftermarket watch",
+      "listings watch",
+      "Diff the aftermarket feed against the last run: new listings, price or bid changes, listings that disappeared, and auctions ending within a window.",
+      "DomainsGPT generate",
+      "gpt generate",
+      "Run DomainsGPT and get the streamed names back as real JSON, optionally only the available ones."
+    ],
+    "endpoints": [
+      {
+        "tool": "domains.check",
+        "summary": "Check availability, premium flag, price, aftermarket status, and popularity (tldCount) for a dictionary word on one TLD, such as smart.com; words outside the dictionary return HTTP 500. Required: domain. Returns the DomainCheck.",
+        "params_schema": {
+          "domain": "string"
+        },
+        "positionals": [
+          "domain"
+        ],
+        "argv_path": [
+          "domains",
+          "check"
+        ]
+      },
+      {
+        "tool": "domains.count",
+        "summary": "Count available one-word domains for a TLD with the same filters as search; returns a bare integer; normally public, but the site sometimes answers 401 to anonymous callers, in which case auth login --chrome supplies the session. Required: tld. Optional: search, category, price (plus 2 more).",
+        "params_schema": {
+          "tld": "string?",
+          "search": "string?",
+          "category": "string?",
+          "price": "string?",
+          "min-length": "int?",
+          "max-length": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "domains",
+          "count"
+        ]
+      },
+      {
+        "tool": "gpt.usage",
+        "summary": "Show DomainsGPT usage and quota for the current identity; anonymous callers get 10, signed-in accounts more. Returns the Usage.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gpt",
+          "usage"
+        ]
+      },
+      {
+        "tool": "listings.list",
+        "summary": "List aftermarket listings, 100 per page, filtered by TLD, registrar, and word length, sorted by domain, price, bids, or ending time. Optional: tld, registrar, min-length (plus 3 more). Returns array of Listing.",
+        "params_schema": {
+          "tld": "string?",
+          "registrar": "string?",
+          "min-length": "int?",
+          "max-length": "int?",
+          "sort": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings"
+        ]
+      },
+      {
+        "tool": "listings.count",
+        "summary": "Count aftermarket listings matching the filters; returns a bare integer. Optional: tld, registrar, min-length (plus 1 more).",
+        "params_schema": {
+          "tld": "string?",
+          "registrar": "string?",
+          "min-length": "int?",
+          "max-length": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "count"
+        ]
+      },
+      {
+        "tool": "listings.filters",
+        "summary": "List the TLDs that currently have aftermarket listings, with counts. Optional: registrar. Returns array of ListingFilter.",
+        "params_schema": {
+          "registrar": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "filters"
+        ]
+      },
+      {
+        "tool": "tlds.get",
+        "summary": "Get one TLD with its description, registrar price list, cheapest registrar, and example sites; unknown TLDs return an empty record. Required: tld. Returns the TldDetail.",
+        "params_schema": {
+          "tld": "string"
+        },
+        "positionals": [
+          "tld"
+        ],
+        "argv_path": [
+          "tlds"
+        ]
+      },
+      {
+        "tool": "tlds.list",
+        "summary": "List all 93 TLDs with registration counts, top-10M site counts, page views, and minimum registration price, ordered by popularity unless --sort-alpha is set. Optional: sort-alpha (default: false). Returns array of Tld.",
+        "params_schema": {
+          "sort-alpha": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tlds",
+          "list"
+        ]
+      },
+      {
+        "tool": "words.get",
+        "summary": "Get one dictionary word with its category tags. Required: word. Returns the WordDetail.",
+        "params_schema": {
+          "word": "string"
+        },
+        "positionals": [
+          "word"
+        ],
+        "argv_path": [
+          "words"
+        ]
+      },
+      {
+        "tool": "words.count",
+        "summary": "Count dictionary words matching the directory filters; returns a bare integer. Optional: contains, category.",
+        "params_schema": {
+          "contains": "string?",
+          "category": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "words",
+          "count"
+        ]
+      },
+      {
+        "tool": "words.list",
+        "summary": "List dictionary words; with --prefix up to 10 autocomplete matches, otherwise a category or substring directory of 100 words per page in alphabetical order with categories. Optional: prefix, contains, category (plus 1 more). Returns array of Word.",
+        "params_schema": {
+          "prefix": "string?",
+          "contains": "string?",
+          "category": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "words",
+          "list"
+        ]
+      }
+    ]
+  },
+  {
     "api": "open-food-facts",
     "description": "Read-only Open Food Facts recipes for barcode product lookup, structured search, nutrition summaries, allergen and ingredient inspection, bounded comparison, category samples, and source posture checks.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/open-food-facts/cmd/open-food-facts-pp-cli",
@@ -436882,6 +437083,170 @@
         "argv_path": [
           "research",
           "zori"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "zimmo",
+    "description": "Belgian real estate from Zimmo with exact addresses, sold comps, commune prices per m\u00b2 and a local store for deal sourcing.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/other/zimmo/cmd/zimmo-pp-cli",
+    "auth_type": "none",
+    "category": "other",
+    "search_terms": [
+      "zimmo",
+      "zimmo-pp-cli",
+      "Belgian real estate from Zimmo with exact addresses, sold comps, commune prices per m\u00b2 and a local store for deal sourcing.",
+      "Bulk detail enrichment",
+      "enrich",
+      "Refresh stored listings from Zimmo, resumably: status changes, price history, EPC, flood and planning flags, GPS.",
+      "Cross-portal match",
+      "same-as",
+      "Find the Immoweb or Immovlan twin of a Zimmo listing and the price gap between portals.",
+      "Sold comps",
+      "comps",
+      "Sold or rented listings around one property with median \u20ac/m\u00b2 and the subject's gap to it.",
+      "PEB trap",
+      "peb-trap",
+      "Energy-poor stored listings (EPC F/G or high kWh/m\u00b2), rented ones first with their rent, showing Zimmo's renovation-obligation flag.",
+      "Underpriced vs commune",
+      "underpriced",
+      "Rank stored for-sale houses and apartments by discount to their commune's \u20ac/m\u00b2 (viager, whole buildings and service flats skipped).",
+      "Gross rental yield",
+      "yield",
+      "Gross rental yield of sale listings: the published rent when let, otherwise rentals of similar surface in the same postcode and type.",
+      "Motivated seller score",
+      "motivated",
+      "Rank listings by seller pressure: days on market, total price cut, re-listing, EPC."
+    ],
+    "endpoints": [
+      {
+        "tool": "dealers.get",
+        "summary": "Get one real-estate agency (dealer) by UUID. Required: id. Returns the Dealer.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "dealers"
+        ]
+      },
+      {
+        "tool": "dealers.search",
+        "summary": "Search agencies (filter by category, placeId; sort by distance). Returns the new DealersSearchResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "dealers",
+          "search"
+        ]
+      },
+      {
+        "tool": "geocode.geocode",
+        "summary": "Geocode a Belgian address to coordinates and place ids. Required: address. Returns the GeocodeGeocodeResponse.",
+        "params_schema": {
+          "address": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "geocode",
+          "geocode"
+        ]
+      },
+      {
+        "tool": "listings.get",
+        "summary": "Get one listing by Zimmo code (e.g. LAISZ) or listing UUID. Required: id. Returns the Listing.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "listings"
+        ]
+      },
+      {
+        "tool": "listings.property-count",
+        "summary": "Total number of active properties on Zimmo. Returns the ListingsPropertyCountResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "property-count"
+        ]
+      },
+      {
+        "tool": "listings.search",
+        "summary": "Search listings with a Zimmo filter object (status, placeId, postalCode, category, price, bedrooms, energyLabel, text). Optional: filter, paging, sorting. Returns the new SearchResponse.",
+        "params_schema": {
+          "filter": "object?",
+          "paging-from": "int?",
+          "paging-size": "int?",
+          "sorting": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "search"
+        ]
+      },
+      {
+        "tool": "locality-price.locality_price",
+        "summary": "Price per m\u00b2 for a commune (by property type) with monthly history. Required: placeId, startDate. Returns the LocalityPrice.",
+        "params_schema": {
+          "placeId": "string",
+          "startDate": "string?"
+        },
+        "positionals": [
+          "placeId"
+        ],
+        "argv_path": [
+          "locality-price",
+          "locality_price"
+        ]
+      },
+      {
+        "tool": "places.find",
+        "summary": "Resolve a postcode and/or commune name to Zimmo place ids. Optional: postalCode, name. Returns array of PlacesFindItem.",
+        "params_schema": {
+          "postalCode": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "places",
+          "find"
+        ]
+      },
+      {
+        "tool": "sub-locality-price.sub_locality_price",
+        "summary": "Price per m\u00b2 for a sub-locality with monthly history. Required: placeId, startDate. Returns the LocalityPrice.",
+        "params_schema": {
+          "placeId": "string",
+          "startDate": "string?"
+        },
+        "positionals": [
+          "placeId"
+        ],
+        "argv_path": [
+          "sub-locality-price",
+          "sub_locality_price"
+        ]
+      },
+      {
+        "tool": "sublocalities.search",
+        "summary": "Search sub-localities (deelgemeenten) by keyword. Required: keyword. Optional: locale (default: fr). Returns the SublocalitiesSearchResponse.",
+        "params_schema": {
+          "keyword": "string?",
+          "locale": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sublocalities",
+          "search"
         ]
       }
     ]
