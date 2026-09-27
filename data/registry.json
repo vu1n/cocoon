@@ -397703,6 +397703,97 @@
     ]
   },
   {
+    "api": "thunderbird",
+    "description": "Search, read and audit the mail Thunderbird already downloaded \u2014 offline, read-only, no credentials.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/thunderbird/cmd/thunderbird-pp-cli",
+    "auth_type": "none",
+    "category": "productivity",
+    "search_terms": [
+      "thunderbird",
+      "thunderbird-pp-cli",
+      "Search, read and audit the mail Thunderbird already downloaded \u2014 offline, read-only, no credentials.",
+      "Awaiting reply",
+      "awaiting-reply",
+      "See every thread where someone is waiting on your answer, across all accounts, oldest first.",
+      "Correspondents ranking",
+      "contacts top",
+      "Rank the people you exchange mail with by volume and recency, and spot frequent ones missing from your address book.",
+      "Filters audit",
+      "Check every message filter: how often it matches, whether it is disabled, and whether its target folder still exists.",
+      "Largest items",
+      "largest",
+      "Find the biggest messages or attachments across all accounts and folders.",
+      "Newsletters and bulk senders",
+      "newsletters",
+      "List mailing lists and bulk senders by volume and how much of their mail you never read."
+    ],
+    "endpoints": [
+      {
+        "tool": "accounts.list",
+        "summary": "List accounts and identities from prefs.js.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "accounts"
+        ]
+      },
+      {
+        "tool": "contacts.list",
+        "summary": "List address book contacts.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "contacts"
+        ]
+      },
+      {
+        "tool": "filters.list",
+        "summary": "List message filter rules per account.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "filters"
+        ]
+      },
+      {
+        "tool": "folders.list",
+        "summary": "List folders with total, unread, size and offline status.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "folders"
+        ]
+      },
+      {
+        "tool": "messages.get",
+        "summary": "Show one message with headers, text body and attachments. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "messages"
+        ]
+      },
+      {
+        "tool": "messages.list",
+        "summary": "List indexed messages, newest first. Optional: folder, account, limit (default: 25).",
+        "params_schema": {
+          "folder": "string?",
+          "account": "string?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "list"
+        ]
+      }
+    ]
+  },
+  {
     "api": "ticketdata",
     "description": "Every TicketData price signal for any event, performer, or venue, plus a local price-history store for trend math, drift alerts, and cross-event comparisons no ticket tool ships.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/ticketdata/cmd/ticketdata-pp-cli",
