@@ -204056,6 +204056,468 @@
     ]
   },
   {
+    "api": "game-goat",
+    "description": "Look up any game and find what to play next - RAWG search, ratings, franchise order, tag-matched recommendations with remake-aware title resolution, plus IsThereAnyDeal historical price tracking and currency-localised storefront prices, built for agents.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/game-goat/cmd/game-goat-pp-cli",
+    "auth_type": "api_key",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "game-goat",
+      "Rawg Video Games",
+      "game-goat-pp-cli",
+      "Look up any game and find what to play next - RAWG search, ratings, franchise order, tag-matched recommendations with remake-aware title resolution, plus IsThereAnyDeal historical price tracking and currency-localised storefront prices, built for agents.",
+      "Similar Games",
+      "similar",
+      "Games like <title>: the seed's own studio first, then its defining gameplay tag (roguelite, metroidvania) found by tag-neighborhood co-occurrence, then a confidence-floored genre join. Every row carries its tier and a reason.",
+      "Retention Verdict",
+      "retention",
+      "Community completion and drop verdict for one game from RAWG added_by_status counts (needs RAWG_API_KEY)."
+    ],
+    "endpoints": [
+      {
+        "tool": "creator-roles.list",
+        "summary": "Get a list of creator positions (jobs). Optional: page, page_size. Returns array of Position.",
+        "params_schema": {
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "creator-roles"
+        ]
+      },
+      {
+        "tool": "creators.list",
+        "summary": "Get a list of game creators. Optional: page, page_size. Returns array of Person.",
+        "params_schema": {
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "creators"
+        ]
+      },
+      {
+        "tool": "creators.read",
+        "summary": "Get details of the creator. Required: id. Returns the PersonSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "creators",
+          "read"
+        ]
+      },
+      {
+        "tool": "developers.list",
+        "summary": "Get a list of game developers. Optional: page, page_size. Returns array of Developer.",
+        "params_schema": {
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "developers"
+        ]
+      },
+      {
+        "tool": "developers.read",
+        "summary": "Get details of the developer. Required: id. Returns the DeveloperSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "developers",
+          "read"
+        ]
+      },
+      {
+        "tool": "games.list",
+        "summary": "Get a list of games. Optional: page, page_size, search (plus 20 more). Returns array of Game.",
+        "params_schema": {
+          "page": "int?",
+          "page_size": "int?",
+          "search": "string?",
+          "search_precise": "bool?",
+          "search_exact": "bool?",
+          "parent_platforms": "string?",
+          "platforms": "string?",
+          "stores": "string?",
+          "developers": "string?",
+          "publishers": "string?",
+          "genres": "string?",
+          "tags": "string?",
+          "creators": "string?",
+          "dates": "string?",
+          "updated": "string?",
+          "platforms_count": "int?",
+          "metacritic": "string?",
+          "exclude_collection": "int?",
+          "exclude_additions": "bool?",
+          "exclude_parents": "bool?",
+          "exclude_game_series": "bool?",
+          "exclude_stores": "string?",
+          "ordering": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "games"
+        ]
+      },
+      {
+        "tool": "games.read",
+        "summary": "Get details of the game. Required: id. Returns the GameSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "games",
+          "read"
+        ]
+      },
+      {
+        "tool": "games.achievements_games-read",
+        "summary": "Get a list of game achievements. Required: id. Returns the ParentAchievement.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "games",
+          "achievements_games-read"
+        ]
+      },
+      {
+        "tool": "games.additions_games-list",
+        "summary": "Get a list of DLC's for the game, GOTY and other editions, companion apps, etc. Required: game_pk. Optional: page, page_size. Returns array of Game.",
+        "params_schema": {
+          "game_pk": "string",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [
+          "game_pk"
+        ],
+        "argv_path": [
+          "games",
+          "additions_games-list"
+        ]
+      },
+      {
+        "tool": "games.development-team_games-list",
+        "summary": "Get a list of individual creators that were part of the development team. Required: game_pk. Optional: ordering, page, page_size. Returns array of GamePersonList.",
+        "params_schema": {
+          "game_pk": "string",
+          "ordering": "string?",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [
+          "game_pk"
+        ],
+        "argv_path": [
+          "games",
+          "development-team_games-list"
+        ]
+      },
+      {
+        "tool": "games.game-series_games-list",
+        "summary": "Get a list of games that are part of the same series. Required: game_pk. Optional: page, page_size. Returns array of Game.",
+        "params_schema": {
+          "game_pk": "string",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [
+          "game_pk"
+        ],
+        "argv_path": [
+          "games",
+          "game-series_games-list"
+        ]
+      },
+      {
+        "tool": "games.movies_games-read",
+        "summary": "Get a list of game trailers. Required: id. Returns the Movie.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "games",
+          "movies_games-read"
+        ]
+      },
+      {
+        "tool": "games.parent-games_games-list",
+        "summary": "Get a list of parent games for DLC's and editions. Required: game_pk. Optional: page, page_size. Returns array of Game.",
+        "params_schema": {
+          "game_pk": "string",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [
+          "game_pk"
+        ],
+        "argv_path": [
+          "games",
+          "parent-games_games-list"
+        ]
+      },
+      {
+        "tool": "games.reddit_games-read",
+        "summary": "Get a list of most recent posts from the game's subreddit. Required: id. Returns the Reddit.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "games",
+          "reddit_games-read"
+        ]
+      },
+      {
+        "tool": "games.screenshots_games-list",
+        "summary": "Get screenshots for the game. Required: game_pk. Optional: ordering, page, page_size. Returns array of ScreenShot.",
+        "params_schema": {
+          "game_pk": "string",
+          "ordering": "string?",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [
+          "game_pk"
+        ],
+        "argv_path": [
+          "games",
+          "screenshots_games-list"
+        ]
+      },
+      {
+        "tool": "games.stores_games-list",
+        "summary": "Get links to the stores that sell the game. Required: game_pk. Optional: ordering, page, page_size. Returns array of GameStoreFull.",
+        "params_schema": {
+          "game_pk": "string",
+          "ordering": "string?",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [
+          "game_pk"
+        ],
+        "argv_path": [
+          "games",
+          "stores_games-list"
+        ]
+      },
+      {
+        "tool": "games.suggested_games-read",
+        "summary": "Get a list of visually similar games, available only for business and enterprise API users. Required: id. Returns the GameSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "games",
+          "suggested_games-read"
+        ]
+      },
+      {
+        "tool": "games.twitch_games-read",
+        "summary": "Get streams on Twitch associated with the game, available only for business and enterprise API users. Required: id. Returns the Twitch.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "games",
+          "twitch_games-read"
+        ]
+      },
+      {
+        "tool": "games.youtube_games-read",
+        "summary": "Get videos from YouTube associated with the game, available only for business and enterprise API users. Required: id. Returns the Youtube.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "games",
+          "youtube_games-read"
+        ]
+      },
+      {
+        "tool": "genres.list",
+        "summary": "Get a list of video game genres. Optional: ordering, page, page_size. Returns array of Genre.",
+        "params_schema": {
+          "ordering": "string?",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "genres"
+        ]
+      },
+      {
+        "tool": "genres.read",
+        "summary": "Get details of the genre. Required: id. Returns the GenreSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "genres",
+          "read"
+        ]
+      },
+      {
+        "tool": "platforms.list",
+        "summary": "Get a list of video game platforms. Optional: ordering, page, page_size. Returns array of Platform.",
+        "params_schema": {
+          "ordering": "string?",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "platforms"
+        ]
+      },
+      {
+        "tool": "platforms.lists-parents-list",
+        "summary": "For instance, for PS2 and PS4 the \u201cparent platform\u201d is PlayStation. Optional: ordering, page, page_size. Returns array of PlatformParentSingle.",
+        "params_schema": {
+          "ordering": "string?",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "platforms",
+          "lists-parents-list"
+        ]
+      },
+      {
+        "tool": "platforms.read",
+        "summary": "Get details of the platform. Required: id. Returns the PlatformSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "platforms",
+          "read"
+        ]
+      },
+      {
+        "tool": "publishers.list",
+        "summary": "Get a list of video game publishers. Optional: page, page_size. Returns array of Publisher.",
+        "params_schema": {
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "publishers"
+        ]
+      },
+      {
+        "tool": "publishers.read",
+        "summary": "Get details of the publisher. Required: id. Returns the PublisherSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "publishers",
+          "read"
+        ]
+      },
+      {
+        "tool": "stores.list",
+        "summary": "Get a list of video game storefronts. Optional: ordering, page, page_size. Returns array of Store.",
+        "params_schema": {
+          "ordering": "string?",
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stores"
+        ]
+      },
+      {
+        "tool": "stores.read",
+        "summary": "Get details of the store. Required: id. Returns the StoreSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "stores",
+          "read"
+        ]
+      },
+      {
+        "tool": "tags.list",
+        "summary": "Get a list of tags. Optional: page, page_size. Returns array of Tag.",
+        "params_schema": {
+          "page": "int?",
+          "page_size": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags"
+        ]
+      },
+      {
+        "tool": "tags.read",
+        "summary": "Get details of the tag. Required: id. Returns the TagSingle.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tags",
+          "read"
+        ]
+      }
+    ]
+  },
+  {
     "api": "garmin",
     "description": "Your whole Garmin history in a local database, not one 28-day page at a time.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/health/garmin/cmd/garmin-pp-cli",
@@ -226795,6 +227257,49 @@
     ]
   },
   {
+    "api": "ikyu",
+    "description": "Search Ikyu hotels and ryokan with dated room prices and cancellation details.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/ikyu/cmd/ikyu-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "ikyu",
+      "Ikyu Accommodation",
+      "ikyu-pp-cli",
+      "Search Ikyu hotels and ryokan with dated room prices and cancellation details.",
+      "Offer equivalence",
+      "stay compare",
+      "Compare exact offers with explicit compatible groups, differences and unknowns.",
+      "Date alternatives",
+      "stay dates",
+      "Inspect bounded date alternatives for one selected room and plan.",
+      "Room fit",
+      "stay rooms",
+      "Find rooms with source-backed space and bath attributes; keep missing evidence visible.",
+      "Price explanation",
+      "stay offer",
+      "Separate source prices, points scenarios, coupons and eligibility for an exact offer.",
+      "Shortlist readiness",
+      "stay search",
+      "Return compact dated property candidates with pagination, freshness and detail gaps."
+    ],
+    "endpoints": [
+      {
+        "tool": "properties.get",
+        "summary": "Read one public Ikyu property page by its eight-digit property ID. Required: property-id.",
+        "params_schema": {
+          "property-id": "string"
+        },
+        "positionals": [
+          "property-id"
+        ],
+        "argv_path": [
+          "properties"
+        ]
+      }
+    ]
+  },
+  {
     "api": "immich",
     "description": "Agent-native control and careful personal-library rituals for a self-hosted Immich instance.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/immich/cmd/immich-pp-cli",
@@ -241736,6 +242241,48 @@
         "argv_path": [
           "scan",
           "run"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "jalan",
+    "description": "Find Japan stays and understand the exact room and plan.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/jalan/cmd/jalan-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "jalan",
+      "jalan-pp-cli",
+      "Find Japan stays and understand the exact room and plan.",
+      "Bath evidence",
+      "stay plan",
+      "Inspect separate bath facts without inferring room facilities from property amenities.",
+      "Quote interpretation",
+      "Separate quoted cash price, conditional coupons, earned points and extra fees.",
+      "Bounded alternatives",
+      "stay compare",
+      "Compare a few dates or exact plans under equal party conditions.",
+      "Traceable facts",
+      "stay property",
+      "Preserve Japanese facts, explicit unknowns and source evidence.",
+      "Bilingual destinations",
+      "stay locations",
+      "Resolve supported Japanese and English destination aliases explicitly."
+    ],
+    "endpoints": [
+      {
+        "tool": "pages.property",
+        "summary": "Read public property page metadata without booking actions. Required: property_id (default: 385995).",
+        "params_schema": {
+          "property_id": "string"
+        },
+        "positionals": [
+          "property_id"
+        ],
+        "argv_path": [
+          "pages",
+          "property"
         ]
       }
     ]
@@ -262623,6 +263170,69 @@
         ],
         "argv_path": [
           "metadata"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "navitime",
+    "description": "Check Japan journeys with dated routes, explicit fares and source-backed pass constraints.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/navitime/cmd/navitime-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "navitime",
+      "navitime-pp-cli",
+      "Check Japan journeys with dated routes, explicit fares and source-backed pass constraints.",
+      "Ambiguity-safe resolution",
+      "places search",
+      "Return bilingual candidates without silently choosing a station.",
+      "Dated service windows",
+      "routes search",
+      "Check dated departures, deadlines and first/last services.",
+      "Fare and overnight audit",
+      "routes show",
+      "Expand a stored route with full dates and fare assumptions.",
+      "Alternative comparison",
+      "routes compare",
+      "Compare the returned journeys by time, fare, walking and transfers.",
+      "Source pass constraints",
+      "passes list",
+      "Discover advertised passes and their verification status."
+    ],
+    "endpoints": [
+      {
+        "tool": "raw.list_autocomplete",
+        "summary": "Fetch bounded bilingual station and place candidates. Required: word. Optional: limit (default: 5), max-nodes (default: 10), multilingual (default: true) (plus 1 more). Returns array of Autocomplete.",
+        "params_schema": {
+          "limit": "integer?",
+          "max-nodes": "integer?",
+          "multilingual": "boolean?",
+          "types": "string?",
+          "word": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "raw",
+          "list_autocomplete"
+        ]
+      },
+      {
+        "tool": "raw.list_result",
+        "summary": "Fetch route HTML metadata; normalized route commands preserve leg and fare semantics. Optional: date-time, to-id, time-mode (default: start-time) (plus 4 more). Returns the html.",
+        "params_schema": {
+          "date-time": "string?",
+          "to-id": "string?",
+          "time-mode": "string?",
+          "from-id": "string?",
+          "from-spot": "string?",
+          "to-spot": "string?",
+          "pass": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "raw",
+          "list_result"
         ]
       }
     ]
@@ -315232,6 +315842,133 @@
     ]
   },
   {
+    "api": "rakuten-travel",
+    "description": "Inspect real Japan room offers with explicit dates, party and price units.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/rakuten-travel/cmd/rakuten-travel-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "rakuten-travel",
+      "Rakuten Travel",
+      "rakuten-travel-pp-cli",
+      "Inspect real Japan room offers with explicit dates, party and price units.",
+      "Date alternatives",
+      "compare",
+      "Compare explicit hotel/date cells with fixed occupancy and a strict request budget.",
+      "Whole-stay quote evidence",
+      "offers search",
+      "Read source-labelled whole-stay room totals without extrapolating first-night prices.",
+      "Child-aware occupancy",
+      "Keep every child category and per-room party input intact.",
+      "Policy and fee inspection",
+      "offers show",
+      "Inspect property notes and safely associated cancellation terms for a shortlisted offer.",
+      "Exact offer handoff",
+      "Keep hotel, plan and room IDs attached to a canonical dated source link."
+    ],
+    "endpoints": [
+      {
+        "tool": "h.o_t_e_l_get_51870.html",
+        "summary": "Fetch public hotel page metadata and bounded links. Required: hotel_id. Returns the html.",
+        "params_schema": {
+          "hotel_id": "string"
+        },
+        "positionals": [
+          "hotel_id"
+        ],
+        "argv_path": [
+          "h",
+          "o_t_e_l_get_51870.html"
+        ]
+      },
+      {
+        "tool": "h.o_t_e_l_get_facilities_policies",
+        "summary": "Fetch public hotel facilities and policies page metadata and bounded links. Required: hotel_id. Returns the html.",
+        "params_schema": {
+          "hotel_id": "string"
+        },
+        "positionals": [
+          "hotel_id"
+        ],
+        "argv_path": [
+          "h",
+          "o_t_e_l_get_facilities_policies"
+        ]
+      },
+      {
+        "tool": "hotelinfo.get_plan",
+        "summary": "Fetch public hotel plan page metadata and bounded links. Required: hotel_id. Optional: f_flg, rooms, checkin-day (plus 13 more). Returns the html.",
+        "params_schema": {
+          "hotel_id": "string",
+          "f_flg": "string?",
+          "rooms": "integer?",
+          "checkin-day": "integer?",
+          "checkout-day": "integer?",
+          "checkin-year": "integer?",
+          "checkout-year": "integer?",
+          "adults-per-room": "integer?",
+          "child-upper": "integer?",
+          "child-lower": "integer?",
+          "checkin-month": "integer?",
+          "checkout-month": "integer?",
+          "infant-meal-bed": "integer?",
+          "infant-meal": "integer?",
+          "infant-bed": "integer?",
+          "infant-none": "integer?",
+          "page": "integer?"
+        },
+        "positionals": [
+          "hotel_id"
+        ],
+        "argv_path": [
+          "hotelinfo",
+          "get_plan"
+        ]
+      },
+      {
+        "tool": "keyword.list__search.do",
+        "summary": "Fetch public keyword search page metadata and bounded links. Optional: charset, page-size, query (plus 1 more). Returns the html.",
+        "params_schema": {
+          "charset": "string?",
+          "page-size": "integer?",
+          "query": "string?",
+          "page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "keyword",
+          "list__search.do"
+        ]
+      },
+      {
+        "tool": "yado.list__e.html",
+        "summary": "Fetch public geographic directory page metadata and bounded links. Required: prefecture, area. Returns the html.",
+        "params_schema": {
+          "prefecture": "string",
+          "area": "string"
+        },
+        "positionals": [
+          "prefecture",
+          "area"
+        ],
+        "argv_path": [
+          "yado",
+          "list__e.html"
+        ]
+      },
+      {
+        "tool": "yado.list_japan.html",
+        "summary": "Fetch public Japan directory page metadata and bounded links. Returns the html.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "yado",
+          "list_japan.html"
+        ]
+      }
+    ]
+  },
+  {
     "api": "rapidapi",
     "description": "RapidAPI Hub marketplace CLI - search APIs, browse categories & collections, inspect providers",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/rapidapi/cmd/rapidapi-pp-cli",
@@ -352602,6 +353339,173 @@
         "argv_path": [
           "teams",
           "projects_list-a-team-s"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "serply",
+    "description": "Live Google, News, Scholar, Maps and Bing results, plus rank checks, SERP diffs and cited research briefs.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/ai/serply/cmd/serply-pp-cli",
+    "auth_type": "api_key",
+    "category": "ai",
+    "search_terms": [
+      "serply",
+      "serply-pp-cli",
+      "Live Google, News, Scholar, Maps and Bing results, plus rank checks, SERP diffs and cited research briefs.",
+      "Domain rank check",
+      "rank",
+      "See the position of a domain for a query, optionally from a specific country, in one call.",
+      "SERP change diff",
+      "serp diff",
+      "See which URLs entered, left, or moved in a results page since the last time you ran the same query.",
+      "Cited research brief",
+      "research",
+      "Get one deduplicated, numbered source list for a topic from web, news and scholar results at once."
+    ],
+    "endpoints": [
+      {
+        "tool": "bing.search",
+        "summary": "Search Bing and return organic results. Required: q. Optional: num, X-Proxy-Location, X-User-Agent. Returns array of BingSearchItem.",
+        "params_schema": {
+          "q": "string?",
+          "num": "int?",
+          "X-Proxy-Location": "string?",
+          "X-User-Agent": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bing",
+          "search"
+        ]
+      },
+      {
+        "tool": "images.search",
+        "summary": "Search Google Images. Required: q. Optional: num, hl, gl (plus 2 more). Returns the ImagesSearchResponse.",
+        "params_schema": {
+          "q": "string?",
+          "num": "int?",
+          "hl": "string?",
+          "gl": "string?",
+          "X-Proxy-Location": "string?",
+          "X-User-Agent": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "images",
+          "search"
+        ]
+      },
+      {
+        "tool": "job.search_search-jobs",
+        "summary": "Search job listings indexed by Google Jobs. Required: q. Optional: X-Proxy-Location. Returns array of JobSearchSearchJobsItem.",
+        "params_schema": {
+          "q": "string?",
+          "X-Proxy-Location": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "job",
+          "search_search-jobs"
+        ]
+      },
+      {
+        "tool": "maps.search",
+        "summary": "Search Google Maps for places. The query is a path segment. Required: query. Optional: num, hl, gl. Returns array of MapsSearchItem.",
+        "params_schema": {
+          "query": "string",
+          "num": "int?",
+          "hl": "string?",
+          "gl": "string?"
+        },
+        "positionals": [
+          "query"
+        ],
+        "argv_path": [
+          "maps",
+          "search"
+        ]
+      },
+      {
+        "tool": "news.search",
+        "summary": "Search Google News and return recent articles. Required: q. Optional: hl, gl, ceid (plus 2 more). Returns array of NewsSearchItem.",
+        "params_schema": {
+          "q": "string?",
+          "hl": "string?",
+          "gl": "string?",
+          "ceid": "string?",
+          "X-Proxy-Location": "string?",
+          "X-User-Agent": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "news",
+          "search"
+        ]
+      },
+      {
+        "tool": "products.search",
+        "summary": "Search Amazon products with price, rating and review count. Required: q. Optional: X-Proxy-Location. Returns array of ProductsSearchItem.",
+        "params_schema": {
+          "q": "string?",
+          "X-Proxy-Location": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "products",
+          "search"
+        ]
+      },
+      {
+        "tool": "scholar.search",
+        "summary": "Search Google Scholar for papers, authors and citations. Required: q. Optional: num, start, hl (plus 1 more). Returns array of ScholarSearchItem.",
+        "params_schema": {
+          "q": "string?",
+          "num": "int?",
+          "start": "int?",
+          "hl": "string?",
+          "X-Proxy-Location": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "scholar",
+          "search"
+        ]
+      },
+      {
+        "tool": "videos.search",
+        "summary": "Search Google Videos. Required: q. Optional: num, hl, gl (plus 2 more). Returns array of VideosSearchItem.",
+        "params_schema": {
+          "q": "string?",
+          "num": "int?",
+          "hl": "string?",
+          "gl": "string?",
+          "X-Proxy-Location": "string?",
+          "X-User-Agent": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "videos",
+          "search"
+        ]
+      },
+      {
+        "tool": "web.search",
+        "summary": "Search Google and return organic results with title, link and description. Required: q. Optional: num, start, hl (plus 4 more). Returns the WebSearchResponse.",
+        "params_schema": {
+          "q": "string?",
+          "num": "int?",
+          "start": "int?",
+          "hl": "string?",
+          "gl": "string?",
+          "tbs": "string?",
+          "X-Proxy-Location": "string?",
+          "X-User-Agent": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "search"
         ]
       }
     ]
@@ -394442,6 +395346,100 @@
     ]
   },
   {
+    "api": "tabelog",
+    "description": "Find Japan restaurants and bars, then keep a factual trip shortlist.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/tabelog/cmd/tabelog-pp-cli",
+    "auth_type": "none",
+    "category": "food-and-dining",
+    "search_terms": [
+      "tabelog",
+      "tabelog-pp-cli",
+      "Find Japan restaurants and bars, then keep a factual trip shortlist.",
+      "Offline factual comparison",
+      "lists compare",
+      "Compare saved restaurants, meal budgets and personal notes without network requests.",
+      "Bounded refresh with fact changes",
+      "lists refresh",
+      "Update selected saved restaurants and see changed facts while keeping personal notes.",
+      "Trip notebook with personal notes",
+      "lists add",
+      "Keep fetched restaurants and personal notes in a named trip list that can be resumed offline.",
+      "Saved alternatives with explicit constraints",
+      "lists alternatives",
+      "Find saved substitutes matching a candidate's verified area, category and optional meal budget.",
+      "Missing-evidence and freshness audit",
+      "lists audit",
+      "See which saved candidates have unfetched, unknown or old facts before requesting more details."
+    ],
+    "endpoints": [
+      {
+        "tool": "catalogs.home",
+        "summary": "Public prefecture and cuisine links; use anchors as authoritative catalog entries. Returns the SourceHTML.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalogs",
+          "home"
+        ]
+      },
+      {
+        "tool": "catalogs.suggest",
+        "summary": "Public mixed-type suggestions. Requires ordinary AJAX Accept,X-Requested-With and Referer headers (source adapter contract). Required: keyword. Returns array of Suggestion.",
+        "params_schema": {
+          "keyword": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "catalogs",
+          "suggest"
+        ]
+      },
+      {
+        "tool": "restaurants.get",
+        "summary": "Fetch public restaurant details as HTML containing tables and JSON-LD. Required: prefecture, area1, area2, id. Returns the SourceHTML.",
+        "params_schema": {
+          "prefecture": "string",
+          "area1": "string",
+          "area2": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "prefecture",
+          "area1",
+          "area2",
+          "id"
+        ],
+        "argv_path": [
+          "restaurants"
+        ]
+      },
+      {
+        "tool": "restaurants.search",
+        "summary": "Search the observed public English HTML source; typed card extraction must be implemented in the source adapter. Optional: source-sort (default: rt), prefecture, prefecture-code (plus 10 more). Returns the SourceHTML.",
+        "params_schema": {
+          "source-sort": "string?",
+          "prefecture": "string?",
+          "prefecture-code": "int?",
+          "area1": "string?",
+          "area2": "string?",
+          "station-id": "string?",
+          "location-type": "string?",
+          "location-id": "string?",
+          "category-family": "string?",
+          "keyword": "string?",
+          "meal-code": "int?",
+          "budget-min-code": "int?",
+          "budget-max-code": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "restaurants",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "table-reservation-goat",
     "description": "One reservation CLI for OpenTable, Tock, and Resy \u2014 search all three networks at once, watch for cancellations, book, and track changes from a local store agents can query.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/table-reservation-goat/cmd/table-reservation-goat-pp-cli",
@@ -394644,6 +395642,121 @@
         "positionals": [],
         "argv_path": [
           "wishlist"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "tablecheck",
+    "description": "Find Japan restaurants, inspect courses, and check a bounded shortlist before booking.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/tablecheck/cmd/tablecheck-pp-cli",
+    "auth_type": "none",
+    "category": "food-and-dining",
+    "search_terms": [
+      "tablecheck",
+      "tablecheck-pp-cli",
+      "Find Japan restaurants, inspect courses, and check a bounded shortlist before booking.",
+      "Bounded trip scan",
+      "availability scan",
+      "Check a bounded restaurant shortlist across trip dates with partial results.",
+      "Evidence status",
+      "availability check",
+      "Report party-specific venue slots without upgrading search summaries or course listings into booking guarantees.",
+      "Course cost and conditions",
+      "courses get",
+      "Preserve exact prices, Japanese names, fine print and unknown charges.",
+      "Visible freshness",
+      "Keep cache age attached to every availability observation and refresh explicitly.",
+      "Canonical handoff",
+      "booking-url",
+      "Return the correct TableCheck booking page with validated date, time and party."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.calendar",
+        "summary": "Read party-specific venue calendar; explicit slot booleans are venue-level and have no course linkage. Required: venue-id, start-at, party. Optional: locale (default: en). Returns the new CalendarResponse.",
+        "params_schema": {
+          "venue-id": "string?",
+          "locale": "string?",
+          "start-at": "string?",
+          "party": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "calendar"
+        ]
+      },
+      {
+        "tool": "source.cuisines",
+        "summary": "Cuisine stable filter keys and source translations. Returns the CuisinesResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "cuisines"
+        ]
+      },
+      {
+        "tool": "source.menu-items",
+        "summary": "Read course catalog for one venue and date window; listing status does not prove a bookable slot. Required: venue-id, from, to. Optional: locale (default: en), has-price (default: true), experiences. Returns the new MenusResponse.",
+        "params_schema": {
+          "venue-id": "string?",
+          "locale": "string?",
+          "from": "string?",
+          "to": "string?",
+          "has-price": "bool?",
+          "experiences": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "menu-items"
+        ]
+      },
+      {
+        "tool": "source.search",
+        "summary": "Geographic venue discovery; budgets are venue dinner averages and availability is a discovery summary. Required: lat, lon, radius. Optional: universe-id (default: 57e0b91744aea12988000001), limit (default: 10), cursor (plus 13 more). Returns the SearchResponse.",
+        "params_schema": {
+          "lat": "float?",
+          "lon": "float?",
+          "radius": "int?",
+          "universe-id": "string?",
+          "limit": "int?",
+          "cursor": "string?",
+          "include-ids": "bool?",
+          "sort": "string?",
+          "venue-type": "string?",
+          "locale": "string?",
+          "cuisine": "string?",
+          "budget-min": "string?",
+          "budget-max": "string?",
+          "service-mode": "string?",
+          "date": "string?",
+          "time": "string?",
+          "party": "int?",
+          "availability-mode": "string?",
+          "availability-format": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "search"
+        ]
+      },
+      {
+        "tool": "source.venue",
+        "summary": "Venue identity, source conditions and booking-page mode inside shops; caller geolocation is not venue location. Required: slug. Optional: locale (default: en). Returns the VenueResponse.",
+        "params_schema": {
+          "slug": "string",
+          "locale": "string?"
+        },
+        "positionals": [
+          "slug"
+        ],
+        "argv_path": [
+          "source",
+          "venue"
         ]
       }
     ]
@@ -396040,6 +397153,40 @@
         "argv_path": [
           "notices",
           "list"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "tenki",
+    "description": "Choose Japan sightseeing dates with traceable weather and seasonal evidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/tenki/cmd/tenki-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "tenki",
+      "tenki.jp",
+      "tenki-pp-cli",
+      "Choose Japan sightseeing dates with traceable weather and seasonal evidence.",
+      "Criteria matrix",
+      "compare",
+      "Compare selected Japan destinations and dates against explicit weather thresholds.",
+      "Activity window",
+      "Evaluate a specific JST outing window with complete hourly evidence.",
+      "Seasonal weather pairing",
+      "Pair seasonal spot status with its actual forecast municipality.",
+      "Evidence coverage",
+      "Explain missing, stale, unsupported or mismatched evidence before recommending."
+    ],
+    "endpoints": [
+      {
+        "tool": "catalog.mountains",
+        "summary": "List source links for supported mountain destinations. Returns the html.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "mountains"
         ]
       }
     ]
@@ -418972,6 +420119,43 @@
         "argv_path": [
           "workouts",
           "workout-summary_get"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "walkerplus",
+    "description": "Discover Japan events for a trip with source-backed dates and schedule confidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/walkerplus/cmd/walkerplus-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "walkerplus",
+      "walkerplus-pp-cli",
+      "Discover Japan events for a trip with source-backed dates and schedule confidence.",
+      "Trip shortlist",
+      "shortlist",
+      "Find exact-edition trip candidates with schedule confidence, constraints and explainable ranking."
+    ],
+    "endpoints": [
+      {
+        "tool": "event.list_ar0726e612292",
+        "summary": "Fetch structured links from /event/ar0726e612292/. Returns the html.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "event",
+          "list_ar0726e612292"
+        ]
+      },
+      {
+        "tool": "event.list_list_eg0055",
+        "summary": "Fetch structured links from /event_list/ar0726/eg0055/. Returns the html.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "event",
+          "list_list_eg0055"
         ]
       }
     ]
