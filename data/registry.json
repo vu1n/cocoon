@@ -10440,6 +10440,93 @@
     ]
   },
   {
+    "api": "activity-japan",
+    "description": "Source-backed Japan experiences with explicit plan, price, language and availability evidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/activity-japan/cmd/activity-japan-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "activity-japan",
+      "Activity Japan",
+      "activity-japan-pp-cli",
+      "Source-backed Japan experiences with explicit plan, price, language and availability evidence.",
+      "Date-fit scan",
+      "experience dates",
+      "See observed session and option-price differences across up to seven itinerary dates.",
+      "Constraint-aware shortlist",
+      "experience compare",
+      "Compare a few known plans against explicit age, party, time, price, and language constraints.",
+      "Price-basis report",
+      "experience price",
+      "See source option IDs, selected-date amounts, participant basis, and excluded extras.",
+      "Language-surface check",
+      "inventory languages",
+      "Check whether a plan ID is indexed in English, Japanese, or both.",
+      "Handoff readiness",
+      "experience brief",
+      "Get a compact booking-handoff packet with known conditions and unresolved questions."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.plan_date_price",
+        "summary": "Fetch selected-date source price amounts by price-option ID; no participant total implied. Required: plan_id, date. Returns the DatePriceEnvelope.",
+        "params_schema": {
+          "plan_id": "string?",
+          "date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "plan_date_price"
+        ]
+      },
+      {
+        "tool": "source.plan_detail",
+        "summary": "Fetch source plan, operator, and price-option fields by exact plan ID and site language. Required: plan_id, lang_flag, url. Returns the PlanInfoEnvelope.",
+        "params_schema": {
+          "plan_id": "string?",
+          "lang_flag": "string?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "plan_detail"
+        ]
+      },
+      {
+        "tool": "source.plan_sessions",
+        "summary": "Fetch source course IDs and statuses for one selected date; an observation, not a booking. Required: plan_id, selected_date. Returns the SessionsEnvelope.",
+        "params_schema": {
+          "plan_id": "string?",
+          "selected_date": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "plan_sessions"
+        ]
+      },
+      {
+        "tool": "source.plan_stock_check",
+        "summary": "Fetch the raw Activity Japan stock response for an exact plan, course, date, source status and count. Required: plan_id, c_id, date, status, count, type (pass 2 for the observed website mode). Returns StockCheckEnvelope. This raw tool does not validate the plan's party or age limits and does not reserve a place; use the experience check CLI command for a party-aware observation.",
+        "params_schema": {
+          "plan_id": "string?",
+          "c_id": "string?",
+          "date": "string?",
+          "status": "string?",
+          "count": "int?",
+          "type": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "plan_stock_check"
+        ]
+      }
+    ]
+  },
+  {
     "api": "adguard-home",
     "description": "AdGuard Home REST-ish API. Our admin web interface is built on top of this REST-ish API.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/monitoring/adguard-home/cmd/adguard-home-pp-cli",
