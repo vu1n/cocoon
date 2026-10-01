@@ -30748,6 +30748,61 @@
     ]
   },
   {
+    "api": "asoview",
+    "description": "Discover and compare Japan leisure tickets with explicit price units, terms and public dated availability.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/asoview/cmd/asoview-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "asoview",
+      "asoview-pp-cli",
+      "Discover and compare Japan leisure tickets with explicit price units, terms and public dated availability.",
+      "Compare terms",
+      "compare",
+      "Compare a bounded shortlist and preserve missing values.",
+      "Bounded relevance",
+      "discover",
+      "Filter Japanese names without claiming a global keyword index.",
+      "Dated stock",
+      "availability",
+      "Inspect public stock for a date and quantity.",
+      "Dated bands",
+      "options",
+      "Read exact date-specific price units and age labels.",
+      "Reference inventory",
+      "inventory",
+      "Resolve region/category IDs with explicit refresh control."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.detail",
+        "summary": "Inspect first-party public product page metadata. Required: kind, id.",
+        "params_schema": {
+          "kind": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "kind",
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "detail"
+        ]
+      },
+      {
+        "tool": "source.index",
+        "summary": "Inspect first-party public discovery page metadata.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "index"
+        ]
+      }
+    ]
+  },
+  {
     "api": "atlas-obscura",
     "description": "Every Atlas Obscura search, plus a local database, road-trip corridor routing, and saved trips no other Atlas Obscura tool has.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/atlas-obscura/cmd/atlas-obscura-pp-cli",
@@ -176842,6 +176897,90 @@
     ]
   },
   {
+    "api": "ecbo-cloak",
+    "description": "Discover Japan luggage storage and inspect read-only source offers.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/ecbo-cloak/cmd/ecbo-cloak-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "ecbo-cloak",
+      "ecbo cloak",
+      "ecbo-cloak-pp-cli",
+      "Discover Japan luggage storage and inspect read-only source offers.",
+      "Nearby discovery",
+      "facilities near",
+      "Facility identity/hours/restrictions",
+      "facilities get",
+      "Source date/time/count price and validity",
+      "offer inspect",
+      "Explicit bounded inventory refresh",
+      "inventory refresh",
+      "Offline inventory/query",
+      "inventory list"
+    ],
+    "endpoints": [
+      {
+        "tool": "source.detail",
+        "summary": "Fetch a public facility by UUID. Required: id. Returns the Facility.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "detail"
+        ]
+      },
+      {
+        "tool": "source.nearby",
+        "summary": "Public nearest source window, at most 50 hits. Required: latitude, longitude. Returns the Search.",
+        "params_schema": {
+          "latitude": "float?",
+          "longitude": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "nearby"
+        ]
+      },
+      {
+        "tool": "source.price",
+        "summary": "Read-only price calculation; creates no reservation. Required: space_id, from, to, reservation_items. Returns the new Quote.",
+        "params_schema": {
+          "space_id": "string?",
+          "from": "string?",
+          "to": "string?",
+          "reservation-items-small": "int?",
+          "reservation-items-large": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "price"
+        ]
+      },
+      {
+        "tool": "source.validate",
+        "summary": "Read-only offer validation; creates no reservation. Required: space_id, from, to, reservation_items. Returns the new Validation.",
+        "params_schema": {
+          "space_id": "string?",
+          "from": "string?",
+          "to": "string?",
+          "reservation-items-small": "int?",
+          "reservation-items-large": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "validate"
+        ]
+      }
+    ]
+  },
+  {
     "api": "edgar",
     "description": "Fetch SEC EDGAR filings, insider activity, XBRL facts, and cached filing search results with agent-friendly output.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/edgar/cmd/edgar-pp-cli",
@@ -182466,6 +182605,49 @@
         "argv_path": [
           "echo-rest-services-get-qid",
           "get-facility-search-results"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "eplus",
+    "description": "Discover Japanese performances and plan source-backed ticket sale windows.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/eplus/cmd/eplus-pp-cli",
+    "auth_type": "none",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "eplus",
+      "eplus-pp-cli",
+      "Discover Japanese performances and plan source-backed ticket sale windows.",
+      "Sale-round planning",
+      "events detail",
+      "Inspect separate performance and sale-round identities, exact JST windows and lottery deadlines while keeping unknown inventory and overseas access explicit."
+    ],
+    "endpoints": [
+      {
+        "tool": "events.detail",
+        "summary": "Inspect event and performance details. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "events",
+          "detail"
+        ]
+      },
+      {
+        "tool": "events.search",
+        "summary": "Search domestic performances. Optional: keyword (default: Radiohead).",
+        "params_schema": {
+          "keyword": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "events",
+          "search"
         ]
       }
     ]
@@ -242621,6 +242803,95 @@
     ]
   },
   {
+    "api": "jma",
+    "description": "Resolve JMA areas and inspect official forecasts, warnings and uncertain typhoon tracks.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/jma/cmd/jma-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "jma",
+      "Japan Meteorological Agency",
+      "jma-pp-cli",
+      "Resolve JMA areas and inspect official forecasts, warnings and uncertain typhoon tracks.",
+      "Explicit source resolution",
+      "areas resolve",
+      "Resolve source IDs and reject ambiguous destination names.",
+      "Warning completeness",
+      "warnings get",
+      "Separate applicable no-warning, not-applicable, lifted and incomplete source records.",
+      "Coherent cyclone detail",
+      "typhoons get",
+      "Join matching JMA issued/valid-time geometry and intensity documents.",
+      "Lazy cyclone discovery",
+      "typhoons list",
+      "Discover current source cyclone IDs without detail requests.",
+      "Auditable inventory refresh",
+      "inventory refresh",
+      "Validate first-party source catalogs before atomic local replacement."
+    ],
+    "endpoints": [
+      {
+        "tool": "areas.search",
+        "summary": "Search source names and IDs with bounded local pagination.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "areas",
+          "search"
+        ]
+      },
+      {
+        "tool": "forecast.get",
+        "summary": "Resolve an area and retrieve its district forecast. Required: area (default: 130000). Returns array.",
+        "params_schema": {
+          "area": "string"
+        },
+        "positionals": [
+          "area"
+        ],
+        "argv_path": [
+          "forecast"
+        ]
+      },
+      {
+        "tool": "typhoons.get",
+        "summary": "Coherent cyclone forecast and intensity detail. Required: id (default: TC2632). Returns array.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "typhoons"
+        ]
+      },
+      {
+        "tool": "typhoons.list",
+        "summary": "List active cyclones without detail requests. Returns array.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "typhoons",
+          "list"
+        ]
+      },
+      {
+        "tool": "warnings.get",
+        "summary": "Current r8 municipality warning product bulletins. Required: area (default: 130000). Returns array.",
+        "params_schema": {
+          "area": "string"
+        },
+        "positionals": [
+          "area"
+        ],
+        "argv_path": [
+          "warnings"
+        ]
+      }
+    ]
+  },
+  {
     "api": "jobber",
     "description": "Jobber API surface as a read-only CLI and MCP peer (printing-press generated).",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/jobber/cmd/jobber-pp-cli",
@@ -266775,6 +267046,105 @@
     ]
   },
   {
+    "api": "nifty-onsen",
+    "description": "Find Japanese day-use baths with source evidence and explicit unknowns.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/nifty-onsen/cmd/nifty-onsen-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "nifty-onsen",
+      "Nifty Onsen",
+      "nifty-onsen-pp-cli",
+      "Find Japanese day-use baths with source evidence and explicit unknowns.",
+      "Source-safe bath inspection",
+      "bath show",
+      "Preserve natural hot spring, ordinary bath and private bath/room evidence separately.",
+      "Conditional public coupons",
+      "bath coupons",
+      "Read public validity, app/subscription, pair, age and holiday terms without issuing coupons.",
+      "Bounded nearby ranking",
+      "bath nearby",
+      "Rank at most 20 live map candidates by straight-line distance with explicit partial coverage.",
+      "Projected discovery",
+      "bath search",
+      "Select compact organic listing facts while keeping independent freshness and pagination metadata.",
+      "Fresh parsed detail cache",
+      "Reuse parsed source facts with timestamps and explicit offline/stale provenance."
+    ],
+    "endpoints": [
+      {
+        "tool": "bath.compare",
+        "summary": "Inspect 2 to 5 facilities side by side with per-item freshness and failures",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bath",
+          "compare"
+        ]
+      },
+      {
+        "tool": "bath.coupons",
+        "summary": "Read public coupon terms, app/subscription restrictions and handoff links",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bath",
+          "coupons"
+        ]
+      },
+      {
+        "tool": "bath.nearby",
+        "summary": "Rank a bounded public map window by straight-line distance",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bath",
+          "nearby"
+        ]
+      },
+      {
+        "tool": "bath.search",
+        "summary": "Find organic day-use listings by prefecture, keyword and source filters",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bath",
+          "search"
+        ]
+      },
+      {
+        "tool": "bath.show",
+        "summary": "Inspect admission, hours, access and explicit bath/policy evidence",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bath",
+          "show"
+        ]
+      },
+      {
+        "tool": "filters",
+        "summary": "List verified source filters with Japanese labels and domain caveats",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "filters",
+          "filters"
+        ]
+      },
+      {
+        "tool": "regions",
+        "summary": "List source prefecture slugs, Japanese names and geographic groups",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "regions",
+          "regions"
+        ]
+      }
+    ]
+  },
+  {
     "api": "notebooklm",
     "description": "Unofficial Go CLI for Gemini Notebook \u2014 notebooks, sources, chat, Studio artifacts, SQLite cache, and MCP via batchexecute RPC with Chrome session auth.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/notebooklm/cmd/notebooklm-pp-cli",
@@ -272427,6 +272797,58 @@
         "argv_path": [
           "tags",
           "tags"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "omakase",
+    "description": "Discover premium Japanese restaurants with source courses, release rules and honest availability states.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/omakase/cmd/omakase-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "omakase",
+      "omakase-pp-cli",
+      "Discover premium Japanese restaurants with source courses, release rules and honest availability states.",
+      "Course price/fee inspection",
+      "courses",
+      "Inspect public course price floors, units, service charges, reservation fee and cancellation caveats.",
+      "Release schedule inspection",
+      "release",
+      "Read source release timing in JST; distinguish scheduled, irregular and undetermined releases from seats.",
+      "Date/party availability boundary",
+      "availability",
+      "Inspect a planning date and party with unknown exact seats and query_evaluated false when public access is gated.",
+      "Restaurant comparison",
+      "compare",
+      "Compare public terms for two to five restaurant IDs with explicit per-ID failures.",
+      "Local summary inventory",
+      "inventory",
+      "Explicitly refresh bounded summary pages and inspect or search local inventory coverage."
+    ],
+    "endpoints": [
+      {
+        "tool": "pages.list",
+        "summary": "Public catalogue source links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "pages"
+        ]
+      },
+      {
+        "tool": "pages.detail",
+        "summary": "Public restaurant source document metadata. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "pages",
+          "detail"
         ]
       }
     ]
@@ -306577,6 +306999,42 @@
     ]
   },
   {
+    "api": "pocket-concierge",
+    "description": "Discover fine dining with sourced courses, session identity and safe booking handoff.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/pocket-concierge/cmd/pocket-concierge-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "pocket-concierge",
+      "Pocket Concierge",
+      "pocket-concierge-pp-cli",
+      "Discover fine dining with sourced courses, session identity and safe booking handoff.",
+      "Bilingual source identity",
+      "restaurants search",
+      "Match first-party English and Japanese restaurant identities by source ID with bounded native filters.",
+      "Joins language variants by source ID rather than guessing translations.",
+      "Fee conflict preservation",
+      "courses list",
+      "Keep per-guest and per-group JPY prices and conflicting course and restaurant fee statements without inventing a payable total.",
+      "Keeps both source contexts visible rather than flattening fees into a misleading sum.",
+      "Validated canonical handoff",
+      "booking handoff",
+      "Validate course and session ownership and party bounds before returning the canonical restaurant link.",
+      "Combines public course and session identity checks with a read-only first-party handoff."
+    ],
+    "endpoints": [
+      {
+        "tool": "agent-context",
+        "summary": "Discover fine dining with sourced courses, session identity and safe booking handoff. (no tools-manifest upstream; call agent-context to capture the real schema)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "agent-context"
+        ]
+      }
+    ]
+  },
+  {
     "api": "podcast-goat",
     "description": "Pull long-form podcast transcripts as speaker-labeled markdown \u2014 cookie-first across the four major paid...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/podcast-goat/cmd/podcast-goat-pp-cli",
@@ -309233,6 +309691,1433 @@
         "argv_path": [
           "team",
           "get-workspaces"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "postmark",
+    "description": "One account token for every Postmark server, and a local archive that outlasts Postmark's 45-day retention.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/postmark/cmd/postmark-pp-cli",
+    "auth_type": "api_key",
+    "category": "productivity",
+    "search_terms": [
+      "postmark",
+      "postmark-pp-cli",
+      "One account token for every Postmark server, and a local archive that outlasts Postmark's 45-day retention.",
+      "Send-volume pulse",
+      "pulse",
+      "Compares each server, stream, or tag with its own recent weeks and flags any that stopped sending, dropped off, or spiked in bounces or spam, across every server on the account token.",
+      "Idempotent send",
+      "email send-once",
+      "Sends an email at most once per key within a window (15 minutes by default), so an agent or script that retries after an error cannot deliver a second copy. Previews until you add --send.",
+      "Recipient-domain report",
+      "recipient-domains",
+      "Groups sends, bounces by type, complaints, suppressions, and opens by the recipient's mailbox domain across every synced server, so one provider's problem stands out. Run sync first.",
+      "Template CI gate",
+      "templates check",
+      "Validates every template and layout on a server or in a pulled folder, and exits non-zero on render errors, missing test-model keys, or broken layout links.",
+      "New-project server bootstrap",
+      "servers bootstrap",
+      "Creates a new project's Postmark server with its message streams, webhooks, sending-domain DNS records, and templates copied from another server. Prints the plan until you add --apply."
+    ],
+    "endpoints": [
+      {
+        "tool": "bounces.get",
+        "summary": "Get a single bounce. Required: bounceid. Returns the BounceInfoResponse.",
+        "params_schema": {
+          "bounceid": "string"
+        },
+        "positionals": [
+          "bounceid"
+        ],
+        "argv_path": [
+          "bounces"
+        ]
+      },
+      {
+        "tool": "bounces.activate",
+        "summary": "Activate a bounce. Required: bounceid. Returns the updated BounceActivationResponse.",
+        "params_schema": {
+          "bounceid": "string"
+        },
+        "positionals": [
+          "bounceid"
+        ],
+        "argv_path": [
+          "bounces",
+          "activate"
+        ]
+      },
+      {
+        "tool": "bounces.delivery-stats",
+        "summary": "Get delivery stats. Returns the DeliveryStatsResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bounces",
+          "delivery-stats"
+        ]
+      },
+      {
+        "tool": "bounces.dump",
+        "summary": "Get bounce dump. Required: bounceid. Returns the BounceDumpResponse.",
+        "params_schema": {
+          "bounceid": "string"
+        },
+        "positionals": [
+          "bounceid"
+        ],
+        "argv_path": [
+          "bounces",
+          "dump"
+        ]
+      },
+      {
+        "tool": "bounces.list",
+        "summary": "Get bounces. Required: count (default: 100), offset (default: 0). Optional: type, inactive, emailFilter (plus 5 more). Returns array of BounceInfoResponse.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?",
+          "type": "string?",
+          "inactive": "bool?",
+          "emailFilter": "string?",
+          "messageID": "string?",
+          "tag": "string?",
+          "todate": "string?",
+          "fromdate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bounces",
+          "list"
+        ]
+      },
+      {
+        "tool": "clicks.get",
+        "summary": "Retrieve Message Clicks. Required: messageid, count (default: 1), offset (default: 0). Returns array of ExtendedMessageClickEventInformation.",
+        "params_schema": {
+          "messageid": "string",
+          "count": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "messageid"
+        ],
+        "argv_path": [
+          "clicks"
+        ]
+      },
+      {
+        "tool": "clicks.list",
+        "summary": "Clicks for a all messages. Required: count (default: 100), offset (default: 0). Optional: recipient, tag, client_name (plus 10 more). Returns array of ExtendedMessageClickEventInformation.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?",
+          "recipient": "string?",
+          "tag": "string?",
+          "client_name": "string?",
+          "client_company": "string?",
+          "client_family": "string?",
+          "os_name": "string?",
+          "os_family": "string?",
+          "os_company": "string?",
+          "platform": "string?",
+          "country": "string?",
+          "region": "string?",
+          "city": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "clicks",
+          "list"
+        ]
+      },
+      {
+        "tool": "data.removals_create",
+        "summary": "Request irreversible removal of a recipient's data (enabled on request by Postmark). Required: RequestedFor. Optional: NotifyWhenCompleted, RequestedBy. Returns the new DataRemovalStatus.",
+        "params_schema": {
+          "NotifyWhenCompleted": "bool?",
+          "RequestedBy": "string?",
+          "RequestedFor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "data",
+          "removals_create"
+        ]
+      },
+      {
+        "tool": "data.removals_get",
+        "summary": "Check a data removal request. Required: dataRemovalId. Returns the DataRemovalStatus.",
+        "params_schema": {
+          "dataRemovalId": "string"
+        },
+        "positionals": [
+          "dataRemovalId"
+        ],
+        "argv_path": [
+          "data",
+          "removals_get"
+        ]
+      },
+      {
+        "tool": "domains.create",
+        "summary": "Create a Domain. Required: Name. Optional: ReturnPathDomain. Returns the new DomainExtendedInformation.",
+        "params_schema": {
+          "Name": "string?",
+          "ReturnPathDomain": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "domains"
+        ]
+      },
+      {
+        "tool": "domains.delete",
+        "summary": "Delete a Domain. Required: domainid. Returns the StandardPostmarkResponse. Destructive.",
+        "params_schema": {
+          "domainid": "string"
+        },
+        "positionals": [
+          "domainid"
+        ],
+        "argv_path": [
+          "domains",
+          "delete"
+        ]
+      },
+      {
+        "tool": "domains.get",
+        "summary": "Get a Domain. Required: domainid. Returns the DomainExtendedInformation.",
+        "params_schema": {
+          "domainid": "string"
+        },
+        "positionals": [
+          "domainid"
+        ],
+        "argv_path": [
+          "domains",
+          "get"
+        ]
+      },
+      {
+        "tool": "domains.list",
+        "summary": "List Domains. Required: count (default: 100), offset (default: 0). Returns array of DomainInformation.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "domains",
+          "list"
+        ]
+      },
+      {
+        "tool": "domains.rotate-dkim",
+        "summary": "Creates a new DKIM key to replace your current key. Until the DNS entries are confirmed, the new values will be in the `DKIMPendingHost` and `DKIMPendingTextValue` fields. After the new DKIM value is verified in DNS, the pending values will migrate to `DKIMTextValue` and `DKIMPendingTextValue` and Postmark will begin to sign emails with the new DKIM key. Required: domainid. Returns the new DkimrotationResponse.",
+        "params_schema": {
+          "domainid": "string"
+        },
+        "positionals": [
+          "domainid"
+        ],
+        "argv_path": [
+          "domains",
+          "rotate-dkim"
+        ]
+      },
+      {
+        "tool": "domains.update",
+        "summary": "Update a Domain. Required: domainid. Optional: ReturnPathDomain. Returns the updated DomainExtendedInformation.",
+        "params_schema": {
+          "domainid": "string",
+          "ReturnPathDomain": "string?"
+        },
+        "positionals": [
+          "domainid"
+        ],
+        "argv_path": [
+          "domains",
+          "update"
+        ]
+      },
+      {
+        "tool": "domains.verify-dkim",
+        "summary": "Request DNS Verification for DKIM. Required: domainid. Returns the updated DomainExtendedInformation.",
+        "params_schema": {
+          "domainid": "string"
+        },
+        "positionals": [
+          "domainid"
+        ],
+        "argv_path": [
+          "domains",
+          "verify-dkim"
+        ]
+      },
+      {
+        "tool": "domains.verify-return-path",
+        "summary": "Request DNS Verification for Return-Path. Required: domainid. Returns the updated DomainExtendedInformation.",
+        "params_schema": {
+          "domainid": "string"
+        },
+        "positionals": [
+          "domainid"
+        ],
+        "argv_path": [
+          "domains",
+          "verify-return-path"
+        ]
+      },
+      {
+        "tool": "domains.verify-spf",
+        "summary": "Request DNS Verification for SPF (deprecated by Postmark). Required: domainid. Returns the new DomainSpfresult.",
+        "params_schema": {
+          "domainid": "string"
+        },
+        "positionals": [
+          "domainid"
+        ],
+        "argv_path": [
+          "domains",
+          "verify-spf"
+        ]
+      },
+      {
+        "tool": "email.bulk-list",
+        "summary": "List bulk requests on this server, newest first. Optional: count, paginationKey. Returns the EmailBulkListResponse.",
+        "params_schema": {
+          "count": "int?",
+          "paginationKey": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "email",
+          "bulk-list"
+        ]
+      },
+      {
+        "tool": "email.bulk-status",
+        "summary": "Get the status of one bulk request. Required: bulkRequestId. Returns the BulkRequestStatus.",
+        "params_schema": {
+          "bulkRequestId": "string"
+        },
+        "positionals": [
+          "bulkRequestId"
+        ],
+        "argv_path": [
+          "email",
+          "bulk-status"
+        ]
+      },
+      {
+        "tool": "email.send",
+        "summary": "Send a single email. Required: From, To. Optional: Attachments, Bcc, Cc (plus 10 more). Returns the new SendEmailResponse.",
+        "params_schema": {
+          "Attachments": "array?",
+          "Bcc": "string?",
+          "Cc": "string?",
+          "From": "string?",
+          "Headers": "array?",
+          "HtmlBody": "string?",
+          "MessageStream": "string?",
+          "Metadata": "object?",
+          "ReplyTo": "string?",
+          "Subject": "string?",
+          "Tag": "string?",
+          "TextBody": "string?",
+          "To": "string?",
+          "TrackLinks": "string?",
+          "TrackOpens": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "email",
+          "send"
+        ]
+      },
+      {
+        "tool": "email.send-batch",
+        "summary": "Send a batch of emails. Returns array of SendEmailResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "email",
+          "send-batch"
+        ]
+      },
+      {
+        "tool": "email.send-batch-with-templates",
+        "summary": "Send a batch of email using templates. Optional: Messages. Returns array of SendEmailResponse.",
+        "params_schema": {
+          "Messages": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "email",
+          "send-batch-with-templates"
+        ]
+      },
+      {
+        "tool": "email.send-bulk",
+        "summary": "Send one message to many recipients (bulk). Requires account approval. Required: From, Messages. Optional: Attachments, Headers, HtmlBody (plus 11 more). Returns the new BulkRequestStatus.",
+        "params_schema": {
+          "Attachments": "array?",
+          "From": "string?",
+          "Headers": "array?",
+          "HtmlBody": "string?",
+          "InlineCss": "bool?",
+          "MessageStream": "string?",
+          "Messages": "array?",
+          "Metadata": "object?",
+          "ReplyTo": "string?",
+          "Subject": "string?",
+          "Tag": "string?",
+          "TemplateAlias": "string?",
+          "TemplateId": "int?",
+          "TextBody": "string?",
+          "TrackLinks": "string?",
+          "TrackOpens": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "email",
+          "send-bulk"
+        ]
+      },
+      {
+        "tool": "email.send-with-template",
+        "summary": "Send an email using a Template. Required: From, TemplateModel, To. Optional: Attachments, Bcc, Cc (plus 10 more). Returns the new SendEmailResponse.",
+        "params_schema": {
+          "Attachments": "array?",
+          "Bcc": "string?",
+          "Cc": "string?",
+          "From": "string?",
+          "Headers": "array?",
+          "InlineCss": "bool?",
+          "MessageStream": "string?",
+          "Metadata": "object?",
+          "ReplyTo": "string?",
+          "Tag": "string?",
+          "TemplateAlias": "string?",
+          "TemplateId": "int?",
+          "TemplateModel": "object?",
+          "To": "string?",
+          "TrackLinks": "string?",
+          "TrackOpens": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "email",
+          "send-with-template"
+        ]
+      },
+      {
+        "tool": "inbound.get",
+        "summary": "Inbound message details. Required: messageid. Returns the InboundMessageFullDetailsResponse.",
+        "params_schema": {
+          "messageid": "string"
+        },
+        "positionals": [
+          "messageid"
+        ],
+        "argv_path": [
+          "inbound"
+        ]
+      },
+      {
+        "tool": "inbound.bypass",
+        "summary": "Bypass rules for a blocked inbound message. Required: messageid. Returns the updated StandardPostmarkResponse.",
+        "params_schema": {
+          "messageid": "string"
+        },
+        "positionals": [
+          "messageid"
+        ],
+        "argv_path": [
+          "inbound",
+          "bypass"
+        ]
+      },
+      {
+        "tool": "inbound.list",
+        "summary": "Inbound message search. Required: count (default: 100), offset (default: 0). Optional: recipient, fromemail, subject (plus 5 more). Returns array of InboundMessageDetail.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?",
+          "recipient": "string?",
+          "fromemail": "string?",
+          "subject": "string?",
+          "mailboxhash": "string?",
+          "tag": "string?",
+          "status": "string?",
+          "todate": "string?",
+          "fromdate": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "inbound",
+          "list"
+        ]
+      },
+      {
+        "tool": "inbound.retry",
+        "summary": "Retry a failed inbound message for processing. Required: messageid. Returns the updated StandardPostmarkResponse.",
+        "params_schema": {
+          "messageid": "string"
+        },
+        "positionals": [
+          "messageid"
+        ],
+        "argv_path": [
+          "inbound",
+          "retry"
+        ]
+      },
+      {
+        "tool": "inbound.rules_create",
+        "summary": "Create an inbound rule trigger. Optional: Rule. Returns the new InboundRulesCreateResponse.",
+        "params_schema": {
+          "Rule": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "inbound",
+          "rules_create"
+        ]
+      },
+      {
+        "tool": "inbound.rules_delete",
+        "summary": "Delete a single trigger. Required: triggerid. Returns the StandardPostmarkResponse. Destructive.",
+        "params_schema": {
+          "triggerid": "string"
+        },
+        "positionals": [
+          "triggerid"
+        ],
+        "argv_path": [
+          "inbound",
+          "rules_delete"
+        ]
+      },
+      {
+        "tool": "inbound.rules_list",
+        "summary": "List inbound rule triggers. Required: count (default: 100), offset (default: 0). Returns array of InboundRulesListItem.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "inbound",
+          "rules_list"
+        ]
+      },
+      {
+        "tool": "messages.get",
+        "summary": "Outbound message details. Required: messageid. Returns the OutboundMessageDetailsResponse.",
+        "params_schema": {
+          "messageid": "string"
+        },
+        "positionals": [
+          "messageid"
+        ],
+        "argv_path": [
+          "messages"
+        ]
+      },
+      {
+        "tool": "messages.dump",
+        "summary": "Outbound message dump. Required: messageid. Returns the OutboundMessageDumpResponse.",
+        "params_schema": {
+          "messageid": "string"
+        },
+        "positionals": [
+          "messageid"
+        ],
+        "argv_path": [
+          "messages",
+          "dump"
+        ]
+      },
+      {
+        "tool": "messages.list",
+        "summary": "Outbound message search. Required: count (default: 100), offset (default: 0). Optional: recipient, fromemail, tag (plus 5 more). Returns array of OutboundMessageDetail.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?",
+          "recipient": "string?",
+          "fromemail": "string?",
+          "tag": "string?",
+          "status": "string?",
+          "todate": "string?",
+          "fromdate": "string?",
+          "messagestream": "string?",
+          "subject": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "messages",
+          "list"
+        ]
+      },
+      {
+        "tool": "opens.get",
+        "summary": "Retrieve Message Opens. Required: messageid, count (default: 100), offset (default: 0). Returns array of ExtendedMessageOpenEventInformation.",
+        "params_schema": {
+          "messageid": "string",
+          "count": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "messageid"
+        ],
+        "argv_path": [
+          "opens"
+        ]
+      },
+      {
+        "tool": "opens.list",
+        "summary": "Opens for all messages. Required: count (default: 100), offset (default: 0). Optional: recipient, tag, client_name (plus 10 more). Returns array of ExtendedMessageOpenEventInformation.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?",
+          "recipient": "string?",
+          "tag": "string?",
+          "client_name": "string?",
+          "client_company": "string?",
+          "client_family": "string?",
+          "os_name": "string?",
+          "os_family": "string?",
+          "os_company": "string?",
+          "platform": "string?",
+          "country": "string?",
+          "region": "string?",
+          "city": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "opens",
+          "list"
+        ]
+      },
+      {
+        "tool": "senders.create",
+        "summary": "Create a Sender Signature. Required: FromEmail, Name. Optional: ConfirmationPersonalNote, ReplyToEmail, ReturnPathDomain. Returns the new SenderSignatureExtendedInformation.",
+        "params_schema": {
+          "ConfirmationPersonalNote": "string?",
+          "FromEmail": "string?",
+          "Name": "string?",
+          "ReplyToEmail": "string?",
+          "ReturnPathDomain": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "senders"
+        ]
+      },
+      {
+        "tool": "senders.delete",
+        "summary": "Delete a Sender Signature. Required: signatureid. Returns the StandardPostmarkResponse. Destructive.",
+        "params_schema": {
+          "signatureid": "string"
+        },
+        "positionals": [
+          "signatureid"
+        ],
+        "argv_path": [
+          "senders",
+          "delete"
+        ]
+      },
+      {
+        "tool": "senders.get",
+        "summary": "Get a Sender Signature. Required: signatureid. Returns the SenderSignatureExtendedInformation.",
+        "params_schema": {
+          "signatureid": "string"
+        },
+        "positionals": [
+          "signatureid"
+        ],
+        "argv_path": [
+          "senders",
+          "get"
+        ]
+      },
+      {
+        "tool": "senders.list",
+        "summary": "List Sender Signatures. Required: count (default: 100), offset (default: 0). Returns array of SenderSignatureInformation.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "senders",
+          "list"
+        ]
+      },
+      {
+        "tool": "senders.request-new-dkim",
+        "summary": "Requests a new DKIM key to be created. Until the DNS entries are confirmed, the new values will be in the `DKIMPendingHost` and `DKIMPendingTextValue` fields. After the new DKIM value is verified in DNS, the pending values will migrate to `DKIMTextValue` and `DKIMPendingTextValue` and Postmark will begin to sign emails with the new DKIM key. Required: signatureid. Returns the new StandardPostmarkResponse. Deprecated.",
+        "params_schema": {
+          "signatureid": "string"
+        },
+        "positionals": [
+          "signatureid"
+        ],
+        "argv_path": [
+          "senders",
+          "request-new-dkim"
+        ]
+      },
+      {
+        "tool": "senders.resend-confirmation",
+        "summary": "Resend Signature Confirmation Email. Required: signatureid. Returns the new StandardPostmarkResponse.",
+        "params_schema": {
+          "signatureid": "string"
+        },
+        "positionals": [
+          "signatureid"
+        ],
+        "argv_path": [
+          "senders",
+          "resend-confirmation"
+        ]
+      },
+      {
+        "tool": "senders.update",
+        "summary": "Update a Sender Signature. Required: signatureid. Optional: ConfirmationPersonalNote, Name, ReplyToEmail (plus 1 more). Returns the updated SenderSignatureExtendedInformation.",
+        "params_schema": {
+          "signatureid": "string",
+          "ConfirmationPersonalNote": "string?",
+          "Name": "string?",
+          "ReplyToEmail": "string?",
+          "ReturnPathDomain": "string?"
+        },
+        "positionals": [
+          "signatureid"
+        ],
+        "argv_path": [
+          "senders",
+          "update"
+        ]
+      },
+      {
+        "tool": "senders.verify-spf",
+        "summary": "Request DNS Verification for SPF (deprecated by Postmark). Required: signatureid. Returns the new SenderSignatureExtendedInformation.",
+        "params_schema": {
+          "signatureid": "string"
+        },
+        "positionals": [
+          "signatureid"
+        ],
+        "argv_path": [
+          "senders",
+          "verify-spf"
+        ]
+      },
+      {
+        "tool": "server.get",
+        "summary": "Get Server Configuration. Returns the ServerConfigurationResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "server"
+        ]
+      },
+      {
+        "tool": "server.update",
+        "summary": "Edit Server Configuration. Optional: BounceHookUrl, ClickHookUrl, Color (plus 13 more). Returns the updated ServerConfigurationResponse.",
+        "params_schema": {
+          "BounceHookUrl": "string?",
+          "ClickHookUrl": "string?",
+          "Color": "string?",
+          "DeliveryHookUrl": "string?",
+          "EnableSmtpApiErrorHooks": "bool?",
+          "InboundDomain": "string?",
+          "InboundHookUrl": "string?",
+          "InboundSpamThreshold": "int?",
+          "IncludeBounceContentInHook": "bool?",
+          "Name": "string?",
+          "OpenHookUrl": "string?",
+          "PostFirstOpenOnly": "bool?",
+          "RawEmailEnabled": "bool?",
+          "SmtpApiActivated": "bool?",
+          "TrackLinks": "string?",
+          "TrackOpens": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "server",
+          "update"
+        ]
+      },
+      {
+        "tool": "servers.create",
+        "summary": "Create a Server. Required: Name. Optional: BounceHookUrl, ClickHookUrl, Color (plus 13 more). Returns the new ExtendedServerInfo.",
+        "params_schema": {
+          "BounceHookUrl": "string?",
+          "ClickHookUrl": "string?",
+          "Color": "string?",
+          "DeliveryHookUrl": "string?",
+          "DeliveryType": "string?",
+          "EnableSmtpApiErrorHooks": "bool?",
+          "InboundDomain": "string?",
+          "InboundHookUrl": "string?",
+          "InboundSpamThreshold": "int?",
+          "IncludeBounceContentInHook": "bool?",
+          "Name": "string?",
+          "OpenHookUrl": "string?",
+          "PostFirstOpenOnly": "bool?",
+          "RawEmailEnabled": "bool?",
+          "SmtpApiActivated": "bool?",
+          "TrackLinks": "string?",
+          "TrackOpens": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "servers"
+        ]
+      },
+      {
+        "tool": "servers.delete",
+        "summary": "Delete a Server. Required: serverid. Returns the StandardPostmarkResponse. Destructive.",
+        "params_schema": {
+          "serverid": "string"
+        },
+        "positionals": [
+          "serverid"
+        ],
+        "argv_path": [
+          "servers",
+          "delete"
+        ]
+      },
+      {
+        "tool": "servers.get",
+        "summary": "Get a Server. Required: serverid. Returns the ExtendedServerInfo.",
+        "params_schema": {
+          "serverid": "string"
+        },
+        "positionals": [
+          "serverid"
+        ],
+        "argv_path": [
+          "servers",
+          "get"
+        ]
+      },
+      {
+        "tool": "servers.list",
+        "summary": "List servers. Required: count (default: 100), offset (default: 0). Optional: name. Returns array of ExtendedServerInfo.",
+        "params_schema": {
+          "count": "int?",
+          "offset": "int?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "servers",
+          "list"
+        ]
+      },
+      {
+        "tool": "servers.update",
+        "summary": "Edit a Server. Required: serverid. Optional: BounceHookUrl, ClickHookUrl, Color (plus 13 more). Returns the updated ExtendedServerInfo.",
+        "params_schema": {
+          "serverid": "string",
+          "BounceHookUrl": "string?",
+          "ClickHookUrl": "string?",
+          "Color": "string?",
+          "DeliveryHookUrl": "string?",
+          "EnableSmtpApiErrorHooks": "bool?",
+          "InboundDomain": "string?",
+          "InboundHookUrl": "string?",
+          "InboundSpamThreshold": "int?",
+          "IncludeBounceContentInHook": "bool?",
+          "Name": "string?",
+          "OpenHookUrl": "string?",
+          "PostFirstOpenOnly": "bool?",
+          "RawEmailEnabled": "bool?",
+          "SmtpApiActivated": "bool?",
+          "TrackLinks": "string?",
+          "TrackOpens": "bool?"
+        },
+        "positionals": [
+          "serverid"
+        ],
+        "argv_path": [
+          "servers",
+          "update"
+        ]
+      },
+      {
+        "tool": "stats.bounces",
+        "summary": "Get bounce counts. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsBouncesResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "bounces"
+        ]
+      },
+      {
+        "tool": "stats.click-browsers",
+        "summary": "Get browser usage by family. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsClickBrowsersResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "click-browsers"
+        ]
+      },
+      {
+        "tool": "stats.click-locations",
+        "summary": "Get clicks by body location. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsClickLocationsResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "click-locations"
+        ]
+      },
+      {
+        "tool": "stats.click-platforms",
+        "summary": "Get browser plaform usage. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsClickPlatformsResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "click-platforms"
+        ]
+      },
+      {
+        "tool": "stats.clicks",
+        "summary": "Get click counts. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsClicksResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "clicks"
+        ]
+      },
+      {
+        "tool": "stats.open-clients",
+        "summary": "Get email client usage. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsOpenClientsResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "open-clients"
+        ]
+      },
+      {
+        "tool": "stats.open-platforms",
+        "summary": "Get email platform usage. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsOpenPlatformsResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "open-platforms"
+        ]
+      },
+      {
+        "tool": "stats.open-read-times",
+        "summary": "Open counts by read time (seconds spent reading). Optional: tag, fromdate, todate (plus 1 more). Returns the StatsOpenReadTimesResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "open-read-times"
+        ]
+      },
+      {
+        "tool": "stats.opens",
+        "summary": "Get email open counts. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsOpensResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "opens"
+        ]
+      },
+      {
+        "tool": "stats.overview",
+        "summary": "Get outbound overview. Optional: tag, fromdate, todate (plus 1 more). Returns the OutboundOverviewStatsResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "overview"
+        ]
+      },
+      {
+        "tool": "stats.sends",
+        "summary": "Get sent counts. Optional: tag, fromdate, todate (plus 1 more). Returns the SentCountsResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "sends"
+        ]
+      },
+      {
+        "tool": "stats.spam",
+        "summary": "Get spam complaints. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsSpamResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "spam"
+        ]
+      },
+      {
+        "tool": "stats.tracked",
+        "summary": "Get tracked email counts. Optional: tag, fromdate, todate (plus 1 more). Returns the StatsTrackedResponse.",
+        "params_schema": {
+          "tag": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "messagestream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "tracked"
+        ]
+      },
+      {
+        "tool": "streams.create",
+        "summary": "Create a message stream. Required: ID, MessageStreamType, Name. Optional: Description, SubscriptionManagementConfiguration. Returns the new MessageStream.",
+        "params_schema": {
+          "Description": "string?",
+          "ID": "string?",
+          "MessageStreamType": "string?",
+          "Name": "string?",
+          "subscription-management-configuration-unsubscribe-handling-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "streams"
+        ]
+      },
+      {
+        "tool": "streams.archive",
+        "summary": "Archive a message stream (purged 45 days later unless unarchived). Required: streamId. Returns the new StreamsArchiveResponse.",
+        "params_schema": {
+          "streamId": "string"
+        },
+        "positionals": [
+          "streamId"
+        ],
+        "argv_path": [
+          "streams",
+          "archive"
+        ]
+      },
+      {
+        "tool": "streams.get",
+        "summary": "Get one message stream. Required: streamId. Returns the MessageStream.",
+        "params_schema": {
+          "streamId": "string"
+        },
+        "positionals": [
+          "streamId"
+        ],
+        "argv_path": [
+          "streams",
+          "get"
+        ]
+      },
+      {
+        "tool": "streams.list",
+        "summary": "List message streams on this server. Optional: MessageStreamType (default: All), IncludeArchivedStreams (default: false). Returns array of MessageStream.",
+        "params_schema": {
+          "MessageStreamType": "string?",
+          "IncludeArchivedStreams": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "streams",
+          "list"
+        ]
+      },
+      {
+        "tool": "streams.unarchive",
+        "summary": "Restore an archived message stream before its purge date. Required: streamId. Returns the new MessageStream.",
+        "params_schema": {
+          "streamId": "string"
+        },
+        "positionals": [
+          "streamId"
+        ],
+        "argv_path": [
+          "streams",
+          "unarchive"
+        ]
+      },
+      {
+        "tool": "streams.update",
+        "summary": "Edit a message stream. Required: streamId. Optional: Description, Name, SubscriptionManagementConfiguration. Returns the updated MessageStream.",
+        "params_schema": {
+          "streamId": "string",
+          "Description": "string?",
+          "Name": "string?",
+          "subscription-management-configuration-unsubscribe-handling-type": "string?"
+        },
+        "positionals": [
+          "streamId"
+        ],
+        "argv_path": [
+          "streams",
+          "update"
+        ]
+      },
+      {
+        "tool": "suppressions.create",
+        "summary": "Suppress up to 50 addresses on a message stream. Required: streamId, Suppressions. Returns array of SuppressionsCreateItem.",
+        "params_schema": {
+          "streamId": "string",
+          "Suppressions": "array?"
+        },
+        "positionals": [
+          "streamId"
+        ],
+        "argv_path": [
+          "suppressions"
+        ]
+      },
+      {
+        "tool": "suppressions.delete",
+        "summary": "Remove up to 50 suppressions from a message stream (SpamComplaint suppressions cannot be removed). Required: streamId, Suppressions. Returns array of SuppressionsDeleteItem.",
+        "params_schema": {
+          "streamId": "string",
+          "Suppressions": "array?"
+        },
+        "positionals": [
+          "streamId"
+        ],
+        "argv_path": [
+          "suppressions",
+          "delete"
+        ]
+      },
+      {
+        "tool": "suppressions.list",
+        "summary": "List suppressed addresses on a message stream. Required: streamId. Optional: SuppressionReason, Origin, fromdate (plus 2 more). Returns array of Suppression.",
+        "params_schema": {
+          "streamId": "string",
+          "SuppressionReason": "string?",
+          "Origin": "string?",
+          "fromdate": "string?",
+          "todate": "string?",
+          "EmailAddress": "string?"
+        },
+        "positionals": [
+          "streamId"
+        ],
+        "argv_path": [
+          "suppressions",
+          "list"
+        ]
+      },
+      {
+        "tool": "templates.create",
+        "summary": "Create a Template. Required: Name. Optional: Alias, HtmlBody, LayoutTemplate (plus 3 more). Returns the new TemplateRecordResponse.",
+        "params_schema": {
+          "Alias": "string?",
+          "HtmlBody": "string?",
+          "LayoutTemplate": "string?",
+          "Name": "string?",
+          "Subject": "string?",
+          "TemplateType": "string?",
+          "TextBody": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "templates"
+        ]
+      },
+      {
+        "tool": "templates.delete",
+        "summary": "Delete a Template. Required: templateIdOrAlias. Returns the StandardPostmarkResponse. Destructive.",
+        "params_schema": {
+          "templateIdOrAlias": "string"
+        },
+        "positionals": [
+          "templateIdOrAlias"
+        ],
+        "argv_path": [
+          "templates",
+          "delete"
+        ]
+      },
+      {
+        "tool": "templates.get",
+        "summary": "Get a Template. Required: templateIdOrAlias. Returns the TemplateDetailResponse.",
+        "params_schema": {
+          "templateIdOrAlias": "string"
+        },
+        "positionals": [
+          "templateIdOrAlias"
+        ],
+        "argv_path": [
+          "templates",
+          "get"
+        ]
+      },
+      {
+        "tool": "templates.list",
+        "summary": "Get the Templates associated with this Server. Required: Count (default: 100), Offset (default: 0). Optional: TemplateType (default: All), LayoutTemplate. Returns array of TemplateRecordResponse.",
+        "params_schema": {
+          "Count": "float?",
+          "Offset": "float?",
+          "TemplateType": "string?",
+          "LayoutTemplate": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "templates",
+          "list"
+        ]
+      },
+      {
+        "tool": "templates.push-between-servers",
+        "summary": "Push templates from one server to another. Required: DestinationServerID, PerformChanges, SourceServerID. Returns array of TemplatesPushBetweenServersItem.",
+        "params_schema": {
+          "DestinationServerID": "int?",
+          "PerformChanges": "bool?",
+          "SourceServerID": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "templates",
+          "push-between-servers"
+        ]
+      },
+      {
+        "tool": "templates.update",
+        "summary": "Update a Template. Required: templateIdOrAlias. Optional: Alias, HtmlBody, LayoutTemplate (plus 3 more). Returns the updated TemplateRecordResponse.",
+        "params_schema": {
+          "templateIdOrAlias": "string",
+          "Alias": "string?",
+          "HtmlBody": "string?",
+          "LayoutTemplate": "string?",
+          "Name": "string?",
+          "Subject": "string?",
+          "TextBody": "string?"
+        },
+        "positionals": [
+          "templateIdOrAlias"
+        ],
+        "argv_path": [
+          "templates",
+          "update"
+        ]
+      },
+      {
+        "tool": "templates.validate",
+        "summary": "Test Template Content. Optional: HtmlBody, InlineCssForHtmlTestRender (default: true), LayoutTemplate (plus 4 more). Returns the new TemplateValidationResponse.",
+        "params_schema": {
+          "HtmlBody": "string?",
+          "InlineCssForHtmlTestRender": "bool?",
+          "LayoutTemplate": "string?",
+          "Subject": "string?",
+          "TemplateType": "string?",
+          "TestRenderModel": "object?",
+          "TextBody": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "templates",
+          "validate"
+        ]
+      },
+      {
+        "tool": "webhooks.create",
+        "summary": "Create a webhook. Required: Url. Optional: HttpAuth, HttpHeaders, MessageStream (default: outbound) (plus 2 more). Returns the new Webhook.",
+        "params_schema": {
+          "http-auth-password": "string?",
+          "http-auth-username": "string?",
+          "HttpHeaders": "array?",
+          "MessageStream": "string?",
+          "triggers-bounce-enabled": "bool?",
+          "triggers-bounce-include-content": "bool?",
+          "triggers-click-enabled": "bool?",
+          "triggers-delivery-enabled": "bool?",
+          "triggers-open-enabled": "bool?",
+          "triggers-open-post-first-open-only": "bool?",
+          "triggers-spam-complaint-enabled": "bool?",
+          "triggers-spam-complaint-include-content": "bool?",
+          "triggers-subscription-change-enabled": "bool?",
+          "Url": "string?",
+          "Verify": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "webhooks"
+        ]
+      },
+      {
+        "tool": "webhooks.delete",
+        "summary": "Delete a webhook. Required: webhookId. Returns the StandardPostmarkResponse. Destructive.",
+        "params_schema": {
+          "webhookId": "string"
+        },
+        "positionals": [
+          "webhookId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "webhooks.get",
+        "summary": "Get one webhook. Required: webhookId. Returns the Webhook.",
+        "params_schema": {
+          "webhookId": "string"
+        },
+        "positionals": [
+          "webhookId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "get"
+        ]
+      },
+      {
+        "tool": "webhooks.list",
+        "summary": "List webhooks on this server. Optional: MessageStream. Returns array of Webhook.",
+        "params_schema": {
+          "MessageStream": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "webhooks",
+          "list"
+        ]
+      },
+      {
+        "tool": "webhooks.statistics",
+        "summary": "Delivery statistics for one webhook over the last 24 hours. Required: webhookId. Returns the WebhooksStatisticsResponse.",
+        "params_schema": {
+          "webhookId": "string"
+        },
+        "positionals": [
+          "webhookId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "statistics"
+        ]
+      },
+      {
+        "tool": "webhooks.update",
+        "summary": "Edit a webhook (omitted triggers stay unchanged). Required: webhookId. Optional: HttpAuth, HttpHeaders, Triggers (plus 2 more). Returns the updated Webhook.",
+        "params_schema": {
+          "webhookId": "string",
+          "http-auth-password": "string?",
+          "http-auth-username": "string?",
+          "HttpHeaders": "array?",
+          "triggers-bounce-enabled": "bool?",
+          "triggers-bounce-include-content": "bool?",
+          "triggers-click-enabled": "bool?",
+          "triggers-delivery-enabled": "bool?",
+          "triggers-open-enabled": "bool?",
+          "triggers-open-post-first-open-only": "bool?",
+          "triggers-spam-complaint-enabled": "bool?",
+          "triggers-spam-complaint-include-content": "bool?",
+          "triggers-subscription-change-enabled": "bool?",
+          "Url": "string?",
+          "Verify": "bool?"
+        },
+        "positionals": [
+          "webhookId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "update"
+        ]
+      },
+      {
+        "tool": "webhooks.verify",
+        "summary": "Send a test request for each enabled trigger and record verified or unverified. Required: webhookId. Returns the new WebhookVerification.",
+        "params_schema": {
+          "webhookId": "string"
+        },
+        "positionals": [
+          "webhookId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "verify"
         ]
       }
     ]
@@ -400410,6 +402295,46 @@
     ]
   },
   {
+    "api": "tokyo-art-beat",
+    "description": "Discover Japanese exhibitions for trip dates with bilingual identities and explicit schedule uncertainty.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/tokyo-art-beat/cmd/tokyo-art-beat-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "tokyo-art-beat",
+      "Tokyo Art Beat",
+      "tokyo-art-beat-pp-cli",
+      "Discover Japanese exhibitions for trip dates with bilingual identities and explicit schedule uncertainty.",
+      "trip-window",
+      "events search",
+      "Filter inclusive date spans; closures require detail.",
+      "starting-ending",
+      "Filter exhibition starts or ends within trip dates.",
+      "day-assessment",
+      "events detail",
+      "Assess a full-year date, preserving schedule uncertainty.",
+      "nearby",
+      "Rank bounded candidates by straight-line public venue distance.",
+      "compact-fresh",
+      "Project fields and expose cache/source freshness."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.list",
+        "summary": "Read a bounded source feed page. Optional: content_type (default: event), limit (default: 2), include (default: 0). Returns the Feed.",
+        "params_schema": {
+          "content_type": "string?",
+          "limit": "int?",
+          "include": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source"
+        ]
+      }
+    ]
+  },
+  {
     "api": "toodledo",
     "description": "Every Toodledo feature from the terminal, plus an offline SQLite mirror, GTD reviews, and rate-budget-aware sync that no other Toodledo tool has.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/toodledo/cmd/toodledo-pp-cli",
@@ -420972,6 +422897,62 @@
     ]
   },
   {
+    "api": "weathernews",
+    "description": "Japan weather and seasonal travel evidence with explicit dates, freshness and coverage.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/weathernews/cmd/weathernews-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "weathernews",
+      "weathernews-pp-cli",
+      "Japan weather and seasonal travel evidence with explicit dates, freshness and coverage.",
+      "Seasonal inventory",
+      "season search",
+      "Bounded literal Japanese seasonal search with lazy details",
+      "Seasonal detail",
+      "season show",
+      "Separate observation, forecast, norm, season year and ended state",
+      "Weather criteria",
+      "weather compare",
+      "Compare caller daily thresholds across bounded exact coordinates",
+      "Seasonal criteria",
+      "season compare",
+      "Compare caller date proximity to published peak predictions",
+      "Exact place identities",
+      "places resolve",
+      "Preserve source names, URLs and coordinates before forecast selection"
+    ],
+    "endpoints": [
+      {
+        "tool": "source.forecast",
+        "summary": "Public coordinate forecast used by the first-party homepage. Required: lat, lon. Returns the ForecastSource.",
+        "params_schema": {
+          "lat": "float?",
+          "lon": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "forecast"
+        ]
+      },
+      {
+        "tool": "source.locations",
+        "summary": "Public location search used by the first-party homepage. Required: query. Optional: lang (default: ja), callback. Returns array of SourcePlace.",
+        "params_schema": {
+          "query": "string?",
+          "lang": "string?",
+          "callback": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "locations"
+        ]
+      }
+    ]
+  },
+  {
     "api": "weaviate-collections",
     "description": "Full collection-config control for Weaviate Cloud, plus schema history, drift diffing, and lint that no other Weaviate tool has.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/weaviate-collections/cmd/weaviate-collections-pp-cli",
@@ -436865,6 +438846,188 @@
         ],
         "argv_path": [
           "trending"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "yamap",
+    "description": "Discover Japan hikes with compact source facts and dated contributor evidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/yamap/cmd/yamap-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "yamap",
+      "yamap-pp-cli",
+      "Discover Japan hikes with compact source facts and dated contributor evidence.",
+      "Recent reports",
+      "reports recent",
+      "Find recorded activity evidence by trip date in a bounded scan",
+      "Contributor observations",
+      "reports observations",
+      "Read bounded contributor observations with trip dates and source links",
+      "Route versus trip",
+      "routes compare",
+      "Compare planned metrics with recorded metrics without assuming track equivalence",
+      "Map coverage",
+      "maps coverage",
+      "Inspect map area bounds and limits of map coverage",
+      "Inventory status",
+      "Inspect cached request inventory and freshness without a crawl"
+    ],
+    "endpoints": [
+      {
+        "tool": "source.activity_detail",
+        "summary": "Read exact public source detail. Required: id (default: 51497803). Returns the Envelope.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "activity_detail"
+        ]
+      },
+      {
+        "tool": "source.activity_search",
+        "summary": "Read one bounded source result page. Optional: keyword (default: \u9ad8\u5c3e\u5c71), page (default: 1), per (default: 5). Returns the Envelope.",
+        "params_schema": {
+          "keyword": "string?",
+          "page": "int?",
+          "per": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "activity_search"
+        ]
+      },
+      {
+        "tool": "source.course_detail",
+        "summary": "Read exact public source detail. Required: id (default: 1771). Returns the Envelope.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "course_detail"
+        ]
+      },
+      {
+        "tool": "source.course_search",
+        "summary": "Read one bounded source result page. Optional: name (default: \u9ad8\u5c3e\u5c71), page (default: 1), per (default: 5). Returns the Envelope.",
+        "params_schema": {
+          "name": "string?",
+          "page": "int?",
+          "per": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "course_search"
+        ]
+      },
+      {
+        "tool": "source.map_detail",
+        "summary": "Read exact public source detail. Required: id (default: 77). Returns the Envelope.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "map_detail"
+        ]
+      },
+      {
+        "tool": "source.map_search",
+        "summary": "Read one bounded source result page. Optional: keyword (default: \u9ad8\u5c3e\u5c71), page (default: 1), per (default: 5). Returns the Envelope.",
+        "params_schema": {
+          "keyword": "string?",
+          "page": "int?",
+          "per": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "map_search"
+        ]
+      },
+      {
+        "tool": "source.mountain_courses",
+        "summary": "Read model courses related to a mountain. Required: id (default: 108). Optional: page (default: 1), per (default: 5). Returns the Envelope.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "per": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "mountain_courses"
+        ]
+      },
+      {
+        "tool": "source.mountain_detail",
+        "summary": "Read exact public source detail. Required: id (default: 108). Returns the Envelope.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "mountain_detail"
+        ]
+      },
+      {
+        "tool": "source.mountain_reports",
+        "summary": "Read recorded reports related to a mountain. Required: id (default: 108). Optional: page (default: 1), per (default: 5). Returns the Envelope.",
+        "params_schema": {
+          "id": "string",
+          "page": "int?",
+          "per": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "mountain_reports"
+        ]
+      },
+      {
+        "tool": "source.mountain_search",
+        "summary": "Read one bounded source result page. Optional: keyword (default: \u9ad8\u5c3e\u5c71), page (default: 1), per (default: 5). Returns the Envelope.",
+        "params_schema": {
+          "keyword": "string?",
+          "page": "int?",
+          "per": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "mountain_search"
+        ]
+      },
+      {
+        "tool": "source.types_list",
+        "summary": "Read source activity-type vocabulary. Returns the Envelope.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "types_list"
         ]
       }
     ]
