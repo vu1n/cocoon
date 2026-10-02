@@ -227018,7 +227018,90 @@
       "status",
       "One list of every in-flight task across TaskRabbit bookings and Magic requests, joined on the common task model and sorted by state."
     ],
-    "endpoints": []
+    "endpoints": [
+      {
+        "tool": "account.get",
+        "summary": "Get the authenticated account profile. Returns the Account.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "account"
+        ]
+      },
+      {
+        "tool": "categories.list",
+        "summary": "List task templates for the account metro. Returns array of Category.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "invoices.has_submitted",
+        "summary": "Whether the account has submitted invoices.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "invoices",
+          "has_submitted"
+        ]
+      },
+      {
+        "tool": "system.bootstrap",
+        "summary": "Get the account bootstrap data. Returns the Bootstrap.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "bootstrap"
+        ]
+      },
+      {
+        "tool": "system.dashboard_counts",
+        "summary": "Get dashboard tab counts.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "system",
+          "dashboard_counts"
+        ]
+      },
+      {
+        "tool": "taskers.favorites",
+        "summary": "List favorited Taskers.",
+        "params_schema": {
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "taskers",
+          "favorites"
+        ]
+      },
+      {
+        "tool": "taskers.past",
+        "summary": "List Taskers hired before.",
+        "params_schema": {
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "taskers",
+          "past"
+        ]
+      },
+      {
+        "tool": "taskers.suggestions",
+        "summary": "List Tasker suggestions for the account metro.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "taskers",
+          "suggestions"
+        ]
+      }
+    ]
   },
   {
     "api": "iclasspro",
@@ -242636,6 +242719,295 @@
     ]
   },
   {
+    "api": "japan-bus-online",
+    "description": "Read-only bus routes, dated inventory and source-grounded fares.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/japan-bus-online/cmd/japan-bus-online-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "japan-bus-online",
+      "Japan Bus Online",
+      "japan-bus-online-pp-cli",
+      "Read-only bus routes, dated inventory and source-grounded fares.",
+      "Dated inventory with overnight dates",
+      "bus services",
+      "See service-day dates and inventory uncertainty explicitly.",
+      "Stop-pair party fare evidence",
+      "bus quote",
+      "Read selected-stop Adult/Child fares, one-way party totals and capacity evidence.",
+      "Schedule and stop identity",
+      "bus route",
+      "Read directional timetables and mapped stops."
+    ],
+    "endpoints": [
+      {
+        "tool": "bus",
+        "summary": "Read-only bus schedules, dated inventory, fares and conditions",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bus",
+          "bus"
+        ]
+      },
+      {
+        "tool": "bus.conditions",
+        "summary": "Read route/operator baggage, boarding and cancellation conditions",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bus",
+          "conditions"
+        ]
+      },
+      {
+        "tool": "bus.quote",
+        "summary": "Read actual stop-pair unit fares, party evidence and cancellation fees",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bus",
+          "quote"
+        ]
+      },
+      {
+        "tool": "bus.route",
+        "summary": "Read course/direction published timetables, advertised JPY fares, mapped stops and overnight offsets",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bus",
+          "route"
+        ]
+      },
+      {
+        "tool": "bus.services",
+        "summary": "Check dated inventory with explicit overnight arrival dates",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bus",
+          "services"
+        ]
+      },
+      {
+        "tool": "context",
+        "summary": "Get API domain context: resource taxonomy, auth requirements, query tips, and unique capabilities. Call this first.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "context",
+          "context"
+        ]
+      },
+      {
+        "tool": "learnings.list",
+        "summary": "List locally taught query-to-resource mappings by query, source, resource or confidence; provider inventory is fetched separately",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "learnings"
+        ]
+      },
+      {
+        "tool": "learnings.candidates",
+        "summary": "List local CLI improvement candidates by class and status; candidates await explicit confirmation",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "candidates"
+        ]
+      },
+      {
+        "tool": "learnings.confirm",
+        "summary": "Confirm an open candidate: print its full payload, then materialize it",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "confirm"
+        ]
+      },
+      {
+        "tool": "learnings.forget",
+        "summary": "Delete learnings matching a query (use --all to wipe every rule for that query)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "forget"
+        ]
+      },
+      {
+        "tool": "learnings.reject",
+        "summary": "Reject a candidate and tombstone its derivation signature",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "reject"
+        ]
+      },
+      {
+        "tool": "learnings.stats",
+        "summary": "Report learn-loop effectiveness metrics from the local events table",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "stats"
+        ]
+      },
+      {
+        "tool": "playbook.list",
+        "summary": "List stored playbooks (query_family, content presence, last observed)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "playbook"
+        ]
+      },
+      {
+        "tool": "playbook.amend",
+        "summary": "Append a note to an existing playbook (LLM-fired self-correction, silent)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "playbook",
+          "amend"
+        ]
+      },
+      {
+        "tool": "recall",
+        "summary": "Check prior learnings for a query before running discovery (LLM-fired, pre-discovery)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "recall",
+          "recall"
+        ]
+      },
+      {
+        "tool": "routes.list",
+        "summary": "Search the provider route catalog with bounded output",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "routes"
+        ]
+      },
+      {
+        "tool": "routes",
+        "summary": "Show route-discovery command help; routes list fetches bounded course IDs, names and source URLs",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "routes",
+          "routes"
+        ]
+      },
+      {
+        "tool": "sql",
+        "summary": "Run read-only SQL against local database records for existing CLI learning and framework data. Required: query. This optional store does not cache bus inventory; use routes_list or bus_* tools for live source data. No provider sync workflow is supplied.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sql",
+          "sql"
+        ]
+      },
+      {
+        "tool": "teach",
+        "summary": "Record a query -> resource mapping for future recall (LLM-fired, silent)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "teach",
+          "teach"
+        ]
+      },
+      {
+        "tool": "teach.lookup",
+        "summary": "Install a manual entity-lookup row (kind, canonical, value)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "teach",
+          "lookup"
+        ]
+      },
+      {
+        "tool": "teach.pattern",
+        "summary": "Install a manual generalization pattern (query_template, resource_template, entity_kind)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "teach",
+          "pattern"
+        ]
+      },
+      {
+        "tool": "teach.playbook",
+        "summary": "Record a CLI playbook + free-text notes for a query family",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "teach",
+          "playbook"
+        ]
+      },
+      {
+        "tool": "workflow.status",
+        "summary": "Show local archive status and sync state for all resources",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "workflow",
+          "status"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "japan-guide",
+    "description": "Source-linked Japan sightseeing facts in compact JSON.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/japan-guide/cmd/japan-guide-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "japan-guide",
+      "Japan Guide",
+      "japan-guide-pp-cli",
+      "Source-linked Japan sightseeing facts in compact JSON.",
+      "Small-list planning comparison",
+      "guide compare",
+      "Compare scoped visit facts for up to five source pages and retain per-item failures.",
+      "Scoped schedules",
+      "guide inspect",
+      "Keep shrine, museum and garden schedules attached to their own facilities.",
+      "Explicit opening uncertainty",
+      "Return source schedules with open_now explicitly unknown.",
+      "Offline facts with freshness",
+      "Read saved compact facts while retaining their original source and retrieval dates.",
+      "Resource budgets",
+      "guide destinations",
+      "Return a bounded destination page with request, byte and elapsed-time metrics."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.directory",
+        "summary": "Source destination link directory.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "directory"
+        ]
+      }
+    ]
+  },
+  {
     "api": "jimmy-johns",
     "description": "First terminal CLI for Jimmy John's ordering \u2014 local Unwich conversion, agent-native JSON, every endpoint typed.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/jimmy-johns/cmd/jimmy-johns-pp-cli",
@@ -257638,7 +258010,9 @@
     "category": "developer-tools",
     "search_terms": [
       "mcpmarket",
+      "MCP Market",
       "mcpmarket-pp-cli",
+      "Search and browse MCP Market. Compare snapshots, track trends, and view author portfolios.",
       "Trending Delta",
       "trending",
       "See which MCP servers/skills are rising fastest vs. holding steady, computed from your own browse history.",
@@ -294631,9 +295005,9 @@
       "Index to tracking funds",
       "index funds <index>",
       "See every ETF and index fund that tracks a given NSE index in one call.",
-      "Tracking fidelity report",
+      "Tracking cost and metrics report",
       "index tracking <index>",
-      "Rank every fund tracking an index by cost and NAV fidelity against the index level.",
+      "Rank trackers by disclosed expense ratio and show provider-reported tracking metrics.",
       "Cheapest tracker finder",
       "index cheapest-tracker <index>",
       "Find the lowest-cost fund tracking a given index.",
@@ -294651,7 +295025,7 @@
       "See a fund's raw API response with cryptic field codes resolved to human-readable names.",
       "Fund vs index compare",
       "compare <schemeId> <index>",
-      "See a single fund's NAV/AUM/expense next to its benchmark index's level and top constituents, side by side."
+      "See a fund's NAV/AUM/expense next to a requested index, with benchmark validation status."
     ],
     "endpoints": [
       {
@@ -295963,6 +296337,599 @@
         "argv_path": [
           "videos",
           "search"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "philonet",
+    "description": "Your Philonet reading life in the terminal: feed, threads, streaks and friends, plus a local history the web app does not keep.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/social-and-messaging/philonet/cmd/philonet-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "social-and-messaging",
+    "search_terms": [
+      "philonet",
+      "philonet-pp-cli",
+      "Your Philonet reading life in the terminal: feed, threads, streaks and friends, plus a local history the web app does not keep.",
+      "Today briefing",
+      "today",
+      "One snapshot of your streak, reading time, friends thinking now, unread counts and pending requests.",
+      "Reading rhythm",
+      "rhythm",
+      "Weekly and monthly reading minutes, longest streak and rank-vs-friends trend, accumulated from your own runs (history starts at the first run).",
+      "Friends digest",
+      "digest",
+      "Friends' thoughts this CLI first saw recently, grouped by friend; 'recently' is relative to when the CLI saw them.",
+      "Owed replies",
+      "owed",
+      "Threads among your recent thoughts where someone replied and you have not answered yet.",
+      "Voices",
+      "Rank people from your stored For You feed cards by thoughts on a topic, filtered by alma mater or employer badge.",
+      "Reading queue",
+      "queue",
+      "Read-later and bookmarks that fit your free minutes (items with unknown length are dropped unless --include-unknown), flagged when discussed.",
+      "Resonance",
+      "Which of your thoughts earned stars and insightful reactions, by tag and week."
+    ],
+    "endpoints": [
+      {
+        "tool": "blog.list",
+        "summary": "Philonet public blog posts (no auth needed). Returns array of Blog. (public)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "blog"
+        ]
+      },
+      {
+        "tool": "feed.for_me",
+        "summary": "Personalized 'For You' / friends feed (feed2 engine). filter=forme|friends. Optional: filter, page, pageSize. Returns array of FormeItem.",
+        "params_schema": {
+          "filter": "string?",
+          "page": "integer?",
+          "pageSize": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "feed",
+          "for_me"
+        ]
+      },
+      {
+        "tool": "feed.moment",
+        "summary": "Featured 'moment' card. Returns the Moment.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "feed",
+          "moment"
+        ]
+      },
+      {
+        "tool": "feed.suggested",
+        "summary": "Suggested curiosity-session feed. Returns the SuggestedFeed.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "feed",
+          "suggested"
+        ]
+      },
+      {
+        "tool": "feed.unified",
+        "summary": "Unified feed. filter=discover|friends. Optional: filter, page, pageSize. Returns array of UnifiedItem.",
+        "params_schema": {
+          "filter": "string?",
+          "page": "integer?",
+          "pageSize": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "feed",
+          "unified"
+        ]
+      },
+      {
+        "tool": "find.articles",
+        "summary": "Search articles (POST body: query, sort_by, limit, offset). Required: query. Optional: limit (default: 20), offset (default: 0), sort_by (default: relevance). Returns the new Article3.",
+        "params_schema": {
+          "limit": "integer?",
+          "offset": "integer?",
+          "query": "string?",
+          "sort_by": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "find",
+          "articles"
+        ]
+      },
+      {
+        "tool": "find.people",
+        "summary": "Search people. Required: query. Optional: limit (default: 20), offset (default: 0). Returns the new People.",
+        "params_schema": {
+          "limit": "integer?",
+          "offset": "integer?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "find",
+          "people"
+        ]
+      },
+      {
+        "tool": "find.thoughts",
+        "summary": "Search thoughts/comments. Required: query. Optional: limit (default: 20), offset (default: 0), sort_by (default: relevance). Returns the new Thought.",
+        "params_schema": {
+          "limit": "integer?",
+          "offset": "integer?",
+          "query": "string?",
+          "sort_by": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "find",
+          "thoughts"
+        ]
+      },
+      {
+        "tool": "friends.requests",
+        "summary": "Friend requests (type=received|sent|all). Optional: limit, offset, type. Returns the Request.",
+        "params_schema": {
+          "limit": "integer?",
+          "offset": "integer?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "friends",
+          "requests"
+        ]
+      },
+      {
+        "tool": "friends.requests_preview",
+        "summary": "Friend requests preview. Returns the FriendRequestsPreview.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "friends",
+          "requests_preview"
+        ]
+      },
+      {
+        "tool": "friends.respond",
+        "summary": "Accept or decline a friend request (action=accept|decline). Required: request_id, action. Returns the updated Object.",
+        "params_schema": {
+          "request_id": "string",
+          "action": "string?"
+        },
+        "positionals": [
+          "request_id"
+        ],
+        "argv_path": [
+          "friends",
+          "respond"
+        ]
+      },
+      {
+        "tool": "friends.send_request",
+        "summary": "Send a friend request. Required: target_user_id. Returns the new Object.",
+        "params_schema": {
+          "target_user_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "friends",
+          "send_request"
+        ]
+      },
+      {
+        "tool": "friends.stories",
+        "summary": "Friends activity as stories. Optional: forme, unread_only. Returns the Friendsasstory.",
+        "params_schema": {
+          "forme": "boolean?",
+          "unread_only": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "friends",
+          "stories"
+        ]
+      },
+      {
+        "tool": "friends.thinking",
+        "summary": "Friends/contacts thinking list with presence. Returns array of FriendsthinkinglistUser.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "friends",
+          "thinking"
+        ]
+      },
+      {
+        "tool": "friends.top",
+        "summary": "Top friends. Returns the Topfriend.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "friends",
+          "top"
+        ]
+      },
+      {
+        "tool": "friends.withdraw",
+        "summary": "Withdraw a sent friend request. Required: user_id. Returns the Object. Destructive.",
+        "params_schema": {
+          "user_id": "string"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "friends",
+          "withdraw"
+        ]
+      },
+      {
+        "tool": "inbox.activity",
+        "summary": "Notifications / activity log. Optional: limit. Returns the Activity.",
+        "params_schema": {
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "inbox",
+          "activity"
+        ]
+      },
+      {
+        "tool": "inbox.discussions",
+        "summary": "Discussions inbox (POST, read-only). Optional: limit (default: 20), muted (default: all), offset (default: 0) (plus 2 more). Returns the new Inboxnew.",
+        "params_schema": {
+          "limit": "integer?",
+          "muted": "string?",
+          "offset": "integer?",
+          "sort": "string?",
+          "unread": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "inbox",
+          "discussions"
+        ]
+      },
+      {
+        "tool": "inbox.dms",
+        "summary": "Direct-message conversations. Optional: limit. Returns the Conversation.",
+        "params_schema": {
+          "limit": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "inbox",
+          "dms"
+        ]
+      },
+      {
+        "tool": "inbox.invitations",
+        "summary": "Space invitations. Optional: page, per_page. Returns the Invitation.",
+        "params_schema": {
+          "page": "integer?",
+          "per_page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "inbox",
+          "invitations"
+        ]
+      },
+      {
+        "tool": "inbox.unread",
+        "summary": "Unread counters (notifications, invitations, total). Returns the Unread.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "inbox",
+          "unread"
+        ]
+      },
+      {
+        "tool": "inbox.unread_conversations",
+        "summary": "Unread discussion counters. Returns the Unreadconversation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "inbox",
+          "unread_conversations"
+        ]
+      },
+      {
+        "tool": "invite.send",
+        "summary": "Invite a user to share thoughts on an article. Required: url, title, target_user_id. Returns the new Object.",
+        "params_schema": {
+          "url": "string?",
+          "title": "string?",
+          "target_user_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "invite",
+          "send"
+        ]
+      },
+      {
+        "tool": "invite.users",
+        "summary": "Search users to invite. Required: query. Returns the new Object.",
+        "params_schema": {
+          "query": "string"
+        },
+        "positionals": [
+          "query"
+        ],
+        "argv_path": [
+          "invite",
+          "users"
+        ]
+      },
+      {
+        "tool": "me.awards",
+        "summary": "Awards/stars received. Returns the Myaward.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "awards"
+        ]
+      },
+      {
+        "tool": "me.badge",
+        "summary": "Verification / top-learner badge for a user. Optional: userId. Returns the Verificationbadge.",
+        "params_schema": {
+          "userId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "badge"
+        ]
+      },
+      {
+        "tool": "me.bookmarks",
+        "summary": "Bookmarked thoughts. Returns the Mybookmark.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "bookmarks"
+        ]
+      },
+      {
+        "tool": "me.engagements",
+        "summary": "My engagements. Returns the Myengagement.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "engagements"
+        ]
+      },
+      {
+        "tool": "me.metrics",
+        "summary": "My verified categories, stars, streak. Returns the Metric.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "metrics"
+        ]
+      },
+      {
+        "tool": "me.onboarding",
+        "summary": "Onboarding state and interests. Returns the Onboarding.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "onboarding"
+        ]
+      },
+      {
+        "tool": "me.profile",
+        "summary": "Full profile for a user (POST, read-only). Optional: userId. Returns the new Mainprofilenew.",
+        "params_schema": {
+          "userId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "profile"
+        ]
+      },
+      {
+        "tool": "me.profile_stats",
+        "summary": "Streak and reading totals for a user. Optional: userId. Returns the Myprofilestat.",
+        "params_schema": {
+          "userId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "profile_stats"
+        ]
+      },
+      {
+        "tool": "me.read_later",
+        "summary": "Read-later saved articles. Returns the Readlater.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "read_later"
+        ]
+      },
+      {
+        "tool": "me.reading_stats",
+        "summary": "My reading stats: last 7 days, goals, personal bests. Returns the Stat.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "reading_stats"
+        ]
+      },
+      {
+        "tool": "me.spotlights",
+        "summary": "Spotlights. Returns the Spotlightsnew.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "spotlights"
+        ]
+      },
+      {
+        "tool": "me.standings",
+        "summary": "Friends thinking-time leaderboard. Returns the Friendsstanding.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "standings"
+        ]
+      },
+      {
+        "tool": "me.thoughts",
+        "summary": "A user's thoughts (paged). Optional: limit, page. Returns the Conversationsnew.",
+        "params_schema": {
+          "limit": "integer?",
+          "page": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "me",
+          "thoughts"
+        ]
+      },
+      {
+        "tool": "post.link",
+        "summary": "Add a link as an article so you can post a thought on it. Required: url, title, description. Returns the new Object.",
+        "params_schema": {
+          "url": "string?",
+          "title": "string?",
+          "description": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "post",
+          "link"
+        ]
+      },
+      {
+        "tool": "post.reply",
+        "summary": "Reply to a thought. Required: parentCommentId, content. Returns the new Object.",
+        "params_schema": {
+          "parentCommentId": "integer?",
+          "content": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "post",
+          "reply"
+        ]
+      },
+      {
+        "tool": "post.thought",
+        "summary": "Post a thought (comment) on an article by article id. Required: articleId, content. Returns the new Object.",
+        "params_schema": {
+          "articleId": "integer?",
+          "content": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "post",
+          "thought"
+        ]
+      },
+      {
+        "tool": "react.bookmark",
+        "summary": "Toggle bookmark on a thought. Required: comment_id. Returns the new Object.",
+        "params_schema": {
+          "comment_id": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "react",
+          "bookmark"
+        ]
+      },
+      {
+        "tool": "react.star",
+        "summary": "Star a thought. Required: comment_id. Returns the new Object.",
+        "params_schema": {
+          "comment_id": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "react",
+          "star"
+        ]
+      },
+      {
+        "tool": "thread.get",
+        "summary": "Get one thought (comment) with article context and star quota. Required: article_id, comment_id. Returns the Comment.",
+        "params_schema": {
+          "article_id": "string",
+          "comment_id": "string"
+        },
+        "positionals": [
+          "article_id",
+          "comment_id"
+        ],
+        "argv_path": [
+          "thread"
+        ]
+      },
+      {
+        "tool": "thread.article",
+        "summary": "Get article detail, members and people (POST, read-only). Required: articleId. Returns array of ArticlePeople.",
+        "params_schema": {
+          "articleId": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "thread",
+          "article"
+        ]
+      },
+      {
+        "tool": "thread.impact",
+        "summary": "Reader impact stats for an article. Required: article_id. Returns the Impact.",
+        "params_schema": {
+          "article_id": "string"
+        },
+        "positionals": [
+          "article_id"
+        ],
+        "argv_path": [
+          "thread",
+          "impact"
+        ]
+      },
+      {
+        "tool": "thread.replies",
+        "summary": "List replies in a thought thread (POST, read-only). Required: articleId, parentCommentId. Optional: includeParentDetails (default: true), jump_to_latest (default: true), limit (default: 20). Returns the new Room.",
+        "params_schema": {
+          "articleId": "integer?",
+          "includeParentDetails": "boolean?",
+          "jump_to_latest": "boolean?",
+          "limit": "integer?",
+          "parentCommentId": "integer?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "thread",
+          "replies"
         ]
       }
     ]
@@ -359509,6 +360476,180 @@
     ]
   },
   {
+    "api": "smartex",
+    "description": "Compare Shinkansen fares and constraints before booking",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/smartex/cmd/smartex-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "smartex",
+      "smartex-pp-cli",
+      "Compare Shinkansen fares and constraints before booking",
+      "Resolve station names and corridor order",
+      "stations",
+      "Identify corridors and train categories with booking links",
+      "route",
+      "Compare fresh dated adult fares and membership restrictions",
+      "fare",
+      "Compare discount deadlines and unresolved eligibility conditions",
+      "products",
+      "Compute precise JST advance request and confirmation boundaries",
+      "window",
+      "Check baggage size and required reserved seat class",
+      "baggage",
+      "Retrieve practical boarding, changes and refunds guidance",
+      "policy",
+      "Find current official basic timetables and validated regular service examples",
+      "timetable",
+      "Prepare canonical booking links and an exact travel checklist",
+      "handoff",
+      "Inspect source freshness and planning versus inventory boundaries",
+      "sources"
+    ],
+    "endpoints": [
+      {
+        "tool": "reference.baggage-guide",
+        "summary": "Extract official baggage source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "baggage-guide"
+        ]
+      },
+      {
+        "tool": "reference.baggage-jr",
+        "summary": "Extract official baggage-jr source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "baggage-jr"
+        ]
+      },
+      {
+        "tool": "reference.boarding",
+        "summary": "Extract official boarding source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "boarding"
+        ]
+      },
+      {
+        "tool": "reference.booking-window",
+        "summary": "Extract official booking-window source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "booking-window"
+        ]
+      },
+      {
+        "tool": "reference.change",
+        "summary": "Extract official change source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "change"
+        ]
+      },
+      {
+        "tool": "reference.family7",
+        "summary": "Extract official family7 source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "family7"
+        ]
+      },
+      {
+        "tool": "reference.hayatoku1",
+        "summary": "Extract official hayatoku1 source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "hayatoku1"
+        ]
+      },
+      {
+        "tool": "reference.hayatoku21",
+        "summary": "Extract official hayatoku21 source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "hayatoku21"
+        ]
+      },
+      {
+        "tool": "reference.hayatoku3",
+        "summary": "Extract official hayatoku3 source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "hayatoku3"
+        ]
+      },
+      {
+        "tool": "reference.hayatoku7",
+        "summary": "Extract official hayatoku7 source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "hayatoku7"
+        ]
+      },
+      {
+        "tool": "reference.nozomi",
+        "summary": "Extract official nozomi source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "nozomi"
+        ]
+      },
+      {
+        "tool": "reference.refund",
+        "summary": "Extract official refund source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "refund"
+        ]
+      },
+      {
+        "tool": "reference.service",
+        "summary": "Extract official service source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "service"
+        ]
+      },
+      {
+        "tool": "reference.timetable-links",
+        "summary": "Extract official timetable source metadata and relevant links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "timetable-links"
+        ]
+      }
+    ]
+  },
+  {
     "api": "smartlead",
     "description": "Every SmartLead API feature, plus a local mirror that answers campaign-health, silent-lead, and cross-campaign...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/sales-and-crm/smartlead/cmd/smartlead-pp-cli",
@@ -397734,6 +398875,1522 @@
     ]
   },
   {
+    "api": "tailscale",
+    "description": "Tailscale admin from the terminal, with safe route and policy edits an agent can plan before it writes.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/cloud/tailscale/cmd/tailscale-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "cloud",
+    "search_terms": [
+      "tailscale",
+      "tailscale-pp-cli",
+      "Tailscale admin from the terminal, with safe route and policy edits an agent can plan before it writes.",
+      "API access token (tskey-api-...) from the admin console Keys page, or set TAILSCALE_OAUTH_CLIENT_ID and TAILSCALE_OAUTH_CLIENT_SECRET for a scoped OAuth client.",
+      "Route approval that keeps other routes",
+      "routes approve",
+      "Approve a subnet route or exit node on one device without dropping the routes it already has.",
+      "Route unapproval that keeps other routes",
+      "routes unapprove",
+      "Remove approval for one route or the exit-node pair while leaving every other approved route in place.",
+      "Safe policy entry insert",
+      "policy add-entry",
+      "Append one nodeAttrs, grants, acls, or ssh entry to the policy file with comments preserved, a local backup, validation, a diff, and a concurrency check.",
+      "Policy rollback",
+      "policy restore",
+      "Roll the policy file back to a local backup after validating it and showing the diff.",
+      "Tailnet route board",
+      "routes overview",
+      "See approved, pending, and stale routes and exit-node state for every device in one table.",
+      "Fleet key-expiry report",
+      "devices expiry",
+      "List every device by days until its key expires and flag the ones inside a window.",
+      "Machine share audit",
+      "shares audit",
+      "List every machine-share invite across the tailnet with who accepted it and which invites are still redeemable.",
+      "Machine share revoke",
+      "shares revoke",
+      "Revoke machine-share invites by ID or by device and acceptor, with a plan before any delete.",
+      "Reachability preview",
+      "access check",
+      "Show which policy rules let a user reach a device and port, against the live policy or a candidate file.",
+      "Device dossier",
+      "devices inspect",
+      "Get one device's identity, routes, key expiry, shares, and recent changes in a single record."
+    ],
+    "endpoints": [
+      {
+        "tool": "device.delete",
+        "summary": "Deletes the device from its tailnet. The device must belong to the requesting user's tailnet. Deleting devices shared with the tailnet is not supported. OAuth Scope: `devices:core`. Required: deviceId. Destructive.",
+        "params_schema": {
+          "deviceId": "string"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device"
+        ]
+      },
+      {
+        "tool": "device.get",
+        "summary": "Retrieve the details for the specified device. OAuth Scope: `devices:core:read`. Required: deviceId. Optional: fields. Returns the Device.",
+        "params_schema": {
+          "deviceId": "string",
+          "fields": "string?"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "get"
+        ]
+      },
+      {
+        "tool": "device.attributes_delete",
+        "summary": "Delete a posture attribute from the specified device. This is only applicable to user-managed posture attributes in the custom namespace, which is indicated by prefixing the attribute key with `custom:`. OAuth Scope: `devices:posture_attributes`. Required: deviceId, attributeKey. Destructive.",
+        "params_schema": {
+          "deviceId": "string",
+          "attributeKey": "string"
+        },
+        "positionals": [
+          "deviceId",
+          "attributeKey"
+        ],
+        "argv_path": [
+          "device",
+          "attributes_delete"
+        ]
+      },
+      {
+        "tool": "device.attributes_list",
+        "summary": "Retrieve all posture attributes for the specified device. This returns a JSON object of all the key-value pairs of posture attributes for the device. OAuth Scope: `devices:posture_attributes:read`. Required: deviceId.",
+        "params_schema": {
+          "deviceId": "string"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "attributes_list"
+        ]
+      },
+      {
+        "tool": "device.attributes_set",
+        "summary": "Create or update a custom posture attribute on the specified device. User-managed attributes must be in the custom namespace, which is indicated by prefixing the attribute key with `custom:`. OAuth Scope: `devices:posture_attributes`. Required: deviceId, attributeKey. Optional: comment, expiry, value. Returns the new DevicePostureAttributes.",
+        "params_schema": {
+          "deviceId": "string",
+          "attributeKey": "string",
+          "comment": "string?",
+          "expiry": "string?",
+          "value": "string?"
+        },
+        "positionals": [
+          "deviceId",
+          "attributeKey"
+        ],
+        "argv_path": [
+          "device",
+          "attributes_set"
+        ]
+      },
+      {
+        "tool": "device.authorized_set",
+        "summary": "This call marks a device as authorized or revokes its authorization for tailnets where device authorization is required, according to the authorized field in the payload. OAuth Scope: `devices:core`. Required: deviceId, authorized.",
+        "params_schema": {
+          "deviceId": "string",
+          "authorized": "bool?"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "authorized_set"
+        ]
+      },
+      {
+        "tool": "device.device-invites_create",
+        "summary": "Create new share invites for a device. Note that device invites cannot be created using an API access token generated from an OAuth client as the shared device is scoped to a user. Required: deviceId. Returns array of DeviceInvite.",
+        "params_schema": {
+          "deviceId": "string"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "device-invites_create"
+        ]
+      },
+      {
+        "tool": "device.device-invites_list",
+        "summary": "List all share invites for a device. OAuth Scope: `device_invites:read`. Required: deviceId. Returns array of DeviceInvite.",
+        "params_schema": {
+          "deviceId": "string"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "device-invites_list"
+        ]
+      },
+      {
+        "tool": "device.expire_key",
+        "summary": "Mark a device's node key as expired. This will require the device to re-authenticate in order to connect to the tailnet. The device must belong to the requesting user's tailnet. OAuth Scope: `devices:core`. Required: deviceId.",
+        "params_schema": {
+          "deviceId": "string"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "expire_key"
+        ]
+      },
+      {
+        "tool": "device.ip_set",
+        "summary": "When a device is added to a tailnet, its Tailscale IPv4 address is set at random either from the CGNAT range, or a subset of the CGNAT range specified by an [ip pool](https://tailscale.com/docs/reference/ip-pool). This endpoint can be used to replace the existing IPv4 address with a specific value. This action will break any existing connections to this machine. You will need to reconnect to this machine using the new IP address. You may also need to flush your DNS cache. OAuth Scope: `devices:core`. Required: deviceId, ipv4.",
+        "params_schema": {
+          "deviceId": "string",
+          "ipv4": "string?"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "ip_set"
+        ]
+      },
+      {
+        "tool": "device.key_set",
+        "summary": "When a device is added to a tailnet, its key expiry is set according to the tailnet's key expiry setting. If the key is not refreshed and expires, the device can no longer communicate with other devices in the tailnet. OAuth Scope: `devices:core`. Required: deviceId, keyExpiryDisabled.",
+        "params_schema": {
+          "deviceId": "string",
+          "keyExpiryDisabled": "bool?"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "key_set"
+        ]
+      },
+      {
+        "tool": "device.name_set",
+        "summary": "When a device is added to a tailnet, its Tailscale [device name](https://tailscale.com/docs/concepts/machine-names) (also sometimes referred to as machine name) is generated from its OS hostname. The device name is the canonical name for the device on your tailnet. Device name changes immediately get propogated through your tailnet, so be aware that any existing [Magic DNS](https://tailscale.com/docs/features/magicdns) URLs using the old name will no longer work. OAuth Scope: `devices:core`. Required: deviceId, name.",
+        "params_schema": {
+          "deviceId": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "name_set"
+        ]
+      },
+      {
+        "tool": "device.routes_list",
+        "summary": "Retrieve the list of subnet routes that a device is advertising, as well as those that are enabled for it. Routes must be both advertised and enabled for a device to act as a subnet router or exit node. If a device has advertised routes, they are not exposed to traffic until they are enabled. Conversely, if routes are enabled before they are advertised, they are not available for routing until the device in question has advertised them. Learn more about [subnet routers](/docs/features/subnet-routers) and [exit nodes](/docs/features/exit-nodes). OAuth Scope: `devices:routes:read`. Required: deviceId. Returns the DeviceRoutes.",
+        "params_schema": {
+          "deviceId": "string"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "routes_list"
+        ]
+      },
+      {
+        "tool": "device.routes_set",
+        "summary": "Set a device's enabled subnet routes by replacing the existing list of subnet routes with the supplied parameters. [Advertised routes](/docs/features/subnet-routers#advertise-subnet-routes) cannot be set through the API, since they must be set directly on the device. Routes must be both advertised and enabled for a device to act as a subnet router or exit node. If a device has advertised routes, they are not exposed to traffic until they are enabled. Conversely, if routes are enabled before they are advertised, they are not available for routing until the device in question has advertised them. Learn more about [subnet routers](/docs/features/subnet-routers) and [exit nodes](/docs/features/exit-nodes). OAuth Scope: `devices:routes`. Required: deviceId. Optional: routes. Returns the new DeviceRoutes.",
+        "params_schema": {
+          "deviceId": "string",
+          "routes": "string_csv_array?"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "routes_set"
+        ]
+      },
+      {
+        "tool": "device.tags_set",
+        "summary": "Tags let you assign an identity to a device that is separate from human users, and use that identity as part of an ACL to restrict access. Tags are similar to role accounts, but more flexible. Tags are created in the tailnet policy file by defining the tag and an owner of the tag. Once a device is tagged, the tag is the owner of that device. A single node can have multiple tags assigned. Consult the policy file for your tailnet in the [admin console](https://login.tailscale.com/admin/acls) for the list of tags that have been created for your tailnet. Learn more about [tags](https://tailscale.com/docs/features/tags). OAuth Scope: `devices:core`. Required: deviceId. Optional: tags.",
+        "params_schema": {
+          "deviceId": "string",
+          "tags": "string_csv_array?"
+        },
+        "positionals": [
+          "deviceId"
+        ],
+        "argv_path": [
+          "device",
+          "tags_set"
+        ]
+      },
+      {
+        "tool": "device-invites.delete",
+        "summary": "Delete a specific device invite. OAuth Scope: `device_invites`. Required: deviceInviteId. Destructive.",
+        "params_schema": {
+          "deviceInviteId": "string"
+        },
+        "positionals": [
+          "deviceInviteId"
+        ],
+        "argv_path": [
+          "device-invites"
+        ]
+      },
+      {
+        "tool": "device-invites.accept",
+        "summary": "Accepts the invitation to share a device into the requesting user's tailnet. Note that device invites cannot be accepted using an API access token generated from an OAuth client as the shared device is scoped to a user. Required: invite. Returns the new DeviceInvitesAcceptResponse.",
+        "params_schema": {
+          "invite": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "device-invites",
+          "accept"
+        ]
+      },
+      {
+        "tool": "device-invites.get",
+        "summary": "Retrieve a specific device invite. OAuth Scope: `device_invites:read`. Required: deviceInviteId. Returns the DeviceInvite.",
+        "params_schema": {
+          "deviceInviteId": "string"
+        },
+        "positionals": [
+          "deviceInviteId"
+        ],
+        "argv_path": [
+          "device-invites",
+          "get"
+        ]
+      },
+      {
+        "tool": "device-invites.resend_device-invite",
+        "summary": "Resend a device invite by email. You can only use this if the specified invite was originally created with an email specified. Refer to [creating device invites for a device](#tag/deviceinvites/post/device/{deviceId}/device-invites). Note: Invite resends are rate limited to one per minute. Note that device invites cannot be resent using an API access token generated from an OAuth client as the shared device is scoped to a user. Required: deviceInviteId.",
+        "params_schema": {
+          "deviceInviteId": "string"
+        },
+        "positionals": [
+          "deviceInviteId"
+        ],
+        "argv_path": [
+          "device-invites",
+          "resend_device-invite"
+        ]
+      },
+      {
+        "tool": "organizations.tailnets_create",
+        "summary": "Create an [API-only tailnet](https://tailscale.com/docs/features/tailnet-creation-api) in the organization. API-only tailnets have no human users and do not appear in the admin console. Use them for applications and infrastructure that manage tailnets entirely through the API. All plans can create a maximum of 10 tailnets, including their original tailnet. If your use case requires more than 10 tailnets, [contact sales](https://tailscale.com/contact/sales). The response includes an OAuth client for the new tailnet. The client secret is returned only in this response and cannot be retrieved later, so be sure to record it. OAuth Scope: `tailnets`. Required: organization, displayName. Returns the new CreateOrganizationTailnetResponse.",
+        "params_schema": {
+          "organization": "string",
+          "displayName": "string?"
+        },
+        "positionals": [
+          "organization"
+        ],
+        "argv_path": [
+          "organizations",
+          "tailnets_create"
+        ]
+      },
+      {
+        "tool": "organizations.tailnets_list",
+        "summary": "List all tailnets in the organization, including the original tailnet and any [API-only tailnets](https://tailscale.com/docs/features/tailnet-creation-api) created with the tailnet creation API. OAuth Scope: `tailnets:read`. Required: organization. Optional: limit (default: 100), cursor. Returns array of OrganizationTailnet.",
+        "params_schema": {
+          "organization": "string",
+          "limit": "int?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "organization"
+        ],
+        "argv_path": [
+          "organizations",
+          "tailnets_list"
+        ]
+      },
+      {
+        "tool": "posture.delete",
+        "summary": "Delete a specific posture integration. OAuth Scope: `feature_settings`. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "posture"
+        ]
+      },
+      {
+        "tool": "posture.get",
+        "summary": "Gets the posture integration identified by `{id}`. OAuth Scope: `feature_settings:read`. Required: id. Returns the PostureIntegration.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "posture",
+          "get"
+        ]
+      },
+      {
+        "tool": "posture.update",
+        "summary": "Updates the posture integration identified by `{id}`. You may omit the `clientSecret` from your request to retain the previously configured `clientSecret`. OAuth Scope: `feature_settings`. Required: id. Optional: clientId, clientSecret, cloudId (plus 5 more). Returns the updated PostureIntegration.",
+        "params_schema": {
+          "id": "string",
+          "clientId": "string?",
+          "clientSecret": "string?",
+          "cloudId": "string?",
+          "configUpdated": "string?",
+          "id-2": "string?",
+          "provider": "string?",
+          "status-error": "string?",
+          "status-last-sync": "string?",
+          "status-matched-count": "int?",
+          "status-possible-matched-count": "int?",
+          "status-provider-host-count": "int?",
+          "tenantId": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "posture",
+          "update"
+        ]
+      },
+      {
+        "tool": "tailnet.acl_get",
+        "summary": "Retrieves the current policy file for the given tailnet; this includes the ACL along with the rules and tests that have been defined. This method can return the policy file as JSON or HuJSON, depending on the Accept header. The response also includes an `ETag` header, which can be optionally included when [setting the policy file](#tag/policyfile/post/tailnet/{tailnet}/acl) to avoid missed updates. Learn more about [policy file ACL syntax](https://tailscale.com/docs/reference/syntax/policy-file). OAuth Scope: `policy_file:read`. Required: tailnet (default: -). Optional: Accept, details. Returns the AclGetResponse.",
+        "params_schema": {
+          "tailnet": "string",
+          "Accept": "string?",
+          "details": "bool?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "acl_get"
+        ]
+      },
+      {
+        "tool": "tailnet.acl_preview",
+        "summary": "When given a user or IP port to match against, returns the tailnet policy rules that apply to that resource, without saving the policy file to the server. Required: tailnet (default: -), type, previewFor.",
+        "params_schema": {
+          "tailnet": "string",
+          "type": "string?",
+          "previewFor": "string?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "acl_preview"
+        ]
+      },
+      {
+        "tool": "tailnet.acl_set",
+        "summary": "Sets the ACL for the given tailnet. HuJSON and JSON are both accepted inputs. An `If-Match` header can be set to avoid missed updates. On success, returns the updated ACL in JSON or HuJSON according to the `Accept` header. Otherwise, errors are returned for incorrectly defined ACLs, ACLs with failing tests on attempted updates, and mismatched `If-Match` header and `ETag`. Learn more about [policy file ACL syntax](https://tailscale.com/docs/reference/syntax/policy-file). OAuth Scope: `policy_file`. Required: tailnet (default: -). Optional: Accept, If-Match.",
+        "params_schema": {
+          "tailnet": "string",
+          "Accept": "string?",
+          "If-Match": "string?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "acl_set"
+        ]
+      },
+      {
+        "tool": "tailnet.acl_validate",
+        "summary": "This endpoint works in one of two modes, neither of which modifies your current tailnet policy file: - Run ACL tests: When the request body contains ACL tests as a JSON array, Tailscale runs ACL tests against the tailnet's current policy file. Learn more about [ACL tests](https://tailscale.com/docs/reference/syntax/policy-file#tests). - Validate a new policy file: When the request body is a JSON object, Tailscale interprets the body as a hypothetical new tailnet policy file with new ACLs, including any new rules and tests. It validates that the policy file is parsable and runs tests to validate the existing rules. In either case, this method does not modify the tailnet policy file in any way. OAuth Scope: `policy_file:read`. Required: tailnet (default: -). Returns array of AclValidateItem.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "acl_validate"
+        ]
+      },
+      {
+        "tool": "tailnet.aws-external-id_create-or-get",
+        "summary": "Get an AWS external id to use for streaming tailnet logs to S3 using role-based authentication, creating a new one for this tailnet when necessary. OAuth Scope: `log_streaming`. Required: tailnet (default: -). Optional: reusable. Returns the new AwsExternalId.",
+        "params_schema": {
+          "tailnet": "string",
+          "reusable": "bool?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "aws-external-id_create-or-get"
+        ]
+      },
+      {
+        "tool": "tailnet.aws-external-id_validate",
+        "summary": "Validate that Tailscale can assume your IAM role with (and only with) this external ID. OAuth Scope: `log_streaming`. Required: tailnet (default: -), id. Optional: roleArn.",
+        "params_schema": {
+          "tailnet": "string",
+          "id": "string",
+          "roleArn": "string?"
+        },
+        "positionals": [
+          "tailnet",
+          "id"
+        ],
+        "argv_path": [
+          "tailnet",
+          "aws-external-id_validate"
+        ]
+      },
+      {
+        "tool": "tailnet.contacts_get",
+        "summary": "Retrieve the tailnet's current contacts. OAuth Scope: `account_settings:read`. Required: tailnet (default: -). Returns the ContactsGetResponse.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "contacts_get"
+        ]
+      },
+      {
+        "tool": "tailnet.contacts_resend-verification-email",
+        "summary": "Resends the verification email for this contact, if and only if verification is still pending. OAuth Scope: `account_settings`. Required: tailnet (default: -), contactType (default: account).",
+        "params_schema": {
+          "tailnet": "string",
+          "contactType": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "contactType"
+        ],
+        "argv_path": [
+          "tailnet",
+          "contacts_resend-verification-email"
+        ]
+      },
+      {
+        "tool": "tailnet.contacts_update",
+        "summary": "Update the preferences for this type of contact. If the email address has changed, the system will send a verification email to confirm the change. OAuth Scope: `account_settings`. Required: tailnet (default: -), contactType (default: account), email. Partial update.",
+        "params_schema": {
+          "tailnet": "string",
+          "contactType": "string",
+          "email": "string?"
+        },
+        "positionals": [
+          "tailnet",
+          "contactType"
+        ],
+        "argv_path": [
+          "tailnet",
+          "contacts_update"
+        ]
+      },
+      {
+        "tool": "tailnet.device-attributes_batch-update",
+        "summary": "Batch updates posture attributes across devices in a tailnet. This endpoint uses [JSON Merge Patch](https://datatracker.ietf.org/doc/html/rfc7396) semantics. Specifying `null` for an attribute will delete that attribute. Attributes must be in the `custom:` namespace. OAuth Scope: `devices:posture_attributes`. Required: tailnet (default: -). Optional: comment, nodes. Partial update.",
+        "params_schema": {
+          "tailnet": "string",
+          "comment": "string?",
+          "nodes": "object?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "device-attributes_batch-update"
+        ]
+      },
+      {
+        "tool": "tailnet.devices_list",
+        "summary": "Lists the devices in a tailnet. OAuth Scope: `devices:core:read`. Required: tailnet (default: -). Optional: fields, hostname, os (plus 6 more). Returns array of Device.",
+        "params_schema": {
+          "tailnet": "string",
+          "fields": "string?",
+          "hostname": "string?",
+          "os": "string?",
+          "user": "string?",
+          "tags": "string?",
+          "isEphemeral": "bool?",
+          "updateAvailable": "bool?",
+          "authorized": "bool?",
+          "keyExpiryDisabled": "bool?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "devices_list"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_get-configuration",
+        "summary": "Retrieves the full DNS configuration for a tailnet, including global nameservers, split DNS routes, search paths, and MagicDNS configuration. Required: tailnet (default: -). Returns the DnsConfiguration.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_get-configuration"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_get-preferences",
+        "summary": "Retrieves the DNS preferences that are currently set for the given tailnet. Required: tailnet (default: -). Returns the DnsPreferences.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_get-preferences"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_get-split",
+        "summary": "Retrieves the split DNS settings, which is a map from domains to lists of nameservers, that is currently set for the given tailnet. Required: tailnet (default: -). Returns the SplitDns.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_get-split"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_list-nameservers",
+        "summary": "Lists the global DNS nameservers for a tailnet. Required: tailnet (default: -). Returns array of string.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_list-nameservers"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_list-search-paths",
+        "summary": "Retrieves the list of search paths, also referred to as *search domains*, that is currently set for the given tailnet. Required: tailnet (default: -). Returns array of string.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_list-search-paths"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_set-configuration",
+        "summary": "Replaces the DNS configuration for the given tailnet. - `nameservers` defines the global resolvers to use when `preferences.overrideLocalDNS` is true. - `splitDNS` maps DNS name suffixes (domains) to lists of resolvers for Split DNS. - `searchPaths` sets custom DNS search domain paths. - `preferences.overrideLocalDNS` controls whether resolvers in `nameservers` override the local OS configuration (true) or are used or local resolvers are used (false). Defaults to false. - `preferences.magicDNS` enables MagicDNS. Defaults to false. Required: tailnet (default: -). Optional: nameservers, preferences, searchPaths (plus 1 more). Returns the new DnsConfiguration.",
+        "params_schema": {
+          "tailnet": "string",
+          "nameservers": "array?",
+          "preferences-magic-dns": "bool?",
+          "preferences-override-local-dns": "bool?",
+          "searchPaths": "string_csv_array?",
+          "splitDNS": "object?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_set-configuration"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_set-nameservers",
+        "summary": "Replaces the list of global DNS nameservers for the given tailnet with the list supplied in the request. Note that changing the list of DNS nameservers may also affect the status of MagicDNS (if MagicDNS is on; learn about [MagicDNS](https://tailscale.com/docs/features/magicdns)). If all nameservers have been removed, MagicDNS will be automatically disabled (until explicitly turned back on by the user). Required: tailnet (default: -). Optional: dns. Returns array of string.",
+        "params_schema": {
+          "tailnet": "string",
+          "dns": "string_csv_array?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_set-nameservers"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_set-preferences",
+        "summary": "Set the DNS preferences for a tailnet; specifically, the MagicDNS setting. Note that MagicDNS is dependent on DNS servers. Learn about [MagicDNS](https://tailscale.com/docs/features/magicdns). If there is at least one DNS server, then MagicDNS can be enabled. Otherwise, it returns an error. Note that removing all nameservers will turn off MagicDNS. To reenable it, nameservers must be added back, and MagicDNS must be explicitly turned on. Required: tailnet (default: -), magicDNS.",
+        "params_schema": {
+          "tailnet": "string",
+          "magicDNS": "bool?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_set-preferences"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_set-search-paths",
+        "summary": "Replaces the list of search paths for the given tailnet. Required: tailnet (default: -), searchPaths. Returns array of string.",
+        "params_schema": {
+          "tailnet": "string",
+          "searchPaths": "string_csv_array?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_set-search-paths"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_set-split",
+        "summary": "Replaces the split DNS settings for a given tailnet. Setting the value of a mapping to `null` clears the nameservers for that domain. Sending an empty object clears nameservers for all domains. Required: tailnet (default: -). Returns the updated SplitDns.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_set-split"
+        ]
+      },
+      {
+        "tool": "tailnet.dns_update-split",
+        "summary": "Performs partial updates of the split DNS settings for a given tailnet. Only domains specified in the request map will be modified. Setting the value of a mapping to `null` clears the nameservers for that domain. Required: tailnet (default: -). Returns the updated SplitDns.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "dns_update-split"
+        ]
+      },
+      {
+        "tool": "tailnet.keys_create",
+        "summary": "Creates a new [auth key](https://tailscale.com/docs/features/access-control/auth-keys), or [trust credential](https://tailscale.com/docs/reference/trust-credentials) in the specified tailnet. Trust credentials include [OAuth clients](https://tailscale.com/docs/features/oauth-clients) and [federated identities](https://tailscale.com/docs/features/workload-identity-federation). The key will be associated with the user who owns the API access token used to make this call, or, if the call is made with an access token derived from an OAuth client or federated identity, the key will be owned by the tailnet. Returns a JSON object with the generated key. The key should be recorded and kept safe and secure because it wields the capabilities or scopes specified in the request. The identity of the key is embedded in the key itself and can be used to perform operations on the key (e.g., revoking it or retrieving information about it). The full key can no longer be retrieved after the initial response. OAuth Scope: `auth_keys` grants access to create machine auth keys. OAuth Scope: `oauth_keys` grants access to create OAuth clients. OAuth Scope: `federated_keys` grants access to created federated identities. Required: tailnet (default: -). Optional: audience, capabilities, customClaimRules (plus 7 more).",
+        "params_schema": {
+          "tailnet": "string",
+          "audience": "string?",
+          "capabilities-devices-create": "object?",
+          "customClaimRules": "object?",
+          "description": "string?",
+          "expirySeconds": "int?",
+          "issuer": "string?",
+          "keyType": "string?",
+          "scopes": "string_csv_array?",
+          "subject": "string?",
+          "tags": "string_csv_array?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "keys_create"
+        ]
+      },
+      {
+        "tool": "tailnet.keys_delete",
+        "summary": "Deletes a specific api access token or auth key. OAuth Scope: `api_access_tokens` grants access to personal API access tokens. OAuth Scope: `auth_keys` grants access to machine auth keys. OAuth Scope: `oauth_keys` grants access to OAuth clients and OAuth tokens. OAuth Scope: `federated_keys` grants access to federated identities. Required: tailnet (default: -), keyId. Destructive.",
+        "params_schema": {
+          "tailnet": "string",
+          "keyId": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "keyId"
+        ],
+        "argv_path": [
+          "tailnet",
+          "keys_delete"
+        ]
+      },
+      {
+        "tool": "tailnet.keys_get",
+        "summary": "Returns a JSON object with information about a specific api access token, OAuth client, federated identity, or auth key, such as its creation and expiration dates and its capabilities. OAuth Scope: `api_access_tokens:read` grants access to personal API access tokens. OAuth Scope: `auth_keys:read` grants access to machine auth keys. OAuth Scope: `oauth_keys:read` grants access to OAuth clients and OAuth tokens. OAuth Scope: `federated_keys:read` grants access to federated identities. Required: tailnet (default: -), keyId.",
+        "params_schema": {
+          "tailnet": "string",
+          "keyId": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "keyId"
+        ],
+        "argv_path": [
+          "tailnet",
+          "keys_get"
+        ]
+      },
+      {
+        "tool": "tailnet.keys_list",
+        "summary": "Returns a list of active auth keys, API access tokens and trust credentials. If the parameter {all} was not specified, the set of keys returned depends on the access token used to make the request: - If the API call is made with a user-owned API access token, this returns only the keys owned by that user. - If the API call is made with an access token derived from an OAuth client, this returns all OAuth clients for the tailnet. - If the API call is made with an access token derived from a federated identity, this returns all federated identities for the tailnet. OAuth Scope: `api_access_tokens:read` grants access to personal API access tokens. OAuth Scope: `auth_keys:read` grants access to machine auth keys. OAuth Scope: `oauth_keys:read` grants access to OAuth clients and OAuth tokens. OAuth Scope: `federated_keys:read` grants access to federated identities. Required: tailnet (default: -), all.",
+        "params_schema": {
+          "tailnet": "string",
+          "all": "bool?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "keys_list"
+        ]
+      },
+      {
+        "tool": "tailnet.keys_set",
+        "summary": "Set the configuration for an existing OAuth client or federated identity. OAuth Scope: `oauth_keys` grants access to OAuth clients. OAuth Scope: `federated_keys` grants access to federated identities. Required: tailnet (default: -), keyId. Optional: audience, customClaimRules, description (plus 5 more). Returns the updated Key.",
+        "params_schema": {
+          "tailnet": "string",
+          "keyId": "string",
+          "audience": "string?",
+          "customClaimRules": "object?",
+          "description": "string?",
+          "issuer": "string?",
+          "keyType": "string?",
+          "scopes": "string_csv_array?",
+          "subject": "string?",
+          "tags": "string_csv_array?"
+        },
+        "positionals": [
+          "tailnet",
+          "keyId"
+        ],
+        "argv_path": [
+          "tailnet",
+          "keys_set"
+        ]
+      },
+      {
+        "tool": "tailnet.logging_disable-log-streaming",
+        "summary": "Delete the log streaming configuration for the provided log type. OAuth Scope: `log_streaming`. Required: tailnet (default: -), logType (default: configuration). Destructive.",
+        "params_schema": {
+          "tailnet": "string",
+          "logType": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "logType"
+        ],
+        "argv_path": [
+          "tailnet",
+          "logging_disable-log-streaming"
+        ]
+      },
+      {
+        "tool": "tailnet.logging_get-log-streaming-configuration",
+        "summary": "Retrieve the log streaming configuration for the provided log type. OAuth Scope: `log_streaming:read`. Required: tailnet (default: -), logType (default: configuration). Returns array of string.",
+        "params_schema": {
+          "tailnet": "string",
+          "logType": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "logType"
+        ],
+        "argv_path": [
+          "tailnet",
+          "logging_get-log-streaming-configuration"
+        ]
+      },
+      {
+        "tool": "tailnet.logging_get-log-streaming-status",
+        "summary": "Retrieve the log streaming status for the provided log type. OAuth Scope: `log_streaming:read`. Required: tailnet (default: -), logType (default: configuration). Returns the LogstreamEndpointPublishingStatus.",
+        "params_schema": {
+          "tailnet": "string",
+          "logType": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "logType"
+        ],
+        "argv_path": [
+          "tailnet",
+          "logging_get-log-streaming-status"
+        ]
+      },
+      {
+        "tool": "tailnet.logging_list-configuration-audit-logs",
+        "summary": "List all configuration audit logs for a tailnet. OAuth Scope: `logs:configuration:read`. Required: tailnet (default: -), start, end. Optional: actor, target, event. Returns array of ConfigurationAuditLog.",
+        "params_schema": {
+          "tailnet": "string",
+          "start": "string?",
+          "end": "string?",
+          "actor": "array?",
+          "target": "array?",
+          "event": "array?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "logging_list-configuration-audit-logs"
+        ]
+      },
+      {
+        "tool": "tailnet.logging_list-network-flow-logs",
+        "summary": "List all network flow logs for a tailnet. OAuth Scope: `logs:network:read`. Required: tailnet (default: -), start, end. Returns array of NetworkFlowLog.",
+        "params_schema": {
+          "tailnet": "string",
+          "start": "string?",
+          "end": "string?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "logging_list-network-flow-logs"
+        ]
+      },
+      {
+        "tool": "tailnet.logging_set-log-streaming-configuration",
+        "summary": "Set the log streaming configuration for the provided log type. OAuth Scope: `log_streaming`. `device_invites` and `policy_file` are also required if streaming to a [private endpoint](https://tailscale.com/docs/features/logging/log-streaming#private-endpoints). Required: tailnet (default: -), logType (default: configuration). Optional: compressionFormat, destinationType, gcsBucket (plus 16 more).",
+        "params_schema": {
+          "tailnet": "string",
+          "logType": "string",
+          "compressionFormat": "string?",
+          "destinationType": "string?",
+          "gcsBucket": "string?",
+          "gcsCredentials": "string?",
+          "gcsKeyPrefix": "string?",
+          "gcsScopes": "string_csv_array?",
+          "logType-2": "string?",
+          "s3AccessKeyId": "string?",
+          "s3AuthenticationType": "string?",
+          "s3Bucket": "string?",
+          "s3ExternalId": "string?",
+          "s3KeyPrefix": "string?",
+          "s3Region": "string?",
+          "s3RoleArn": "string?",
+          "s3SecretAccessKey": "string?",
+          "token": "string?",
+          "uploadPeriodMinutes": "int?",
+          "url": "string?",
+          "user": "string?"
+        },
+        "positionals": [
+          "tailnet",
+          "logType"
+        ],
+        "argv_path": [
+          "tailnet",
+          "logging_set-log-streaming-configuration"
+        ]
+      },
+      {
+        "tool": "tailnet.oauth-apps_create",
+        "summary": "Create an OAuth app within a tailnet. The generated client secret is returned only in this response and cannot be retrieved later, so be sure to record it. OAuth Scope: `oauth_apps`. If you include `allowedNodeAttributes` in the request body, you must also have `devices:posture_attributes`. Required: tailnet (default: -), name, redirectURIs, scopes. Optional: allowedNodeAttributes, description. Returns the new OauthApp.",
+        "params_schema": {
+          "tailnet": "string",
+          "allowedNodeAttributes": "string_csv_array?",
+          "description": "string?",
+          "name": "string?",
+          "redirectURIs": "string_csv_array?",
+          "scopes": "string_csv_array?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "oauth-apps_create"
+        ]
+      },
+      {
+        "tool": "tailnet.oauth-apps_delete",
+        "summary": "Delete a specific OAuth app. OAuth Scope: `oauth_apps`. Required: tailnet (default: -), appId. Destructive.",
+        "params_schema": {
+          "tailnet": "string",
+          "appId": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "appId"
+        ],
+        "argv_path": [
+          "tailnet",
+          "oauth-apps_delete"
+        ]
+      },
+      {
+        "tool": "tailnet.oauth-apps_get",
+        "summary": "Retrieve a specific OAuth app. OAuth Scope: `oauth_apps:read`. Required: tailnet (default: -), appId. Returns the OauthApp.",
+        "params_schema": {
+          "tailnet": "string",
+          "appId": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "appId"
+        ],
+        "argv_path": [
+          "tailnet",
+          "oauth-apps_get"
+        ]
+      },
+      {
+        "tool": "tailnet.oauth-apps_list",
+        "summary": "List all OAuth apps for a tailnet. OAuth Scope: `oauth_apps:read`. Required: tailnet (default: -). Returns array of OauthApp.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "oauth-apps_list"
+        ]
+      },
+      {
+        "tool": "tailnet.oauth-apps_update",
+        "summary": "Update a specific OAuth app. The client secret is not regenerated and is not returned in this response. OAuth Scope: `oauth_apps`. Required: tailnet (default: -), appId, name, redirectURIs, scopes. Optional: allowedNodeAttributes, description. Returns the updated OauthApp.",
+        "params_schema": {
+          "tailnet": "string",
+          "appId": "string",
+          "allowedNodeAttributes": "string_csv_array?",
+          "description": "string?",
+          "name": "string?",
+          "redirectURIs": "string_csv_array?",
+          "scopes": "string_csv_array?"
+        },
+        "positionals": [
+          "tailnet",
+          "appId"
+        ],
+        "argv_path": [
+          "tailnet",
+          "oauth-apps_update"
+        ]
+      },
+      {
+        "tool": "tailnet.posture_create",
+        "summary": "Create a posture integration, returning the resulting [PostureIntegration](#model/postureintegration). Must include `provider` and `clientSecret`. Currently, only one integration for each provider is supported. OAuth Scope: `feature_settings`. Required: tailnet (default: -). Optional: clientId, clientSecret, cloudId (plus 5 more). Returns the new PostureIntegration.",
+        "params_schema": {
+          "tailnet": "string",
+          "clientId": "string?",
+          "clientSecret": "string?",
+          "cloudId": "string?",
+          "configUpdated": "string?",
+          "id": "string?",
+          "provider": "string?",
+          "status-error": "string?",
+          "status-last-sync": "string?",
+          "status-matched-count": "int?",
+          "status-possible-matched-count": "int?",
+          "status-provider-host-count": "int?",
+          "tenantId": "string?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "posture_create"
+        ]
+      },
+      {
+        "tool": "tailnet.posture_list",
+        "summary": "List all of the posture integrations for a tailnet. OAuth Scope: `feature_settings:read`. Required: tailnet (default: -). Returns array of PostureIntegration.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "posture_list"
+        ]
+      },
+      {
+        "tool": "tailnet.services_delete",
+        "summary": "Delete the specified Service from the tailnet. OAuth Scope: `services`. Required: tailnet (default: -), serviceName. Destructive.",
+        "params_schema": {
+          "tailnet": "string",
+          "serviceName": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "serviceName"
+        ],
+        "argv_path": [
+          "tailnet",
+          "services_delete"
+        ]
+      },
+      {
+        "tool": "tailnet.services_get",
+        "summary": "Retrieve the details for the specified Service. OAuth Scope: `services:read`. Required: tailnet (default: -), serviceName. Returns the VipserviceInfo.",
+        "params_schema": {
+          "tailnet": "string",
+          "serviceName": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "serviceName"
+        ],
+        "argv_path": [
+          "tailnet",
+          "services_get"
+        ]
+      },
+      {
+        "tool": "tailnet.services_get-device-approval",
+        "summary": "Retrieve the approval status of the specified Service on a specific device. OAuth Scope: `services`, `devices:core`. Required: tailnet (default: -), serviceName, deviceId. Returns the VipserviceApproval.",
+        "params_schema": {
+          "tailnet": "string",
+          "serviceName": "string",
+          "deviceId": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "serviceName",
+          "deviceId"
+        ],
+        "argv_path": [
+          "tailnet",
+          "services_get-device-approval"
+        ]
+      },
+      {
+        "tool": "tailnet.services_list",
+        "summary": "List all Services configured for the tailnet. This includes all Services in the 'advertised' tab of the Services page in the Tailscale admin console. OAuth Scope: `services:read`. Required: tailnet (default: -). Returns array of VipserviceInfo.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "services_list"
+        ]
+      },
+      {
+        "tool": "tailnet.services_list-hosts",
+        "summary": "List all devices that are hosting the specified Service. OAuth Scope: `services`, `devices:core`. Required: tailnet (default: -), serviceName. Returns array of ServiceHostInfo.",
+        "params_schema": {
+          "tailnet": "string",
+          "serviceName": "string"
+        },
+        "positionals": [
+          "tailnet",
+          "serviceName"
+        ],
+        "argv_path": [
+          "tailnet",
+          "services_list-hosts"
+        ]
+      },
+      {
+        "tool": "tailnet.services_update",
+        "summary": "Update or create the specified Service. If the Service does not exist, it will create a Service with the provided details. When creating a new Service, the name in the request body must match the serviceName path parameter. When updating an existing Service, the path parameter is the current name of the Service, and the name in the request body can be used to rename the Service. OAuth Scope: `services`. Required: tailnet (default: -), serviceName. Optional: addrs, comment, displayName (plus 3 more). Returns the updated VipserviceInfo.",
+        "params_schema": {
+          "tailnet": "string",
+          "serviceName": "string",
+          "addrs": "string_csv_array?",
+          "comment": "string?",
+          "displayName": "string?",
+          "name": "string?",
+          "ports": "string_csv_array?",
+          "tags": "string_csv_array?"
+        },
+        "positionals": [
+          "tailnet",
+          "serviceName"
+        ],
+        "argv_path": [
+          "tailnet",
+          "services_update"
+        ]
+      },
+      {
+        "tool": "tailnet.services_update-device-approval",
+        "summary": "Update the approval status of the specified Service on a specific device. OAuth Scope: `services`, `devices:core`. Required: tailnet (default: -), serviceName, deviceId. Optional: approved. Returns the new VipserviceApproval.",
+        "params_schema": {
+          "tailnet": "string",
+          "serviceName": "string",
+          "deviceId": "string",
+          "approved": "bool?"
+        },
+        "positionals": [
+          "tailnet",
+          "serviceName",
+          "deviceId"
+        ],
+        "argv_path": [
+          "tailnet",
+          "services_update-device-approval"
+        ]
+      },
+      {
+        "tool": "tailnet.settings_get",
+        "summary": "Retrieve the settings for a specific tailnet. OAuth Scope: `feature_settings:read` - required to view all settings except those governed by the below scopes. OAuth Scope: `logs:network:read` - required to view the `networkFlowLoggingOn` setting. OAuth Scope: `networking_settings:read` - required to view the `httpsCertificates` setting. OAuth Scope: `policy_file:read` - required to view the `aclsExternallyManagedOn` & `aclsExternalLink` settings. Required: tailnet (default: -). Returns the TailnetSettings.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "settings_get"
+        ]
+      },
+      {
+        "tool": "tailnet.settings_update",
+        "summary": "Update the settings for a specific tailnet. OAuth Scope: `feature_settings` - required to update all settings except those governed by the below scopes. OAuth Scope: `logs:network` - required to update the `networkFlowLoggingOn` setting. OAuth Scope: `networking_settings` - required to update the `httpsCertificates` setting. OAuth Scope: `policy_file` - required to update the `aclsExternallyManagedOn` & `aclsExternalLink` settings. Required: tailnet (default: -). Optional: aclsExternalLink, aclsExternallyManagedOn, devicesApprovalOn (plus 8 more). Returns the updated TailnetSettings.",
+        "params_schema": {
+          "tailnet": "string",
+          "aclsExternalLink": "string?",
+          "aclsExternallyManagedOn": "bool?",
+          "devicesApprovalOn": "bool?",
+          "devicesAutoUpdatesOn": "bool?",
+          "devicesKeyDurationDays": "int?",
+          "httpsEnabled": "bool?",
+          "networkFlowLoggingOn": "bool?",
+          "postureIdentityCollectionOn": "bool?",
+          "regionalRoutingOn": "bool?",
+          "usersApprovalOn": "bool?",
+          "usersRoleAllowedToJoinExternalTailnets": "string?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "settings_update"
+        ]
+      },
+      {
+        "tool": "tailnet.user-invites_create",
+        "summary": "Create, and optionally email out, new user invites to join the tailnet. > \u24d8 Only permitted for user-owned keys, because invites require an inviting user. Required: tailnet (default: -). Returns array of UserInvite.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "user-invites_create"
+        ]
+      },
+      {
+        "tool": "tailnet.user-invites_list",
+        "summary": "List all open (not yet accepted) user invites to the tailnet. Required: tailnet (default: -). Returns array of UserInvite.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "user-invites_list"
+        ]
+      },
+      {
+        "tool": "tailnet.users_list",
+        "summary": "List all users of a tailnet. OAuth Scope: `users:read`. Required: tailnet (default: -). Optional: type (default: member), role (default: all). Returns array of User.",
+        "params_schema": {
+          "tailnet": "string",
+          "type": "string?",
+          "role": "string?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "users_list"
+        ]
+      },
+      {
+        "tool": "tailnet.webhooks_create",
+        "summary": "Create a webhook within a tailnet. OAuth Scope: `webhooks`. Required: tailnet (default: -), endpointUrl, subscriptions. Optional: providerType. Returns array of string.",
+        "params_schema": {
+          "tailnet": "string",
+          "endpointUrl": "string?",
+          "providerType": "string?",
+          "subscriptions": "string_csv_array?"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "webhooks_create"
+        ]
+      },
+      {
+        "tool": "tailnet.webhooks_list",
+        "summary": "List all webhooks for a tailnet. OAuth Scope: `webhooks:read`. Required: tailnet (default: -). Returns array of Webhook.",
+        "params_schema": {
+          "tailnet": "string"
+        },
+        "positionals": [
+          "tailnet"
+        ],
+        "argv_path": [
+          "tailnet",
+          "webhooks_list"
+        ]
+      },
+      {
+        "tool": "user-invites.delete",
+        "summary": "Deletes a specific user invite. > \u24d8 Only permitted for user-owned keys, because invites require an inviting user. Required: userInviteId. Destructive.",
+        "params_schema": {
+          "userInviteId": "string"
+        },
+        "positionals": [
+          "userInviteId"
+        ],
+        "argv_path": [
+          "user-invites"
+        ]
+      },
+      {
+        "tool": "user-invites.get",
+        "summary": "Retrieve a specific user invite. Required: userInviteId. Returns the UserInvite.",
+        "params_schema": {
+          "userInviteId": "string"
+        },
+        "positionals": [
+          "userInviteId"
+        ],
+        "argv_path": [
+          "user-invites",
+          "get"
+        ]
+      },
+      {
+        "tool": "user-invites.resend_user-invite",
+        "summary": "Resend a user invite by email. You can only use this if the specified invite was originally created with an email specified. Refer to [creating user invites for a tailnet](#tag/userinvites/post/tailnet/{tailnet}/user-invites). Note: Invite resends are rate limited to one per minute. > \u24d8 Only permitted for user-owned keys, because invites require an inviting user. Required: userInviteId.",
+        "params_schema": {
+          "userInviteId": "string"
+        },
+        "positionals": [
+          "userInviteId"
+        ],
+        "argv_path": [
+          "user-invites",
+          "resend_user-invite"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Retrieve details about the specified user. OAuth Scope: `users:read`. Required: userId. Returns the User.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.approve_user",
+        "summary": "Approve a pending user's access to the tailnet. This is a no-op if user approval has not been enabled for the tailnet, or if the user is already approved. User approval can be managed using the [tailnet settings endpoints](#tag/tailnetsettings). Learn more about [user approval](/docs/features/access-control/user-approval) and [enabling user approval for your network](/docs/features/access-control/user-approval#enable-user-approval-for-your-network). OAuth Scope: `users`. > \u24d8 User-based access tokens cannot approve their own user. Required: userId.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "approve_user"
+        ]
+      },
+      {
+        "tool": "users.delete_user",
+        "summary": "Delete a user from their tailnet. Learn more about [deleting users](/docs/features/sharing/how-to/remove-team-members#deleting-users). OAuth Scope: `users`. > \u24d8 User-based access tokens cannot delete their own user. Required: userId.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "delete_user"
+        ]
+      },
+      {
+        "tool": "users.restore_user",
+        "summary": "Restores a suspended user's access to their tailnet. Learn more about [restoring users](/docs/features/sharing/how-to/remove-team-members#restoring-users). OAuth Scope: `users`. > \u24d8 User-based access tokens cannot restore their own user. Required: userId.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "restore_user"
+        ]
+      },
+      {
+        "tool": "users.role_set",
+        "summary": "Update the role for the specified user. Learn more about [user roles](/docs/reference/user-roles). OAuth Scope: `users`. > \u24d8 User-based access tokens cannot update their own user's role. Required: userId. Optional: role.",
+        "params_schema": {
+          "userId": "string",
+          "role": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "role_set"
+        ]
+      },
+      {
+        "tool": "users.suspend_user",
+        "summary": "Suspends a user from their tailnet. Learn more about [suspending users](/docs/features/sharing/how-to/remove-team-members#suspending-users). OAuth Scope: `users`. > \u24d8 User-based access tokens cannot suspend their own user. Required: userId.",
+        "params_schema": {
+          "userId": "string"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "suspend_user"
+        ]
+      },
+      {
+        "tool": "webhooks.delete",
+        "summary": "Delete a specific webhook. OAuth Scope: `webhooks`. Required: endpointId. Destructive.",
+        "params_schema": {
+          "endpointId": "string"
+        },
+        "positionals": [
+          "endpointId"
+        ],
+        "argv_path": [
+          "webhooks"
+        ]
+      },
+      {
+        "tool": "webhooks.get",
+        "summary": "Retrieve a specific webhook. OAuth Scope: `webhooks:read`. Required: endpointId. Returns array of string.",
+        "params_schema": {
+          "endpointId": "string"
+        },
+        "positionals": [
+          "endpointId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "get"
+        ]
+      },
+      {
+        "tool": "webhooks.update",
+        "summary": "Update a specific webhook. OAuth Scope: `webhooks`. Required: endpointId. Optional: subscriptions. Returns array of string.",
+        "params_schema": {
+          "endpointId": "string",
+          "subscriptions": "string_csv_array?"
+        },
+        "positionals": [
+          "endpointId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "update"
+        ]
+      },
+      {
+        "tool": "webhooks.rotate_webhook-secret",
+        "summary": "Rotate and generate a new secret for a specific webhook. This secret is used for generating the `Tailscale-Webhook-Signature` header in requests sent to the endpoint URL. Learn more about [verifying webhook event signatures](/docs/features/webhooks#verifying-an-event-signature). OAuth Scope: `webhooks`. Required: endpointId. Returns array of string.",
+        "params_schema": {
+          "endpointId": "string"
+        },
+        "positionals": [
+          "endpointId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "rotate_webhook-secret"
+        ]
+      },
+      {
+        "tool": "webhooks.test_webhook",
+        "summary": "Test a specific webhook by sending out a test event to the endpoint URL. This endpoint queues the event which is sent out asynchronously. If your webhook is configured correctly, within a few seconds your webhook endpoint should receive an event with type of 'test'. OAuth Scope: `webhooks`. Required: endpointId.",
+        "params_schema": {
+          "endpointId": "string"
+        },
+        "positionals": [
+          "endpointId"
+        ],
+        "argv_path": [
+          "webhooks",
+          "test_webhook"
+        ]
+      }
+    ]
+  },
+  {
     "api": "techmeme",
     "description": "Tech news aggregation and curation. No official API exists. This spec describes the RSS, OPML, search, and HTML surfaces available for programmatic access. No authentication required.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/techmeme/cmd/techmeme-pp-cli",
@@ -402773,6 +405430,89 @@
         "argv_path": [
           "tasks",
           "deleted"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "toyota-rentacar",
+    "description": "Live Japan rental class estimates, distinct shops, and a careful booking handoff.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/toyota-rentacar/cmd/toyota-rentacar-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "toyota-rentacar",
+      "TOYOTA Rent a Car",
+      "toyota-rentacar-pp-cli",
+      "Live Japan rental class estimates, distinct shops, and a careful booking handoff.",
+      "Identity-safe shop resolution",
+      "shops search",
+      "Resolve distinct Toyota branches and return restrictions.",
+      "Context-checked class estimates",
+      "cars quote",
+      "Compare real dated class offers with explicit price assumptions.",
+      "Option inclusion honesty",
+      "rental options",
+      "Read live option and waiver fees with source units.",
+      "One-way fee and inventory separation",
+      "oneway quote",
+      "Run Toyota\u2019s route surcharge simulator.",
+      "Canonical booking checklist",
+      "booking handoff",
+      "Print a canonical booking link and reusable rental checklist."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.eligibility",
+        "summary": "Read official driving-document guidance.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "eligibility"
+        ]
+      },
+      {
+        "tool": "source.insurance",
+        "summary": "Read insurance and NOC policy source.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "insurance"
+        ]
+      },
+      {
+        "tool": "source.locations",
+        "summary": "Read public keyword shop document. Required: keyword. Optional: shop-mode (default: 0).",
+        "params_schema": {
+          "keyword": "string?",
+          "shop-mode": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "locations"
+        ]
+      },
+      {
+        "tool": "source.one-way",
+        "summary": "Read one-way restrictions and simulator link.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "one-way"
+        ]
+      },
+      {
+        "tool": "source.options",
+        "summary": "Read option policy source.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "options"
         ]
       }
     ]
@@ -422698,38 +425438,47 @@
     "search_terms": [
       "wavespeed",
       "wavespeed-pp-cli",
-      "Run WaveSpeed AI models with schema-aware inputs, prompt shortcuts, price estimates, wait/download helpers, aliases, and media uploads.",
+      "Run any WaveSpeed model from the terminal, with price checks, safe uploads, and recovery-safe downloads.",
       "API key from WaveSpeed access key settings",
       "Dynamic model runner",
       "run",
-      "Submit WaveSpeed model runs with prompt shorthand, JSON input merging, schema help, price estimates, waiting, downloads, aliases, and local media file upload coercion.",
+      "Submit WaveSpeed model runs with prompt shorthand, typed --set inputs, local @file media uploads, price estimates, waiting, recovery-safe downloads, and library recording.",
       "Dynamic model schema help",
       "schema",
-      "Fetch the live WaveSpeed model catalog and print api_schema.api_schemas[0].request_schema for a model or project alias.",
-      "Media upload helper",
-      "upload",
-      "Upload local image, video, or audio files to WaveSpeed media storage for use as model input URLs.",
-      "Output downloader",
-      "download",
-      "Download generated output URLs with directory, exact-path, or templated-path destinations.",
+      "Fetch the live WaveSpeed model catalog and print the request schema for a model or project alias.",
       "Model price estimate",
       "price",
       "Estimate WaveSpeed model pricing with the same input syntax used by run, without submitting a prediction.",
+      "Media upload helper",
+      "upload",
+      "Upload local image, video, or audio files to WaveSpeed media storage for use as model input URLs, retrying stalled uploads with a size-scaled deadline.",
+      "Output downloader",
+      "download",
+      "Download generated output URLs with directory, exact-path, or templated-path destinations, never sending API credentials to CDN hosts.",
+      "Latest download shortcuts",
+      "last",
+      "Print or open the most recent downloaded output.",
       "Project aliases",
       "aliases",
       "Read wavespeed.json aliases, default model, and output directory settings for repeatable local workflows.",
+      "Project init",
+      "init",
+      "Write a starter wavespeed.json with aliases, default model, and output directory.",
       "Brief-to-shotlist planner",
       "plan brief-to-shotlist",
-      "Turn a free-text brief into a structured shotlist with a hybrid deterministic-parser/LLM planner across platforms and aspect ratios.",
+      "Turn a free-text brief into a structured shotlist across platforms and aspect ratios with a hybrid deterministic-parser/LLM planner.",
       "Model pick",
       "plan model-pick",
       "Recommend a model for an intent from the live catalog with rationale.",
       "Cost estimate",
       "plan cost-estimate",
       "Price a shotlist against live /model/pricing and the account balance, with cached-pricing fallback and per-shot breakdown.",
+      "Production QA preflight",
+      "qa preflight",
+      "Pass/warn/fail validation of a shotlist: balance vs cost, model availability, prompt safety, platform request-shape, and brand coverage.",
       "Multi-platform pack",
       "pack",
-      "Produce a multi-platform creative pack from one concept at stable packs/<slug>/<platform>/ paths with per-platform manifests, concurrency, cost ceiling, and stdlib image-dimension validation.",
+      "Produce a multi-platform creative pack from one concept at stable packs/<slug>/<platform>/ paths with per-platform manifests, concurrency, cost ceiling, and image-dimension validation; a rerun archives the superseded manifest.",
       "Batch producer",
       "batch",
       "Submit many prompts from CSV or JSON with a spend ceiling and fail-fast/fail-tolerant semantics; records completed generations before any abort.",
@@ -422741,16 +425490,13 @@
       "Run an explicit multi-step pipeline (text->image->upscale->video), feeding each step's output to the next, with rollback of later steps on failure.",
       "Aspect re-framing",
       "aspects",
-      "Re-frame one image into standard platform aspect ratios, using outpaint when supported and falling back to an anchored re-render otherwise.",
+      "Re-frame one image into standard platform aspect ratios, using outpaint when supported and an anchored re-render otherwise.",
       "Brand restyle",
       "restyle",
       "Apply a brand profile or explicit style to an existing asset via img2img with a style prompt.",
       "Generation library",
       "library",
       "List, search (FTS5), show, tag, export, and cost-report the local generation library by brand, model, platform, and tag.",
-      "Production QA preflight",
-      "qa preflight",
-      "Pass/warn/fail validation of a shotlist: balance vs cost, model availability, prompt safety, platform request-shape, and brand coverage.",
       "Brand profiles",
       "brand",
       "Create, inspect, apply, and edit brand profiles that auto-merge into pack, compose, variants, restyle, and run."
@@ -422783,7 +425529,7 @@
       },
       {
         "tool": "media.uploads_upload-media-binary",
-        "summary": "Upload a binary file to WaveSpeed media storage. Returns the new UploadEnvelope.",
+        "summary": "Unsupported typed upload: this tool has no safe binary-file input contract. Use wavespeed-pp-cli upload <file> instead; the separate upload command mirror remains available.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -439028,6 +441774,49 @@
         "argv_path": [
           "source",
           "types_list"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "yamato",
+    "description": "Plan Japan luggage forwarding with source rates, calendar deadlines and acceptance evidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/yamato/cmd/yamato-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "yamato",
+      "Yamato Transport",
+      "yamato-pp-cli",
+      "Plan Japan luggage forwarding with source rates, calendar deadlines and acceptance evidence.",
+      "Measured luggage eligibility",
+      "parcel",
+      "Classify both size and weight and preserve acceptance unknowns.",
+      "Source calendar and tariff",
+      "quote",
+      "Fetch current source rates and date-specific arrival or shipping deadline.",
+      "Terminal-aware airport resolution",
+      "airports",
+      "Use live upstream airport codes and Japanese terminal names.",
+      "Acceptance and hour evidence",
+      "counters",
+      "Inspect public send/pickup/floor evidence and fingerprint-checked image hours.",
+      "Distinct same-day evidence",
+      "same-day",
+      "Inspect limited-area cutoff schedules and separate example prices.",
+      "Product distinctions",
+      "products",
+      "Review live service policy evidence for standard, airport, roundtrip and same-day products."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.overview",
+        "summary": "Read the public TA-Q-BIN page metadata and links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "overview"
         ]
       }
     ]
