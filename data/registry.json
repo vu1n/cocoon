@@ -15120,6 +15120,86 @@
     ]
   },
   {
+    "api": "airport-limousine",
+    "description": "Plan Tokyo airport buses with exact terminals, dated fares and explicit travel-time uncertainty.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/airport-limousine/cmd/airport-limousine-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "airport-limousine",
+      "Airport Limousine",
+      "airport-limousine-pp-cli",
+      "Plan Tokyo airport buses with exact terminals, dated fares and explicit travel-time uncertainty.",
+      "Dated terminal journeys",
+      "timetable",
+      "Plan a service date at exact stops with JST times and midnight rollover.",
+      "Current duration evidence",
+      "travel-times",
+      "Compare current and standard duration estimates with explicit unavailable states.",
+      "Airport transfer comparison",
+      "transfers",
+      "Read both airport transfer directions for the same service date.",
+      "Party fare planning",
+      "fare",
+      "Calculate an adult/child total from the operator fare for a served pair.",
+      "Baggage and boarding facts",
+      "conditions",
+      "Read concise current provider conditions with source timestamps and notices."
+    ],
+    "endpoints": [
+      {
+        "tool": "pages.guide",
+        "summary": "Read the provider baggage and boarding guide links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "pages",
+          "guide"
+        ]
+      },
+      {
+        "tool": "pages.routes",
+        "summary": "Read canonical route and timetable links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "pages",
+          "routes"
+        ]
+      },
+      {
+        "tool": "pages.stop",
+        "summary": "Read a known operator stop page and links. Required: stop-id (default: HanedaAirportTerminal3).",
+        "params_schema": {
+          "stop-id": "string"
+        },
+        "positionals": [
+          "stop-id"
+        ],
+        "argv_path": [
+          "pages",
+          "stop"
+        ]
+      },
+      {
+        "tool": "pages.timetable",
+        "summary": "Read canonical date timetable handoff links. Required: route-id (default: Haneda-Narita). Optional: direction (default: 1), date.",
+        "params_schema": {
+          "route-id": "string",
+          "direction": "int?",
+          "date": "string?"
+        },
+        "positionals": [
+          "route-id"
+        ],
+        "argv_path": [
+          "pages",
+          "timetable"
+        ]
+      }
+    ]
+  },
+  {
     "api": "alaska-airlines",
     "description": "Search Alaska Airlines flights, manage Atmos Rewards data, and build checkout-ready cart links from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/alaska-airlines/cmd/alaska-airlines-pp-cli",
@@ -70941,6 +71021,44 @@
         "argv_path": [
           "trends",
           "get-rider"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "carstay",
+    "description": "Discover Japan overnight spots with Japanese coverage, honest facility evidence and booking links.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/carstay/cmd/carstay-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "carstay",
+      "carstay-pp-cli",
+      "Discover Japan overnight spots with Japanese coverage, honest facility evidence and booking links.",
+      "Evidence comparison",
+      "spots compare",
+      "Contrast a small shortlist with facility, price and parking-space evidence.",
+      "Explicit constraint assessment",
+      "spots fit",
+      "Check explicit space dimensions and facility requirements while preserving unknowns.",
+      "Radial nearby ranking",
+      "spots near",
+      "Rank designated overnight spots around an itinerary coordinate by straight-line distance.",
+      "Language coverage audit",
+      "spots coverage",
+      "See Japanese options and English publication or translation gaps.",
+      "Booking evidence audit",
+      "spots audit",
+      "Expose unresolved price, availability and qualified facility evidence before booking."
+    ],
+    "endpoints": [
+      {
+        "tool": "directory.list",
+        "summary": "Read public directory references for local sync and Japanese coverage; overnight workflows use spots. Returns array of Station.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "directory"
         ]
       }
     ]
@@ -174853,6 +174971,66 @@
     ]
   },
   {
+    "api": "driveplaza",
+    "description": "Plan expressway journeys with source toll estimates, directional rest stops and official advisories.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/driveplaza/cmd/driveplaza-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "driveplaza",
+      "Drive Plaza",
+      "driveplaza-pp-cli",
+      "Plan expressway journeys with source toll estimates, directional rest stops and official advisories.",
+      "Assumptions attached to quote",
+      "route",
+      "Keep vehicle, JST schedule and conditional toll assumptions beside route alternatives.",
+      "Bilingual interchange identity",
+      "interchanges",
+      "Resolve English names to stable IDs and source Japanese names.",
+      "Directional facility evidence",
+      "sapa list",
+      "Compare directional stops using source facility availability.",
+      "Advisory uncertainty",
+      "notices",
+      "Read dated traffic notices without mistaking them for active restrictions.",
+      "Restriction and live-map handoffs",
+      "handoff",
+      "Get official construction, ETC-lane and live-traffic URLs."
+    ],
+    "endpoints": [
+      {
+        "tool": "reference.rest_form",
+        "summary": "Inspect the official English SA/PA search form. Returns the ReferencePage.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "rest_form"
+        ]
+      },
+      {
+        "tool": "reference.route_form",
+        "summary": "Inspect the official English route form. Returns the ReferencePage.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "route_form"
+        ]
+      },
+      {
+        "tool": "reference.schedule",
+        "summary": "Inspect official planned-work handoffs. Returns the ReferencePage.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reference",
+          "schedule"
+        ]
+      }
+    ]
+  },
+  {
     "api": "drudgereport",
     "description": "Drudge Report in your terminal, with the editorial signal (splash, red, slot, tenure) the live page broadcasts but...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/drudgereport/cmd/drudgereport-pp-cli",
@@ -204326,21 +204504,39 @@
   },
   {
     "api": "game-goat",
-    "description": "Look up any game and find what to play next - RAWG search, ratings, franchise order, tag-matched recommendations with remake-aware title resolution, plus IsThereAnyDeal historical price tracking and currency-localised storefront prices, built for agents.",
+    "description": "Look up any game, find what to play next, and browse the Steam store from one CLI - RAWG search and ratings, remake-aware title resolution, and IsThereAnyDeal price history.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/game-goat/cmd/game-goat-pp-cli",
     "auth_type": "api_key",
     "category": "media-and-entertainment",
     "search_terms": [
       "game-goat",
-      "Rawg Video Games",
+      "Game GOAT",
       "game-goat-pp-cli",
-      "Look up any game and find what to play next - RAWG search, ratings, franchise order, tag-matched recommendations with remake-aware title resolution, plus IsThereAnyDeal historical price tracking and currency-localised storefront prices, built for agents.",
+      "Look up any game, find what to play next, and browse the Steam store from one CLI - RAWG search and ratings, remake-aware title resolution, and IsThereAnyDeal price history.",
+      "Steam Store Search",
+      "steam search",
+      "Plural keyless search of the Steam store across games, demos, DLC, soundtracks, software, video, mods, and hardware, with the store tags, price, and release date on every row.",
+      "Steam Catalog Browse",
+      "steam browse",
+      "Paginated Steam catalog browse filtered by app type, free-only, store tag, and coming-soon/released, localised with --country - so \"every free demo in my region\" is one command.",
       "Similar Games",
       "similar",
       "Games like <title>: the seed's own studio first, then its defining gameplay tag (roguelite, metroidvania) found by tag-neighborhood co-occurrence, then a confidence-floored genre join. Every row carries its tier and a reason.",
+      "Ratings Card",
+      "ratings",
+      "One card per game: RAWG community score, Metacritic, and a keyless Steam review score with the current store price, resolving the Steam appid from RAWG so remakes never collide.",
       "Retention Verdict",
       "retention",
-      "Community completion and drop verdict for one game from RAWG added_by_status counts (needs RAWG_API_KEY)."
+      "Community completion and drop verdict for one game from RAWG added_by_status counts (needs RAWG_API_KEY).",
+      "Franchise Order",
+      "series",
+      "Franchise play order from the RAWG game-series endpoint, so a series is played in sequence rather than by release-year guesswork.",
+      "Price History",
+      "price-history",
+      "All-time, 1-year, and 3-month lows with a dated change log and a buy-now verdict, localised to a --country currency (needs ITAD_API_KEY).",
+      "Storefront Prices",
+      "prices",
+      "Current prices across every storefront, cheapest first, with a --deals-only filter, localised to a --country currency (needs ITAD_API_KEY)."
     ],
     "endpoints": [
       {
@@ -223502,6 +223698,144 @@
     ]
   },
   {
+    "api": "haneda-airport",
+    "description": "Query first-party Haneda flight boards with precise dates, codeshares and terminal handoffs.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/haneda-airport/cmd/haneda-airport-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "haneda-airport",
+      "Haneda Airport",
+      "haneda-airport-pp-cli",
+      "Query first-party Haneda flight boards with precise dates, codeshares and terminal handoffs.",
+      "Snapshot save",
+      "Preserve timestamped scoped boards locally.",
+      "Offline search",
+      "snapshot search",
+      "Filter a saved board without network access.",
+      "Material changes",
+      "snapshot diff",
+      "See changed status, time and terminal facilities.",
+      "Terminal briefing",
+      "plan",
+      "Find the source terminal, gates and check-in handoffs.",
+      "Midnight rollover",
+      "flights rollover",
+      "Inspect adjacent service days and cross-midnight changes."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.airlines-domestic",
+        "summary": "Read the raw first-party airlines-domestic JSON source. Returns the CompanyListSearchJson.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "airlines-domestic"
+        ]
+      },
+      {
+        "tool": "source.airlines-international",
+        "summary": "Read the raw first-party airlines-international JSON source. Returns the CompanyListSearchJson2.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "airlines-international"
+        ]
+      },
+      {
+        "tool": "source.airports-domestic",
+        "summary": "Read the raw first-party airports-domestic JSON source. Returns the CityListSearchJson.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "airports-domestic"
+        ]
+      },
+      {
+        "tool": "source.airports-international",
+        "summary": "Read the raw first-party airports-international JSON source. Returns the CityListSearchJson2.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "airports-international"
+        ]
+      },
+      {
+        "tool": "source.board",
+        "summary": "Read the raw first-party board JSON source. Required: search-date. Optional: airline-codes (default: []), airport-codes (default: []), direction-code (default: 1) (plus 4 more). Returns array of SearchFlightlist.",
+        "params_schema": {
+          "airline-codes": "array?",
+          "airport-codes": "array?",
+          "direction-code": "int?",
+          "exact-match": "bool?",
+          "flight-number": "string?",
+          "kind-code": "int?",
+          "search-date": "string?",
+          "status-codes": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "board"
+        ]
+      },
+      {
+        "tool": "source.disruption-summary",
+        "summary": "Read the raw first-party disruption-summary JSON source. Returns the FlightStatusJson.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "disruption-summary"
+        ]
+      },
+      {
+        "tool": "source.schedule-domestic-arrivals",
+        "summary": "Read the raw first-party schedule-domestic-arrivals JSON source. Returns array of HdacfascJsonFlightInfo.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "schedule-domestic-arrivals"
+        ]
+      },
+      {
+        "tool": "source.schedule-domestic-departures",
+        "summary": "Read the raw first-party schedule-domestic-departures JSON source. Returns array of HdacfdscJsonFlightInfo.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "schedule-domestic-departures"
+        ]
+      },
+      {
+        "tool": "source.schedule-international-arrivals",
+        "summary": "Read the raw first-party schedule-international-arrivals JSON source. Returns array of HdacfascJsonFlightInfo2.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "schedule-international-arrivals"
+        ]
+      },
+      {
+        "tool": "source.schedule-international-departures",
+        "summary": "Read the raw first-party schedule-international-departures JSON source. Returns array of HdacfdscJsonFlightInfo2.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "schedule-international-departures"
+        ]
+      }
+    ]
+  },
+  {
     "api": "harris-teeter",
     "description": "Harris Teeter grocery shopping API discovered from the logged-in web app",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/harris-teeter/cmd/harris-teeter-pp-cli",
@@ -223903,6 +224237,56 @@
         "positionals": [],
         "argv_path": [
           "telemetry"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "hello-cycling",
+    "description": "Find compatible HELLO CYCLING pickup and return stations with timestamped counts and published pricing.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/hello-cycling/cmd/hello-cycling-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "hello-cycling",
+      "HELLO CYCLING",
+      "hello-cycling-pp-cli",
+      "Find compatible HELLO CYCLING pickup and return stations with timestamped counts and published pricing.",
+      "Nearby availability",
+      "stations nearby",
+      "Find nearby pickup or return choices while retaining closed, empty, full, stale and unknown states.",
+      "Compatible trip endpoints",
+      "trip compare",
+      "Compare pickup and dropoff pairs with per-type return capacity and straight-line access distances.",
+      "Explicit offline snapshots",
+      "stations sync",
+      "Save a provider snapshot for offline station discovery with original source timestamps.",
+      "Snapshot changes",
+      "stations changes",
+      "Inspect count and operational changes since an explicitly saved snapshot.",
+      "Regional model pricing",
+      "pricing show",
+      "Read current source tables including municipal exceptions without asserting a station bike price."
+    ],
+    "endpoints": [
+      {
+        "tool": "feeds.discovery",
+        "summary": "Get advertised anonymous HELLO CYCLING GBFS feed URLs. Returns the Feed.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "feeds",
+          "discovery"
+        ]
+      },
+      {
+        "tool": "feeds.vehicles",
+        "summary": "Get generic source vehicle classes without assigning station bike models. Returns the Feed.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "feeds",
+          "vehicles"
         ]
       }
     ]
@@ -227560,6 +227944,111 @@
         "argv_path": [
           "site",
           "health"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "iko-yo",
+    "description": "Iko-yo Trip: find selected family trips and compare published dates, fees and explicit family facts.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/iko-yo/cmd/iko-yo-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "iko-yo",
+      "Iko-yo Trip",
+      "iko-yo-pp-cli",
+      "Iko-yo Trip: find selected family trips and compare published dates, fees and explicit family facts.",
+      "Bounded date-window discovery",
+      "trip discover",
+      "Find regional candidates while seeing exactly which listing pages and records were checked.",
+      "Evidence-backed family fact card",
+      "trip inspect",
+      "See published age, indoor, nursing and changing evidence with unknown fields exposed.",
+      "Qualified charge and application comparison",
+      "trip compare",
+      "Compare separate fee statements, payment conditions and explicit application intervals.",
+      "Family-constraint comparison",
+      "Compare selected outings against age, requested amenities and a trip date using supported, excluded and unknown states.",
+      "Offline shortlist with retained coverage",
+      "trip cached",
+      "Search saved family facts with their original observation times and collection coverage."
+    ],
+    "endpoints": [
+      {
+        "tool": "events.get",
+        "summary": "Inspect published Iko-yo Trip event facts. Required: id. Returns the html.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "events"
+        ]
+      },
+      {
+        "tool": "events.list",
+        "summary": "Fetch structured links from /events. Returns the html.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "events",
+          "list"
+        ]
+      },
+      {
+        "tool": "events.prefecture",
+        "summary": "Discover Iko-yo Trip events in a source prefecture. Required: prefecture, region. Returns the html.",
+        "params_schema": {
+          "prefecture": "string",
+          "region": "string"
+        },
+        "positionals": [
+          "prefecture",
+          "region"
+        ],
+        "argv_path": [
+          "events",
+          "prefecture"
+        ]
+      },
+      {
+        "tool": "events.region",
+        "summary": "Discover Iko-yo Trip events in a source region. Required: region. Returns the html.",
+        "params_schema": {
+          "region": "string"
+        },
+        "positionals": [
+          "region"
+        ],
+        "argv_path": [
+          "events",
+          "region"
+        ]
+      },
+      {
+        "tool": "spots.get",
+        "summary": "Inspect published Iko-yo Trip spot facts. Required: id. Returns the html.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "spots"
+        ]
+      },
+      {
+        "tool": "spots.list",
+        "summary": "Fetch structured links from /spots. Returns the html.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "list"
         ]
       }
     ]
@@ -243481,6 +243970,46 @@
     ]
   },
   {
+    "api": "jr-east-status",
+    "description": "Compare JR East line impacts with bilingual identity, source freshness and reporting limits.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/jr-east-status/cmd/jr-east-status-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "jr-east-status",
+      "JR East Status",
+      "jr-east-status-pp-cli",
+      "Compare JR East line impacts with bilingual identity, source freshness and reporting limits.",
+      "Bilingual line facts",
+      "status",
+      "Reconcile native Japanese IDs with English row labels, keeping multiple notices and source uncertainty.",
+      "Itinerary line impact",
+      "impact",
+      "Compare selected itinerary lines with per-region source timing and affected sections.",
+      "Planned closure handoffs",
+      "planned",
+      "Inspect construction evidence without promoting future notices to current service suspension.",
+      "Published certificate routing",
+      "certificates",
+      "Return actual published route/time-slot links and source coverage limits.",
+      "Reporting coverage classifier",
+      "coverage",
+      "Explain reporting hours, threshold conflicts, midnight service-day rollover and remaining unknowns."
+    ],
+    "endpoints": [
+      {
+        "tool": "sources.guide",
+        "summary": "Read official status and certificate guide links.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sources",
+          "guide"
+        ]
+      }
+    ]
+  },
+  {
     "api": "judge-me",
     "description": "Our REST API lets you access to resources and perform actions on behalf of a store.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/judge-me/cmd/judge-me-pp-cli",
@@ -248699,6 +249228,62 @@
     ]
   },
   {
+    "api": "kurumatabi",
+    "description": "Plan Japanese overnight vehicle stops with explicit fit, facilities and unknowns.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/kurumatabi/cmd/kurumatabi-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "kurumatabi",
+      "Kurumatabi / \u304f\u308b\u307e\u65c5",
+      "kurumatabi-pp-cli",
+      "Plan Japanese overnight vehicle stops with explicit fit, facilities and unknowns.",
+      "Published vehicle compatibility",
+      "parks fit",
+      "Compare your vehicle with one park\u2019s published dimensions and membership rules.",
+      "Evidence comparison",
+      "parks compare",
+      "Compare park evidence without inventing total prices or unknown facilities.",
+      "Waypoint proximity",
+      "parks near",
+      "Rank cached parks by straight-line distance from an explicit waypoint.",
+      "Observation evidence audit",
+      "parks audit",
+      "Surface disabled-icon conflicts, stale observations and qualified opening notes.",
+      "Required-service screening",
+      "parks match",
+      "Screen cached parks into proven, uncertain and ruled-out service matches."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.catalog",
+        "summary": "List first-page canonical links from the public park catalog. Returns array of SourceLink.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "catalog"
+        ]
+      },
+      {
+        "tool": "source.page",
+        "summary": "Inspect public source page metadata and links for a known park. Required: kind, id. Returns array of SourceLink.",
+        "params_schema": {
+          "kind": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "kind",
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "page"
+        ]
+      }
+    ]
+  },
+  {
     "api": "kvmctl",
     "description": "The verified REST subset used by kvmctl for KVMD-compatible GLKVM devices.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/kvmctl/cmd/kvmctl-pp-cli",
@@ -251366,6 +251951,1081 @@
         "argv_path": [
           "property",
           "detail"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "loops",
+    "description": "Agent-ready Loops CLI for contacts, audiences, campaigns, workflows, events, and transactional email, with team checks and explicit send approval.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/loops/cmd/loops-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "marketing",
+    "search_terms": [
+      "loops",
+      "loops-pp-cli",
+      "Agent-ready Loops CLI for contacts, audiences, campaigns, workflows, events, and transactional email, with team checks and explicit send approval.",
+      "Exact team and mutation safety",
+      "team verify",
+      "Verify the selected API team before a change, preview writes without private values, and journal send attempts.",
+      "Lifecycle inventory",
+      "audit lifecycle",
+      "Count communication resources without retrieving contact records.",
+      "Campaign preflight",
+      "campaigns preflight",
+      "Check draft status, audience targeting, message presence, and Guardian findings before publication."
+    ],
+    "endpoints": [
+      {
+        "tool": "api-key.test",
+        "summary": "Test your API key and get team context. Returns the ApiKeyTestResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "api-key",
+          "test"
+        ]
+      },
+      {
+        "tool": "audience-segments.create",
+        "summary": "Create a new audience segment. Required: filter, name. Optional: description. Returns the new AudienceSegmentResponse.",
+        "params_schema": {
+          "description": "string?",
+          "filter-conditions": "array?",
+          "filter-match": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "audience-segments"
+        ]
+      },
+      {
+        "tool": "audience-segments.get",
+        "summary": "Retrieve a single audience segment by ID. Required: audienceSegmentId. Returns the AudienceSegmentResponse.",
+        "params_schema": {
+          "audienceSegmentId": "string"
+        },
+        "positionals": [
+          "audienceSegmentId"
+        ],
+        "argv_path": [
+          "audience-segments",
+          "get"
+        ]
+      },
+      {
+        "tool": "audience-segments.list",
+        "summary": "Retrieve a paginated list of audience segments, most recently created first. Optional: perPage, cursor. Returns array of AudienceSegment.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "audience-segments",
+          "list"
+        ]
+      },
+      {
+        "tool": "campaign-groups.create",
+        "summary": "Create a new campaign group. Required: name. Optional: description. Returns the new GroupResponse.",
+        "params_schema": {
+          "description": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "campaign-groups"
+        ]
+      },
+      {
+        "tool": "campaign-groups.get",
+        "summary": "Retrieve a single campaign group by ID. Required: campaignGroupId. Returns the GroupResponse.",
+        "params_schema": {
+          "campaignGroupId": "string"
+        },
+        "positionals": [
+          "campaignGroupId"
+        ],
+        "argv_path": [
+          "campaign-groups",
+          "get"
+        ]
+      },
+      {
+        "tool": "campaign-groups.list",
+        "summary": "Retrieve a paginated list of campaign groups, most recently created first. Optional: perPage, cursor. Returns array of GroupResponse.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "campaign-groups",
+          "list"
+        ]
+      },
+      {
+        "tool": "campaign-groups.update",
+        "summary": "Update a campaign group's name or description. At least one field must be provided. The reserved 'Unsorted' group cannot be edited. Required: campaignGroupId. Optional: description, name. Returns the new GroupResponse.",
+        "params_schema": {
+          "campaignGroupId": "string",
+          "description": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "campaignGroupId"
+        ],
+        "argv_path": [
+          "campaign-groups",
+          "update"
+        ]
+      },
+      {
+        "tool": "campaigns.create",
+        "summary": "Create a new draft campaign. An empty email message is created automatically and its `emailMessageId` is returned. Use the `/email-messages/{emailMessageId}` endpoint to set subject, sender, preview text, and LMX content. The audience (mailing list, segment, or filter), group, and scheduling can be set on create or later via update. Required: name. Optional: audienceFilter, audienceSegmentId, campaignGroupId (plus 2 more). Returns the new CreateCampaignResponse.",
+        "params_schema": {
+          "audience-filter-conditions": "array?",
+          "audience-filter-match": "string?",
+          "audienceSegmentId": "string?",
+          "campaignGroupId": "string?",
+          "mailingListId": "string?",
+          "name": "string?",
+          "scheduling-method": "string?",
+          "scheduling-timestamp": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "campaigns"
+        ]
+      },
+      {
+        "tool": "campaigns.get",
+        "summary": "Retrieve a single campaign by ID. Required: campaignId. Returns the CampaignResponse.",
+        "params_schema": {
+          "campaignId": "string"
+        },
+        "positionals": [
+          "campaignId"
+        ],
+        "argv_path": [
+          "campaigns",
+          "get"
+        ]
+      },
+      {
+        "tool": "campaigns.list",
+        "summary": "Retrieve a paginated list of campaigns. Optional: perPage, cursor. Returns array of CampaignResponse.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "campaigns",
+          "list"
+        ]
+      },
+      {
+        "tool": "campaigns.update",
+        "summary": "Update a draft campaign's name, group, audience (mailing list, segment, or filter), or scheduling. At least one field must be provided. Once a campaign has been sent, only its `name` and `campaignGroupId` can be updated. Required: campaignId. Optional: audienceFilter, audienceSegmentId, campaignGroupId (plus 3 more). Returns the new CampaignResponse.",
+        "params_schema": {
+          "campaignId": "string",
+          "audience-filter-conditions": "array?",
+          "audience-filter-match": "string?",
+          "audienceSegmentId": "string?",
+          "campaignGroupId": "string?",
+          "mailingListId": "string?",
+          "name": "string?",
+          "scheduling-method": "string?",
+          "scheduling-timestamp": "string?"
+        },
+        "positionals": [
+          "campaignId"
+        ],
+        "argv_path": [
+          "campaigns",
+          "update"
+        ]
+      },
+      {
+        "tool": "campaigns.metrics_get-campaign",
+        "summary": "Retrieve all-time email engagement metrics for a campaign. Required: campaignId. Returns the EmailMetricsResponse.",
+        "params_schema": {
+          "campaignId": "string"
+        },
+        "positionals": [
+          "campaignId"
+        ],
+        "argv_path": [
+          "campaigns",
+          "metrics_get-campaign"
+        ]
+      },
+      {
+        "tool": "components.create",
+        "summary": "Create a new email component from an LMX body. Required: lmx, name. Returns the new ComponentResponse.",
+        "params_schema": {
+          "lmx": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "components"
+        ]
+      },
+      {
+        "tool": "components.get",
+        "summary": "Retrieve a single component by ID. Required: componentId. Returns the ComponentResponse.",
+        "params_schema": {
+          "componentId": "string"
+        },
+        "positionals": [
+          "componentId"
+        ],
+        "argv_path": [
+          "components",
+          "get"
+        ]
+      },
+      {
+        "tool": "components.list",
+        "summary": "Retrieve a paginated list of email components. Optional: perPage, cursor. Returns array of Component.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "components",
+          "list"
+        ]
+      },
+      {
+        "tool": "components.update",
+        "summary": "Update a component's name and/or body. When the `lmx` body changes, the update cascades to every email using this component, and `affectedEmailCount` reports how many were affected. A change that would introduce a dynamic variable an email using the component cannot use is rejected. Required: componentId. Optional: lmx, name. Returns the new UpdateComponentResponse.",
+        "params_schema": {
+          "componentId": "string",
+          "lmx": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "componentId"
+        ],
+        "argv_path": [
+          "components",
+          "update"
+        ]
+      },
+      {
+        "tool": "contacts.create",
+        "summary": "Add a contact to your audience. Required: email. Optional: firstName, lastName, mailingLists (plus 4 more). Returns the new ContactSuccessResponse.",
+        "params_schema": {
+          "email": "string?",
+          "firstName": "string?",
+          "lastName": "string?",
+          "mailingLists": "object?",
+          "source": "string?",
+          "subscribed": "bool?",
+          "userGroup": "string?",
+          "userId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "contacts"
+        ]
+      },
+      {
+        "tool": "contacts.create-property",
+        "summary": "Create a custom contact property. Required: name, type. Returns the new ContactPropertySuccessResponse.",
+        "params_schema": {
+          "name": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "contacts",
+          "create-property"
+        ]
+      },
+      {
+        "tool": "contacts.delete",
+        "summary": "Delete a contact by `email` or `userId`. Returns the new ContactDeleteResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "contacts",
+          "delete"
+        ]
+      },
+      {
+        "tool": "contacts.find",
+        "summary": "Search for a contact by `email` or `userId`. Only one parameter is allowed. Optional: email, userId. Returns array of Contact.",
+        "params_schema": {
+          "email": "string?",
+          "userId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "contacts",
+          "find"
+        ]
+      },
+      {
+        "tool": "contacts.get-suppression",
+        "summary": "Retrieve suppression status and removal quota for a contact by `email` or `userId`. Include only one query parameter. Optional: email, userId. Returns the ContactSuppressionStatusResponse.",
+        "params_schema": {
+          "email": "string?",
+          "userId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "contacts",
+          "get-suppression"
+        ]
+      },
+      {
+        "tool": "contacts.list-properties",
+        "summary": "Retrieve a list of your account's contact properties. Use the `list` parameter to query 'all' or 'custom' properties. Optional: list. Returns array of ContactProperty.",
+        "params_schema": {
+          "list": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "contacts",
+          "list-properties"
+        ]
+      },
+      {
+        "tool": "contacts.remove-suppression",
+        "summary": "Remove a suppressed contact from the suppression list by `email` or `userId`. Include only one query parameter. Optional: email, userId. Returns the ContactSuppressionRemoveResponse. Destructive.",
+        "params_schema": {
+          "email": "string?",
+          "userId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "contacts",
+          "remove-suppression"
+        ]
+      },
+      {
+        "tool": "contacts.update",
+        "summary": "Update a contact by `email` or `userId`. You must provide one of these parameters. If you want to update a contact's email address, the contact will first need a `userId` value. You can then make a request containing the `userId` field along with an updated email address. This endpoint will create a contact if a matching contact does not already exist in your audience. Provide either `email` or `userId` to identify the contact you want to update. If both are provided, the system will look for a contact with either a matching `email` or `userId` value. If a contact is found for one of the values (e.g. `email`), the other value (e.g. `userId`) will be updated. If a contact is not found, a new contact will be created using both `email` and `userId` values. Returns the updated ContactSuccessResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "contacts",
+          "update"
+        ]
+      },
+      {
+        "tool": "dedicated-sending-ips.list",
+        "summary": "Retrieve a list of Loops' dedicated sending IP addresses. This endpoint is provided for the rare instances where you may need to whitelist our sending IPs. Please note that this list is subject to change and will not include shared IPs used for sending mail. Unless you are sure you need this and are comfortable watching for changes, we strongly recommend you _do not_ whitelist these IPs. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "dedicated-sending-ips"
+        ]
+      },
+      {
+        "tool": "email-messages.get",
+        "summary": "Retrieve an email message, including its compiled LMX content. Required: emailMessageId. Returns array of EmailMessagesGetItem.",
+        "params_schema": {
+          "emailMessageId": "string"
+        },
+        "positionals": [
+          "emailMessageId"
+        ],
+        "argv_path": [
+          "email-messages"
+        ]
+      },
+      {
+        "tool": "email-messages.update",
+        "summary": "Update fields on an email message (subject, preview text, sender, LMX content). The campaign must be in draft status. Supply `expectedRevisionId` matching the current `contentRevisionId` \u2014 the server rejects mismatched revisions with 409. Required: emailMessageId. Optional: bccEmail, ccEmail, contactPropertiesFallbacks (plus 11 more). Returns array of EmailMessagesUpdateItem.",
+        "params_schema": {
+          "emailMessageId": "string",
+          "bccEmail": "string?",
+          "ccEmail": "string?",
+          "contactPropertiesFallbacks": "object?",
+          "dataVariablesFallbacks": "object?",
+          "emailFormat": "string?",
+          "eventPropertiesFallbacks": "object?",
+          "expectedRevisionId": "string?",
+          "fromEmail": "string?",
+          "fromName": "string?",
+          "languageCode": "string?",
+          "lmx": "string?",
+          "previewText": "string?",
+          "replyToEmail": "string?",
+          "subject": "string?"
+        },
+        "positionals": [
+          "emailMessageId"
+        ],
+        "argv_path": [
+          "email-messages",
+          "update"
+        ]
+      },
+      {
+        "tool": "email-messages.guardian_get-email-message",
+        "summary": "Validate an email message's content against Guardian rules and return any errors and warnings. Errors must be resolved before the email can be published, warnings are advisory. Required: emailMessageId. Returns the EmailMessageGuardianResponse.",
+        "params_schema": {
+          "emailMessageId": "string"
+        },
+        "positionals": [
+          "emailMessageId"
+        ],
+        "argv_path": [
+          "email-messages",
+          "guardian_get-email-message"
+        ]
+      },
+      {
+        "tool": "email-messages.preview_email-message",
+        "summary": "Send a test preview of an email message to one or more addresses. The accepted variable fields depend on the parent's type - campaign previews accept `contactProperties`, workflow previews accept `contactProperties` and `eventProperties`, and transactional previews accept `dataVariables`. Supplying a field the parent cannot reference is rejected with 400. Required: emailMessageId, emails. Optional: contactProperties, dataVariables, eventProperties. Returns the new EmailMessagePreviewResponse.",
+        "params_schema": {
+          "emailMessageId": "string",
+          "contactProperties": "object?",
+          "dataVariables": "object?",
+          "emails": "string_csv_array?",
+          "eventProperties": "object?"
+        },
+        "positionals": [
+          "emailMessageId"
+        ],
+        "argv_path": [
+          "email-messages",
+          "preview_email-message"
+        ]
+      },
+      {
+        "tool": "event-patterns.get",
+        "summary": "Retrieve event pattern details for a workflow event trigger. Required: eventPatternId. Returns array of WorkflowEventProperty.",
+        "params_schema": {
+          "eventPatternId": "string"
+        },
+        "positionals": [
+          "eventPatternId"
+        ],
+        "argv_path": [
+          "event-patterns"
+        ]
+      },
+      {
+        "tool": "event-patterns.get-by-name",
+        "summary": "Retrieve event pattern details by event name for a workflow event trigger. Event names are case-sensitive, so `PaymentReceived` and `paymentReceived` are different events. Required: eventName. Returns array of WorkflowEventProperty.",
+        "params_schema": {
+          "eventName": "string"
+        },
+        "positionals": [
+          "eventName"
+        ],
+        "argv_path": [
+          "event-patterns",
+          "get-by-name"
+        ]
+      },
+      {
+        "tool": "event-patterns.list",
+        "summary": "Retrieve a paginated list of event patterns available to workflow event trigger nodes. Optional: perPage, cursor. Returns array of EventPatternSummary.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "event-patterns",
+          "list"
+        ]
+      },
+      {
+        "tool": "events.send",
+        "summary": "Send events to trigger workflows. Optional: Idempotency-Key. Returns the new EventSuccessResponse.",
+        "params_schema": {
+          "Idempotency-Key": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "events",
+          "send"
+        ]
+      },
+      {
+        "tool": "lists.mailing",
+        "summary": "Retrieve a list of your account's mailing lists. Returns array of MailingList.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "lists",
+          "mailing"
+        ]
+      },
+      {
+        "tool": "themes.create",
+        "summary": "Create a new email theme for use across Loops emails. Required: name. Optional: styles. Returns the new ThemeResponse.",
+        "params_schema": {
+          "name": "string?",
+          "styles-background-color": "string?",
+          "styles-background-x-padding": "float?",
+          "styles-background-y-padding": "float?",
+          "styles-body-color": "string?",
+          "styles-body-font-category": "string?",
+          "styles-body-font-family": "string?",
+          "styles-body-x-padding": "float?",
+          "styles-body-y-padding": "float?",
+          "styles-border-color": "string?",
+          "styles-border-radius": "float?",
+          "styles-border-width": "float?",
+          "styles-button-body-color": "string?",
+          "styles-button-body-x-padding": "float?",
+          "styles-button-body-y-padding": "float?",
+          "styles-button-border-color": "string?",
+          "styles-button-border-radius": "float?",
+          "styles-button-border-width": "float?",
+          "styles-button-text-color": "string?",
+          "styles-button-text-font-size": "float?",
+          "styles-button-text-format": "float?",
+          "styles-divider-border-width": "float?",
+          "styles-divider-color": "string?",
+          "styles-heading1-color": "string?",
+          "styles-heading1-font-size": "float?",
+          "styles-heading1-letter-spacing": "float?",
+          "styles-heading1-line-height": "float?",
+          "styles-heading2-color": "string?",
+          "styles-heading2-font-size": "float?",
+          "styles-heading2-letter-spacing": "float?",
+          "styles-heading2-line-height": "float?",
+          "styles-heading3-color": "string?",
+          "styles-heading3-font-size": "float?",
+          "styles-heading3-letter-spacing": "float?",
+          "styles-heading3-line-height": "float?",
+          "styles-text-base-color": "string?",
+          "styles-text-base-font-size": "float?",
+          "styles-text-base-letter-spacing": "float?",
+          "styles-text-base-line-height": "float?",
+          "styles-text-link-color": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "themes"
+        ]
+      },
+      {
+        "tool": "themes.get",
+        "summary": "Retrieve a single theme by ID. Required: themeId. Returns the ThemeResponse.",
+        "params_schema": {
+          "themeId": "string"
+        },
+        "positionals": [
+          "themeId"
+        ],
+        "argv_path": [
+          "themes",
+          "get"
+        ]
+      },
+      {
+        "tool": "themes.list",
+        "summary": "Retrieve a paginated list of email themes, most recently created first. Optional: perPage, cursor. Returns array of Theme.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "themes",
+          "list"
+        ]
+      },
+      {
+        "tool": "themes.update",
+        "summary": "Update a theme's name and/or styles. When `styles` change, the update cascades to every email using this theme, and `affectedEmailCount` in the response reports how many emails were affected. Manual style edits made on individual emails are preserved: the cascade only changes properties an email has not overridden. A per-email override is removed only when it becomes identical to the theme's new value, after which that email follows the theme for that property. Required: themeId. Optional: name, styles. Returns the new UpdateThemeResponse.",
+        "params_schema": {
+          "themeId": "string",
+          "name": "string?",
+          "styles-background-color": "string?",
+          "styles-background-x-padding": "float?",
+          "styles-background-y-padding": "float?",
+          "styles-body-color": "string?",
+          "styles-body-font-category": "string?",
+          "styles-body-font-family": "string?",
+          "styles-body-x-padding": "float?",
+          "styles-body-y-padding": "float?",
+          "styles-border-color": "string?",
+          "styles-border-radius": "float?",
+          "styles-border-width": "float?",
+          "styles-button-body-color": "string?",
+          "styles-button-body-x-padding": "float?",
+          "styles-button-body-y-padding": "float?",
+          "styles-button-border-color": "string?",
+          "styles-button-border-radius": "float?",
+          "styles-button-border-width": "float?",
+          "styles-button-text-color": "string?",
+          "styles-button-text-font-size": "float?",
+          "styles-button-text-format": "float?",
+          "styles-divider-border-width": "float?",
+          "styles-divider-color": "string?",
+          "styles-heading1-color": "string?",
+          "styles-heading1-font-size": "float?",
+          "styles-heading1-letter-spacing": "float?",
+          "styles-heading1-line-height": "float?",
+          "styles-heading2-color": "string?",
+          "styles-heading2-font-size": "float?",
+          "styles-heading2-letter-spacing": "float?",
+          "styles-heading2-line-height": "float?",
+          "styles-heading3-color": "string?",
+          "styles-heading3-font-size": "float?",
+          "styles-heading3-letter-spacing": "float?",
+          "styles-heading3-line-height": "float?",
+          "styles-text-base-color": "string?",
+          "styles-text-base-font-size": "float?",
+          "styles-text-base-letter-spacing": "float?",
+          "styles-text-base-line-height": "float?",
+          "styles-text-link-color": "string?"
+        },
+        "positionals": [
+          "themeId"
+        ],
+        "argv_path": [
+          "themes",
+          "update"
+        ]
+      },
+      {
+        "tool": "transactional.list-published-emails",
+        "summary": "Get a list of published transactional emails. Optional: perPage, cursor. Returns array of TransactionalEmail. Deprecated.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "transactional",
+          "list-published-emails"
+        ]
+      },
+      {
+        "tool": "transactional.send-email",
+        "summary": "Send a transactional email to a contact. Please [email us](mailto:help@loops.so) to enable attachments on your account before using them with the API. To set dynamic Subject, From, Reply to, CC, BCC email header fields, add data variables to those fields in the editor, then include data for each variable in the API request. Read our transactional email guide for more details. Required: email, transactionalId. Optional: Idempotency-Key, addToAudience, attachments (plus 1 more). Returns the new TransactionalSuccessResponse.",
+        "params_schema": {
+          "Idempotency-Key": "string?",
+          "addToAudience": "bool?",
+          "attachments": "array?",
+          "dataVariables": "object?",
+          "email": "string?",
+          "transactionalId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "transactional",
+          "send-email"
+        ]
+      },
+      {
+        "tool": "transactional-emails.create",
+        "summary": "Create a new transactional email. An empty draft email message is created automatically and its `draftEmailMessageId` is returned. Use the `POST /v1/email-messages/{emailMessageId}` endpoint along with the returned `draftEmailMessageContentRevisionId` to set subject, sender, preview text, and LMX content, then call `POST /v1/transactional-emails/{transactionalId}/publish` to publish the draft. Required: name. Optional: transactionalGroupId. Returns array of string.",
+        "params_schema": {
+          "name": "string?",
+          "transactionalGroupId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "transactional-emails"
+        ]
+      },
+      {
+        "tool": "transactional-emails.get",
+        "summary": "Retrieve a single transactional email by ID. Required: transactionalId. Returns array of string.",
+        "params_schema": {
+          "transactionalId": "string"
+        },
+        "positionals": [
+          "transactionalId"
+        ],
+        "argv_path": [
+          "transactional-emails",
+          "get"
+        ]
+      },
+      {
+        "tool": "transactional-emails.list",
+        "summary": "Retrieve a paginated list of transactional emails, most recently created first. Optional: perPage, cursor. Returns array of TransactionalResource.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "transactional-emails",
+          "list"
+        ]
+      },
+      {
+        "tool": "transactional-emails.update",
+        "summary": "Update a transactional email by ID. Required: transactionalId. Optional: name, transactionalGroupId. Returns array of string.",
+        "params_schema": {
+          "transactionalId": "string",
+          "name": "string?",
+          "transactionalGroupId": "string?"
+        },
+        "positionals": [
+          "transactionalId"
+        ],
+        "argv_path": [
+          "transactional-emails",
+          "update"
+        ]
+      },
+      {
+        "tool": "transactional-emails.draft_ensure-transactional",
+        "summary": "Ensure the transactional email has a draft email message. If a draft already exists it is returned unchanged; otherwise a new empty draft is created (seeded from the most recent published version when present). Use `POST /v1/email-messages/{emailMessageId}` to edit the draft's content. Required: transactionalId. Returns array of string.",
+        "params_schema": {
+          "transactionalId": "string"
+        },
+        "positionals": [
+          "transactionalId"
+        ],
+        "argv_path": [
+          "transactional-emails",
+          "draft_ensure-transactional"
+        ]
+      },
+      {
+        "tool": "transactional-emails.metrics_get-transactional-email",
+        "summary": "Retrieve all-time delivery metrics for a transactional email, totalled across every published version. Required: transactionalId. Returns the TransactionalMetricsResponse.",
+        "params_schema": {
+          "transactionalId": "string"
+        },
+        "positionals": [
+          "transactionalId"
+        ],
+        "argv_path": [
+          "transactional-emails",
+          "metrics_get-transactional-email"
+        ]
+      },
+      {
+        "tool": "transactional-emails.publish_transactional-email",
+        "summary": "Publish the transactional email's current draft email message. The draft becomes the published version and the draft is cleared. Required: transactionalId. Returns array of string.",
+        "params_schema": {
+          "transactionalId": "string"
+        },
+        "positionals": [
+          "transactionalId"
+        ],
+        "argv_path": [
+          "transactional-emails",
+          "publish_transactional-email"
+        ]
+      },
+      {
+        "tool": "transactional-groups.create",
+        "summary": "Create a new transactional group. Required: name. Optional: description. Returns the new GroupResponse.",
+        "params_schema": {
+          "description": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "transactional-groups"
+        ]
+      },
+      {
+        "tool": "transactional-groups.get",
+        "summary": "Retrieve a single transactional group by ID. Required: transactionalGroupId. Returns the GroupResponse.",
+        "params_schema": {
+          "transactionalGroupId": "string"
+        },
+        "positionals": [
+          "transactionalGroupId"
+        ],
+        "argv_path": [
+          "transactional-groups",
+          "get"
+        ]
+      },
+      {
+        "tool": "transactional-groups.list",
+        "summary": "Retrieve a paginated list of transactional groups, most recently created first. Optional: perPage, cursor. Returns array of GroupResponse.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "transactional-groups",
+          "list"
+        ]
+      },
+      {
+        "tool": "transactional-groups.update",
+        "summary": "Update a transactional group's name or description. At least one field must be provided. The reserved 'Unsorted' group cannot be edited. Required: transactionalGroupId. Optional: description, name. Returns the new GroupResponse.",
+        "params_schema": {
+          "transactionalGroupId": "string",
+          "description": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "transactionalGroupId"
+        ],
+        "argv_path": [
+          "transactional-groups",
+          "update"
+        ]
+      },
+      {
+        "tool": "uploads.create",
+        "summary": "Request a pre-signed URL to upload an image asset. Upload the file with an HTTP `PUT` to the returned `presignedUrl` (sending the same `Content-Type` and `Content-Length`), then call `/uploads/{emailAssetId}/complete` to finalize the asset. Required: contentLength, contentType. Returns the new CreateUploadResponse.",
+        "params_schema": {
+          "contentLength": "int?",
+          "contentType": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "uploads"
+        ]
+      },
+      {
+        "tool": "uploads.complete_upload",
+        "summary": "Finalize an image upload after the file has been uploaded to the pre-signed URL. Returns the public URL of the uploaded image asset. Required: emailAssetId.",
+        "params_schema": {
+          "emailAssetId": "string"
+        },
+        "positionals": [
+          "emailAssetId"
+        ],
+        "argv_path": [
+          "uploads",
+          "complete_upload"
+        ]
+      },
+      {
+        "tool": "workflows.create",
+        "summary": "Create a draft workflow with a blank trigger and exit node. Required: name. Optional: description, mailingListId. Returns the new SimplifiedWorkflow.",
+        "params_schema": {
+          "description": "string?",
+          "mailingListId": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflows"
+        ]
+      },
+      {
+        "tool": "workflows.delete",
+        "summary": "Delete a workflow. Successful deletion returns `204 No Content`. If the workflow is currently sending or has queued contacts, Loops returns `409 Conflict` with a message instead of deleting. Retry with `confirmDelete: true` to delete the workflow, stop sending, and cancel queued contacts. Required: workflowId, expectedRevisionId. Optional: confirmDelete. Destructive.",
+        "params_schema": {
+          "workflowId": "string",
+          "confirmDelete": "bool?",
+          "expectedRevisionId": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "delete"
+        ]
+      },
+      {
+        "tool": "workflows.get",
+        "summary": "Retrieve a workflow graph with node type names, connections, and selected display fields. Required: workflowId. Returns the SimplifiedWorkflow.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "get"
+        ]
+      },
+      {
+        "tool": "workflows.list",
+        "summary": "Retrieve a paginated list of workflows. Optional: perPage, cursor. Returns array of WorkflowSummary.",
+        "params_schema": {
+          "perPage": "string?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflows",
+          "list"
+        ]
+      },
+      {
+        "tool": "workflows.update-properties",
+        "summary": "Update a workflow's display properties. At least one property must be provided. To change the workflow's mailing list, use the `POST /v1/workflows/{workflowId}/mailing-list` endpoint instead. Required: workflowId. Returns the new SimplifiedWorkflow.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "update-properties"
+        ]
+      },
+      {
+        "tool": "workflows.mailing-list_change-workflow",
+        "summary": "Dry run or apply a workflow mailing list change. If queued contacts would be removed from the workflow due to the change of mailing list, Loops returns with `'status': 'queuedContactsFound'` instead of applying the change. Retry with `queuedContactPolicy: 'discard'` to apply the change and discard those contacts. Confirmed update responses include the simplified workflow after the mailing list changes. Required: workflowId, expectedRevisionId, mailingListId. Optional: dryRun, queuedContactPolicy (default: fail).",
+        "params_schema": {
+          "workflowId": "string",
+          "dryRun": "bool?",
+          "expectedRevisionId": "string?",
+          "mailingListId": "string?",
+          "queuedContactPolicy": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "mailing-list_change-workflow"
+        ]
+      },
+      {
+        "tool": "workflows.nodes_add-workflow-branch",
+        "summary": "Add a branch and a child node under an existing Branch or Experiment node. Returns the created child node plus the latest workflow. - Adding a branch to a `BranchNode` creates one `AudienceFilter` child node. - Adding a branch to an `ExperimentBranchNode` creates one `VariantNode` child node. This endpoint does not accept node configuration fields; update the child node with `POST /v1/workflows/{workflowId}/nodes/{nodeId}` after creation. Public workflows are limited to 400 nodes, and this endpoint adds 1 node. Required: workflowId, nodeId, expectedRevisionId.",
+        "params_schema": {
+          "workflowId": "string",
+          "nodeId": "string",
+          "expectedRevisionId": "string?"
+        },
+        "positionals": [
+          "workflowId",
+          "nodeId"
+        ],
+        "argv_path": [
+          "workflows",
+          "nodes_add-workflow-branch"
+        ]
+      },
+      {
+        "tool": "workflows.nodes_create-workflow",
+        "summary": "Create a new default workflow node and return it with the latest workflow. Choose where the node goes with `insertMode`: `between` places it between an existing `fromNodeId` -> `toNodeId` connection, `before` places it before `toNodeId`, and `after` places it after `fromNodeId` when that node has exactly one outgoing connection. `after` is a convenience for simple linear paths, so callers do not need to fetch and pass the current child node ID. It is invalid when `fromNodeId` has no outgoing nodes, multiple outgoing nodes, or is an exit node. When the source has multiple outgoing nodes, use `between` with the exact `toNodeId` instead. For `before`, deprecated `beforeNodeId` requests are still accepted for compatibility, but new callers should use `toNodeId`. New nodes start with default settings; update the node after creation to configure it. Branch nodes create their default paths too: `BranchNode` creates two `AudienceFilter` children, and `ExperimentBranchNode` creates two regular `VariantNode` children plus one control `VariantNode`. Public workflows can have up to 400 nodes. Generated children count toward that limit, so a normal create adds 1 node, `BranchNode` adds 3, and `ExperimentBranchNode` adds 4. To add a sibling child path to a branch or experiment branch, use the `POST /v1/workflows/{workflowId}/nodes/{nodeId}/add-branch` endpoint. Branch paths can be edited with create-node, but a workflow cannot be started unless each direct `BranchNode` child is an `AudienceFilter`. For experiments, use create-node only to insert a missing `VariantNode` before non-variant content; use add-branch for another variant path. Required: workflowId. Returns the new CreateWorkflowNodeResponse.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "nodes_create-workflow"
+        ]
+      },
+      {
+        "tool": "workflows.nodes_delete-workflow",
+        "summary": "Delete a single workflow node. If contacts are queued at the node, Loops returns with `'status': 'queuedContactsFound'` instead of deleting. Retry with `queuedContactPolicy: 'discard'` to delete the node and discard those queued contacts. Confirmed deletion responses include the simplified workflow after the node is removed. Required: workflowId, nodeId, expectedRevisionId. Optional: dryRun, queuedContactPolicy (default: fail). Destructive.",
+        "params_schema": {
+          "workflowId": "string",
+          "nodeId": "string",
+          "dryRun": "bool?",
+          "expectedRevisionId": "string?",
+          "queuedContactPolicy": "string?"
+        },
+        "positionals": [
+          "workflowId",
+          "nodeId"
+        ],
+        "argv_path": [
+          "workflows",
+          "nodes_delete-workflow"
+        ]
+      },
+      {
+        "tool": "workflows.nodes_delete-workflow-recursively",
+        "summary": "Delete a node and its downstream subtree. If contacts are queued at any node that would be deleted, Loops returns with `'status': 'queuedContactsFound'` instead of deleting. Retry with `queuedContactPolicy: 'discard'` to delete the nodes and discard those queued contacts. Confirmed deletion responses include the simplified workflow after the nodes are removed. Required: workflowId, nodeId, expectedRevisionId. Optional: dryRun, queuedContactPolicy (default: fail). Destructive.",
+        "params_schema": {
+          "workflowId": "string",
+          "nodeId": "string",
+          "dryRun": "bool?",
+          "expectedRevisionId": "string?",
+          "queuedContactPolicy": "string?"
+        },
+        "positionals": [
+          "workflowId",
+          "nodeId"
+        ],
+        "argv_path": [
+          "workflows",
+          "nodes_delete-workflow-recursively"
+        ]
+      },
+      {
+        "tool": "workflows.nodes_get-workflow",
+        "summary": "Retrieve detailed data for a single workflow node. Required: workflowId, nodeId. Returns the WorkflowNodeWithRevision.",
+        "params_schema": {
+          "workflowId": "string",
+          "nodeId": "string"
+        },
+        "positionals": [
+          "workflowId",
+          "nodeId"
+        ],
+        "argv_path": [
+          "workflows",
+          "nodes_get-workflow"
+        ]
+      },
+      {
+        "tool": "workflows.nodes_get-workflow-metrics",
+        "summary": "Retrieve all-time email engagement metrics for a workflow `SendEmailAction` node. Nodes of any other type return a `400` response. A `SendEmailAction` node with an email that has not sent anything yet reports every counter as `0`. Required: workflowId, nodeId. Returns the EmailMetricsResponse.",
+        "params_schema": {
+          "workflowId": "string",
+          "nodeId": "string"
+        },
+        "positionals": [
+          "workflowId",
+          "nodeId"
+        ],
+        "argv_path": [
+          "workflows",
+          "nodes_get-workflow-metrics"
+        ]
+      },
+      {
+        "tool": "workflows.nodes_reroute-connection",
+        "summary": "Reroute the source node's existing connection to another valid target node. Returns the updated source node and the latest workflow. Required: workflowId, nodeId, expectedRevisionId, newTargetNodeId.",
+        "params_schema": {
+          "workflowId": "string",
+          "nodeId": "string",
+          "expectedRevisionId": "string?",
+          "newTargetNodeId": "string?"
+        },
+        "positionals": [
+          "workflowId",
+          "nodeId"
+        ],
+        "argv_path": [
+          "workflows",
+          "nodes_reroute-connection"
+        ]
+      },
+      {
+        "tool": "workflows.nodes_update-workflow",
+        "summary": "Update workflow-node-owned fields for a single node. Shared resources such as email messages and audience segments should be updated through their own APIs. Required: workflowId, nodeId, expectedRevisionId, payload. Returns the new UpdateWorkflowNodeResponse.",
+        "params_schema": {
+          "workflowId": "string",
+          "nodeId": "string",
+          "expectedRevisionId": "string?",
+          "payload": "string?"
+        },
+        "positionals": [
+          "workflowId",
+          "nodeId"
+        ],
+        "argv_path": [
+          "workflows",
+          "nodes_update-workflow"
         ]
       }
     ]
@@ -259821,6 +261481,91 @@
     ]
   },
   {
+    "api": "michi-no-eki",
+    "description": "Find and compare Japan roadside-station service stops with source evidence and explicit unknowns.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/michi-no-eki/cmd/michi-no-eki-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "michi-no-eki",
+      "michi-no-eki-pp-cli",
+      "Find and compare Japan roadside-station service stops with source evidence and explicit unknowns.",
+      "Stop evidence and unknowns",
+      "readiness",
+      "Inspect source facts and permission or service unknowns for one station ID",
+      "Ordered station comparison",
+      "compare",
+      "Compare up to six ordered station IDs with source facts and per-ID failures",
+      "Scoped straight-line nearby ranking",
+      "nearby",
+      "Rank source stations by straight-line kilometers from required latitude/longitude, scoped by area and facilities",
+      "Bounded station-linked notices",
+      "station-notices",
+      "Find notices explicitly linked to one station ID within page/detail scan limits",
+      "Offline observation diff",
+      "changes",
+      "Compare two saved snapshot files offline by stable station ID and factual fields, or use an explicit synthetic demo"
+    ],
+    "endpoints": [
+      {
+        "tool": "bulletins.get",
+        "summary": "Read canonical notice HTML; use notice for bounded text and linked station identity. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "bulletins"
+        ]
+      },
+      {
+        "tool": "bulletins.list",
+        "summary": "List published notice links; page is zero-based, not a date filter. Optional: page (default: 0).",
+        "params_schema": {
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bulletins",
+          "list"
+        ]
+      },
+      {
+        "tool": "stations.get",
+        "summary": "Inspect canonical station HTML; use station for normalized parking/facility evidence. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "stations"
+        ]
+      },
+      {
+        "tool": "stations.search",
+        "summary": "Search provider HTML; multiple facilities are native OR. Use find for normalized fields and all/any filtering. Required: prefectures (default: all), facilities (default: all), keyword (default: all).",
+        "params_schema": {
+          "prefectures": "string",
+          "facilities": "string",
+          "keyword": "string"
+        },
+        "positionals": [
+          "prefectures",
+          "facilities",
+          "keyword"
+        ],
+        "argv_path": [
+          "stations",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "midjourney",
     "description": "Inspect Midjourney jobs, queue, folders, and discovery feeds from the terminal",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/midjourney/cmd/midjourney-pp-cli",
@@ -263783,6 +265528,138 @@
         "argv_path": [
           "users",
           "get-pricing"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "nap-camp",
+    "description": "Plan campervan campsite stays with source-backed pitch rules and dated acceptance evidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/nap-camp/cmd/nap-camp-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "nap-camp",
+      "\u306a\u3063\u3077 (Nap Camp)",
+      "nap-camp-pp-cli",
+      "Plan campervan campsite stays with source-backed pitch rules and dated acceptance evidence.",
+      "Selected-pitch requirement check",
+      "planner fit",
+      "Check one specific pitch for vehicle, group, pet and power requirements without certifying unreported dimensions.",
+      "Evidence shortlist comparison",
+      "planner compare",
+      "Compare a bounded shortlist of specific campsite/pitch pairs with the same requirements.",
+      "Consecutive acceptance windows",
+      "planner windows",
+      "Find candidate consecutive nights from dated source acceptance evidence.",
+      "Dated evidence snapshot",
+      "planner snapshot",
+      "Capture a compact dated observation spanning campsite, pitch and optional calendar.",
+      "Observation drift comparison",
+      "planner changes",
+      "Compare two saved observations of the same campsite and pitch."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.calendar",
+        "summary": "Raw two-month acceptance calendar; zero nonacceptance prices are unknown; use pitch calendar to constrain dates. Required: campsite_id, plan_id, month. Returns array of object.",
+        "params_schema": {
+          "campsite_id": "string",
+          "plan_id": "string",
+          "month": "string?"
+        },
+        "positionals": [
+          "campsite_id",
+          "plan_id"
+        ],
+        "argv_path": [
+          "source",
+          "calendar"
+        ]
+      },
+      {
+        "tool": "source.campsite",
+        "summary": "Raw campsite detail including facility-level category labels, season and fees; inspect the specific plan for vehicle limits. Required: campsite_id.",
+        "params_schema": {
+          "campsite_id": "string"
+        },
+        "positionals": [
+          "campsite_id"
+        ],
+        "argv_path": [
+          "source",
+          "campsite"
+        ]
+      },
+      {
+        "tool": "source.filters",
+        "summary": "Raw source filter groups and Japanese labels; campervan-entry source ID is 26. Returns array of object.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "filters"
+        ]
+      },
+      {
+        "tool": "source.locations",
+        "summary": "Raw full source region, prefecture and area ID hierarchy; use catalog for bounded projections.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "locations"
+        ]
+      },
+      {
+        "tool": "source.plan",
+        "summary": "Raw specific plan rules, entry memo, pitch area, fees and cancellation text. Required: campsite_id, plan_id.",
+        "params_schema": {
+          "campsite_id": "string",
+          "plan_id": "string"
+        },
+        "positionals": [
+          "campsite_id",
+          "plan_id"
+        ],
+        "argv_path": [
+          "source",
+          "plan"
+        ]
+      },
+      {
+        "tool": "source.plans",
+        "summary": "Raw plans for a facility; includes starting prices and per-plan attributes. Required: campsite_id.",
+        "params_schema": {
+          "campsite_id": "string"
+        },
+        "positionals": [
+          "campsite_id"
+        ],
+        "argv_path": [
+          "source",
+          "plans"
+        ]
+      },
+      {
+        "tool": "source.search",
+        "summary": "Raw public campsite search; campervan filter is other=26; source prices and dates are qualified, use campsite discover for bounded planning output. Optional: region-id, prefecture-id, area-id (plus 7 more).",
+        "params_schema": {
+          "region-id": "int?",
+          "prefecture-id": "int?",
+          "area-id": "int?",
+          "page-size": "int?",
+          "page": "int?",
+          "sort": "int?",
+          "other": "string?",
+          "check-in": "string?",
+          "check-out": "string?",
+          "keyword": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "search"
         ]
       }
     ]
@@ -325188,6 +327065,71 @@
         "positionals": [],
         "argv_path": [
           "offers"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "repark",
+    "description": "Find Repark parking with live source vacancy, declared vehicle limits, and verified price estimates.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/repark/cmd/repark-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "repark",
+      "\u4e09\u4e95\u306e\u30ea\u30d1\u30fc\u30af (Repark)",
+      "repark-pp-cli",
+      "Find Repark parking with live source vacancy, declared vehicle limits, and verified price estimates.",
+      "Compare lots",
+      "parking compare",
+      "Compare source rates, maximum rules, opening hours and vehicle limits across chosen lot IDs.",
+      "Declared fit",
+      "parking nearby",
+      "Assess supplied dimensions independently from remaining bay suitability.",
+      "Vacancy shortlist",
+      "Filter source vacancy categories within an explicit search radius.",
+      "Auditable tariff facts",
+      "parking detail",
+      "Read day type, rate windows and maximum rules alongside exact source conditions.",
+      "Source capability boundaries",
+      "parking capabilities",
+      "Inspect source support, measurement unknowns and bounded request policy."
+    ],
+    "endpoints": [
+      {
+        "tool": "site.calculator-form",
+        "summary": "Inspect whether the source calculator form is present. Required: park. Returns the LotPage.",
+        "params_schema": {
+          "park": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "site",
+          "calculator-form"
+        ]
+      },
+      {
+        "tool": "site.detail-page",
+        "summary": "Fetch the source lot detail document. Required: park. Returns the LotPage.",
+        "params_schema": {
+          "park": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "site",
+          "detail-page"
+        ]
+      },
+      {
+        "tool": "site.markers",
+        "summary": "Fetch source markers for an explicit bounded map window. Required: range. Returns array of MarkerRow.",
+        "params_schema": {
+          "range": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "site",
+          "markers"
         ]
       }
     ]
@@ -392205,6 +394147,105 @@
     ]
   },
   {
+    "api": "sunflower-ferry",
+    "description": "Plan dated Sunflower ferry sailings, cabin fares and port access from official sources.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/sunflower-ferry/cmd/sunflower-ferry-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "sunflower-ferry",
+      "Sunflower Ferry",
+      "sunflower-ferry-pp-cli",
+      "Plan dated Sunflower ferry sailings, cabin fares and port access from official sources.",
+      "Exact overnight itinerary",
+      "sailings",
+      "Turns source boarding-date results into dated JST arrival; handles daytime E cruises without projecting ordinary timetables.",
+      "Party-sensitive fare matrix",
+      "quote",
+      "Presents every source-eligible cabin fare for the entered party/vehicle without hand-made fare arithmetic.",
+      "Seasonal date comparison",
+      "calendar",
+      "Filters bounded published date ranges with explicit coverage and special sailing warnings.",
+      "Cabin occupancy evidence",
+      "cabins",
+      "Extracts source room occupancy so agents can distinguish dormitory capacity from private room occupancy.",
+      "Terminal-aware port planning",
+      "ports",
+      "Keeps Osaka Terminal1 and Terminal2 distinct with concise source address/access/checkin evidence.",
+      "Condition-aware handoff",
+      "conditions",
+      "Preserves source cancellation/baggage and quote assumptions with explicit missing English day-before band."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.cabins",
+        "summary": "Read the official cabin description page. Required: route (default: osaka-beppu).",
+        "params_schema": {
+          "route": "string"
+        },
+        "positionals": [
+          "route"
+        ],
+        "argv_path": [
+          "source",
+          "cabins"
+        ]
+      },
+      {
+        "tool": "source.conditions",
+        "summary": "Read the official English boarding and cancellation policy.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "conditions"
+        ]
+      },
+      {
+        "tool": "source.fares",
+        "summary": "Read the official fare and seasonal-calendar page. Required: route (default: osaka-beppu).",
+        "params_schema": {
+          "route": "string"
+        },
+        "positionals": [
+          "route"
+        ],
+        "argv_path": [
+          "source",
+          "fares"
+        ]
+      },
+      {
+        "tool": "source.terminal",
+        "summary": "Read the official port access page. Required: route (default: osaka-beppu).",
+        "params_schema": {
+          "route": "string"
+        },
+        "positionals": [
+          "route"
+        ],
+        "argv_path": [
+          "source",
+          "terminal"
+        ]
+      },
+      {
+        "tool": "source.timetable",
+        "summary": "Read the official published weekday timetable page. Required: route (default: osaka-beppu).",
+        "params_schema": {
+          "route": "string"
+        },
+        "positionals": [
+          "route"
+        ],
+        "argv_path": [
+          "source",
+          "timetable"
+        ]
+      }
+    ]
+  },
+  {
     "api": "suno",
     "description": "The correct, offline-first Suno CLI \u2014 every feature the abandoned clients have, plus a local SQLite library",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/suno/cmd/suno-pp-cli",
@@ -405636,6 +407677,35 @@
         ]
       }
     ]
+  },
+  {
+    "api": "traveloka",
+    "description": "Research dated flights and hotel stays with source price bases, complete itineraries and comparable quote snapshots.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/traveloka/cmd/traveloka-pp-cli",
+    "auth_type": "cookie",
+    "category": "travel",
+    "search_terms": [
+      "traveloka",
+      "traveloka-pp-cli",
+      "Research dated flights and hotel stays with source price bases, complete itineraries and comparable quote snapshots.",
+      "Observed core guest-session cookie names for generator metadata. The delivered session importer preserves the complete scoped cookie jar and captured operation profiles; these names do not imply other cookies are unnecessary.",
+      "Explicit flight date grid",
+      "flights date-grid",
+      "Compare retrieved trip totals across a bounded list of explicit departure and return dates.",
+      "Explicit hotel stay grid",
+      "hotels date-grid",
+      "Compare source stay totals for one property across equal-length stays with fixed occupancy.",
+      "Flight trade-off frontier",
+      "flights shortlist",
+      "Keep retrieved flight offers that trade price against stops and elapsed time.",
+      "Same-room cancellation price difference",
+      "hotels flexibility",
+      "See the stay-price difference between comparable cancellable and nonrefundable room rates.",
+      "Quote snapshot changes",
+      "quotes diff",
+      "Compare matched-offer price and policy changes between two explicit retrieval snapshots."
+    ],
+    "endpoints": []
   },
   {
     "api": "trendhunter",
