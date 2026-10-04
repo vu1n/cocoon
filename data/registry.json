@@ -223698,6 +223698,94 @@
     ]
   },
   {
+    "api": "halal-gourmet-japan",
+    "description": "Compare explicit food and prayer evidence across Japan with source dates and honest unknowns.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/halal-gourmet-japan/cmd/halal-gourmet-japan-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "halal-gourmet-japan",
+      "Halal Gourmet Japan",
+      "halal-gourmet-japan-pp-cli",
+      "Compare explicit food and prayer evidence across Japan with source dates and honest unknowns.",
+      "Selected-place evidence comparison",
+      "plan compare",
+      "Align the source-reported food and prayer facts of selected saved places.",
+      "Explicit condition matcher",
+      "plan match",
+      "See which requested source labels are reported and which need confirmation.",
+      "Missing planning-evidence triage",
+      "plan gaps",
+      "List missing certifier, certificate validity, hours and access evidence.",
+      "Food-and-prayer proximity pairs",
+      "plan pair",
+      "Pair selected restaurants and prayer places by straight-line distance.",
+      "Saved evidence changes",
+      "plan changes",
+      "See factual changes between the latest two successful observations."
+    ],
+    "endpoints": [
+      {
+        "tool": "prayer.get",
+        "summary": "Inspect prayer-space facilities and explicit access evidence. Required: id. Returns the Place.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "prayer"
+        ]
+      },
+      {
+        "tool": "prayer.search",
+        "summary": "Search mosques and prayer spaces by destination. Optional: query, prefecture, category (default: prayer) (plus 2 more). Returns array of Place.",
+        "params_schema": {
+          "query": "string?",
+          "prefecture": "string?",
+          "category": "string?",
+          "place-type": "string?",
+          "prayer-feature": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "prayer",
+          "search"
+        ]
+      },
+      {
+        "tool": "restaurants.get",
+        "summary": "Inspect restaurant food conditions and source verification. Required: id. Returns the Place.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "restaurants"
+        ]
+      },
+      {
+        "tool": "restaurants.search",
+        "summary": "Search restaurants by destination and source filters. Optional: query, prefecture, genre (plus 2 more). Returns array of Place.",
+        "params_schema": {
+          "query": "string?",
+          "prefecture": "string?",
+          "genre": "string?",
+          "feature": "string?",
+          "category": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "restaurants",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "haneda-airport",
     "description": "Query first-party Haneda flight boards with precise dates, codeshares and terminal handoffs.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/haneda-airport/cmd/haneda-airport-pp-cli",
@@ -225734,6 +225822,103 @@
     ]
   },
   {
+    "api": "hostelworld",
+    "description": "Compare dated dorm beds and private rooms with explicit quantities, prices and terms.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/hostelworld/cmd/hostelworld-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "hostelworld",
+      "hostelworld-pp-cli",
+      "Compare dated dorm beds and private rooms with explicit quantities, prices and terms.",
+      "Comparable party costs",
+      "hostels compare",
+      "Compare actual dated dorm beds and private rooms with explicit source units.",
+      "Flexible stay windows",
+      "hostels dates",
+      "Check actual availability for each alternative check-in date.",
+      "Nightly price basis",
+      "hostels offers",
+      "Keep nightly bed, room and occupancy-slot price bases explicit.",
+      "Payment and cancellation evidence",
+      "See rate terms and exact cancellation deadline alongside the price.",
+      "Saved planning evidence",
+      "hostels saved",
+      "Re-read your bounded planning snapshots offline."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.availability",
+        "summary": "Dated per-bed/per-room availability; source totals retain their units. Required: id, check-in, nights. Optional: guests (default: 2), application (default: web), show-rate-restrictions (default: true). Returns the Availability.",
+        "params_schema": {
+          "id": "string",
+          "check-in": "string?",
+          "nights": "int?",
+          "guests": "int?",
+          "application": "string?",
+          "show-rate-restrictions": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "availability"
+        ]
+      },
+      {
+        "tool": "source.city-search",
+        "summary": "Dated bounded city discovery; summary from-prices are not room quotes. Required: id, check-in, nights. Optional: guests (default: 2), application (default: web), currency (default: JPY) (plus 3 more). Returns the CitySearch.",
+        "params_schema": {
+          "id": "string",
+          "check-in": "string?",
+          "nights": "int?",
+          "guests": "int?",
+          "application": "string?",
+          "currency": "string?",
+          "page-size": "int?",
+          "page": "int?",
+          "show-rooms": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "city-search"
+        ]
+      },
+      {
+        "tool": "source.locations",
+        "summary": "Public destination suggestions; application identifier bootstrapped transiently. Required: query. Optional: v (default: control). Returns array of Destination.",
+        "params_schema": {
+          "query": "string?",
+          "v": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "locations"
+        ]
+      },
+      {
+        "tool": "source.property",
+        "summary": "Public property facts and source rules. Required: id. Optional: application (default: web). Returns the Property.",
+        "params_schema": {
+          "id": "string",
+          "application": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "property"
+        ]
+      }
+    ]
+  },
+  {
     "api": "hostex",
     "description": "Every Hostex v3 operation, plus a local SQLite mirror that answers cross-property questions no single Hostex call can \u2014 occupancy gaps, revenue rollups, and guest-message SLA, offline.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/hostex/cmd/hostex-pp-cli",
@@ -225927,7 +226112,7 @@
       },
       {
         "tool": "conversations.send-message",
-        "summary": "Send a text or image message to the guest. Required: conversation_id. Optional: jpeg_base64, message. Returns the new CommonResponse.",
+        "summary": "Send a text or image message to the guest. **This endpoint is not idempotent and does not return a message ID.** If a request times out, the outcome is unknown \u2014 Hostex cannot determine whether the channel has already delivered the message, and this uncertainty cannot be resolved on our side, so no idempotency guarantee is offered. If you receive an error, retry as appropriate \u2014 in our experience, a guest receiving a duplicate message is better than a guest receiving no message at all. Required: conversation_id. Optional: jpeg_base64, message. Returns the new CommonResponse.",
         "params_schema": {
           "conversation_id": "string",
           "jpeg_base64": "string?",
@@ -226286,6 +226471,7 @@
           "settings-early-bird-discount-discount": "int?",
           "settings-extra-guest-fee": "float?",
           "settings-high-rated-guest-discount": "bool?",
+          "settings-high-rated-guest-discount-blackout-dates": "string_csv_array?",
           "settings-instant-booking": "bool?",
           "settings-last-minute-discount-days": "int?",
           "settings-last-minute-discount-discount": "int?",
@@ -226297,6 +226483,7 @@
           "settings-maximum-stay": "int?",
           "settings-minimum-stay": "int?",
           "settings-mobile-only-discount": "bool?",
+          "settings-mobile-only-discount-blackout-dates": "string_csv_array?",
           "settings-new-listing-promotion": "bool?",
           "settings-non-refundable-price-factor": "float?",
           "settings-pet-fee": "float?",
@@ -226503,8 +226690,9 @@
       },
       {
         "tool": "reservations.create",
-        "summary": "Create a reservation (Direct Booking) in Hostex. Required: check_in_date, check_out_date, commission_amount, currency, custom_channel_id, guest_name, income_method_id, property_id, rate_amount, received_amount. Optional: email, mobile, number_of_guests (plus 1 more). Returns the new CommonResponse.",
+        "summary": "Create a reservation (Direct Booking) in Hostex. Required: check_in_date, check_out_date, commission_amount, currency, custom_channel_id, guest_name, income_method_id, property_id, rate_amount, received_amount. Optional: channel_id, email, mobile (plus 2 more). Returns the new ReservationsCreateResponse.",
         "params_schema": {
+          "channel_id": "string?",
           "check_in_date": "string?",
           "check_out_date": "string?",
           "commission_amount": "int?",
@@ -227011,7 +227199,7 @@
       },
       {
         "tool": "transactions.create",
-        "summary": "Record a new income or expense entry. What the entry is linked to is inferred from the request: - provide `stay_code` to record an entry against a specific stay, - provide `property_id` to record an entry against a specific property, - provide neither to record an operator-level entry (not tied to any specific property or stay; only available to the master operator). `stay_code` and `property_id` are mutually exclusive. The `direction` field decides whether the entry is an `income` or an `expense`, which in turn determines which dictionaries are used for `item_id` (`GET /income_items` or `GET /expense_items`) and `payment_method_id` (`GET /income_methods` or `GET /expense_methods`). The `amount` is always provided as a positive number; the sign is derived from `direction`. The `currency` accompanies the amount and must be supplied unless `stay_code` is provided, in which case it is inherited from the reservation order and, if you do provide it, it must match the order's currency. Required: amount, direction, item_id, payment_method_id. Optional: action_at, currency, note (plus 2 more). Returns the new TransactionsCreateResponse.",
+        "summary": "Record a new income or expense entry. What the entry is linked to is inferred from the request: - provide `reservation_code` to record an entry against a reservation, - provide `property_id` to record an entry against a specific property, - provide neither to record an operator-level entry (not tied to any specific property or reservation; only available to the master operator). `reservation_code` and `property_id` are mutually exclusive. A reservation-linked entry belongs to the reservation as a whole. On a multi-unit reservation (one `reservation_code`, several `stay_code`s) the amount is spread across the units in proportion to each unit's room revenue; it cannot be pinned to one unit, and the entry always reads back under the reservation's own code. To book a different amount against each unit \u2014 per-unit VAT, owner payout or cleaning fees \u2014 create one entry per property with `property_id` instead; the trade-off is that such an entry is not attached to the reservation. `stay_code` is still accepted as a deprecated alias of `reservation_code`: any stay code is resolved to its reservation, without an error or a warning, so it does not record the entry against that individual stay. The `direction` field decides whether the entry is an `income` or an `expense`, which in turn determines which dictionaries are used for `item_id` (`GET /income_items` or `GET /expense_items`) and `payment_method_id` (`GET /income_methods` or `GET /expense_methods`). The `amount` is always provided as a positive number; the sign is derived from `direction`. The `currency` accompanies the amount and must be supplied unless a reservation is provided, in which case it is inherited from the reservation order and, if you do provide it, it must match the order's currency. Required: amount, direction, item_id, payment_method_id. Optional: action_at, currency, note (plus 3 more). Returns the new TransactionsCreateResponse.",
         "params_schema": {
           "action_at": "string?",
           "amount": "float?",
@@ -227021,6 +227209,7 @@
           "note": "string?",
           "payment_method_id": "int?",
           "property_id": "int?",
+          "reservation_code": "string?",
           "stay_code": "string?"
         },
         "positionals": [],
@@ -227044,7 +227233,7 @@
       },
       {
         "tool": "transactions.query",
-        "summary": "Query income and expense entries (also known as `transactions`) recorded against the operator, properties or reservations. The response provides each entry with its categorization (`item_id` / `item_name`) and payment method (`payment_method_id` / `payment_method_name`). The values of `item_id` and `payment_method_id` reference the dictionaries returned by `GET /income_items`, `GET /expense_items`, `GET /income_methods` and `GET /expense_methods` (which dictionary applies depends on `direction`). Optional: id, start_date, end_date (plus 9 more). Returns the TransactionsQueryResponse.",
+        "summary": "Query income and expense entries (also known as `transactions`) recorded against the operator, properties or reservations. The response provides each entry with its categorization (`item_id` / `item_name`) and payment method (`payment_method_id` / `payment_method_name`). The values of `item_id` and `payment_method_id` reference the dictionaries returned by `GET /income_items`, `GET /expense_items`, `GET /income_methods` and `GET /expense_methods` (which dictionary applies depends on `direction`). Optional: id, start_date, end_date (plus 10 more). Returns the TransactionsQueryResponse.",
         "params_schema": {
           "id": "int?",
           "start_date": "string?",
@@ -227052,6 +227241,7 @@
           "offset": "int?",
           "limit": "int?",
           "property_id": "int?",
+          "reservation_code": "string?",
           "stay_code": "string?",
           "direction": "string?",
           "item_id": "int?",
@@ -371272,6 +371462,94 @@
     ]
   },
   {
+    "api": "snowjapan",
+    "description": "Compare Japan ski areas with terrain facts, dated reports and explicit historical-season evidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/snowjapan/cmd/snowjapan-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "snowjapan",
+      "snowjapan-pp-cli",
+      "Compare Japan ski areas with terrain facts, dated reports and explicit historical-season evidence.",
+      "Resort tradeoff frontier",
+      "plan frontier",
+      "Show nondominated resort choices for explicitly selected statistics.",
+      "Historical trip-window intersection",
+      "plan windows",
+      "Intersect a past trip window with recorded first/last season spans.",
+      "Municipality option portfolios",
+      "plan towns",
+      "Compare source-defined towns by known resort options and statistical ranges.",
+      "Historical evidence coverage",
+      "plan coverage",
+      "Find listed resorts with missing or ambiguous historical endpoint evidence.",
+      "Saved-fact changes",
+      "plan changes",
+      "See factual field changes between the latest two locally captured observations."
+    ],
+    "endpoints": [
+      {
+        "tool": "reports.get",
+        "summary": "Read one dated report's base-level snow figures; new snow means since the previous report. Required: id. Returns the Report.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "reports"
+        ]
+      },
+      {
+        "tool": "reports.list",
+        "summary": "List latest regional report metadata from the public homepage without report narratives. Returns array of Report.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "reports",
+          "list"
+        ]
+      },
+      {
+        "tool": "resorts.get",
+        "summary": "Inspect one exact canonical resort path with Japanese name, ability, lift and update-status facts. Required: id. Returns the Resort.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "resorts"
+        ]
+      },
+      {
+        "tool": "resorts.list",
+        "summary": "List source-owned national factual chart records through the bounded chart adapter. Returns array of Resort.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "resorts",
+          "list"
+        ]
+      },
+      {
+        "tool": "seasons.list",
+        "summary": "List confirmed historical season chart rows through the bounded chart adapter. Required: season. Returns array of Season.",
+        "params_schema": {
+          "season": "string"
+        },
+        "positionals": [
+          "season"
+        ],
+        "argv_path": [
+          "seasons"
+        ]
+      }
+    ]
+  },
+  {
     "api": "soccer-goat",
     "description": "Type any player or club and get market value, EA FC rating, potential, and stats in one report, joined across sources that live in separate walled silos.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/soccer-goat/cmd/soccer-goat-pp-cli",
@@ -405440,7 +405718,7 @@
       "Compare how a journal's topic distribution shifts between two time windows; spot emerging and fading specialties.",
       "Reading List Curation",
       "curate",
-      "Auto-generate ranked reading lists for a topic, sorted by date/citations/relevance, exportable as Markdown or BibTeX.",
+      "Auto-generate ranked reading lists for a topic, sorted by citations, date or per-year (average citations per year since publication; age = years since pub_date, or July 1 of the year if unknown, at least 0.25; local store only), exportable as Markdown or BibTeX.",
       "Citation Visibility Gap",
       "visibility-gap",
       "Find authors whose citation impact is out of step with the prestige of the Lancet journals they publish in."
@@ -430221,6 +430499,64 @@
         "argv_path": [
           "workspaces",
           "sites_create"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "wheelog",
+    "description": "Find and compare recorded accessibility facts with gaps and conflicting reports visible.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/wheelog/cmd/wheelog-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "wheelog",
+      "wheelog-pp-cli",
+      "Find and compare recorded accessibility facts with gaps and conflicting reports visible.",
+      "Requested-question comparison",
+      "spots compare",
+      "Align requested source question IDs and report supporting, opposing, mixed, unknown and inapplicable evidence.",
+      "Detail-checked discovery",
+      "spots search",
+      "Expand a bounded keyword shortlist into actual detail evidence for requested questions.",
+      "Saved-observation changes",
+      "shortlist changes",
+      "Show exact changes between two allowlisted source observations for selected public places.",
+      "Recheck queue",
+      "shortlist list",
+      "Prioritize old, unknown or conflicting evidence in a saved shortlist with explicit reasons.",
+      "Nearest saved facilities",
+      "Rank saved public facilities by straight-line distance from an explicit origin."
+    ],
+    "endpoints": [
+      {
+        "tool": "spots.inspect",
+        "summary": "Inspect allowlisted public accessibility question reports for a source spot ID. Required: id. Returns the new SpotRecord.",
+        "params_schema": {
+          "id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "inspect"
+        ]
+      },
+      {
+        "tool": "spots.search",
+        "summary": "Search public spot records by source keyword, category, and evidence record dates. Optional: query, category, from (plus 4 more). Returns array of TimelineRecord.",
+        "params_schema": {
+          "query": "string?",
+          "category": "string?",
+          "from": "string?",
+          "to": "string?",
+          "page": "int?",
+          "type": "string?",
+          "isDetail": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "spots",
+          "search"
         ]
       }
     ]
