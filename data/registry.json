@@ -243687,6 +243687,74 @@
     ]
   },
   {
+    "api": "japan47go",
+    "description": "Find local guides and experiences with published request, fee and participant evidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/japan47go/cmd/japan47go-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "japan47go",
+      "japan47go-pp-cli",
+      "Find local guides and experiences with published request, fee and participant evidence.",
+      "Bounded local service discovery",
+      "services discover",
+      "Find Japanese guide and experience candidates with honest page coverage.",
+      "Published request conditions",
+      "services inspect",
+      "Inspect bounded Japanese request, duration, fee and schedule facts.",
+      "Notice and party compatibility",
+      "services compare",
+      "Check a requested date and party against explicit notice and participant rules.",
+      "Qualified fee comparison",
+      "Compare fees without turning expense-based volunteer services into free tours.",
+      "Saved service observations",
+      "services saved",
+      "Revisit saved normalized facts offline with original observation times."
+    ],
+    "endpoints": [
+      {
+        "tool": "services.compare",
+        "summary": "Compare local services against request dates, party size and explicit zero-cost evidence",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "services",
+          "compare"
+        ]
+      },
+      {
+        "tool": "services.discover",
+        "summary": "Discover a bounded Japanese guide or experience shortlist",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "services",
+          "discover"
+        ]
+      },
+      {
+        "tool": "services.inspect",
+        "summary": "Inspect a local service UUID for published deadlines, fees, durations and participant rules",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "services",
+          "inspect"
+        ]
+      },
+      {
+        "tool": "services.saved",
+        "summary": "Search saved service facts with their observation times",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "services",
+          "saved"
+        ]
+      }
+    ]
+  },
+  {
     "api": "jimmy-johns",
     "description": "First terminal CLI for Jimmy John's ordering \u2014 local Unwich conversion, agent-native JSON, every endpoint typed.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/jimmy-johns/cmd/jimmy-johns-pp-cli",
@@ -400872,6 +400940,904 @@
     ]
   },
   {
+    "api": "tabiwa",
+    "description": "Compare regional tabiwa catalog products with payment units and original restriction evidence.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/tabiwa/cmd/tabiwa-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "tabiwa",
+      "tabiwa by WESTER catalog",
+      "tabiwa-pp-cli",
+      "Compare regional tabiwa catalog products with payment units and original restriction evidence.",
+      "Dated regional discovery",
+      "catalog search",
+      "Discover regional products with a dated catalog filter and explicit scanned coverage.",
+      "Quoted payment units",
+      "catalog compare",
+      "Compare points-only and yen-quoted products without inventing currency conversion.",
+      "Overview restriction evidence",
+      "catalog inspect",
+      "Read original Japanese restriction and redemption hints while complete terms remain unknown.",
+      "Requested-date membership",
+      "Show whether selected products appear in a requested-date catalog without claiming ticket stock.",
+      "Saved decision evidence",
+      "catalog saved",
+      "Read saved selected products offline with their original observation times."
+    ],
+    "endpoints": [
+      {
+        "tool": "analytics",
+        "summary": "Count generic synced records by --type or group by --group-by with --limit; returns counts from the framework store, not selected catalog evidence",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "group-by": "string?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "limit": "number?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "type": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "analytics",
+          "analytics"
+        ]
+      },
+      {
+        "tool": "catalog.compare",
+        "summary": "Compare at most five catalog products with separate price units and dated membership; optionally save private evidence",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "ids": "string?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "on": "string?",
+          "plain": "boolean?",
+          "product-ids": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "region": "string?",
+          "save": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "compare"
+        ]
+      },
+      {
+        "tool": "catalog.inspect",
+        "summary": "Read exact catalog identity, price units and overview restriction cues; optionally save private evidence; full terms stay unknown",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "on": "string?",
+          "plain": "boolean?",
+          "product-id": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "region": "string?",
+          "save": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "inspect"
+        ]
+      },
+      {
+        "tool": "catalog.saved",
+        "summary": "Read previously selected catalog evidence offline with original observation times",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "limit": "number?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "region": "string?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "saved"
+        ]
+      },
+      {
+        "tool": "catalog.search",
+        "summary": "Discover bounded catalog summaries with optional private evidence saves; a date filter is not availability",
+        "params_schema": {
+          "agent": "boolean?",
+          "area": "string?",
+          "category": "string?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "limit": "number?",
+          "max-age": "string?",
+          "max-records": "number?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "on": "string?",
+          "plain": "boolean?",
+          "positional-query": "string?",
+          "prefecture": "string?",
+          "query": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "region": "string?",
+          "save": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "type": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "catalog",
+          "search"
+        ]
+      },
+      {
+        "tool": "context",
+        "summary": "Get API domain context: resource taxonomy, auth requirements, query tips, and unique capabilities. Call this first.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "context",
+          "context"
+        ]
+      },
+      {
+        "tool": "export",
+        "summary": "Export data to JSONL or JSON for backup, migration, or analysis",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "format": "string?",
+          "human-friendly": "boolean?",
+          "id": "string?",
+          "json": "boolean?",
+          "limit": "number?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "resource": "string?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "export",
+          "export"
+        ]
+      },
+      {
+        "tool": "geography.list",
+        "summary": "List provider prefecture and area identifiers for --region; use IDs as discovery filters, not as proof of pass coverage",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "region": "string?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "geography"
+        ]
+      },
+      {
+        "tool": "learnings.list",
+        "summary": "List recorded learnings from the local tabiwa-pp-cli search_learnings table",
+        "params_schema": {
+          "action": "string?",
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "limit": "number?",
+          "max-age": "string?",
+          "min-confidence": "number?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "query": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "resource": "string?",
+          "select": "string?",
+          "source": "string?",
+          "timeout": "string?",
+          "warnings": "boolean?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "learnings"
+        ]
+      },
+      {
+        "tool": "learnings.candidates",
+        "summary": "List quarantined local improvement candidates filtered by --class, --status and --limit; returns IDs, payloads and observation clocks for later judgment",
+        "params_schema": {
+          "agent": "boolean?",
+          "class": "string?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "limit": "number?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "status": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "candidates"
+        ]
+      },
+      {
+        "tool": "learnings.confirm",
+        "summary": "Confirm an open candidate: print its full payload, then materialize it",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "id": "string?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "confirm"
+        ]
+      },
+      {
+        "tool": "learnings.forget",
+        "summary": "Delete learnings matching a query (use --all to wipe every rule for that query)",
+        "params_schema": {
+          "action": "string?",
+          "agent": "boolean?",
+          "all": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "query": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "resource": "string?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "forget"
+        ]
+      },
+      {
+        "tool": "learnings.reject",
+        "summary": "Reject a candidate and tombstone its derivation signature",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "id": "string?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "reject"
+        ]
+      },
+      {
+        "tool": "learnings.stats",
+        "summary": "Report learn-loop effectiveness metrics from the local events table",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "learnings",
+          "stats"
+        ]
+      },
+      {
+        "tool": "playbook.list",
+        "summary": "List stored playbooks (query_family, content presence, last observed)",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "playbook"
+        ]
+      },
+      {
+        "tool": "playbook.amend",
+        "summary": "Append a note to an existing playbook (LLM-fired self-correction, silent)",
+        "params_schema": {
+          "add-note": "string?",
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "query": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "playbook",
+          "amend"
+        ]
+      },
+      {
+        "tool": "recall",
+        "summary": "Check prior learnings for a query before running discovery (LLM-fired, pre-discovery)",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "debug-mismatches": "boolean?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "limit": "number?",
+          "max-age": "string?",
+          "min-confidence": "number?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "query": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "recall",
+          "recall"
+        ]
+      },
+      {
+        "tool": "search",
+        "summary": "Full-text search across all synced data. Faster than paginating list endpoints. Requires sync first.",
+        "params_schema": {
+          "limit": "number?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "search",
+          "search"
+        ]
+      },
+      {
+        "tool": "sql",
+        "summary": "Run read-only SQL against local database. Use for ad-hoc analysis, aggregations, and joins across synced resources. Requires sync first.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sql",
+          "sql"
+        ]
+      },
+      {
+        "tool": "sync",
+        "summary": "Sync API data to local SQLite for offline search and analysis",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "concurrency": "number?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "full": "boolean?",
+          "global-param": "string?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "latest-only": "boolean?",
+          "max-age": "string?",
+          "max-pages": "number?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "no-prune": "boolean?",
+          "param": "string?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "resource-param": "string?",
+          "resources": "string?",
+          "select": "string?",
+          "since": "string?",
+          "strict": "boolean?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sync",
+          "sync"
+        ]
+      },
+      {
+        "tool": "tail",
+        "summary": "Stream live changes by polling the API at regular intervals",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "follow": "boolean?",
+          "human-friendly": "boolean?",
+          "interval": "string?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "positional-resource": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "resource": "string?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tail",
+          "tail"
+        ]
+      },
+      {
+        "tool": "teach",
+        "summary": "Record a query -> resource mapping for future recall (LLM-fired, silent)",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "no-validate": "boolean?",
+          "notes": "string?",
+          "plain": "boolean?",
+          "playbook-file": "string?",
+          "playbook-json": "string?",
+          "playbook-notes": "string?",
+          "playbook-notes-file": "string?",
+          "query": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "resource": "string?",
+          "resource-type": "string?",
+          "select": "string?",
+          "timeout": "string?",
+          "venue": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "teach",
+          "teach"
+        ]
+      },
+      {
+        "tool": "teach.lookup",
+        "summary": "Install a manual entity-lookup row (kind, canonical, value)",
+        "params_schema": {
+          "agent": "boolean?",
+          "canonical": "string?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "kind": "string?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "value": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "teach",
+          "lookup"
+        ]
+      },
+      {
+        "tool": "teach.pattern",
+        "summary": "Install a manual generalization pattern (query_template, resource_template, entity_kind)",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "entity-kind": "string?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "query-template": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "resource-template": "string?",
+          "resource-type": "string?",
+          "select": "string?",
+          "strategy": "string?",
+          "timeout": "string?",
+          "venue": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "teach",
+          "pattern"
+        ]
+      },
+      {
+        "tool": "teach.playbook",
+        "summary": "Record a CLI playbook + free-text notes for a query family",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "notes": "string?",
+          "notes-file": "string?",
+          "plain": "boolean?",
+          "playbook-file": "string?",
+          "playbook-json": "string?",
+          "query": "string?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "teach",
+          "playbook"
+        ]
+      },
+      {
+        "tool": "workflow.archive",
+        "summary": "Sync all resources to local store for offline access and search",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "full": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "max-pages": "number?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflow",
+          "archive"
+        ]
+      },
+      {
+        "tool": "workflow.status",
+        "summary": "Show local archive status and sync state for all resources",
+        "params_schema": {
+          "agent": "boolean?",
+          "client-profile": "string?",
+          "compact": "boolean?",
+          "csv": "boolean?",
+          "data-source": "string?",
+          "dry-run": "boolean?",
+          "human-friendly": "boolean?",
+          "json": "boolean?",
+          "max-age": "string?",
+          "no-cache": "boolean?",
+          "no-color": "boolean?",
+          "no-input": "boolean?",
+          "no-learn": "boolean?",
+          "plain": "boolean?",
+          "quiet": "boolean?",
+          "rate-limit": "number?",
+          "receipt": "boolean?",
+          "select": "string?",
+          "timeout": "string?",
+          "yes": "boolean?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflow",
+          "status"
+        ]
+      }
+    ]
+  },
+  {
     "api": "table-reservation-goat",
     "description": "One reservation CLI for OpenTable, Tock, and Resy \u2014 search all three networks at once, watch for cancellations, book, and track changes from a local store agents can query.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/table-reservation-goat/cmd/table-reservation-goat-pp-cli",
@@ -407749,6 +408715,61 @@
         "argv_path": [
           "tasks",
           "deleted"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "toretabi",
+    "description": "Inspect Japan rail-ticket conditions and linked official operator rules with explicit uncertainty.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/toretabi/cmd/toretabi-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "toretabi",
+      "toretabi-pp-cli",
+      "Inspect Japan rail-ticket conditions and linked official operator rules with explicit uncertainty.",
+      "Bounded coverage audit",
+      "tickets list",
+      "Report native-filtered routes, scanned records and continuation so zero matches have a scope.",
+      "Combines source-specific normalized evidence and bounded local observations.",
+      "Date evidence comparison",
+      "tickets compare",
+      "Compare publisher and linked operator periods, corroboration and conflicts while preserving calendar uncertainty.",
+      "Supplement and exception contrast",
+      "Contrast publisher and linked operator supplements and excluded trains with source clocks.",
+      "Purchase prerequisites",
+      "tickets get",
+      "Inspect linked operator fares, eligibility and purchase channels while keeping missing facts explicit.",
+      "Timestamped offline shortlist",
+      "tickets cached",
+      "Read saved normalized evidence without refreshing the source."
+    ],
+    "endpoints": [
+      {
+        "tool": "tickets.get",
+        "summary": "Inspect published sale/use periods and ticket conditions. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "tickets"
+        ]
+      },
+      {
+        "tool": "tickets.list",
+        "summary": "Discover tickets in a bounded native area/type listing. Optional: area, ticket-type.",
+        "params_schema": {
+          "area": "string?",
+          "ticket-type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tickets",
+          "list"
         ]
       }
     ]
