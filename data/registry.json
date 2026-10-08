@@ -75637,7 +75637,15 @@
       "Ergonomic v3 Aliases (docs + chat)",
       "docs",
       "Top-level `docs` and `chat` commands with idiomatic verbs (search, get, pages, page, listing, create, edit, send, react, reply, members, followers, messages) replacing the spec-derived workspaces/docs/<verb>-public and workspaces/chat/get-channels paths. ~22 aliases total. Original verbs kept as Cobra aliases for back-compat.",
-      "The generator names commands after API operationIds, which preserves a 1:1 mapping back to the spec but is rough on humans. ClickUp's v3 docs and chat surfaces are reachable via short, memorable verbs without losing the original paths."
+      "The generator names commands after API operationIds, which preserves a 1:1 mapping back to the spec but is rough on humans. ClickUp's v3 docs and chat surfaces are reachable via short, memorable verbs without losing the original paths.",
+      "Multipart Task Attachment Upload",
+      "task attach",
+      "Upload one or more local files to a task as real multipart/form-data (one POST per file, part field `attachment`, per-file MIME type). Accepts custom task IDs via --custom-task-ids --team-id, validates every file before sending anything, and --dry-run previews the upload without sending.",
+      "The generated attachment commands sent a JSON body to an endpoint that only accepts multipart/form-data, so uploads never worked. A hand-authored multipart path reuses the client's auth, headers, rate limiter and cache invalidation, and skips 5xx retries to avoid duplicate attachments.",
+      "Task Attachment Listing with Comment Counts",
+      "task attachments",
+      "List a task's attachments as rows (id, title, extension, size, url, total_comments, resolved_comments, open_comments) from GET /v2/task/{id}, with custom task ID support.",
+      "Attachment comment counts are buried in the full task payload; open = total - resolved is what reviewers actually need. The public API exposes counts only, not comment text."
     ],
     "endpoints": [
       {
@@ -76774,12 +76782,12 @@
       },
       {
         "tool": "task.attachment_create-task",
-        "summary": "Upload a file to a task as an attachment. Files stored in the cloud cannot be used in this API request. ***Note:** This request uses multipart/form-data as the content type.* ***Tip:** Try our new [V3 Attachments API](ref:postentityattachment), which supports both tasks and File type Custom Fields!*. Required: task_id. Optional: custom_task_ids, team_id, attachment. Returns the new CreateTaskAttachmentresponse.",
+        "summary": "Upload a local file to a task as an attachment (multipart/form-data, part `attachment`). Required: task_id, file_path (absolute local path). Optional: custom_task_ids, team_id. Returns the created attachment.",
         "params_schema": {
           "task_id": "string",
           "custom_task_ids": "bool?",
-          "team_id": "float?",
-          "attachment": "array?"
+          "team_id": "string?",
+          "file_path": "string?"
         },
         "positionals": [
           "task_id"
@@ -78023,7 +78031,7 @@
       },
       {
         "tool": "workspaces.attachments_get-parent-entity",
-        "summary": "Return a list of attachments for the specified entity, including a task or File type Custom Field. Required: workspace_id, entity_type (default: attachments), entity_id. Optional: cursor, limit (default: 50). Returns the AttachmentsPublicApiAttachmentsControllerGetParentEntityAttachments200Response.",
+        "summary": "Return a list of attachments for the specified entity, including a task or File type Custom Field. Required: workspace_id, entity_type (`tasks` for a task), entity_id. Optional: cursor, limit (default: 50). Returns the AttachmentsPublicApiAttachmentsControllerGetParentEntityAttachments200Response.",
         "params_schema": {
           "workspace_id": "string",
           "entity_type": "string",
@@ -78043,12 +78051,13 @@
       },
       {
         "tool": "workspaces.attachments_post-entity",
-        "summary": "Upload an attachment to a task or to a file type Custom Field. Once a file has been uploaded to a `custom_fields` entity, use [Set Custom Field Value](ref:SetCustomFieldValue) to associate the uploaded file with a task. To retrieve the ID of a Custom Field, you can use [Get List Custom Fields](red:GetAccessibleCustomFields) or [Get task](ref:GetTask). Required: workspace_id, entity_type (default: attachments), entity_id. Optional: filename. Returns the new AttachmentsAttachment.",
+        "summary": "Upload a local file (multipart/form-data, part `attachment`) to a task or to a file type Custom Field via the v3 Attachments API. Required: workspace_id, entity_id, file_path (absolute local path). Optional: entity_type (default: tasks), filename. Returns the new AttachmentsAttachment.",
         "params_schema": {
           "workspace_id": "string",
           "entity_type": "string",
           "entity_id": "string",
-          "filename": "string?"
+          "filename": "string?",
+          "file_path": "string?"
         },
         "positionals": [
           "workspace_id",
@@ -153200,6 +153209,35 @@
         ]
       }
     ]
+  },
+  {
+    "api": "costco-sameday",
+    "description": "Costco Same-Day (sameday.costco.com) GraphQL CLI. Cookie auth after Costco Azure B2C SSO.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/costco-sameday/cmd/costco-sameday-pp-cli",
+    "auth_type": "cookie",
+    "category": "commerce",
+    "search_terms": [
+      "costco-sameday",
+      "Costco Sameday",
+      "costco-sameday-pp-cli",
+      "Costco Same-Day (sameday.costco.com) GraphQL CLI. Cookie auth after Costco Azure B2C SSO.",
+      "Dual-gated place order",
+      "order place",
+      "Charge via FinalizeCheckout only when both --yes and --confirm-charge are set; --dry-run never POSTs the charge mutation.",
+      "Checkout preview without charge",
+      "order preview",
+      "Read-only CheckoutDraftOrderInvoiceV2 / CheckoutCmd totals; never calls FinalizeCheckout.",
+      "Tip update via UpdateCheckout",
+      "order tip",
+      "Mutate tip with UpdateCheckout tipsUpdate (requires --yes); --dry-run safe; never charges.",
+      "Gated REST order cancel",
+      "order cancel",
+      "Cancel via PUT /api/v2/orders/{orderId}/cancel?source=web; requires --yes; --dry-run never sends. Not a GraphQL mutation.",
+      "Cancel options inventory",
+      "order cancel-options",
+      "Read CustomerCancelSelections cancel-reason options (read-only)."
+    ],
+    "endpoints": []
   },
   {
     "api": "cpsc-recalls",
