@@ -175069,6 +175069,611 @@
     ]
   },
   {
+    "api": "dropbox",
+    "description": "Find duplicates, sync conflicts, and stale shared links across a whole Dropbox, then clean up with plans you preview first.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/dropbox/cmd/dropbox-pp-cli",
+    "auth_type": "oauth2",
+    "category": "productivity",
+    "search_terms": [
+      "dropbox",
+      "dropbox-pp-cli",
+      "Find duplicates, sync conflicts, and stale shared links across a whole Dropbox, then clean up with plans you preview first.",
+      "Conflicted-copy cleanup",
+      "conflicts",
+      "Find Dropbox conflicted copies and Selective Sync Conflict folders, compare each one to its original file by file, and plan removal only for copies that add nothing.",
+      "Shared-link audit and bulk revoke",
+      "links audit",
+      "List every shared link you own with its visibility and expiry, flag links to files that no longer exist, and plan bulk revokes.",
+      "Rule-based organizer",
+      "organize",
+      "Turn a glob and a destination template like /Photos/{year}/{month} into a move plan, with missing folders and name collisions worked out before anything moves.",
+      "Account overview",
+      "overview",
+      "See quota, space by top-level folder, file type, and year, real duplicate totals, conflict copies, and how much space code folders like node_modules take.",
+      "Batched, journaled apply",
+      "apply",
+      "Preview a plan, then run it with --yes in Dropbox batch jobs of up to 1000 items that retry on lock contention and record every change in a local journal.",
+      "Structure lint",
+      "mess",
+      "List empty folders, single-file folders, loose files at the root, 'Copy of' and '(1)' names, very deep paths, and near-duplicate folder names like Taxes and Taxes 2.",
+      "Plan validator",
+      "plan check",
+      "Check a plan against the index before it runs: files that changed since planning, name collisions, case-only renames, code folders, and moves that would change who can see a file.",
+      "Undo a batch",
+      "undo",
+      "Reverse an applied batch: move files back and restore soft-deleted files from the revision recorded when they were deleted.",
+      "Change journal",
+      "journal",
+      "List applied batches with their results and how many days remain to restore deleted files."
+    ],
+    "endpoints": [
+      {
+        "tool": "file-requests.get",
+        "summary": "Return a specified file request. Required: id.",
+        "params_schema": {
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "file-requests"
+        ]
+      },
+      {
+        "tool": "file-requests.count",
+        "summary": "Return the total number of open and closed file requests.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "file-requests",
+          "count"
+        ]
+      },
+      {
+        "tool": "file-requests.delete-all-closed",
+        "summary": "Delete all closed file requests owned by the current user.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "file-requests",
+          "delete-all-closed"
+        ]
+      },
+      {
+        "tool": "file-requests.list",
+        "summary": "Return file requests owned by the current user. Optional: limit (default: 1000).",
+        "params_schema": {
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "file-requests",
+          "list"
+        ]
+      },
+      {
+        "tool": "file-requests.list-continue",
+        "summary": "Continue paginating file requests using a cursor. Required: cursor.",
+        "params_schema": {
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "file-requests",
+          "list-continue"
+        ]
+      },
+      {
+        "tool": "files.delete",
+        "summary": "Delete a file or folder at a given path. Required: path. Optional: parent_rev.",
+        "params_schema": {
+          "path": "string?",
+          "parent_rev": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files"
+        ]
+      },
+      {
+        "tool": "files.copy",
+        "summary": "Copy a file or folder to another location in the user's Dropbox. Required: from_path, to_path. Optional: allow_shared_folder (default: false), autorename (default: false), allow_ownership_transfer (default: false).",
+        "params_schema": {
+          "from_path": "string?",
+          "to_path": "string?",
+          "allow_shared_folder": "bool?",
+          "autorename": "bool?",
+          "allow_ownership_transfer": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "copy"
+        ]
+      },
+      {
+        "tool": "files.copy-batch",
+        "summary": "Copy multiple files or folders to different locations in the user's Dropbox. Required: entries. Optional: autorename (default: false).",
+        "params_schema": {
+          "entries": "array?",
+          "autorename": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "copy-batch"
+        ]
+      },
+      {
+        "tool": "files.copy-batch-check",
+        "summary": "Return the status and per-entry results of an asynchronous copy batch. Required: async_job_id.",
+        "params_schema": {
+          "async_job_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "copy-batch-check"
+        ]
+      },
+      {
+        "tool": "files.create-folder",
+        "summary": "Create a folder at a given path. Required: path. Optional: autorename (default: false).",
+        "params_schema": {
+          "path": "string?",
+          "autorename": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "create-folder"
+        ]
+      },
+      {
+        "tool": "files.create-folder-batch",
+        "summary": "Create multiple folders at once. Required: paths. Optional: autorename (default: false), force_async (default: false).",
+        "params_schema": {
+          "paths": "array?",
+          "autorename": "bool?",
+          "force_async": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "create-folder-batch"
+        ]
+      },
+      {
+        "tool": "files.create-folder-batch-check",
+        "summary": "Return the status of an asynchronous create-folder batch. Required: async_job_id.",
+        "params_schema": {
+          "async_job_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "create-folder-batch-check"
+        ]
+      },
+      {
+        "tool": "files.delete-batch",
+        "summary": "Delete multiple files or folders at once. Required: entries.",
+        "params_schema": {
+          "entries": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "delete-batch"
+        ]
+      },
+      {
+        "tool": "files.delete-batch-check",
+        "summary": "Return the status and per-entry results of an asynchronous delete batch. Required: async_job_id.",
+        "params_schema": {
+          "async_job_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "delete-batch-check"
+        ]
+      },
+      {
+        "tool": "files.get-latest-cursor",
+        "summary": "Get a cursor for the current folder state without returning entries. Required: path. Optional: recursive (default: false), include_media_info (default: false), include_deleted (default: false) (plus 7 more).",
+        "params_schema": {
+          "path": "string?",
+          "recursive": "bool?",
+          "include_media_info": "bool?",
+          "include_deleted": "bool?",
+          "include_has_explicit_shared_members": "bool?",
+          "include_mounted_folders": "bool?",
+          "limit": "int?",
+          "shared-link-url": "string?",
+          "shared-link-password": "string?",
+          "include_property_groups": "object?",
+          "include_non_downloadable_files": "bool?",
+          "include_restorable_info": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "get-latest-cursor"
+        ]
+      },
+      {
+        "tool": "files.get-metadata",
+        "summary": "Return metadata for a file or folder. Required: path. Optional: include_media_info (default: false), include_deleted (default: false), include_has_explicit_shared_members (default: false) (plus 1 more).",
+        "params_schema": {
+          "path": "string?",
+          "include_media_info": "bool?",
+          "include_deleted": "bool?",
+          "include_has_explicit_shared_members": "bool?",
+          "include_property_groups": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "get-metadata"
+        ]
+      },
+      {
+        "tool": "files.get-temporary-link",
+        "summary": "Get a temporary file content link that expires in four hours. Required: path.",
+        "params_schema": {
+          "path": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "get-temporary-link"
+        ]
+      },
+      {
+        "tool": "files.get-thumbnail-batch",
+        "summary": "Get thumbnails for up to 25 images. Required: entries.",
+        "params_schema": {
+          "entries": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "get-thumbnail-batch"
+        ]
+      },
+      {
+        "tool": "files.list-folder",
+        "summary": "Start returning the contents of a folder. Required: path. Optional: recursive (default: false), include_media_info (default: false), include_deleted (default: false) (plus 7 more).",
+        "params_schema": {
+          "path": "string?",
+          "recursive": "bool?",
+          "include_media_info": "bool?",
+          "include_deleted": "bool?",
+          "include_has_explicit_shared_members": "bool?",
+          "include_mounted_folders": "bool?",
+          "limit": "int?",
+          "shared-link-url": "string?",
+          "shared-link-password": "string?",
+          "include_property_groups": "object?",
+          "include_non_downloadable_files": "bool?",
+          "include_restorable_info": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "list-folder"
+        ]
+      },
+      {
+        "tool": "files.list-folder-continue",
+        "summary": "Continue listing a folder or retrieve changes using its cursor. Required: cursor.",
+        "params_schema": {
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "list-folder-continue"
+        ]
+      },
+      {
+        "tool": "files.list-revisions",
+        "summary": "Return revisions for a file path or file ID. Required: path. Optional: mode (default: path), limit (default: 10), before_rev (plus 1 more).",
+        "params_schema": {
+          "path": "string?",
+          "mode": "string?",
+          "limit": "int?",
+          "before_rev": "string?",
+          "include_restorable_info": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "list-revisions"
+        ]
+      },
+      {
+        "tool": "files.move",
+        "summary": "Move a file or folder to another location in the user's Dropbox. Required: from_path, to_path. Optional: allow_shared_folder (default: false), autorename (default: false), allow_ownership_transfer (default: false).",
+        "params_schema": {
+          "from_path": "string?",
+          "to_path": "string?",
+          "allow_shared_folder": "bool?",
+          "autorename": "bool?",
+          "allow_ownership_transfer": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "move"
+        ]
+      },
+      {
+        "tool": "files.move-batch",
+        "summary": "Move multiple files or folders to different locations in the user's Dropbox. Required: entries. Optional: autorename (default: false), allow_ownership_transfer (default: false).",
+        "params_schema": {
+          "entries": "array?",
+          "autorename": "bool?",
+          "allow_ownership_transfer": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "move-batch"
+        ]
+      },
+      {
+        "tool": "files.move-batch-check",
+        "summary": "Return the status and per-entry results of an asynchronous move batch. Required: async_job_id.",
+        "params_schema": {
+          "async_job_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "move-batch-check"
+        ]
+      },
+      {
+        "tool": "files.restore",
+        "summary": "Restore a specific revision of a file to the given path. Required: path, rev.",
+        "params_schema": {
+          "path": "string?",
+          "rev": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "restore"
+        ]
+      },
+      {
+        "tool": "files.search",
+        "summary": "Search for files and folders. Required: query. Optional: options, match_field_options, include_highlights.",
+        "params_schema": {
+          "query": "string?",
+          "options-path": "string?",
+          "options-max-results": "int?",
+          "options-order-by": "string?",
+          "options-file-status": "string?",
+          "options-filename-only": "bool?",
+          "options-file-extensions": "array?",
+          "options-file-categories": "array?",
+          "options-account-id": "string?",
+          "match-field-options-include-highlights": "bool?",
+          "include_highlights": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "search"
+        ]
+      },
+      {
+        "tool": "files.search-continue",
+        "summary": "Fetch the next page of search results. Required: cursor.",
+        "params_schema": {
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "search-continue"
+        ]
+      },
+      {
+        "tool": "files.tags-add",
+        "summary": "Add a tag to an item. Required: path, tag_text.",
+        "params_schema": {
+          "path": "string?",
+          "tag_text": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "tags-add"
+        ]
+      },
+      {
+        "tool": "files.tags-get",
+        "summary": "Get tags assigned to items. Required: paths.",
+        "params_schema": {
+          "paths": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "tags-get"
+        ]
+      },
+      {
+        "tool": "files.tags-remove",
+        "summary": "Remove a tag from an item. Required: path, tag_text.",
+        "params_schema": {
+          "path": "string?",
+          "tag_text": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "files",
+          "tags-remove"
+        ]
+      },
+      {
+        "tool": "sharing.create-shared-link",
+        "summary": "Create a shared link with custom settings. Required: path. Optional: settings.",
+        "params_schema": {
+          "path": "string?",
+          "settings-require-password": "bool?",
+          "settings-link-password": "string?",
+          "settings-expires": "string?",
+          "settings-audience": "string?",
+          "settings-access": "string?",
+          "settings-requested-visibility": "string?",
+          "settings-allow-download": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "create-shared-link"
+        ]
+      },
+      {
+        "tool": "sharing.get-shared-link-metadata",
+        "summary": "Get metadata for a shared link. Required: url. Optional: path, link_password.",
+        "params_schema": {
+          "url": "string?",
+          "path": "string?",
+          "link_password": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "get-shared-link-metadata"
+        ]
+      },
+      {
+        "tool": "sharing.list-folder-members",
+        "summary": "Return shared folder membership by folder ID. Required: shared_folder_id. Optional: actions, limit (default: 1000), path.",
+        "params_schema": {
+          "actions": "array?",
+          "limit": "int?",
+          "shared_folder_id": "string?",
+          "path": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "list-folder-members"
+        ]
+      },
+      {
+        "tool": "sharing.list-folders",
+        "summary": "Return shared folders accessible to the current user. Optional: limit (default: 1000), actions.",
+        "params_schema": {
+          "limit": "int?",
+          "actions": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "list-folders"
+        ]
+      },
+      {
+        "tool": "sharing.list-folders-continue",
+        "summary": "Continue paginating shared folders using a cursor. Required: cursor.",
+        "params_schema": {
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "list-folders-continue"
+        ]
+      },
+      {
+        "tool": "sharing.list-received-files",
+        "summary": "Return files shared with the current user. Optional: limit (default: 100), actions.",
+        "params_schema": {
+          "limit": "int?",
+          "actions": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "list-received-files"
+        ]
+      },
+      {
+        "tool": "sharing.list-shared-links",
+        "summary": "List shared links owned by the current user. Optional: path, cursor, direct_only.",
+        "params_schema": {
+          "path": "string?",
+          "cursor": "string?",
+          "direct_only": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "list-shared-links"
+        ]
+      },
+      {
+        "tool": "sharing.modify-shared-link-settings",
+        "summary": "Modify the settings of an existing shared link. Required: url, settings. Optional: remove_expiration (default: false).",
+        "params_schema": {
+          "url": "string?",
+          "settings-require-password": "bool?",
+          "settings-link-password": "string?",
+          "settings-expires": "string?",
+          "settings-audience": "string?",
+          "settings-access": "string?",
+          "settings-requested-visibility": "string?",
+          "settings-allow-download": "bool?",
+          "remove_expiration": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "modify-shared-link-settings"
+        ]
+      },
+      {
+        "tool": "sharing.revoke-shared-link",
+        "summary": "Revoke a shared link. Required: url.",
+        "params_schema": {
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sharing",
+          "revoke-shared-link"
+        ]
+      },
+      {
+        "tool": "users.get-current-account",
+        "summary": "Get information about the current user's account.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get-current-account"
+        ]
+      },
+      {
+        "tool": "users.get-space-usage",
+        "summary": "Get space usage for the current user's account.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get-space-usage"
+        ]
+      }
+    ]
+  },
+  {
     "api": "drudgereport",
     "description": "Drudge Report in your terminal, with the editorial signal (splash, red, slot, tenure) the live page broadcasts but...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/drudgereport/cmd/drudgereport-pp-cli",
