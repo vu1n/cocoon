@@ -140010,6 +140010,77 @@
     ]
   },
   {
+    "api": "coinlocker-navi",
+    "description": "Walk-up coin lockers in Japan: size, price, IC card, hours, gate side, and live empties where published.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/coinlocker-navi/cmd/coinlocker-navi-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "coinlocker-navi",
+      "Coin Locker Navi",
+      "coinlocker-navi-pp-cli",
+      "Walk-up coin lockers in Japan: size, price, IC card, hours, gate side, and live empties where published.",
+      "Live join on nearest lockers",
+      "near",
+      "See walk-up lockers near a station with live per-size empties attached where Multi Ekicube (nearest bank within 30 m, reservable counts) or the Maihama map publishes them; other lockers have no live field.",
+      "Hours-window filter",
+      "Keep only lockers open across your drop and pick-up times; unknown hours stay visible and flagged.",
+      "Gate side across both sources",
+      "Filter lockers by inside or outside the ticket gates using Multi Ekicube data (exactly one bank within 15 m); unknown gate side never matches, so areas without Multi Ekicube banks return no matches."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.ekicube",
+        "summary": "Raw Multi Ekicube location search with reservable empties (JSON). Required: lang, service_type, includes_premium, includes_no_empty, from_at, end_at. Optional: q, latitude, longitude (plus 3 more). Returns the EkicubeSearch.",
+        "params_schema": {
+          "lang": "string?",
+          "service_type": "string?",
+          "includes_premium": "string?",
+          "includes_no_empty": "string?",
+          "from_at": "string?",
+          "end_at": "string?",
+          "q": "string?",
+          "latitude": "float?",
+          "longitude": "float?",
+          "distance_max": "int?",
+          "ticket_gate": "string?",
+          "page_no": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "ekicube"
+        ]
+      },
+      {
+        "tool": "source.locker",
+        "summary": "Raw coinlocker-navi locker detail page (HTML). Required: id. Returns the Page.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "source",
+          "locker"
+        ]
+      },
+      {
+        "tool": "source.search",
+        "summary": "Raw coinlocker-navi keyword search page (HTML). Required: q. Returns the Page.",
+        "params_schema": {
+          "q": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "company-goat",
     "description": "Look up startups across SEC Form D, GitHub, Hacker News, Companies House, YC, Wikidata, and DNS in one command. Built for scouts, founders, BD, and AI agents researching small/midsize startups.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/company-goat/cmd/company-goat-pp-cli",
@@ -193708,6 +193779,37 @@
     ]
   },
   {
+    "api": "fooda",
+    "description": "Your Fooda office lunch history, subsidy and this week's popups in a terminal, with vendor and spend analytics the app does not offer.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/fooda/cmd/fooda-pp-cli",
+    "auth_type": "cookie",
+    "category": "food-and-dining",
+    "search_terms": [
+      "fooda",
+      "fooda-pp-cli",
+      "Your Fooda office lunch history, subsidy and this week's popups in a terminal, with vendor and spend analytics the app does not offer.",
+      "Served history",
+      "served-history",
+      "See every lunch you were actually served, with date, vendor, items and price.",
+      "Venue rotation",
+      "venue-rotation",
+      "Rank vendors by how often and how recently you ordered from them.",
+      "Spend trends",
+      "spend-trends",
+      "Spend per month or week, split into subsidy-covered and out-of-pocket.",
+      "Week-ahead digest",
+      "week-ahead",
+      "One-line-per-day digest of upcoming events and restaurants at your building.",
+      "Subsidy status",
+      "subsidy-status",
+      "Remaining dollars of today's subsidy and when it is valid.",
+      "Menu search",
+      "menu-search",
+      "Search menu items across all of today's events."
+    ],
+    "endpoints": []
+  },
+  {
     "api": "foodpanda",
     "description": "Every foodpanda restaurant, menu and price in a local database \u2014 with cross-restaurant dish search, price history and fee comparison the app cannot do.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/foodpanda/cmd/foodpanda-pp-cli",
@@ -244332,6 +244434,90 @@
         "argv_path": [
           "source",
           "directory"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "japan-theme-parks",
+    "description": "Compare park dates and ride waits for Tokyo Disney Resort, Universal Studios Japan and Fuji-Q from source-backed data.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/japan-theme-parks/cmd/japan-theme-parks-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "japan-theme-parks",
+      "Japan Theme Parks",
+      "japan-theme-parks-pp-cli",
+      "Compare park dates and ride waits for Tokyo Disney Resort, Universal Studios Japan and Fuji-Q from source-backed data.",
+      "Cross-park date planner",
+      "dates",
+      "See, for each date, whether Tokyo Disneyland and DisneySea tickets are on sale, few left, sold out or not yet on sale, what each ticket costs, and the hours: official for TDL/TDS (published months only), third-party ThemeParks.wiki for USJ and Fuji-Q (about one month ahead).",
+      "Typical waits from local history",
+      "typical",
+      "See median and p75 waits per ride by weekday and hour from your own recorded snapshots, with sample counts and date span.",
+      "Wait snapshot recorder",
+      "snapshot",
+      "Record the current waits for the Japan parks into a local history that later commands read.",
+      "Live waits against your typical",
+      "waits",
+      "On the park day, see live waits next to the usual wait for this weekday and hour from your own snapshots, with sample counts."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.parks",
+        "summary": "List every Queue-Times park group and park (raw; prefer the parks command for Japan parks).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "parks"
+        ]
+      },
+      {
+        "tool": "source.queue-times",
+        "summary": "Raw live queue times for one Queue-Times park id (prefer the waits command). Required: park. Returns the QueueTimes.",
+        "params_schema": {
+          "park": "string"
+        },
+        "positionals": [
+          "park"
+        ],
+        "argv_path": [
+          "source",
+          "queue-times"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "japan-timed-tickets",
+    "description": "When Ghibli Museum, SHIBUYA SKY and teamLab tickets go on sale, and which dates and slots are still open.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/japan-timed-tickets/cmd/japan-timed-tickets-pp-cli",
+    "auth_type": "none",
+    "category": "travel",
+    "search_terms": [
+      "japan-timed-tickets",
+      "Japan Timed Tickets",
+      "japan-timed-tickets-pp-cli",
+      "When Ghibli Museum, SHIBUYA SKY and teamLab tickets go on sale, and which dates and slots are still open.",
+      "Act-now trip state",
+      "onsale",
+      "For each sight and visit date in a trip, see whether to book now, wait for an exact JST sale moment, or drop the date. Ghibli Museum and SHIBUYA SKY show 'unknown' once their sale opens (stock needs a login or sits behind a waiting room).",
+      "SHIBUYA SKY sunset targeting",
+      "See the computed sunset time, the 20-minute SHIBUYA SKY slots to target (on an assumed :00/:20/:40 grid), their web price tier and the moment that date goes on sale. Slot stock is not read.",
+      "Party-size fit",
+      "availability",
+      "For teamLab venues, keep only time slots with enough stock for the whole party; for every sight, flag channel rules for children (for example SHIBUYA SKY child tickets at the counter only)."
+    ],
+    "endpoints": [
+      {
+        "tool": "source.ghibli-calendar",
+        "summary": "Ghibli Museum official ticket page with the museum calendar.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "source",
+          "ghibli-calendar"
         ]
       }
     ]
@@ -429045,6 +429231,40 @@
         ]
       }
     ]
+  },
+  {
+    "api": "walmart",
+    "description": "Walmart Pickup & Delivery from the terminal \u2014 reads via orchestra, cart changes via affiliate link only.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/walmart/cmd/walmart-pp-cli",
+    "auth_type": "cookie",
+    "category": "commerce",
+    "search_terms": [
+      "walmart",
+      "walmart-pp-cli",
+      "Walmart Pickup & Delivery from the terminal \u2014 reads via orchestra, cart changes via affiliate link only.",
+      "Purchase history with filters",
+      "orders list",
+      "PurchaseHistoryV3 persisted query with --type in-store/online, --status completed/in-progress, --search and cursor paging; read-only.",
+      "Order detail with line items",
+      "orders get",
+      "getOrder line items (name, item id, quantity, line price) plus subtotal, tax, fees and total; customer, address and payment fields are never emitted.",
+      "Store-aware product search",
+      "search",
+      "Parses the server-rendered search page for price, unit price, aisle, availability and pickup/delivery fulfillment at the session's store.",
+      "Read-only guard and bot-challenge stop",
+      "Client refuses non-GET requests and denylisted cart/checkout/slot/order mutations, and stops (no retry) on PerimeterX 412/418/429/456 or /blocked.",
+      "Product availability at your store",
+      "product get",
+      "ItemById persisted query: price, unit price, stock, pickup/delivery/shipping status and seller; shopper location fields are never emitted.",
+      "Nearby pickup stores",
+      "store list",
+      "nearByNodes query for a ZIP: store id, distance, address, pickup types and hours; view only, never sets a store.",
+      "Cart view",
+      "getCart GET with a supplied cart id: items, mode, store and slot-reserved flag; MergeAndGetCart and every cart mutation stay blocked.",
+      "Search filters",
+      "--filter type:value (e.g. brand:Great Value), --sort and --list-filters from the page's sort/filter facets."
+    ],
+    "endpoints": []
   },
   {
     "api": "wanderlog",
