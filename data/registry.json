@@ -228221,6 +228221,82 @@
     ]
   },
   {
+    "api": "hostfully",
+    "description": "Hostfully reservations and guest messaging \u2014 plus caller-ID lookup, quotes, and multi-unit vacancy analysis.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/travel/hostfully/cmd/hostfully-pp-cli",
+    "auth_type": "api_key",
+    "category": "travel",
+    "search_terms": [
+      "hostfully",
+      "hostfully-pp-cli",
+      "Hostfully reservations and guest messaging \u2014 plus caller-ID lookup, quotes, and multi-unit vacancy analysis.",
+      "Caller-ID Guest Lookup",
+      "whois",
+      "Look up a guest by phone number or name and get every stay, payment status and reservation access PIN.",
+      "Guest Messaging Inbox",
+      "inbox",
+      "Read recent guest messages and threads, and reply through the reservation thread with a dry-run guard.",
+      "Live Complete Quote",
+      "quote",
+      "Price a stay for a property and dates with rent, taxes and fees itemized.",
+      "Service Jobs",
+      "jobs",
+      "List cleaning and maintenance jobs with service and provider identity, including cancelled jobs.",
+      "Multi-Unit Vacancy Finder",
+      "vacancy",
+      "Find consecutive vacant days across several units at once.",
+      "Maintenance Windows",
+      "maintenance",
+      "Find maintenance slots across units around upcoming bookings.",
+      "Turnover Gap Detection",
+      "turnover",
+      "See cleaning windows between each checkout and the next check-in.",
+      "Occupancy Rate Analysis",
+      "occupancy",
+      "Per-unit and overall occupancy for any period.",
+      "Channel Mix Analytics",
+      "channels",
+      "Break down where bookings come from over a period.",
+      "Revenue Estimation",
+      "revenue",
+      "Estimate revenue per unit and month from booked nights.",
+      "Booking Pattern Analysis",
+      "patterns",
+      "Spot weekday/weekend and seasonal booking trends."
+    ],
+    "endpoints": [
+      {
+        "tool": "leads.list",
+        "summary": "List leads (reservations) with date and property filters. Required: agencyUid. Optional: propertyUid, checkinFrom, checkinTo (plus 4 more).",
+        "params_schema": {
+          "agencyUid": "string?",
+          "propertyUid": "string?",
+          "checkinFrom": "string?",
+          "checkinTo": "string?",
+          "checkoutFrom": "string?",
+          "checkoutTo": "string?",
+          "_limit": "string?",
+          "_cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "leads"
+        ]
+      },
+      {
+        "tool": "properties.list",
+        "summary": "List all properties for the agency. Required: agencyUid.",
+        "params_schema": {
+          "agencyUid": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "properties"
+        ]
+      }
+    ]
+  },
+  {
     "api": "hotel-goat",
     "description": "Every Google Hotels feature, plus per-OTA price breakdown, local price-drift history, brand-loyalty filters",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/hotel-goat/cmd/hotel-goat-pp-cli",
