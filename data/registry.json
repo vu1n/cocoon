@@ -193916,7 +193916,10 @@
       "Remaining dollars of today's subsidy and when it is valid.",
       "Menu search",
       "menu-search",
-      "Search menu items across all of today's events."
+      "Search menu items across all of today's events.",
+      "Delivery status",
+      "delivery-status",
+      "Whether your order for a day (default today) was delivered, with delivery time, vendor and items."
     ],
     "endpoints": []
   },
