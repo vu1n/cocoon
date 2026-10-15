@@ -151663,6 +151663,38 @@
     ]
   },
   {
+    "api": "cookidoo",
+    "description": "Read-only Cookidoo CLI for public recipe details and local recipe analysis.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/cookidoo/cmd/cookidoo-pp-cli",
+    "auth_type": "none",
+    "category": "food-and-dining",
+    "search_terms": [
+      "cookidoo",
+      "cookidoo-pp-cli",
+      "Read-only Cookidoo CLI for public recipe details and local recipe analysis.",
+      "Multi-Recipe Ingredient Plan",
+      "recipes plan",
+      "Combine ingredients from multiple public Cookidoo recipes into one structured plan for review and shopping handoff."
+    ],
+    "endpoints": [
+      {
+        "tool": "recipes.get",
+        "summary": "Get a recipe as schema.org JSON-LD. Required: locale, recipe-id.",
+        "params_schema": {
+          "locale": "string",
+          "recipe-id": "string"
+        },
+        "positionals": [
+          "locale",
+          "recipe-id"
+        ],
+        "argv_path": [
+          "recipes"
+        ]
+      }
+    ]
+  },
+  {
     "api": "cookunity",
     "description": "Mirror CookUnity's full weekly menu into a local database so you can plan meals offline \u2014 filter by macros, diet, and budget, and diff the menu week over week, none of which the web app can do.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/food-and-dining/cookunity/cmd/cookunity-pp-cli",
@@ -279389,6 +279421,54 @@
       "Quick vault-mirror inventory (note count, distinct tag count, link counts by type, last sync time). The thin alternative to `health` for a fast 'how full is the mirror' answer before running Tier-3 analytics."
     ],
     "endpoints": []
+  },
+  {
+    "api": "ofa-health-clearances",
+    "description": "Look up dogs' OFA health clearances (hips, elbows, eyes, cardiac, DNA) and CHIC status by breed, age, and report year, and roll them up by kennel.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/health/ofa-health-clearances/cmd/ofa-health-clearances-pp-cli",
+    "auth_type": "none",
+    "category": "health",
+    "search_terms": [
+      "ofa-health-clearances",
+      "OFA Health Clearances",
+      "ofa-health-clearances-pp-cli",
+      "Look up dogs' OFA health clearances (hips, elbows, eyes, cardiac, DNA) and CHIC status by breed, age, and report year, and roll them up by kennel.",
+      "Kennel rollup",
+      "kennels",
+      "See which kennels in a breed are actively health-testing young dogs, ranked by tested dogs, CHIC dogs, and latest test date."
+    ],
+    "endpoints": [
+      {
+        "tool": "backend.detail",
+        "summary": "Fetch one dog's raw detail page (HTML) by OFA application number. Required: appnum. Optional: page-route (default: /advanced-search/).",
+        "params_schema": {
+          "page-route": "string?",
+          "appnum": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "backend",
+          "detail"
+        ]
+      },
+      {
+        "tool": "backend.search",
+        "summary": "Run one raw Advanced Search query and return the result table rows (20 rows per page). Optional: api_action (default: as_action), breed, test (plus 3 more).",
+        "params_schema": {
+          "api_action": "string?",
+          "breed": "string?",
+          "test": "string?",
+          "report-year": "string?",
+          "chic": "string?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "backend",
+          "search"
+        ]
+      }
+    ]
   },
   {
     "api": "offerup",
