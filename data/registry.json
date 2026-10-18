@@ -244043,6 +244043,53 @@
     ]
   },
   {
+    "api": "investorpaisa",
+    "description": "The Nifty 200 momentum screener, movers and market breadth in your terminal, with a local history the site never keeps.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/investorpaisa/cmd/investorpaisa-pp-cli",
+    "auth_type": "cookie",
+    "category": "payments",
+    "search_terms": [
+      "investorpaisa",
+      "investorpaisa-pp-cli",
+      "The Nifty 200 momentum screener, movers and market breadth in your terminal, with a local history the site never keeps.",
+      "Local expression screener",
+      "screen",
+      "Run the site's screener expression language (close > sma50 and rs >= 70) from the terminal over the Nifty 200 metrics (live, falling back to your last stored snapshot).",
+      "One-stock deep dive",
+      "quote",
+      "Price, range, RSI/SMA/EMA, returns, sector percentile, signals, headlines and watchlist membership for one or more stocks in a single call.",
+      "Movers with confluence",
+      "movers",
+      "Ranked gainers, losers, unusual volume, gappers and 52-week highs/lows, filtered by RS and sector.",
+      "Sector rotation heat",
+      "sectors",
+      "Equal-weight sector returns over 1d-1y, average RS and % above 50/200 DMA, with rank change versus an earlier stored snapshot (--trend needs two stored days).",
+      "Snapshot diff",
+      "changes",
+      "Which stocks entered or left conditions (new 52-week high, RS crossing 70, 50/200 DMA crossings, 2x volume) since an earlier stored snapshot; needs two stored trading days.",
+      "Morning brief",
+      "brief",
+      "Index levels, breadth, your watchlist rows with change, RS and signals, and fresh headlines in one JSON document.",
+      "Breadth history",
+      "breadth",
+      "Trend of advance/decline, % above 50/200 DMA, new 52-week highs and stocks at 52-week lows across your stored daily snapshots.",
+      "Adjusted 5y history",
+      "history",
+      "Five years of daily OHLCV, split/bonus adjustment factors and corporate events for a stock, read from its chart page and cached locally (--raw, --years, --tail)."
+    ],
+    "endpoints": [
+      {
+        "tool": "health.get",
+        "summary": "Check that investorpaisa.com is up. Returns the Health.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "health"
+        ]
+      }
+    ]
+  },
+  {
     "api": "irail",
     "description": "Every Belgian rail lookup the existing tools offer, plus transfer-risk, delay history and accessibility data that none of them have.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/irail/cmd/irail-pp-cli",
