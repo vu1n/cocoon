@@ -325467,6 +325467,1371 @@
     ]
   },
   {
+    "api": "rankmath",
+    "description": "Rank Math SEO from the terminal: bulk meta edits, site-wide SEO audits, Search Console analytics, and IndexNow \u2014 with no bridge plugin.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/rankmath/cmd/rankmath-pp-cli",
+    "auth_type": "api_key",
+    "category": "marketing",
+    "search_terms": [
+      "rankmath",
+      "Rank Math",
+      "rankmath-pp-cli",
+      "Rank Math SEO from the terminal: bulk meta edits, site-wide SEO audits, Search Console analytics, and IndexNow \u2014 with no bridge plugin.",
+      "SEO head audit",
+      "audit",
+      "One list of every synced post with a missing or duplicate SEO title or description, long title, canonical problem, accidental noindex, or no schema. Works on public pages without credentials; run sync first.",
+      "Index coverage gaps",
+      "coverage",
+      "Find published posts Google has not indexed or never inspected, excluding intentionally noindexed pages. Needs credentials and Rank Math Analytics connected to Search Console.",
+      "Reindex changed posts",
+      "reindex",
+      "Preview the posts edited since a given window that are not yet in the IndexNow log; --confirm plus credentials submits them.",
+      "Striking-distance opportunities",
+      "opportunities",
+      "Queries ranking in positions 4-20 whose post title or description does not mention the query. Needs credentials and Rank Math Analytics connected to Search Console.",
+      "Portfolio rollup",
+      "portfolio",
+      "Clicks, impressions, and average position for each site in --sites (or RANKMATH_SITES) in one table. Needs credentials per site."
+    ],
+    "endpoints": [
+      {
+        "tool": "ai.visibility_brands-generate-queries",
+        "summary": "Rank Math ai-visibility: brands generate queries. Required: id. Returns the new AiVisibilityBrandsGenerateQueriesResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "ai",
+          "visibility_brands-generate-queries"
+        ]
+      },
+      {
+        "tool": "ai.visibility_create-brands",
+        "summary": "Rank Math ai-visibility: create brands. Required: description, language, name, platforms, url. Optional: interval, locale. Returns the new AiVisibilityCreateBrandsResponse.",
+        "params_schema": {
+          "description": "string?",
+          "interval": "string?",
+          "language": "string?",
+          "locale": "string?",
+          "name": "string?",
+          "platforms": "string_csv_array?",
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ai",
+          "visibility_create-brands"
+        ]
+      },
+      {
+        "tool": "ai.visibility_get-brands",
+        "summary": "Rank Math ai-visibility: get brands. Required: id. Returns the AiVisibilityGetBrandsResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "ai",
+          "visibility_get-brands"
+        ]
+      },
+      {
+        "tool": "ai.visibility_get-brands-insights",
+        "summary": "Rank Math ai-visibility: get brands insights. Required: id. Returns the AiVisibilityGetBrandsInsightsResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "ai",
+          "visibility_get-brands-insights"
+        ]
+      },
+      {
+        "tool": "ai.visibility_get-brands-queries",
+        "summary": "Rank Math ai-visibility: get brands queries. Required: id. Returns the AiVisibilityGetBrandsQueriesResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "ai",
+          "visibility_get-brands-queries"
+        ]
+      },
+      {
+        "tool": "ai.visibility_overview",
+        "summary": "Rank Math ai-visibility: overview. Optional: refresh (default: false), search. Returns the AiVisibilityOverviewResponse.",
+        "params_schema": {
+          "refresh": "bool?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ai",
+          "visibility_overview"
+        ]
+      },
+      {
+        "tool": "ai.visibility_update-brands",
+        "summary": "Rank Math ai-visibility: update brands. Required: id. Optional: description, interval, language (plus 5 more). Returns the new AiVisibilityUpdateBrandsResponse.",
+        "params_schema": {
+          "id": "string",
+          "description": "string?",
+          "interval": "string?",
+          "language": "string?",
+          "locale": "string?",
+          "name": "string?",
+          "platforms": "string_csv_array?",
+          "status": "string?",
+          "url": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "ai",
+          "visibility_update-brands"
+        ]
+      },
+      {
+        "tool": "ai.visibility_update-brands-queries",
+        "summary": "Rank Math ai-visibility: update brands queries. Required: id, qid, enabled. Returns the new AiVisibilityUpdateBrandsQueriesResponse.",
+        "params_schema": {
+          "id": "string",
+          "qid": "string",
+          "enabled": "bool?"
+        },
+        "positionals": [
+          "id",
+          "qid"
+        ],
+        "argv_path": [
+          "ai",
+          "visibility_update-brands-queries"
+        ]
+      },
+      {
+        "tool": "backup.export-settings",
+        "summary": "Rank Math backup: export settings. Returns the new BackupExportSettingsResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "backup",
+          "export-settings"
+        ]
+      },
+      {
+        "tool": "backup.get-view-data",
+        "summary": "Rank Math backup: get view data. Returns the new BackupGetViewDataResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "backup",
+          "get-view-data"
+        ]
+      },
+      {
+        "tool": "backup.run",
+        "summary": "Rank Math backup: run backup. Returns the new BackupRunResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "backup",
+          "run"
+        ]
+      },
+      {
+        "tool": "dashboard.search-intent",
+        "summary": "Rank Math dashboard: search intent. Required: keyword. Returns the new DashboardSearchIntentResponse.",
+        "params_schema": {
+          "keyword": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "dashboard",
+          "search-intent"
+        ]
+      },
+      {
+        "tool": "dashboard.widget",
+        "summary": "Rank Math dashboard: dashboard widget. Returns the DashboardWidgetResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "dashboard",
+          "widget"
+        ]
+      },
+      {
+        "tool": "gsc.add-track-keyword",
+        "summary": "Rank Math gsc: add track keyword. Optional: context, keyword, page (default: 1) (plus 2 more). Returns the new GscAddTrackKeywordResponse.",
+        "params_schema": {
+          "context": "string?",
+          "keyword": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "add-track-keyword"
+        ]
+      },
+      {
+        "tool": "gsc.analytics-summary",
+        "summary": "Rank Math gsc: analytics summary. Optional: postType. Returns the GscAnalyticsSummaryResponse.",
+        "params_schema": {
+          "postType": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "analytics-summary"
+        ]
+      },
+      {
+        "tool": "gsc.auto-add-focus-keywords",
+        "summary": "Rank Math gsc: auto add focus keywords. Optional: context, data, page (default: 1) (plus 2 more). Returns the new GscAutoAddFocusKeywordsResponse.",
+        "params_schema": {
+          "context": "string?",
+          "data": "object?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "auto-add-focus-keywords"
+        ]
+      },
+      {
+        "tool": "gsc.dashboard",
+        "summary": "Rank Math gsc: dashboard. Returns the GscDashboardResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "dashboard"
+        ]
+      },
+      {
+        "tool": "gsc.delete-tracked-keywords",
+        "summary": "Rank Math gsc: delete tracked keywords. Returns the new GscDeleteTrackedKeywordsResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "delete-tracked-keywords"
+        ]
+      },
+      {
+        "tool": "gsc.get-desktop-pagespeed",
+        "summary": "Rank Math gsc: get desktop pagespeed. Optional: context, force (default: false), id (default: 0) (plus 5 more). Returns the new GscGetDesktopPagespeedResponse.",
+        "params_schema": {
+          "context": "string?",
+          "force": "bool?",
+          "id": "int?",
+          "isAdminBar": "bool?",
+          "objectID": "int?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "get-desktop-pagespeed"
+        ]
+      },
+      {
+        "tool": "gsc.get-keyword-pages",
+        "summary": "Rank Math gsc: get keyword pages. Optional: context, page (default: 1), per_page (default: 10) (plus 2 more). Returns the GscGetKeywordPagesResponse.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "get-keyword-pages"
+        ]
+      },
+      {
+        "tool": "gsc.get-mobile-pagespeed",
+        "summary": "Rank Math gsc: get mobile pagespeed. Optional: context, force (default: false), id (default: 0) (plus 5 more). Returns the new GscGetMobilePagespeedResponse.",
+        "params_schema": {
+          "context": "string?",
+          "force": "bool?",
+          "id": "int?",
+          "isAdminBar": "bool?",
+          "objectID": "int?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "get-mobile-pagespeed"
+        ]
+      },
+      {
+        "tool": "gsc.get-page-seoscore",
+        "summary": "Rank Math gsc: get page seoscore. Optional: context, force (default: false), id (default: 0) (plus 5 more). Returns the new GscGetPageSeoscoreResponse.",
+        "params_schema": {
+          "context": "string?",
+          "force": "bool?",
+          "id": "int?",
+          "isAdminBar": "bool?",
+          "objectID": "int?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "get-page-seoscore"
+        ]
+      },
+      {
+        "tool": "gsc.get-post",
+        "summary": "Rank Math gsc: get post. Required: id. Returns the GscGetPostResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "gsc",
+          "get-post"
+        ]
+      },
+      {
+        "tool": "gsc.get-tracked-keyword-summary",
+        "summary": "Rank Math gsc: get tracked keyword summary. Returns the GscGetTrackedKeywordSummaryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "get-tracked-keyword-summary"
+        ]
+      },
+      {
+        "tool": "gsc.get-tracked-keywords",
+        "summary": "Rank Math gsc: get tracked keywords. Returns the GscGetTrackedKeywordsResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "get-tracked-keywords"
+        ]
+      },
+      {
+        "tool": "gsc.get-tracked-keywords-rows",
+        "summary": "Rank Math gsc: get tracked keywords rows. Optional: context, page (default: 1), per_page (default: 10) (plus 3 more). Returns the GscGetTrackedKeywordsRowsResponse.",
+        "params_schema": {
+          "context": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "orderby": "string?",
+          "order": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "get-tracked-keywords-rows"
+        ]
+      },
+      {
+        "tool": "gsc.inspection-results",
+        "summary": "Rank Math gsc: inspection results. Optional: page, perPage, orderBy (plus 4 more). Returns the GscInspectionResultsResponse.",
+        "params_schema": {
+          "page": "int?",
+          "perPage": "int?",
+          "orderBy": "string?",
+          "order": "string?",
+          "search": "string?",
+          "filter": "string?",
+          "filterType": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "inspection-results"
+        ]
+      },
+      {
+        "tool": "gsc.inspection-stats",
+        "summary": "Rank Math gsc: inspection stats. Returns the GscInspectionStatsResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "inspection-stats"
+        ]
+      },
+      {
+        "tool": "gsc.keywords-overview",
+        "summary": "Rank Math gsc: keywords overview. Returns the GscKeywordsOverviewResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "keywords-overview"
+        ]
+      },
+      {
+        "tool": "gsc.keywords-rows",
+        "summary": "Rank Math gsc: keywords rows. Optional: page, perPage, orderBy (plus 2 more). Returns the GscKeywordsRowsResponse.",
+        "params_schema": {
+          "page": "int?",
+          "perPage": "int?",
+          "orderBy": "string?",
+          "order": "string?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "keywords-rows"
+        ]
+      },
+      {
+        "tool": "gsc.keywords-summary",
+        "summary": "Rank Math gsc: keywords summary. Returns the GscKeywordsSummaryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "keywords-summary"
+        ]
+      },
+      {
+        "tool": "gsc.posts-overview",
+        "summary": "Rank Math gsc: posts overview. Returns the GscPostsOverviewResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "posts-overview"
+        ]
+      },
+      {
+        "tool": "gsc.posts-rows",
+        "summary": "Rank Math gsc: posts rows. Optional: page (default: 1), orderby, order. Returns the GscPostsRowsResponse.",
+        "params_schema": {
+          "page": "int?",
+          "orderby": "string?",
+          "order": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "posts-rows"
+        ]
+      },
+      {
+        "tool": "gsc.posts-rows-by-objects",
+        "summary": "Rank Math gsc: posts rows by objects. Optional: page, per_page, orderby (plus 1 more). Returns the GscPostsRowsByObjectsResponse.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?",
+          "orderby": "string?",
+          "order": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "posts-rows-by-objects"
+        ]
+      },
+      {
+        "tool": "gsc.posts-summary",
+        "summary": "Rank Math gsc: posts summary. Returns the GscPostsSummaryResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "posts-summary"
+        ]
+      },
+      {
+        "tool": "gsc.remove-track-keyword",
+        "summary": "Rank Math gsc: remove track keyword. Optional: context, order (default: desc), orderby (default: date) (plus 3 more). Returns the new GscRemoveTrackKeywordResponse.",
+        "params_schema": {
+          "context": "string?",
+          "order": "string?",
+          "orderby": "string?",
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "remove-track-keyword"
+        ]
+      },
+      {
+        "tool": "gsc.tracked-keywords-overview",
+        "summary": "Rank Math gsc: tracked keywords overview. Returns the GscTrackedKeywordsOverviewResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "gsc",
+          "tracked-keywords-overview"
+        ]
+      },
+      {
+        "tool": "head.get",
+        "summary": "Rendered Rank Math head tags for a URL (needs headless support enabled). Required: url. Returns the HeadGetResponse. (public)",
+        "params_schema": {
+          "url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "head"
+        ]
+      },
+      {
+        "tool": "indexing.clear-log",
+        "summary": "Rank Math indexing: clear log. Optional: filter (default: all). Returns the new IndexingClearLogResponse.",
+        "params_schema": {
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "indexing",
+          "clear-log"
+        ]
+      },
+      {
+        "tool": "indexing.get-log",
+        "summary": "Rank Math indexing: get log. Optional: filter (default: all). Returns the new IndexingGetLogResponse.",
+        "params_schema": {
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "indexing",
+          "get-log"
+        ]
+      },
+      {
+        "tool": "indexing.submit-urls",
+        "summary": "Rank Math indexing: submit urls. Required: urls. Returns the new IndexingSubmitUrlsResponse.",
+        "params_schema": {
+          "urls": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "indexing",
+          "submit-urls"
+        ]
+      },
+      {
+        "tool": "link.genius_audit-mark-safe",
+        "summary": "Rank Math link-genius: audit mark safe. Optional: filters, link_ids, reason. Returns the new LinkGeniusAuditMarkSafeResponse.",
+        "params_schema": {
+          "filters": "object?",
+          "link_ids": "string_csv_array?",
+          "reason": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_audit-mark-safe"
+        ]
+      },
+      {
+        "tool": "link.genius_audit-recheck",
+        "summary": "Rank Math link-genius: audit recheck. Optional: filters, link_ids. Returns the new LinkGeniusAuditRecheckResponse.",
+        "params_schema": {
+          "filters": "object?",
+          "link_ids": "string_csv_array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_audit-recheck"
+        ]
+      },
+      {
+        "tool": "link.genius_audit-start",
+        "summary": "Rank Math link-genius: audit start. Optional: filters. Returns the new LinkGeniusAuditStartResponse.",
+        "params_schema": {
+          "filters": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_audit-start"
+        ]
+      },
+      {
+        "tool": "link.genius_audit-stats",
+        "summary": "Rank Math link-genius: audit stats. Returns the LinkGeniusAuditStatsResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_audit-stats"
+        ]
+      },
+      {
+        "tool": "link.genius_bulk-actions-restore",
+        "summary": "Rank Math link-genius: bulk actions restore. Required: batch_id. Returns the new LinkGeniusBulkActionsRestoreResponse.",
+        "params_schema": {
+          "batch_id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_bulk-actions-restore"
+        ]
+      },
+      {
+        "tool": "link.genius_bulk-update-apply",
+        "summary": "Rank Math link-genius: bulk update apply. Required: filters, update_config. Optional: is_rollback (default: false), rollback_batch_id, selected_link_ids. Returns the new LinkGeniusBulkUpdateApplyResponse.",
+        "params_schema": {
+          "filters": "object?",
+          "is_rollback": "bool?",
+          "rollback_batch_id": "string?",
+          "selected_link_ids": "array?",
+          "update_config": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_bulk-update-apply"
+        ]
+      },
+      {
+        "tool": "link.genius_bulk-update-preview",
+        "summary": "Rank Math link-genius: bulk update preview. Required: filters, update_config. Returns the new LinkGeniusBulkUpdatePreviewResponse.",
+        "params_schema": {
+          "filters": "object?",
+          "update_config": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_bulk-update-preview"
+        ]
+      },
+      {
+        "tool": "link.genius_bulk-update-preview-results",
+        "summary": "Rank Math link-genius: bulk update preview results. Optional: page (default: 1), per_page (default: 20). Returns the LinkGeniusBulkUpdatePreviewResultsResponse.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_bulk-update-preview-results"
+        ]
+      },
+      {
+        "tool": "link.genius_bulk-update-rollback",
+        "summary": "Rank Math link-genius: bulk update rollback. Required: batch_id. Optional: selected_post_ids. Returns the new LinkGeniusBulkUpdateRollbackResponse.",
+        "params_schema": {
+          "batch_id": "string?",
+          "selected_post_ids": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_bulk-update-rollback"
+        ]
+      },
+      {
+        "tool": "link.genius_create-keyword-maps",
+        "summary": "Rank Math link-genius: create keyword maps. Required: name, target_url. Optional: auto_link_on_publish (default: false), case_sensitive (default: false), description (plus 2 more). Returns the new LinkGeniusCreateKeywordMapsResponse.",
+        "params_schema": {
+          "auto_link_on_publish": "bool?",
+          "case_sensitive": "bool?",
+          "description": "string?",
+          "is_enabled": "bool?",
+          "max_links_per_post": "int?",
+          "name": "string?",
+          "target_url": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_create-keyword-maps"
+        ]
+      },
+      {
+        "tool": "link.genius_delete",
+        "summary": "Rank Math link-genius: delete. Optional: filters, link_ids. Returns the new LinkGeniusDeleteResponse.",
+        "params_schema": {
+          "filters": "object?",
+          "link_ids": "string_csv_array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_delete"
+        ]
+      },
+      {
+        "tool": "link.genius_delete-bulk-update-history",
+        "summary": "Rank Math link-genius: delete bulk update history. Required: batch_id. Returns the LinkGeniusDeleteBulkUpdateHistoryResponse. Destructive.",
+        "params_schema": {
+          "batch_id": "string"
+        },
+        "positionals": [
+          "batch_id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_delete-bulk-update-history"
+        ]
+      },
+      {
+        "tool": "link.genius_delete-keyword-maps",
+        "summary": "Rank Math link-genius: delete keyword maps. Required: id. Returns the LinkGeniusDeleteKeywordMapsResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_delete-keyword-maps"
+        ]
+      },
+      {
+        "tool": "link.genius_delete-keyword-maps-variations",
+        "summary": "Rank Math link-genius: delete keyword maps variations. Required: id. Returns the LinkGeniusDeleteKeywordMapsVariationsResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_delete-keyword-maps-variations"
+        ]
+      },
+      {
+        "tool": "link.genius_export",
+        "summary": "Rank Math link-genius: export. Required: columns, format, total, type. Optional: filters. Returns the new LinkGeniusExportResponse.",
+        "params_schema": {
+          "columns": "string_csv_array?",
+          "filters": "object?",
+          "format": "string?",
+          "total": "int?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_export"
+        ]
+      },
+      {
+        "tool": "link.genius_get-bulk-update-changes",
+        "summary": "Rank Math link-genius: get bulk update changes. Required: batch_id. Returns the LinkGeniusGetBulkUpdateChangesResponse.",
+        "params_schema": {
+          "batch_id": "string"
+        },
+        "positionals": [
+          "batch_id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_get-bulk-update-changes"
+        ]
+      },
+      {
+        "tool": "link.genius_get-keyword-maps",
+        "summary": "Rank Math link-genius: get keyword maps. Required: id. Returns the LinkGeniusGetKeywordMapsResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_get-keyword-maps"
+        ]
+      },
+      {
+        "tool": "link.genius_get-keyword-maps-variations",
+        "summary": "Rank Math link-genius: get keyword maps variations. Required: id. Returns the LinkGeniusGetKeywordMapsVariationsResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_get-keyword-maps-variations"
+        ]
+      },
+      {
+        "tool": "link.genius_get-links-details",
+        "summary": "Rank Math link-genius: get links details. Required: id. Returns the LinkGeniusGetLinksDetailsResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_get-links-details"
+        ]
+      },
+      {
+        "tool": "link.genius_item-keyword-maps-generate-variations",
+        "summary": "Rank Math link-genius: item keyword maps generate variations. Required: keyword. Optional: context. Returns the new LinkGeniusItemKeywordMapsGenerateVariationsResponse.",
+        "params_schema": {
+          "context": "string?",
+          "keyword": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_item-keyword-maps-generate-variations"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-accept-variations",
+        "summary": "Rank Math link-genius: keyword maps accept variations. Required: id, variations. Returns the new LinkGeniusKeywordMapsAcceptVariationsResponse.",
+        "params_schema": {
+          "id": "string",
+          "variations": "string_csv_array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-accept-variations"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-bulk-delete",
+        "summary": "Rank Math link-genius: keyword maps bulk delete. Required: ids. Returns the new LinkGeniusKeywordMapsBulkDeleteResponse.",
+        "params_schema": {
+          "ids": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-bulk-delete"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-bulk-toggle",
+        "summary": "Rank Math link-genius: keyword maps bulk toggle. Required: enabled, ids. Returns the new LinkGeniusKeywordMapsBulkToggleResponse.",
+        "params_schema": {
+          "enabled": "bool?",
+          "ids": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-bulk-toggle"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-execute",
+        "summary": "Rank Math link-genius: keyword maps execute. Required: id. Returns the new LinkGeniusKeywordMapsExecuteResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-execute"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-generate-variations",
+        "summary": "Rank Math link-genius: keyword maps generate variations. Required: id. Returns the new LinkGeniusKeywordMapsGenerateVariationsResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-generate-variations"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-history",
+        "summary": "Rank Math link-genius: keyword maps history. Optional: page (default: 1), per_page (default: 20). Returns the LinkGeniusKeywordMapsHistoryResponse.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-history"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-preview",
+        "summary": "Rank Math link-genius: keyword maps preview. Required: id. Returns the new LinkGeniusKeywordMapsPreviewResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-preview"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-preview-results",
+        "summary": "Rank Math link-genius: keyword maps preview results. Required: keyword_map_id. Optional: page (default: 1), per_page (default: 20). Returns the LinkGeniusKeywordMapsPreviewResultsResponse.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?",
+          "keyword_map_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-preview-results"
+        ]
+      },
+      {
+        "tool": "link.genius_keyword-maps-variations",
+        "summary": "Rank Math link-genius: keyword maps variations. Required: id, variation. Optional: source (default: manual). Returns the new LinkGeniusKeywordMapsVariationsResponse.",
+        "params_schema": {
+          "id": "string",
+          "source": "string?",
+          "variation": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_keyword-maps-variations"
+        ]
+      },
+      {
+        "tool": "link.genius_link-opportunities",
+        "summary": "Rank Math link-genius: link opportunities. Required: post_id. Optional: current. Returns the new LinkGeniusLinkOpportunitiesResponse.",
+        "params_schema": {
+          "current": "object?",
+          "post_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_link-opportunities"
+        ]
+      },
+      {
+        "tool": "link.genius_link-suggestions",
+        "summary": "Rank Math link-genius: link suggestions. Required: post_id. Optional: current, text. Returns the new LinkGeniusLinkSuggestionsResponse.",
+        "params_schema": {
+          "current": "object?",
+          "post_id": "int?",
+          "text": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_link-suggestions"
+        ]
+      },
+      {
+        "tool": "link.genius_list-bulk-update-history",
+        "summary": "Rank Math link-genius: list bulk update history. Optional: page (default: 1), per_page (default: 20). Returns the LinkGeniusListBulkUpdateHistoryResponse.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_list-bulk-update-history"
+        ]
+      },
+      {
+        "tool": "link.genius_list-keyword-maps",
+        "summary": "Rank Math link-genius: list keyword maps. Optional: page (default: 1), per_page (default: 20), orderby (default: created_at) (plus 3 more). Returns the LinkGeniusListKeywordMapsResponse.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?",
+          "orderby": "string?",
+          "order": "string?",
+          "enabled": "bool?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_list-keyword-maps"
+        ]
+      },
+      {
+        "tool": "link.genius_list-links",
+        "summary": "Rank Math link-genius: list links. Optional: page (default: 1), per_page (default: 50), source_id (default: 0) (plus 16 more). Returns the LinkGeniusListLinksResponse.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?",
+          "source_id": "int?",
+          "target_post_id": "int?",
+          "is_internal": "string?",
+          "is_nofollow": "string?",
+          "anchor_type": "string?",
+          "target_blank": "string?",
+          "search": "string?",
+          "orderby": "string?",
+          "order": "string?",
+          "status_code": "array?",
+          "status_category": "string?",
+          "is_broken": "bool?",
+          "is_success": "bool?",
+          "is_redirect": "string?",
+          "robots_blocked": "string?",
+          "unchecked": "string?",
+          "is_marked_safe": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_list-links"
+        ]
+      },
+      {
+        "tool": "link.genius_operations-cancel",
+        "summary": "Rank Math link-genius: operations cancel. Required: operation. Optional: id. Returns the new LinkGeniusOperationsCancelResponse.",
+        "params_schema": {
+          "id": "int?",
+          "operation": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_operations-cancel"
+        ]
+      },
+      {
+        "tool": "link.genius_operations-clear",
+        "summary": "Rank Math link-genius: operations clear. Required: operation. Optional: id. Returns the new LinkGeniusOperationsClearResponse.",
+        "params_schema": {
+          "id": "int?",
+          "operation": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_operations-clear"
+        ]
+      },
+      {
+        "tool": "link.genius_operations-progress",
+        "summary": "Rank Math link-genius: operations progress. Required: operation. Optional: id. Returns the LinkGeniusOperationsProgressResponse.",
+        "params_schema": {
+          "operation": "string?",
+          "id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_operations-progress"
+        ]
+      },
+      {
+        "tool": "link.genius_posts",
+        "summary": "Rank Math link-genius: posts. Optional: page (default: 1), per_page (default: 50), search (plus 6 more). Returns the LinkGeniusPostsResponse.",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?",
+          "search": "string?",
+          "post_type": "array?",
+          "is_orphan": "string?",
+          "seo_score_range": "string?",
+          "orderby": "string?",
+          "order": "string?",
+          "min_incoming_links": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_posts"
+        ]
+      },
+      {
+        "tool": "link.genius_posts-stats",
+        "summary": "Rank Math link-genius: posts stats. Returns the LinkGeniusPostsStatsResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_posts-stats"
+        ]
+      },
+      {
+        "tool": "link.genius_regenerate",
+        "summary": "Rank Math link-genius: regenerate. Returns the new LinkGeniusRegenerateResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_regenerate"
+        ]
+      },
+      {
+        "tool": "link.genius_related-posts",
+        "summary": "Rank Math link-genius: related posts. Required: post_id. Optional: current. Returns the new LinkGeniusRelatedPostsResponse.",
+        "params_schema": {
+          "current": "object?",
+          "post_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_related-posts"
+        ]
+      },
+      {
+        "tool": "link.genius_remove-nofollow",
+        "summary": "Rank Math link-genius: remove nofollow. Required: link_id. Returns the new LinkGeniusRemoveNofollowResponse.",
+        "params_schema": {
+          "link_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_remove-nofollow"
+        ]
+      },
+      {
+        "tool": "link.genius_stats",
+        "summary": "Rank Math link-genius: stats. Returns the LinkGeniusStatsResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_stats"
+        ]
+      },
+      {
+        "tool": "link.genius_undo-delete",
+        "summary": "Rank Math link-genius: undo delete. Required: original_content, post_id. Returns the new LinkGeniusUndoDeleteResponse.",
+        "params_schema": {
+          "original_content": "string?",
+          "post_id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_undo-delete"
+        ]
+      },
+      {
+        "tool": "link.genius_update",
+        "summary": "Rank Math link-genius: update. Required: link_id, new_anchor, new_url. Optional: is_nofollow (default: 0), target_blank (default: 0). Returns the new LinkGeniusUpdateResponse.",
+        "params_schema": {
+          "is_nofollow": "int?",
+          "link_id": "int?",
+          "new_anchor": "string?",
+          "new_url": "string?",
+          "target_blank": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "link",
+          "genius_update"
+        ]
+      },
+      {
+        "tool": "link.genius_update-keyword-maps",
+        "summary": "Rank Math link-genius: update keyword maps. Required: id. Optional: auto_link_on_publish (default: false), case_sensitive (default: false), description (plus 4 more). Returns the new LinkGeniusUpdateKeywordMapsResponse.",
+        "params_schema": {
+          "id": "string",
+          "auto_link_on_publish": "bool?",
+          "case_sensitive": "bool?",
+          "description": "string?",
+          "is_enabled": "bool?",
+          "max_links_per_post": "int?",
+          "name": "string?",
+          "target_url": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "link",
+          "genius_update-keyword-maps"
+        ]
+      },
+      {
+        "tool": "meta.update",
+        "summary": "Rank Math meta: update meta. Required: meta, objectID, objectType. Returns the new MetaUpdateResponse.",
+        "params_schema": {
+          "meta": "string?",
+          "objectID": "int?",
+          "objectType": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "meta"
+        ]
+      },
+      {
+        "tool": "meta.update-bulk",
+        "summary": "Rank Math meta: update meta bulk. Required: rows. Returns the new MetaUpdateBulkResponse.",
+        "params_schema": {
+          "rows": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "meta",
+          "update-bulk"
+        ]
+      },
+      {
+        "tool": "meta.update-seo-score",
+        "summary": "Rank Math meta: update seo score. Required: postScores. Returns the new MetaUpdateSeoScoreResponse.",
+        "params_schema": {
+          "postScores": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "meta",
+          "update-seo-score"
+        ]
+      },
+      {
+        "tool": "pages.list",
+        "summary": "List published WordPress pages (id, link, modified). Optional: per_page (default: 100), page (default: 1), modified_after (plus 2 more). Returns array of PagesListItem. (public)",
+        "params_schema": {
+          "per_page": "int?",
+          "page": "int?",
+          "modified_after": "string?",
+          "search": "string?",
+          "_fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "pages"
+        ]
+      },
+      {
+        "tool": "posts.list",
+        "summary": "List published WordPress posts (id, link, modified). Optional: per_page (default: 100), page (default: 1), modified_after (plus 2 more). Returns array of PostsListItem. (public)",
+        "params_schema": {
+          "per_page": "int?",
+          "page": "int?",
+          "modified_after": "string?",
+          "search": "string?",
+          "_fields": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "posts"
+        ]
+      },
+      {
+        "tool": "redirections.update",
+        "summary": "Rank Math redirections: update redirection. Required: hasRedirect, objectID, objectType (default: post), redirectionType (default: 301). Optional: redirectionID, redirectionSources, redirectionUrl. Returns the new RedirectionsUpdateResponse.",
+        "params_schema": {
+          "hasRedirect": "bool?",
+          "objectID": "int?",
+          "objectType": "string?",
+          "redirectionID": "string?",
+          "redirectionType": "string?",
+          "redirectionSources": "string?",
+          "redirectionUrl": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "redirections"
+        ]
+      },
+      {
+        "tool": "schema.update",
+        "summary": "Rank Math schema: update schemas. Required: objectID, objectType, schemas. Returns the new SchemaUpdateResponse.",
+        "params_schema": {
+          "objectID": "int?",
+          "objectType": "string?",
+          "schemas": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "schema"
+        ]
+      },
+      {
+        "tool": "schema.save-template",
+        "summary": "Rank Math schema: save template. Required: schema. Optional: postId. Returns the new SchemaSaveTemplateResponse.",
+        "params_schema": {
+          "postId": "int?",
+          "schema": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "schema",
+          "save-template"
+        ]
+      },
+      {
+        "tool": "settings.update",
+        "summary": "Rank Math settings: update settings. Returns the new SettingsUpdateResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings"
+        ]
+      },
+      {
+        "tool": "settings.save-module",
+        "summary": "Rank Math settings: save module. Required: module, state. Returns the new SettingsSaveModuleResponse.",
+        "params_schema": {
+          "module": "string?",
+          "state": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "save-module"
+        ]
+      }
+    ]
+  },
+  {
     "api": "rapidapi",
     "description": "RapidAPI Hub marketplace CLI - search APIs, browse categories & collections, inspect providers",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/rapidapi/cmd/rapidapi-pp-cli",
