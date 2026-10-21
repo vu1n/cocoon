@@ -15200,6 +15200,594 @@
     ]
   },
   {
+    "api": "airtable",
+    "description": "Airtable REST API CLI with offline cross-base search, CSV merge-upserts, field-level diffs before bulk writes, and schema drift detection.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/airtable/cmd/airtable-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "productivity",
+    "search_terms": [
+      "airtable",
+      "airtable-pp-cli",
+      "Airtable REST API CLI with offline cross-base search, CSV merge-upserts, field-level diffs before bulk writes, and schema drift detection.",
+      "Merge-field upsert from CSV",
+      "records upsert-csv",
+      "Take a raw CSV export and merge-upsert it straight into an Airtable table, matched on the field you choose.",
+      "Local diff before bulk write",
+      "records diff",
+      "See exactly which fields on which existing records would change before a bulk update or upsert actually runs.",
+      "Cross-base full-text search",
+      "search",
+      "Search text across every synced base and table at once from one local index.",
+      "Schema drift detection",
+      "bases schema-diff",
+      "Show exactly what changed in a base's schema since the last time this command ran for that base."
+    ],
+    "endpoints": [
+      {
+        "tool": "attachments.upload",
+        "summary": "Upload a file (up to 5MB) directly to an attachment cell. Required: base, record_id, field_id, content-type, file, filename.",
+        "params_schema": {
+          "base": "string",
+          "record_id": "string",
+          "field_id": "string",
+          "content-type": "string?",
+          "file": "string?",
+          "filename": "string?"
+        },
+        "positionals": [
+          "base",
+          "record_id",
+          "field_id"
+        ],
+        "argv_path": [
+          "attachments",
+          "upload"
+        ]
+      },
+      {
+        "tool": "bases.create",
+        "summary": "Create a base with tables and return its schema. Required: workspaceId, name, tables.",
+        "params_schema": {
+          "workspaceId": "string?",
+          "name": "string?",
+          "tables": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bases"
+        ]
+      },
+      {
+        "tool": "bases.get_collaborators",
+        "summary": "Get basic base info: name, permission level, and outstanding invites. Required: base_id.",
+        "params_schema": {
+          "base_id": "string"
+        },
+        "positionals": [
+          "base_id"
+        ],
+        "argv_path": [
+          "bases",
+          "get_collaborators"
+        ]
+      },
+      {
+        "tool": "bases.get_schema",
+        "summary": "Return the schema (tables, fields, views) for a base. Required: base_id. Optional: include.",
+        "params_schema": {
+          "base_id": "string",
+          "include": "array?"
+        },
+        "positionals": [
+          "base_id"
+        ],
+        "argv_path": [
+          "bases",
+          "get_schema"
+        ]
+      },
+      {
+        "tool": "bases.list",
+        "summary": "List bases the token can access. Optional: offset.",
+        "params_schema": {
+          "offset": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bases",
+          "list"
+        ]
+      },
+      {
+        "tool": "comments.create",
+        "summary": "Create a comment on a record. Required: base, table, record_id, text.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "record_id": "string",
+          "text": "string?"
+        },
+        "positionals": [
+          "base",
+          "table",
+          "record_id"
+        ],
+        "argv_path": [
+          "comments"
+        ]
+      },
+      {
+        "tool": "comments.delete",
+        "summary": "Delete a comment you created (Enterprise Admins can delete any). Required: base, table, record_id, comment_id. Destructive.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "record_id": "string",
+          "comment_id": "string"
+        },
+        "positionals": [
+          "base",
+          "table",
+          "record_id",
+          "comment_id"
+        ],
+        "argv_path": [
+          "comments",
+          "delete"
+        ]
+      },
+      {
+        "tool": "comments.list",
+        "summary": "List comments on a record, newest first. Required: base, table, record_id. Optional: page-size, offset.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "record_id": "string",
+          "page-size": "int?",
+          "offset": "string?"
+        },
+        "positionals": [
+          "base",
+          "table",
+          "record_id"
+        ],
+        "argv_path": [
+          "comments",
+          "list"
+        ]
+      },
+      {
+        "tool": "comments.update",
+        "summary": "Update a comment you created. Required: base, table, record_id, comment_id, text. Partial update.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "record_id": "string",
+          "comment_id": "string",
+          "text": "string?"
+        },
+        "positionals": [
+          "base",
+          "table",
+          "record_id",
+          "comment_id"
+        ],
+        "argv_path": [
+          "comments",
+          "update"
+        ]
+      },
+      {
+        "tool": "fields.create",
+        "summary": "Create a field in a table. Required: base_id, table_id, name, type. Optional: description, options.",
+        "params_schema": {
+          "base_id": "string",
+          "table_id": "string",
+          "name": "string?",
+          "type": "string?",
+          "description": "string?",
+          "options": "object?"
+        },
+        "positionals": [
+          "base_id",
+          "table_id"
+        ],
+        "argv_path": [
+          "fields"
+        ]
+      },
+      {
+        "tool": "fields.update",
+        "summary": "Update a field's name, description, or options. Required: base_id, table_id, field_id. Optional: name, description, options. Partial update.",
+        "params_schema": {
+          "base_id": "string",
+          "table_id": "string",
+          "field_id": "string",
+          "name": "string?",
+          "description": "string?",
+          "options": "object?"
+        },
+        "positionals": [
+          "base_id",
+          "table_id",
+          "field_id"
+        ],
+        "argv_path": [
+          "fields",
+          "update"
+        ]
+      },
+      {
+        "tool": "records.create",
+        "summary": "Create one or more records. Required: base, table. Optional: fields, records, returnFieldsByFieldId (plus 1 more).",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "fields": "object?",
+          "records": "array?",
+          "returnFieldsByFieldId": "bool?",
+          "typecast": "bool?"
+        },
+        "positionals": [
+          "base",
+          "table"
+        ],
+        "argv_path": [
+          "records"
+        ]
+      },
+      {
+        "tool": "records.delete",
+        "summary": "Delete a single record. Required: base, table, record_id. Destructive.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "record_id": "string"
+        },
+        "positionals": [
+          "base",
+          "table",
+          "record_id"
+        ],
+        "argv_path": [
+          "records",
+          "delete"
+        ]
+      },
+      {
+        "tool": "records.delete_multiple",
+        "summary": "Delete multiple records by ID. Required: base, table, records. Destructive.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "records": "array?"
+        },
+        "positionals": [
+          "base",
+          "table"
+        ],
+        "argv_path": [
+          "records",
+          "delete_multiple"
+        ]
+      },
+      {
+        "tool": "records.get",
+        "summary": "Retrieve a single record. Required: base, table, record_id. Optional: return-fields-by-field-id.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "record_id": "string",
+          "return-fields-by-field-id": "bool?"
+        },
+        "positionals": [
+          "base",
+          "table",
+          "record_id"
+        ],
+        "argv_path": [
+          "records",
+          "get"
+        ]
+      },
+      {
+        "tool": "records.list",
+        "summary": "List records in a table, with formula filtering, sorting, view scoping, and pagination. Required: base, table. Optional: timezone, user-locale, page-size (default: 100) (plus 10 more).",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "timezone": "string?",
+          "user-locale": "string?",
+          "page-size": "int?",
+          "max-records": "int?",
+          "offset": "string?",
+          "view": "string?",
+          "sort-field": "string?",
+          "sort-direction": "string?",
+          "filter-formula": "string?",
+          "cell-format": "string?",
+          "fields": "array?",
+          "return-fields-by-field-id": "bool?",
+          "record-metadata": "array?"
+        },
+        "positionals": [
+          "base",
+          "table"
+        ],
+        "argv_path": [
+          "records",
+          "list"
+        ]
+      },
+      {
+        "tool": "records.replace",
+        "summary": "Destructively replace a single record; unspecified cell values are cleared. Required: base, table, record_id, fields. Optional: returnFieldsByFieldId, typecast.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "record_id": "string",
+          "fields": "object?",
+          "returnFieldsByFieldId": "bool?",
+          "typecast": "bool?"
+        },
+        "positionals": [
+          "base",
+          "table",
+          "record_id"
+        ],
+        "argv_path": [
+          "records",
+          "replace"
+        ]
+      },
+      {
+        "tool": "records.replace_multiple",
+        "summary": "Destructively replace multiple records in one request (or upsert, clearing unspecified fields). Required: base, table, records. Optional: performUpsert, returnFieldsByFieldId, typecast.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "records": "array?",
+          "performUpsert": "object?",
+          "returnFieldsByFieldId": "bool?",
+          "typecast": "bool?"
+        },
+        "positionals": [
+          "base",
+          "table"
+        ],
+        "argv_path": [
+          "records",
+          "replace_multiple"
+        ]
+      },
+      {
+        "tool": "records.update",
+        "summary": "Update a single record; only the fields you specify are changed (partial update). Required: base, table, record_id, fields. Optional: returnFieldsByFieldId, typecast.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "record_id": "string",
+          "fields": "object?",
+          "returnFieldsByFieldId": "bool?",
+          "typecast": "bool?"
+        },
+        "positionals": [
+          "base",
+          "table",
+          "record_id"
+        ],
+        "argv_path": [
+          "records",
+          "update"
+        ]
+      },
+      {
+        "tool": "records.update_multiple",
+        "summary": "Update or upsert multiple records in one request (partial update per record). Required: base, table, records. Optional: performUpsert, returnFieldsByFieldId, typecast.",
+        "params_schema": {
+          "base": "string",
+          "table": "string",
+          "records": "array?",
+          "performUpsert": "object?",
+          "returnFieldsByFieldId": "bool?",
+          "typecast": "bool?"
+        },
+        "positionals": [
+          "base",
+          "table"
+        ],
+        "argv_path": [
+          "records",
+          "update_multiple"
+        ]
+      },
+      {
+        "tool": "tables.create",
+        "summary": "Create a table in a base. Required: base_id, name, fields. Optional: description.",
+        "params_schema": {
+          "base_id": "string",
+          "name": "string?",
+          "description": "string?",
+          "fields": "array?"
+        },
+        "positionals": [
+          "base_id"
+        ],
+        "argv_path": [
+          "tables"
+        ]
+      },
+      {
+        "tool": "tables.update",
+        "summary": "Update a table's name, description, or date-dependency settings. Required: base_id, table_id. Optional: name, description, dateDependencySettings. Partial update.",
+        "params_schema": {
+          "base_id": "string",
+          "table_id": "string",
+          "name": "string?",
+          "description": "string?",
+          "dateDependencySettings": "object?"
+        },
+        "positionals": [
+          "base_id",
+          "table_id"
+        ],
+        "argv_path": [
+          "tables",
+          "update"
+        ]
+      },
+      {
+        "tool": "user.get",
+        "summary": "Get the authenticated user's ID, and token scopes/email if the token has those scopes.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "user"
+        ]
+      },
+      {
+        "tool": "views.delete",
+        "summary": "Delete a view. Required: base_id, view_id. Destructive.",
+        "params_schema": {
+          "base_id": "string",
+          "view_id": "string"
+        },
+        "positionals": [
+          "base_id",
+          "view_id"
+        ],
+        "argv_path": [
+          "views"
+        ]
+      },
+      {
+        "tool": "views.get",
+        "summary": "Get metadata for a view. Required: base_id, view_id.",
+        "params_schema": {
+          "base_id": "string",
+          "view_id": "string"
+        },
+        "positionals": [
+          "base_id",
+          "view_id"
+        ],
+        "argv_path": [
+          "views",
+          "get"
+        ]
+      },
+      {
+        "tool": "views.list",
+        "summary": "List views in a base. Required: base_id.",
+        "params_schema": {
+          "base_id": "string"
+        },
+        "positionals": [
+          "base_id"
+        ],
+        "argv_path": [
+          "views",
+          "list"
+        ]
+      },
+      {
+        "tool": "webhooks.create",
+        "summary": "Create a webhook on a base (max 10 per base). Required: base_id, specification. Optional: notificationUrl.",
+        "params_schema": {
+          "base_id": "string",
+          "notificationUrl": "string?",
+          "specification": "object?"
+        },
+        "positionals": [
+          "base_id"
+        ],
+        "argv_path": [
+          "webhooks"
+        ]
+      },
+      {
+        "tool": "webhooks.delete",
+        "summary": "Delete a webhook. Required: base_id, webhook_id. Destructive.",
+        "params_schema": {
+          "base_id": "string",
+          "webhook_id": "string"
+        },
+        "positionals": [
+          "base_id",
+          "webhook_id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "delete"
+        ]
+      },
+      {
+        "tool": "webhooks.list",
+        "summary": "List webhooks registered on a base. Required: base_id.",
+        "params_schema": {
+          "base_id": "string"
+        },
+        "positionals": [
+          "base_id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "list"
+        ]
+      },
+      {
+        "tool": "webhooks.list_payloads",
+        "summary": "Retrieve queued change payloads for a webhook (call after receiving a ping). Required: base_id, webhook_id. Optional: cursor.",
+        "params_schema": {
+          "base_id": "string",
+          "webhook_id": "string",
+          "cursor": "int?"
+        },
+        "positionals": [
+          "base_id",
+          "webhook_id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "list_payloads"
+        ]
+      },
+      {
+        "tool": "webhooks.refresh",
+        "summary": "Extend a webhook's expiration by 7 days. Required: base_id, webhook_id.",
+        "params_schema": {
+          "base_id": "string",
+          "webhook_id": "string"
+        },
+        "positionals": [
+          "base_id",
+          "webhook_id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "refresh"
+        ]
+      },
+      {
+        "tool": "webhooks.set_notifications",
+        "summary": "Enable or disable notification pings for a webhook. Required: base_id, webhook_id, enable.",
+        "params_schema": {
+          "base_id": "string",
+          "webhook_id": "string",
+          "enable": "bool?"
+        },
+        "positionals": [
+          "base_id",
+          "webhook_id"
+        ],
+        "argv_path": [
+          "webhooks",
+          "set_notifications"
+        ]
+      }
+    ]
+  },
+  {
     "api": "alaska-airlines",
     "description": "Search Alaska Airlines flights, manage Atmos Rewards data, and build checkout-ready cart links from the terminal.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/alaska-airlines/cmd/alaska-airlines-pp-cli",
@@ -153769,6 +154357,634 @@
     "endpoints": []
   },
   {
+    "api": "crocoblock",
+    "description": "Operate Crocoblock data and review changes across your WordPress workflows.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/crocoblock/cmd/crocoblock-pp-cli",
+    "auth_type": "api_key",
+    "category": "developer-tools",
+    "search_terms": [
+      "crocoblock",
+      "crocoblock-pp-cli",
+      "Operate Crocoblock data and review changes across your WordPress workflows.",
+      "Diferencias de estructura",
+      "schema diff",
+      "Muestra qu\u00e9 tipos, campos y definiciones cambiaron entre dos revisiones del sitio.",
+      "Uso observado de campos",
+      "forms field-usage",
+      "Compara los campos actuales de un formulario con los nombres presentes en registros seleccionados.",
+      "Solapamientos de reservas",
+      "reservations overlaps",
+      "Se\u00f1ala solapamientos por recurso y eval\u00faa capacidad con una pol\u00edtica expl\u00edcita y ambas capturas completas de JetBooking 4.1.3.1 y JetAppointment 2.5.3. S\u00f3lo admite citas slot/range registradas; no expande recurrencias.",
+      "Efecto de cambios sobre filtros",
+      "filters impact",
+      "Identifica candidatos de reindexaci\u00f3n por cambios registrados para filtros custom_fields de JetSmartFilters 3.8.6.2 con _query_var y _source_custom_field v\u00e1lidos; otros proveedores o versiones quedan unknown.",
+      "Conciliaci\u00f3n de contenido CCT",
+      "cct reconcile",
+      "Compara registros entre instant\u00e1neas por una clave \u00fanica y muestra diferencias en campos seleccionados.",
+      "Integridad de relaciones",
+      "relations audit",
+      "Detecta aristas duplicadas y ausencias comprobables en inventarios CCT completos sin filtros. Los extremos WordPress ausentes quedan unknown porque el inventario excluye papelera y puede omitir objetos restringidos."
+    ],
+    "endpoints": [
+      {
+        "tool": "appointments-api.create",
+        "summary": "Verified upstream contract for appointments-api create; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "appointments-api"
+        ]
+      },
+      {
+        "tool": "appointments-api.delete",
+        "summary": "Verified upstream contract for appointments-api delete; use curated Crocoblock commands for redaction and validation. Required: items. Optional: group_ID.",
+        "params_schema": {
+          "items": "array?",
+          "group_ID": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "appointments-api",
+          "delete"
+        ]
+      },
+      {
+        "tool": "appointments-api.get",
+        "summary": "Verified upstream contract for appointments-api get; use curated Crocoblock commands for redaction and validation. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "appointments-api",
+          "get"
+        ]
+      },
+      {
+        "tool": "appointments-api.list",
+        "summary": "Verified upstream contract for appointments-api list; use curated Crocoblock commands for redaction and validation. Optional: per_page (default: 50), offset (default: 0), filter.",
+        "params_schema": {
+          "per_page": "int?",
+          "offset": "int?",
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "appointments-api",
+          "list"
+        ]
+      },
+      {
+        "tool": "appointments-api.providers",
+        "summary": "Verified upstream contract for appointments-api providers; use curated Crocoblock commands for redaction and validation. Required: service.",
+        "params_schema": {
+          "service": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "appointments-api",
+          "providers"
+        ]
+      },
+      {
+        "tool": "appointments-api.slots",
+        "summary": "Verified upstream contract for appointments-api slots; use curated Crocoblock commands for redaction and validation. Required: service, date. Optional: provider, timezone.",
+        "params_schema": {
+          "service": "int?",
+          "date": "int?",
+          "provider": "int?",
+          "timezone": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "appointments-api",
+          "slots"
+        ]
+      },
+      {
+        "tool": "appointments-api.update",
+        "summary": "Verified upstream contract for appointments-api update; use curated Crocoblock commands for redaction and validation. Required: id, item.",
+        "params_schema": {
+          "id": "string",
+          "item": "object?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "appointments-api",
+          "update"
+        ]
+      },
+      {
+        "tool": "bookings-api.create",
+        "summary": "Verified upstream contract for bookings-api create; use curated Crocoblock commands for redaction and validation. Required: item. Optional: createRelatedOrder (default: false).",
+        "params_schema": {
+          "item": "object?",
+          "createRelatedOrder": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bookings-api"
+        ]
+      },
+      {
+        "tool": "bookings-api.config",
+        "summary": "Verified upstream contract for bookings-api config; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "bookings-api",
+          "config"
+        ]
+      },
+      {
+        "tool": "bookings-api.delete",
+        "summary": "Verified upstream contract for bookings-api delete; use curated Crocoblock commands for redaction and validation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "bookings-api",
+          "delete"
+        ]
+      },
+      {
+        "tool": "bookings-api.list",
+        "summary": "Verified upstream contract for bookings-api list; use curated Crocoblock commands for redaction and validation. Optional: per_page (default: 50), offset (default: 0), filters.",
+        "params_schema": {
+          "per_page": "int?",
+          "offset": "int?",
+          "filters": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bookings-api",
+          "list"
+        ]
+      },
+      {
+        "tool": "bookings-api.update",
+        "summary": "Verified upstream contract for bookings-api update; use curated Crocoblock commands for redaction and validation. Required: id, item. Optional: createRelatedOrder (default: false).",
+        "params_schema": {
+          "id": "string",
+          "item": "object?",
+          "createRelatedOrder": "bool?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "bookings-api",
+          "update"
+        ]
+      },
+      {
+        "tool": "cct-api.create",
+        "summary": "Verified upstream contract for cct-api create; use curated Crocoblock commands for redaction and validation. Required: type.",
+        "params_schema": {
+          "type": "string"
+        },
+        "positionals": [
+          "type"
+        ],
+        "argv_path": [
+          "cct-api"
+        ]
+      },
+      {
+        "tool": "cct-api.delete",
+        "summary": "Verified upstream contract for cct-api delete; use curated Crocoblock commands for redaction and validation. Required: type, id. Destructive.",
+        "params_schema": {
+          "type": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "type",
+          "id"
+        ],
+        "argv_path": [
+          "cct-api",
+          "delete"
+        ]
+      },
+      {
+        "tool": "cct-api.get",
+        "summary": "Verified upstream contract for cct-api get; use curated Crocoblock commands for redaction and validation. Required: type, id.",
+        "params_schema": {
+          "type": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "type",
+          "id"
+        ],
+        "argv_path": [
+          "cct-api",
+          "get"
+        ]
+      },
+      {
+        "tool": "cct-api.list",
+        "summary": "Verified upstream contract for cct-api list; use curated Crocoblock commands for redaction and validation. Required: type. Optional: limit (default: 50), offset (default: 0). Returns array.",
+        "params_schema": {
+          "type": "string",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "type"
+        ],
+        "argv_path": [
+          "cct-api",
+          "list"
+        ]
+      },
+      {
+        "tool": "cct-api.update",
+        "summary": "Verified upstream contract for cct-api update; use curated Crocoblock commands for redaction and validation. Required: type, id.",
+        "params_schema": {
+          "type": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "type",
+          "id"
+        ],
+        "argv_path": [
+          "cct-api",
+          "update"
+        ]
+      },
+      {
+        "tool": "engine-api.ccts",
+        "summary": "Verified upstream contract for engine-api ccts; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "engine-api",
+          "ccts"
+        ]
+      },
+      {
+        "tool": "engine-api.cpts",
+        "summary": "Verified upstream contract for engine-api cpts; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "engine-api",
+          "cpts"
+        ]
+      },
+      {
+        "tool": "engine-api.mcp",
+        "summary": "Verified upstream contract for engine-api mcp; use curated Crocoblock commands for redaction and validation. Required: method. Optional: jsonrpc (default: 2.0), id (default: 1), params.",
+        "params_schema": {
+          "jsonrpc": "string?",
+          "id": "int?",
+          "method": "string?",
+          "params": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "engine-api",
+          "mcp"
+        ]
+      },
+      {
+        "tool": "engine-api.meta-boxes",
+        "summary": "Verified upstream contract for engine-api meta-boxes; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "engine-api",
+          "meta-boxes"
+        ]
+      },
+      {
+        "tool": "engine-api.queries",
+        "summary": "Verified upstream contract for engine-api queries; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "engine-api",
+          "queries"
+        ]
+      },
+      {
+        "tool": "engine-api.relations",
+        "summary": "Verified upstream contract for engine-api relations; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "engine-api",
+          "relations"
+        ]
+      },
+      {
+        "tool": "engine-api.taxonomies",
+        "summary": "Verified upstream contract for engine-api taxonomies; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "engine-api",
+          "taxonomies"
+        ]
+      },
+      {
+        "tool": "fields-api.get",
+        "summary": "Verified upstream contract for fields-api get; use curated Crocoblock commands for redaction and validation. Required: rest_type, id. Optional: context (default: edit).",
+        "params_schema": {
+          "rest_type": "string",
+          "id": "string",
+          "context": "string?"
+        },
+        "positionals": [
+          "rest_type",
+          "id"
+        ],
+        "argv_path": [
+          "fields-api"
+        ]
+      },
+      {
+        "tool": "fields-api.update",
+        "summary": "Verified upstream contract for fields-api update; use curated Crocoblock commands for redaction and validation. Required: rest_type, id, meta.",
+        "params_schema": {
+          "rest_type": "string",
+          "id": "string",
+          "meta": "object?"
+        },
+        "positionals": [
+          "rest_type",
+          "id"
+        ],
+        "argv_path": [
+          "fields-api",
+          "update"
+        ]
+      },
+      {
+        "tool": "filters-api.get",
+        "summary": "Verified upstream contract for filters-api get; use curated Crocoblock commands for redaction and validation. Required: id.",
+        "params_schema": {
+          "id": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "filters-api"
+        ]
+      },
+      {
+        "tool": "filters-api.list",
+        "summary": "Verified upstream contract for filters-api list; use curated Crocoblock commands for redaction and validation. Optional: page (default: 1), per_page (default: 50), status (default: publish) (plus 1 more).",
+        "params_schema": {
+          "page": "int?",
+          "per_page": "int?",
+          "status": "string?",
+          "search": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "filters-api",
+          "list"
+        ]
+      },
+      {
+        "tool": "filters-api.save",
+        "summary": "Verified upstream contract for filters-api save; use curated Crocoblock commands for redaction and validation. Required: id. Optional: data, duplicate.",
+        "params_schema": {
+          "id": "string?",
+          "data": "object?",
+          "duplicate": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "filters-api",
+          "save"
+        ]
+      },
+      {
+        "tool": "filters-api.status",
+        "summary": "Verified upstream contract for filters-api status; use curated Crocoblock commands for redaction and validation. Optional: move_to_trash, restore.",
+        "params_schema": {
+          "move_to_trash": "array?",
+          "restore": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "filters-api",
+          "status"
+        ]
+      },
+      {
+        "tool": "forms-api.create",
+        "summary": "Verified upstream contract for forms-api create; use curated Crocoblock commands for redaction and validation. Optional: title, content, status (default: draft) (plus 1 more).",
+        "params_schema": {
+          "title": "string?",
+          "content": "string?",
+          "status": "string?",
+          "meta": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "forms-api"
+        ]
+      },
+      {
+        "tool": "forms-api.fields",
+        "summary": "Verified upstream contract for forms-api fields; use curated Crocoblock commands for redaction and validation. Required: id. Returns array.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "forms-api",
+          "fields"
+        ]
+      },
+      {
+        "tool": "forms-api.get",
+        "summary": "Verified upstream contract for forms-api get; use curated Crocoblock commands for redaction and validation. Required: id. Optional: context (default: edit).",
+        "params_schema": {
+          "id": "string",
+          "context": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "forms-api",
+          "get"
+        ]
+      },
+      {
+        "tool": "forms-api.list",
+        "summary": "Verified upstream contract for forms-api list; use curated Crocoblock commands for redaction and validation. Optional: context (default: edit), per_page (default: 50), page (default: 1). Returns array.",
+        "params_schema": {
+          "context": "string?",
+          "per_page": "int?",
+          "page": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "forms-api",
+          "list"
+        ]
+      },
+      {
+        "tool": "forms-api.trash",
+        "summary": "Verified upstream contract for forms-api trash; use curated Crocoblock commands for redaction and validation. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "forms-api",
+          "trash"
+        ]
+      },
+      {
+        "tool": "forms-api.update",
+        "summary": "Verified upstream contract for forms-api update; use curated Crocoblock commands for redaction and validation. Required: id. Optional: title, content, status (default: draft) (plus 1 more).",
+        "params_schema": {
+          "id": "string",
+          "title": "string?",
+          "content": "string?",
+          "status": "string?",
+          "meta": "object?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "forms-api",
+          "update"
+        ]
+      },
+      {
+        "tool": "records-api.list",
+        "summary": "Verified upstream contract for records-api list; use curated Crocoblock commands for redaction and validation. Optional: limit (default: 50), page (default: 1), filters.",
+        "params_schema": {
+          "limit": "int?",
+          "page": "int?",
+          "filters": "object?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "records-api"
+        ]
+      },
+      {
+        "tool": "records-api.fields",
+        "summary": "Verified upstream contract for records-api fields; use curated Crocoblock commands for redaction and validation. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "records-api",
+          "fields"
+        ]
+      },
+      {
+        "tool": "relations-api.list",
+        "summary": "Verified upstream contract for relations-api list; use curated Crocoblock commands for redaction and validation. Required: relation.",
+        "params_schema": {
+          "relation": "string"
+        },
+        "positionals": [
+          "relation"
+        ],
+        "argv_path": [
+          "relations-api"
+        ]
+      },
+      {
+        "tool": "relations-api.children",
+        "summary": "Verified upstream contract for relations-api children; use curated Crocoblock commands for redaction and validation. Required: relation, id.",
+        "params_schema": {
+          "relation": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "relation",
+          "id"
+        ],
+        "argv_path": [
+          "relations-api",
+          "children"
+        ]
+      },
+      {
+        "tool": "relations-api.parents",
+        "summary": "Verified upstream contract for relations-api parents; use curated Crocoblock commands for redaction and validation. Required: relation, id.",
+        "params_schema": {
+          "relation": "string",
+          "id": "string"
+        },
+        "positionals": [
+          "relation",
+          "id"
+        ],
+        "argv_path": [
+          "relations-api",
+          "parents"
+        ]
+      },
+      {
+        "tool": "relations-api.update",
+        "summary": "Verified upstream contract for relations-api update; use curated Crocoblock commands for redaction and validation. Required: relation, parent_id, child_id, store_items_type. Optional: context (default: child), meta.",
+        "params_schema": {
+          "relation": "string",
+          "parent_id": "array?",
+          "child_id": "array?",
+          "context": "string?",
+          "store_items_type": "string?",
+          "meta": "object?"
+        },
+        "positionals": [
+          "relation"
+        ],
+        "argv_path": [
+          "relations-api",
+          "update"
+        ]
+      },
+      {
+        "tool": "transport.index",
+        "summary": "Verified upstream contract for transport index; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "transport",
+          "index"
+        ]
+      },
+      {
+        "tool": "transport.plugins",
+        "summary": "Verified upstream contract for transport plugins; use curated Crocoblock commands for redaction and validation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "transport",
+          "plugins"
+        ]
+      }
+    ]
+  },
+  {
     "api": "customer-io",
     "description": "Manage Customer.io campaigns, broadcasts, segments, deliveries, exports, and Reverse-ETL via the Service Account token.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/customer-io/cmd/customer-io-pp-cli",
@@ -266614,6 +267830,2659 @@
         "positionals": [],
         "argv_path": [
           "agent-context"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "n8n",
+    "description": "Every n8n Public API endpoint, plus a local mirror that answers what is failing, what uses what, and what changed.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/n8n/cmd/n8n-pp-cli",
+    "auth_type": "api_key",
+    "category": "developer-tools",
+    "search_terms": [
+      "n8n",
+      "n8n-pp-cli",
+      "Every n8n Public API endpoint, plus a local mirror that answers what is failing, what uses what, and what changed.",
+      "Failure triage",
+      "executions failures",
+      "See what broke recently, grouped by workflow and failing node, with the latest execution to retry.",
+      "Find usages",
+      "workflows uses",
+      "Find every workflow and node that uses a credential, node type, webhook path, variable, or sub-workflow.",
+      "Stale and unprotected workflows",
+      "workflows stale",
+      "Find active workflows with no recent successful run, workflows that never ran, and active workflows without an error workflow.",
+      "Wait for execution",
+      "executions wait",
+      "Block until an execution finishes and exit non-zero if it failed, with the failing node and message.",
+      "Semantic workflow diff",
+      "workflows diff",
+      "Compare a workflow across two instances or two saved versions at the node and connection level, ignoring layout noise.",
+      "Credential audit",
+      "credentials usage",
+      "List unused credentials, credentials many workflows depend on, and workflow references to credentials that no longer exist."
+    ],
+    "endpoints": [
+      {
+        "tool": "audit.generate",
+        "summary": "Generate a security audit for your n8n instance. Optional: additionalOptions.",
+        "params_schema": {
+          "additional-options-categories": "string_csv_array?",
+          "additional-options-days-abandoned-workflow": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "audit",
+          "generate"
+        ]
+      },
+      {
+        "tool": "community-packages.install-package",
+        "summary": "Install a community package by npm name and optional version. Required: name. Optional: version. Returns the new CommunityPackagePublicDtoGenerated.",
+        "params_schema": {
+          "name": "string?",
+          "version": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "community-packages",
+          "install-package"
+        ]
+      },
+      {
+        "tool": "community-packages.list-installed-packages",
+        "summary": "Retrieve all installed community packages with pending update info. Returns array of CommunityPackagesListInstalledPackagesItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "community-packages",
+          "list-installed-packages"
+        ]
+      },
+      {
+        "tool": "community-packages.uninstall-package",
+        "summary": "Uninstall a community package by name. Required: name. Destructive.",
+        "params_schema": {
+          "name": "string"
+        },
+        "positionals": [
+          "name"
+        ],
+        "argv_path": [
+          "community-packages",
+          "uninstall-package"
+        ]
+      },
+      {
+        "tool": "community-packages.update-package",
+        "summary": "Update an installed community package to a new version. Required: name. Optional: version. Returns the updated CommunityPackagePublicDtoGenerated.",
+        "params_schema": {
+          "name": "string",
+          "version": "string?"
+        },
+        "positionals": [
+          "name"
+        ],
+        "argv_path": [
+          "community-packages",
+          "update-package"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.create-credential-type-policy-document",
+        "summary": "Creates a reusable policy document that is not yet attached to any scope. Rule ids must be unique within the list. `warnings` lists rules that an earlier rule already shadows. Required: rules. Returns the new CredentialTypePolicyDocumentWriteResultPublicDtoGenerated.",
+        "params_schema": {
+          "rules": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "credential-type-policies",
+          "create-credential-type-policy-document"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.delete-credential-type-policy-document",
+        "summary": "Deletes a policy document. A document that is still attached to a scope is rejected with 409; detach it first. Required: policyId. Destructive.",
+        "params_schema": {
+          "policyId": "string"
+        },
+        "positionals": [
+          "policyId"
+        ],
+        "argv_path": [
+          "credential-type-policies",
+          "delete-credential-type-policy-document"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.get-credential-type-instance-policy",
+        "summary": "Returns the composed instance-scope policy: its default action and the rules of every attached policy document in evaluation order. An instance that was never configured reports `scopeId: null`, no rules, `defaultAction: allow`, and `version: 0`.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "credential-type-policies",
+          "get-credential-type-instance-policy"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.get-credential-type-policy-document",
+        "summary": "Retrieve a credential type policy document. Required: policyId. Returns the CredentialTypePoliciesGetCredentialTypePolicyDocumentResponse.",
+        "params_schema": {
+          "policyId": "string"
+        },
+        "positionals": [
+          "policyId"
+        ],
+        "argv_path": [
+          "credential-type-policies",
+          "get-credential-type-policy-document"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.get-credential-type-project-policy",
+        "summary": "Returns the project's own composed policy, not the result of combining it with the instance policy. A project that was never configured reports `scopeId: null`, no rules, `defaultAction: allow`, and `version: 0`. Required: projectId.",
+        "params_schema": {
+          "projectId": "string"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "credential-type-policies",
+          "get-credential-type-project-policy"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.list-credential-type-policy-documents",
+        "summary": "Returns a cursor-paginated list of reusable policy documents. Optional: limit (default: 100), cursor.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "credential-type-policies",
+          "list-credential-type-policy-documents"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.put-credential-type-instance-policy",
+        "summary": "Sets the instance default action and replaces the rules of its single policy document, creating both on first write. `version` must equal the version last read; a stale value is rejected with 409. Rule ids must be unique within the list. Required: defaultAction, rules, version. Returns the updated CredentialTypePolicyEffectiveWriteResultPublicDtoGenerated.",
+        "params_schema": {
+          "defaultAction": "string?",
+          "rules": "array?",
+          "version": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "credential-type-policies",
+          "put-credential-type-instance-policy"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.put-credential-type-project-policy",
+        "summary": "Sets the project's default action and replaces the rules of its single policy document, creating both on first write. The `delegate` action is not accepted at project scope. `version` must equal the version last read; a stale value is rejected with 409, as is a project document that is shared with another scope. Required: projectId, defaultAction, rules, version. Returns the updated CredentialTypePolicyEffectiveWriteResultPublicDtoGenerated.",
+        "params_schema": {
+          "projectId": "string",
+          "defaultAction": "string?",
+          "rules": "array?",
+          "version": "int?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "credential-type-policies",
+          "put-credential-type-project-policy"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.replace-credential-type-policy-attachments",
+        "summary": "Replaces every attachment on a scope. `scopeId` comes from the scope's `GET` response once it has been written. Each `policyId` and each `(isFloor, priority)` pair must be unique within the list. Last write wins; the scope's version is bumped. Required: scopeId, attachments. Returns the updated CredentialTypePoliciesReplaceCredentialTypePolicyAttachmentsResponse.",
+        "params_schema": {
+          "scopeId": "string",
+          "attachments": "array?"
+        },
+        "positionals": [
+          "scopeId"
+        ],
+        "argv_path": [
+          "credential-type-policies",
+          "replace-credential-type-policy-attachments"
+        ]
+      },
+      {
+        "tool": "credential-type-policies.update-credential-type-policy-document",
+        "summary": "Replaces the document's whole rule list. `version` must equal the version last read; a stale value is rejected with 409. Every scope the document is attached to has its version bumped. A `delegate` rule is rejected when the document is attached to a project scope. Required: policyId, rules, version. Returns the updated CredentialTypePolicyDocumentWriteResultPublicDtoGenerated.",
+        "params_schema": {
+          "policyId": "string",
+          "rules": "array?",
+          "version": "int?"
+        },
+        "positionals": [
+          "policyId"
+        ],
+        "argv_path": [
+          "credential-type-policies",
+          "update-credential-type-policy-document"
+        ]
+      },
+      {
+        "tool": "credentials.create",
+        "summary": "Creates a credential that can be used by nodes of the specified type. Required: data, name, type. Optional: description, id, isResolvable (plus 1 more). Returns the new CredentialPublicDtoGenerated.",
+        "params_schema": {
+          "data": "object?",
+          "description": "string?",
+          "id": "string?",
+          "isResolvable": "bool?",
+          "name": "string?",
+          "projectId": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "credentials"
+        ]
+      },
+      {
+        "tool": "credentials.delete",
+        "summary": "Deletes a credential from your instance. You must be the owner of the credential. Required: credentialId. Returns the CredentialsDeleteResponse. Destructive.",
+        "params_schema": {
+          "credentialId": "string"
+        },
+        "positionals": [
+          "credentialId"
+        ],
+        "argv_path": [
+          "credentials",
+          "delete"
+        ]
+      },
+      {
+        "tool": "credentials.get",
+        "summary": "Retrieves a credential by ID. Credential data (secrets) is not included. Required: credentialId. Returns the CredentialPublicDtoGenerated.",
+        "params_schema": {
+          "credentialId": "string"
+        },
+        "positionals": [
+          "credentialId"
+        ],
+        "argv_path": [
+          "credentials",
+          "get"
+        ]
+      },
+      {
+        "tool": "credentials.get-type",
+        "summary": "Show credential data schema. Required: credentialTypeName. Returns the CredentialsGetTypeResponse.",
+        "params_schema": {
+          "credentialTypeName": "string"
+        },
+        "positionals": [
+          "credentialTypeName"
+        ],
+        "argv_path": [
+          "credentials",
+          "get-type"
+        ]
+      },
+      {
+        "tool": "credentials.list",
+        "summary": "Retrieve all credentials from your instance. Only available for the instance owner and admin. Credential data (secrets) is not included. Optional: limit (default: 100), cursor. Returns array of CredentialsListItem.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "credentials",
+          "list"
+        ]
+      },
+      {
+        "tool": "credentials.update",
+        "summary": "Updates an existing credential. You must be the owner of the credential. Required: credentialId. Optional: data, description, isGlobal (plus 4 more). Returns the updated CredentialPublicDtoGenerated.",
+        "params_schema": {
+          "credentialId": "string",
+          "data": "object?",
+          "description": "string?",
+          "isGlobal": "bool?",
+          "isPartialData": "bool?",
+          "isResolvable": "bool?",
+          "name": "string?",
+          "type": "string?"
+        },
+        "positionals": [
+          "credentialId"
+        ],
+        "argv_path": [
+          "credentials",
+          "update"
+        ]
+      },
+      {
+        "tool": "credentials.test_credential",
+        "summary": "Tests a credential by ID using the stored credential data. Required: credentialId. Returns the new TestCredentialResponse.",
+        "params_schema": {
+          "credentialId": "string"
+        },
+        "positionals": [
+          "credentialId"
+        ],
+        "argv_path": [
+          "credentials",
+          "test_credential"
+        ]
+      },
+      {
+        "tool": "credentials.transfer_credential",
+        "summary": "Transfer a credential to another project. Required: credentialId, destinationProjectId.",
+        "params_schema": {
+          "credentialId": "string",
+          "destinationProjectId": "string?"
+        },
+        "positionals": [
+          "credentialId"
+        ],
+        "argv_path": [
+          "credentials",
+          "transfer_credential"
+        ]
+      },
+      {
+        "tool": "data-tables.create",
+        "summary": "Create a new data table in your personal project or a team project you have access to. Required: columns, name. Optional: fileId, hasHeaders, projectId. Returns the new DataTablePublicDtoGenerated.",
+        "params_schema": {
+          "columns": "array?",
+          "fileId": "string?",
+          "hasHeaders": "bool?",
+          "name": "string?",
+          "projectId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "data-tables"
+        ]
+      },
+      {
+        "tool": "data-tables.delete",
+        "summary": "Delete a data table. This will also delete all rows in the table. Required: dataTableId. Destructive.",
+        "params_schema": {
+          "dataTableId": "string"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "delete"
+        ]
+      },
+      {
+        "tool": "data-tables.get",
+        "summary": "Retrieve a specific data table by ID. Required: dataTableId. Returns the DataTablePublicDtoGenerated.",
+        "params_schema": {
+          "dataTableId": "string"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "get"
+        ]
+      },
+      {
+        "tool": "data-tables.list",
+        "summary": "Retrieve a list of all data tables with optional filtering, sorting, and pagination. Each table includes `sizeBytes`, the value the `size` sort option orders by. Optional: limit (default: 100), cursor, filter (plus 1 more). Returns array of DataTablesListItem.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?",
+          "filter": "string?",
+          "sortBy": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "data-tables",
+          "list"
+        ]
+      },
+      {
+        "tool": "data-tables.update",
+        "summary": "Update a data table's name. Required: dataTableId, name. Returns the updated DataTablePublicDtoGenerated.",
+        "params_schema": {
+          "dataTableId": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "update"
+        ]
+      },
+      {
+        "tool": "data-tables.columns_create-data-table",
+        "summary": "Add a new column to an existing data table. Required: dataTableId, name, type. Optional: index. Returns the new DataTableColumnPublicDtoGenerated.",
+        "params_schema": {
+          "dataTableId": "string",
+          "index": "int?",
+          "name": "string?",
+          "type": "string?"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "columns_create-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.columns_delete-data-table",
+        "summary": "Remove a column from a data table. This will also delete all data in the column. Required: dataTableId, columnId. Destructive.",
+        "params_schema": {
+          "dataTableId": "string",
+          "columnId": "string"
+        },
+        "positionals": [
+          "dataTableId",
+          "columnId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "columns_delete-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.columns_list-data-table",
+        "summary": "Retrieve all columns for a specific data table. Required: dataTableId. Returns array of ColumnsListDataTableItem.",
+        "params_schema": {
+          "dataTableId": "string"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "columns_list-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.columns_update-data-table",
+        "summary": "Rename and/or reorder a column in a data table. Required: dataTableId, columnId. Optional: index, name. Returns the updated DataTableColumnPublicDtoGenerated.",
+        "params_schema": {
+          "dataTableId": "string",
+          "columnId": "string",
+          "index": "int?",
+          "name": "string?"
+        },
+        "positionals": [
+          "dataTableId",
+          "columnId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "columns_update-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.rows_clear-data-table",
+        "summary": "Permanently delete all rows from a data table. The table structure is retained. This action cannot be undone. Required: dataTableId. Returns the RowsClearDataTableResponse. Destructive.",
+        "params_schema": {
+          "dataTableId": "string"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "rows_clear-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.rows_create-data-table",
+        "summary": "Insert one or more rows into a data table. Required: dataTableId, data. Optional: returnType (default: count).",
+        "params_schema": {
+          "dataTableId": "string",
+          "data": "array?",
+          "returnType": "string?"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "rows_create-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.rows_delete-data-table",
+        "summary": "Delete rows matching filter conditions from a data table. Filter is required to prevent accidental deletion of all data. Required: dataTableId, filter. Optional: returnData (default: false), dryRun (default: false). Destructive.",
+        "params_schema": {
+          "dataTableId": "string",
+          "filter": "string?",
+          "returnData": "string?",
+          "dryRun": "string?"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "rows_delete-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.rows_list-data-table",
+        "summary": "Retrieve rows from a data table with optional filtering, sorting, and pagination. Required: dataTableId. Optional: limit (default: 100), cursor, filter (plus 2 more). Returns array of RowsListDataTableItem.",
+        "params_schema": {
+          "dataTableId": "string",
+          "limit": "float?",
+          "cursor": "string?",
+          "filter": "string?",
+          "sortBy": "string?",
+          "search": "string?"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "rows_list-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.rows_update-data-table",
+        "summary": "Update rows matching filter conditions in a data table. Required: dataTableId, data, filter. Optional: dryRun (default: false), returnData (default: false). Partial update.",
+        "params_schema": {
+          "dataTableId": "string",
+          "data": "object?",
+          "dryRun": "bool?",
+          "filter-filters": "array?",
+          "filter-type": "string?",
+          "returnData": "bool?"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "rows_update-data-table"
+        ]
+      },
+      {
+        "tool": "data-tables.rows_upsert-data-table",
+        "summary": "Update an existing row, or insert a new one if no row matches the filter conditions. Required: dataTableId, data, filter. Optional: dryRun (default: false), returnData (default: false).",
+        "params_schema": {
+          "dataTableId": "string",
+          "data": "object?",
+          "dryRun": "bool?",
+          "filter-filters": "array?",
+          "filter-type": "string?",
+          "returnData": "bool?"
+        },
+        "positionals": [
+          "dataTableId"
+        ],
+        "argv_path": [
+          "data-tables",
+          "rows_upsert-data-table"
+        ]
+      },
+      {
+        "tool": "discover.get",
+        "summary": "Returns a filtered capability map based on the caller's API key scopes. Each resource includes the operations and endpoints accessible to the authenticated API key. Use query parameters to narrow the response. Optional: include, resource, operation.",
+        "params_schema": {
+          "include": "string?",
+          "resource": "string?",
+          "operation": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "discover"
+        ]
+      },
+      {
+        "tool": "executions.delete",
+        "summary": "Deletes an execution from your instance. Required: executionId. Returns the ExecutionsDeleteResponse. Destructive.",
+        "params_schema": {
+          "executionId": "string"
+        },
+        "positionals": [
+          "executionId"
+        ],
+        "argv_path": [
+          "executions"
+        ]
+      },
+      {
+        "tool": "executions.get",
+        "summary": "Retrieve an execution from your instance. Required: executionId. Optional: includeData (default: false), ignoreDataSizeLimit (default: false), redactExecutionData. Returns the ExecutionsGetResponse.",
+        "params_schema": {
+          "executionId": "string",
+          "includeData": "string?",
+          "ignoreDataSizeLimit": "string?",
+          "redactExecutionData": "string?"
+        },
+        "positionals": [
+          "executionId"
+        ],
+        "argv_path": [
+          "executions",
+          "get"
+        ]
+      },
+      {
+        "tool": "executions.list",
+        "summary": "Retrieve all executions from your instance. Optional: limit (default: 100), cursor, includeData (default: false) (plus 7 more). Returns array of ExecutionsListItem.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?",
+          "includeData": "string?",
+          "ignoreDataSizeLimit": "string?",
+          "redactExecutionData": "string?",
+          "status": "string?",
+          "workflowId": "string?",
+          "projectId": "string?",
+          "startedAfter": "string?",
+          "startedBefore": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "executions",
+          "list"
+        ]
+      },
+      {
+        "tool": "executions.stop-many",
+        "summary": "Stop multiple executions from your instance based on filter criteria. Required: status. Optional: startedAfter, startedBefore, workflowId. Returns the new ExecutionsStopManyResponse.",
+        "params_schema": {
+          "startedAfter": "string?",
+          "startedBefore": "string?",
+          "status": "string_csv_array?",
+          "workflowId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "executions",
+          "stop-many"
+        ]
+      },
+      {
+        "tool": "executions.retry_execution",
+        "summary": "Retry an execution from your instance. Required: executionId. Optional: loadWorkflow. Returns the new RetryExecutionResponse.",
+        "params_schema": {
+          "executionId": "string",
+          "loadWorkflow": "bool?"
+        },
+        "positionals": [
+          "executionId"
+        ],
+        "argv_path": [
+          "executions",
+          "retry_execution"
+        ]
+      },
+      {
+        "tool": "executions.stop_execution",
+        "summary": "Stop an execution by id. Required: executionId. Returns the new StopExecutionResponse.",
+        "params_schema": {
+          "executionId": "string"
+        },
+        "positionals": [
+          "executionId"
+        ],
+        "argv_path": [
+          "executions",
+          "stop_execution"
+        ]
+      },
+      {
+        "tool": "executions.tags_get-execution",
+        "summary": "Get annotation tags for an execution. Required: executionId. Returns array of TagsGetExecutionItem.",
+        "params_schema": {
+          "executionId": "string"
+        },
+        "positionals": [
+          "executionId"
+        ],
+        "argv_path": [
+          "executions",
+          "tags_get-execution"
+        ]
+      },
+      {
+        "tool": "executions.tags_update-execution",
+        "summary": "Update annotation tags of an execution. Required: executionId. Returns array of TagsUpdateExecutionItem.",
+        "params_schema": {
+          "executionId": "string"
+        },
+        "positionals": [
+          "executionId"
+        ],
+        "argv_path": [
+          "executions",
+          "tags_update-execution"
+        ]
+      },
+      {
+        "tool": "insights.get-summary",
+        "summary": "Retrieve the insights summary for the selected date range. Optional: startDate, endDate, projectId. Returns the InsightsGetSummaryResponse.",
+        "params_schema": {
+          "startDate": "string?",
+          "endDate": "string?",
+          "projectId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "insights",
+          "get-summary"
+        ]
+      },
+      {
+        "tool": "n8n-packages.create",
+        "summary": "**Beta** \u2014 breaking changes may still occur without major version bump. Export agents, workflows, and folders, or whole projects, as a gzipped tar archive (.n8np). Provide `agentIds`/`workflowIds`/`folderIds`, or `projectIds`. Do not combine these two groups. Each exported folder includes its nested folders. Whole projects include their agents when the agents module is enabled. Explicit agent selections require the agents module. Empty projects export project metadata only. `versionPolicy` selects the version for both agents and workflows and defaults to `latest`. `dependencyPolicy` applies to both entity types and defaults to `fail` when a required definition is absent from the package. The response is streamed as `application/gzip` with a `Content-Disposition` attachment header. Requires the n8n Packages feature to be licensed. API key scopes: `agent:export` is required for explicitly selected agents. `workflow:export` is required for explicitly selected workflows or folders. `project:export` is sufficient for whole-project exports, including their agents and workflows. Included dependencies need no additional API key scope. The caller's project permissions apply to all included entities. When `includeVariableValues` is true (the default) and exported entities reference variables, `variable:list` is also required. Exports that reference no variables do not need it. Agent definitions include referenced skills, custom tools, and schedules. Knowledge base files and runtime data are excluded. Agent package imports remain unavailable. Optional: agentIds, credentialExportPolicy (default: expression-values-only), dependencyPolicy (default: fail) (plus 7 more).",
+        "params_schema": {
+          "agentIds": "string_csv_array?",
+          "credentialExportPolicy": "string?",
+          "dependencyPolicy": "string?",
+          "folderIds": "string_csv_array?",
+          "includeArchivedWorkflows": "bool?",
+          "includeTags": "bool?",
+          "includeVariableValues": "bool?",
+          "projectIds": "string_csv_array?",
+          "versionPolicy": "string?",
+          "workflowIds": "string_csv_array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "n8n-packages"
+        ]
+      },
+      {
+        "tool": "n8n-packages.import-package",
+        "summary": "**Beta** \u2014 breaking changes may still occur without major version bump. Imports a gzip-compressed tar package (`.n8np`) into the target project. Send the archive as the multipart field `package`. Optional routing uses form fields `projectId` and `folderId` (omit or send empty for defaults). Every optional mode/policy field (credential, workflow, project, folder, data table, variable, and tag) takes its default when omitted; the one non-fixed default is `folderConflictPolicy`, which follows `projectConflictPolicy` on a project package. The required `workflowConflictPolicy` field controls what happens when a package workflow matches an existing workflow by source id in the target project. Maximum upload size is `N8N_ENDPOINTS_PAYLOAD_SIZE_MAX` MB (default 16). The package must declare its manifest at `manifest.json` and include every file the manifest references. Credential references are resolved before any workflow is written. Required: package, workflowConflictPolicy. Optional: bindings (default: {}), credentialMatchingMode (default: id-only), credentialMissingMode (default: create-stub) (plus 16 more). Returns the new ImportResultDtoGenerated.",
+        "params_schema": {
+          "bindings": "string?",
+          "credentialMatchingMode": "string?",
+          "credentialMissingMode": "string?",
+          "dataTableMatchingMode": "string?",
+          "dataTableMissingMode": "string?",
+          "dataTableSchemaConflictPolicy": "string?",
+          "folderConflictPolicy": "string?",
+          "folderId": "string?",
+          "missingNodeTypeMode": "string?",
+          "overwriteDeletionPolicy": "string?",
+          "package": "string?",
+          "projectConflictPolicy": "string?",
+          "projectId": "string?",
+          "tagConflictPolicy": "string?",
+          "tagMissingMode": "string?",
+          "variableConflictPolicy": "string?",
+          "variableMissingMode": "string?",
+          "variableParentPolicy": "string?",
+          "workflowConflictPolicy": "string?",
+          "workflowIdPolicy": "string?",
+          "workflowPublishingPolicy": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "n8n-packages",
+          "import-package"
+        ]
+      },
+      {
+        "tool": "n8n-packages.import-package-selection",
+        "summary": "**Beta** \u2014 breaking changes may still occur without major version bump. Imports a chosen subset of workflows from one source project of a gzip-compressed tar package (`.n8np`), instead of the whole package. Send the archive as the multipart field `package`. The import is **additive** (cherry-pick): it never removes a workflow the selection omits. It creates or updates only the workflows named in `selectedWorkflowIds`, and deletes only the destination workflows named in `deletedWorkflowIds`. `selectedProjectId` names the single source project the selection is scoped to (its id as it appears in the package). The selected workflows are written into the instance project whose id matches that source project, which is created if it does not yet exist; there is no separate target-project field. `selectedWorkflowIds` are source ids within that project; ids that belong to another project are dropped. `deletedWorkflowIds` are destination ids in the same project; an absent id is a tolerated no-op, and a delete needs the `workflow:delete` scope. A delete id must not match the destination id of a selected workflow, including when `workflowConflictPolicy=skip`. This overlap returns a 409 before any writes. The package must be a project package (a workflow package is rejected with a 400). The cherry-pick conflict policies (folder, tag, and project) are fixed and are not accepted here; only `workflowConflictPolicy`, `workflowIdPolicy`, and `overwriteDeletionPolicy` are configurable. Maximum upload size is `N8N_ENDPOINTS_PAYLOAD_SIZE_MAX` MB (default 16). The caller is authorised through the `workflow:import` scope. Required: package, selectedProjectId, selectedWorkflowIds. Optional: deletedWorkflowIds, overwriteDeletionPolicy (default: archive), workflowConflictPolicy (default: new-version) (plus 1 more).",
+        "params_schema": {
+          "deletedWorkflowIds": "string?",
+          "overwriteDeletionPolicy": "string?",
+          "package": "string?",
+          "selectedProjectId": "string?",
+          "selectedWorkflowIds": "string?",
+          "workflowConflictPolicy": "string?",
+          "workflowIdPolicy": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "n8n-packages",
+          "import-package-selection"
+        ]
+      },
+      {
+        "tool": "node-type-policies.create-node-type-policy-document",
+        "summary": "Creates a reusable policy document that is not yet attached to any scope. Rule ids must be unique within the list. `warnings` lists rules that an earlier rule already shadows. Required: rules. Returns the new PolicyDocumentWriteResultPublicDtoGenerated.",
+        "params_schema": {
+          "rules": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "node-type-policies",
+          "create-node-type-policy-document"
+        ]
+      },
+      {
+        "tool": "node-type-policies.delete-node-type-policy-document",
+        "summary": "Deletes a policy document. A document that is still attached to a scope is rejected with 409; detach it first. Required: policyId. Destructive.",
+        "params_schema": {
+          "policyId": "string"
+        },
+        "positionals": [
+          "policyId"
+        ],
+        "argv_path": [
+          "node-type-policies",
+          "delete-node-type-policy-document"
+        ]
+      },
+      {
+        "tool": "node-type-policies.get-node-type-instance-policy",
+        "summary": "Returns the composed instance-scope policy: its default action and the rules of every attached policy document in evaluation order. An instance that was never configured reports `scopeId: null`, no rules, `defaultAction: allow`, and `version: 0`.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "node-type-policies",
+          "get-node-type-instance-policy"
+        ]
+      },
+      {
+        "tool": "node-type-policies.get-node-type-policy-document",
+        "summary": "Retrieve a node type policy document. Required: policyId. Returns the NodeTypePoliciesGetNodeTypePolicyDocumentResponse.",
+        "params_schema": {
+          "policyId": "string"
+        },
+        "positionals": [
+          "policyId"
+        ],
+        "argv_path": [
+          "node-type-policies",
+          "get-node-type-policy-document"
+        ]
+      },
+      {
+        "tool": "node-type-policies.get-node-type-project-policy",
+        "summary": "Returns the project's own composed policy, not the result of combining it with the instance policy. A project that was never configured reports `scopeId: null`, no rules, `defaultAction: allow`, and `version: 0`. Required: projectId.",
+        "params_schema": {
+          "projectId": "string"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "node-type-policies",
+          "get-node-type-project-policy"
+        ]
+      },
+      {
+        "tool": "node-type-policies.list-node-type-policy-documents",
+        "summary": "Returns a cursor-paginated list of reusable policy documents. Optional: limit (default: 100), cursor.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "node-type-policies",
+          "list-node-type-policy-documents"
+        ]
+      },
+      {
+        "tool": "node-type-policies.put-node-type-instance-policy",
+        "summary": "Sets the instance default action and replaces the rules of its single policy document, creating both on first write. `version` must equal the version last read; a stale value is rejected with 409. Rule ids must be unique within the list. Required: defaultAction, rules, version. Returns the updated PolicyEffectiveWriteResultPublicDtoGenerated.",
+        "params_schema": {
+          "defaultAction": "string?",
+          "rules": "array?",
+          "version": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "node-type-policies",
+          "put-node-type-instance-policy"
+        ]
+      },
+      {
+        "tool": "node-type-policies.put-node-type-project-policy",
+        "summary": "Sets the project's default action and replaces the rules of its single policy document, creating both on first write. The `delegate` action is not accepted at project scope. `version` must equal the version last read; a stale value is rejected with 409, as is a project document that is shared with another scope. Required: projectId, defaultAction, rules, version. Returns the updated PolicyEffectiveWriteResultPublicDtoGenerated.",
+        "params_schema": {
+          "projectId": "string",
+          "defaultAction": "string?",
+          "rules": "array?",
+          "version": "int?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "node-type-policies",
+          "put-node-type-project-policy"
+        ]
+      },
+      {
+        "tool": "node-type-policies.replace-node-type-policy-attachments",
+        "summary": "Replaces every attachment on a scope. `scopeId` comes from the scope's `GET` response once it has been written. Each `policyId` and each `(isFloor, priority)` pair must be unique within the list. Last write wins; the scope's version is bumped. Required: scopeId, attachments. Returns the updated NodeTypePoliciesReplaceNodeTypePolicyAttachmentsResponse.",
+        "params_schema": {
+          "scopeId": "string",
+          "attachments": "array?"
+        },
+        "positionals": [
+          "scopeId"
+        ],
+        "argv_path": [
+          "node-type-policies",
+          "replace-node-type-policy-attachments"
+        ]
+      },
+      {
+        "tool": "node-type-policies.update-node-type-policy-document",
+        "summary": "Replaces the document's whole rule list. `version` must equal the version last read; a stale value is rejected with 409. Every scope the document is attached to has its version bumped. A `delegate` rule is rejected when the document is attached to a project scope. Required: policyId, rules, version. Returns the updated PolicyDocumentWriteResultPublicDtoGenerated.",
+        "params_schema": {
+          "policyId": "string",
+          "rules": "array?",
+          "version": "int?"
+        },
+        "positionals": [
+          "policyId"
+        ],
+        "argv_path": [
+          "node-type-policies",
+          "update-node-type-policy-document"
+        ]
+      },
+      {
+        "tool": "projects.create",
+        "summary": "Create a team project on your instance. Required: name. Optional: customTelemetryTags, description, icon (plus 1 more). Returns the new ProjectsCreateResponse.",
+        "params_schema": {
+          "customTelemetryTags": "array?",
+          "description": "string?",
+          "icon-color": "string?",
+          "icon-type": "string?",
+          "icon-value": "string?",
+          "id": "string?",
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "projects"
+        ]
+      },
+      {
+        "tool": "projects.delete",
+        "summary": "Delete a project from your instance. Required: projectId. Destructive.",
+        "params_schema": {
+          "projectId": "string"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "projects",
+          "delete"
+        ]
+      },
+      {
+        "tool": "projects.list",
+        "summary": "Retrieve projects from your instance. Optional: limit (default: 100), cursor. Returns array of ProjectsListItem.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "projects",
+          "list"
+        ]
+      },
+      {
+        "tool": "projects.update",
+        "summary": "Update a project on your instance. Required: projectId, name.",
+        "params_schema": {
+          "projectId": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "projects",
+          "update"
+        ]
+      },
+      {
+        "tool": "projects.folders_create",
+        "summary": "Create a folder within a project. Required: projectId, name. Optional: parentFolderId. Returns the new FoldersCreateResponse.",
+        "params_schema": {
+          "projectId": "string",
+          "name": "string?",
+          "parentFolderId": "string?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "projects",
+          "folders_create"
+        ]
+      },
+      {
+        "tool": "projects.folders_delete",
+        "summary": "Delete a folder within a project. When `transferToFolderId` is provided, workflows and sub-folders are moved to the target folder before deletion. When omitted, workflows are moved to the project root and archived, and child folders are deleted. Required: projectId, folderId. Optional: transferToFolderId. Destructive.",
+        "params_schema": {
+          "projectId": "string",
+          "folderId": "string",
+          "transferToFolderId": "string?"
+        },
+        "positionals": [
+          "projectId",
+          "folderId"
+        ],
+        "argv_path": [
+          "projects",
+          "folders_delete"
+        ]
+      },
+      {
+        "tool": "projects.folders_get",
+        "summary": "Get folder details including sub-folder and workflow counts. Required: projectId, folderId. Returns the FoldersGetResponse.",
+        "params_schema": {
+          "projectId": "string",
+          "folderId": "string"
+        },
+        "positionals": [
+          "projectId",
+          "folderId"
+        ],
+        "argv_path": [
+          "projects",
+          "folders_get"
+        ]
+      },
+      {
+        "tool": "projects.folders_list",
+        "summary": "Retrieve folders within a project. Supports filtering, sorting, field selection, and pagination. Required: projectId. Optional: filter, select, sortBy (plus 2 more). Returns array of FoldersListItem.",
+        "params_schema": {
+          "projectId": "string",
+          "filter": "string?",
+          "select": "string?",
+          "sortBy": "string?",
+          "skip": "string?",
+          "take": "string?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "projects",
+          "folders_list"
+        ]
+      },
+      {
+        "tool": "projects.folders_update",
+        "summary": "Update folder name or parent folder. Required: projectId, folderId. Optional: name, parentFolderId. Returns the updated FoldersUpdateResponse.",
+        "params_schema": {
+          "projectId": "string",
+          "folderId": "string",
+          "name": "string?",
+          "parentFolderId": "string?"
+        },
+        "positionals": [
+          "projectId",
+          "folderId"
+        ],
+        "argv_path": [
+          "projects",
+          "folders_update"
+        ]
+      },
+      {
+        "tool": "projects.users_add-to-project",
+        "summary": "Add one or more users to a project on your instance. Required: projectId, relations.",
+        "params_schema": {
+          "projectId": "string",
+          "relations": "array?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "projects",
+          "users_add-to-project"
+        ]
+      },
+      {
+        "tool": "projects.users_change-role-in-project",
+        "summary": "Change a user's role in a project. Required: projectId, userId, role. Partial update.",
+        "params_schema": {
+          "projectId": "string",
+          "userId": "string",
+          "role": "string?"
+        },
+        "positionals": [
+          "projectId",
+          "userId"
+        ],
+        "argv_path": [
+          "projects",
+          "users_change-role-in-project"
+        ]
+      },
+      {
+        "tool": "projects.users_delete-from-project",
+        "summary": "Delete a user from a project on your instance. Required: projectId, userId. Destructive.",
+        "params_schema": {
+          "projectId": "string",
+          "userId": "string"
+        },
+        "positionals": [
+          "projectId",
+          "userId"
+        ],
+        "argv_path": [
+          "projects",
+          "users_delete-from-project"
+        ]
+      },
+      {
+        "tool": "projects.users_list-project",
+        "summary": "Returns a list of all members of a project including their role. Requires user:list scope. Required: projectId. Optional: limit (default: 100), cursor.",
+        "params_schema": {
+          "projectId": "string",
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "projects",
+          "users_list-project"
+        ]
+      },
+      {
+        "tool": "promotions.add-project-to-connection",
+        "summary": "Links a team project to a project-scoped connection. A project can be linked to only one connection. Required: promotionConnectionId, projectId. Returns the new PromotionsAddProjectToConnectionResponse.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "projectId": "string"
+        },
+        "positionals": [
+          "promotionConnectionId",
+          "projectId"
+        ],
+        "argv_path": [
+          "promotions",
+          "add-project-to-connection"
+        ]
+      },
+      {
+        "tool": "promotions.apply-package",
+        "summary": "Checks the full package at the configured branch tip. Optionally send expectedSource with the configId, branchName, and full commitSha from the reviewed change preview; status `source-changed` means the branch moved since that review and nothing was imported. Returns status `blocked` before import writes if bindings need setup. Retain configId and git for Continue. Status `applied` includes counts and warnings. Inspect status before reading counts. Existing target variable values, including empty strings, are preserved. Requires a cloned Apply direction on an instance connection. The API key needs the gitConnection:pull scope. The importer checks user write permissions; granular API-key write scopes are not passed to it. Required: promotionConnectionId. Optional: expectedSource.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "expected-source-branch-name": "string?",
+          "expected-source-commit-sha": "string?",
+          "expected-source-config-id": "string?"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "apply-package"
+        ]
+      },
+      {
+        "tool": "promotions.apply-project-selection",
+        "summary": "Applies selected workflow changes from the project's Apply branch. Send the selected change-list IDs in workflowIds. The server imports IDs present on the branch for this project. It removes instance workflows owned by this project when their IDs are absent from the branch. Duplicate or invalid IDs reject the whole request. Unselected content stays unchanged. Optionally send expectedSource with the configId, branchName, and full commitSha from the reviewed change preview. Status `source-changed` means the source changed since that review and nothing was imported. Status `blocked` returns binding details before import writes when the selection needs binding setup. Retain configId and git for Continue. Status `applied` includes counts and warnings. Inspect status before reading counts. Requires a cloned Apply direction for the project's resolved promotion connection. The API key needs the gitConnection:pull scope. The importer checks user write permissions. Required: projectId, workflowIds. Optional: expectedSource.",
+        "params_schema": {
+          "projectId": "string",
+          "expected-source-branch-name": "string?",
+          "expected-source-commit-sha": "string?",
+          "expected-source-config-id": "string?",
+          "workflowIds": "string_csv_array?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "promotions",
+          "apply-project-selection"
+        ]
+      },
+      {
+        "tool": "promotions.clone-checkout",
+        "summary": "Clones the configured branch into local storage on the instance that handles the request. Safe to call repeatedly. Cloning one direction does not make the other ready. Required: promotionConnectionId, direction (default: apply). Returns the new PromotionCheckoutPublicDtoGenerated.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "direction": "string"
+        },
+        "positionals": [
+          "promotionConnectionId",
+          "direction"
+        ],
+        "argv_path": [
+          "promotions",
+          "clone-checkout"
+        ]
+      },
+      {
+        "tool": "promotions.continue-apply-package",
+        "summary": "Rechecks the configured source and current target bindings. Send expectedSource with the configId, branchName, and full commitSha from the reviewed Apply result. Send `confirmDestructiveChanges: true` to also apply destructive data table changes. Status `source-changed` requires a new Apply review. Status `blocked` returns fresh binding details without import writes. Status `applied` includes counts and warnings. Inspect status before reading counts. Existing target variable values are preserved. Requires the same cloned instance connection and permissions as Apply. The importer checks user write permissions; granular API-key write scopes are not passed to it. No server session or exactly-once guarantee is provided. Required: promotionConnectionId, expectedSource. Optional: confirmDestructiveChanges.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "confirmDestructiveChanges": "bool?",
+          "expected-source-branch-name": "string?",
+          "expected-source-commit-sha": "string?",
+          "expected-source-config-id": "string?"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "continue-apply-package"
+        ]
+      },
+      {
+        "tool": "promotions.continue-apply-project-selection",
+        "summary": "Rechecks the project's Apply source and the current bindings for the selection. Resend the full selection in workflowIds. Send the required expectedSource with the configId, branchName, and full commitSha from the reviewed Apply result. Send `confirmDestructiveChanges: true` to also apply destructive data table changes. The server does not keep a session. Status `source-changed` requires a new Apply review. Status `blocked` returns fresh binding details before import writes. Status `applied` includes counts and warnings. Inspect status before reading counts. Unselected content stays unchanged. Requires the same cloned Apply direction and permissions as the initial selection apply. The API key needs the gitConnection:pull scope. The importer checks user write permissions. Required: projectId, expectedSource, workflowIds. Optional: confirmDestructiveChanges.",
+        "params_schema": {
+          "projectId": "string",
+          "confirmDestructiveChanges": "bool?",
+          "expected-source-branch-name": "string?",
+          "expected-source-commit-sha": "string?",
+          "expected-source-config-id": "string?",
+          "workflowIds": "string_csv_array?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "promotions",
+          "continue-apply-project-selection"
+        ]
+      },
+      {
+        "tool": "promotions.create-connection",
+        "summary": "Creates a connection on an existing provider, with up to one initial configuration for each direction. Only one instance connection can exist. Required: name, providerId, scope, target. Optional: configs. Returns the new PromotionConnectionPublicDtoGenerated.",
+        "params_schema": {
+          "configs-apply-name": "string?",
+          "configs-apply-settings": "object?",
+          "configs-promote-name": "string?",
+          "configs-promote-settings": "object?",
+          "name": "string?",
+          "providerId": "string?",
+          "scope": "string?",
+          "target-remote-url": "string?",
+          "target-schema-version": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "promotions",
+          "create-connection"
+        ]
+      },
+      {
+        "tool": "promotions.create-provider",
+        "summary": "Creates a provider and its authentication material. A Git host provider validates authenticated API access before it saves. For GitLab, the service uses n8n as the Git transport username. Its auth.username is optional. The service ignores any supplied username. Plain Git token authentication requires auth.username. An SSH provider returns the generated public key; add it to the remote as a deploy key. Required: auth, name, type. Optional: config.",
+        "params_schema": {
+          "auth": "string?",
+          "config-base-url": "string?",
+          "config-schema-version": "float?",
+          "name": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "promotions",
+          "create-provider"
+        ]
+      },
+      {
+        "tool": "promotions.delete-config",
+        "summary": "Deletes the configuration and its local checkout. Nothing in Git changes. Required: promotionConnectionId, direction (default: apply). Destructive.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "direction": "string"
+        },
+        "positionals": [
+          "promotionConnectionId",
+          "direction"
+        ],
+        "argv_path": [
+          "promotions",
+          "delete-config"
+        ]
+      },
+      {
+        "tool": "promotions.delete-connection",
+        "summary": "Deletes the connection with its configurations, project links, and local checkouts. Its provider is kept. Required: promotionConnectionId. Destructive.",
+        "params_schema": {
+          "promotionConnectionId": "string"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "delete-connection"
+        ]
+      },
+      {
+        "tool": "promotions.delete-provider",
+        "summary": "A provider used by a connection cannot be deleted. Required: promotionProviderId. Destructive.",
+        "params_schema": {
+          "promotionProviderId": "string"
+        },
+        "positionals": [
+          "promotionProviderId"
+        ],
+        "argv_path": [
+          "promotions",
+          "delete-provider"
+        ]
+      },
+      {
+        "tool": "promotions.disconnect-checkout",
+        "summary": "Removes the local checkout and keeps the configuration, its credentials, and the trusted SSH host keys. Required: promotionConnectionId, direction (default: apply). Returns the new PromotionCheckoutPublicDtoGenerated.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "direction": "string"
+        },
+        "positionals": [
+          "promotionConnectionId",
+          "direction"
+        ],
+        "argv_path": [
+          "promotions",
+          "disconnect-checkout"
+        ]
+      },
+      {
+        "tool": "promotions.get-changes",
+        "summary": "Compares a team project on this instance with the branch of its promotion configuration and lists the workflows that differ. For `promote` the rows are what a promotion sends to the branch, and the key needs the gitConnection:push scope. For `apply` the rows are what applying the branch changes on this instance, and the key needs the gitConnection:pull scope. `commitSha` is the commit the rows were read from. Requires the direction to be cloned first. Required: projectId, direction (default: apply). Optional: search, sort (default: name), order (default: asc). Returns the PromotionsGetChangesResponse.",
+        "params_schema": {
+          "projectId": "string",
+          "direction": "string",
+          "search": "string?",
+          "sort": "string?",
+          "order": "string?"
+        },
+        "positionals": [
+          "projectId",
+          "direction"
+        ],
+        "argv_path": [
+          "promotions",
+          "get-changes"
+        ]
+      },
+      {
+        "tool": "promotions.get-connection",
+        "summary": "Returns the connection with its provider summary and its configurations. Required: promotionConnectionId.",
+        "params_schema": {
+          "promotionConnectionId": "string"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "get-connection"
+        ]
+      },
+      {
+        "tool": "promotions.get-connection-projects",
+        "summary": "List projects linked to a promotion connection. Required: promotionConnectionId. Returns array of string.",
+        "params_schema": {
+          "promotionConnectionId": "string"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "get-connection-projects"
+        ]
+      },
+      {
+        "tool": "promotions.get-provider",
+        "summary": "Returns the provider with its public configuration. Secrets are never returned. Required: promotionProviderId.",
+        "params_schema": {
+          "promotionProviderId": "string"
+        },
+        "positionals": [
+          "promotionProviderId"
+        ],
+        "argv_path": [
+          "promotions",
+          "get-provider"
+        ]
+      },
+      {
+        "tool": "promotions.list-connections",
+        "summary": "Returns a cursor-paginated list of connections with their configurations. Filter by `scope` for the instance connection, or by `providerId` to see which connections a provider edit affects. Optional: limit (default: 100), cursor, scope (plus 1 more).",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?",
+          "scope": "string?",
+          "providerId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "promotions",
+          "list-connections"
+        ]
+      },
+      {
+        "tool": "promotions.list-providers",
+        "summary": "Returns a cursor-paginated list of providers, without their public configuration. Optional: limit (default: 100), cursor.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "promotions",
+          "list-providers"
+        ]
+      },
+      {
+        "tool": "promotions.promote-package",
+        "summary": "Exports every team project, commits it, and pushes to the configured base branch or a new timestamped branch. The response reports the target branch in `git.branchName`. Personal projects are ignored. Requires the Promote direction to be cloned first, and is available on the instance connection only. The API key also needs variable:list when the workflows reference variables. Required: promotionConnectionId, commitMessage. Optional: force. Returns the new PromotePackageResultDtoGenerated.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "commitMessage": "string?",
+          "force": "bool?"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "promote-package"
+        ]
+      },
+      {
+        "tool": "promotions.promote-project-selection",
+        "summary": "Promotes a chosen set of a team project's workflows to the Promote branch of the project's promotion configuration. Send workflow ids only; the server reads each one now, so the push carries the current state. Live and archived workflows the project owns are exported, so an archived id stays on the branch as archived; an id the project no longer owns (its workflow is gone, or moved to another project) leaves the branch, matching the project's change list. A deletion the branch does not hold under this project rejects the whole request before any write. Requires the Promote direction to be cloned first, and a promotion connection to resolve for the project (its own connection, otherwise the instance connection). The API key also needs variable:list when the workflows reference variables. Required: projectId, workflowIds. Optional: commitMessage. Returns the new PromotePackageResultDtoGenerated.",
+        "params_schema": {
+          "projectId": "string",
+          "commitMessage": "string?",
+          "workflowIds": "string_csv_array?"
+        },
+        "positionals": [
+          "projectId"
+        ],
+        "argv_path": [
+          "promotions",
+          "promote-project-selection"
+        ]
+      },
+      {
+        "tool": "promotions.remove-project-from-connection",
+        "summary": "Unlink a project from a promotion connection. Required: promotionConnectionId, projectId. Destructive.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "projectId": "string"
+        },
+        "positionals": [
+          "promotionConnectionId",
+          "projectId"
+        ],
+        "argv_path": [
+          "promotions",
+          "remove-project-from-connection"
+        ]
+      },
+      {
+        "tool": "promotions.update-connection",
+        "summary": "Updates the name, target, or provider. Scope cannot change, and configurations have their own routes. Required: promotionConnectionId. Optional: name, providerId, target. Returns the updated PromotionConnectionPublicDtoGenerated.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "name": "string?",
+          "providerId": "string?",
+          "target-remote-url": "string?",
+          "target-schema-version": "float?"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "update-connection"
+        ]
+      },
+      {
+        "tool": "promotions.update-provider",
+        "summary": "Renames the provider, and replaces its credentials when `auth` is sent. A Git host provider can also update its base URL. A different API destination requires `auth` in the same request. Changed credentials and host settings are validated before they save. If another request changes the credentials or configuration before this update saves, the update returns 409. Reload the provider and try again. For GitLab, the service uses n8n as the Git transport username. Its auth.username is optional. The service ignores any supplied username. Plain Git token authentication requires auth.username. New credentials apply to every connection that uses this provider. The authentication method cannot change. Required: promotionProviderId. Optional: auth, config, name.",
+        "params_schema": {
+          "promotionProviderId": "string",
+          "auth": "string?",
+          "config-base-url": "string?",
+          "config-schema-version": "float?",
+          "name": "string?"
+        },
+        "positionals": [
+          "promotionProviderId"
+        ],
+        "argv_path": [
+          "promotions",
+          "update-provider"
+        ]
+      },
+      {
+        "tool": "promotions.upsert-apply-config",
+        "summary": "Replaces the whole configuration, so an omitted name resets it to 'Apply'. Answers 200 whether it created or replaced. Required: promotionConnectionId, settings. Optional: name. Returns the updated PromotionsUpsertApplyConfigResponse.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "name": "string?",
+          "settings-branch-name": "string?",
+          "settings-schema-version": "float?"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "upsert-apply-config"
+        ]
+      },
+      {
+        "tool": "promotions.upsert-promote-config",
+        "summary": "Replaces the whole configuration, so an omitted name resets it to 'Promote' and `createBranchOnPromotion` is always required. Answers 200 whether it created or replaced. Required: promotionConnectionId, settings. Optional: name. Returns the updated PromotionsUpsertPromoteConfigResponse.",
+        "params_schema": {
+          "promotionConnectionId": "string",
+          "name": "string?",
+          "settings-base-branch-name": "string?",
+          "settings-create-branch-on-promotion": "bool?",
+          "settings-schema-version": "float?"
+        },
+        "positionals": [
+          "promotionConnectionId"
+        ],
+        "argv_path": [
+          "promotions",
+          "upsert-promote-config"
+        ]
+      },
+      {
+        "tool": "role-mapping-rules.create",
+        "summary": "Creates a rule that maps an identity-provider claim expression to a role. Set `type` to `instance` for a rule granting a global role, or `project` for a rule granting a project role on the projects named in `projectIds`. Omitting `order` appends the rule to the end of the evaluation order for its type. Required: expression, role, type. Optional: order, projectIds. Returns the new RoleMappingRulePublicDtoGenerated.",
+        "params_schema": {
+          "expression": "string?",
+          "order": "int?",
+          "projectIds": "string_csv_array?",
+          "role": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "role-mapping-rules"
+        ]
+      },
+      {
+        "tool": "role-mapping-rules.delete",
+        "summary": "Deletes a role-mapping rule. The remaining rules of the same type close the gap, so their `order` values stay a contiguous sequence starting at 0. Required: roleMappingRuleId. Returns the RoleMappingRulePublicDtoGenerated. Destructive.",
+        "params_schema": {
+          "roleMappingRuleId": "string"
+        },
+        "positionals": [
+          "roleMappingRuleId"
+        ],
+        "argv_path": [
+          "role-mapping-rules",
+          "delete"
+        ]
+      },
+      {
+        "tool": "role-mapping-rules.list",
+        "summary": "Returns the configured role-mapping rules. `order` is the rule's evaluation position within its own `type`, so instance and project rules each have their own sequence starting at 0 \u2014 filter by `type` to retrieve a single evaluation order. Optional: limit (default: 100), cursor, type.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?",
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "role-mapping-rules",
+          "list"
+        ]
+      },
+      {
+        "tool": "role-mapping-rules.update",
+        "summary": "Updates a rule's claim expression, role, and/or project assignments. A rule's type cannot be changed once created, so `type` isn't accepted here, and reordering is handled by the move endpoint. Required: roleMappingRuleId. Optional: expression, projectIds, role. Returns the updated RoleMappingRulePublicDtoGenerated.",
+        "params_schema": {
+          "roleMappingRuleId": "string",
+          "expression": "string?",
+          "projectIds": "string_csv_array?",
+          "role": "string?"
+        },
+        "positionals": [
+          "roleMappingRuleId"
+        ],
+        "argv_path": [
+          "role-mapping-rules",
+          "update"
+        ]
+      },
+      {
+        "tool": "role-mapping-rules.move_role-mapping-rule",
+        "summary": "Changes a rule's position in the evaluation order for its type. `targetIndex` is the desired 0-based position within the rule's own `type` sequence; a value beyond the last position moves the rule to the end. Required: roleMappingRuleId, targetIndex. Returns the new RoleMappingRulePublicDtoGenerated.",
+        "params_schema": {
+          "roleMappingRuleId": "string",
+          "targetIndex": "int?"
+        },
+        "positionals": [
+          "roleMappingRuleId"
+        ],
+        "argv_path": [
+          "role-mapping-rules",
+          "move_role-mapping-rule"
+        ]
+      },
+      {
+        "tool": "roles.create",
+        "summary": "Creates a custom role. Set `roleType` to `global` for an instance-wide role or `project` for a project role. Required: displayName, roleType, scopes. Optional: description. Returns the new RolePublicDtoGenerated.",
+        "params_schema": {
+          "description": "string?",
+          "displayName": "string?",
+          "roleType": "string?",
+          "scopes": "string_csv_array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "roles"
+        ]
+      },
+      {
+        "tool": "roles.delete",
+        "summary": "Deletes a custom role. System roles cannot be deleted. A role with users assigned cannot be deleted unless `reassignRoleSlug` is set to move those users to another role first. Required: roleSlug. Optional: reassignRoleSlug. Returns the RolePublicDtoGenerated. Destructive.",
+        "params_schema": {
+          "roleSlug": "string",
+          "reassignRoleSlug": "string?"
+        },
+        "positionals": [
+          "roleSlug"
+        ],
+        "argv_path": [
+          "roles",
+          "delete"
+        ]
+      },
+      {
+        "tool": "roles.get",
+        "summary": "Returns a single role with its scopes. Set `withUsageCount` to include how many users and projects use the role. Required: roleSlug. Optional: withUsageCount (default: false).",
+        "params_schema": {
+          "roleSlug": "string",
+          "withUsageCount": "string?"
+        },
+        "positionals": [
+          "roleSlug"
+        ],
+        "argv_path": [
+          "roles",
+          "get"
+        ]
+      },
+      {
+        "tool": "roles.list",
+        "summary": "Returns all roles grouped by type (global and project). Set `withUsageCount` to include how many users and projects use each role. Optional: withUsageCount (default: false).",
+        "params_schema": {
+          "withUsageCount": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "roles",
+          "list"
+        ]
+      },
+      {
+        "tool": "roles.update",
+        "summary": "Replaces a custom role's display name, description, and scopes. System roles cannot be updated. Required: roleSlug, description, displayName, scopes. Returns the updated RolePublicDtoGenerated.",
+        "params_schema": {
+          "roleSlug": "string",
+          "description": "string?",
+          "displayName": "string?",
+          "scopes": "string_csv_array?"
+        },
+        "positionals": [
+          "roleSlug"
+        ],
+        "argv_path": [
+          "roles",
+          "update"
+        ]
+      },
+      {
+        "tool": "settings.create-log-streaming-destination",
+        "summary": "Create a log streaming destination. The destination takes effect exactly as it would from the UI, using the same validation. Requires the `eventBusDestination:create` scope and the Log Streaming feature to be licensed. When destinations are managed via environment variables, the write is rejected with 409 and nothing is created; reads still return the current values. Returns the new LogStreamingDestinationPublicDtoGenerated.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "create-log-streaming-destination"
+        ]
+      },
+      {
+        "tool": "settings.delete-log-streaming-destination",
+        "summary": "Remove a log streaming destination. Requires the `eventBusDestination:delete` scope and the Log Streaming feature to be licensed. When destinations are managed via environment variables, the delete is rejected with 409 and nothing is removed; reads still return the current values. Required: destinationId. Returns the LogStreamingDestinationPublicDtoGenerated. Destructive.",
+        "params_schema": {
+          "destinationId": "string"
+        },
+        "positionals": [
+          "destinationId"
+        ],
+        "argv_path": [
+          "settings",
+          "delete-log-streaming-destination"
+        ]
+      },
+      {
+        "tool": "settings.get-ldap-configuration",
+        "summary": "Retrieve the current LDAP configuration, including every field exposed in the UI. The binding admin password is redacted on read. Requires the `ldap:manage` scope and the LDAP feature to be licensed. Returns the LdapConfigurationPublicDtoGenerated.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "get-ldap-configuration"
+        ]
+      },
+      {
+        "tool": "settings.get-ldap-sync",
+        "summary": "Retrieve the history of LDAP synchronizations, most recent first. Requires the `ldap:sync` scope and the LDAP feature to be licensed. Optional: limit (default: 100), cursor. Returns array of SettingsGetLdapSyncItem.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "get-ldap-sync"
+        ]
+      },
+      {
+        "tool": "settings.get-log-streaming-destination",
+        "summary": "Retrieve a single log streaming destination by id. Requires the `eventBusDestination:read` scope and the Log Streaming feature to be licensed. Required: destinationId. Returns the LogStreamingDestinationPublicDtoGenerated.",
+        "params_schema": {
+          "destinationId": "string"
+        },
+        "positionals": [
+          "destinationId"
+        ],
+        "argv_path": [
+          "settings",
+          "get-log-streaming-destination"
+        ]
+      },
+      {
+        "tool": "settings.get-log-streaming-event-types",
+        "summary": "List the event types that can be streamed to a log streaming destination. Requires the `eventBusDestination:list` scope and the Log Streaming feature to be licensed. Returns array of string.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "get-log-streaming-event-types"
+        ]
+      },
+      {
+        "tool": "settings.get-oidc-configuration",
+        "summary": "Retrieve the current OIDC SSO configuration, including every field exposed in the UI. The client secret is redacted on read and is never echoed back in plaintext. Requires the `oidc:manage` scope and the OIDC feature to be licensed. Returns the OidcConfigurationPublicDtoGenerated.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "get-oidc-configuration"
+        ]
+      },
+      {
+        "tool": "settings.get-otel",
+        "summary": "Retrieve the current OpenTelemetry configuration, including every field exposed in the UI. Requires the `otel:manage` scope. Returns the OtelSettingsPublicDtoGenerated.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "get-otel"
+        ]
+      },
+      {
+        "tool": "settings.get-saml-configuration",
+        "summary": "Retrieve the current SAML SSO configuration, including every field exposed in the UI plus the service provider entity ID and ACS return URL. Signing private keys, signing certificates, and identity provider metadata are redacted on read. Requires the `saml:manage` scope and the SAML feature to be licensed. Returns the SamlConfigurationPublicDtoGenerated.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "get-saml-configuration"
+        ]
+      },
+      {
+        "tool": "settings.get-security-policy",
+        "summary": "Retrieve the instance security policy: personal-space publishing and sharing, the execution-data redaction enforcement floor, and the read-only usage counts shown in the UI. Requires the `securitySettings:manage` scope and the Personal Space Policy feature to be licensed. Returns the SecurityPolicyPublicDtoGenerated.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "get-security-policy"
+        ]
+      },
+      {
+        "tool": "settings.list-log-streaming-destinations",
+        "summary": "List the configured log streaming destinations. Requires the `eventBusDestination:list` scope and the Log Streaming feature to be licensed. Returns array of SettingsListLogStreamingDestinationsItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "list-log-streaming-destinations"
+        ]
+      },
+      {
+        "tool": "settings.run-ldap-sync",
+        "summary": "Manually trigger an LDAP synchronization. The response returns the new sync history record. Requires the `ldap:sync` scope and the LDAP feature to be licensed. Required: type.",
+        "params_schema": {
+          "type": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "run-ldap-sync"
+        ]
+      },
+      {
+        "tool": "settings.set-oidc-configuration",
+        "summary": "Set the OIDC SSO configuration. The update takes effect exactly as it would from the UI, using the same validation. `clientId`, `clientSecret` and `discoveryEndpoint` are required; submit the redacted client secret sentinel to keep the stored secret unchanged. Requires the `oidc:manage` scope and the OIDC feature to be licensed. The client secret is redacted in the response. When the configuration is managed declaratively (via environment variables), the write is rejected with 409 and no changes are made. Required: additionalScopes, authenticationContextClassReference, clientId, clientSecret, discoveryEndpoint, emailVerifiedRequired, loginEnabled, prompt, rpInitiatedLogoutEnabled. Returns the updated OidcConfigurationPublicDtoGenerated.",
+        "params_schema": {
+          "additionalScopes": "string?",
+          "authenticationContextClassReference": "string_csv_array?",
+          "clientId": "string?",
+          "clientSecret": "string?",
+          "discoveryEndpoint": "string?",
+          "emailVerifiedRequired": "bool?",
+          "loginEnabled": "bool?",
+          "prompt": "string?",
+          "rpInitiatedLogoutEnabled": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "set-oidc-configuration"
+        ]
+      },
+      {
+        "tool": "settings.test-log-streaming-destination",
+        "summary": "Send a test message to the destination to verify it is reachable and configured correctly. Requires the `eventBusDestination:test` scope and the Log Streaming feature to be licensed. Required: destinationId. Returns the new SettingsTestLogStreamingDestinationResponse.",
+        "params_schema": {
+          "destinationId": "string"
+        },
+        "positionals": [
+          "destinationId"
+        ],
+        "argv_path": [
+          "settings",
+          "test-log-streaming-destination"
+        ]
+      },
+      {
+        "tool": "settings.test-otel-trace",
+        "summary": "Send a single test span to the given OTLP collector and report whether it was accepted. This tests the supplied connection details without changing the stored configuration. Fields managed declaratively via environment variables are overridden with their effective value before the test is sent. Requires the `otel:manage` scope. Required: exporterEndpoint, exporterHeaders, exporterServiceName, exporterTracingPath, startupConnectivityTimeoutMs. Optional: exporterProtocol (default: http/protobuf). Returns the new SettingsTestOtelTraceResponse.",
+        "params_schema": {
+          "exporterEndpoint": "string?",
+          "exporterHeaders": "string?",
+          "exporterProtocol": "string?",
+          "exporterServiceName": "string?",
+          "exporterTracingPath": "string?",
+          "startupConnectivityTimeoutMs": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "test-otel-trace"
+        ]
+      },
+      {
+        "tool": "settings.update-ldap-configuration",
+        "summary": "Replace the LDAP configuration with the provided full object (partial updates are not supported). For bindingAdminPassword, submit the blanking placeholder from a prior GET to keep the stored password unchanged. Requires the `ldap:manage` scope and the LDAP feature to be licensed. Setting loginEnabled to false is destructive and it deletes all stored LDAP user identities and disables synchronization. Required: allowUnauthorizedCerts, baseDn, bindingAdminDn, bindingAdminPassword, connectionPort, connectionSecurity, connectionUrl, emailAttribute, enforceEmailUniqueness, firstNameAttribute, lastNameAttribute, ldapIdAttribute, loginEnabled, loginIdAttribute, loginLabel, searchPageSize, searchTimeout, synchronizationEnabled, synchronizationInterval, userFilter. Returns the updated LdapConfigurationPublicDtoGenerated.",
+        "params_schema": {
+          "allowUnauthorizedCerts": "bool?",
+          "baseDn": "string?",
+          "bindingAdminDn": "string?",
+          "bindingAdminPassword": "string?",
+          "connectionPort": "int?",
+          "connectionSecurity": "string?",
+          "connectionUrl": "string?",
+          "emailAttribute": "string?",
+          "enforceEmailUniqueness": "bool?",
+          "firstNameAttribute": "string?",
+          "lastNameAttribute": "string?",
+          "ldapIdAttribute": "string?",
+          "loginEnabled": "bool?",
+          "loginIdAttribute": "string?",
+          "loginLabel": "string?",
+          "searchPageSize": "int?",
+          "searchTimeout": "int?",
+          "synchronizationEnabled": "bool?",
+          "synchronizationInterval": "int?",
+          "userFilter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "update-ldap-configuration"
+        ]
+      },
+      {
+        "tool": "settings.update-log-streaming-destination",
+        "summary": "Replace an existing log streaming destination. The update takes effect exactly as it would from the UI, using the same validation. Requires the `eventBusDestination:update` scope and the Log Streaming feature to be licensed. When destinations are managed via environment variables, the write is rejected with 409 and nothing is changed; reads still return the current values. Required: destinationId. Returns the updated LogStreamingDestinationPublicDtoGenerated.",
+        "params_schema": {
+          "destinationId": "string"
+        },
+        "positionals": [
+          "destinationId"
+        ],
+        "argv_path": [
+          "settings",
+          "update-log-streaming-destination"
+        ]
+      },
+      {
+        "tool": "settings.update-otel",
+        "summary": "Set the OpenTelemetry configuration. This is a full replacement: every field must be provided, and a partial body is rejected. The exceptions are `exporterProtocol`, which defaults to `http/protobuf` when omitted, and `emitWorkflowStartSpan` and `emitNodeStartSpan`, which default to `false` when omitted. The update takes effect exactly as it would from the UI, using the same validation, and is applied to the running instance immediately. Fields managed declaratively via environment variables are read-only: attempting to change one is rejected with 409, while re-submitting its current value (as returned by GET) is accepted. Requires the `otel:manage` scope. Required: enabled, exporterEndpoint, exporterHeaders, exporterServiceName, exporterTracingPath, includeNodeSpans, injectOutbound, productionExecutionsOnly, startupConnectivityTimeoutMs, tracesSampleRate. Optional: emitNodeStartSpan (default: false), emitWorkflowStartSpan (default: false), exporterProtocol (default: http/protobuf). Returns the updated OtelSettingsPublicDtoGenerated.",
+        "params_schema": {
+          "emitNodeStartSpan": "bool?",
+          "emitWorkflowStartSpan": "bool?",
+          "enabled": "bool?",
+          "exporterEndpoint": "string?",
+          "exporterHeaders": "string?",
+          "exporterProtocol": "string?",
+          "exporterServiceName": "string?",
+          "exporterTracingPath": "string?",
+          "includeNodeSpans": "bool?",
+          "injectOutbound": "bool?",
+          "productionExecutionsOnly": "bool?",
+          "startupConnectivityTimeoutMs": "int?",
+          "tracesSampleRate": "float?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "update-otel"
+        ]
+      },
+      {
+        "tool": "settings.update-saml-configuration",
+        "summary": "Replace the SAML SSO configuration with the provided full object. Every writable field must be sent; use empty strings or empty arrays when a value is unset. Read-only `entityID` / `returnUrl` from GET are ignored if included, so a GET response can be sent back as a PUT body. Redacted secret placeholders keep the stored values unchanged. The update takes effect exactly as it would from the UI, using the same validation. Requires the `saml:manage` scope and the SAML feature to be licensed. When the configuration is managed via environment variables, the write is rejected with 409 and no changes are made. Required: acsBinding, authnRequestsSigned, emailVerifiedRequired, ignoreSSL, loginBinding, loginEnabled, loginLabel, mapping, metadata, metadataUrl, relayState, signatureConfig, signingCertificate, signingPrivateKey, wantAssertionsSigned, wantMessageSigned. Optional: entityID, returnUrl. Returns the updated SamlConfigurationPublicDtoGenerated.",
+        "params_schema": {
+          "acsBinding": "string?",
+          "authnRequestsSigned": "bool?",
+          "emailVerifiedRequired": "bool?",
+          "entityID": "string?",
+          "ignoreSSL": "bool?",
+          "loginBinding": "string?",
+          "loginEnabled": "bool?",
+          "loginLabel": "string?",
+          "mapping-email": "string?",
+          "mapping-email-verified": "string?",
+          "mapping-first-name": "string?",
+          "mapping-last-name": "string?",
+          "mapping-n8n-instance-role": "string?",
+          "mapping-n8n-project-roles": "string_csv_array?",
+          "mapping-user-principal-name": "string?",
+          "metadata": "string?",
+          "metadataUrl": "string?",
+          "relayState": "string?",
+          "returnUrl": "string?",
+          "signature-config-location-action": "string?",
+          "signature-config-location-reference": "string?",
+          "signature-config-prefix": "string?",
+          "signingCertificate": "string?",
+          "signingPrivateKey": "string?",
+          "wantAssertionsSigned": "bool?",
+          "wantMessageSigned": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "update-saml-configuration"
+        ]
+      },
+      {
+        "tool": "settings.update-security-policy",
+        "summary": "Replace the instance security policy with the provided full object. Every writable field must be sent. Read-only usage counts from GET are ignored if included, so a GET response can be sent back as a PUT body. The update takes effect exactly as it would from the UI, using the same validation. Requires the `securitySettings:manage` scope and the Personal Space Policy feature to be licensed. When the group is managed via environment variables, the write is rejected with 409 and no changes are made; a read still returns the current values. Required: personalSpacePublishing, personalSpaceSharing, redactionEnforcement. Optional: publishedPersonalWorkflowsCount, sharedPersonalCredentialsCount, sharedPersonalWorkflowsCount.",
+        "params_schema": {
+          "personalSpacePublishing": "bool?",
+          "personalSpaceSharing": "bool?",
+          "publishedPersonalWorkflowsCount": "int?",
+          "redaction-enforcement-floor": "string?",
+          "sharedPersonalCredentialsCount": "int?",
+          "sharedPersonalWorkflowsCount": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "settings",
+          "update-security-policy"
+        ]
+      },
+      {
+        "tool": "source-control.get-status",
+        "summary": "Previews the pending changes between the instance and the connected Git branch in either the `push` or `pull` direction. Required: direction. Returns array of SourceControlGetStatusItem.",
+        "params_schema": {
+          "direction": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source-control",
+          "get-status"
+        ]
+      },
+      {
+        "tool": "source-control.pull",
+        "summary": "Fetches changes from the connected Git branch into the instance. Optional: autoPublish (default: none), force. Returns array of SourceControlPullItem.",
+        "params_schema": {
+          "autoPublish": "string?",
+          "force": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source-control",
+          "pull"
+        ]
+      },
+      {
+        "tool": "source-control.push",
+        "summary": "Commits and pushes the selected files to the connected Git branch. Each entry in `fileNames` is resolved against a fresh preview of the pending changes. Required: commitMessage, fileNames. Optional: force. Returns array of SourceControlPushItem.",
+        "params_schema": {
+          "commitMessage": "string?",
+          "fileNames": "array?",
+          "force": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "source-control",
+          "push"
+        ]
+      },
+      {
+        "tool": "tags.create",
+        "summary": "Create a tag in your instance. Required: name. Returns the new TagPublicDtoGenerated.",
+        "params_schema": {
+          "name": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags"
+        ]
+      },
+      {
+        "tool": "tags.delete",
+        "summary": "Deletes a tag. Required: tagId. Returns the TagPublicDtoGenerated. Destructive.",
+        "params_schema": {
+          "tagId": "string"
+        },
+        "positionals": [
+          "tagId"
+        ],
+        "argv_path": [
+          "tags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "tags.get",
+        "summary": "Retrieves a tag. Required: tagId. Returns the TagPublicDtoGenerated.",
+        "params_schema": {
+          "tagId": "string"
+        },
+        "positionals": [
+          "tagId"
+        ],
+        "argv_path": [
+          "tags",
+          "get"
+        ]
+      },
+      {
+        "tool": "tags.list",
+        "summary": "Retrieve all tags from your instance. Optional: limit (default: 100), cursor. Returns array of TagsListItem.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "tags",
+          "list"
+        ]
+      },
+      {
+        "tool": "tags.update",
+        "summary": "Update a tag. Required: tagId, name. Returns the updated TagsUpdateResponse.",
+        "params_schema": {
+          "tagId": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "tagId"
+        ],
+        "argv_path": [
+          "tags",
+          "update"
+        ]
+      },
+      {
+        "tool": "users.create",
+        "summary": "Create one or more users. Returns array of UsersCreateItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.delete",
+        "summary": "Delete a user from your instance. Required: userId. Optional: transferId. Destructive.",
+        "params_schema": {
+          "userId": "string",
+          "transferId": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "delete"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Retrieve a user from your instance. Only available for the instance owner. Required: userId. Optional: includeRole (default: false). Returns the UsersGetResponse.",
+        "params_schema": {
+          "userId": "string",
+          "includeRole": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "get"
+        ]
+      },
+      {
+        "tool": "users.list",
+        "summary": "Retrieve all users from your instance. Only available for the instance owner. Optional: limit (default: 100), cursor, includeRole (default: false) (plus 1 more). Returns array of UsersListItem.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?",
+          "includeRole": "string?",
+          "projectId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "list"
+        ]
+      },
+      {
+        "tool": "users.role_change",
+        "summary": "Change a user's global role. Required: userId, newRoleName. Partial update.",
+        "params_schema": {
+          "userId": "string",
+          "newRoleName": "string?"
+        },
+        "positionals": [
+          "userId"
+        ],
+        "argv_path": [
+          "users",
+          "role_change"
+        ]
+      },
+      {
+        "tool": "variables.create",
+        "summary": "Create a variable in your instance. Required: key, value. Optional: projectId.",
+        "params_schema": {
+          "key": "string?",
+          "projectId": "string?",
+          "value": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "variables"
+        ]
+      },
+      {
+        "tool": "variables.delete",
+        "summary": "Delete a variable from your instance. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "variables",
+          "delete"
+        ]
+      },
+      {
+        "tool": "variables.list",
+        "summary": "Retrieve variables from your instance. Optional: limit (default: 100), cursor, projectId (plus 1 more). Returns array of VariablesListItem.",
+        "params_schema": {
+          "limit": "float?",
+          "cursor": "string?",
+          "projectId": "string?",
+          "state": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "variables",
+          "list"
+        ]
+      },
+      {
+        "tool": "variables.update",
+        "summary": "Update a variable from your instance. Required: id, key, value. Optional: projectId.",
+        "params_schema": {
+          "id": "string",
+          "key": "string?",
+          "projectId": "string?",
+          "value": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "variables",
+          "update"
+        ]
+      },
+      {
+        "tool": "workflows.create",
+        "summary": "Create a workflow in your instance. Required: connections, name, nodes, settings. Optional: description, nodeGroups, parentFolderId (plus 4 more). Returns the new WorkflowsCreateResponse.",
+        "params_schema": {
+          "connections": "object?",
+          "description": "string?",
+          "name": "string?",
+          "nodeGroups": "array?",
+          "nodes": "array?",
+          "parentFolderId": "string?",
+          "pinData": "object?",
+          "projectId": "string?",
+          "settings-available-in-mcp": "bool?",
+          "settings-binary-mode": "string?",
+          "settings-caller-ids": "string?",
+          "settings-caller-policy": "string?",
+          "settings-credential-resolver-id": "string?",
+          "settings-custom-telemetry-tags": "array?",
+          "settings-error-workflow": "string?",
+          "settings-execution-order": "string?",
+          "settings-execution-timeout": "float?",
+          "settings-redaction-policy": "string?",
+          "settings-save-data-error-execution": "string?",
+          "settings-save-data-success-execution": "string?",
+          "settings-save-execution-progress": "bool?",
+          "settings-save-manual-executions": "bool?",
+          "settings-time-saved-mode": "string?",
+          "settings-time-saved-per-execution": "float?",
+          "settings-timezone": "string?",
+          "shared": "array?",
+          "staticData": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflows"
+        ]
+      },
+      {
+        "tool": "workflows.delete",
+        "summary": "Delete a workflow. Required: workflowId. Returns the WorkflowsDeleteResponse. Destructive.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "delete"
+        ]
+      },
+      {
+        "tool": "workflows.get",
+        "summary": "Retrieve a workflow. Required: workflowId. Optional: excludePinnedData (default: false). Returns the WorkflowPublicDtoGenerated.",
+        "params_schema": {
+          "workflowId": "string",
+          "excludePinnedData": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "get"
+        ]
+      },
+      {
+        "tool": "workflows.get-deprecated-version",
+        "summary": "Deprecated: use GET /workflows/{workflowId}/versions/{workflowVersionId} instead. Retrieves a specific version of a workflow from workflow history. Required: workflowId, workflowVersionId. Returns the WorkflowsGetDeprecatedVersionResponse.",
+        "params_schema": {
+          "workflowId": "string",
+          "workflowVersionId": "string"
+        },
+        "positionals": [
+          "workflowId",
+          "workflowVersionId"
+        ],
+        "argv_path": [
+          "workflows",
+          "get-deprecated-version"
+        ]
+      },
+      {
+        "tool": "workflows.list",
+        "summary": "Retrieve all workflows from your instance. Optional: offset (default: 0), limit (default: 100), cursor (plus 5 more). Returns array of WorkflowsListItem.",
+        "params_schema": {
+          "offset": "float?",
+          "limit": "float?",
+          "cursor": "string?",
+          "active": "string?",
+          "tags": "string?",
+          "name": "string?",
+          "projectId": "string?",
+          "excludePinnedData": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "workflows",
+          "list"
+        ]
+      },
+      {
+        "tool": "workflows.update",
+        "summary": "Update a workflow. If the workflow is published, the updated version will be automatically re-published unless `publishIfActive` is set to `false`. Because that re-publication puts a new version live, it additionally requires the `workflow:activate` API key scope and the `workflow:publish` project permission. A caller without either can still save: the new version is stored as a draft and the response is a `403` naming the missing permission, leaving the published version live. Saving an unpublished workflow, or saving with `publishIfActive=false`, only needs `workflow:update`. Required: workflowId, connections, name, nodes, settings. Optional: publishIfActive (default: true), description, nodeGroups (plus 4 more). Returns the updated WorkflowsUpdateResponse.",
+        "params_schema": {
+          "workflowId": "string",
+          "publishIfActive": "string?",
+          "connections": "object?",
+          "description": "string?",
+          "name": "string?",
+          "nodeGroups": "array?",
+          "nodes": "array?",
+          "parentFolderId": "string?",
+          "pinData": "object?",
+          "settings-available-in-mcp": "bool?",
+          "settings-binary-mode": "string?",
+          "settings-caller-ids": "string?",
+          "settings-caller-policy": "string?",
+          "settings-credential-resolver-id": "string?",
+          "settings-custom-telemetry-tags": "array?",
+          "settings-error-workflow": "string?",
+          "settings-execution-order": "string?",
+          "settings-execution-timeout": "float?",
+          "settings-redaction-policy": "string?",
+          "settings-save-data-error-execution": "string?",
+          "settings-save-data-success-execution": "string?",
+          "settings-save-execution-progress": "bool?",
+          "settings-save-manual-executions": "bool?",
+          "settings-time-saved-mode": "string?",
+          "settings-time-saved-per-execution": "float?",
+          "settings-timezone": "string?",
+          "shared": "array?",
+          "staticData": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "update"
+        ]
+      },
+      {
+        "tool": "workflows.activate_workflow",
+        "summary": "Deprecated: use POST /workflows/{id}/publish instead. Publish a workflow. In n8n v1, this action was termed activating a workflow. Required: workflowId. Optional: description, name, versionId. Returns the new WorkflowPublishPublicDtoGenerated.",
+        "params_schema": {
+          "workflowId": "string",
+          "description": "string?",
+          "name": "string?",
+          "versionId": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "activate_workflow"
+        ]
+      },
+      {
+        "tool": "workflows.archive_workflow",
+        "summary": "Soft-deletes a workflow by archiving it. Idempotent: archiving an already archived workflow returns 200 with the current workflow. Required: workflowId.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "archive_workflow"
+        ]
+      },
+      {
+        "tool": "workflows.deactivate_workflow",
+        "summary": "Deprecated: use POST /workflows/{id}/unpublish instead. Deactivate a workflow. Required: workflowId. Returns the new WorkflowPublicDtoGenerated.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "deactivate_workflow"
+        ]
+      },
+      {
+        "tool": "workflows.history_get-workflow",
+        "summary": "Returns a paginated list of workflow versions (version IDs and metadata) for a workflow. Required: workflowId. Optional: limit (default: 100), cursor.",
+        "params_schema": {
+          "workflowId": "string",
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "history_get-workflow"
+        ]
+      },
+      {
+        "tool": "workflows.publish_workflow",
+        "summary": "Publish a workflow. In n8n v1, this action was termed activating a workflow. Required: workflowId. Optional: description, name, versionId. Returns the new WorkflowPublishPublicDtoGenerated.",
+        "params_schema": {
+          "workflowId": "string",
+          "description": "string?",
+          "name": "string?",
+          "versionId": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "publish_workflow"
+        ]
+      },
+      {
+        "tool": "workflows.tags_get-workflow",
+        "summary": "Get workflow tags. Required: workflowId. Returns array of TagsGetWorkflowItem.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "tags_get-workflow"
+        ]
+      },
+      {
+        "tool": "workflows.tags_update-workflow",
+        "summary": "Update tags of a workflow. Required: workflowId. Returns array of TagsUpdateWorkflowItem.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "tags_update-workflow"
+        ]
+      },
+      {
+        "tool": "workflows.test-runs_cancel",
+        "summary": "Cancel a running evaluation test run of a workflow. Requires the `workflow:execute` project scope in addition to the `testRun:cancel` API key scope. Required: workflowId, runId. Returns the new TestRunsCancelResponse.",
+        "params_schema": {
+          "workflowId": "string",
+          "runId": "string"
+        },
+        "positionals": [
+          "workflowId",
+          "runId"
+        ],
+        "argv_path": [
+          "workflows",
+          "test-runs_cancel"
+        ]
+      },
+      {
+        "tool": "workflows.test-runs_create",
+        "summary": "Start a new evaluation test run for a workflow. The workflow must contain a configured evaluation trigger. Requires the `workflow:execute` project scope in addition to the `testRun:create` API key scope. Required: workflowId. Returns the new TestRunsCreateResponse.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "test-runs_create"
+        ]
+      },
+      {
+        "tool": "workflows.test-runs_get",
+        "summary": "Retrieve a single evaluation test run of a workflow, including its aggregated metrics and final result. Required: workflowId, runId. Returns the TestRunsGetResponse.",
+        "params_schema": {
+          "workflowId": "string",
+          "runId": "string"
+        },
+        "positionals": [
+          "workflowId",
+          "runId"
+        ],
+        "argv_path": [
+          "workflows",
+          "test-runs_get"
+        ]
+      },
+      {
+        "tool": "workflows.test-runs_get-test-cases",
+        "summary": "Retrieve the per-case results of an evaluation test run. Required: workflowId, runId. Optional: limit (default: 100), cursor. Returns array of TestRunsGetTestCasesItem.",
+        "params_schema": {
+          "workflowId": "string",
+          "runId": "string",
+          "limit": "float?",
+          "cursor": "string?"
+        },
+        "positionals": [
+          "workflowId",
+          "runId"
+        ],
+        "argv_path": [
+          "workflows",
+          "test-runs_get-test-cases"
+        ]
+      },
+      {
+        "tool": "workflows.test-runs_list",
+        "summary": "Retrieve the evaluation test runs of a workflow. Required: workflowId. Optional: limit (default: 100), cursor, status. Returns array of TestRunsListItem.",
+        "params_schema": {
+          "workflowId": "string",
+          "limit": "float?",
+          "cursor": "string?",
+          "status": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "test-runs_list"
+        ]
+      },
+      {
+        "tool": "workflows.transfer_workflow",
+        "summary": "Transfer a workflow to another project. Required: workflowId, destinationProjectId.",
+        "params_schema": {
+          "workflowId": "string",
+          "destinationProjectId": "string?"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "transfer_workflow"
+        ]
+      },
+      {
+        "tool": "workflows.unarchive_workflow",
+        "summary": "Restores an archived workflow. Required: workflowId. Returns the new WorkflowPublicDtoGenerated.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "unarchive_workflow"
+        ]
+      },
+      {
+        "tool": "workflows.unpublish_workflow",
+        "summary": "Unpublish a workflow. In n8n v1, this action was termed deactivating a workflow. Required: workflowId. Returns the new WorkflowPublicDtoGenerated.",
+        "params_schema": {
+          "workflowId": "string"
+        },
+        "positionals": [
+          "workflowId"
+        ],
+        "argv_path": [
+          "workflows",
+          "unpublish_workflow"
+        ]
+      },
+      {
+        "tool": "workflows.versions_get-workflow",
+        "summary": "Retrieve a single version of a workflow from its version history. Required: workflowId, workflowVersionId. Returns the VersionsGetWorkflowResponse.",
+        "params_schema": {
+          "workflowId": "string",
+          "workflowVersionId": "string"
+        },
+        "positionals": [
+          "workflowId",
+          "workflowVersionId"
+        ],
+        "argv_path": [
+          "workflows",
+          "versions_get-workflow"
         ]
       }
     ]
