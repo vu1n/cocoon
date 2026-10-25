@@ -29449,6 +29449,55 @@
     ]
   },
   {
+    "api": "app-store",
+    "description": "Apple App Store charts, listings, ratings and reviews for any storefront from one Go binary, with a local history that turns repeated captures into rank, listing-change and traction trends.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/app-store/cmd/app-store-pp-cli",
+    "auth_type": "none",
+    "category": "marketing",
+    "search_terms": [
+      "app-store",
+      "App Store",
+      "app-store-pp-cli",
+      "Apple App Store charts, listings, ratings and reviews for any storefront from one Go binary, with a local history that turns repeated captures into rank, listing-change and traction trends.",
+      "Traction by storefront",
+      "traction",
+      "See per-country demand signals for any app, rolled up daily, monthly, annually or all-time: new ratings, chart rank and review volume, clearly labelled as proxies.",
+      "Release and change impact",
+      "impact",
+      "Compare rank, new ratings, review stars and keyword positions in equal windows before and after a release, listing change or date.",
+      "Cross-app change feed",
+      "changes",
+      "One dated feed of every change across your tracked apps: new versions, title and subtitle edits, price and in-app purchase price changes, privacy labels, events and featuring.",
+      "Keyword share of voice",
+      "keyword-share",
+      "See which apps hold the top search results across a set of tracked terms and how that share moved since the last capture.",
+      "Multi-storefront breakouts",
+      "breakouts",
+      "Find apps climbing or entering the same chart in several countries at once."
+    ],
+    "endpoints": [
+      {
+        "tool": "categories.list",
+        "summary": "List App Store app categories (genre ids such as 6014 Games, 6026 Developer Tools, Kids age bands) as chart links from the public charts page.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "categories"
+        ]
+      },
+      {
+        "tool": "categories.games",
+        "summary": "List App Store game subcategories (genre ids 7001-7019 such as 7012 Puzzle) as chart links from the public games charts page.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "categories",
+          "games"
+        ]
+      }
+    ]
+  },
+  {
     "api": "apple-docs",
     "description": "Every Apple framework, indexed locally, with deprecation analysis and an MCP server no other Apple-docs tool has.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/apple-docs/cmd/apple-docs-pp-cli",
