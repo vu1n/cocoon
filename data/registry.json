@@ -144688,13 +144688,14 @@
       },
       {
         "tool": "conduyt-auth.register",
-        "summary": "Creates a new user and account. Rate limited to 3 requests per hour per IP. Required: accountName, email, password. Optional: firstName, lastName. Returns the new AuthResponse. (public)",
+        "summary": "Creates a new user and account. Rate limited to 3 requests per hour per IP. Required: accountName, email, password, termsAccepted. Optional: firstName, lastName. Returns the new AuthResponse. (public)",
         "params_schema": {
           "accountName": "string?",
           "email": "string?",
           "firstName": "string?",
           "lastName": "string?",
-          "password": "string?"
+          "password": "string?",
+          "termsAccepted": "boolean?"
         },
         "positionals": [],
         "argv_path": [
