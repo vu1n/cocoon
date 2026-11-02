@@ -222317,6 +222317,35 @@
     ]
   },
   {
+    "api": "google-voice",
+    "description": "Read Google Voice through ordinary HTTP and recover evidence from a local message mirror.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/social-and-messaging/google-voice/cmd/google-voice-pp-cli",
+    "auth_type": "cookie",
+    "category": "social-and-messaging",
+    "search_terms": [
+      "google-voice",
+      "Google Voice",
+      "google-voice-pp-cli",
+      "Read Google Voice through ordinary HTTP and recover evidence from a local message mirror.",
+      "Compound message evidence",
+      "history query",
+      "Find messages using participant, dates, direction, literal text and attachment evidence together.",
+      "Message-anchored context packet",
+      "history context",
+      "Retrieve neighboring messages around a known message, including collection boundaries.",
+      "Question-scoped coverage evidence",
+      "mirror coverage",
+      "See freshness, unfinished pagination and collection failures before relying on a lookup.",
+      "Observed conversation activity",
+      "history activity",
+      "See observed inbound and outbound counts and latest message times per conversation.",
+      "Newly mirrored records",
+      "history arrivals",
+      "Inspect which records collection added, keeping old backfill distinct from recent communication."
+    ],
+    "endpoints": []
+  },
+  {
     "api": "googlehealth",
     "description": "View and manage health and fitness metrics and measurement data from Fitbit, Pixel Watch",
     "install_module": "github.com/mvanhorn/printing-press-library/library/devices/googlehealth/cmd/googlehealth-pp-cli",
@@ -226845,6 +226874,31 @@
         ]
       }
     ]
+  },
+  {
+    "api": "gusto",
+    "description": "Prep a Gusto payroll from the terminal, including mileage reimbursements that Gusto's hosted connector cannot enter, and stop at review so a human submits.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/payments/gusto/cmd/gusto-pp-cli",
+    "auth_type": "cookie",
+    "category": "payments",
+    "search_terms": [
+      "gusto",
+      "gusto-pp-cli",
+      "Prep a Gusto payroll from the terminal, including mileage reimbursements that Gusto's hosted connector cannot enter, and stop at review so a human submits.",
+      "Mileage reimbursement",
+      "payrolls mileage",
+      "Add or correct the mileage reimbursement on the open draft payroll from miles and a per-mile rate; one mileage line per employee.",
+      "One-shot weekly prep",
+      "payrolls prep",
+      "Load a week's hours and mileage from a CSV onto the open draft, calculate it, and print the review totals, stopping before submit.",
+      "Draft read-back verify",
+      "payrolls verify",
+      "Check the draft payroll against your timesheet CSV (hours, each reimbursement line, unexplained lines, duplicates) and exit 1 on any mismatch.",
+      "Period-over-period compare",
+      "payrolls compare",
+      "Calculate the draft and show how its total debit and payable tax changed against the last processed payroll, alongside the draft's gross, reimbursements, taxes and net."
+    ],
+    "endpoints": []
   },
   {
     "api": "hackernews",
