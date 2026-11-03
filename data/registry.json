@@ -372908,7 +372908,7 @@
         "params_schema": {
           "organization_id_or_slug": "string",
           "project_id_or_slug": "string",
-          "id": "int?",
+          "id": "array?",
           "status": "string?",
           "assignedTo": "string?",
           "hasSeen": "bool?",
@@ -372932,7 +372932,7 @@
         "params_schema": {
           "organization_id_or_slug": "string",
           "project_id_or_slug": "string",
-          "id": "int?"
+          "id": "array?"
         },
         "positionals": [
           "organization_id_or_slug",
