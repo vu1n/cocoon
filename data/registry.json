@@ -225114,6 +225114,156 @@
     ]
   },
   {
+    "api": "government-data",
+    "description": "Find California and U.S. open datasets and SEC EDGAR filings with clear provenance.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/developer-tools/government-data/cmd/government-data-pp-cli",
+    "auth_type": "api_key",
+    "category": "developer-tools",
+    "search_terms": [
+      "government-data",
+      "Government Data",
+      "government-data-pp-cli",
+      "Find California and U.S. open datasets and SEC EDGAR filings with clear provenance.",
+      "Shared resource evidence",
+      "overlap",
+      "Find exact resource URLs shared across saved catalog records.",
+      "Saved metadata changes",
+      "changes",
+      "Compare metadata and resource links between two explicit snapshots.",
+      "Selection provenance lock",
+      "intake lock",
+      "Save selected resource URLs and metadata fingerprints for repeatable intake.",
+      "Metadata intake audit",
+      "intake audit",
+      "List missing metadata fields before selecting resources.",
+      "Saved format coverage",
+      "coverage",
+      "Compare declared formats within a saved topic scope."
+    ],
+    "endpoints": [
+      {
+        "tool": "california.dataset",
+        "summary": "Retrieve complete dataset metadata and resource references. Required: id. Returns the Payload.",
+        "params_schema": {
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "california",
+          "dataset"
+        ]
+      },
+      {
+        "tool": "california.find",
+        "summary": "Search catalog datasets using text and filters. Optional: query, rows (default: 10), start (plus 2 more). Returns the Payload.",
+        "params_schema": {
+          "query": "string?",
+          "rows": "int?",
+          "start": "int?",
+          "filter": "string?",
+          "sort": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "california",
+          "find"
+        ]
+      },
+      {
+        "tool": "california.organizations",
+        "summary": "List dataset publishing organizations. Returns the Payload.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "california",
+          "organizations"
+        ]
+      },
+      {
+        "tool": "california.resource",
+        "summary": "Retrieve California resource download metadata. Required: id. Returns the Payload.",
+        "params_schema": {
+          "id": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "california",
+          "resource"
+        ]
+      },
+      {
+        "tool": "california.tags",
+        "summary": "List California dataset keyword tags. Returns the Payload.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "california",
+          "tags"
+        ]
+      },
+      {
+        "tool": "california.topics",
+        "summary": "List source-native dataset topics or keywords. Returns the Payload.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "california",
+          "topics"
+        ]
+      },
+      {
+        "tool": "federal.dataset",
+        "summary": "Retrieve complete dataset metadata and resource references. Required: id. Returns the Payload. (requires API key)",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "federal",
+          "dataset"
+        ]
+      },
+      {
+        "tool": "federal.find",
+        "summary": "Search catalog datasets using text and filters. Optional: query, per_page (default: 10), after (plus 2 more). Returns the Payload. (requires API key)",
+        "params_schema": {
+          "query": "string?",
+          "per_page": "int?",
+          "after": "string?",
+          "org_slug": "string?",
+          "keyword": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "federal",
+          "find"
+        ]
+      },
+      {
+        "tool": "federal.organizations",
+        "summary": "List dataset publishing organizations. Returns the Payload. (requires API key)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "federal",
+          "organizations"
+        ]
+      },
+      {
+        "tool": "federal.topics",
+        "summary": "List source-native dataset topics or keywords. Returns the Payload. (requires API key)",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "federal",
+          "topics"
+        ]
+      }
+    ]
+  },
+  {
     "api": "govspend",
     "description": "Read-only public-sector spending and opportunity research CLI for USAspending awards, agency and vendor footprints, Grants.gov opportunities, and SAM.gov opportunity setup.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/govspend/cmd/govspend-pp-cli",
