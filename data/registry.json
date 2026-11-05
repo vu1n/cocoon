@@ -464576,6 +464576,423 @@
     ]
   },
   {
+    "api": "yahoo-fantasy",
+    "description": "Full Yahoo Fantasy Sports read/write CLI and MCP server \u2014 set lineups, execute add/drops and FAAB waiver claims, and run local SQLite league analytics.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/yahoo-fantasy/cmd/yahoo-fantasy-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "media-and-entertainment",
+    "search_terms": [
+      "yahoo-fantasy",
+      "Yahoo Fantasy Sports",
+      "yahoo-fantasy-pp-cli",
+      "Full Yahoo Fantasy Sports read/write CLI and MCP server \u2014 set lineups, execute add/drops and FAAB waiver claims, and run local SQLite league analytics.",
+      "Lineup auditor and ergonomic XML slot setter",
+      "lineup",
+      "Audit active starting slots for OUT, IR, or BYE players, preview bench swaps, and submit Yahoo XML roster updates.",
+      "Atomic add/drop and FAAB waiver claim builder",
+      "add-drop",
+      "Execute or dry-run free-agent adds, drops, atomic add/drops, and FAAB waiver claims with automatic XML payload construction.",
+      "Positional waiver and free-agent upgrade recommender",
+      "waiver-wire",
+      "Rank available free agents and waiver players by net points-per-game upgrade over your weakest bench player at each position.",
+      "Head-to-head matchup radar and slot advantage breakdown",
+      "matchup-radar",
+      "Compare both opponents' starting lineups slot-by-slot with projected vs. actual points, remaining starters, and injury flags.",
+      "All-play standings, power rankings, and schedule luck",
+      "power-rankings",
+      "Compute every team's true weekly all-play record, schedule luck delta, scoring consistency, and composite power rank.",
+      "League FAAB burn and waiver bid intelligence",
+      "faab-audit",
+      "Track every manager's remaining FAAB budget, positional spending breakdown, winning bids, and blocking bid thresholds.",
+      "Draft capital ROI and steals/busts analyzer",
+      "draft-roi",
+      "Evaluate snake draft rounds or auction dollar costs against season-to-date fantasy points and current roster retention."
+    ],
+    "endpoints": [
+      {
+        "tool": "games.get",
+        "summary": "Get Yahoo Fantasy game metadata by game code (nfl, nba, mlb, nhl) or numeric game ID. Required: game-key. Optional: format (default: json). Returns the Game.",
+        "params_schema": {
+          "game-key": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "game-key"
+        ],
+        "argv_path": [
+          "games"
+        ]
+      },
+      {
+        "tool": "leagues.get",
+        "summary": "Get league overview metadata (name, current week, scoring type, season). Required: league-key. Optional: format (default: json). Returns the League.",
+        "params_schema": {
+          "league-key": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key"
+        ],
+        "argv_path": [
+          "leagues"
+        ]
+      },
+      {
+        "tool": "leagues.get_draft_results",
+        "summary": "Get complete league draft results with round, overall pick, team key, player key, and auction cost. Required: league-key. Optional: format (default: json). Returns array of DraftResult.",
+        "params_schema": {
+          "league-key": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key"
+        ],
+        "argv_path": [
+          "leagues",
+          "get_draft_results"
+        ]
+      },
+      {
+        "tool": "leagues.get_players",
+        "summary": "List players in a league filtered by availability status (FA, W, T, A), position, and sort order. Required: league-key, status, position, sort, start, count. Optional: format (default: json). Returns array of Player.",
+        "params_schema": {
+          "league-key": "string",
+          "status": "string",
+          "position": "string",
+          "sort": "string",
+          "start": "string",
+          "count": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key",
+          "status",
+          "position",
+          "sort",
+          "start",
+          "count"
+        ],
+        "argv_path": [
+          "leagues",
+          "get_players"
+        ]
+      },
+      {
+        "tool": "leagues.get_scoreboard",
+        "summary": "Get weekly league scoreboard and head-to-head matchups with live and projected points. Required: league-key, week. Optional: format (default: json). Returns array of Matchup.",
+        "params_schema": {
+          "league-key": "string",
+          "week": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key",
+          "week"
+        ],
+        "argv_path": [
+          "leagues",
+          "get_scoreboard"
+        ]
+      },
+      {
+        "tool": "leagues.get_settings",
+        "summary": "Get league rules, roster position slots, stat categories, point modifiers, and FAAB settings. Required: league-key. Optional: format (default: json). Returns the LeagueSettings.",
+        "params_schema": {
+          "league-key": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key"
+        ],
+        "argv_path": [
+          "leagues",
+          "get_settings"
+        ]
+      },
+      {
+        "tool": "leagues.get_standings",
+        "summary": "Get league standings ordered by rank with win-loss-tie records, points for/against, and streak. Required: league-key. Optional: format (default: json). Returns array of Standing.",
+        "params_schema": {
+          "league-key": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key"
+        ],
+        "argv_path": [
+          "leagues",
+          "get_standings"
+        ]
+      },
+      {
+        "tool": "leagues.get_teams",
+        "summary": "List all teams in a league with manager profiles, waiver priority, and remaining FAAB budget. Required: league-key. Optional: format (default: json). Returns array of Team.",
+        "params_schema": {
+          "league-key": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key"
+        ],
+        "argv_path": [
+          "leagues",
+          "get_teams"
+        ]
+      },
+      {
+        "tool": "leagues.get_transactions",
+        "summary": "Get league transaction activity log filtered by transaction types (add, drop, trade, commish). Required: league-key, types, count. Optional: format (default: json). Returns array of Transaction.",
+        "params_schema": {
+          "league-key": "string",
+          "types": "string",
+          "count": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key",
+          "types",
+          "count"
+        ],
+        "argv_path": [
+          "leagues",
+          "get_transactions"
+        ]
+      },
+      {
+        "tool": "players.get_ownership",
+        "summary": "Get league-specific ownership status (free agent, waivers, or owning fantasy team) for players. Required: league-key, player-keys. Optional: format (default: json). Returns array of PlayerOwnership.",
+        "params_schema": {
+          "league-key": "string",
+          "player-keys": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key",
+          "player-keys"
+        ],
+        "argv_path": [
+          "players",
+          "get_ownership"
+        ]
+      },
+      {
+        "tool": "players.get_percent_owned",
+        "summary": "Get Yahoo-wide ownership percentage and week-over-week delta for one or more players. Required: league-key, player-keys. Optional: format (default: json). Returns array of PlayerOwnership.",
+        "params_schema": {
+          "league-key": "string",
+          "player-keys": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key",
+          "player-keys"
+        ],
+        "argv_path": [
+          "players",
+          "get_percent_owned"
+        ]
+      },
+      {
+        "tool": "players.get_stats",
+        "summary": "Get player statistics for one or more player keys in a league by week or season. Required: league-key, player-keys, stat-type, week. Optional: format (default: json). Returns array of Player.",
+        "params_schema": {
+          "league-key": "string",
+          "player-keys": "string",
+          "stat-type": "string",
+          "week": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key",
+          "player-keys",
+          "stat-type",
+          "week"
+        ],
+        "argv_path": [
+          "players",
+          "get_stats"
+        ]
+      },
+      {
+        "tool": "players.search",
+        "summary": "Search players by name within a league and return their profile and season stats. Required: league-key, query. Optional: format (default: json). Returns array of Player.",
+        "params_schema": {
+          "league-key": "string",
+          "query": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "league-key",
+          "query"
+        ],
+        "argv_path": [
+          "players",
+          "search"
+        ]
+      },
+      {
+        "tool": "teams.get",
+        "summary": "Get fantasy team details including manager, waiver priority, FAAB balance, and logos. Required: team-key. Optional: format (default: json). Returns the Team.",
+        "params_schema": {
+          "team-key": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "team-key"
+        ],
+        "argv_path": [
+          "teams"
+        ]
+      },
+      {
+        "tool": "teams.get_matchups",
+        "summary": "Get head-to-head matchups and projected/actual scores for a team across one or more weeks. Required: team-key, weeks. Optional: format (default: json). Returns array of Matchup.",
+        "params_schema": {
+          "team-key": "string",
+          "weeks": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "team-key",
+          "weeks"
+        ],
+        "argv_path": [
+          "teams",
+          "get_matchups"
+        ]
+      },
+      {
+        "tool": "teams.get_roster",
+        "summary": "Get a team's active and bench roster for a specific NFL week. Required: team-key, week. Optional: format (default: json). Returns array of RosterPlayer.",
+        "params_schema": {
+          "team-key": "string",
+          "week": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "team-key",
+          "week"
+        ],
+        "argv_path": [
+          "teams",
+          "get_roster"
+        ]
+      },
+      {
+        "tool": "teams.update_roster",
+        "summary": "Update a team's starting lineup and bench positions for a given week or date. Required: team-key. Optional: coverage-type, week, date (plus 2 more). Returns the updated RosterUpdateResult.",
+        "params_schema": {
+          "team-key": "string",
+          "coverage-type": "string?",
+          "week": "int?",
+          "date": "string?",
+          "player-key": "string?",
+          "position": "string?"
+        },
+        "positionals": [
+          "team-key"
+        ],
+        "argv_path": [
+          "teams",
+          "update_roster"
+        ]
+      },
+      {
+        "tool": "transactions.create",
+        "summary": "Submit an add, drop, atomic add/drop, waiver claim (with optional FAAB bid), or trade proposal. Required: league-key. Optional: type, team-key, add-player-key (plus 2 more). Returns the new Transaction.",
+        "params_schema": {
+          "league-key": "string",
+          "type": "string?",
+          "team-key": "string?",
+          "add-player-key": "string?",
+          "drop-player-key": "string?",
+          "faab-bid": "int?"
+        },
+        "positionals": [
+          "league-key"
+        ],
+        "argv_path": [
+          "transactions"
+        ]
+      },
+      {
+        "tool": "transactions.cancel",
+        "summary": "Cancel a pending waiver claim or proposed trade before it processes. Required: transaction-key. Returns the Transaction. Destructive.",
+        "params_schema": {
+          "transaction-key": "string"
+        },
+        "positionals": [
+          "transaction-key"
+        ],
+        "argv_path": [
+          "transactions",
+          "cancel"
+        ]
+      },
+      {
+        "tool": "transactions.get",
+        "summary": "Get details of a specific transaction, waiver claim, or pending trade by transaction key. Required: transaction-key. Optional: format (default: json). Returns the Transaction.",
+        "params_schema": {
+          "transaction-key": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "transaction-key"
+        ],
+        "argv_path": [
+          "transactions",
+          "get"
+        ]
+      },
+      {
+        "tool": "transactions.update",
+        "summary": "Edit a pending waiver claim (FAAB bid or priority) or accept/reject a pending trade proposal. Required: transaction-key. Optional: type, action, faab-bid (plus 2 more). Returns the updated Transaction.",
+        "params_schema": {
+          "transaction-key": "string",
+          "type": "string?",
+          "action": "string?",
+          "faab-bid": "int?",
+          "waiver-priority": "int?",
+          "trade-note": "string?"
+        },
+        "positionals": [
+          "transaction-key"
+        ],
+        "argv_path": [
+          "transactions",
+          "update"
+        ]
+      },
+      {
+        "tool": "users.get_leagues",
+        "summary": "List all Yahoo Fantasy leagues for the authenticated user filtered by sport code. Required: game-codes. Optional: format (default: json). Returns array of League.",
+        "params_schema": {
+          "game-codes": "string",
+          "format": "string?"
+        },
+        "positionals": [
+          "game-codes"
+        ],
+        "argv_path": [
+          "users",
+          "get_leagues"
+        ]
+      },
+      {
+        "tool": "users.get_teams",
+        "summary": "List all fantasy teams owned by the authenticated Yahoo user across seasons. Optional: format (default: json). Returns array of Team.",
+        "params_schema": {
+          "format": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get_teams"
+        ]
+      }
+    ]
+  },
+  {
     "api": "yahoo-finance",
     "description": "Quotes, charts, fundamentals, options chains, and a local portfolio/watchlist tracker against Yahoo Finance \u2014 no API key, with Chrome-session fallback for rate-limited IPs",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/yahoo-finance/cmd/yahoo-finance-pp-cli",
