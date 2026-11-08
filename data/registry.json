@@ -86749,6 +86749,22 @@
         ]
       },
       {
+        "tool": "bing-aimode.bing_aimode",
+        "summary": "Extract structured data from Bing AI Mode: answer text, cited sources and citation pills. Required: prompt. Optional: country, include, state. Returns the answer text, sources and citationPills, plus markdown and html when asked.",
+        "params_schema": {
+          "country": "string?",
+          "include-html": "bool?",
+          "include-markdown": "bool?",
+          "prompt": "string?",
+          "state": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bing-aimode",
+          "bing_aimode"
+        ]
+      },
+      {
         "tool": "chatgpt.chatgpt",
         "summary": "Extract structured data from ChatGPT, answer text, cited sources, shopping cards, brand entities, and ads, for any prompt across supported regions. Required: country, prompt. Optional: disableWebSearch (default: false), include, legacy (default: false) (plus 1 more). Returns the new ChatGptmonitorResponse.",
         "params_schema": {
@@ -283051,6 +283067,176 @@
     ]
   },
   {
+    "api": "normattiva",
+    "description": "Italian law in your terminal: resolve citations, read any article at any date, diff versions and track amendments.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/normattiva/cmd/normattiva-pp-cli",
+    "auth_type": "none",
+    "category": "productivity",
+    "search_terms": [
+      "normattiva",
+      "normattiva-pp-cli",
+      "Italian law in your terminal: resolve citations, read any article at any date, diff versions and track amendments.",
+      "Citation checker",
+      "verifica",
+      "Check every Italian law citation in a draft or an AI answer: does it exist, and was it in force on a given date?",
+      "Article diff between dates",
+      "diff",
+      "See word by word what an article said on one date versus another, or versus its original text.",
+      "Watchlist change report",
+      "novita",
+      "Follow the acts you care about (segui add) and get a report of which ones and which articles changed since your last check.",
+      "Context pack",
+      "fascicolo",
+      "Assemble several articles from different laws, all pinned to one reference date, into one Markdown document."
+    ],
+    "endpoints": [
+      {
+        "tool": "collezioni.list",
+        "summary": "List prebuilt collections with their act counts. Returns array of Collezione.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "collezioni"
+        ]
+      },
+      {
+        "tool": "dettaglio.gazzetta",
+        "summary": "Read an act by Gazzetta Ufficiale coordinates (current text only). Required: codice-redazionale, data-gu. Optional: articolo. Returns the new DettaglioRisposta.",
+        "params_schema": {
+          "codice-redazionale": "string?",
+          "data-gu": "string?",
+          "articolo": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "dettaglio",
+          "gazzetta"
+        ]
+      },
+      {
+        "tool": "dettaglio.urn",
+        "summary": "Read an act or article by URN:NIR (supports ~artN, @originale, !vig=YYYY-MM-DD). Required: urn. Returns the new DettaglioRisposta.",
+        "params_schema": {
+          "urn": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "dettaglio",
+          "urn"
+        ]
+      },
+      {
+        "tool": "esportazioni.stato",
+        "summary": "Check the status of an asynchronous export request. Required: token. Returns the StatoEsportazione.",
+        "params_schema": {
+          "token": "string"
+        },
+        "positionals": [
+          "token"
+        ],
+        "argv_path": [
+          "esportazioni",
+          "stato"
+        ]
+      },
+      {
+        "tool": "ricerca.aggiornati",
+        "summary": "Acts whose consolidated text changed between two dates (max 12 months). Required: data-inizio-aggiornamento, data-fine-aggiornamento. Returns the new RisultatoRicerca.",
+        "params_schema": {
+          "data-inizio-aggiornamento": "string?",
+          "data-fine-aggiornamento": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ricerca",
+          "aggiornati"
+        ]
+      },
+      {
+        "tool": "ricerca.avanzata",
+        "summary": "Advanced search by act type, title, text, dates, vigenza and number. Optional: denominazione-atto, titolo, testo-ricerca (plus 12 more). Returns the new RisultatoRicerca.",
+        "params_schema": {
+          "denominazione-atto": "string?",
+          "titolo": "string?",
+          "testo-ricerca": "string?",
+          "emanato-dal": "string?",
+          "emanato-al": "string?",
+          "pubblicato-dal": "string?",
+          "pubblicato-al": "string?",
+          "vigente-al": "string?",
+          "classe": "string?",
+          "anno-provvedimento": "int?",
+          "mese-provvedimento": "int?",
+          "giorno-provvedimento": "int?",
+          "numero-provvedimento": "int?",
+          "ordine": "string?",
+          "paginazione-pagina": "int?",
+          "paginazione-per-pagina": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ricerca",
+          "avanzata"
+        ]
+      },
+      {
+        "tool": "ricerca.predefinite",
+        "summary": "List predefined searches offered by the Normattiva portal. Returns array of RicercaPredefinita.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "ricerca",
+          "predefinite"
+        ]
+      },
+      {
+        "tool": "ricerca.semplice",
+        "summary": "Full-text search over act titles and text. Required: testo-ricerca. Optional: ordine (default: recente), paginazione. Returns the new RisultatoRicerca.",
+        "params_schema": {
+          "testo-ricerca": "string?",
+          "ordine": "string?",
+          "paginazione-pagina": "int?",
+          "paginazione-per-pagina": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "ricerca",
+          "semplice"
+        ]
+      },
+      {
+        "tool": "tipologiche.classi",
+        "summary": "List act vigenza classes (no updates, updated, repealed). Returns array of Tipologica.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tipologiche",
+          "classi"
+        ]
+      },
+      {
+        "tool": "tipologiche.denominazioni",
+        "summary": "List act type names and codes (LEGGE, DECRETO-LEGGE, DECRETO LEGISLATIVO, ...). Returns array of Tipologica.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tipologiche",
+          "denominazioni"
+        ]
+      },
+      {
+        "tool": "tipologiche.estensioni",
+        "summary": "List export formats (AKN, XML, JSON, HTML, PDF, EPUB, RTF, URI/ELI). Returns array of Estensione.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "tipologiche",
+          "estensioni"
+        ]
+      }
+    ]
+  },
+  {
     "api": "notebooklm",
     "description": "Unofficial Go CLI for Gemini Notebook \u2014 notebooks, sources, chat, Studio artifacts, SQLite cache, and MCP via batchexecute RPC with Chrome session auth.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/ai/notebooklm/cmd/notebooklm-pp-cli",
@@ -391765,6 +391951,72 @@
     ]
   },
   {
+    "api": "spothero",
+    "description": "Find, quote, book and cancel SpotHero parking from the terminal, with spend caps and hard gates.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/spothero/cmd/spothero-pp-cli",
+    "auth_type": "cookie",
+    "category": "commerce",
+    "search_terms": [
+      "spothero",
+      "spothero-pp-cli",
+      "Find, quote, book and cancel SpotHero parking from the terminal, with spend caps and hard gates.",
+      "Best pick",
+      "best",
+      "Get one ranked parking pick plus alternatives for a place and time window.",
+      "Booking preflight",
+      "preflight",
+      "Check session, vehicle, card, overlaps and spend cap before you try to book.",
+      "Next pass",
+      "next",
+      "See your soonest upcoming reservation and when it starts.",
+      "Rebook preview",
+      "rebook",
+      "Re-quote a past reservation's garage for a new window and compare with what you paid.",
+      "Refund view",
+      "refundable",
+      "See refund status across upcoming reservations at once.",
+      "Commute plan",
+      "commute",
+      "Quote a recurring series of parking windows with a total.",
+      "Regular garages",
+      "regulars",
+      "See which garages you book most, with last booked and last price."
+    ],
+    "endpoints": [
+      {
+        "tool": "airports.list",
+        "summary": "List airports with IATA codes and time zones. Returns array of Airport.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "airports"
+        ]
+      },
+      {
+        "tool": "cities.list",
+        "summary": "List SpotHero cities with slugs and coordinates. Returns array of City.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "cities"
+        ]
+      },
+      {
+        "tool": "facilities.get",
+        "summary": "Show one facility's details, with no quote. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "facilities"
+        ]
+      }
+    ]
+  },
+  {
     "api": "spotify",
     "description": "An agent-native Spotify CLI with a SQLite-backed local library that lets you ask listening-drift questions no other...",
     "install_module": "github.com/mvanhorn/printing-press-library/library/media-and-entertainment/spotify/cmd/spotify-pp-cli",
@@ -443534,107 +443786,512 @@
     "search_terms": [
       "unifi",
       "unifi-pp-cli",
-      "Every UniFi Network API operation, plus drift detection, topology, and rule prediction no other UniFi tool has.",
-      "Device topology tree",
-      "topology",
-      "See the physical device tree (gateway to switches to APs) built entirely from local mirror data, no live crawl needed.",
-      "Config drift detection",
+      "Operate UniFi consoles through the cloud connector or your LAN, with a local history, change previews and a change journal.",
+      "Path and capability probe",
+      "reach",
+      "See which transports and products answer on each console. Write status is yes, no or unproven, and a probe alone never reports yes.",
+      "Impact and lockout check",
+      "impact",
+      "Estimate from the last sync what a proposed action would take down and whether it risks your way back in. It never reports safe.",
+      "Journaled change with undo",
+      "change apply",
+      "Send one change to an official Network or Protect path with a journaled before-image, a read-back check and undo. Nothing is sent without --confirm.",
+      "Config drift",
       "drift",
-      "Show what changed in site config (networks, firewall, wifi, DNS) since the last sync snapshot.",
+      "See field-level config changes between two synced snapshots, marked attributed (in the change journal) or out-of-band.",
+      "What happened since I looked",
+      "digest",
+      "One timeline, built from local syncs, of state changes, ISP dips, drift, newcomers and journaled changes.",
       "Newcomer detection",
       "newcomer",
-      "List devices and clients first seen since a given sync, for spotting new hardware joining the network.",
-      "Port audit",
-      "port-audit",
-      "Review port utilization and PoE status across every switch on a site in one table.",
-      "Guest network report",
-      "guest report",
-      "Summarize guest network usage: active vouchers and connected guest clients, from local data.",
+      "List clients, devices and cameras first seen at a sync in a window.",
       "Firewall rule prediction",
       "rule-predict",
-      "Predict which firewall policy would match a hypothetical packet before making a live change."
+      "Predict which firewall policy would match a hypothetical packet. This is a local prediction with no API confirmation.",
+      "Device topology tree",
+      "topology",
+      "See gateway, switches and APs as a tree per console, from the last sync."
     ],
     "endpoints": [
       {
-        "tool": "countries.get",
-        "summary": "Returns ISO-standard country codes and names, used for region-based configuration or regulatory compliance. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`code`|`STRING`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| . Optional: offset (default: 0), limit (default: 25), filter.",
+        "tool": "carrier.assign-subscriber-plan",
+        "summary": "Assigns the subscriber's service plan. Assigning an archived plan returns `400 service_plan_archived`; an unknown plan returns `404 service_plan_not_found`. Requires scope `assign:plans`. Required: id, planId.",
         "params_schema": {
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
+          "id": "string",
+          "planId": "string?"
         },
-        "positionals": [],
+        "positionals": [
+          "id"
+        ],
         "argv_path": [
-          "countries"
+          "carrier",
+          "assign-subscriber-plan"
         ]
       },
       {
-        "tool": "dpi.get-application-categories",
-        "summary": "Returns predefined Deep Packet Inspection (DPI) application categories used for traffic identification and filtering. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`INTEGER`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| . Optional: offset (default: 0), limit (default: 25), filter.",
+        "tool": "carrier.attach-subscriber-host",
+        "summary": "Attaches (or re-links) the subscriber's gateway host. A subscriber has at most one host; supplying a DIFFERENT host replaces the current one in place (RMA re-link). **Not idempotent.** Re-sending the host this subscriber is already linked to is rejected with `409 gateway_already_attached` \u2014 nothing is written. A host linked to a *different* subscriber in the organization is `409 gateway_already_linked`. Read `GET /subscribers/{id}` (field `hostId`) if you need to know the current link before calling; `prevHostId` on a successful response is the host that was replaced (`null` on a fresh attach). Because a repeat is an error rather than a no-op, do NOT blindly retry a request that timed out \u2014 re-read the subscriber first, or treat `409 gateway_already_attached` as 'already applied'. Requires scope `update:subscribers`. Required: id, hostId. Returns the updated HostLinkResponse.",
         "params_schema": {
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
+          "id": "string",
+          "hostId": "string?"
         },
-        "positionals": [],
+        "positionals": [
+          "id"
+        ],
         "argv_path": [
-          "dpi",
-          "get-application-categories"
+          "carrier",
+          "attach-subscriber-host"
         ]
       },
       {
-        "tool": "dpi.get-applications",
-        "summary": "Lists DPI-recognized applications grouped under categories. Useful for firewall or traffic analytics integration. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`INTEGER`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| . Optional: offset (default: 0), limit (default: 25), filter. Returns array of DpiApplication.",
+        "tool": "carrier.create-subscriber",
+        "summary": "Creates a subscriber (identity, optional service address, and optionally a plan; attach a gateway host separately). Always returns `201` \u2014 there is no external-reference deduplication. `subscriberNumber` is the only required field. Requires scope `create:subscribers`. Required: subscriberNumber. Optional: email, metadata, name (plus 3 more).",
         "params_schema": {
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
+          "email": "string?",
+          "metadata": "object?",
+          "name": "string?",
+          "notes": "string?",
+          "planId": "string?",
+          "serviceAddress": "string?",
+          "subscriberNumber": "string?"
         },
         "positionals": [],
         "argv_path": [
-          "dpi",
-          "get-applications"
+          "carrier",
+          "create-subscriber"
         ]
       },
       {
-        "tool": "info.get",
-        "summary": "Retrieve general information about the UniFi Network application. Returns the ApplicationInfo.",
+        "tool": "carrier.detach-subscriber-host",
+        "summary": "Detaches the subscriber's gateway host. **Not idempotent.** A subscriber with no linked host is rejected with `409 no_attached_host` \u2014 nothing is written. On success `prevHostId` is the host that was removed. Because a repeat is an error rather than a no-op, do NOT blindly retry a request that timed out \u2014 re-read the subscriber first (`GET /subscribers/{id}`, field `hostId`), or treat `409 no_attached_host` as 'already applied'. Requires scope `update:subscribers`. Required: id. Returns the HostLinkResponse. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "carrier",
+          "detach-subscriber-host"
+        ]
+      },
+      {
+        "tool": "carrier.get-service-plan",
+        "summary": "Requires scope `read:plans`. Returns 400 if `id` is not a valid UUID. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "carrier",
+          "get-service-plan"
+        ]
+      },
+      {
+        "tool": "carrier.get-subscriber",
+        "summary": "Requires scope `read:subscribers`. Returns 404 for an unknown or out-of-scope subscriber, or 400 if `id` is not a valid UUID. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "carrier",
+          "get-subscriber"
+        ]
+      },
+      {
+        "tool": "carrier.list-service-plans",
+        "summary": "Lists the org's service plans (read-only). Requires scope `read:plans`. Returns array of ServicePlan.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
-          "info"
+          "carrier",
+          "list-service-plans"
         ]
       },
       {
-        "tool": "pending-devices.get-page",
-        "summary": "Retrieve a paginated list of devices pending adoption, including basic device information. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`macAddress`|`STRING`|`eq` `ne` `in` `notIn`| |`ipAddress`|`STRING`|`eq` `ne` `in` `notIn`| |`model`|`STRING`|`eq` `ne` `in` `notIn`| |`state`|`STRING`|`eq` `ne` `in` `notIn`| |`supported`|`BOOLEAN`|`eq` `ne`| |`firmwareVersion`|`STRING`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le` `like` `in` `notIn`| |`firmwareUpdatable`|`BOOLEAN`|`eq` `ne`| |`features`|`SET(STRING)`|`isEmpty` `contains` `containsAny` `containsAll` `containsExactly`| . Optional: offset (default: 0), limit (default: 25), filter. Returns array of DevicePendingAdoption.",
+        "tool": "carrier.list-subscribers",
+        "summary": "Lists subscribers visible to the key (in-scope subscribers only). Cursor-paginated. Requires scope `read:subscribers`. Optional: limit (default: 50), cursor, sort (plus 2 more). Returns array of Subscriber.",
         "params_schema": {
-          "offset": "int?",
           "limit": "int?",
-          "filter": "string?"
+          "cursor": "string?",
+          "sort": "string?",
+          "planId": "string?",
+          "suspended": "bool?"
         },
         "positionals": [],
         "argv_path": [
-          "pending-devices",
-          "get-page"
+          "carrier",
+          "list-subscribers"
         ]
       },
       {
-        "tool": "sites.get-overview-page",
-        "summary": "Retrieve a paginated list of local sites managed by this Network application. Site ID is required for other UniFi Network API calls. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`internalReference`|`STRING`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn`| . Optional: offset (default: 0), limit (default: 25), filter. Returns array of SiteOverview.",
+        "tool": "carrier.resume-subscriber",
+        "summary": "Resumes the subscriber's service. Idempotent: resuming a not-suspended subscriber is a 200 no-op. Requires scope `resume:service`. Returns 400 if `id` is not a valid UUID. Required: id.",
         "params_schema": {
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "carrier",
+          "resume-subscriber"
+        ]
+      },
+      {
+        "tool": "carrier.suspend-subscriber",
+        "summary": "Suspends the subscriber's service (subscriber-level). Idempotent: suspending an already-suspended subscriber is a 200 no-op. Requires scope `suspend:service`. Required: id. Optional: reason. Returns the new SubscriberResponse.",
+        "params_schema": {
+          "id": "string",
+          "reason": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "carrier",
+          "suspend-subscriber"
+        ]
+      },
+      {
+        "tool": "carrier.update-subscriber",
+        "summary": "Updates name / email / notes / service address / plan / subscriber number / metadata. An absent field is left unchanged; a JSON `null` clears `email`, `notes`, or `planId` (the nullable-clearable fields). Requires scope `update:subscribers`. Required: id. Optional: email, metadata, name (plus 4 more). Returns the updated SubscriberResponse.",
+        "params_schema": {
+          "id": "string",
+          "email": "string?",
+          "metadata": "object?",
+          "name": "string?",
+          "notes": "string?",
+          "planId": "string?",
+          "serviceAddress": "string?",
+          "subscriberNumber": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "carrier",
+          "update-subscriber"
+        ]
+      },
+      {
+        "tool": "devices.list",
+        "summary": "Retrieves a list of UniFi devices managed by hosts where the UI account making the API call is the owner or a super admin. **Note**: The structure of the `devices.uidb` field may vary depending on the UniFi OS or Network Server version. The example provided is based on UniFi OS 4.1.13. Optional: hostIds, time, pageSize (plus 1 more). Returns array of DevicesListItem.",
+        "params_schema": {
+          "hostIds": "array?",
+          "time": "string?",
+          "pageSize": "string?",
+          "nextToken": "string?"
         },
         "positionals": [],
         "argv_path": [
-          "sites",
-          "get-overview-page"
+          "devices"
         ]
       },
       {
-        "tool": "sites.acl-rules_create",
+        "tool": "hosts.list",
+        "summary": "Retrieves a list of all hosts associated with the UI account making the API call. **Note**: The structure of `userData` and `reportedState` fields may vary depending on the UniFi OS or Network Server version. The example provided is based on UniFi OS 4.1.13. Optional: pageSize, nextToken. Returns array of HostsListItem.",
+        "params_schema": {
+          "pageSize": "string?",
+          "nextToken": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "hosts"
+        ]
+      },
+      {
+        "tool": "hosts.get-by-id",
+        "summary": "Retrieves detailed information about a specific host by ID. **Note**: The structure of the `userData` and `reportedState` fields may vary depending on the UniFi OS or Network Server version. The example provided is based on UniFi OS 4.1.13. Required: id. Returns the HostsGetByIdResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "hosts",
+          "get-by-id"
+        ]
+      },
+      {
+        "tool": "innerspace.get-asset",
+        "summary": "Serves a floor plan asset file for the given plan ID and filename. Requires the same session authentication as other integration endpoints. Required: planId, filename.",
+        "params_schema": {
+          "planId": "string",
+          "filename": "string"
+        },
+        "positionals": [
+          "planId",
+          "filename"
+        ],
+        "argv_path": [
+          "innerspace",
+          "get-asset"
+        ]
+      },
+      {
+        "tool": "innerspace.list-access-points",
+        "summary": "Returns placed UniFi access points with position, orientation, mounting details, and status. Optionally filter by `siteId`. Optional: siteId.",
+        "params_schema": {
+          "siteId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "innerspace",
+          "list-access-points"
+        ]
+      },
+      {
+        "tool": "innerspace.list-floor-plans",
+        "summary": "Returns floor plans for RF planning import including image URLs, scale (pixels per meter), and coordinate origin. Optionally filter by `siteId`. Optional: siteId.",
+        "params_schema": {
+          "siteId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "innerspace",
+          "list-floor-plans"
+        ]
+      },
+      {
+        "tool": "innerspace.list-inventory",
+        "summary": "Returns managed access points and switches that are not placed on any floor plan. Optionally filter by `siteId`. Optional: siteId.",
+        "params_schema": {
+          "siteId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "innerspace",
+          "list-inventory"
+        ]
+      },
+      {
+        "tool": "innerspace.list-project",
+        "summary": "Returns the project state for external integrations including shapes, plans, products, wall types, and attenuation object types. Use the mode query parameter for 2D or 3D representations. Optional: mode (default: 3D).",
+        "params_schema": {
+          "mode": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "innerspace",
+          "list-project"
+        ]
+      },
+      {
+        "tool": "innerspace.list-switches",
+        "summary": "Returns placed UniFi switches with position and status. Optionally filter by `siteId`. Optional: siteId.",
+        "params_schema": {
+          "siteId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "innerspace",
+          "list-switches"
+        ]
+      },
+      {
+        "tool": "isp-metrics.get",
+        "summary": "Retrieves ISP metrics data for all sites linked to the UI account's API key. 5-minute interval metrics are available for at least 24 hours, and 1-hour interval metrics are available for at least 30 days. Required: type. Optional: beginTimestamp, endTimestamp, duration. Returns array of IspMetricsGetItem.",
+        "params_schema": {
+          "type": "string",
+          "beginTimestamp": "string?",
+          "endTimestamp": "string?",
+          "duration": "string?"
+        },
+        "positionals": [
+          "type"
+        ],
+        "argv_path": [
+          "isp-metrics"
+        ]
+      },
+      {
+        "tool": "isp-metrics.query_ispmetrics",
+        "summary": "Retrieves ISP metrics data based on specific query parameters. 5-minute interval metrics are available for at least 24 hours, and 1-hour interval metrics are available for at least 30 days. **Note:** If the UI account lacks access to all requested sites, a 502 error is returned. If partial access is granted, the response will include `status: partialSuccess`. Required: type. Optional: sites. Returns the new QueryIspmetricsResponse.",
+        "params_schema": {
+          "type": "string",
+          "sites": "array?"
+        },
+        "positionals": [
+          "type"
+        ],
+        "argv_path": [
+          "isp-metrics",
+          "query_ispmetrics"
+        ]
+      },
+      {
+        "tool": "mobility.get-device",
+        "summary": "Returns full detail for a single device, including WAN, cellular, WiFi, VPN, firewall rules, subscription, and GPS location. **Scope**: `read:mobility`. Required: workspaceID, deviceID.",
+        "params_schema": {
+          "workspaceID": "string",
+          "deviceID": "string"
+        },
+        "positionals": [
+          "workspaceID",
+          "deviceID"
+        ],
+        "argv_path": [
+          "mobility",
+          "get-device"
+        ]
+      },
+      {
+        "tool": "mobility.list-device-clients",
+        "summary": "Returns a paginated list of all clients associated with a device, including ONLINE, OFFLINE, and BLOCKED clients. `wifi_experience` is omitted for wired clients (`type = WIRED`). **Scope**: `read:mobility`. Required: workspaceID, deviceID. Optional: limit (default: 200), offset (default: 0).",
+        "params_schema": {
+          "workspaceID": "string",
+          "deviceID": "string",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "workspaceID",
+          "deviceID"
+        ],
+        "argv_path": [
+          "mobility",
+          "list-device-clients"
+        ]
+      },
+      {
+        "tool": "mobility.list-devices",
+        "summary": "Returns a paginated list of devices in the workspace. Each item contains identity and status fields only. Use `getDevice` for full detail. **Scope**: `read:mobility`. Required: workspaceID. Optional: limit (default: 200), offset (default: 0).",
+        "params_schema": {
+          "workspaceID": "string",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "workspaceID"
+        ],
+        "argv_path": [
+          "mobility",
+          "list-devices"
+        ]
+      },
+      {
+        "tool": "mobility.list-workspace-admins",
+        "summary": "Returns all admins for a workspace with their permission levels. The caller must have active membership. Only mobility permissions are exposed. Admins are sorted: owner first, then active > pending > inactive > declined. **Scope**: `read:mobility`. Required: workspaceID.",
+        "params_schema": {
+          "workspaceID": "string"
+        },
+        "positionals": [
+          "workspaceID"
+        ],
+        "argv_path": [
+          "mobility",
+          "list-workspace-admins"
+        ]
+      },
+      {
+        "tool": "mobility.list-workspaces",
+        "summary": "Returns all workspaces visible to the authenticated user. Only workspaces with active membership are returned. **Scope**: `read:mobility`.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "mobility",
+          "list-workspaces"
+        ]
+      },
+      {
+        "tool": "mobility.update-device-name",
+        "summary": "Updates the user-assigned display name of a device. **Scope**: `write:mobility` **Permission**: workspace **Admin** (Viewers receive 403). Required: workspaceID, deviceID, name.",
+        "params_schema": {
+          "workspaceID": "string",
+          "deviceID": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "workspaceID",
+          "deviceID"
+        ],
+        "argv_path": [
+          "mobility",
+          "update-device-name"
+        ]
+      },
+      {
+        "tool": "mobility.update-device-network",
+        "summary": "Partial update \u2014 only provided fields are modified. WAN, IPv6, and InternetSource are not configurable. **Scope**: `write:mobility` **Permission**: workspace **Admin**. Required: workspaceID, deviceID. Optional: dhcp_lease_time, dhcp_mode, dhcp_range_start (plus 2 more).",
+        "params_schema": {
+          "workspaceID": "string",
+          "deviceID": "string",
+          "dhcp_lease_time": "int?",
+          "dhcp_mode": "string?",
+          "dhcp_range_start": "string?",
+          "dhcp_range_stop": "string?",
+          "host_address": "string?"
+        },
+        "positionals": [
+          "workspaceID",
+          "deviceID"
+        ],
+        "argv_path": [
+          "mobility",
+          "update-device-network"
+        ]
+      },
+      {
+        "tool": "mobility.update-device-wireless",
+        "summary": "Replaces the WiFi SSID and password. Both fields are required. Channel, TX power, and security protocol are not configurable. **Scope**: `write:mobility` **Permission**: workspace **Admin**. Required: workspaceID, deviceID, password, ssid.",
+        "params_schema": {
+          "workspaceID": "string",
+          "deviceID": "string",
+          "password": "string?",
+          "ssid": "string?"
+        },
+        "positionals": [
+          "workspaceID",
+          "deviceID"
+        ],
+        "argv_path": [
+          "mobility",
+          "update-device-wireless"
+        ]
+      },
+      {
+        "tool": "network.create",
+        "summary": "Create a new network on a site. Required: siteId, enabled, management, name, vlanId. Optional: dhcpGuarding. Returns the new NetworkDetails.",
+        "params_schema": {
+          "siteId": "string",
+          "dhcp-guarding-trusted-dhcp-server-ip-addresses": "string_csv_array?",
+          "enabled": "bool?",
+          "management": "string?",
+          "name": "string?",
+          "vlanId": "int?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network"
+        ]
+      },
+      {
+        "tool": "network.adopt-device",
+        "summary": "Adopt a device to a site. Required: siteId, ignoreDeviceLimit, macAddress. Returns the new AdoptedDeviceDetails.",
+        "params_schema": {
+          "siteId": "string",
+          "ignoreDeviceLimit": "bool?",
+          "macAddress": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "adopt-device"
+        ]
+      },
+      {
+        "tool": "network.create-acl-rule",
         "summary": "Create a new user defined ACL rule on a site. Required: siteId, action, enabled, name, type. Optional: description, destinationFilter, enforcingDeviceFilter (plus 2 more). Returns the new AclRule.",
         "params_schema": {
           "siteId": "string",
@@ -443652,299 +444309,12 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "acl-rules_create"
+          "network",
+          "create-acl-rule"
         ]
       },
       {
-        "tool": "sites.acl-rules_delete",
-        "summary": "Delete an existing user defined ACL rule on a site. Required: aclRuleId, siteId. Destructive.",
-        "params_schema": {
-          "aclRuleId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "aclRuleId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "acl-rules_delete"
-        ]
-      },
-      {
-        "tool": "sites.acl-rules_get",
-        "summary": "Get ACL Rule. Required: aclRuleId, siteId. Returns the AclRule.",
-        "params_schema": {
-          "aclRuleId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "aclRuleId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "acl-rules_get"
-        ]
-      },
-      {
-        "tool": "sites.acl-rules_get-ordering",
-        "summary": "Retrieve user-defined ACL rule ordering on a site. Required: siteId. Returns array of string.",
-        "params_schema": {
-          "siteId": "string"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "acl-rules_get-ordering"
-        ]
-      },
-      {
-        "tool": "sites.acl-rules_get-page",
-        "summary": "Retrieve a paginated list of all ACL rules on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`description`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn` `like`| |`action`|`STRING`|`eq` `ne` `in` `notIn`| |`index`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`protocolFilter`|`SET(STRING)`|`isNull` `isNotNull` `contains` `containsAny` `containsAll` `containsExactly`| |`networkId`|`UUID`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`enforcingDeviceFilter.deviceIds`|`SET(UUID)`|`isNull` `isNotNull` `contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| |`sourceFilter.type`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`sourceFilter.ipAddressesOrSubnets`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`sourceFilter.portFilter`|`SET(INTEGER)`|`isNull` `isNotNull` `contains` `containsAny` `containsAll` `containsExactly`| |`sourceFilter.networkIds`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`sourceFilter.macAddresses`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`sourceFilter.prefixLength`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`destinationFilter.type`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`destinationFilter.ipAddressesOrSubnets`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`destinationFilter.portFilter`|`SET(INTEGER)`|`isNull` `isNotNull` `contains` `containsAny` `containsAll` `containsExactly`| |`destinationFilter.networkIds`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`destinationFilter.macAddresses`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`destinationFilter.prefixLength`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of AclRuleObject.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "acl-rules_get-page"
-        ]
-      },
-      {
-        "tool": "sites.acl-rules_update",
-        "summary": "Update an existing user defined ACL rule on a site. Required: aclRuleId, siteId, action, enabled, name, type. Optional: description, destinationFilter, enforcingDeviceFilter (plus 2 more). Returns the updated AclRule.",
-        "params_schema": {
-          "aclRuleId": "string",
-          "siteId": "string",
-          "action": "string?",
-          "description": "string?",
-          "destinationFilter": "string?",
-          "enabled": "bool?",
-          "enforcingDeviceFilter": "string?",
-          "index": "int?",
-          "name": "string?",
-          "sourceFilter": "string?",
-          "type": "string?"
-        },
-        "positionals": [
-          "aclRuleId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "acl-rules_update"
-        ]
-      },
-      {
-        "tool": "sites.acl-rules_update-ordering",
-        "summary": "Reorder user-defined ACL rules on a site. Required: siteId, orderedAclRuleIds. Returns array of string.",
-        "params_schema": {
-          "siteId": "string",
-          "orderedAclRuleIds": "string_csv_array?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "acl-rules_update-ordering"
-        ]
-      },
-      {
-        "tool": "sites.clients_execute-connected-action",
-        "summary": "Perform an action on a specific connected client. The request body must include the action name and any applicable input arguments. Required: clientId, siteId, action. Returns the new ClientActionResponse.",
-        "params_schema": {
-          "clientId": "string",
-          "siteId": "string",
-          "action": "string?"
-        },
-        "positionals": [
-          "clientId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "clients_execute-connected-action"
-        ]
-      },
-      {
-        "tool": "sites.clients_get-connected-details",
-        "summary": "Retrieve detailed information about a specific connected client, including name, IP address, MAC address, connection type and access information. Required: clientId, siteId. Returns the ClientDetails.",
-        "params_schema": {
-          "clientId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "clientId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "clients_get-connected-details"
-        ]
-      },
-      {
-        "tool": "sites.clients_get-connected-overview-page",
-        "summary": "Retrieve a paginated list of all connected clients on a site, including physical devices (computers, smartphones) and active VPN connections. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`macAddress`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`ipAddress`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`connectedAt`|`TIMESTAMP`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`access.type`|`STRING`|`eq` `ne` `in` `notIn`| |`access.authorized`|`BOOLEAN`|`isNull` `isNotNull` `eq` `ne`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of ClientOverview.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "clients_get-connected-overview-page"
-        ]
-      },
-      {
-        "tool": "sites.device-tags_get-page",
-        "summary": "Returns all device tags defined within a site, which can be used for WiFi Broadcast assignments. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`deviceIds`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "object?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "device-tags_get-page"
-        ]
-      },
-      {
-        "tool": "sites.devices_adopt",
-        "summary": "Adopt a device to a site. Required: siteId, ignoreDeviceLimit, macAddress. Returns the new AdoptedDeviceDetails.",
-        "params_schema": {
-          "siteId": "string",
-          "ignoreDeviceLimit": "bool?",
-          "macAddress": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "devices_adopt"
-        ]
-      },
-      {
-        "tool": "sites.devices_execute-adopted-action",
-        "summary": "Perform an action on an specific adopted device. The request body must include the action name and any applicable input arguments. Required: siteId, deviceId, action.",
-        "params_schema": {
-          "siteId": "string",
-          "deviceId": "string",
-          "action": "string?"
-        },
-        "positionals": [
-          "siteId",
-          "deviceId"
-        ],
-        "argv_path": [
-          "sites",
-          "devices_execute-adopted-action"
-        ]
-      },
-      {
-        "tool": "sites.devices_execute-port-action",
-        "summary": "Perform an action on a specific device port. The request body must include the action name and any applicable input arguments. Required: portIdx, siteId, deviceId, action.",
-        "params_schema": {
-          "portIdx": "string",
-          "siteId": "string",
-          "deviceId": "string",
-          "action": "string?"
-        },
-        "positionals": [
-          "portIdx",
-          "siteId",
-          "deviceId"
-        ],
-        "argv_path": [
-          "sites",
-          "devices_execute-port-action"
-        ]
-      },
-      {
-        "tool": "sites.devices_get-adopted-details",
-        "summary": "Retrieve detailed information about a specific adopted device, including firmware versioning, uplink state, details about device features and interfaces (ports, radios) and other key attributes. Required: siteId, deviceId. Returns the AdoptedDeviceDetails.",
-        "params_schema": {
-          "siteId": "string",
-          "deviceId": "string"
-        },
-        "positionals": [
-          "siteId",
-          "deviceId"
-        ],
-        "argv_path": [
-          "sites",
-          "devices_get-adopted-details"
-        ]
-      },
-      {
-        "tool": "sites.devices_get-adopted-latest-statistics",
-        "summary": "Retrieve the latest real-time statistics of a specific adopted device, such as uptime, data transmission rates, CPU and memory utilization. Required: siteId, deviceId. Returns the LatestStatisticsForADevice.",
-        "params_schema": {
-          "siteId": "string",
-          "deviceId": "string"
-        },
-        "positionals": [
-          "siteId",
-          "deviceId"
-        ],
-        "argv_path": [
-          "sites",
-          "devices_get-adopted-latest-statistics"
-        ]
-      },
-      {
-        "tool": "sites.devices_get-adopted-overview-page",
-        "summary": "Retrieve a paginated list of all adopted devices on a site, including basic device information. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`macAddress`|`STRING`|`eq` `ne` `in` `notIn`| |`ipAddress`|`STRING`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`model`|`STRING`|`eq` `ne` `in` `notIn`| |`state`|`STRING`|`eq` `ne` `in` `notIn`| |`supported`|`BOOLEAN`|`eq` `ne`| |`firmwareVersion`|`STRING`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le` `like` `in` `notIn`| |`firmwareUpdatable`|`BOOLEAN`|`eq` `ne`| |`features`|`SET(STRING)`|`isEmpty` `contains` `containsAny` `containsAll` `containsExactly`| |`interfaces`|`SET(STRING)`|`isEmpty` `contains` `containsAny` `containsAll` `containsExactly`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of AdoptedDeviceOverview.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "devices_get-adopted-overview-page"
-        ]
-      },
-      {
-        "tool": "sites.devices_remove",
-        "summary": "Removes (unadopts) an adopted device from the site. If the device is online, it will be reset to factory defaults. Required: siteId, deviceId. Destructive.",
-        "params_schema": {
-          "siteId": "string",
-          "deviceId": "string"
-        },
-        "positionals": [
-          "siteId",
-          "deviceId"
-        ],
-        "argv_path": [
-          "sites",
-          "devices_remove"
-        ]
-      },
-      {
-        "tool": "sites.dns_create-policy",
+        "tool": "network.create-dns-policy",
         "summary": "Create a new DNS policy on a site. Required: siteId, enabled, type. Returns the new DnsPolicy.",
         "params_schema": {
           "siteId": "string",
@@ -443955,80 +444325,13 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "dns_create-policy"
+          "network",
+          "create-dns-policy"
         ]
       },
       {
-        "tool": "sites.dns_delete-policy",
-        "summary": "Delete an existing DNS policy on a site. Required: dnsPolicyId, siteId. Destructive.",
-        "params_schema": {
-          "dnsPolicyId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "dnsPolicyId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "dns_delete-policy"
-        ]
-      },
-      {
-        "tool": "sites.dns_get-policy",
-        "summary": "Retrieve specific DNS policy. Required: dnsPolicyId, siteId. Returns the DnsPolicy.",
-        "params_schema": {
-          "dnsPolicyId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "dnsPolicyId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "dns_get-policy"
-        ]
-      },
-      {
-        "tool": "sites.dns_get-policy-page",
-        "summary": "Retrieve a paginated list of all DNS policies on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`domain`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`ipv4Address`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`ipv6Address`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`targetDomain`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`mailServerDomain`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`text`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`serverDomain`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`ipAddress`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`ttlSeconds`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`priority`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`service`|`STRING`|`eq` `ne` `in` `notIn`| |`protocol`|`STRING`|`eq` `ne` `in` `notIn`| |`port`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`weight`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of DnsPolicy.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "dns_get-policy-page"
-        ]
-      },
-      {
-        "tool": "sites.dns_update-policy",
-        "summary": "Update an existing DNS policy on a site. Required: dnsPolicyId, siteId, enabled, type. Returns the updated DnsPolicy.",
-        "params_schema": {
-          "dnsPolicyId": "string",
-          "siteId": "string",
-          "enabled": "bool?",
-          "type": "string?"
-        },
-        "positionals": [
-          "dnsPolicyId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "dns_update-policy"
-        ]
-      },
-      {
-        "tool": "sites.firewall_create-policy",
-        "summary": "Create a new firewall policy on a site. Required: siteId, action, destination, enabled, ipProtocolScope, loggingEnabled, name, source. Optional: connectionStateFilter, description, ipsecFilter (plus 1 more). Returns array of string.",
+        "tool": "network.create-firewall-policy",
+        "summary": "Create a new firewall policy on a site. Required: siteId, action, destination, enabled, ipProtocolScope, loggingEnabled, name, source. Optional: connectionStateFilter, description, ipsecFilter (plus 2 more). Returns the new FirewallPolicy.",
         "params_schema": {
           "siteId": "string",
           "action": "string?",
@@ -444041,6 +444344,7 @@
           "ipsecFilter": "string?",
           "loggingEnabled": "bool?",
           "name": "string?",
+          "reportFlowEnabled": "bool?",
           "schedule": "string?",
           "source-traffic-filter": "string?",
           "source-zone-id": "string?"
@@ -444049,13 +444353,13 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "firewall_create-policy"
+          "network",
+          "create-firewall-policy"
         ]
       },
       {
-        "tool": "sites.firewall_create-zone",
-        "summary": "Create a new custom firewall zone on a site. Required: siteId, name, networkIds. Returns array of string.",
+        "tool": "network.create-firewall-zone",
+        "summary": "Create a new custom firewall zone on a site. Required: siteId, name, networkIds. Returns the new FirewallZone.",
         "params_schema": {
           "siteId": "string",
           "name": "string?",
@@ -444065,208 +444369,12 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "firewall_create-zone"
+          "network",
+          "create-firewall-zone"
         ]
       },
       {
-        "tool": "sites.firewall_delete-policy",
-        "summary": "Delete an existing firewall policy on a site. Required: firewallPolicyId, siteId. Destructive.",
-        "params_schema": {
-          "firewallPolicyId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "firewallPolicyId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_delete-policy"
-        ]
-      },
-      {
-        "tool": "sites.firewall_delete-zone",
-        "summary": "Delete a custom firewall zone from a site. Required: firewallZoneId, siteId. Destructive.",
-        "params_schema": {
-          "firewallZoneId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "firewallZoneId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_delete-zone"
-        ]
-      },
-      {
-        "tool": "sites.firewall_get-policies",
-        "summary": "Retrieve a list of all firewall policies on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`source.zoneId`|`UUID`|`eq` `ne` `in` `notIn`| |`destination.zoneId`|`UUID`|`eq` `ne` `in` `notIn`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of FirewallPolicy.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_get-policies"
-        ]
-      },
-      {
-        "tool": "sites.firewall_get-policy",
-        "summary": "Retrieve specific firewall policy. Required: firewallPolicyId, siteId. Returns array of string.",
-        "params_schema": {
-          "firewallPolicyId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "firewallPolicyId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_get-policy"
-        ]
-      },
-      {
-        "tool": "sites.firewall_get-policy-ordering",
-        "summary": "Retrieve user-defined firewall policy ordering for a specific source/destination zone pair. Required: sourceFirewallZoneId, destinationFirewallZoneId, siteId. Returns the IntegrationFirewallPolicyOrderingDto.",
-        "params_schema": {
-          "siteId": "string",
-          "sourceFirewallZoneId": "string?",
-          "destinationFirewallZoneId": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_get-policy-ordering"
-        ]
-      },
-      {
-        "tool": "sites.firewall_get-zone",
-        "summary": "Get a firewall zone on a site. Required: firewallZoneId, siteId. Returns array of string.",
-        "params_schema": {
-          "firewallZoneId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "firewallZoneId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_get-zone"
-        ]
-      },
-      {
-        "tool": "sites.firewall_get-zones",
-        "summary": "Retrieve a list of all firewall zones on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| |`metadata.configurable`|`BOOLEAN`|`eq` `ne` `isNull` `isNotNull`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of FirewallZone.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_get-zones"
-        ]
-      },
-      {
-        "tool": "sites.firewall_patch-policy",
-        "summary": "Patch an existing firewall policy on a site. Required: firewallPolicyId, siteId. Optional: loggingEnabled. Returns array of string.",
-        "params_schema": {
-          "firewallPolicyId": "string",
-          "siteId": "string",
-          "loggingEnabled": "bool?"
-        },
-        "positionals": [
-          "firewallPolicyId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_patch-policy"
-        ]
-      },
-      {
-        "tool": "sites.firewall_update-policy",
-        "summary": "Update an existing firewall policy on a site. Required: firewallPolicyId, siteId, action, destination, enabled, ipProtocolScope, loggingEnabled, name, source. Optional: connectionStateFilter, description, ipsecFilter (plus 1 more). Returns array of string.",
-        "params_schema": {
-          "firewallPolicyId": "string",
-          "siteId": "string",
-          "action": "string?",
-          "connectionStateFilter": "string_csv_array?",
-          "description": "string?",
-          "destination-traffic-filter": "string?",
-          "destination-zone-id": "string?",
-          "enabled": "bool?",
-          "ipProtocolScope": "string?",
-          "ipsecFilter": "string?",
-          "loggingEnabled": "bool?",
-          "name": "string?",
-          "schedule": "string?",
-          "source-traffic-filter": "string?",
-          "source-zone-id": "string?"
-        },
-        "positionals": [
-          "firewallPolicyId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_update-policy"
-        ]
-      },
-      {
-        "tool": "sites.firewall_update-policy-ordering",
-        "summary": "Reorder user-defined firewall policies for a specific source/destination zone pair. Required: sourceFirewallZoneId, destinationFirewallZoneId, siteId, orderedFirewallPolicyIds. Returns the updated IntegrationFirewallPolicyOrderingDto.",
-        "params_schema": {
-          "siteId": "string",
-          "sourceFirewallZoneId": "string?",
-          "destinationFirewallZoneId": "string?",
-          "ordered-firewall-policy-ids-after-system-defined": "string_csv_array?",
-          "ordered-firewall-policy-ids-before-system-defined": "string_csv_array?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_update-policy-ordering"
-        ]
-      },
-      {
-        "tool": "sites.firewall_update-zone",
-        "summary": "Update a firewall zone on a site. Required: firewallZoneId, siteId, name, networkIds. Returns array of string.",
-        "params_schema": {
-          "firewallZoneId": "string",
-          "siteId": "string",
-          "name": "string?",
-          "networkIds": "string_csv_array?"
-        },
-        "positionals": [
-          "firewallZoneId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "firewall_update-zone"
-        ]
-      },
-      {
-        "tool": "sites.hotspot_create-vouchers",
+        "tool": "network.create-hotspot-voucher",
         "summary": "Create one or more Hotspot vouchers. Required: siteId, name, timeLimitMinutes. Optional: authorizedGuestLimit, count (default: 1), dataUsageLimitMBytes (plus 2 more). Returns array of HotspotVoucherDetails.",
         "params_schema": {
           "siteId": "string",
@@ -444282,298 +444390,12 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "hotspot_create-vouchers"
+          "network",
+          "create-hotspot-voucher"
         ]
       },
       {
-        "tool": "sites.hotspot_delete-voucher",
-        "summary": "Remove a specific Hotspot voucher. Required: voucherId, siteId. Returns the VoucherDeletionResults. Destructive.",
-        "params_schema": {
-          "voucherId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "voucherId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "hotspot_delete-voucher"
-        ]
-      },
-      {
-        "tool": "sites.hotspot_delete-vouchers",
-        "summary": "Remove Hotspot vouchers based on the specified filter criteria. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`createdAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`code`|`STRING`|`eq` `ne` `in` `notIn`| |`authorizedGuestLimit`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`authorizedGuestCount`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le`| |`activatedAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`expiresAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`expired`|`BOOLEAN`|`eq` `ne`| |`timeLimitMinutes`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le`| |`dataUsageLimitMBytes`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`rxRateLimitKbps`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`txRateLimitKbps`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| . Required: filter, siteId. Returns the VoucherDeletionResults. Destructive.",
-        "params_schema": {
-          "siteId": "string",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "hotspot_delete-vouchers"
-        ]
-      },
-      {
-        "tool": "sites.hotspot_get-voucher",
-        "summary": "Retrieve details of a specific Hotspot voucher. Required: voucherId, siteId. Returns the HotspotVoucherDetails.",
-        "params_schema": {
-          "voucherId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "voucherId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "hotspot_get-voucher"
-        ]
-      },
-      {
-        "tool": "sites.hotspot_get-vouchers",
-        "summary": "Retrieve a paginated list of Hotspot vouchers. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`createdAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`code`|`STRING`|`eq` `ne` `in` `notIn`| |`authorizedGuestLimit`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`authorizedGuestCount`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le`| |`activatedAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`expiresAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`expired`|`BOOLEAN`|`eq` `ne`| |`timeLimitMinutes`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le`| |`dataUsageLimitMBytes`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`rxRateLimitKbps`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`txRateLimitKbps`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| . Required: siteId. Optional: offset (default: 0), limit (default: 100), filter. Returns array of HotspotVoucherDetails.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "hotspot_get-vouchers"
-        ]
-      },
-      {
-        "tool": "sites.networks_create",
-        "summary": "Create a new network on a site. Required: siteId, enabled, management, name, vlanId. Optional: dhcpGuarding. Returns the new NetworkDetails.",
-        "params_schema": {
-          "siteId": "string",
-          "dhcp-guarding-trusted-dhcp-server-ip-addresses": "string_csv_array?",
-          "enabled": "bool?",
-          "management": "string?",
-          "name": "string?",
-          "vlanId": "int?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "networks_create"
-        ]
-      },
-      {
-        "tool": "sites.networks_delete",
-        "summary": "Delete an existing network on a site. Required: networkId, siteId. Optional: force (default: false). Destructive.",
-        "params_schema": {
-          "networkId": "string",
-          "siteId": "string",
-          "force": "bool?"
-        },
-        "positionals": [
-          "networkId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "networks_delete"
-        ]
-      },
-      {
-        "tool": "sites.networks_get-details",
-        "summary": "Retrieve detailed information about a specific network. Required: networkId, siteId. Returns the NetworkDetails.",
-        "params_schema": {
-          "networkId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "networkId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "networks_get-details"
-        ]
-      },
-      {
-        "tool": "sites.networks_get-overview-page",
-        "summary": "Retrieve a paginated list of all Networks on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`management`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`vlanId`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`deviceId`|`UUID`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of NetworkOverview.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "networks_get-overview-page"
-        ]
-      },
-      {
-        "tool": "sites.networks_get-references",
-        "summary": "Retrieve references to a specific network. Required: networkId, siteId. Returns array of NetworkReferenceResource.",
-        "params_schema": {
-          "networkId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "networkId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "networks_get-references"
-        ]
-      },
-      {
-        "tool": "sites.networks_update",
-        "summary": "Update an existing network on a site. Required: networkId, siteId, enabled, management, name, vlanId. Optional: dhcpGuarding. Returns the updated NetworkDetails.",
-        "params_schema": {
-          "networkId": "string",
-          "siteId": "string",
-          "dhcp-guarding-trusted-dhcp-server-ip-addresses": "string_csv_array?",
-          "enabled": "bool?",
-          "management": "string?",
-          "name": "string?",
-          "vlanId": "int?"
-        },
-        "positionals": [
-          "networkId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "networks_update"
-        ]
-      },
-      {
-        "tool": "sites.radius_get-profile-overview-page",
-        "summary": "Returns available RADIUS authentication profiles, including configuration origin metadata. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "radius_get-profile-overview-page"
-        ]
-      },
-      {
-        "tool": "sites.switching_get-lag",
-        "summary": "Retrieve LAG details. Required: lagId, siteId. Returns array of IntegrationLagMemberDto.",
-        "params_schema": {
-          "lagId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "lagId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "switching_get-lag"
-        ]
-      },
-      {
-        "tool": "sites.switching_get-lag-page",
-        "summary": "Retrieve a paginated list of all LAGs (Link Aggregation Groups) on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`switchStackId`|`UUID`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| |`mcLagDomainId`|`UUID`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| |`members.deviceId`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`members.portIdxs`|`SET(INTEGER)`|`contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of LagDetails.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "switching_get-lag-page"
-        ]
-      },
-      {
-        "tool": "sites.switching_get-mc-lag-domain",
-        "summary": "Retrieve MC-LAG Domain details. Required: mcLagDomainId, siteId. Returns the IntegrationMcLagDomainDto.",
-        "params_schema": {
-          "mcLagDomainId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "mcLagDomainId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "switching_get-mc-lag-domain"
-        ]
-      },
-      {
-        "tool": "sites.switching_get-mc-lag-domain-page",
-        "summary": "Retrieve a paginated list of all MC-LAG Domains on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`peers.deviceId`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of IntegrationMcLagDomainDto.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "switching_get-mc-lag-domain-page"
-        ]
-      },
-      {
-        "tool": "sites.switching_get-switch-stack",
-        "summary": "Retrieve Switch Stack details. Required: switchStackId, siteId. Returns the IntegrationSwitchStackDto.",
-        "params_schema": {
-          "switchStackId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "switchStackId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "switching_get-switch-stack"
-        ]
-      },
-      {
-        "tool": "sites.switching_get-switch-stack-page",
-        "summary": "Retrieve a paginated list of all Switch Stacks on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`members.deviceId`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of IntegrationSwitchStackDto.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "switching_get-switch-stack-page"
-        ]
-      },
-      {
-        "tool": "sites.traffic-matching-lists_create",
+        "tool": "network.create-traffic-matching-list",
         "summary": "Create a new traffic matching list on a site. Required: siteId, name, type. Returns the new TrafficMatchingList.",
         "params_schema": {
           "siteId": "string",
@@ -444584,129 +444406,12 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "traffic-matching-lists_create"
+          "network",
+          "create-traffic-matching-list"
         ]
       },
       {
-        "tool": "sites.traffic-matching-lists_delete",
-        "summary": "Delete an exist traffic matching list on a site. Required: trafficMatchingListId, siteId. Destructive.",
-        "params_schema": {
-          "trafficMatchingListId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "trafficMatchingListId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "traffic-matching-lists_delete"
-        ]
-      },
-      {
-        "tool": "sites.traffic-matching-lists_get",
-        "summary": "Retrieve all traffic matching lists on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of TrafficMatchingList.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "traffic-matching-lists_get"
-        ]
-      },
-      {
-        "tool": "sites.traffic-matching-lists_get-sites",
-        "summary": "Get an exist traffic matching list on a site. Required: trafficMatchingListId, siteId. Returns the TrafficMatchingList.",
-        "params_schema": {
-          "trafficMatchingListId": "string",
-          "siteId": "string"
-        },
-        "positionals": [
-          "trafficMatchingListId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "traffic-matching-lists_get-sites"
-        ]
-      },
-      {
-        "tool": "sites.traffic-matching-lists_update",
-        "summary": "Update an exist traffic matching list on a site. Required: trafficMatchingListId, siteId, name, type. Returns the updated TrafficMatchingList.",
-        "params_schema": {
-          "trafficMatchingListId": "string",
-          "siteId": "string",
-          "name": "string?",
-          "type": "string?"
-        },
-        "positionals": [
-          "trafficMatchingListId",
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "traffic-matching-lists_update"
-        ]
-      },
-      {
-        "tool": "sites.vpn_get-server-page",
-        "summary": "Retrieve a paginated list of all VPN servers on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of VpnServerOverview.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "vpn_get-server-page"
-        ]
-      },
-      {
-        "tool": "sites.vpn_get-site-to-site-tunnel-page",
-        "summary": "Retrieve a paginated list of all site-to-site VPN tunnels on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| |`metadata.source`|`STRING`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of SiteToSiteVpnTunnelOverview.",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?",
-          "filter": "string?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "vpn_get-site-to-site-tunnel-page"
-        ]
-      },
-      {
-        "tool": "sites.wans_get-overview-page",
-        "summary": "Returns available WAN interface definitions for a given site, including identifiers and names. Useful for network and NAT configuration. Required: siteId. Optional: offset (default: 0), limit (default: 25).",
-        "params_schema": {
-          "siteId": "string",
-          "offset": "int?",
-          "limit": "int?"
-        },
-        "positionals": [
-          "siteId"
-        ],
-        "argv_path": [
-          "sites",
-          "wans_get-overview-page"
-        ]
-      },
-      {
-        "tool": "sites.wifi_create-broadcast",
+        "tool": "network.create-wifi-broadcast",
         "summary": "Create a new Wifi Broadcast on the specified site. Required: siteId, channel2gLockedTo6 (default: false), clientIsolationEnabled, dtimPeriod2gLockedTo3 (default: false), enabled, hideName, multicastToUnicastConversionEnabled, name, securityConfiguration, type, uapsdEnabled. Optional: basicDataRateKbpsByFrequencyGHz, blackoutScheduleConfiguration, broadcastingDeviceFilter (plus 4 more). Returns the new WifiBroadcastDetails.",
         "params_schema": {
           "siteId": "string",
@@ -444735,12 +444440,140 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "wifi_create-broadcast"
+          "network",
+          "create-wifi-broadcast"
         ]
       },
       {
-        "tool": "sites.wifi_delete-broadcast",
+        "tool": "network.delete",
+        "summary": "Delete an existing network on a site. Required: networkId, siteId. Optional: force (default: false). Destructive.",
+        "params_schema": {
+          "networkId": "string",
+          "siteId": "string",
+          "force": "bool?"
+        },
+        "positionals": [
+          "networkId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "delete"
+        ]
+      },
+      {
+        "tool": "network.delete-acl-rule",
+        "summary": "Delete an existing user defined ACL rule on a site. Required: aclRuleId, siteId. Destructive.",
+        "params_schema": {
+          "aclRuleId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "aclRuleId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "delete-acl-rule"
+        ]
+      },
+      {
+        "tool": "network.delete-dns-policy",
+        "summary": "Delete an existing DNS policy on a site. Required: dnsPolicyId, siteId. Destructive.",
+        "params_schema": {
+          "dnsPolicyId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "dnsPolicyId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "delete-dns-policy"
+        ]
+      },
+      {
+        "tool": "network.delete-firewall-policy",
+        "summary": "Delete an existing firewall policy on a site. Required: firewallPolicyId, siteId. Destructive.",
+        "params_schema": {
+          "firewallPolicyId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "firewallPolicyId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "delete-firewall-policy"
+        ]
+      },
+      {
+        "tool": "network.delete-firewall-zone",
+        "summary": "Delete a custom firewall zone from a site. Required: firewallZoneId, siteId. Destructive.",
+        "params_schema": {
+          "firewallZoneId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "firewallZoneId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "delete-firewall-zone"
+        ]
+      },
+      {
+        "tool": "network.delete-hotspot-voucher",
+        "summary": "Remove a specific Hotspot voucher. Required: voucherId, siteId. Returns the VoucherDeletionResults. Destructive.",
+        "params_schema": {
+          "voucherId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "voucherId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "delete-hotspot-voucher"
+        ]
+      },
+      {
+        "tool": "network.delete-hotspot-vouchers",
+        "summary": "Remove Hotspot vouchers based on the specified filter criteria. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`createdAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`code`|`STRING`|`eq` `ne` `in` `notIn`| |`authorizedGuestLimit`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`authorizedGuestCount`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le`| |`activatedAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`expiresAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`expired`|`BOOLEAN`|`eq` `ne`| |`timeLimitMinutes`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le`| |`dataUsageLimitMBytes`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`rxRateLimitKbps`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`txRateLimitKbps`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| . Required: filter, siteId. Returns the VoucherDeletionResults. Destructive.",
+        "params_schema": {
+          "siteId": "string",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "delete-hotspot-vouchers"
+        ]
+      },
+      {
+        "tool": "network.delete-traffic-matching-list",
+        "summary": "Delete an exist traffic matching list on a site. Required: trafficMatchingListId, siteId. Destructive.",
+        "params_schema": {
+          "trafficMatchingListId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "trafficMatchingListId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "delete-traffic-matching-list"
+        ]
+      },
+      {
+        "tool": "network.delete-wifi-broadcast",
         "summary": "Delete an existing Wifi Broadcast from the specified site. Required: wifiBroadcastId, siteId. Optional: force (default: false). Destructive.",
         "params_schema": {
           "wifiBroadcastId": "string",
@@ -444752,12 +444585,266 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "wifi_delete-broadcast"
+          "network",
+          "delete-wifi-broadcast"
         ]
       },
       {
-        "tool": "sites.wifi_get-broadcast-details",
+        "tool": "network.get",
+        "summary": "Retrieve detailed information about a specific network. Required: networkId, siteId. Returns the NetworkDetails.",
+        "params_schema": {
+          "networkId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "networkId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get"
+        ]
+      },
+      {
+        "tool": "network.get-acl-rule",
+        "summary": "Get ACL Rule. Required: aclRuleId, siteId. Returns the AclRule.",
+        "params_schema": {
+          "aclRuleId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "aclRuleId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-acl-rule"
+        ]
+      },
+      {
+        "tool": "network.get-acl-rule-ordering",
+        "summary": "Retrieve user-defined ACL rule ordering on a site. Required: siteId. Returns array of string.",
+        "params_schema": {
+          "siteId": "string"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-acl-rule-ordering"
+        ]
+      },
+      {
+        "tool": "network.get-client",
+        "summary": "Retrieve detailed information about a specific connected client, including name, IP address, MAC address, connection type and access information. Required: clientId, siteId. Returns the ClientDetails.",
+        "params_schema": {
+          "clientId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "clientId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-client"
+        ]
+      },
+      {
+        "tool": "network.get-device",
+        "summary": "Retrieve detailed information about a specific adopted device, including firmware versioning, uplink state, details about device features and interfaces (ports, radios) and other key attributes. Required: siteId, deviceId. Returns the AdoptedDeviceDetails.",
+        "params_schema": {
+          "siteId": "string",
+          "deviceId": "string"
+        },
+        "positionals": [
+          "siteId",
+          "deviceId"
+        ],
+        "argv_path": [
+          "network",
+          "get-device"
+        ]
+      },
+      {
+        "tool": "network.get-device-statistics",
+        "summary": "Retrieve the latest real-time statistics of a specific adopted device, such as uptime, data transmission rates, CPU and memory utilization. Required: siteId, deviceId. Returns the LatestStatisticsForADevice.",
+        "params_schema": {
+          "siteId": "string",
+          "deviceId": "string"
+        },
+        "positionals": [
+          "siteId",
+          "deviceId"
+        ],
+        "argv_path": [
+          "network",
+          "get-device-statistics"
+        ]
+      },
+      {
+        "tool": "network.get-dns-policy",
+        "summary": "Retrieve specific DNS policy. Required: dnsPolicyId, siteId. Returns the DnsPolicy.",
+        "params_schema": {
+          "dnsPolicyId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "dnsPolicyId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-dns-policy"
+        ]
+      },
+      {
+        "tool": "network.get-firewall-policy",
+        "summary": "Retrieve specific firewall policy. Required: firewallPolicyId, siteId. Returns the FirewallPolicy.",
+        "params_schema": {
+          "firewallPolicyId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "firewallPolicyId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-firewall-policy"
+        ]
+      },
+      {
+        "tool": "network.get-firewall-policy-ordering",
+        "summary": "Retrieve user-defined firewall policy ordering for a specific source/destination zone pair. Required: sourceFirewallZoneId, destinationFirewallZoneId, siteId. Returns the IntegrationFirewallPolicyOrderingDto.",
+        "params_schema": {
+          "siteId": "string",
+          "sourceFirewallZoneId": "string?",
+          "destinationFirewallZoneId": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-firewall-policy-ordering"
+        ]
+      },
+      {
+        "tool": "network.get-firewall-zone",
+        "summary": "Get a firewall zone on a site. Required: firewallZoneId, siteId. Returns the FirewallZone.",
+        "params_schema": {
+          "firewallZoneId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "firewallZoneId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-firewall-zone"
+        ]
+      },
+      {
+        "tool": "network.get-hotspot-voucher",
+        "summary": "Retrieve details of a specific Hotspot voucher. Required: voucherId, siteId. Returns the HotspotVoucherDetails.",
+        "params_schema": {
+          "voucherId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "voucherId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-hotspot-voucher"
+        ]
+      },
+      {
+        "tool": "network.get-references",
+        "summary": "Retrieve references to a specific network. Required: networkId, siteId. Returns array of NetworkReferenceResource.",
+        "params_schema": {
+          "networkId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "networkId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-references"
+        ]
+      },
+      {
+        "tool": "network.get-switching-lag",
+        "summary": "Retrieve LAG details. Required: lagId, siteId. Returns the LagDetails.",
+        "params_schema": {
+          "lagId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "lagId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-switching-lag"
+        ]
+      },
+      {
+        "tool": "network.get-switching-mc-lag-domain",
+        "summary": "Retrieve MC-LAG Domain details. Required: mcLagDomainId, siteId. Returns the IntegrationMcLagDomainDto.",
+        "params_schema": {
+          "mcLagDomainId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "mcLagDomainId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-switching-mc-lag-domain"
+        ]
+      },
+      {
+        "tool": "network.get-switching-switch-stack",
+        "summary": "Retrieve Switch Stack details. Required: switchStackId, siteId. Returns the IntegrationSwitchStackDto.",
+        "params_schema": {
+          "switchStackId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "switchStackId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-switching-switch-stack"
+        ]
+      },
+      {
+        "tool": "network.get-traffic-matching-list",
+        "summary": "Get an exist traffic matching list on a site. Required: trafficMatchingListId, siteId. Returns the TrafficMatchingList.",
+        "params_schema": {
+          "trafficMatchingListId": "string",
+          "siteId": "string"
+        },
+        "positionals": [
+          "trafficMatchingListId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "get-traffic-matching-list"
+        ]
+      },
+      {
+        "tool": "network.get-wifi-broadcast",
         "summary": "Retrieve detailed information about a specific Wifi. Required: wifiBroadcastId, siteId. Returns the WifiBroadcastDetails.",
         "params_schema": {
           "wifiBroadcastId": "string",
@@ -444768,12 +444855,380 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "wifi_get-broadcast-details"
+          "network",
+          "get-wifi-broadcast"
         ]
       },
       {
-        "tool": "sites.wifi_get-broadcast-page",
+        "tool": "network.info",
+        "summary": "Retrieve general information about the UniFi Network application. Returns the ApplicationInfo.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "network",
+          "info"
+        ]
+      },
+      {
+        "tool": "network.list",
+        "summary": "Retrieve a paginated list of all Networks on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`management`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`vlanId`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`deviceId`|`UUID`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of NetworkOverview.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list"
+        ]
+      },
+      {
+        "tool": "network.list-acl-rules",
+        "summary": "Retrieve a paginated list of all ACL rules on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`description`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn` `like`| |`action`|`STRING`|`eq` `ne` `in` `notIn`| |`index`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`protocolFilter`|`SET(STRING)`|`isNull` `isNotNull` `contains` `containsAny` `containsAll` `containsExactly`| |`networkId`|`UUID`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`enforcingDeviceFilter.deviceIds`|`SET(UUID)`|`isNull` `isNotNull` `contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| |`sourceFilter.type`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`sourceFilter.ipAddressesOrSubnets`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`sourceFilter.portFilter`|`SET(INTEGER)`|`isNull` `isNotNull` `contains` `containsAny` `containsAll` `containsExactly`| |`sourceFilter.networkIds`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`sourceFilter.macAddresses`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`sourceFilter.prefixLength`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`destinationFilter.type`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`destinationFilter.ipAddressesOrSubnets`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`destinationFilter.portFilter`|`SET(INTEGER)`|`isNull` `isNotNull` `contains` `containsAny` `containsAll` `containsExactly`| |`destinationFilter.networkIds`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`destinationFilter.macAddresses`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`destinationFilter.prefixLength`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of AclRuleObject.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-acl-rules"
+        ]
+      },
+      {
+        "tool": "network.list-clients",
+        "summary": "Retrieve a paginated list of all connected clients on a site, including physical devices (computers, smartphones) and active VPN connections. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`macAddress`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`ipAddress`|`STRING`|`isNull` `isNotNull` `eq` `ne` `in` `notIn`| |`connectedAt`|`TIMESTAMP`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`access.type`|`STRING`|`eq` `ne` `in` `notIn`| |`access.authorized`|`BOOLEAN`|`isNull` `isNotNull` `eq` `ne`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of ClientOverview.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-clients"
+        ]
+      },
+      {
+        "tool": "network.list-countries",
+        "summary": "Returns ISO-standard country codes and names, used for region-based configuration or regulatory compliance. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`code`|`STRING`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| . Optional: offset (default: 0), limit (default: 25), filter.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "network",
+          "list-countries"
+        ]
+      },
+      {
+        "tool": "network.list-device-tags",
+        "summary": "Returns all device tags defined within a site, which can be used for WiFi Broadcast assignments. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`deviceIds`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "object?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-device-tags"
+        ]
+      },
+      {
+        "tool": "network.list-devices",
+        "summary": "Retrieve a paginated list of all adopted devices on a site, including basic device information. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`macAddress`|`STRING`|`eq` `ne` `in` `notIn`| |`ipAddress`|`STRING`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`model`|`STRING`|`eq` `ne` `in` `notIn`| |`state`|`STRING`|`eq` `ne` `in` `notIn`| |`supported`|`BOOLEAN`|`eq` `ne`| |`firmwareVersion`|`STRING`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le` `like` `in` `notIn`| |`firmwareUpdatable`|`BOOLEAN`|`eq` `ne`| |`features`|`SET(STRING)`|`isEmpty` `contains` `containsAny` `containsAll` `containsExactly`| |`interfaces`|`SET(STRING)`|`isEmpty` `contains` `containsAny` `containsAll` `containsExactly`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of AdoptedDeviceOverview.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-devices"
+        ]
+      },
+      {
+        "tool": "network.list-dns-policies",
+        "summary": "Retrieve a paginated list of all DNS policies on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`domain`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`ipv4Address`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`ipv6Address`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`targetDomain`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`mailServerDomain`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`text`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`serverDomain`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`ipAddress`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`ttlSeconds`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`priority`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`service`|`STRING`|`eq` `ne` `in` `notIn`| |`protocol`|`STRING`|`eq` `ne` `in` `notIn`| |`port`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| |`weight`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of DnsPolicy.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-dns-policies"
+        ]
+      },
+      {
+        "tool": "network.list-dpi-applications",
+        "summary": "Lists DPI-recognized applications grouped under categories. Useful for firewall or traffic analytics integration. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`INTEGER`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| . Optional: offset (default: 0), limit (default: 25), filter. Returns array of DpiApplication.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "network",
+          "list-dpi-applications"
+        ]
+      },
+      {
+        "tool": "network.list-dpi-categories",
+        "summary": "Returns predefined Deep Packet Inspection (DPI) application categories used for traffic identification and filtering. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`INTEGER`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| . Optional: offset (default: 0), limit (default: 25), filter.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "network",
+          "list-dpi-categories"
+        ]
+      },
+      {
+        "tool": "network.list-firewall-policies",
+        "summary": "Retrieve a list of all firewall policies on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`source.zoneId`|`UUID`|`eq` `ne` `in` `notIn`| |`destination.zoneId`|`UUID`|`eq` `ne` `in` `notIn`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of FirewallPolicy.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-firewall-policies"
+        ]
+      },
+      {
+        "tool": "network.list-firewall-zones",
+        "summary": "Retrieve a list of all firewall zones on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| |`metadata.configurable`|`BOOLEAN`|`eq` `ne` `isNull` `isNotNull`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of FirewallZone.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-firewall-zones"
+        ]
+      },
+      {
+        "tool": "network.list-hotspot-vouchers",
+        "summary": "Retrieve a paginated list of Hotspot vouchers. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`createdAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`code`|`STRING`|`eq` `ne` `in` `notIn`| |`authorizedGuestLimit`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`authorizedGuestCount`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le`| |`activatedAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`expiresAt`|`TIMESTAMP`|`eq` `ne` `gt` `ge` `lt` `le`| |`expired`|`BOOLEAN`|`eq` `ne`| |`timeLimitMinutes`|`INTEGER`|`eq` `ne` `gt` `ge` `lt` `le`| |`dataUsageLimitMBytes`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`rxRateLimitKbps`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| |`txRateLimitKbps`|`INTEGER`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le`| . Required: siteId. Optional: offset (default: 0), limit (default: 100), filter. Returns array of HotspotVoucherDetails.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-hotspot-vouchers"
+        ]
+      },
+      {
+        "tool": "network.list-pending-devices",
+        "summary": "Retrieve a paginated list of devices pending adoption, including basic device information. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`macAddress`|`STRING`|`eq` `ne` `in` `notIn`| |`ipAddress`|`STRING`|`eq` `ne` `in` `notIn`| |`model`|`STRING`|`eq` `ne` `in` `notIn`| |`state`|`STRING`|`eq` `ne` `in` `notIn`| |`supported`|`BOOLEAN`|`eq` `ne`| |`firmwareVersion`|`STRING`|`isNull` `isNotNull` `eq` `ne` `gt` `ge` `lt` `le` `like` `in` `notIn`| |`firmwareUpdatable`|`BOOLEAN`|`eq` `ne`| |`features`|`SET(STRING)`|`isEmpty` `contains` `containsAny` `containsAll` `containsExactly`| . Optional: offset (default: 0), limit (default: 25), filter. Returns array of DevicePendingAdoption.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "network",
+          "list-pending-devices"
+        ]
+      },
+      {
+        "tool": "network.list-radius-profiles",
+        "summary": "Returns available RADIUS authentication profiles, including configuration origin metadata. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-radius-profiles"
+        ]
+      },
+      {
+        "tool": "network.list-sites",
+        "summary": "Retrieve a paginated list of local sites managed by this Network application. Site ID is required for other UniFi Network API calls. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`internalReference`|`STRING`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn`| . Optional: offset (default: 0), limit (default: 25), filter. Returns array of SiteOverview.",
+        "params_schema": {
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "network",
+          "list-sites"
+        ]
+      },
+      {
+        "tool": "network.list-switching-lags",
+        "summary": "Retrieve a paginated list of all LAGs (Link Aggregation Groups) on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`switchStackId`|`UUID`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| |`mcLagDomainId`|`UUID`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| |`members.deviceId`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`members.portIdxs`|`SET(INTEGER)`|`contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of LagDetails.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-switching-lags"
+        ]
+      },
+      {
+        "tool": "network.list-switching-mc-lag-domains",
+        "summary": "Retrieve a paginated list of all MC-LAG Domains on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`peers.deviceId`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of IntegrationMcLagDomainDto.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-switching-mc-lag-domains"
+        ]
+      },
+      {
+        "tool": "network.list-switching-switch-stacks",
+        "summary": "Retrieve a paginated list of all Switch Stacks on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`units.id`|`SET(INTEGER)`|`contains` `containsAny` `containsAll` `containsExactly`| |`units.macAddress`|`SET(STRING)`|`contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of IntegrationSwitchStackDto.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-switching-switch-stacks"
+        ]
+      },
+      {
+        "tool": "network.list-traffic-matching-lists",
+        "summary": "Retrieve all traffic matching lists on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of TrafficMatchingList.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-traffic-matching-lists"
+        ]
+      },
+      {
+        "tool": "network.list-vpn-servers",
+        "summary": "Retrieve a paginated list of all VPN servers on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of VpnServerOverview.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-vpn-servers"
+        ]
+      },
+      {
+        "tool": "network.list-vpn-site-to-site-tunnels",
+        "summary": "Retrieve a paginated list of all site-to-site VPN tunnels on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| |`metadata.source`|`STRING`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of SiteToSiteVpnTunnelOverview.",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?",
+          "filter": "string?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-vpn-site-to-site-tunnels"
+        ]
+      },
+      {
+        "tool": "network.list-wans",
+        "summary": "Returns available WAN interface definitions for a given site, including identifiers and names. Useful for network and NAT configuration. Required: siteId. Optional: offset (default: 0), limit (default: 25).",
+        "params_schema": {
+          "siteId": "string",
+          "offset": "int?",
+          "limit": "int?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "list-wans"
+        ]
+      },
+      {
+        "tool": "network.list-wifi-broadcasts",
         "summary": "Retrieve a paginated list of all Wifi Broadcasts on a site. Filterable properties (click to expand) |Name|Type|Allowed functions| |-|-|-| |`type`|`STRING`|`eq` `ne` `in` `notIn`| |`id`|`UUID`|`eq` `ne` `in` `notIn`| |`enabled`|`BOOLEAN`|`eq` `ne`| |`name`|`STRING`|`eq` `ne` `in` `notIn` `like`| |`broadcastingFrequenciesGHz`|`SET(DECIMAL)`|`contains` `containsAny` `containsAll` `containsExactly`| |`metadata.origin`|`STRING`|`eq` `ne` `in` `notIn`| |`network.type`|`STRING`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| |`network.networkId`|`UUID`|`eq` `ne` `in` `notIn`| |`securityConfiguration.type`|`STRING`|`eq` `ne` `in` `notIn`| |`broadcastingDeviceFilter.type`|`STRING`|`eq` `ne` `in` `notIn` `isNull` `isNotNull`| |`broadcastingDeviceFilter.deviceIds`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`broadcastingDeviceFilter.deviceTagIds`|`SET(UUID)`|`contains` `containsAny` `containsAll` `containsExactly`| |`hotspotConfiguration.type`|`STRING`|`eq` `ne` `in` `notIn`| . Required: siteId. Optional: offset (default: 0), limit (default: 25), filter. Returns array of WifiBroadcastOverview.",
         "params_schema": {
           "siteId": "string",
@@ -444785,12 +445240,262 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "wifi_get-broadcast-page"
+          "network",
+          "list-wifi-broadcasts"
         ]
       },
       {
-        "tool": "sites.wifi_update-broadcast",
+        "tool": "network.patch-firewall-policy",
+        "summary": "Patch an existing firewall policy on a site. Required: firewallPolicyId, siteId. Optional: loggingEnabled, reportFlowEnabled. Returns the updated FirewallPolicy.",
+        "params_schema": {
+          "firewallPolicyId": "string",
+          "siteId": "string",
+          "loggingEnabled": "bool?",
+          "reportFlowEnabled": "bool?"
+        },
+        "positionals": [
+          "firewallPolicyId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "patch-firewall-policy"
+        ]
+      },
+      {
+        "tool": "network.remove-device",
+        "summary": "Removes (unadopts) an adopted device from the site. If the device is online, it will be reset to factory defaults. Required: siteId, deviceId. Destructive.",
+        "params_schema": {
+          "siteId": "string",
+          "deviceId": "string"
+        },
+        "positionals": [
+          "siteId",
+          "deviceId"
+        ],
+        "argv_path": [
+          "network",
+          "remove-device"
+        ]
+      },
+      {
+        "tool": "network.run-client-action",
+        "summary": "Perform an action on a specific connected client. The request body must include the action name and any applicable input arguments. Required: clientId, siteId, action. Returns the new ClientActionResponse.",
+        "params_schema": {
+          "clientId": "string",
+          "siteId": "string",
+          "action": "string?"
+        },
+        "positionals": [
+          "clientId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "run-client-action"
+        ]
+      },
+      {
+        "tool": "network.run-device-action",
+        "summary": "Perform an action on an specific adopted device. The request body must include the action name and any applicable input arguments. Required: siteId, deviceId, action.",
+        "params_schema": {
+          "siteId": "string",
+          "deviceId": "string",
+          "action": "string?"
+        },
+        "positionals": [
+          "siteId",
+          "deviceId"
+        ],
+        "argv_path": [
+          "network",
+          "run-device-action"
+        ]
+      },
+      {
+        "tool": "network.run-port-action",
+        "summary": "Perform an action on a specific device port. The request body must include the action name and any applicable input arguments. Required: portIdx, siteId, deviceId, action.",
+        "params_schema": {
+          "portIdx": "string",
+          "siteId": "string",
+          "deviceId": "string",
+          "action": "string?"
+        },
+        "positionals": [
+          "portIdx",
+          "siteId",
+          "deviceId"
+        ],
+        "argv_path": [
+          "network",
+          "run-port-action"
+        ]
+      },
+      {
+        "tool": "network.set-acl-rule-ordering",
+        "summary": "Reorder user-defined ACL rules on a site. Required: siteId, orderedAclRuleIds. Returns array of string.",
+        "params_schema": {
+          "siteId": "string",
+          "orderedAclRuleIds": "string_csv_array?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "set-acl-rule-ordering"
+        ]
+      },
+      {
+        "tool": "network.set-firewall-policy-ordering",
+        "summary": "Reorder user-defined firewall policies for a specific source/destination zone pair. Required: sourceFirewallZoneId, destinationFirewallZoneId, siteId, orderedFirewallPolicyIds. Returns the updated IntegrationFirewallPolicyOrderingDto.",
+        "params_schema": {
+          "siteId": "string",
+          "sourceFirewallZoneId": "string?",
+          "destinationFirewallZoneId": "string?",
+          "ordered-firewall-policy-ids-after-system-defined": "string_csv_array?",
+          "ordered-firewall-policy-ids-before-system-defined": "string_csv_array?"
+        },
+        "positionals": [
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "set-firewall-policy-ordering"
+        ]
+      },
+      {
+        "tool": "network.update",
+        "summary": "Update an existing network on a site. Required: networkId, siteId, enabled, management, name, vlanId. Optional: dhcpGuarding. Returns the updated NetworkDetails.",
+        "params_schema": {
+          "networkId": "string",
+          "siteId": "string",
+          "dhcp-guarding-trusted-dhcp-server-ip-addresses": "string_csv_array?",
+          "enabled": "bool?",
+          "management": "string?",
+          "name": "string?",
+          "vlanId": "int?"
+        },
+        "positionals": [
+          "networkId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "update"
+        ]
+      },
+      {
+        "tool": "network.update-acl-rule",
+        "summary": "Update an existing user defined ACL rule on a site. Required: aclRuleId, siteId, action, enabled, name, type. Optional: description, destinationFilter, enforcingDeviceFilter (plus 2 more). Returns the updated AclRule.",
+        "params_schema": {
+          "aclRuleId": "string",
+          "siteId": "string",
+          "action": "string?",
+          "description": "string?",
+          "destinationFilter": "string?",
+          "enabled": "bool?",
+          "enforcingDeviceFilter": "string?",
+          "index": "int?",
+          "name": "string?",
+          "sourceFilter": "string?",
+          "type": "string?"
+        },
+        "positionals": [
+          "aclRuleId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "update-acl-rule"
+        ]
+      },
+      {
+        "tool": "network.update-dns-policy",
+        "summary": "Update an existing DNS policy on a site. Required: dnsPolicyId, siteId, enabled, type. Returns the updated DnsPolicy.",
+        "params_schema": {
+          "dnsPolicyId": "string",
+          "siteId": "string",
+          "enabled": "bool?",
+          "type": "string?"
+        },
+        "positionals": [
+          "dnsPolicyId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "update-dns-policy"
+        ]
+      },
+      {
+        "tool": "network.update-firewall-policy",
+        "summary": "Update an existing firewall policy on a site. Required: firewallPolicyId, siteId, action, destination, enabled, ipProtocolScope, loggingEnabled, name, source. Optional: connectionStateFilter, description, ipsecFilter (plus 2 more). Returns the updated FirewallPolicy.",
+        "params_schema": {
+          "firewallPolicyId": "string",
+          "siteId": "string",
+          "action": "string?",
+          "connectionStateFilter": "string_csv_array?",
+          "description": "string?",
+          "destination-traffic-filter": "string?",
+          "destination-zone-id": "string?",
+          "enabled": "bool?",
+          "ipProtocolScope": "string?",
+          "ipsecFilter": "string?",
+          "loggingEnabled": "bool?",
+          "name": "string?",
+          "reportFlowEnabled": "bool?",
+          "schedule": "string?",
+          "source-traffic-filter": "string?",
+          "source-zone-id": "string?"
+        },
+        "positionals": [
+          "firewallPolicyId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "update-firewall-policy"
+        ]
+      },
+      {
+        "tool": "network.update-firewall-zone",
+        "summary": "Update a firewall zone on a site. Required: firewallZoneId, siteId, name, networkIds. Returns the updated FirewallZone.",
+        "params_schema": {
+          "firewallZoneId": "string",
+          "siteId": "string",
+          "name": "string?",
+          "networkIds": "string_csv_array?"
+        },
+        "positionals": [
+          "firewallZoneId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "update-firewall-zone"
+        ]
+      },
+      {
+        "tool": "network.update-traffic-matching-list",
+        "summary": "Update an exist traffic matching list on a site. Required: trafficMatchingListId, siteId, name, type. Returns the updated TrafficMatchingList.",
+        "params_schema": {
+          "trafficMatchingListId": "string",
+          "siteId": "string",
+          "name": "string?",
+          "type": "string?"
+        },
+        "positionals": [
+          "trafficMatchingListId",
+          "siteId"
+        ],
+        "argv_path": [
+          "network",
+          "update-traffic-matching-list"
+        ]
+      },
+      {
+        "tool": "network.update-wifi-broadcast",
         "summary": "Update an existing Wifi Broadcast on the specified site. Required: wifiBroadcastId, siteId, channel2gLockedTo6 (default: false), clientIsolationEnabled, dtimPeriod2gLockedTo3 (default: false), enabled, hideName, multicastToUnicastConversionEnabled, name, securityConfiguration, type, uapsdEnabled. Optional: basicDataRateKbpsByFrequencyGHz, blackoutScheduleConfiguration, broadcastingDeviceFilter (plus 4 more). Returns the updated WifiBroadcastDetails.",
         "params_schema": {
           "wifiBroadcastId": "string",
@@ -444821,8 +445526,1097 @@
           "siteId"
         ],
         "argv_path": [
-          "sites",
-          "wifi_update-broadcast"
+          "network",
+          "update-wifi-broadcast"
+        ]
+      },
+      {
+        "tool": "protect.alarm-hub-trigger",
+        "summary": "Trigger an alarm hub output channel. Can be used to turn on/off connected devices like sirens, lights, or other actuators. Required: id, outputId. Optional: delay, duration, enable.",
+        "params_schema": {
+          "id": "string",
+          "outputId": "string",
+          "delay": "int?",
+          "duration": "int?",
+          "enable": "bool?"
+        },
+        "positionals": [
+          "id",
+          "outputId"
+        ],
+        "argv_path": [
+          "protect",
+          "alarm-hub-trigger"
+        ]
+      },
+      {
+        "tool": "protect.alarm-webhook",
+        "summary": "Send a webhook to the alarm manager to trigger configured alarms. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "alarm-webhook"
+        ]
+      },
+      {
+        "tool": "protect.arm-disable",
+        "summary": "Disable the arm alarm feature. Only available when using local alarm manager.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "arm-disable"
+        ]
+      },
+      {
+        "tool": "protect.arm-enable",
+        "summary": "Enable the arm alarm feature using the currently selected arm profile. Only available when using local alarm manager.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "arm-enable"
+        ]
+      },
+      {
+        "tool": "protect.create-arm-profile",
+        "summary": "Create a new arm profile. Only available when using local alarm manager. Required: activationDelay, automations, name, recordEverything, schedules. Returns the new ArmProfile.",
+        "params_schema": {
+          "activationDelay": "string?",
+          "automations": "string_csv_array?",
+          "name": "string?",
+          "recordEverything": "bool?",
+          "schedules": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "create-arm-profile"
+        ]
+      },
+      {
+        "tool": "protect.create-camera-rtsps-stream",
+        "summary": "Returns RTSPS stream URLs for specified quality levels. Required: id, qualities.",
+        "params_schema": {
+          "id": "string",
+          "qualities": "string_csv_array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "create-camera-rtsps-stream"
+        ]
+      },
+      {
+        "tool": "protect.create-file",
+        "summary": "Upload a new device asset file. Required: fileType (default: animations). Returns the new FileSchema.",
+        "params_schema": {
+          "fileType": "string"
+        },
+        "positionals": [
+          "fileType"
+        ],
+        "argv_path": [
+          "protect",
+          "create-file"
+        ]
+      },
+      {
+        "tool": "protect.create-liveview",
+        "summary": "Create a new live view. Required: id, isDefault, isGlobal, layout, modelKey, name, owner, slots. Returns the new Liveview.",
+        "params_schema": {
+          "id": "string?",
+          "isDefault": "bool?",
+          "isGlobal": "bool?",
+          "layout": "float?",
+          "modelKey": "string?",
+          "name": "string?",
+          "owner": "string?",
+          "slots": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "create-liveview"
+        ]
+      },
+      {
+        "tool": "protect.create-talkback-session",
+        "summary": "Returns the talkback stream URL and audio configuration for a specific camera. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "create-talkback-session"
+        ]
+      },
+      {
+        "tool": "protect.delete-arm-profile",
+        "summary": "Delete an arm profile by ID. Only available when using local alarm manager. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "delete-arm-profile"
+        ]
+      },
+      {
+        "tool": "protect.delete-camera-rtsps-stream",
+        "summary": "Remove the RTSPS stream for a specified camera. Required: id, qualities. Destructive.",
+        "params_schema": {
+          "id": "string",
+          "qualities": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "delete-camera-rtsps-stream"
+        ]
+      },
+      {
+        "tool": "protect.disable-camera-mic-permanently",
+        "summary": "Disable the microphone for a specific camera. This action cannot be undone unless the camera is reset. Required: id. Returns the new Camera.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "disable-camera-mic-permanently"
+        ]
+      },
+      {
+        "tool": "protect.get-alarm-hub",
+        "summary": "Get detailed information about a specific alarm hub. Required: id. Returns the LinkStation.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-alarm-hub"
+        ]
+      },
+      {
+        "tool": "protect.get-bridge",
+        "summary": "Get detailed information about a specific bridge. Required: id. Returns the Bridge.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-bridge"
+        ]
+      },
+      {
+        "tool": "protect.get-camera",
+        "summary": "Get detailed information about a specific camera. Required: id. Returns the Camera.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-camera"
+        ]
+      },
+      {
+        "tool": "protect.get-camera-rtsps-stream",
+        "summary": "Returns existing RTSPS stream URLs for camera. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-camera-rtsps-stream"
+        ]
+      },
+      {
+        "tool": "protect.get-camera-snapshot",
+        "summary": "Get a snapshot image from a specific camera. Use channel=package for cameras with a package camera (hasPackageCamera: true). Required: id. Optional: channel, highQuality.",
+        "params_schema": {
+          "id": "string",
+          "channel": "string?",
+          "highQuality": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-camera-snapshot"
+        ]
+      },
+      {
+        "tool": "protect.get-chime",
+        "summary": "Get detailed information about a specific chime. Required: id. Returns the Chime.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-chime"
+        ]
+      },
+      {
+        "tool": "protect.get-file",
+        "summary": "Get a list of all device asset files. Required: fileType (default: animations). Returns array of FileSchema.",
+        "params_schema": {
+          "fileType": "string"
+        },
+        "positionals": [
+          "fileType"
+        ],
+        "argv_path": [
+          "protect",
+          "get-file"
+        ]
+      },
+      {
+        "tool": "protect.get-fob",
+        "summary": "Get detailed information about a specific fob. Required: id. Returns the Fob.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-fob"
+        ]
+      },
+      {
+        "tool": "protect.get-light",
+        "summary": "Get detailed information about a specific light. Required: id. Returns the Light.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-light"
+        ]
+      },
+      {
+        "tool": "protect.get-link-station",
+        "summary": "Get detailed information about a specific link station (non-alarm hub gateways). Required: id. Returns the LinkStation.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-link-station"
+        ]
+      },
+      {
+        "tool": "protect.get-liveview",
+        "summary": "Get detailed information about a specific live view. Required: id. Returns the Liveview.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-liveview"
+        ]
+      },
+      {
+        "tool": "protect.get-relay",
+        "summary": "Get detailed information about a specific relay. Required: id. Returns the Relay.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-relay"
+        ]
+      },
+      {
+        "tool": "protect.get-sensor",
+        "summary": "Get detailed information about a specific sensor. Required: id. Returns the Sensor.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-sensor"
+        ]
+      },
+      {
+        "tool": "protect.get-siren",
+        "summary": "Get detailed information about a specific siren. Required: id. Returns the Siren.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-siren"
+        ]
+      },
+      {
+        "tool": "protect.get-speaker",
+        "summary": "Get detailed information about a specific speaker. Required: id. Returns the Speaker.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-speaker"
+        ]
+      },
+      {
+        "tool": "protect.get-ulp-user",
+        "summary": "Get detailed information about a specific UniFi Identity user. Required: id. Returns the UlpUser.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-ulp-user"
+        ]
+      },
+      {
+        "tool": "protect.get-user",
+        "summary": "Get detailed information about a specific Protect user. Required: id. Returns the User.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-user"
+        ]
+      },
+      {
+        "tool": "protect.get-viewer",
+        "summary": "Get detailed information about a specific viewer. Required: id. Returns the Viewer.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "get-viewer"
+        ]
+      },
+      {
+        "tool": "protect.info",
+        "summary": "Get generic information about the Protect application. Returns the ProtectInfoResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "info"
+        ]
+      },
+      {
+        "tool": "protect.list-alarm-hubs",
+        "summary": "Get detailed information about all alarm hubs. Returns array of LinkStation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-alarm-hubs"
+        ]
+      },
+      {
+        "tool": "protect.list-arm-profiles",
+        "summary": "Get a list of all arm profiles. Only available when using local alarm manager. Returns array of ArmProfile.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-arm-profiles"
+        ]
+      },
+      {
+        "tool": "protect.list-bridges",
+        "summary": "Get detailed information about all bridges. Returns array of Bridge.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-bridges"
+        ]
+      },
+      {
+        "tool": "protect.list-cameras",
+        "summary": "Get detailed information about all cameras. Returns array of Camera.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-cameras"
+        ]
+      },
+      {
+        "tool": "protect.list-chimes",
+        "summary": "Get detailed information about all chimes. Returns array of Chime.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-chimes"
+        ]
+      },
+      {
+        "tool": "protect.list-fobs",
+        "summary": "Get detailed information about all fobs. Returns array of Fob.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-fobs"
+        ]
+      },
+      {
+        "tool": "protect.list-lights",
+        "summary": "Get detailed information about all lights. Returns array of Light.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-lights"
+        ]
+      },
+      {
+        "tool": "protect.list-link-stations",
+        "summary": "Get detailed information about all link stations (non-alarm hub gateways). Returns array of LinkStation.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-link-stations"
+        ]
+      },
+      {
+        "tool": "protect.list-liveviews",
+        "summary": "Get detailed information about all live views. Returns array of Liveview.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-liveviews"
+        ]
+      },
+      {
+        "tool": "protect.list-nvrs",
+        "summary": "Get detailed information about the NVR. Returns the Nvr.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-nvrs"
+        ]
+      },
+      {
+        "tool": "protect.list-relays",
+        "summary": "Get detailed information about all relays. Returns array of Relay.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-relays"
+        ]
+      },
+      {
+        "tool": "protect.list-sensors",
+        "summary": "Get detailed information about all sensors. Returns array of Sensor.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-sensors"
+        ]
+      },
+      {
+        "tool": "protect.list-sirens",
+        "summary": "Get detailed information about all sirens. Returns array of Siren.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-sirens"
+        ]
+      },
+      {
+        "tool": "protect.list-speakers",
+        "summary": "Get detailed information about all speakers. Returns array of Speaker.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-speakers"
+        ]
+      },
+      {
+        "tool": "protect.list-ulp-users",
+        "summary": "Get all UniFi Identity users with enrolled credentials (NFC cards, fingerprints). Returns array of UlpUser.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-ulp-users"
+        ]
+      },
+      {
+        "tool": "protect.list-users",
+        "summary": "Get all Protect users. Users are filtered based on access permissions. Returns array of User.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-users"
+        ]
+      },
+      {
+        "tool": "protect.list-viewers",
+        "summary": "Get detailed information about all viewers. Returns array of Viewer.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "list-viewers"
+        ]
+      },
+      {
+        "tool": "protect.patch-alarm-hub",
+        "summary": "Patch the settings for a specific alarm hub. Required: id. Optional: name. Returns the updated LinkStation.",
+        "params_schema": {
+          "id": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-alarm-hub"
+        ]
+      },
+      {
+        "tool": "protect.patch-arm-profile",
+        "summary": "Update an existing arm profile. Only available when using local alarm manager. Required: id. Optional: activationDelay, automations, name (plus 2 more). Returns the updated ArmProfile.",
+        "params_schema": {
+          "id": "string",
+          "activationDelay": "string?",
+          "automations": "string_csv_array?",
+          "name": "string?",
+          "recordEverything": "bool?",
+          "schedules": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-arm-profile"
+        ]
+      },
+      {
+        "tool": "protect.patch-bridge",
+        "summary": "Patch the settings for a specific bridge. Required: id. Optional: name. Returns the updated Bridge.",
+        "params_schema": {
+          "id": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-bridge"
+        ]
+      },
+      {
+        "tool": "protect.patch-camera",
+        "summary": "Patch the settings for a specific camera. Required: id. Optional: hdrType, lcdMessage, ledSettings (plus 5 more). Returns the updated Camera.",
+        "params_schema": {
+          "id": "string",
+          "hdrType": "string?",
+          "lcdMessage": "string?",
+          "led-settings-flood-led": "bool?",
+          "led-settings-is-enabled": "bool?",
+          "led-settings-welcome-led": "bool?",
+          "micVolume": "float?",
+          "name": "string?",
+          "osd-settings-is-date-enabled": "bool?",
+          "osd-settings-is-debug-enabled": "bool?",
+          "osd-settings-is-logo-enabled": "bool?",
+          "osd-settings-is-name-enabled": "bool?",
+          "osd-settings-overlay-location": "string?",
+          "smart-detect-settings-audio-types": "string_csv_array?",
+          "smart-detect-settings-object-types": "string_csv_array?",
+          "videoMode": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-camera"
+        ]
+      },
+      {
+        "tool": "protect.patch-chime",
+        "summary": "Patch the settings for a specific chime. Required: id. Optional: cameraIds, name, ringSettings. Returns the updated Chime.",
+        "params_schema": {
+          "id": "string",
+          "cameraIds": "string_csv_array?",
+          "name": "string?",
+          "ringSettings": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-chime"
+        ]
+      },
+      {
+        "tool": "protect.patch-fob",
+        "summary": "Patch the settings for a specific fob. Required: id. Optional: name. Returns the updated Fob.",
+        "params_schema": {
+          "id": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-fob"
+        ]
+      },
+      {
+        "tool": "protect.patch-light",
+        "summary": "Patch the settings for a specific light. Required: id. Optional: isLightForceEnabled, lightDeviceSettings, lightModeSettings (plus 1 more). Returns the updated Light.",
+        "params_schema": {
+          "id": "string",
+          "isLightForceEnabled": "bool?",
+          "light-device-settings-is-indicator-enabled": "bool?",
+          "light-device-settings-led-level": "float?",
+          "light-device-settings-pir-duration": "float?",
+          "light-device-settings-pir-sensitivity": "float?",
+          "light-mode-settings-enable-at": "string?",
+          "light-mode-settings-mode": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-light"
+        ]
+      },
+      {
+        "tool": "protect.patch-link-station",
+        "summary": "Patch the settings for a specific link station. Required: id. Optional: name. Returns the updated LinkStation.",
+        "params_schema": {
+          "id": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-link-station"
+        ]
+      },
+      {
+        "tool": "protect.patch-liveview",
+        "summary": "Patch the configuration about a specific live view. Required: id, id, isDefault, isGlobal, layout, modelKey, name, owner, slots. Returns the updated Liveview.",
+        "params_schema": {
+          "id": "string",
+          "id-2": "string?",
+          "isDefault": "bool?",
+          "isGlobal": "bool?",
+          "layout": "float?",
+          "modelKey": "string?",
+          "name": "string?",
+          "owner": "string?",
+          "slots": "array?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-liveview"
+        ]
+      },
+      {
+        "tool": "protect.patch-relay",
+        "summary": "Patch the settings for a specific relay. Required: id. Optional: ledSettings, name. Returns the updated Relay.",
+        "params_schema": {
+          "id": "string",
+          "led-settings-is-enabled": "bool?",
+          "name": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-relay"
+        ]
+      },
+      {
+        "tool": "protect.patch-sensor",
+        "summary": "Patch the settings for a specific sensor. Required: id. Optional: alarmSettings, armProfileIds, glassBreakSettings (plus 7 more). Returns the updated Sensor.",
+        "params_schema": {
+          "id": "string",
+          "alarm-settings-is-enabled": "bool?",
+          "armProfileIds": "string_csv_array?",
+          "glass-break-settings-is-enabled": "bool?",
+          "glass-break-settings-sensitivity": "float?",
+          "glass-break-settings-sensitivity-when-armed": "float?",
+          "hasCustomSensitivityWhenArmed": "bool?",
+          "humidity-settings-high-threshold": "float?",
+          "humidity-settings-is-enabled": "bool?",
+          "humidity-settings-low-threshold": "float?",
+          "humidity-settings-margin": "float?",
+          "light-settings-high-threshold": "float?",
+          "light-settings-is-enabled": "bool?",
+          "light-settings-low-threshold": "float?",
+          "light-settings-margin": "float?",
+          "motion-settings-is-enabled": "bool?",
+          "motion-settings-sensitivity": "float?",
+          "motion-settings-sensitivity-when-armed": "float?",
+          "name": "string?",
+          "scheduleMode": "string?",
+          "temperature-settings-high-threshold": "float?",
+          "temperature-settings-is-enabled": "bool?",
+          "temperature-settings-low-threshold": "float?",
+          "temperature-settings-margin": "float?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-sensor"
+        ]
+      },
+      {
+        "tool": "protect.patch-siren",
+        "summary": "Patch the settings for a specific siren. Required: id. Optional: ledSettings, name, volume. Returns the updated Siren.",
+        "params_schema": {
+          "id": "string",
+          "led-settings-is-enabled": "bool?",
+          "name": "string?",
+          "volume": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-siren"
+        ]
+      },
+      {
+        "tool": "protect.patch-speaker",
+        "summary": "Patch the settings for a specific speaker. Required: id. Optional: isMicEnabled, micVolume, name (plus 1 more). Returns the updated Speaker.",
+        "params_schema": {
+          "id": "string",
+          "isMicEnabled": "bool?",
+          "micVolume": "int?",
+          "name": "string?",
+          "volume": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-speaker"
+        ]
+      },
+      {
+        "tool": "protect.patch-viewer",
+        "summary": "Patch the settings for a specific viewer. Required: id. Optional: liveview, name. Returns the updated Viewer.",
+        "params_schema": {
+          "id": "string",
+          "liveview": "string?",
+          "name": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "patch-viewer"
+        ]
+      },
+      {
+        "tool": "protect.pos-transaction",
+        "summary": "Records a point of sale transaction as a camera event so the transaction details can be overlaid on recorded footage. Requires write access to the target camera. Footage capture is best-effort: the overlay only appears where the target camera was recording the transaction window (e.g. cameras in detections or adaptive recording modes), and a backdated timestamp may fall outside retained footage. A 200 response confirms the event was recorded, not that video exists for the window. Required: id, amount, externalId, type. Optional: currency, lineItems, location (plus 2 more). Returns the new PosTransactionResponse.",
+        "params_schema": {
+          "id": "string",
+          "amount": "float?",
+          "currency": "string?",
+          "externalId": "string?",
+          "lineItems": "array?",
+          "location-id": "string?",
+          "location-name": "string?",
+          "paymentTypes": "string_csv_array?",
+          "timestamp": "int?",
+          "type": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "pos-transaction"
+        ]
+      },
+      {
+        "tool": "protect.ptz-goto",
+        "summary": "Adjust the PTZ camera position to a specified preset. Required: id, slot.",
+        "params_schema": {
+          "id": "string",
+          "slot": "string"
+        },
+        "positionals": [
+          "id",
+          "slot"
+        ],
+        "argv_path": [
+          "protect",
+          "ptz-goto"
+        ]
+      },
+      {
+        "tool": "protect.ptz-patrol-start",
+        "summary": "Start a camera PTZ patrol. Required: id, slot.",
+        "params_schema": {
+          "id": "string",
+          "slot": "string"
+        },
+        "positionals": [
+          "id",
+          "slot"
+        ],
+        "argv_path": [
+          "protect",
+          "ptz-patrol-start"
+        ]
+      },
+      {
+        "tool": "protect.ptz-patrol-stop",
+        "summary": "Stop active camera PTZ patrol. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "ptz-patrol-stop"
+        ]
+      },
+      {
+        "tool": "protect.relay-activate",
+        "summary": "Control a relay output state. Use 'state' to set a specific state (on/off), or omit to toggle. When state is 'on', you can optionally provide 'pulseDuration' to auto-turn off after the specified milliseconds. Required: id, outputId. Optional: pulseDuration, state.",
+        "params_schema": {
+          "id": "string",
+          "outputId": "string",
+          "pulseDuration": "int?",
+          "state": "string?"
+        },
+        "positionals": [
+          "id",
+          "outputId"
+        ],
+        "argv_path": [
+          "protect",
+          "relay-activate"
+        ]
+      },
+      {
+        "tool": "protect.set-arm-settings",
+        "summary": "Set the current arm profile to be used when enabling the arm alarm. Only available when using local alarm manager. Required: armProfileId. Partial update.",
+        "params_schema": {
+          "armProfileId": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "protect",
+          "set-arm-settings"
+        ]
+      },
+      {
+        "tool": "protect.siren-play",
+        "summary": "Activate the siren alarm for the specified duration. The siren status will be tracked and can be stopped early using the stop endpoint. Required: id. Optional: duration.",
+        "params_schema": {
+          "id": "string",
+          "duration": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "siren-play"
+        ]
+      },
+      {
+        "tool": "protect.siren-stop",
+        "summary": "Stop an active siren. Required: id.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "siren-stop"
+        ]
+      },
+      {
+        "tool": "protect.siren-test-sound",
+        "summary": "Test the siren sound for 5 seconds at the specified volume. Required: id. Optional: volume.",
+        "params_schema": {
+          "id": "string",
+          "volume": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "siren-test-sound"
+        ]
+      },
+      {
+        "tool": "protect.speaker-test-sound",
+        "summary": "Test the speaker sound at the specified volume. Required: id. Optional: volume.",
+        "params_schema": {
+          "id": "string",
+          "volume": "int?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "protect",
+          "speaker-test-sound"
+        ]
+      },
+      {
+        "tool": "sd-wan-configs.get-sdwan-config-by-id",
+        "summary": "Retrieves detailed information about a specific SD-WAN configuration by ID. Required: id. Returns the SdWanConfigsGetSdwanConfigByIdResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "sd-wan-configs",
+          "get-sdwan-config-by-id"
+        ]
+      },
+      {
+        "tool": "sd-wan-configs.list-sdwan-configs",
+        "summary": "Retrieves a list of all SD-WAN configurations associated with the UI account making the API call. Returns array of SdWanConfigsListSdwanConfigsItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "sd-wan-configs",
+          "list-sdwan-configs"
+        ]
+      },
+      {
+        "tool": "sd-wan-configs.status_get-sdwan-config",
+        "summary": "Retrieves the status of a specific SD-WAN configuration, including deployment progress, errors, and associated hubs. Required: id. Returns the StatusGetSdwanConfigResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "sd-wan-configs",
+          "status_get-sdwan-config"
+        ]
+      },
+      {
+        "tool": "sites.list",
+        "summary": "Retrieves a list of all sites (from hosts running the UniFi Network application) associated with the UI account making the API call. **Note**: The structure of the `meta` and `statistics` fields may vary depending on the UniFi Network version. The example provided is based on UniFi OS 4.1.13. Optional: pageSize, nextToken. Returns array of SitesListItem.",
+        "params_schema": {
+          "pageSize": "string?",
+          "nextToken": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "sites"
         ]
       }
     ]
