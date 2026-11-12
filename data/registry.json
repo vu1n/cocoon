@@ -173435,28 +173435,19 @@
     "search_terms": [
       "digg",
       "digg-pp-cli",
-      "Read-only CLI for Digg \u2014 the AI story leaderboard, GitHub feeds, and ingestion pipeline events on digg.com.",
-      "Stored pipeline events",
-      "events",
-      "List the pipeline events sync captured from section pages: clusters as they were detected and stories fast-climbing the leaderboard with explicit rank deltas.",
-      "Replacement archaeology",
-      "replaced",
-      "Show stories that were knocked out of the rankings since the last sync, with Digg's own published replacement rationale.",
-      "Score component breakdown",
-      "evidence",
-      "Print the full ranking transparency record for one cluster \u2014 scoreComponents, evidence array, numeratorLabel, percentAboveAverage.",
-      "Time-windowed sentiment",
-      "sentiment",
-      "Read per-time-window positivity ratios (pos6h, pos12h, pos24h, posLast) for a cluster.",
-      "Cross-aggregator references",
-      "crossref",
-      "Show this cluster's Hacker News and Techmeme mirrors when Digg has detected the story is being discussed there.",
+      "Read-only CLI for Digg \u2014 the story leaderboard, live search, and GitHub feeds on digg.com.",
+      "Live search across every topic",
+      "search",
+      "Search Digg stories live across all seven topics, with each story's Digg Score, source count, author count and publish time.",
+      "Live ranked feed",
+      "top",
+      "Digg's ranked stories right now for one topic, or merged across all seven by Digg Score; --view trending shows what is rising.",
       "Influence-ranked author leaderboard",
       "authors top",
       "Top accounts Digg tracks, ranked by Digg's influence score, story count, or reach.",
-      "GitHub: top starred AI repos",
+      "GitHub: top starred repos",
       "github stars",
-      "Top AI repos ranked by starring activity from Digg-tracked accounts: stargazers, recent starrers, breakout/novel/ai_related scores, language, one-sentence classification.",
+      "Top repos ranked by starring activity from Digg-tracked accounts: stargazers, recent starrers, breakout/novel/ai_related scores, language, one-sentence classification.",
       "GitHub: newly first-seen repos",
       "github new",
       "Recently first-seen GitHub repos with the Digg-tracked creator/starrer who first put them on Digg's radar (event_id, event_created_at, repo_full_name, creator).",
@@ -173474,12 +173465,12 @@
       "Every cluster a given X account contributed to, with post type (original, retweet, quote, reply).",
       "Rank-movement watcher",
       "watch",
-      "Poll /ai, diff against last snapshot, alert when any cluster moves N+ ranks."
+      "Poll one Digg topic (--topic), diff against last snapshot, alert when any cluster moves N+ ranks."
     ],
     "endpoints": [
       {
         "tool": "feed.raw",
-        "summary": "Fetch the raw /ai HTML page. The CLI's sync command parses this; most users should run `sync` then `top` instead of calling this directly. Returns the RawHTML.",
+        "summary": "Fetch the raw HTML of Digg's AI topic page (/ai). Most users should run `top` instead of calling this directly. Returns the RawHTML.",
         "params_schema": {},
         "positionals": [],
         "argv_path": [
@@ -173489,7 +173480,7 @@
       },
       {
         "tool": "feed.story_raw",
-        "summary": "Fetch the raw /ai/{clusterUrlId} story detail page (HTML). The CLI's `story` command parses this; users should not need to call this directly. Required: cluster_url_id. Returns the RawHTML.",
+        "summary": "Fetch the raw HTML of one story's page under /ai. Most users should run `story` or `posts` instead of calling this directly. Required: cluster_url_id. Returns the RawHTML.",
         "params_schema": {
           "cluster_url_id": "string"
         },
@@ -173502,8 +173493,25 @@
         ]
       },
       {
+        "tool": "search",
+        "summary": "Search Digg stories live across all seven topics with Digg's own search. Each result carries clusterId, clusterUrlId, title, diggScore, sourceCount, uniqueAuthors, publishedAt, topic and url. Needs no sync.",
+        "params_schema": {
+          "args": "string?",
+          "limit": "int?",
+          "since": "string?",
+          "until": "string?",
+          "sort": "string?",
+          "topic": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "search",
+          "search"
+        ]
+      },
+      {
         "tool": "github.stars",
-        "summary": "Top AI repos ranked by starring activity from Digg-tracked accounts. Returns repo_full_name, language, stargazers_count, recent starrer list, breakout_score, novel_score, ai_related_score, and the model's one-sentence classification. Returns the RawHTML; structured records are extracted by the CLI from the embedded RSC payload.",
+        "summary": "Top repos ranked by starring activity from Digg-tracked accounts. Returns repo_full_name, language, stargazers_count, recent starrer list, breakout_score, novel_score, ai_related_score, and the model's one-sentence classification. Returns the RawHTML; structured records are extracted by the CLI from the embedded RSC payload.",
         "params_schema": {
           "min-starrers": "int?"
         },
