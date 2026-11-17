@@ -48958,6 +48958,427 @@
     ]
   },
   {
+    "api": "autom",
+    "description": "Every Autom search engine from the terminal, plus saved rank history, cross-engine and cross-country comparison, and per-engine credit spend from a local ledger.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/marketing/autom/cmd/autom-pp-cli",
+    "auth_type": "api_key",
+    "category": "marketing",
+    "search_terms": [
+      "autom",
+      "autom-pp-cli",
+      "Every Autom search engine from the terminal, plus saved rank history, cross-engine and cross-country comparison, and per-engine credit spend from a local ledger.",
+      "Cross-engine compare",
+      "engines compare",
+      "See how one query ranks across Google, Bing, Brave, DuckDuckGo and Yahoo: shared domains, domains unique to each engine, and your domain's position on each. Costs 1 credit per engine.",
+      "Rank movers",
+      "List what moved across every tracked keyword since a cutoff: gains, drops, and entries into or exits from the top results. Reads the pages saved earlier by rank check, batch run or compare --save.",
+      "Geo compare",
+      "Run one query on one engine across several countries and see your domain's position and the shared results per country. Costs 1 credit per country.",
+      "Credit ledger",
+      "credits",
+      "See your remaining quota, packs and credits plus where your credits went, by keyword, command or engine, with burn rate and days left. Spend covers only the calls made by this CLI; async searches show as pending.",
+      "Domain visibility",
+      "visibility",
+      "See one domain's footprint across every saved keyword: where it appears, average and best position, and top-3 and top-N (--top) counts, optionally against rival domains given with --vs. Reads the pages saved by rank check, batch run or compare --save.",
+      "News watch",
+      "Get only the news articles about a brand or keyword that earlier watches have not shown. Returned articles are marked as seen; --peek previews without marking. Costs 1 credit."
+    ],
+    "endpoints": [
+      {
+        "tool": "bing.get-search",
+        "summary": "Query Bing Search via API and retrieve structured organic results (title, link, snippet, position). Costs 1 credit per successful call. Required: query. Optional: page (default: 1), num (default: 10), location (plus 6 more). Returns the BingGetSearchResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "num": "float?",
+          "location": "string?",
+          "lat": "float?",
+          "lon": "float?",
+          "mkt": "string?",
+          "cc": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bing",
+          "get-search"
+        ]
+      },
+      {
+        "tool": "brave.images",
+        "summary": "Search Brave Images via API and retrieve structured image results with pagination and SafeSearch. Costs 1 credit per successful call. Required: query. Optional: page (default: 1), gl, hl (plus 3 more). Returns the BraveImagesResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "gl": "string?",
+          "hl": "string?",
+          "safe": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brave",
+          "images"
+        ]
+      },
+      {
+        "tool": "brave.search",
+        "summary": "Search Brave Search via API and retrieve structured organic results with pagination. Costs 1 credit per successful call. Required: query. Optional: page (default: 1), gl (default: us), hl (default: en) (plus 2 more). Returns the BraveSearchResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "gl": "string?",
+          "hl": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brave",
+          "search"
+        ]
+      },
+      {
+        "tool": "brave.videos",
+        "summary": "Search Brave Videos via API and retrieve structured video results with pagination and SafeSearch. Costs 1 credit per successful call. Required: query. Optional: page (default: 1), gl, hl (plus 3 more). Returns the BraveVideosResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "gl": "string?",
+          "hl": "string?",
+          "safe": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "brave",
+          "videos"
+        ]
+      },
+      {
+        "tool": "duckduckgo.get-search",
+        "summary": "Query DuckDuckGo via API and retrieve structured organic results with region and language. Costs 1 credit per successful call. Required: query. Optional: page (default: 1), gl, hl (plus 2 more). Returns the DuckduckgoGetSearchResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "gl": "string?",
+          "hl": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "duckduckgo",
+          "get-search"
+        ]
+      },
+      {
+        "tool": "finder.google-countries",
+        "summary": "Search Google countries and retrieve country codes (free Finder endpoint). Required: query. Optional: is_async (default: false), soft_fail (default: false). Returns array of FinderGoogleCountriesItem.",
+        "params_schema": {
+          "query": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "finder",
+          "google-countries"
+        ]
+      },
+      {
+        "tool": "finder.google-languages",
+        "summary": "Search Google languages and retrieve language codes (free Finder endpoint). Required: query. Optional: is_async (default: false), soft_fail (default: false). Returns array of FinderGoogleLanguagesItem.",
+        "params_schema": {
+          "query": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "finder",
+          "google-languages"
+        ]
+      },
+      {
+        "tool": "finder.google-locations",
+        "summary": "Find supported Google locations and retrieve location IDs and country codes (free endpoint). Required: query. Optional: is_async (default: false), soft_fail (default: false). Returns array of FinderGoogleLocationsItem.",
+        "params_schema": {
+          "query": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "finder",
+          "google-locations"
+        ]
+      },
+      {
+        "tool": "google.autocomplete",
+        "summary": "Get Google Search autocomplete suggestions via API for a given query. Costs 1 credit per successful call. Required: query. Optional: cp (default: 0), google_domain (default: google.com), gl (plus 5 more). Returns array of string.",
+        "params_schema": {
+          "query": "string?",
+          "cp": "float?",
+          "google_domain": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "cr": "string?",
+          "lr": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "autocomplete"
+        ]
+      },
+      {
+        "tool": "google.images",
+        "summary": "Search Google Images via API and retrieve image results (URLs, titles, sources, dimensions). Costs 1 credit per successful call. Required: query. Optional: page (default: 1), google_domain (default: google.com), gl (plus 7 more). Returns the GoogleImagesResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "google_domain": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "cr": "string?",
+          "lr": "string?",
+          "async": "bool?",
+          "safe": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "images"
+        ]
+      },
+      {
+        "tool": "google.maps",
+        "summary": "Search Google Maps via API and retrieve structured place results (address, website, phone). Costs 1 credit per successful call. Required: query. Optional: page (default: 1), google_domain (default: google.com), gl (plus 6 more). Returns array of GoogleMapsItem.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "google_domain": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "cr": "string?",
+          "lr": "string?",
+          "ll": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "maps"
+        ]
+      },
+      {
+        "tool": "google.news",
+        "summary": "Search Google News via API and retrieve structured news results with pagination. Costs 1 credit per successful call. Required: query. Optional: page (default: 1), num (default: 10), google_domain (default: google.com) (plus 6 more). Returns the GoogleNewsResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "num": "float?",
+          "google_domain": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "cr": "string?",
+          "lr": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "news"
+        ]
+      },
+      {
+        "tool": "google.resolve",
+        "summary": "Resolve google.com/goto links from organic search results. Destinations replace /goto URLs; unresolved links stay with retryAfter. Status: Experimental. Optional: is_async (default: false), soft_fail (default: false). Returns array of GoogleResolveItem.",
+        "params_schema": {
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "resolve"
+        ]
+      },
+      {
+        "tool": "google.search",
+        "summary": "Scrape Google Search results via API and retrieve structured SERP data with pagination. Costs 1 credit per successful call. Required: query. Optional: tbs, safe, location (plus 10 more). Returns the GoogleSearchResponse.",
+        "params_schema": {
+          "query": "string?",
+          "tbs": "string?",
+          "safe": "string?",
+          "location": "string?",
+          "uule": "string?",
+          "google_domain": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "cr": "string?",
+          "lr": "string?",
+          "page": "float?",
+          "num": "float?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "search"
+        ]
+      },
+      {
+        "tool": "google.search-light",
+        "summary": "Scrape lightweight Google Search results via API: fast, cost-efficient, organic results only. Costs 1 credit per successful call. Required: query. Optional: google_domain (default: google.com), gl, hl (plus 4 more). Returns the GoogleSearchLightResponse.",
+        "params_schema": {
+          "query": "string?",
+          "google_domain": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "cr": "string?",
+          "lr": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "search-light"
+        ]
+      },
+      {
+        "tool": "google.shopping",
+        "summary": "Scrape Google Shopping results via API and retrieve structured product listings with prices, ratings, and merchant data. Costs 1 credit per successful call. Required: query. Optional: page (default: 1), location, uule (plus 8 more). Returns the GoogleShoppingResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "location": "string?",
+          "uule": "string?",
+          "google_domain": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "cr": "string?",
+          "lr": "string?",
+          "safe": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "shopping"
+        ]
+      },
+      {
+        "tool": "google.videos",
+        "summary": "Search Google Videos via API and retrieve structured video results with metadata. Costs 1 credit per successful call. Required: query, page (default: 1). Optional: location, uule, google_domain (default: google.com) (plus 8 more). Returns the GoogleVideosResponse.",
+        "params_schema": {
+          "query": "string?",
+          "location": "string?",
+          "uule": "string?",
+          "google_domain": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "cr": "string?",
+          "lr": "string?",
+          "page": "float?",
+          "num": "float?",
+          "safe": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "google",
+          "videos"
+        ]
+      },
+      {
+        "tool": "job.results_jobs-id",
+        "summary": "Poll the status, progress (0\u2013100) and result of a job started with is_async=true. Polling is free. Poll until status is terminal: CompletedJob, Error, NotFound or BadRequest. Required: id. Returns the JobResultsJobsIdResponse.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "job",
+          "results_jobs-id"
+        ]
+      },
+      {
+        "tool": "stats.stats",
+        "summary": "Infrastructure health for an engine or endpoint over the last hour. Not scoped to your account or tenant. Enabled per account: HTTP 403 means contact support to activate it. Optional: engine, path. Returns the StatsStatsResponse.",
+        "params_schema": {
+          "engine": "string?",
+          "path": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "stats",
+          "stats"
+        ]
+      },
+      {
+        "tool": "usage.usage",
+        "summary": "Retrieve real-time usage statistics and credit balance for your Autom account. Returns the UsageUsageResponse.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "usage",
+          "usage"
+        ]
+      },
+      {
+        "tool": "web.search_get-search",
+        "summary": "One call walks engines in order and returns the first organic results. engines=auto tries Google, then Brave, Bing, DuckDuckGo, Yahoo, and Baidu. Omitted gl is us and omitted hl is en. There is no page parameter: the response is always page 1. An empty query returns 400. If every engine misses, the call returns 404. Send header x-api-key. 1 credit on HTTP 200. Costs 1 credit per successful call. Required: query. Optional: engines (default: auto), gl, hl (plus 2 more).",
+        "params_schema": {
+          "query": "string?",
+          "engines": "string?",
+          "gl": "string?",
+          "hl": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "web",
+          "search_get-search"
+        ]
+      },
+      {
+        "tool": "yahoo.get-search",
+        "summary": "Query Yahoo via API and retrieve structured organic results with country and language. Costs 1 credit per successful call. Required: query. Optional: page (default: 1), gl, hl (plus 2 more). Returns the YahooGetSearchResponse.",
+        "params_schema": {
+          "query": "string?",
+          "page": "float?",
+          "gl": "string?",
+          "hl": "string?",
+          "is_async": "bool?",
+          "soft_fail": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "yahoo",
+          "get-search"
+        ]
+      }
+    ]
+  },
+  {
     "api": "autotempest",
     "description": "Every AutoTempest car-search source in your terminal, with a local store, cross-source VIN dedupe",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/autotempest/cmd/autotempest-pp-cli",
