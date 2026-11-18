@@ -363668,6 +363668,108 @@
     ]
   },
   {
+    "api": "rewe",
+    "description": "Order REWE groceries for pickup from the terminal or an agent - offers, basket, earliest slot and recipes, with a session that renews itself.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/rewe/cmd/rewe-pp-cli",
+    "auth_type": "cookie",
+    "category": "commerce",
+    "search_terms": [
+      "rewe",
+      "rewe-pp-cli",
+      "Structured market offers",
+      "offers",
+      "Current offers of your market (and next week's once REWE publishes them) as rows with title, price and category.",
+      "Deals on my products",
+      "deals mine",
+      "Offers that match products you bought before or saved as favourites.",
+      "Earliest pickup slot",
+      "slots earliest",
+      "The earliest free pickup slot with its fee, optionally reserved right away.",
+      "Full checkout with confirmation gate",
+      "order place",
+      "Place the pickup order: refresh basket, reserve slot, pay in market, submit - only with --confirm.",
+      "Recipe to basket",
+      "recipe basket",
+      "Map a REWE recipe's ingredients to shop products for N servings and add the recommended ones.",
+      "Basket by text",
+      "basket add",
+      "Add products by search text and quantity without knowing listing ids.",
+      "Shopping list to basket",
+      "list add",
+      "Turn a shopping list (one item per line, optional quantity) into basket items.",
+      "Price history",
+      "Price changes of a product seen in searches and offers over time."
+    ],
+    "endpoints": [
+      {
+        "tool": "markets.pickup",
+        "summary": "List markets with pickup service (Abholservice) for a German postal code, nearest first. Required: zip.",
+        "params_schema": {
+          "zip": "string"
+        },
+        "positionals": [
+          "zip"
+        ],
+        "argv_path": [
+          "markets",
+          "pickup"
+        ]
+      },
+      {
+        "tool": "markets.search",
+        "summary": "Search REWE markets by postal code, city or street, with opening status. Required: query.",
+        "params_schema": {
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "markets",
+          "search"
+        ]
+      },
+      {
+        "tool": "markets.services",
+        "summary": "Show whether pickup and delivery are available for a postal code. Required: zip.",
+        "params_schema": {
+          "zip": "string"
+        },
+        "positionals": [
+          "zip"
+        ],
+        "argv_path": [
+          "markets",
+          "services"
+        ]
+      },
+      {
+        "tool": "recipes.search",
+        "summary": "Search recipes; returns recipe ids, total count and facets. Optional: query, match-all (default: true), limit (default: 10).",
+        "params_schema": {
+          "query": "string?",
+          "match-all": "boolean?",
+          "limit": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "recipes",
+          "search"
+        ]
+      },
+      {
+        "tool": "recipes.tiles",
+        "summary": "Recipe cards (title, rating, time, difficulty, url) for recipe ids. Required: ids.",
+        "params_schema": {
+          "ids": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "recipes",
+          "tiles"
+        ]
+      }
+    ]
+  },
+  {
     "api": "ridewithgps",
     "description": "Your whole Ride with GPS library, offline \u2014 bulk export, gear mileage, and ride analytics no other tool ships.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/travel/ridewithgps/cmd/ridewithgps-pp-cli",
