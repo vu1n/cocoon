@@ -189101,6 +189101,81 @@
     ]
   },
   {
+    "api": "edeka",
+    "description": "Shop your local EDEKA market from the terminal or an agent: offers, basket by text, earliest pickup slot, checkout with a confirmation gate.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/edeka/cmd/edeka-pp-cli",
+    "auth_type": "cookie",
+    "category": "commerce",
+    "search_terms": [
+      "edeka",
+      "edeka-pp-cli",
+      "Shop your local EDEKA market from the terminal or an agent: offers, basket by text, earliest pickup slot, checkout with a confirmation gate.",
+      "Basket by text",
+      "basket add",
+      "Add a product by id or by plain words; the CLI picks the best match in your market and adds it.",
+      "Earliest pickup slot",
+      "slots earliest",
+      "The first free pickup slot of your market in one call.",
+      "Checkout with confirmation gate",
+      "order place",
+      "Preview the order (slot, payment, items, total) and place it only with --confirm.",
+      "Shopping list to basket",
+      "list add",
+      "Add many free-text lines with quantities at once and see what matched.",
+      "Offer check for staples",
+      "deals check",
+      "Which of these items are on offer in your market this week.",
+      "Price history",
+      "Prices an article had over time in your markets, from your own searches and offer lookups.",
+      "Compare markets",
+      "The same search on several EDEKA markets side by side."
+    ],
+    "endpoints": [
+      {
+        "tool": "markets.cities",
+        "summary": "The portal's town list with postal code and market count (unfiltered; 'markets search <town>' filters it for you). Required: query. Returns array of City.",
+        "params_schema": {
+          "query": "string"
+        },
+        "positionals": [
+          "query"
+        ],
+        "argv_path": [
+          "markets",
+          "cities"
+        ]
+      },
+      {
+        "tool": "markets.zip",
+        "summary": "Raw market finder rows for a postal code (host, address, pickup/delivery flags, delivery postal codes); 'markets search' gives cleaned rows and also takes a town. Required: query. Returns array of Market.",
+        "params_schema": {
+          "query": "string"
+        },
+        "positionals": [
+          "query"
+        ],
+        "argv_path": [
+          "markets",
+          "zip"
+        ]
+      },
+      {
+        "tool": "suggest.products",
+        "summary": "Search suggestions of the selected market (words, brands, categories and up to five products with price). Required: term. Returns array of Suggestion.",
+        "params_schema": {
+          "term": "string"
+        },
+        "positionals": [
+          "term"
+        ],
+        "argv_path": [
+          "suggest",
+          "products"
+        ]
+      }
+    ]
+  },
+  {
     "api": "edgar",
     "description": "Fetch SEC EDGAR filings, insider activity, XBRL facts, and cached filing search results with agent-friendly output.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/other/edgar/cmd/edgar-pp-cli",
