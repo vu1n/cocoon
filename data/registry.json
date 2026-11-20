@@ -195427,6 +195427,1985 @@
     ]
   },
   {
+    "api": "etsy",
+    "description": "Etsy Open API v3 commands plus a local SQLite store for offline fee reports, ledger reconciliation, listing and GPSR audits, market research, and previewed bulk edits.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/etsy/cmd/etsy-pp-cli",
+    "auth_type": "bearer_token",
+    "category": "commerce",
+    "search_terms": [
+      "etsy",
+      "etsy-pp-cli",
+      "Etsy Open API v3 commands plus a local SQLite store for offline fee reports, ledger reconciliation, listing and GPSR audits, market research, and previewed bulk edits.",
+      "Listing hygiene + GPSR audit",
+      "listings audit",
+      "Find every listing with missing tags, materials, alt text or photos, or missing GPSR manufacturer/responsible-person data, in one offline pass.",
+      "Fee breakdown",
+      "money fees",
+      "See what Etsy charged you, by fee type, for any period.",
+      "Ledger reconcile",
+      "money reconcile",
+      "Match receipts, payments and ledger entries by ID and compare receipt totals with summed payment amounts and currencies.",
+      "Renewal planner",
+      "listings expiring",
+      "List active listings expiring soon and whether they auto-renew.",
+      "Inventory structural audit",
+      "inventory audit",
+      "Spot zero-quantity variations, missing or duplicate SKUs and price spread across variations.",
+      "Dead-weight listings",
+      "listings dead-weight",
+      "Find active listings with no sales in a window, with favorite counts.",
+      "Shop attention feed",
+      "shop attention",
+      "One compact summary of what needs attention: unshipped orders, expiring listings, audit findings, reconcile mismatches and sync age.",
+      "Review digest",
+      "reviews digest",
+      "Rating histogram, low-rated reviews and per-listing averages for a period.",
+      "Market snapshot",
+      "Capture a dated snapshot of the listings and shops that appear for your search terms.",
+      "Market trend",
+      "See which listings and shops entered or left, and how prices, favorites and positions moved, between two snapshots.",
+      "Demand proxy",
+      "market demand",
+      "Rank listings and search terms by recent review volume and shop sales, with an explicit can't-tell result for thin data.",
+      "Competitor shops and crowd-out",
+      "market shops",
+      "Profile the shops behind a snapshot and see whether big shops crowd out new ones.",
+      "Gap finder",
+      "market gaps",
+      "Find targets where no matching listing was found in the pages and terms you searched, with coverage checked against known competitors.",
+      "Tag and title-word contrast",
+      "market tags",
+      "See which tags and title words the best-selling listings use that the rest don't.",
+      "Price bands",
+      "market price",
+      "Price ranges per category and whether price tracks demand."
+    ],
+    "endpoints": [
+      {
+        "tool": "app.ping",
+        "summary": "Check to confirm connectivity to the Etsy API with an application. Returns the Pong.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "app",
+          "ping"
+        ]
+      },
+      {
+        "tool": "app.token-scopes",
+        "summary": "Check the scopes of the provided token. Required: token. Returns the new Scopes.",
+        "params_schema": {
+          "token": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "app",
+          "token-scopes"
+        ]
+      },
+      {
+        "tool": "buyer.taxonomy_get-nodes",
+        "summary": "Retrieves the full hierarchy tree of buyer taxonomy nodes. Returns array of BuyerTaxonomyGetNodesItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "buyer",
+          "taxonomy_get-nodes"
+        ]
+      },
+      {
+        "tool": "buyer.taxonomy_get-properties-by-id",
+        "summary": "Retrieves a list of product properties, with applicable scales and values, supported for a specific buyer taxonomy ID. Required: taxonomy_id. Returns array of BuyerTaxonomyGetPropertiesByIdItem.",
+        "params_schema": {
+          "taxonomy_id": "string"
+        },
+        "positionals": [
+          "taxonomy_id"
+        ],
+        "argv_path": [
+          "buyer",
+          "taxonomy_get-properties-by-id"
+        ]
+      },
+      {
+        "tool": "economic.operators_create-shop",
+        "summary": "Creates a new economic operator (a manufacturer or EU responsible person record) for a specific shop, used for GPSR compliance on listings. `operator_name`, `email`, `first_line`, `city`, `zip`, `country_iso`, and `phone` are required and cannot be blank; `trademark_name`, `second_line`, and `phone_country_iso` are optional. `state` is required if the `country_iso` requires a state (for example `US`, `CA`, `AU`, `IN`, `BR`, `MX`, `ES`, `IT`); it is optional for every other country. See the [full list of countries](/documentation/tutorials/gpsr-economic-operators#countries-requiring-a-state). The response contains the `economic_operator_id` to pass as `gpsr_manufacturer_id` or `gpsr_responsible_person_id` when creating or updating a [listing](/documentation/reference#tag/ShopListing). A manufacturer can be located anywhere, but an operator used as an EU responsible person must have an address in the European Union; this is checked when a listing references the operator. There is no delete endpoint: use [updateShopEconomicOperator](/documentation/reference#operation/updateShopEconomicOperator) to correct a record. See the [GPSR Economic Operators Tutorial](/documentation/tutorials/gpsr-economic-operators) for the full guide, including eligibility and the enforcement timeline. Required: shop_id, city, country_iso, email, first_line, operator_name, phone, zip. Optional: phone_country_iso, second_line, state (plus 1 more). Returns the new ShopEconomicOperator.",
+        "params_schema": {
+          "shop_id": "string",
+          "city": "string?",
+          "country_iso": "string?",
+          "email": "string?",
+          "first_line": "string?",
+          "operator_name": "string?",
+          "phone": "string?",
+          "phone_country_iso": "string?",
+          "second_line": "string?",
+          "state": "string?",
+          "trademark_name": "string?",
+          "zip": "string?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "economic",
+          "operators_create-shop"
+        ]
+      },
+      {
+        "tool": "economic.operators_get-shop",
+        "summary": "Retrieves all economic operators (manufacturer and EU responsible person records) of a specific shop, used for GPSR compliance on listings. Deleted operators are not included. Use the `economic_operator_id` of an entry as `gpsr_manufacturer_id` or `gpsr_responsible_person_id` on a [listing](/documentation/reference#tag/ShopListing). See the [GPSR Economic Operators Tutorial](/documentation/tutorials/gpsr-economic-operators) for the full guide. Required: shop_id. Returns array of ShopEconomicOperator.",
+        "params_schema": {
+          "shop_id": "string"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "economic",
+          "operators_get-shop"
+        ]
+      },
+      {
+        "tool": "economic.operators_get-shop-shops",
+        "summary": "Retrieves a single economic operator, referenced by economic operator ID and shop ID. Returns `404` if the operator does not exist in the shop or has been deleted. See the [GPSR Economic Operators Tutorial](/documentation/tutorials/gpsr-economic-operators) for the full guide. Required: shop_id, economic_operator_id.",
+        "params_schema": {
+          "shop_id": "string",
+          "economic_operator_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "economic_operator_id"
+        ],
+        "argv_path": [
+          "economic",
+          "operators_get-shop-shops"
+        ]
+      },
+      {
+        "tool": "economic.operators_update-shop",
+        "summary": "Updates an existing economic operator for a specific shop. Every field is optional and only the fields you send are changed. Send `null` for `trademark_name`, `second_line`, `state`, or `phone_country_iso` to clear it. `operator_name` can be at most 50 characters. `state` is required for [some countries](/documentation/tutorials/gpsr-economic-operators#countries-requiring-a-state). The change applies to every [listing](/documentation/reference#tag/ShopListing) that references this operator. Returns `404` if the economic operator does not exist in the shop. See the [GPSR Economic Operators Tutorial](/documentation/tutorials/gpsr-economic-operators) for the full guide. Required: shop_id, economic_operator_id. Optional: city, country_iso, email (plus 8 more).",
+        "params_schema": {
+          "shop_id": "string",
+          "economic_operator_id": "string",
+          "city": "string?",
+          "country_iso": "string?",
+          "email": "string?",
+          "first_line": "string?",
+          "operator_name": "string?",
+          "phone": "string?",
+          "phone_country_iso": "string?",
+          "second_line": "string?",
+          "state": "string?",
+          "trademark_name": "string?",
+          "zip": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "economic_operator_id"
+        ],
+        "argv_path": [
+          "economic",
+          "operators_update-shop"
+        ]
+      },
+      {
+        "tool": "holiday.preferences_get",
+        "summary": "Retrieves a list of holidays that are available to a shop to set a preference for. Currently only supported in the US and CA. Required: shop_id. Returns array of ShopHolidayPreference.",
+        "params_schema": {
+          "shop_id": "string"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "holiday",
+          "preferences_get"
+        ]
+      },
+      {
+        "tool": "holiday.preferences_update",
+        "summary": "Updates the preference for whether the seller will process orders or not on the holiday. Currently only supported in the US and CA. Required: shop_id, holiday_id (default: 1), is_working. Returns the updated ShopHolidayPreference.",
+        "params_schema": {
+          "shop_id": "string",
+          "holiday_id": "string",
+          "is_working": "bool?"
+        },
+        "positionals": [
+          "shop_id",
+          "holiday_id"
+        ],
+        "argv_path": [
+          "holiday",
+          "preferences_update"
+        ]
+      },
+      {
+        "tool": "ledger.entries_get-shop-payment-account",
+        "summary": "Get a Shop Payment Account Ledger's Entries. Required: shop_id, min_created, max_created. Optional: limit (default: 25), offset (default: 0). Returns array of LedgerEntriesGetShopPaymentAccountItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "min_created": "int?",
+          "max_created": "int?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "ledger",
+          "entries_get-shop-payment-account"
+        ]
+      },
+      {
+        "tool": "ledger.entries_get-shop-payment-account-ledger-entry",
+        "summary": "Get a single Shop Payment Account Ledger's Entry. Required: shop_id, ledger_entry_id. Returns the PaymentAccountLedgerEntry.",
+        "params_schema": {
+          "shop_id": "string",
+          "ledger_entry_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "ledger_entry_id"
+        ],
+        "argv_path": [
+          "ledger",
+          "entries_get-shop-payment-account-ledger-entry"
+        ]
+      },
+      {
+        "tool": "listing.files_delete",
+        "summary": "Deletes a file from a specific listing. When you delete the final file for a digital listing, the listing converts into a physical listing. The response to a delete request returns a list of the remaining file records associated with the given listing. Required: shop_id, listing_id, listing_file_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "listing_file_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "listing_file_id"
+        ],
+        "argv_path": [
+          "listing",
+          "files_delete"
+        ]
+      },
+      {
+        "tool": "listing.files_get",
+        "summary": "Retrieves a single file associated with the given digital listing. Requesting a file from a physical listing returns an empty result. Required: shop_id, listing_id, listing_file_id.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "listing_file_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "listing_file_id"
+        ],
+        "argv_path": [
+          "listing",
+          "files_get"
+        ]
+      },
+      {
+        "tool": "listing.files_get-all",
+        "summary": "Retrieves all the files associated with the given digital listing. Requesting files from a physical listing returns an empty result. Required: listing_id, shop_id.",
+        "params_schema": {
+          "listing_id": "string",
+          "shop_id": "string"
+        },
+        "positionals": [
+          "listing_id",
+          "shop_id"
+        ],
+        "argv_path": [
+          "listing",
+          "files_get-all"
+        ]
+      },
+      {
+        "tool": "listing.files_upload",
+        "summary": "Uploads a new file for a digital listing, or associates an existing file with a specific listing. You must either provide the `listing_file_id` of an existing file, or the name and binary file data for a file to upload. Associating an existing file to a physical listing converts the physical listing into a digital listing, which removes all shipping costs and any product and inventory variations. Required: shop_id, listing_id. Optional: file, listing_file_id, name (plus 1 more). Returns the new ShopListingFile.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "file": "string?",
+          "listing_file_id": "int?",
+          "name": "string?",
+          "rank": "int?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "files_upload"
+        ]
+      },
+      {
+        "tool": "listing.images_delete",
+        "summary": "Open API V3 endpoint to delete a listing image. A copy of the file remains on our servers, and so a deleted image may be re-associated with the listing without re-uploading the original image; see uploadListingImage. Required: shop_id, listing_id, listing_image_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "listing_image_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "listing_image_id"
+        ],
+        "argv_path": [
+          "listing",
+          "images_delete"
+        ]
+      },
+      {
+        "tool": "listing.images_get",
+        "summary": "Retrieves all listing image resources for a listing with a specific listing ID. Required: listing_id. Returns array of ListingImagesGetItem.",
+        "params_schema": {
+          "listing_id": "string"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "images_get"
+        ]
+      },
+      {
+        "tool": "listing.images_get-listings",
+        "summary": "Retrieves the references and metadata for a listing image with a specific image ID. Required: listing_id, listing_image_id. Returns the ListingImage.",
+        "params_schema": {
+          "listing_id": "string",
+          "listing_image_id": "string"
+        },
+        "positionals": [
+          "listing_id",
+          "listing_image_id"
+        ],
+        "argv_path": [
+          "listing",
+          "images_get-listings"
+        ]
+      },
+      {
+        "tool": "listing.images_upload",
+        "summary": "Uploads or assigns an image to a listing identified by a shop ID with a listing ID. To upload a new image, set the image file as the value for the `image` parameter. You can assign a previously deleted image to a listing using the deleted image's image ID in the `listing_image_id` parameter. When a request contains both `image` and `listing_image_id` parameter values, the endpoint uploads the image in the `image` parameter only. Note: When uploading a new image, data such as colors and size may return as null values due to asynchronous processing of the image. Use getListingImage endpoint to fetch these values. Required: shop_id, listing_id. Optional: alt_text, image, is_watermarked (default: false) (plus 3 more). Returns the new ListingImage.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "alt_text": "string?",
+          "image": "string?",
+          "is_watermarked": "bool?",
+          "listing_image_id": "int?",
+          "overwrite": "bool?",
+          "rank": "int?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "images_upload"
+        ]
+      },
+      {
+        "tool": "listing.inventory_get",
+        "summary": "Retrieves the inventory record for a listing. Listings you did not edit using the Etsy.com inventory tools have no inventory records. Only the owner of the listing may retrieve its inventory record. Required: listing_id. Optional: show_deleted, includes. Returns the ListingInventoryWithAssociations.",
+        "params_schema": {
+          "listing_id": "string",
+          "show_deleted": "bool?",
+          "includes": "string?"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "inventory_get"
+        ]
+      },
+      {
+        "tool": "listing.inventory_get-listing-product",
+        "summary": "Open API V3 endpoint to retrieve a ListingProduct by ID. Required: listing_id, product_id. Optional: legacy. Returns the ListingInventoryProduct.",
+        "params_schema": {
+          "listing_id": "string",
+          "product_id": "string",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "listing_id",
+          "product_id"
+        ],
+        "argv_path": [
+          "listing",
+          "inventory_get-listing-product"
+        ]
+      },
+      {
+        "tool": "listing.inventory_get-listings-inventory-by-listing-ids",
+        "summary": "Retrieves the inventory record for each listing referenced by listing ID. Requires the `listings_r` OAuth scope. Limit 100 listing IDs per request. All requested listing IDs must exist \u2014 if any single ID is not found, the entire request returns a 404. SKUs within product records are only returned for listings owned by the authenticated user; they are stripped (returned as empty string) for listings owned by other sellers. Required: listing_ids.",
+        "params_schema": {
+          "listing_ids": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listing",
+          "inventory_get-listings-inventory-by-listing-ids"
+        ]
+      },
+      {
+        "tool": "listing.inventory_update",
+        "summary": "Updates the inventory for a listing identified by a listing ID. The update fails if the supplied values for product sku, offering quantity, price, and/or processing profile are incompatible with values in `*_on_property` fields. When setting a price, assign a float equal to amount divided by divisor as specified in the Money resource. Required: listing_id, products. Optional: max_variations_supported, enable_scale_validation, price_on_property (plus 3 more). Returns the updated ListingInventory.",
+        "params_schema": {
+          "listing_id": "string",
+          "max_variations_supported": "string?",
+          "enable_scale_validation": "bool?",
+          "price_on_property": "array?",
+          "products": "array?",
+          "quantity_on_property": "array?",
+          "readiness_state_on_property": "array?",
+          "sku_on_property": "array?"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "inventory_update"
+        ]
+      },
+      {
+        "tool": "listing.personalization_delete",
+        "summary": "Deletes personalization for a listing. Required: shop_id, listing_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "personalization_delete"
+        ]
+      },
+      {
+        "tool": "listing.personalization_get",
+        "summary": "Retrieves a listing's personalization questions by listing ID. Required: listing_id. Returns array of EtsyModulesListingPersonalizationApiResourcesOpenApiPersonalizationQuestion.",
+        "params_schema": {
+          "listing_id": "string"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "personalization_get"
+        ]
+      },
+      {
+        "tool": "listing.personalization_update",
+        "summary": "Creates or updates personalization settings for a listing, allowing the seller to collect personalization from the buyer. This endpoint will fully replace any existing personalization on the listing. Required: shop_id, listing_id, personalization_questions. Optional: supports_multiple_personalization_questions. Returns array of EtsyModulesListingPersonalizationApiResourcesOpenApiPersonalizationQuestion.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "supports_multiple_personalization_questions": "bool?",
+          "personalization_questions": "array?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "personalization_update"
+        ]
+      },
+      {
+        "tool": "listing.translations_create",
+        "summary": "Creates a ListingTranslation by listing_id and language. Required: shop_id, listing_id, language, description, title. Optional: tags. Returns the new ListingTranslation.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "language": "string",
+          "description": "string?",
+          "tags": "array?",
+          "title": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "language"
+        ],
+        "argv_path": [
+          "listing",
+          "translations_create"
+        ]
+      },
+      {
+        "tool": "listing.translations_get",
+        "summary": "Get a Translation for a Listing in the given language. Required: shop_id, listing_id, language. Returns the ListingTranslation.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "language": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "language"
+        ],
+        "argv_path": [
+          "listing",
+          "translations_get"
+        ]
+      },
+      {
+        "tool": "listing.translations_update",
+        "summary": "Updates a ListingTranslation by listing_id and language. Required: shop_id, listing_id, language, description, title. Optional: tags. Returns the updated ListingTranslation.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "language": "string",
+          "description": "string?",
+          "tags": "array?",
+          "title": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "language"
+        ],
+        "argv_path": [
+          "listing",
+          "translations_update"
+        ]
+      },
+      {
+        "tool": "listing.variation_images_get",
+        "summary": "Gets all variation images on a listing. Required: shop_id, listing_id. Returns array of ListingVariationImage.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "variation_images_get"
+        ]
+      },
+      {
+        "tool": "listing.variation_images_update-variation-images",
+        "summary": "Creates variation images on a listing. `variation_images` is an array with inputs for the `property_id`, `value_id`, and `image_id` fields. `image_ids` are associated with a `ListingImage` on the listing associated with the provided `listing_id`. `property_id` and `value_id` pairs are associated with a `ListingProduct` on the listing associated with the provided `listing_id`. `variation_images` should not contain any duplicates. `variation_images` does not contain more than one `property_id` as variation images can only be associated on one property. The update overwrites all existing variation images on a listing, so if your request is successful, the variation images on the listing will be exactly those you specify. Required: shop_id, listing_id, variation_images. Returns array of ListingVariationImage.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "variation_images": "array?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "variation_images_update-variation-images"
+        ]
+      },
+      {
+        "tool": "listing.videos_delete",
+        "summary": "Open API V3 endpoint to delete a listing video. A copy of the video remains on our servers, and so a deleted video may be re-associated with the listing without re-uploading the original video; see uploadListingVideo. Required: shop_id, listing_id, video_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "video_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "video_id"
+        ],
+        "argv_path": [
+          "listing",
+          "videos_delete"
+        ]
+      },
+      {
+        "tool": "listing.videos_get",
+        "summary": "Retrieves all listing video resources for a listing with a specific listing ID. Required: listing_id. Returns array of ListingVideosGetItem.",
+        "params_schema": {
+          "listing_id": "string"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "videos_get"
+        ]
+      },
+      {
+        "tool": "listing.videos_get-listings",
+        "summary": "Retrieves a single video associated with the given listing. Requesting a video from a listing returns an empty result. Required: video_id, listing_id.",
+        "params_schema": {
+          "video_id": "string",
+          "listing_id": "string"
+        },
+        "positionals": [
+          "video_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "videos_get-listings"
+        ]
+      },
+      {
+        "tool": "listing.videos_upload",
+        "summary": "Uploads a new video for a listing, or associates an existing video with a specific listing. You must either provide the `video_id` of an existing video, or the name and binary file data for a video to upload. If providing a `video_id`, the video must already be associated with the same shop as the listing, but it does not need to be currently associated with the listing. It's important to consider there is a rate limiting to perform 10 uploads per listing per day. Required: shop_id, listing_id. Optional: name, video, video_id. Returns the new ListingVideo.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "name": "string?",
+          "video": "string?",
+          "video_id": "int?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listing",
+          "videos_upload"
+        ]
+      },
+      {
+        "tool": "listings.delete",
+        "summary": "Open API V3 endpoint to delete a ShopListing. A ShopListing can be deleted only if the state is one of the following: SOLD_OUT, DRAFT, EXPIRED, INACTIVE, ACTIVE and is_available or ACTIVE and has seller flags: SUPRESSED (frozen), VACATION, CUSTOM_SHOPS (pattern), SELL_ON_FACEBOOK. Required: listing_id. Destructive.",
+        "params_schema": {
+          "listing_id": "string"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "listings"
+        ]
+      },
+      {
+        "tool": "listings.create-draft",
+        "summary": "Creates a physical draft [listing](/documentation/reference#tag/ShopListing) product in a shop on the Etsy channel. Required: shop_id, description, price, quantity, taxonomy_id, title, when_made, who_made. Optional: ecgt_after_sales_service_info, ecgt_garan_brand, ecgt_garan_guarantee_details (plus 32 more). Returns the new ShopListing.",
+        "params_schema": {
+          "shop_id": "string",
+          "description": "string?",
+          "ecgt_after_sales_service_info": "string?",
+          "ecgt_garan_brand": "string?",
+          "ecgt_garan_guarantee_details": "string?",
+          "ecgt_garan_model": "string?",
+          "ecgt_garan_years": "int?",
+          "ecgt_other_commercial_guarantee_details": "string?",
+          "ecgt_software_update_details": "string?",
+          "gpsr_manufacturer_id": "int?",
+          "gpsr_manufacturer_type": "string?",
+          "gpsr_responsible_person_id": "int?",
+          "gpsr_responsible_person_type": "string?",
+          "gpsr_safety_warnings": "string?",
+          "gpsr_serial_number": "string?",
+          "image_ids": "array?",
+          "is_customizable": "bool?",
+          "is_supply": "bool?",
+          "is_taxable": "bool?",
+          "item_dimensions_unit": "string?",
+          "item_height": "float?",
+          "item_length": "float?",
+          "item_weight": "float?",
+          "item_weight_unit": "string?",
+          "item_width": "float?",
+          "materials": "array?",
+          "price": "float?",
+          "processing_max": "int?",
+          "processing_min": "int?",
+          "production_partner_ids": "array?",
+          "quantity": "int?",
+          "readiness_state_id": "int?",
+          "return_policy_id": "int?",
+          "shipping_profile_id": "int?",
+          "shop_section_id": "int?",
+          "should_auto_renew": "bool?",
+          "styles": "array?",
+          "tags": "array?",
+          "taxonomy_id": "int?",
+          "title": "string?",
+          "type": "string?",
+          "when_made": "string?",
+          "who_made": "string?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "listings",
+          "create-draft"
+        ]
+      },
+      {
+        "tool": "listings.delete-property",
+        "summary": "Deletes a property for a Listing. Required: shop_id, listing_id, property_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "property_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "property_id"
+        ],
+        "argv_path": [
+          "listings",
+          "delete-property"
+        ]
+      },
+      {
+        "tool": "listings.find-all-active",
+        "summary": "A list of all active listings on Etsy paginated by their creation date. Without sort_order listings will be returned newest-first by default. Optional: limit (default: 25), offset (default: 0), keywords (plus 9 more). Returns array of ListingsFindAllActiveItem.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?",
+          "keywords": "string?",
+          "sort_on": "string?",
+          "sort_order": "string?",
+          "min_price": "float?",
+          "max_price": "float?",
+          "taxonomy_id": "int?",
+          "shop_location": "string?",
+          "is_safe": "bool?",
+          "currency": "string?",
+          "buyer_country": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "find-all-active"
+        ]
+      },
+      {
+        "tool": "listings.find-all-active-by-shop",
+        "summary": "Retrieves a list of all active listings on Etsy in a specific shop, paginated by listing creation date. Required: shop_id. Optional: limit (default: 25), sort_on (default: created), sort_order (default: desc) (plus 2 more). Returns array of ListingsFindAllActiveByShopItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "limit": "int?",
+          "sort_on": "string?",
+          "sort_order": "string?",
+          "offset": "int?",
+          "keywords": "string?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "listings",
+          "find-all-active-by-shop"
+        ]
+      },
+      {
+        "tool": "listings.get",
+        "summary": "Retrieves a listing record by listing ID. Inactive, draft, and expired listings are visible only to the listing's owner, using an access token with the listings_r scope. Required: listing_id. Optional: includes, language, allow_suggested_title. Returns the ShopListingWithAssociations.",
+        "params_schema": {
+          "listing_id": "string",
+          "includes": "array?",
+          "language": "string?",
+          "allow_suggested_title": "bool?"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "listings",
+          "get"
+        ]
+      },
+      {
+        "tool": "listings.get-by-ids",
+        "summary": "Allows to query multiple listing ids at once. Limit 100 ids maximum per query. Inactive, draft, and expired listings are returned only to the listing's owner, using an access token with the listings_r scope, and are omitted from the results for everyone else. Required: listing_ids. Optional: includes, legacy, currency (plus 1 more). Returns array of ListingsGetByIdsItem.",
+        "params_schema": {
+          "listing_ids": "array?",
+          "includes": "array?",
+          "legacy": "bool?",
+          "currency": "string?",
+          "buyer_country": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "get-by-ids"
+        ]
+      },
+      {
+        "tool": "listings.get-by-shop",
+        "summary": "Endpoint to list Listings that belong to a Shop. Listings can be filtered using the 'state' param. Required: shop_id. Optional: state (default: active), limit (default: 25), offset (default: 0) (plus 3 more). Returns array of ListingsGetByShopItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "state": "string?",
+          "limit": "int?",
+          "offset": "int?",
+          "sort_on": "string?",
+          "sort_order": "string?",
+          "includes": "array?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "listings",
+          "get-by-shop"
+        ]
+      },
+      {
+        "tool": "listings.get-by-shop-receipt",
+        "summary": "Gets all listings associated with a receipt. Required: receipt_id, shop_id. Optional: limit (default: 25), offset (default: 0), legacy. Returns array of ListingsGetByShopReceiptItem.",
+        "params_schema": {
+          "receipt_id": "string",
+          "shop_id": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "receipt_id",
+          "shop_id"
+        ],
+        "argv_path": [
+          "listings",
+          "get-by-shop-receipt"
+        ]
+      },
+      {
+        "tool": "listings.get-by-shop-return-policy",
+        "summary": "Gets all listings associated with a Return Policy. Required: return_policy_id, shop_id. Optional: legacy. Returns array of ListingsGetByShopReturnPolicyItem.",
+        "params_schema": {
+          "return_policy_id": "string",
+          "shop_id": "string",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "return_policy_id",
+          "shop_id"
+        ],
+        "argv_path": [
+          "listings",
+          "get-by-shop-return-policy"
+        ]
+      },
+      {
+        "tool": "listings.get-by-shop-section-id",
+        "summary": "Retrieves all the listings from the section of a specific shop. Required: shop_id, shop_section_ids. Optional: limit (default: 25), offset (default: 0), sort_on (default: created) (plus 2 more). Returns array of ListingsGetByShopSectionIdItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "shop_section_ids": "array?",
+          "limit": "int?",
+          "offset": "int?",
+          "sort_on": "string?",
+          "sort_order": "string?",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "listings",
+          "get-by-shop-section-id"
+        ]
+      },
+      {
+        "tool": "listings.get-featured-by-shop",
+        "summary": "Retrieves Listings associated to a Shop that are featured. Required: shop_id. Optional: limit (default: 25), offset (default: 0), legacy. Returns array of ListingsGetFeaturedByShopItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "listings",
+          "get-featured-by-shop"
+        ]
+      },
+      {
+        "tool": "listings.get-properties",
+        "summary": "Get a listing's properties. Required: shop_id, listing_id. Returns array of ListingPropertyValue.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listings",
+          "get-properties"
+        ]
+      },
+      {
+        "tool": "listings.get-property",
+        "summary": "Development for this endpoint is in progress. It will only return a 501 response. Retrieves a listing's property. Required: listing_id, property_id. Returns the ListingPropertyValue.",
+        "params_schema": {
+          "listing_id": "string",
+          "property_id": "string"
+        },
+        "positionals": [
+          "listing_id",
+          "property_id"
+        ],
+        "argv_path": [
+          "listings",
+          "get-property"
+        ]
+      },
+      {
+        "tool": "listings.get-shipping-by-ids",
+        "summary": "Retrieves the shipping profile for each listing referenced by listing ID. Requires the `shops_r` OAuth scope. Limit 100 listing IDs per request. All requested listing IDs must exist \u2014 if any single ID is not found, the entire request returns a 404. Shipping profile data (including `shipping_profile_id`) is only returned for listings owned by the authenticated user; it is nulled out for listings owned by other sellers. Required: listing_ids.",
+        "params_schema": {
+          "listing_ids": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "listings",
+          "get-shipping-by-ids"
+        ]
+      },
+      {
+        "tool": "listings.update",
+        "summary": "Updates a listing, identified by a listing ID, for a specific shop identified by a shop ID. Note that this is a PATCH method type. When activating, or manually renewing a physical listing, the shipping profile referenced by the `shipping_profile_id`, and all of its fields, along with its entries and upgrades must be complete and valid. If the shipping profile is not complete and valid, we will throw an exception with an error message that guides the request sender to update whatever data is bad. Digital listings that are not made to order must have a file upload associated with it to be activated. While the listing is a draft, shipping profile and file upload are not required in any case. Required: shop_id, listing_id. Optional: description, ecgt_after_sales_service_info, ecgt_garan_brand (plus 33 more). Returns the updated ShopListing.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "description": "string?",
+          "ecgt_after_sales_service_info": "string?",
+          "ecgt_garan_brand": "string?",
+          "ecgt_garan_guarantee_details": "string?",
+          "ecgt_garan_model": "string?",
+          "ecgt_garan_years": "int?",
+          "ecgt_other_commercial_guarantee_details": "string?",
+          "ecgt_software_update_details": "string?",
+          "gpsr_manufacturer_id": "int?",
+          "gpsr_manufacturer_type": "string?",
+          "gpsr_responsible_person_id": "int?",
+          "gpsr_responsible_person_type": "string?",
+          "gpsr_safety_warnings": "string?",
+          "gpsr_serial_number": "string?",
+          "image_ids": "array?",
+          "is_supply": "bool?",
+          "is_taxable": "bool?",
+          "item_dimensions_unit": "string?",
+          "item_height": "float?",
+          "item_length": "float?",
+          "item_weight": "float?",
+          "item_weight_unit": "string?",
+          "item_width": "float?",
+          "materials": "array?",
+          "production_partner_ids": "array?",
+          "return_policy_id": "int?",
+          "shipping_profile_id": "int?",
+          "shop_section_id": "int?",
+          "should_auto_renew": "bool?",
+          "state": "string?",
+          "tags": "array?",
+          "taxonomy_id": "int?",
+          "title": "string?",
+          "type": "string?",
+          "when_made": "string?",
+          "who_made": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "listings",
+          "update"
+        ]
+      },
+      {
+        "tool": "listings.update-property",
+        "summary": "Updates or populates the properties list defining product offerings for a listing. Each offering requires both a `value` and a `value_id` that are valid for a `scale_id` assigned to the listing or that you assign to the listing with this request. Required: shop_id, listing_id, property_id, value_ids, values. Optional: scale_id. Returns the updated ListingPropertyValue.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "property_id": "string",
+          "scale_id": "int?",
+          "value_ids": "array?",
+          "values": "array?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id",
+          "property_id"
+        ],
+        "argv_path": [
+          "listings",
+          "update-property"
+        ]
+      },
+      {
+        "tool": "payments.get",
+        "summary": "Retrieves a list of payments from a shop identified by `shop_id`. You can also filter results using a list of payment IDs. Required: shop_id, payment_ids. Returns array of PaymentsGetItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "payment_ids": "array?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "payments"
+        ]
+      },
+      {
+        "tool": "payments.get-account-ledger-entry",
+        "summary": "Get a Payment from a PaymentAccount Ledger Entry ID, if applicable. Required: shop_id, ledger_entry_ids. Returns array of PaymentsGetAccountLedgerEntryItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "ledger_entry_ids": "array?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "payments",
+          "get-account-ledger-entry"
+        ]
+      },
+      {
+        "tool": "payments.get-shop-by-receipt-id",
+        "summary": "Retrieves a payment from a specific receipt, identified by `receipt_id`, from a specific shop, identified by `shop_id`. Required: shop_id, receipt_id. Returns array of PaymentsGetShopByReceiptIdItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "receipt_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "receipt_id"
+        ],
+        "argv_path": [
+          "payments",
+          "get-shop-by-receipt-id"
+        ]
+      },
+      {
+        "tool": "processing.profiles_create-shop-readiness-state-definition",
+        "summary": "Creates a new ReadinessStateDefinition. If an existing definition matches the input values, this endpoint will throw a Conflict error, please refer to the Content-Location header to obtain the get endpoint url for the values of the existing definition. Does not affect the product offering-readiness states definition relationship. Required: shop_id, max_processing_time, min_processing_time, readiness_state. Optional: processing_time_unit (default: days). Returns the new ShopProcessingProfile.",
+        "params_schema": {
+          "shop_id": "string",
+          "max_processing_time": "int?",
+          "min_processing_time": "int?",
+          "processing_time_unit": "string?",
+          "readiness_state": "string?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "processing",
+          "profiles_create-shop-readiness-state-definition"
+        ]
+      },
+      {
+        "tool": "processing.profiles_delete-shop-readiness-state-definition",
+        "summary": "Deletes a ReadinessStateDefinition by given readiness state definition ID. If there any active offerings linked to the definition, this endpoint will throw a Bad Request error. If you want to delete a ReadinessStateDefinition that is linked to active offerings, you must link the offerings to a different readiness state definition. Required: shop_id, readiness_state_definition_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "readiness_state_definition_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "readiness_state_definition_id"
+        ],
+        "argv_path": [
+          "processing",
+          "profiles_delete-shop-readiness-state-definition"
+        ]
+      },
+      {
+        "tool": "processing.profiles_get-shop-readiness-state-definition",
+        "summary": "Retrieves a ProcessingProfile referenced by readiness state definition ID. Required: shop_id, readiness_state_definition_id. Returns the ShopProcessingProfile.",
+        "params_schema": {
+          "shop_id": "string",
+          "readiness_state_definition_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "readiness_state_definition_id"
+        ],
+        "argv_path": [
+          "processing",
+          "profiles_get-shop-readiness-state-definition"
+        ]
+      },
+      {
+        "tool": "processing.profiles_get-shop-readiness-state-definitions",
+        "summary": "Retrieves a list of ProcessingProfiles available in the specific Etsy shop identified by its shop ID. Required: shop_id. Optional: limit (default: 25), offset (default: 0). Returns array of ShopProcessingProfile.",
+        "params_schema": {
+          "shop_id": "string",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "processing",
+          "profiles_get-shop-readiness-state-definitions"
+        ]
+      },
+      {
+        "tool": "processing.profiles_update-shop-readiness-state-definition",
+        "summary": "Updates an existing ReadinessStateDefinition. If an existing definition matches the input values, this endpoint will throw a Conflict error, please refer to the Content-Location header to obtain the get endpoint url for the values of the existing definition. Does not affect the product offering-readiness states definition relationship. Required: shop_id, readiness_state_definition_id. Optional: max_processing_time, min_processing_time, processing_time_unit (default: days) (plus 1 more). Returns the updated ShopProcessingProfile.",
+        "params_schema": {
+          "shop_id": "string",
+          "readiness_state_definition_id": "string",
+          "max_processing_time": "int?",
+          "min_processing_time": "int?",
+          "processing_time_unit": "string?",
+          "readiness_state": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "readiness_state_definition_id"
+        ],
+        "argv_path": [
+          "processing",
+          "profiles_update-shop-readiness-state-definition"
+        ]
+      },
+      {
+        "tool": "production.partners_get-shop",
+        "summary": "Retrieves a list of production partners available in the specific Etsy shop identified by its shop ID. Required: shop_id. Returns array of ProductionPartnersGetShopItem.",
+        "params_schema": {
+          "shop_id": "string"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "production",
+          "partners_get-shop"
+        ]
+      },
+      {
+        "tool": "receipts.create-shipment",
+        "summary": "Submits tracking information for a Shop Receipt, which creates a Shop Receipt Shipment entry for the given receipt_id. Each time you successfully submit tracking info, Etsy sends a notification email to the buyer User. When send_bcc is true, Etsy sends shipping notifications to the seller as well. When tracking_code and carrier_name aren't sent, the receipt is marked as shipped only. If the carrier is not supported, you may use `other` as the carrier name so you can provide the tracking code. **NOTES** When shipping within the United States AND the order is over $10 _or_ when shipping to India, tracking code and carrier name ARE required. **ACCESS RESTRICTION** In regions where Etsy's Preferred Partner Program is enforced, this endpoint is only available to applications that are approved fulfillment partners. Requests from other applications return `403 Forbidden`, even when the API key is valid, the OAuth token has the `transactions_w` scope and other receipt endpoints respond successfully. A request is authorized if the application is a commercial-access application categorized as Fulfillment or Print On Demand, if it is a personal-use application owned by the authenticated seller, or if the seller authorized the application before the Preferred Partner Program launched in their region. If your application doesn't meet these criteria, contact Etsy API support to ask about partner eligibility. Access to ShopReceipt's first_line, second_line, city, state, zip, country_iso and formatted_address is contingent in some regions to a preferred partnership status with Etsy. Required: shop_id, receipt_id. Optional: legacy, carrier_name, customs_data (plus 19 more). Returns the new ShopReceipt.",
+        "params_schema": {
+          "shop_id": "string",
+          "receipt_id": "string",
+          "legacy": "bool?",
+          "carrier_name": "string?",
+          "customs_data": "array?",
+          "dimension_units": "string?",
+          "duty_amount": "float?",
+          "duty_currency": "string?",
+          "height": "float?",
+          "incoterm": "string?",
+          "length": "float?",
+          "mail_class": "string?",
+          "note_to_buyer": "string?",
+          "revenue_eligibility": "string?",
+          "send_bcc": "bool?",
+          "ship_date": "string?",
+          "ship_from_country": "string?",
+          "ship_to_country": "string?",
+          "shipping_label_cost": "float?",
+          "shipping_label_currency": "string?",
+          "tracking_code": "string?",
+          "weight": "float?",
+          "weight_units": "string?",
+          "width": "float?"
+        },
+        "positionals": [
+          "shop_id",
+          "receipt_id"
+        ],
+        "argv_path": [
+          "receipts",
+          "create-shipment"
+        ]
+      },
+      {
+        "tool": "receipts.get-shop",
+        "summary": "Requests the Shop Receipts from a specific Shop, unfiltered or filtered by receipt id range or offset, date, paid, and/or shipped purchases. **NOTE** Access to ShopReceipt's first_line, second_line, city, state, zip, country_iso and formatted_address is contingent in some regions to a preferred partnership status with Etsy. Required: shop_id. Optional: min_created, max_created, min_last_modified (plus 10 more). Returns array of ReceiptsGetShopItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "min_created": "int?",
+          "max_created": "int?",
+          "min_last_modified": "int?",
+          "max_last_modified": "int?",
+          "limit": "int?",
+          "offset": "int?",
+          "sort_on": "string?",
+          "sort_order": "string?",
+          "was_paid": "bool?",
+          "was_shipped": "bool?",
+          "was_delivered": "bool?",
+          "was_canceled": "bool?",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "receipts",
+          "get-shop"
+        ]
+      },
+      {
+        "tool": "receipts.get-shop-shops",
+        "summary": "Retrieves a receipt, identified by a receipt id, from an Etsy shop. **NOTE** Access to ShopReceipt's first_line, second_line, city, state, zip, country_iso and formatted_address is contingent in some regions to a preferred partnership status with Etsy. Required: shop_id, receipt_id. Optional: legacy. Returns the ShopReceipt.",
+        "params_schema": {
+          "shop_id": "string",
+          "receipt_id": "string",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "shop_id",
+          "receipt_id"
+        ],
+        "argv_path": [
+          "receipts",
+          "get-shop-shops"
+        ]
+      },
+      {
+        "tool": "receipts.update-shop",
+        "summary": "Updates the status of a receipt, identified by a receipt id, from an Etsy shop. **NOTE** Access to ShopReceipt's first_line, second_line, city, state, zip, country_iso and formatted_address is contingent in some regions to a preferred partnership status with Etsy. Required: shop_id, receipt_id. Optional: legacy, was_paid, was_shipped. Returns the updated ShopReceipt.",
+        "params_schema": {
+          "shop_id": "string",
+          "receipt_id": "string",
+          "legacy": "bool?",
+          "was_paid": "bool?",
+          "was_shipped": "bool?"
+        },
+        "positionals": [
+          "shop_id",
+          "receipt_id"
+        ],
+        "argv_path": [
+          "receipts",
+          "update-shop"
+        ]
+      },
+      {
+        "tool": "return.policies_consolidate-shop",
+        "summary": "Consolidates Return Policies by moving all listings from a source return policy to a destination return policy, and deleting the source return policy. This is commonly used in the event that a user attempts to update a Return Policy such that its data is a duplicate of some other Return Policy, which is prevented. Required: shop_id, destination_return_policy_id, source_return_policy_id. Returns the new ShopReturnPolicy.",
+        "params_schema": {
+          "shop_id": "string",
+          "destination_return_policy_id": "int?",
+          "source_return_policy_id": "int?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "return",
+          "policies_consolidate-shop"
+        ]
+      },
+      {
+        "tool": "return.policies_create-shop-return-policy",
+        "summary": "Creates a new Return Policy. Note: if either accepts_returns or accepts_exchanges is true, then a return_deadline is required. Required: shop_id, accepts_exchanges, accepts_returns. Optional: return_deadline.",
+        "params_schema": {
+          "shop_id": "string",
+          "accepts_exchanges": "bool?",
+          "accepts_returns": "bool?",
+          "return_deadline": "int?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "return",
+          "policies_create-shop-return-policy"
+        ]
+      },
+      {
+        "tool": "return.policies_delete-shop-return-policy",
+        "summary": "Deletes an existing Return Policy. Deletion is only allowed for policies which have no associated listings \u2013 move them to another policy before attempting deletion. Required: shop_id, return_policy_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "return_policy_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "return_policy_id"
+        ],
+        "argv_path": [
+          "return",
+          "policies_delete-shop-return-policy"
+        ]
+      },
+      {
+        "tool": "return.policies_get-shop",
+        "summary": "Returns a shop's list of existing Return Policies. Required: shop_id.",
+        "params_schema": {
+          "shop_id": "string"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "return",
+          "policies_get-shop"
+        ]
+      },
+      {
+        "tool": "return.policies_get-shop-return-policy",
+        "summary": "Retrieves an existing Return Policy. Required: shop_id, return_policy_id. Returns the ShopReturnPolicy.",
+        "params_schema": {
+          "shop_id": "string",
+          "return_policy_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "return_policy_id"
+        ],
+        "argv_path": [
+          "return",
+          "policies_get-shop-return-policy"
+        ]
+      },
+      {
+        "tool": "return.policies_update-shop-return-policy",
+        "summary": "Updates an existing Return Policy. Note: if either accepts_returns or accepts_exchanges is true, then a return_deadline is required. Required: shop_id, return_policy_id, accepts_exchanges, accepts_returns. Optional: return_deadline.",
+        "params_schema": {
+          "shop_id": "string",
+          "return_policy_id": "string",
+          "accepts_exchanges": "bool?",
+          "accepts_returns": "bool?",
+          "return_deadline": "int?"
+        },
+        "positionals": [
+          "shop_id",
+          "return_policy_id"
+        ],
+        "argv_path": [
+          "return",
+          "policies_update-shop-return-policy"
+        ]
+      },
+      {
+        "tool": "reviews.get-by-listing",
+        "summary": "Open API V3 to retrieve the reviews for a listing given its ID. Required: listing_id. Optional: limit (default: 25), offset (default: 0), min_created (plus 1 more). Returns array of ReviewsGetByListingItem.",
+        "params_schema": {
+          "listing_id": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "min_created": "int?",
+          "max_created": "int?"
+        },
+        "positionals": [
+          "listing_id"
+        ],
+        "argv_path": [
+          "reviews",
+          "get-by-listing"
+        ]
+      },
+      {
+        "tool": "reviews.get-by-shop",
+        "summary": "Open API V3 to retrieve the reviews from a shop given its ID. Required: shop_id. Optional: limit (default: 25), offset (default: 0), min_created (plus 1 more). Returns array of ReviewsGetByShopItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "min_created": "int?",
+          "max_created": "int?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "reviews",
+          "get-by-shop"
+        ]
+      },
+      {
+        "tool": "seller.taxonomy_get-nodes",
+        "summary": "Retrieves the full hierarchy tree of seller taxonomy nodes. Returns array of SellerTaxonomyGetNodesItem.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "seller",
+          "taxonomy_get-nodes"
+        ]
+      },
+      {
+        "tool": "seller.taxonomy_get-properties-by-taxonomy-id",
+        "summary": "Retrieves a list of product properties, with applicable scales and values, supported for a specific seller taxonomy ID. Required: taxonomy_id. Optional: supports_variations, supports_attributes. Returns array of SellerTaxonomyGetPropertiesByTaxonomyIdItem.",
+        "params_schema": {
+          "taxonomy_id": "string",
+          "supports_variations": "bool?",
+          "supports_attributes": "bool?"
+        },
+        "positionals": [
+          "taxonomy_id"
+        ],
+        "argv_path": [
+          "seller",
+          "taxonomy_get-properties-by-taxonomy-id"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_create-shop",
+        "summary": "Creates a new ShippingProfile. You can pass a country iso code or a region when creating a ShippingProfile, but not both. Only one is required. You must pass either a shipping_carrier_id AND mail_class, or both min and max_delivery_days. Required: shop_id, origin_country_iso, primary_cost, secondary_cost, title. Optional: destination_country_iso, destination_region (default: none), mail_class (plus 7 more). Returns the new ShopShippingProfile.",
+        "params_schema": {
+          "shop_id": "string",
+          "destination_country_iso": "string?",
+          "destination_region": "string?",
+          "mail_class": "string?",
+          "max_delivery_days": "int?",
+          "max_processing_time": "int?",
+          "min_delivery_days": "int?",
+          "min_processing_time": "int?",
+          "origin_country_iso": "string?",
+          "origin_postal_code": "string?",
+          "primary_cost": "float?",
+          "processing_time_unit": "string?",
+          "secondary_cost": "float?",
+          "shipping_carrier_id": "int?",
+          "title": "string?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_create-shop"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_create-shop-destination",
+        "summary": "Creates a new shipping destination, which sets the shipping cost, carrier, and class for a destination in a [shipping profile](/documentation/reference/#tag/Shop-ShippingProfile). createShopShippingProfileDestination assigns costs using the currency of the associated shop. Set the destination using either `destination_country_iso` or `destination_region`; `destination_country_iso` and `destination_region` are mutually exclusive \u2014 set one or the other. Setting both triggers error 400. If the request sets neither `destination_country_iso` nor `destination_region`, the default destination is 'everywhere'. You must also either assign both a `shipping_carrier_id` AND `mail_class` or both `min_delivery_days` AND `max_delivery_days`. Required: shop_id, shipping_profile_id, primary_cost, secondary_cost. Optional: destination_country_iso, destination_region (default: none), mail_class (plus 3 more). Returns the new ShopShippingProfileDestination.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string",
+          "destination_country_iso": "string?",
+          "destination_region": "string?",
+          "mail_class": "string?",
+          "max_delivery_days": "int?",
+          "min_delivery_days": "int?",
+          "primary_cost": "float?",
+          "secondary_cost": "float?",
+          "shipping_carrier_id": "int?"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_create-shop-destination"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_create-shop-upgrade",
+        "summary": "Creates a new shipping profile upgrade, which can establish a price for a shipping option, such as an alternate carrier or faster delivery. Required: shop_id, shipping_profile_id, price, secondary_price, type, upgrade_name. Optional: mail_class, max_delivery_days, min_delivery_days (plus 1 more). Returns the new ShopShippingProfileUpgrade.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string",
+          "mail_class": "string?",
+          "max_delivery_days": "int?",
+          "min_delivery_days": "int?",
+          "price": "float?",
+          "secondary_price": "float?",
+          "shipping_carrier_id": "int?",
+          "type": "int?",
+          "upgrade_name": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_create-shop-upgrade"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_delete-shop",
+        "summary": "Deletes a ShippingProfile by given id. Required: shop_id, shipping_profile_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_delete-shop"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_delete-shop-destination",
+        "summary": "Deletes a shipping destination and removes the destination option from every listing that uses the associated shipping profile. A shipping profile requires at least one shipping destination, so this endpoint cannot delete the final shipping destination for any shipping profile. To delete the final shipping destination from a shipping profile, you must [delete the entire shipping profile](/documentation/reference/#operation/deleteShopShippingProfile). Required: shop_id, shipping_profile_id, shipping_profile_destination_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string",
+          "shipping_profile_destination_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id",
+          "shipping_profile_destination_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_delete-shop-destination"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_delete-shop-upgrade",
+        "summary": "Deletes a shipping profile upgrade and removes the upgrade option from every listing that uses the associated shipping profile. Required: shop_id, shipping_profile_id, upgrade_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string",
+          "upgrade_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id",
+          "upgrade_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_delete-shop-upgrade"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_get-shipping-carriers",
+        "summary": "Retrieves a list of available shipping carriers and the mail classes associated with them for a given country. Required: origin_country_iso. Returns array of ShippingCarrier.",
+        "params_schema": {
+          "origin_country_iso": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "shipping",
+          "profiles_get-shipping-carriers"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_get-shop",
+        "summary": "Retrieves a list of shipping profiles available in the specific Etsy shop identified by its shop ID. Required: shop_id. Returns array of ShopShippingProfile.",
+        "params_schema": {
+          "shop_id": "string"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_get-shop"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_get-shop-destinations-by",
+        "summary": "Retrieves a list of shipping destination objects associated with a shipping profile. Required: shop_id, shipping_profile_id. Optional: limit (default: 25), offset (default: 0). Returns array of ShippingProfilesGetShopDestinationsByItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_get-shop-destinations-by"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_get-shop-shops",
+        "summary": "Retrieves a Shipping Profile referenced by shipping profile ID. Required: shop_id, shipping_profile_id. Returns the ShopShippingProfile.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_get-shop-shops"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_get-shop-upgrades",
+        "summary": "Retrieves the list of shipping profile upgrades assigned to a specific shipping profile. Required: shop_id, shipping_profile_id. Returns array of ShippingProfilesGetShopUpgradesItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_get-shop-upgrades"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_update-shop",
+        "summary": "Changes the settings in a shipping profile. You can pass a country iso code or a region when updating a ShippingProfile, but not both. Only one is required. You must pass either a shipping_carrier_id AND mail_class, or both min and max_delivery_days. Required: shop_id, shipping_profile_id. Optional: max_processing_time, min_processing_time, origin_country_iso (plus 3 more). Returns the updated ShopShippingProfile.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string",
+          "max_processing_time": "int?",
+          "min_processing_time": "int?",
+          "origin_country_iso": "string?",
+          "origin_postal_code": "string?",
+          "processing_time_unit": "string?",
+          "title": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_update-shop"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_update-shop-destination",
+        "summary": "Updates an existing shipping destination, which can set or reassign the shipping cost, carrier, and class for a destination. Required: shop_id, shipping_profile_id, shipping_profile_destination_id. Optional: destination_country_iso, destination_region (default: none), mail_class (plus 5 more). Returns the updated ShopShippingProfileDestination.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string",
+          "shipping_profile_destination_id": "string",
+          "destination_country_iso": "string?",
+          "destination_region": "string?",
+          "mail_class": "string?",
+          "max_delivery_days": "int?",
+          "min_delivery_days": "int?",
+          "primary_cost": "float?",
+          "secondary_cost": "float?",
+          "shipping_carrier_id": "int?"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id",
+          "shipping_profile_destination_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_update-shop-destination"
+        ]
+      },
+      {
+        "tool": "shipping.profiles_update-shop-upgrade",
+        "summary": "Updates a shipping profile upgrade and updates any listings that use the shipping profile. Required: shop_id, shipping_profile_id, upgrade_id. Optional: mail_class, max_delivery_days, min_delivery_days (plus 5 more). Returns the updated ShopShippingProfileUpgrade.",
+        "params_schema": {
+          "shop_id": "string",
+          "shipping_profile_id": "string",
+          "upgrade_id": "string",
+          "mail_class": "string?",
+          "max_delivery_days": "int?",
+          "min_delivery_days": "int?",
+          "price": "float?",
+          "secondary_price": "float?",
+          "shipping_carrier_id": "int?",
+          "type": "int?",
+          "upgrade_name": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "shipping_profile_id",
+          "upgrade_id"
+        ],
+        "argv_path": [
+          "shipping",
+          "profiles_update-shop-upgrade"
+        ]
+      },
+      {
+        "tool": "shop.sections_create",
+        "summary": "Creates a new section in a specific shop. Required: shop_id, title. Returns the new ShopSection.",
+        "params_schema": {
+          "shop_id": "string",
+          "title": "string?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "shop",
+          "sections_create"
+        ]
+      },
+      {
+        "tool": "shop.sections_delete",
+        "summary": "Deletes a section in a specific shop given a valid shop_section_id. Required: shop_id, shop_section_id. Destructive.",
+        "params_schema": {
+          "shop_id": "string",
+          "shop_section_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "shop_section_id"
+        ],
+        "argv_path": [
+          "shop",
+          "sections_delete"
+        ]
+      },
+      {
+        "tool": "shop.sections_get",
+        "summary": "Retrieves the list of shop sections in a specific shop identified by shop ID. Required: shop_id. Returns array of ShopSectionsGetItem.",
+        "params_schema": {
+          "shop_id": "string"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "shop",
+          "sections_get"
+        ]
+      },
+      {
+        "tool": "shop.sections_get-shops",
+        "summary": "Retrieves a shop section, referenced by section ID and shop ID. Required: shop_id, shop_section_id. Returns the ShopSection.",
+        "params_schema": {
+          "shop_id": "string",
+          "shop_section_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "shop_section_id"
+        ],
+        "argv_path": [
+          "shop",
+          "sections_get-shops"
+        ]
+      },
+      {
+        "tool": "shop.sections_update",
+        "summary": "Updates a section in a specific shop given a valid shop_section_id. Required: shop_id, shop_section_id, title. Returns the updated ShopSection.",
+        "params_schema": {
+          "shop_id": "string",
+          "shop_section_id": "string",
+          "title": "string?"
+        },
+        "positionals": [
+          "shop_id",
+          "shop_section_id"
+        ],
+        "argv_path": [
+          "shop",
+          "sections_update"
+        ]
+      },
+      {
+        "tool": "shops.get",
+        "summary": "Retrieves the shop identified by a specific shop ID. Required: shop_id. Returns the Shop.",
+        "params_schema": {
+          "shop_id": "string"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "shops"
+        ]
+      },
+      {
+        "tool": "shops.find",
+        "summary": "Open API V3 endpoint for searching shops by name. Note: We make every effort to ensure that frozen or removed shops are not included in the search results. However, rarely, due to timing issues, they may appear. Required: shop_name. Optional: limit (default: 25), offset (default: 0). Returns array of ShopsFindItem.",
+        "params_schema": {
+          "shop_name": "string?",
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "shops",
+          "find"
+        ]
+      },
+      {
+        "tool": "shops.get-by-owner-user-id",
+        "summary": "Retrieves the shop identified by the shop owner's user ID. Required: user_id. Returns the Shop.",
+        "params_schema": {
+          "user_id": "string"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "shops",
+          "get-by-owner-user-id"
+        ]
+      },
+      {
+        "tool": "shops.update",
+        "summary": "Updates a shop. Assumes that all string parameters are provided in the shop's primary language. Please note that the policy_additional field should only be set for shops located in the EU. Passing a value for this field for shops outside of the EU, will result in an error. Required: shop_id. Optional: announcement, digital_sale_message, policy_additional (plus 2 more). Returns the updated Shop.",
+        "params_schema": {
+          "shop_id": "string",
+          "announcement": "string?",
+          "digital_sale_message": "string?",
+          "policy_additional": "string?",
+          "sale_message": "string?",
+          "title": "string?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "shops",
+          "update"
+        ]
+      },
+      {
+        "tool": "transactions.get-shop-receipt",
+        "summary": "Retrieves a transaction by transaction ID. Required: shop_id, transaction_id. Returns the ShopReceiptTransaction.",
+        "params_schema": {
+          "shop_id": "string",
+          "transaction_id": "string"
+        },
+        "positionals": [
+          "shop_id",
+          "transaction_id"
+        ],
+        "argv_path": [
+          "transactions",
+          "get-shop-receipt"
+        ]
+      },
+      {
+        "tool": "transactions.get-shop-receipt-by-listing",
+        "summary": "Retrieves the list of transactions associated with a listing. Required: shop_id, listing_id. Optional: limit (default: 25), offset (default: 0), legacy. Returns array of TransactionsGetShopReceiptByListingItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "listing_id": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "shop_id",
+          "listing_id"
+        ],
+        "argv_path": [
+          "transactions",
+          "get-shop-receipt-by-listing"
+        ]
+      },
+      {
+        "tool": "transactions.get-shop-receipt-by-receipt",
+        "summary": "Retrieves the list of transactions associated with a specific receipt. Required: shop_id, receipt_id. Optional: legacy. Returns array of TransactionsGetShopReceiptByReceiptItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "receipt_id": "string",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "shop_id",
+          "receipt_id"
+        ],
+        "argv_path": [
+          "transactions",
+          "get-shop-receipt-by-receipt"
+        ]
+      },
+      {
+        "tool": "transactions.get-shop-receipt-by-shop",
+        "summary": "Retrieves the list of transactions associated with a shop. Required: shop_id. Optional: limit (default: 25), offset (default: 0), legacy. Returns array of TransactionsGetShopReceiptByShopItem.",
+        "params_schema": {
+          "shop_id": "string",
+          "limit": "int?",
+          "offset": "int?",
+          "legacy": "bool?"
+        },
+        "positionals": [
+          "shop_id"
+        ],
+        "argv_path": [
+          "transactions",
+          "get-shop-receipt-by-shop"
+        ]
+      },
+      {
+        "tool": "user.addresses_get",
+        "summary": "Open API V3 endpoint to retrieve UserAddresses for a User. Optional: limit (default: 25), offset (default: 0). Returns array of UserAddressesGetItem.",
+        "params_schema": {
+          "limit": "int?",
+          "offset": "int?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "user",
+          "addresses_get"
+        ]
+      },
+      {
+        "tool": "user.addresses_get-user-address",
+        "summary": "Open API V3 endpoint to retrieve a UserAddress for a User. Required: user_address_id. Returns the UserAddress.",
+        "params_schema": {
+          "user_address_id": "string"
+        },
+        "positionals": [
+          "user_address_id"
+        ],
+        "argv_path": [
+          "user",
+          "addresses_get-user-address"
+        ]
+      },
+      {
+        "tool": "users.get",
+        "summary": "Retrieves a user profile based on a unique user ID. Access is limited to profiles of the authenticated user or linked buyers. For the primary_email field, specific app-based permissions are required and granted case-by-case. Required: user_id. Returns the User.",
+        "params_schema": {
+          "user_id": "string"
+        },
+        "positionals": [
+          "user_id"
+        ],
+        "argv_path": [
+          "users"
+        ]
+      },
+      {
+        "tool": "users.get-me",
+        "summary": "Returns basic info for the user making the request.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "users",
+          "get-me"
+        ]
+      }
+    ]
+  },
+  {
     "api": "etsy-seller-dashboard",
     "description": "First-party Etsy demand and marketing evidence, reconciled locally.",
     "install_module": "github.com/mvanhorn/printing-press-library/library/commerce/etsy-seller-dashboard/cmd/etsy-seller-dashboard-pp-cli",
@@ -353996,6 +355975,455 @@
         "argv_path": [
           "stores",
           "list_by_type"
+        ]
+      }
+    ]
+  },
+  {
+    "api": "readwise",
+    "description": "Every Readwise and Reader feature, plus a local mirror of your whole library that you can search, triage and dedupe offline.",
+    "install_module": "github.com/mvanhorn/printing-press-library/library/productivity/readwise/cmd/readwise-pp-cli",
+    "auth_type": "api_key",
+    "category": "productivity",
+    "search_terms": [
+      "readwise",
+      "readwise-pp-cli",
+      "Every Readwise and Reader feature, plus a local mirror of your whole library that you can search, triage and dedupe offline.",
+      "Topic dossier",
+      "ask",
+      "Pull every highlight and saved-document passage you have on a topic into one source-attributed, note-ready result.",
+      "Reading backlog and time-budget triage",
+      "backlog",
+      "See your whole reading debt by location, estimated minutes and age, and pick what fits the time you have.",
+      "Cross-corpus duplicate detection",
+      "dedupe",
+      "Find the same article saved twice, or saved both as a Reader document and as a classic Readwise source.",
+      "Cross-source highlight digest",
+      "digest",
+      "Roll up everything you highlighted in a time window across your Readwise books, articles, tweets and podcasts, grouped by source.",
+      "Stale and orphan finder",
+      "triage stale",
+      "Surface forgotten, never-opened saved documents (as Reader IDs you can pass to documents bulk-update) and books with zero highlights.",
+      "What-to-read-next ranker",
+      "read-next",
+      "Get a short ranked shortlist of unread Reader documents that fit the minutes you have, favouring your preferred location and skipping ones you already started.",
+      "Serendipity connections",
+      "connections",
+      "Find items you read months apart that share tags, authors or distinctive terms, from one seed item or across the library.",
+      "Saved-query watches",
+      "watch",
+      "Save a query and see only the new matching documents and highlights since the last run.",
+      "Signed webhook delivery",
+      "webhook",
+      "Register https endpoints that receive new 'watch run --notify' matches, optionally HMAC-signed with a shared secret and SSRF-checked before delivery."
+    ],
+    "endpoints": [
+      {
+        "tool": "book-tags.create",
+        "summary": "Add a tag to a book. Required: book_id, name. Returns the new Tag.",
+        "params_schema": {
+          "book_id": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "book_id"
+        ],
+        "argv_path": [
+          "book-tags"
+        ]
+      },
+      {
+        "tool": "book-tags.delete",
+        "summary": "Remove a tag from a book. Required: book_id, tag_id. Destructive.",
+        "params_schema": {
+          "book_id": "string",
+          "tag_id": "string"
+        },
+        "positionals": [
+          "book_id",
+          "tag_id"
+        ],
+        "argv_path": [
+          "book-tags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "book-tags.get",
+        "summary": "Get a tag on a book. Required: book_id, tag_id. Returns the Tag.",
+        "params_schema": {
+          "book_id": "string",
+          "tag_id": "string"
+        },
+        "positionals": [
+          "book_id",
+          "tag_id"
+        ],
+        "argv_path": [
+          "book-tags",
+          "get"
+        ]
+      },
+      {
+        "tool": "book-tags.list",
+        "summary": "List tags on a book. Required: book_id. Returns array of Tag.",
+        "params_schema": {
+          "book_id": "string"
+        },
+        "positionals": [
+          "book_id"
+        ],
+        "argv_path": [
+          "book-tags",
+          "list"
+        ]
+      },
+      {
+        "tool": "book-tags.update",
+        "summary": "Rename a tag on a book. Required: book_id, tag_id, name. Returns the updated Tag.",
+        "params_schema": {
+          "book_id": "string",
+          "tag_id": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "book_id",
+          "tag_id"
+        ],
+        "argv_path": [
+          "book-tags",
+          "update"
+        ]
+      },
+      {
+        "tool": "books.get",
+        "summary": "Get a single book/source by ID. Required: id. Returns the Book.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "books"
+        ]
+      },
+      {
+        "tool": "books.list",
+        "summary": "List books/sources (rate-limited to 20 req/min; prefer 'sync' for bulk pulls). Page-based response: count, next, previous, results; follow next until null. Optional: page-size (default: 100), page, category (plus 5 more). Returns array of Book.",
+        "params_schema": {
+          "page-size": "int?",
+          "page": "int?",
+          "category": "string?",
+          "source": "string?",
+          "updated-after": "string?",
+          "updated-before": "string?",
+          "last-highlight-after": "string?",
+          "last-highlight-before": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "books",
+          "list"
+        ]
+      },
+      {
+        "tool": "books.update",
+        "summary": "Update a book/source. Required: id. Optional: title_override, author_override, category (plus 1 more). Returns the updated Book.",
+        "params_schema": {
+          "id": "string",
+          "title_override": "string?",
+          "author_override": "string?",
+          "category": "string?",
+          "cover_image": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "books",
+          "update"
+        ]
+      },
+      {
+        "tool": "documents.delete",
+        "summary": "Delete a Reader document; 20 req/min per token. Returns 204; also deletes all its highlights and notes. Use a dry-run and confirmation gate before deleting. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "documents"
+        ]
+      },
+      {
+        "tool": "documents.bulk-update",
+        "summary": "Update up to 50 documents in one request; 20 req/min per token. Returns {results: [...]}; 200 means all succeeded, 207 means partial success/per-item failure (print per-item errors without an error exit), 400 means bad payload. Required: updates.",
+        "params_schema": {
+          "updates": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "bulk-update"
+        ]
+      },
+      {
+        "tool": "documents.list",
+        "summary": "List Reader documents with filters (rate-limited to 20 req/min; prefer 'sync'). Optional: id, updated-after, location (plus 6 more). Returns array of Document.",
+        "params_schema": {
+          "id": "string?",
+          "updated-after": "string?",
+          "location": "string?",
+          "category": "string?",
+          "tag": "string?",
+          "limit": "int?",
+          "page-cursor": "string?",
+          "with-html-content": "bool?",
+          "with-raw-source-url": "bool?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "list"
+        ]
+      },
+      {
+        "tool": "documents.save",
+        "summary": "Save a document to Reader by URL (or HTML); 50 req/min per token. url is required unless parent_id is set. To create a highlight, supply parent_id and content; only category, content, notes, parent_id, saved_using, tags are accepted. A passage not found in the parent returns 400 and creates nothing. Optional: url, html, clean-html (plus 13 more).",
+        "params_schema": {
+          "url": "string?",
+          "html": "string?",
+          "clean-html": "bool?",
+          "title": "string?",
+          "author": "string?",
+          "summary": "string?",
+          "published-date": "string?",
+          "image-url": "string?",
+          "location": "string?",
+          "category": "string?",
+          "saved-using": "string?",
+          "tags": "array?",
+          "notes": "string?",
+          "language": "string?",
+          "parent_id": "string?",
+          "content": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "documents",
+          "save"
+        ]
+      },
+      {
+        "tool": "documents.update",
+        "summary": "Update fields on a Reader document; 50 req/min per token. For highlights only notes and tags are accepted; other keys return 400. Notes cannot be updated directly; update them on their highlight. Required: id. Optional: title, author, summary (plus 9 more). Returns the updated SaveResult.",
+        "params_schema": {
+          "id": "string",
+          "title": "string?",
+          "author": "string?",
+          "summary": "string?",
+          "published-date": "string?",
+          "image-url": "string?",
+          "seen": "bool?",
+          "location": "string?",
+          "category": "string?",
+          "tags": "array?",
+          "notes": "string?",
+          "language": "string?",
+          "reading_progress": "float?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "documents",
+          "update"
+        ]
+      },
+      {
+        "tool": "highlight-tags.create",
+        "summary": "Add a tag to a highlight. Required: highlight_id, name. Returns the new Tag.",
+        "params_schema": {
+          "highlight_id": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "highlight_id"
+        ],
+        "argv_path": [
+          "highlight-tags"
+        ]
+      },
+      {
+        "tool": "highlight-tags.delete",
+        "summary": "Remove a tag from a highlight. Required: highlight_id, tag_id. Destructive.",
+        "params_schema": {
+          "highlight_id": "string",
+          "tag_id": "string"
+        },
+        "positionals": [
+          "highlight_id",
+          "tag_id"
+        ],
+        "argv_path": [
+          "highlight-tags",
+          "delete"
+        ]
+      },
+      {
+        "tool": "highlight-tags.get",
+        "summary": "Get a tag on a highlight. Required: highlight_id, tag_id. Returns the Tag.",
+        "params_schema": {
+          "highlight_id": "string",
+          "tag_id": "string"
+        },
+        "positionals": [
+          "highlight_id",
+          "tag_id"
+        ],
+        "argv_path": [
+          "highlight-tags",
+          "get"
+        ]
+      },
+      {
+        "tool": "highlight-tags.list",
+        "summary": "List tags on a highlight. Required: highlight_id. Returns array of Tag.",
+        "params_schema": {
+          "highlight_id": "string"
+        },
+        "positionals": [
+          "highlight_id"
+        ],
+        "argv_path": [
+          "highlight-tags",
+          "list"
+        ]
+      },
+      {
+        "tool": "highlight-tags.update",
+        "summary": "Rename a tag on a highlight. Required: highlight_id, tag_id, name. Returns the updated Tag.",
+        "params_schema": {
+          "highlight_id": "string",
+          "tag_id": "string",
+          "name": "string?"
+        },
+        "positionals": [
+          "highlight_id",
+          "tag_id"
+        ],
+        "argv_path": [
+          "highlight-tags",
+          "update"
+        ]
+      },
+      {
+        "tool": "highlights.create",
+        "summary": "Create or upsert one or more highlights (creates source books/articles as needed). Dedupe key: title+author+text+source_url. Re-sending the same highlight_url with new text updates the highlight. Required: highlights. Returns array of Book.",
+        "params_schema": {
+          "highlights": "array?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "highlights"
+        ]
+      },
+      {
+        "tool": "highlights.delete",
+        "summary": "Delete a highlight. Required: id. Destructive.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "highlights",
+          "delete"
+        ]
+      },
+      {
+        "tool": "highlights.get",
+        "summary": "Get a single highlight by ID. Required: id. Returns the Highlight.",
+        "params_schema": {
+          "id": "string"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "highlights",
+          "get"
+        ]
+      },
+      {
+        "tool": "highlights.list",
+        "summary": "List highlights (rate-limited to 20 req/min; prefer 'sync' for bulk pulls). Page-based response: count, next, previous, results; follow next until null. Optional: page-size (default: 100), page, book-id (plus 4 more). Returns array of Highlight.",
+        "params_schema": {
+          "page-size": "int?",
+          "page": "int?",
+          "book-id": "int?",
+          "updated-after": "string?",
+          "updated-before": "string?",
+          "highlighted-after": "string?",
+          "highlighted-before": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "highlights",
+          "list"
+        ]
+      },
+      {
+        "tool": "highlights.update",
+        "summary": "Update fields on an existing highlight. Required: id. Optional: text, note, location (plus 2 more). Returns the updated Highlight.",
+        "params_schema": {
+          "id": "string",
+          "text": "string?",
+          "note": "string?",
+          "location": "string?",
+          "url": "string?",
+          "color": "string?"
+        },
+        "positionals": [
+          "id"
+        ],
+        "argv_path": [
+          "highlights",
+          "update"
+        ]
+      },
+      {
+        "tool": "reader-tags.list",
+        "summary": "List all Reader document tags (20 req/min per token). Optional: page-cursor. Returns array of ReaderTag.",
+        "params_schema": {
+          "page-cursor": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "reader-tags"
+        ]
+      },
+      {
+        "tool": "review.get",
+        "summary": "Get today's daily review highlights; 404 means no review today, not a failure. Returns the Review.",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "review"
+        ]
+      },
+      {
+        "tool": "review.complete",
+        "summary": "Mark today's daily review complete; returns review_id and review_completed (true).",
+        "params_schema": {},
+        "positionals": [],
+        "argv_path": [
+          "review",
+          "complete"
         ]
       }
     ]
