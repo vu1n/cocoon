@@ -87170,6 +87170,21 @@
         ]
       },
       {
+        "tool": "bing.bing",
+        "summary": "Extract structured data from Bing Search: organic results and optional AI Overview. Required: country, query. Optional: include. Returns organicResults, plus aioverview and html when asked.",
+        "params_schema": {
+          "country": "string?",
+          "include-aioverview": "bool?",
+          "include-html": "bool?",
+          "query": "string?"
+        },
+        "positionals": [],
+        "argv_path": [
+          "bing",
+          "bing"
+        ]
+      },
+      {
         "tool": "bing-aimode.bing_aimode",
         "summary": "Extract structured data from Bing AI Mode: answer text, cited sources and citation pills. Required: prompt. Optional: country, include, state. Returns the answer text, sources and citationPills, plus markdown and html when asked.",
         "params_schema": {
